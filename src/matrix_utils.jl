@@ -1,5 +1,3 @@
-using Distributions
-
 #=
 
 Makes a bipartite network unipartite

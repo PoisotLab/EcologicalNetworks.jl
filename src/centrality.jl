@@ -1,4 +1,4 @@
-function katz_centrality(A::Array{Float64,2}; a::Float64=0.1, k::Int64=5)
+function centrality_katz(A::Array{Float64,2}; a::Float64=0.1, k::Int64=5)
    @assert a <= 1.0
    @assert a >= 0.0
    @assert k >= 1
