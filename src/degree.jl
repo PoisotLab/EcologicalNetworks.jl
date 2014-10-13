@@ -5,11 +5,11 @@ Degree for all species
 =#
 
 function degree_out(A::Array{Float64,2})
-   return sum(A, 2)
+   return vec(sum(A, 2))
 end
 
 function degree_in(A::Array{Float64,2})
-   return sum(A, 1)'
+   return vec(sum(A, 1))
 end
 
 function degree(A::Array{Float64,2})
