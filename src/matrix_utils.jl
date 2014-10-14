@@ -15,8 +15,17 @@ end
 Generates a random binary matrix based on a probabilistic one
 
 =#
-function make_binary(A::Array{Float64,2})
+function make_bernoulli(A::Array{Float64,2})
    return float(map((x) -> rand(Bernoulli(x)), A))
+end
+
+#=
+
+Set all probabilities to 1
+
+=#
+function make_binary(A::Array{Float64,2})
+   return map((x) -> x>0.0 ? 1.0 : 0.0, A)
 end
 
 #=
