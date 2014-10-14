@@ -14,4 +14,7 @@ before_install:
   - sudo apt-get install libpcre3-dev julia -y
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
 script:
-  - julia -e 'Pkg.init(); Pkg.clone(pwd()); Pkg.test("PEN")'
+  - julia -e 'Pkg.init(); Pkg.clone(pwd()); Pkg.test(pwd());'
+  - julia --code-coverage test/runtests.jl
+after_success:
+    - julia -e 'cd(Pkg.dir("PEN")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
