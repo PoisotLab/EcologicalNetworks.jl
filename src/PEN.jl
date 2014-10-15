@@ -16,7 +16,9 @@ export nestedness, nestedness_axis,
        # Matrix manipulation utilities
        make_unipartite, make_binary, nodiag,
        # Probability algebra utilities
-       checkprob, i_esp, i_var, a_var, m_var
+       checkprob, i_esp, i_var, a_var, m_var,
+       # NAIVE !!! null models
+       nullI, nullII, nullIIIout, nulIIIin
 
 include(joinpath(".", "centrality.jl"))
 include(joinpath(".", "connectance.jl"))

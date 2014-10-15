@@ -21,7 +21,7 @@ end
 
 #=
 
-Set all probabilities to 1
+Set all probabilities to 1.0
 
 =#
 function make_binary(A::Array{Float64,2})
