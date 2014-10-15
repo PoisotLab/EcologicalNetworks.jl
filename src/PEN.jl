@@ -18,7 +18,7 @@ export nestedness, nestedness_axis,
        # Probability algebra utilities
        checkprob, i_esp, i_var, a_var, m_var,
        # NAIVE !!! null models
-       nullI, nullII, nullIIIout, nulIIIin
+       null1, null2, null3out, null3in
 
 include(joinpath(".", "centrality.jl"))
 include(joinpath(".", "connectance.jl"))
@@ -27,5 +27,6 @@ include(joinpath(".", "free_species.jl"))
 include(joinpath(".", "matrix_utils.jl"))
 include(joinpath(".", "nestedness.jl"))
 include(joinpath(".", "proba_utils.jl"))
+include(joinpath(".", "nullmodels.jl"))
 
 end # module
