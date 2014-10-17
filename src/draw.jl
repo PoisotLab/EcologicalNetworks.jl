@@ -1,4 +1,4 @@
-function draw_matrix(A::Array{Float64,2}; transform = (x) -> x, file="pen.png")
+function draw_matrix(A::Array{Float64,2}; transform = (x) -> 1-x, file="pen.png")
    nbot, ntop = size(A)
    width  = 4 + nbot*(10+4)
    height = 4 + ntop*(10+4)
@@ -15,7 +15,8 @@ function draw_matrix(A::Array{Float64,2}; transform = (x) -> x, file="pen.png")
    ## Draw the blocks
    for top in 1:ntop
       for bot in 1:nbot
-         set_source_rgb(cr, transform(A[bot,top]), 0.6, 0.6)
+         p = transform(A[bot,top])
+         set_source_rgb(cr, p, p, p)
          rectangle(cr, 4 + (bot-1)*14, 4 + (top-1)*14, 10, 10)
          fill(cr)
          save(cr)
