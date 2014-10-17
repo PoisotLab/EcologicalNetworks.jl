@@ -15,7 +15,7 @@ export nestedness, nestedness_axis,
        # Expected number of species with 0 interactions
        species_is_free, free_species,
        # Matrix manipulation utilities
-       make_unipartite, make_binary, nodiag,
+       make_unipartite, make_binary, make_bernoulli, nodiag,
        # Probability algebra utilities
        checkprob, i_esp, i_var, a_var, m_var,
        # NAIVE !!! null models
