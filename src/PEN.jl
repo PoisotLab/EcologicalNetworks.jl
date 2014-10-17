@@ -3,6 +3,7 @@ module PEN
 # Dependencies
 using StatsBase
 using Distributions
+using Cairo
 
 export nestedness, nestedness_axis,
        # Measures of centrality
@@ -18,7 +19,9 @@ export nestedness, nestedness_axis,
        # Probability algebra utilities
        checkprob, i_esp, i_var, a_var, m_var,
        # NAIVE !!! null models
-       null1, null2, null3out, null3in
+       null1, null2, null3out, null3in,
+       # Draw
+       draw_matrix
 
 include(joinpath(".", "centrality.jl"))
 include(joinpath(".", "connectance.jl"))
