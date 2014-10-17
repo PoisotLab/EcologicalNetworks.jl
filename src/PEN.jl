@@ -31,5 +31,6 @@ include(joinpath(".", "matrix_utils.jl"))
 include(joinpath(".", "nestedness.jl"))
 include(joinpath(".", "proba_utils.jl"))
 include(joinpath(".", "nullmodels.jl"))
+include(joinpath(".", "draw.jl"))
 
 end # module
