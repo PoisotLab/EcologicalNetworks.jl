@@ -14,7 +14,7 @@ Type III out
 =#
 function null3out(A::Array{Float64, 2})
    p_rows = degree_out(A) ./ size(A)[2]
-   return hcat(map((x) -> p_rows, [1:size(A)[1]])...)
+   return hcat(map((x) -> p_rows, [1:size(A)[2]])...)
 end
 
 #=
