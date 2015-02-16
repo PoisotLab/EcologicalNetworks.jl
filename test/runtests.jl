@@ -1,4 +1,4 @@
-using PEN
+using ProbaNet
 using Base.Test
 
 anyerrors = false

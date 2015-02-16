@@ -5,4 +5,3 @@
 
 This module implements a set of measures and utilities to work on probabilistic
 ecological networks.
-
