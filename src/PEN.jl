@@ -1,4 +1,4 @@
-module PEN
+module ProbaNet
 
 # Dependencies
 using StatsBase
