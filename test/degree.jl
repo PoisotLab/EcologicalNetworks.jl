@@ -1,7 +1,7 @@
 module TestDegreeFunctions
    using Base.Test
-   using PEN
-   
+   using ProbaNet
+
    # Generate some data
 
    A = [[0.22 0.4], [0.3 0.1]]
@@ -19,5 +19,5 @@ module TestDegreeFunctions
       @test_approx_eq d_out[i] Dout[i]
       @test_approx_eq d_tot[i] Dtot[i]
    end
-   
+
 end

@@ -1,7 +1,7 @@
 module TestNullModels
    using Base.Test
-   using PEN
-   
+   using ProbaNet
+
    # Generate some data
 
    A = [[1.0 1.0 0.0], [1.0 1.0 1.0], [0.0 1.0 0.0]]
@@ -15,5 +15,5 @@ module TestNullModels
    @test_approx_eq n1[1,1] 6.0 / 9.0
    @test_approx_eq n1[2,2] 6.0 / 9.0
    @test_approx_eq n1[3,3] 6.0 / 9.0
-   
+
 end
