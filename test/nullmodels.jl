@@ -26,4 +26,9 @@ module TestNullModels
   @text_approx_eq n3o[2,1] 1.0
   @text_approx_eq n3o[3,3] 1.0 / 3.0
 
+  @text_approx_eq n3i[1,1] 2.0 / 3.0
+  @text_approx_eq n3i[2,2] 1.0
+  @text_approx_eq n3i[3,3] 1.0 / 3.0
+
+
 end
