@@ -10,7 +10,7 @@ module TestNullModels
   c_2_1 = centrality_katz(A, a=0.2, k=1)
   c_1_2 = centrality_katz(A, a=0.1, k=2)
 
-  e_c_1_1 = [0.0 0.625 0.0 0.375]
+  e_c_1_1 = [0.0 0.666 0.0 0.333]
   e_c_2_1 = [0.0 0.666 0.0 0.333]
   e_c_1_2 = [0.0 0.625 0.0 0.374]
 
