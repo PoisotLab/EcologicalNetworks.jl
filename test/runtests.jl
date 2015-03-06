@@ -3,7 +3,12 @@ using Base.Test
 
 anyerrors = false
 
-my_tests = ["degree.jl", "connectance.jl", "nestedness.jl", "nullmodels.jl", "centrality.jl"]
+my_tests = ["degree.jl",
+  "connectance.jl",
+  "nestedness.jl",
+  "nullmodels.jl",
+  "nullmodelswrapper.jl",
+  "centrality.jl"]
 
 for my_test in my_tests
    try

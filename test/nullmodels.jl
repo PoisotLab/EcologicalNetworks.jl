@@ -30,5 +30,4 @@ module TestNullModels
   @test_approx_eq n3i[2,2] 1.0
   @test_approx_eq n3i[3,3] 1.0 / 3.0
 
-
 end
