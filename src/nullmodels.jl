@@ -34,6 +34,7 @@ Takes a proba matrix, and generates 0/1 networks until there are n done, or
 max have been tried.
 =#
 function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
+  max = max < n ? n : max
   b = []
   has_left = true
   has_enough = false
