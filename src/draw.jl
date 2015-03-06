@@ -1,5 +1,9 @@
 function draw_matrix(A::Array{Float64,2}; transform = (x) -> 1-x, file="pen.png")
    nbot, ntop = size(A)
+   # Check size
+   @assert nbot <= 1000
+   @assert ntop <= 1000
+   # Get image size
    width  = 4 + nbot*(10+4)
    height = 4 + ntop*(10+4)
    # Initialize device
