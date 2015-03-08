@@ -1,4 +1,4 @@
-module ProbaNet
+module ProbabilisticNetwork
 
 # Dependencies
 using StatsBase
@@ -26,7 +26,7 @@ export nestedness, nestedness_axis,
   checkprob, i_esp, i_var, a_var, m_var,
 
   # NAIVE !!! null models
-  null1, null2, null3out, null3in, nullmodel, 
+  null1, null2, null3out, null3in, nullmodel,
 
   # Draw
   draw_matrix

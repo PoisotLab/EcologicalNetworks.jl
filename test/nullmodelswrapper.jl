@@ -1,6 +1,6 @@
 module TestNullModelsWrapper
   using Base.Test
-  using ProbaNet
+  using ProbabilisticNetwork
 
   # Test 1 -- model with one free species = no output
   A = [0.0 0.0 0.0; 0.0 1.0 0.0; 0.0 0.0 1.0]

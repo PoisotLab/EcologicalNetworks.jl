@@ -1,4 +1,4 @@
-using ProbaNet
+using ProbabilisticNetwork
 using Base.Test
 
 anyerrors = false

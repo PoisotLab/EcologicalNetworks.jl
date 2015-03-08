@@ -1,6 +1,6 @@
 module TestNullModels
   using Base.Test
-  using ProbaNet
+  using ProbabilisticNetwork
 
   # Generate some data
 
