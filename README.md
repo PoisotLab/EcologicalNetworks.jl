@@ -4,4 +4,4 @@
 [![Coverage Status](https://coveralls.io/repos/PoisotLab/ProbabilisticNetwork.jl/badge.svg)](https://coveralls.io/r/PoisotLab/ProbabilisticNetwork.jl)
 
 This module implements a set of measures and utilities to work on probabilistic
-ecological networks.
+ecological networks. Works on bipartite and unipartite networks.
