@@ -3,7 +3,9 @@ using Base.Test
 
 anyerrors = false
 
-my_tests = ["degree.jl",
+my_tests = [
+  "utils.jl",
+  "degree.jl",
   "connectance.jl",
   "nestedness.jl",
   "nullmodels.jl",
