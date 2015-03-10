@@ -13,8 +13,8 @@ macro checkprob(p)
     end
     # Check the values
     if (0.0 <= $p) or ($p >= 1.0)
-      info("Probabilities must ALL be in [0.0;1.0]")
-      throw(DomainError)
+      warn("Probabilities must ALL be in [0.0;1.0]")
+      throw(DomainError())
     end
   end
 end
