@@ -12,8 +12,8 @@ macro checkprob(p)
       throw(TypeError("Probabilities should be floating point numbers", "@checkprob", Float64, typeof($p)))
     end
     # Check the values
-    if (0.0 <= $p) or ($p >= 1.0)
-      warn("Probabilities must ALL be in [0.0;1.0]")
+    if (0.0 <= $p) | ($p >= 1.0)
+      warn("Probabilities must be in [0.0;1.0]")
       throw(DomainError())
     end
   end
