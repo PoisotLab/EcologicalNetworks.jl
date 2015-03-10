@@ -7,9 +7,16 @@ the arguments are actually probabilities
 =#
 macro checkprob(p)
   quote
-    @assert typeof($p) == Float64
-    @assert 0.0 <= $p
-    @assert $p <= 1.0
+    # Check the correct type
+    if typeof($p) != Float64
+      info("Probabilities should be Float64")
+      throw(TypeError)
+    end
+    # Check the values
+    if (0.0 <= $p) or ($p >= 1.0)
+      info("Probabilities must ALL be in [0.0;1.0]")
+      throw(DomainError)
+    end
   end
 end
 
