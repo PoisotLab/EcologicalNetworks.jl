@@ -3,7 +3,7 @@ module TestUtilities
   using ProbabilisticNetwork
 
   # Probabilities must be floating point
-  @test_throws TypeError ProbabilisticNetwork.@checkprob Int64(1)
+  @test_throws TypeError ProbabilisticNetwork.@checkprob 1
 
   # Probabilities must be in 0-1
   @test_throws DomainError ProbabilisticNetwork.@checkprob -0.2
