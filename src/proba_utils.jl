@@ -9,8 +9,7 @@ macro checkprob(p)
   quote
     # Check the correct type
     if typeof($p) != Float64
-      info("Probabilities should be Float64")
-      throw(TypeError)
+      throw(TypeError("Probabilities should be floating point numbers", "@checkprob", Float64, typeof($p)))
     end
     # Check the values
     if (0.0 <= $p) or ($p >= 1.0)
