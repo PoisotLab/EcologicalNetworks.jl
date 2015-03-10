@@ -6,11 +6,11 @@ It is called internally by the i_var and i_esp function to make sure that
 the arguments are actually probabilities
 =#
 macro checkprob(p)
-   quote
-      @assert typeof($p) == Float64
-      @assert 0.0 <= $p
-      @assert $p <= 1.0
-   end
+  quote
+    @assert typeof($p) == Float64
+    @assert 0.0 <= $p
+    @assert $p <= 1.0
+  end
 end
 
 
