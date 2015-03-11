@@ -20,7 +20,7 @@ export nestedness, nestedness_axis,
   species_is_free, free_species,
 
   # Matrix manipulation utilities
-  make_unipartite, make_binary, make_bernoulli, nodiag,
+  make_unipartite, make_threshold, make_binary, make_bernoulli, nodiag,
 
   # Probability algebra utilities
   checkprob, i_esp, i_var, a_var, m_var,

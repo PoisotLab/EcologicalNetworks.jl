@@ -9,4 +9,17 @@ module TestUtilities
   @test_throws DomainError ProbabilisticNetwork.@checkprob -0.2
   @test_throws DomainError ProbabilisticNetwork.@checkprob 1.2
 
+  # Function to make thresholded or binary networks
+  A = [0.2 0.05; 1.0 0.0]
+
+  bin = make_binary(A)
+  @test bin[1, 1] == 1.0
+  @test bin[2, 2] == 0.0
+
+  thr = make_threshold(A, 0.1)
+  @test thr[1, 1] == 1.0
+  @test thr[1, 2] == 0.0
+
+  @test_throws DomainError make_threshold(A, 1.0)
+
 end
