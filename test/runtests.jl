@@ -10,7 +10,8 @@ my_tests = [
   "nestedness.jl",
   "nullmodels.jl",
   "nullmodelswrapper.jl",
-  "centrality.jl"]
+  "centrality.jl",
+  "make_unipartite.jl"]
 
 for my_test in my_tests
    try
