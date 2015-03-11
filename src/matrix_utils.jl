@@ -16,15 +16,27 @@ function make_bernoulli(A::Array{Float64,2})
 end
 
 #=
-Set all probabilities to 1.0
-=#
-function make_binary(A::Array{Float64,2})
-  return map((x) -> x>0.0 ? 1.0 : 0.0, A)
-end
-
-#=
 Sets the diagonal to 0
 =#
 function nodiag(A::Array{Float64,2})
   return A .* (1.0 .- eye(Float64, size(A)[1]))
+end
+
+#=
+Use a threshold
+=#
+function make_threshold(A::Array{Float64,2}, k::Float64)
+  # Check the values of k
+  if (k < 0.0) | (k >= 1.0)
+    throw(DomainError())
+  end
+  # Return if not
+  return map((x) -> x>k ? 1.0 : 0.0, A)
+end
+
+#=
+Set all probabilities to 1.0
+=#
+function make_binary(A::Array{Float64,2})
+  return make_threshold(A, 0.0)
 end
