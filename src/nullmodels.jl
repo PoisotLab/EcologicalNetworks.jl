@@ -35,7 +35,7 @@ max have been tried.
 =#
 function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
   max = max < n ? n : max
-  b = Array[]
+  b = Array{Float64, 2}[]
   has_left = true
   has_enough = false
   done = 0
