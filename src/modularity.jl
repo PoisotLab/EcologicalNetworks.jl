@@ -14,6 +14,18 @@ function Q(A::Array{Float64, 2}, L::Array{Int64, 1})
 end
 
 #=
+Realized modularity function
+=#
+function Qr(A::Array{Float64, 2}, L::Array{Int64, 1})
+  if length(unique(L)) == 1
+    return 0.0
+  end
+  W = sum(A .* (L .== L'))
+  E = sum(A .* (L .!= L'))
+  return 2.0 * (W/E) - 1.0
+end
+
+#=
 Propagate labels edge by edge
 =#
 function propagate_labels(A::Array{Float64, 2}; iters=1000)
