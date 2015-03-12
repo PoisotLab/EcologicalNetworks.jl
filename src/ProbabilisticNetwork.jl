@@ -29,7 +29,10 @@ export nestedness, nestedness_axis,
   null1, null2, null3out, null3in, nullmodel,
 
   # Draw
-  draw_matrix
+  draw_matrix,
+
+  # Modularity
+  Q, propagate_labels, modularity
 
 include(joinpath(".", "centrality.jl"))
 include(joinpath(".", "connectance.jl"))
