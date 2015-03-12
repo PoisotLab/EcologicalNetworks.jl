@@ -21,7 +21,7 @@ function Qr(A::Array{Float64, 2}, L::Array{Int64, 1})
     return 0.0
   end
   W = sum(A .* (L .== L'))
-  E = sum(A .* (L .!= L'))
+  E = sum(A)
   return 2.0 * (W/E) - 1.0
 end
 
