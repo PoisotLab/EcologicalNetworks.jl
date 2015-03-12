@@ -5,17 +5,11 @@ function Q(A::Array{Float64, 2}, L::Array{Int64, 1})
   if length(unique(L)) == 1
     return 0.0
   end
-  m = sum(A)
+  m = links(A)
   aij = A ./ (2*m)
-  #ki = mapslices(sum, A, 1) ./ (2*m)
-  #kj = mapslices(sum, A, 2) ./ (2*m)
-  ki = @parallel (+) for i=1:size(A)[1]
-    A[i,:]
-  end
-  kj = @parallel (+) for j=1:size(A)[2]
-    A[:,j]
-  end
-  kij = (ki .* kj) ./ (m*m)
+  ki = degree_out(A)
+  kj = degree_in(A)
+  kij = (ki .* kj') ./ (m*m)
   return sum((aij .- kij) .* (L .== L'))
 end
 
