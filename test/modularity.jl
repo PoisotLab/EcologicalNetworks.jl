@@ -36,4 +36,8 @@ module TestModularity
   @test mod.L[3] == 3
   @test_approx_eq Qr(mod.A, mod.L) 1.0
 
+ # Example network 4
+ A = eye(Float64, 3)
+ @test_approx_eq modularity(A).Q 15/36
+
 end
