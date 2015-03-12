@@ -88,7 +88,7 @@ function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0, verbos
   # First trial
   best_partition = propagate_labels(A, kmax, smax)
   if verbose
-    info(string("Modularity run 1 of ", replicates, ": Q=", partition.Q))
+    info(string("Modularity run 1 of ", replicates, ": Q=", best_partition.Q))
   end
   for trial in 2:replicates
     trial_partition = propagate_labels(A, kmax, smax)
