@@ -77,10 +77,10 @@ function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
   end
   best_Q = 0.0
   # First trial
-  trial_partition = propagate_labels(A, kmax=kmax, smax=smax)
+  trial_partition = propagate_labels(A, kmax, smax)
   partition = Partition(A, trial_partition[2], Q(trial_partition...))
   for trial in 2:replicates
-    trial_partition = propagate_labels(A, kmax=kmax, smax=smax)
+    trial_partition = propagate_labels(A, kmax, smax)
     trial_Q = Q(trial_partition...)
     if trial_Q > best_Q
       best_Q = trial_Q
