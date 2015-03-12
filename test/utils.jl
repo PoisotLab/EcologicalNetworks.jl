@@ -22,4 +22,9 @@ module TestUtilities
 
   @test_throws DomainError make_threshold(A, 1.0)
 
+  # Base proba function
+  @test i_esp(0.2) == 0.2
+  @test_approx_eq i_var(0.4) 0.4*0.6
+  @test_approx_eq a_var([0.2, 0.4, 0.3]) 0.61
+
 end
