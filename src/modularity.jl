@@ -72,7 +72,7 @@ Wrapper
 function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
   # Get parameters
   if kmax == 0
-    kmax = 2 * prod(dim(A))
+    kmax = 2 * prod(size(A))
     smax = maximum([round(Int64, kmax/5) 1])
   end
   best_Q = 0.0
