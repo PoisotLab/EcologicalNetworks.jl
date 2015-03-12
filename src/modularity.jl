@@ -22,8 +22,8 @@ function Q(A::Array{Float64, 2}, L::Array{Int64, 1})
   return sum((aij .- kij) .* (L .== L'))
 end
 
-function Q!(P::Partition)
-  P.Q = Q(P.A, P.L)
+function Q(P::Partition)
+  return P.Q
 end
 
 #=
