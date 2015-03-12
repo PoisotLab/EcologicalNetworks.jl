@@ -43,5 +43,6 @@ include(joinpath(".", "nestedness.jl"))
 include(joinpath(".", "proba_utils.jl"))
 include(joinpath(".", "nullmodels.jl"))
 include(joinpath(".", "draw.jl"))
+include(joinpath(".", "modularity.jl"))
 
 end

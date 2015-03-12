@@ -11,6 +11,8 @@ module TestModularity
   0.0 0.0 0.0 1.0 1.0 1.0;]
   A = make_unipartite(A)
 
+  propagate_labels(A)
+
   println(modularity(A))
 
 end
