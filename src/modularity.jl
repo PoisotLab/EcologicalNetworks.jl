@@ -45,6 +45,8 @@ function propagate_labels(A::Array{Float64, 2}, kmax::Int64, smax::Int64)
       if nQ < cQ
         L[j] = cj
         no_increase = no_increase + 1
+      else
+        no_increase = 0
       end
     end
     if no_increase == smax
@@ -87,7 +89,7 @@ function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
       best_Q = trial_Q
       partition = Partition(A, trial_partition[2], trial_Q)
     end
-    info(string("Modularity run $trial of $replicates -- Q=$partition.Q"))
+    info(string("Modularity run $trial of $replicates -- Q=$best_Q"))
   end
   return partition
 end
