@@ -32,7 +32,7 @@ export nestedness, nestedness_axis,
   draw_matrix,
 
   # Modularity
-  Q, propagate_labels, modularity
+  Partition, Q, propagate_labels, modularity
 
 include(joinpath(".", "centrality.jl"))
 include(joinpath(".", "connectance.jl"))

@@ -58,8 +58,8 @@ function modularity(A::Array{Float64, 2}; replicates=10, iters=1000)
   for trial in 1:replicates
     trial_partition = propagate_labels(A, iters=iters)
     trial_Q = Q(trial_partition...)
-    if trial_Q > new_Q
-      new_Q = trial_Q
+    if trial_Q > best_Q
+      best_Q = trial_Q
       partition = Partition(A, L, trial_Q)
     end
   end
