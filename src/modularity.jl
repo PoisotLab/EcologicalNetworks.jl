@@ -60,7 +60,7 @@ function modularity(A::Array{Float64, 2}; replicates=10, iters=1000)
     trial_Q = Q(trial_partition...)
     if trial_Q > best_Q
       best_Q = trial_Q
-      partition = Partition(A, L, trial_Q)
+      partition = Partition(A, trial_partition[2], trial_Q)
     end
   end
   return partition
