@@ -65,7 +65,7 @@ end
 #=
 Wrapper
 =#
-function modularity(A::Array{Float64, 2}; replicates=10, iters=1000)
+function modularity(A::Array{Float64, 2}; replicates=100, iters=1000)
   best_Q = 0.0
   # First trial
   trial_partition = propagate_labels(A, iters=iters)
