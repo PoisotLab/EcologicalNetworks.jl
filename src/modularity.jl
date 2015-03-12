@@ -35,7 +35,6 @@ function propagate_labels(A::Array{Float64, 2}, kmax::Int64, smax::Int64)
   # Update
   no_increase = 0
   for k in 1:kmax
-    println(k)
     i = rand(1:size(A)[1])
     j = rand(1:size(A)[2])
     if rand() <= A[i,j]
@@ -81,7 +80,6 @@ function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
   trial_partition = propagate_labels(A, kmax, smax)
   partition = Partition(A, trial_partition[2], Q(trial_partition...))
   for trial in 2:replicates
-    println("New trial")
     trial_partition = propagate_labels(A, kmax, smax)
     trial_Q = Q(trial_partition...)
     if trial_Q > best_Q
