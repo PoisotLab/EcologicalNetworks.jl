@@ -71,7 +71,7 @@ end
 #=
 Wrapper
 =#
-function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
+function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0, verbose=false)
   # Get parameters
   if kmax == 0
     kmax = 2 * prod(size(A))
@@ -81,7 +81,9 @@ function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
   # First trial
   trial_partition = propagate_labels(A, kmax, smax)
   partition = Partition(A, trial_partition[2], Q(trial_partition...))
-  info(string("Modularity run 1 of ", replicates, ": Q=", partition.Q))
+  if verbose
+    info(string("Modularity run 1 of ", replicates, ": Q=", partition.Q))
+  end
   for trial in 2:replicates
     trial_partition = propagate_labels(A, kmax, smax)
     trial_Q = Q(trial_partition...)
@@ -89,7 +91,9 @@ function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
       best_Q = trial_Q
       partition = Partition(A, trial_partition[2], trial_Q)
     end
-    info(string("Modularity run $trial of $replicates -- Q=$best_Q"))
+    if verbose
+      info(string("Modularity run $trial of $replicates -- Q=$best_Q"))
+    end
   end
   return partition
 end
