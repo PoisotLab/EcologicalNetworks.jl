@@ -55,7 +55,10 @@ Wrapper
 =#
 function modularity(A::Array{Float64, 2}; replicates=10, iters=1000)
   best_Q = 0.0
-  for trial in 1:replicates
+  # First trial
+  trial_partition = propagate_labels(A, iters=iters)
+  partition = Partition(A, trial_partition[2], Q(trial_partition...))
+  for trial in 2:replicates
     trial_partition = propagate_labels(A, iters=iters)
     trial_Q = Q(trial_partition...)
     if trial_Q > best_Q
