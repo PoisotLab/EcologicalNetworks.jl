@@ -9,7 +9,7 @@ function Q(A::Array{Float64, 2}, L::Array{Int64, 1})
   aij = A ./ (2*m)
   ki = degree_out(A)
   kj = degree_in(A)
-  kij = (ki .* kj') ./ (m*m)
+  kij = (ki .* kj') ./ ((2*m)*(2*m))
   return sum((aij .- kij) .* (L .== L'))
 end
 
