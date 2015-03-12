@@ -15,7 +15,7 @@ function Q(A::Array{Float64, 2}, L::Array{Int64, 1})
   kj = @parallel (+) for j=1:size(A)[2]
     A[:,j]
   end
-  kij = (ki .* kj)
+  kij = (ki .* kj) ./ (m*m)
   return sum((aij .- kij) .* (L .== L'))
 end
 
