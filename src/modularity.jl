@@ -1,4 +1,13 @@
 #=
+New type
+=#
+type Partition
+  A::Array{Float64, 2}
+  L::Array{Int64, 1}
+  Q::Float64
+end
+
+#=
 Modularity function
 =#
 function Q(A::Array{Float64, 2}, L::Array{Int64, 1})
@@ -13,25 +22,20 @@ function Q(A::Array{Float64, 2}, L::Array{Int64, 1})
   return sum((aij .- kij) .* (L .== L'))
 end
 
-#=
-Realized modularity function
-=#
-function Qr(A::Array{Float64, 2}, L::Array{Int64, 1})
-  if length(unique(L)) == 1
-    return 0.0
-  end
-  W = sum(A .* (L .== L'))
-  E = links(A)
-  return 2.0 * (W/E) - 1.0
+function Q!(P::Partition)
+  P.Q = Q(P.A, P.L)
 end
 
 #=
-New type
+Realized modularity function
 =#
-type Partition
-  A::Array{Float64, 2}
-  L::Array{Int64, 1}
-  Q::Float64
+function Qr(P::Partition)
+  if length(unique(P.L)) == 1
+    return 0.0
+  end
+  W = sum(P.A .* (P.L .== P.L'))
+  E = links(P.A)
+  return 2.0 * (W/E) - 1.0
 end
 
 #=
