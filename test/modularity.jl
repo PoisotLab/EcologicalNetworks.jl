@@ -34,7 +34,6 @@ module TestModularity
   @test mod.L[1] == 1
   @test mod.L[2] == 2
   @test mod.L[3] == 3
-  println(Qr(mod.A, mod.L))
-  @test Qr(mod.A, mod.L) == 1.0
+  @test_approx_eq Qr(mod.A, mod.L) 1.0
 
 end
