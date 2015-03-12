@@ -11,7 +11,8 @@ my_tests = [
   "nullmodels.jl",
   "nullmodelswrapper.jl",
   "centrality.jl",
-  "make_unipartite.jl"]
+  "make_unipartite.jl",
+  "modularity.jl"]
 
 for my_test in my_tests
    try
