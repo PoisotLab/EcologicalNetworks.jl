@@ -28,12 +28,13 @@ end
 #=
 Propagate labels edge by edge
 =#
-function propagate_labels(A::Array{Float64, 2}; iters=1000)
+function propagate_labels(A::Array{Float64, 2}, kmax::Int64, smax::Int64)
   # Make a list of labels
   n_lab = maximum(size(A))
   L = vec(round(Int64, linspace(1, n_lab, n_lab)))
   # Update
-  for iter in 1:iters
+  no_increase = 0
+  for k in 1:kmax
     i = rand(1:size(A)[1])
     j = rand(1:size(A)[2])
     if rand() <= A[i,j]
@@ -42,9 +43,12 @@ function propagate_labels(A::Array{Float64, 2}; iters=1000)
       L[j] = L[i]
       nQ = Q(A, L)
       if nQ < cQ
-        # TODO decide when to stop
         L[j] = cj
+        no_increase = no_increase + 1
       end
+    end
+    if no_increase == smax
+      break
     end
     if length(unique(L)) == 1
       break
@@ -65,17 +69,18 @@ end
 #=
 Wrapper
 =#
-function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, )
+function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
   # Get parameters
   if kmax == 0
     kmax = 2 * prod(dim(A))
+    smax = maximum([round(Int64, kmax/5) 1])
   end
   best_Q = 0.0
   # First trial
-  trial_partition = propagate_labels(A, kmax=kmax)
+  trial_partition = propagate_labels(A, kmax=kmax, smax=smax)
   partition = Partition(A, trial_partition[2], Q(trial_partition...))
   for trial in 2:replicates
-    trial_partition = propagate_labels(A, kmax=kmax)
+    trial_partition = propagate_labels(A, kmax=kmax, smax=smax)
     trial_Q = Q(trial_partition...)
     if trial_Q > best_Q
       best_Q = trial_Q
