@@ -7,8 +7,14 @@ function Q(A::Array{Float64, 2}, L::Array{Int64, 1})
   end
   m = sum(A)
   aij = A ./ (2*m)
-  ki = mapslices(sum, A, 1) ./ (2*m)
-  kj = mapslices(sum, A, 2) ./ (2*m)
+  #ki = mapslices(sum, A, 1) ./ (2*m)
+  #kj = mapslices(sum, A, 2) ./ (2*m)
+  ki = @parallel (+) for i=1:size(A)[1]
+    A[i,:]
+  end
+  kj = @parallel (+) for j=1:size(A)[2]
+    A[:,j]
+  end
   kij = (ki .* kj)
   return sum((aij .- kij) .* (L .== L'))
 end
@@ -35,6 +41,7 @@ function propagate_labels(A::Array{Float64, 2}, kmax::Int64, smax::Int64)
   # Update
   no_increase = 0
   for k in 1:kmax
+    println(k)
     i = rand(1:size(A)[1])
     j = rand(1:size(A)[2])
     if rand() <= A[i,j]
@@ -80,6 +87,7 @@ function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
   trial_partition = propagate_labels(A, kmax, smax)
   partition = Partition(A, trial_partition[2], Q(trial_partition...))
   for trial in 2:replicates
+    println("New trial")
     trial_partition = propagate_labels(A, kmax, smax)
     trial_Q = Q(trial_partition...)
     if trial_Q > best_Q
