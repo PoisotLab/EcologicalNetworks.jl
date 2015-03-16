@@ -2,7 +2,6 @@ module ProbabilisticNetwork
 
 # Dependencies
 using StatsBase
-using Distributions
 using Cairo
 
 export nestedness, nestedness_axis,
