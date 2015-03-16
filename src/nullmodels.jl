@@ -30,8 +30,12 @@ end
 #=
 Wrapper for null models
 
-Takes a proba matrix, and generates 0/1 networks until there are n done, or
-max have been tried.
+Takes a proba matrix, and generates 0/1 networks until there are n done, or max
+have been tried.
+
+This function will try to run in parallel, because otherwise it takes forever to
+go through all of the potential networks.
+
 =#
 function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
   max = max < n ? n : max
