@@ -57,16 +57,7 @@ function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
       end
     end
     has_enough = (length(b) == n)
-    #has_left = (done < max)
+    has_left = (done < max)
   end
-  # while !(has_enough) & has_left
-  #   done += 1
-  #   trial = make_bernoulli(A)
-  #   if free_species(trial) == 0
-  #     push!(b, trial)
-  #   end
-  #   has_enough = (length(b) == n)
-  #   has_left = (done < max)
-  # end
   return b
 end
