@@ -39,18 +39,34 @@ go through all of the potential networks.
 =#
 function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
   max = max < n ? n : max
+  np = nprocs()
   b = Array{Float64, 2}[]
   has_left = true
   has_enough = false
   done = 0
   while !(has_enough) & has_left
-    done += 1
-    trial = make_bernoulli(A)
-    if free_species(trial) == 0
-      push!(b, trial)
+    # We do as many trials as there are available cores
+    done += np
+    trials = pmap((x) -> make_bernoulli(A), 1:np)
+    # Next, we check that there are no networks with empty species
+    filter!((n) -> free_species(n) == 0, trials)
+    # If so, we add them to the queue until the queue is full
+    if length(trials) > 0
+      if length(b) < n
+        push!(b, pop!(trials))
+      end
     end
     has_enough = (length(b) == n)
-    has_left = (done < max)
+    #has_left = (done < max)
   end
+  # while !(has_enough) & has_left
+  #   done += 1
+  #   trial = make_bernoulli(A)
+  #   if free_species(trial) == 0
+  #     push!(b, trial)
+  #   end
+  #   has_enough = (length(b) == n)
+  #   has_left = (done < max)
+  # end
   return b
 end
