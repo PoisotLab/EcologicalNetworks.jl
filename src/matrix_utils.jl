@@ -12,7 +12,8 @@ end
 Generates a random binary matrix based on a probabilistic one
 =#
 function make_bernoulli(A::Array{Float64,2})
-  return map(Float64, rand(size(A)) .<= A)
+  return float64(rand(size(A)) .<= A)
+  # return map(Float64, rand(size(A)) .<= A)
 end
 
 #=
