@@ -38,6 +38,10 @@ go through all of the potential networks.
 
 =#
 function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
+  if max < n
+    max = n
+    info("Less maximal trials than request sample size; adjusted.")
+  end
   max = max < n ? n : max
   np = nprocs()
   b = Array{Float64, 2}[]
