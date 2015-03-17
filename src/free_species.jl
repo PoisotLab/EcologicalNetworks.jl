@@ -8,7 +8,7 @@ function species_is_free(A::Array{Float64,2})
 end
 
 function free_species(A::Array{Float64,2})
-   if all(size(A)) > 0
+   if length(unique(size(A))) == 1
       return A |> species_is_free |> sum
    end
    return A |> make_unipartite |> species_is_free |> sum
