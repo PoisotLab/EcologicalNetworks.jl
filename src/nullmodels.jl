@@ -59,5 +59,8 @@ function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
     has_enough = (length(b) == n)
     has_left = (done < max)
   end
+  if length(b) < n
+    warn("Less samples than requested were found")
+  end
   return b
 end
