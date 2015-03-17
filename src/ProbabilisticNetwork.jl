@@ -10,7 +10,7 @@ export nestedness, nestedness_axis,
   centrality_katz,
 
   # Links and connectances
-  links, links_var, connectance,
+  links, links_var, connectance, connectance_var,
 
   # Measures of degree
   degree_out, degree_in, degree_out_var, degree_in_var, degree, degree_var,
