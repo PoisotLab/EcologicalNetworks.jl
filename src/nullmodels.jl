@@ -40,25 +40,21 @@ go through all of the potential networks.
 function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
   if max < n
     max = n
-    info("Less maximal trials than request sample size; adjusted.")
+    info("Less maximal trials than requested sample size; adjusted.")
   end
-  np = nprocs()
   b = Array{Float64, 2}[]
-  while (length(b) < n) & (max > 0)
-    # We do as many trials as there are available cores
-    max -= np
-    trials = pmap((x) -> make_bernoulli(A), 1:np)
-    # Next, we check that there are no networks with empty species
-    filter!((n) -> free_species(n) == 0, trials)
-    # If so, we add them to the queue until the queue is full
-    if length(trials) > 0
-      if length(b) < n
-        push!(b, pop!(trials))
+  trials = pmap((x) -> make_bernoulli(A), vec(1:nprocs()))
+  filter!((n) -> free_species(n) == 0, trials)
+  if length(trials) < n
+    b = trials
+    warn("Less samples than requested were found")
+  else
+    for i in 1:n
+      push!(b, pop!(trials))
+      if length(b) == n
+        break
       end
     end
-  end
-  if length(b) < n
-    warn("Less samples than requested were found")
   end
   return b
 end
