@@ -44,12 +44,9 @@ function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
   end
   np = nprocs()
   b = Array{Float64, 2}[]
-  has_left = true
-  has_enough = false
-  done = 0
-  while !(has_enough) & has_left
+  while (length(b) < n) & (max > 0)
     # We do as many trials as there are available cores
-    done += np
+    max -= np
     trials = pmap((x) -> make_bernoulli(A), 1:np)
     # Next, we check that there are no networks with empty species
     filter!((n) -> free_species(n) == 0, trials)
@@ -59,8 +56,6 @@ function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
         push!(b, pop!(trials))
       end
     end
-    has_enough = (length(b) == n)
-    has_left = (done < max)
   end
   if length(b) < n
     warn("Less samples than requested were found")
