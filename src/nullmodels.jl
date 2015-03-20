@@ -43,7 +43,7 @@ function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
     info("Less maximal trials than requested sample size; adjusted.")
   end
   b = Array{Float64, 2}[]
-  trials = pmap((x) -> make_bernoulli(A), vec(1:nprocs()))
+  trials = pmap((x) -> make_bernoulli(A), vec(1:max))
   filter!((n) -> free_species(n) == 0, trials)
   if length(trials) < n
     b = trials
