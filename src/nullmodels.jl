@@ -42,19 +42,33 @@ function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
     max = n
     info("Less maximal trials than requested sample size; adjusted.")
   end
+  # Number of cores
+  np = nprocs()
+  # Hold the results
   b = Array{Float64, 2}[]
-  trials = pmap((x) -> make_bernoulli(A), vec(1:max))
-  filter!((n) -> free_species(n) == 0, trials)
-  if length(trials) < n
-    b = trials
-    warn("Less samples than requested were found")
-  else
-    for i in 1:n
-      push!(b, pop!(trials))
-      if length(b) == n
-        break
+  i = 1
+  nextidx() = (idx=i; i+=1; idx)
+  # Run simulations until there are enough networks
+  @sync begin
+    for p=1:np
+      if (p != myid() || np == 1) && (length(b) < n)
+        @async begin
+          while true
+            idx = nextidx()
+            if idx > n
+              break
+            end
+            B = remotecall_fetch(p, make_bernoulli, A)
+            if free_species(B) == 0
+              push!(b, B)
+            end
+          end
+        end
       end
     end
+  end
+  if length(b) < n
+    warn("Less samples than requested were found")
   end
   return b
 end
