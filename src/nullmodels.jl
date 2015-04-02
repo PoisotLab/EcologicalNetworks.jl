@@ -1,6 +1,12 @@
 #=
 Type I
 =#
+@doc """
+## Type I null model
+
+Given a matrix `A`, `null1(A)` returns a matrix with the same dimensions, where
+every interaction happens with a probability equal to the connectance of `A`.
+""" ->
 function null1(A::Array{Float64, 2})
    return ones(A) .* connectance(A)
 end
@@ -8,6 +14,12 @@ end
 #=
 Type III out
 =#
+@doc """
+Given a matrix `A`, `null3out(A)` returns a matrix with the same dimensions,
+where every interaction happens with a probability equal to the out-degree
+(number of successors) of each species, divided by the total number of possible
+successors.
+""" ->
 function null3out(A::Array{Float64, 2})
    p_rows = degree_out(A) ./ size(A)[2]
    return hcat(map((x) -> p_rows, [1:size(A)[2];])...)
@@ -16,6 +28,12 @@ end
 #=
 Type III in
 =#
+@doc """
+Given a matrix `A`, `null3in(A)` returns a matrix with the same dimensions,
+where every interaction happens with a probability equal to the in-degree
+(number of predecessors) of each species, divided by the total number of
+possible predecessors.
+""" ->
 function null3in(A::Array{Float64, 2})
    return null3out(A')' # I don't work hard, so I work smart
 end
@@ -23,6 +41,11 @@ end
 #=
 Type II
 =#
+@doc """
+Given a matrix `A`, `null2(A)` returns a matrix with the same dimensions, where
+every interaction happens with a probability equal to the degree of each
+species.
+""" ->
 function null2(A::Array{Float64, 2})
    return (null3in(A) .+ null3out(A))./2.0
 end
@@ -37,6 +60,11 @@ This function will try to run in parallel, because otherwise it takes forever to
 go through all of the potential networks.
 
 =#
+@doc """
+Given a matrix `A`, `null2(A)` returns a matrix with the same dimensions, where
+every interaction happens with a probability equal to the degree of each
+species.
+""" ->
 function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
   if max < n
     max = n

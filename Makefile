@@ -7,3 +7,6 @@ test: src/*jl test/*jl
 
 clean:
 	- rm src/*.cov
+
+doc: src/*jl
+	$(JEXEC) ./test/makedoc.jl

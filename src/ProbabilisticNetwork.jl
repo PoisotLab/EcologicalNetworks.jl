@@ -4,6 +4,10 @@ module ProbabilisticNetwork
 using StatsBase
 using Cairo
 
+# Documentation
+using Docile
+using Lexicon
+
 export nestedness, nestedness_axis,
 
   # Measures of centrality
@@ -32,6 +36,9 @@ export nestedness, nestedness_axis,
 
   # Modularity
   Partition, Q, Qr, propagate_labels, modularity
+
+@docstrings
+@document
 
 include(joinpath(".", "centrality.jl"))
 include(joinpath(".", "connectance.jl"))
