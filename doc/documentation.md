@@ -12,9 +12,47 @@
 - `k` (def. 5), the maximal path length considered
 
 
+**source:**
+[ProbabilisticNetwork/src/./centrality.jl:10](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./centrality.jl#L10)
+
+---
+
+#### connectance(A::Array{Float64, 2})
+ Expected connectance for a probabilistic matrix, measured as the number
+of expected links, divided by the size of the matrix.
+
 
 **source:**
-[ProbabilisticNetwork/src/./centrality.jl:11](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/492f89e98e741b4bc28c204b5b7fd30a233ebb8f/src/./centrality.jl#L11)
+[ProbabilisticNetwork/src/./connectance.jl:15](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./connectance.jl#L15)
+
+---
+
+#### connectance_var(A::Array{Float64, 2})
+ Expected variance of the connectance for a probabilistic matrix,
+measured as the variance of the number of links divided by the squared size of
+the matrix.
+
+
+**source:**
+[ProbabilisticNetwork/src/./connectance.jl:23](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./connectance.jl#L23)
+
+---
+
+#### links(A::Array{Float64, 2})
+ Expected number of links for a probabilistic matrix
+
+
+**source:**
+[ProbabilisticNetwork/src/./connectance.jl:2](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./connectance.jl#L2)
+
+---
+
+#### links_var(A::Array{Float64, 2})
+ Expected variance of the number of links for a probabilistic matrix
+
+
+**source:**
+[ProbabilisticNetwork/src/./connectance.jl:8](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./connectance.jl#L8)
 
 ---
 
@@ -24,7 +62,7 @@ every interaction happens with a probability equal to the connectance of `A`.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/492f89e98e741b4bc28c204b5b7fd30a233ebb8f/src/./nullmodels.jl#L7)
+[ProbabilisticNetwork/src/./nullmodels.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./nullmodels.jl#L7)
 
 ---
 
@@ -35,7 +73,7 @@ species.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:46](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/492f89e98e741b4bc28c204b5b7fd30a233ebb8f/src/./nullmodels.jl#L46)
+[ProbabilisticNetwork/src/./nullmodels.jl:46](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./nullmodels.jl#L46)
 
 ---
 
@@ -47,7 +85,7 @@ possible predecessors.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:34](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/492f89e98e741b4bc28c204b5b7fd30a233ebb8f/src/./nullmodels.jl#L34)
+[ProbabilisticNetwork/src/./nullmodels.jl:34](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./nullmodels.jl#L34)
 
 ---
 
@@ -59,7 +97,7 @@ successors.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:20](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/492f89e98e741b4bc28c204b5b7fd30a233ebb8f/src/./nullmodels.jl#L20)
+[ProbabilisticNetwork/src/./nullmodels.jl:20](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./nullmodels.jl#L20)
 
 ---
 
@@ -84,6 +122,6 @@ routines will be part of a later release.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:78](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/492f89e98e741b4bc28c204b5b7fd30a233ebb8f/src/./nullmodels.jl#L78)
+[ProbabilisticNetwork/src/./nullmodels.jl:78](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./nullmodels.jl#L78)
 
 
