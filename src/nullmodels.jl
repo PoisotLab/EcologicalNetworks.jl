@@ -2,8 +2,6 @@
 Type I
 =#
 @doc """
-## Type I null model
-
 Given a matrix `A`, `null1(A)` returns a matrix with the same dimensions, where
 every interaction happens with a probability equal to the connectance of `A`.
 """ ->
@@ -60,10 +58,23 @@ This function will try to run in parallel, because otherwise it takes forever to
 go through all of the potential networks.
 
 =#
-@doc """
-Given a matrix `A`, `null2(A)` returns a matrix with the same dimensions, where
-every interaction happens with a probability equal to the degree of each
-species.
+@doc """ This function is a wrapper to generate replicated binary matrices from
+a template probability matrix `A`.
+
+If you use julia on more than one CPU, *i.e.* if you started it with `julia -p
+k` where `k` is more than 1, this function will distribute each trial to one
+worker. Which means that it's fast.
+
+Note that you will get a warning if there are less networks created than have
+been requested. Not also that this function generates networks, but do not check
+that their distribution is matching what you expect. Simulated annealing
+routines will be part of a later release.
+
+**Keyword arguments**
+
+- `n` (def. 1000), number of replicates to generate
+- `max` (def. 10000), number of trials to make
+
 """ ->
 function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
   if max < n

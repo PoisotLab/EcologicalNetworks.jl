@@ -4,14 +4,12 @@
 ---
 
 #### null1(A::Array{Float64, 2})
-## Type I null model
-
 Given a matrix `A`, `null1(A)` returns a matrix with the same dimensions, where
 every interaction happens with a probability equal to the connectance of `A`.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:9](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/fc3e16dd608472dfe126566e5547389da1735bd2/src/./nullmodels.jl#L9)
+[ProbabilisticNetwork/src/./nullmodels.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/f6fb66d794890859faf38197ad9de83971cef6e8/src/./nullmodels.jl#L7)
 
 ---
 
@@ -22,7 +20,7 @@ species.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:48](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/fc3e16dd608472dfe126566e5547389da1735bd2/src/./nullmodels.jl#L48)
+[ProbabilisticNetwork/src/./nullmodels.jl:46](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/f6fb66d794890859faf38197ad9de83971cef6e8/src/./nullmodels.jl#L46)
 
 ---
 
@@ -34,7 +32,7 @@ possible predecessors.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:36](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/fc3e16dd608472dfe126566e5547389da1735bd2/src/./nullmodels.jl#L36)
+[ProbabilisticNetwork/src/./nullmodels.jl:34](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/f6fb66d794890859faf38197ad9de83971cef6e8/src/./nullmodels.jl#L34)
 
 ---
 
@@ -46,17 +44,22 @@ successors.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:22](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/fc3e16dd608472dfe126566e5547389da1735bd2/src/./nullmodels.jl#L22)
+[ProbabilisticNetwork/src/./nullmodels.jl:20](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/f6fb66d794890859faf38197ad9de83971cef6e8/src/./nullmodels.jl#L20)
 
 ---
 
 #### nullmodel(A::Array{Float64, 2})
-Given a matrix `A`, `null2(A)` returns a matrix with the same dimensions, where
-every interaction happens with a probability equal to the degree of each
-species.
+ This function is a wrapper to generate replicated binary matrices from
+a template probability matrix `A`.
+
+**Keyword arguments**
+
+- `n` (def. 1000), number of replicates to generate
+- `max` (def. 10000), number of trials to make
+
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:67](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/fc3e16dd608472dfe126566e5547389da1735bd2/src/./nullmodels.jl#L67)
+[ProbabilisticNetwork/src/./nullmodels.jl:69](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/f6fb66d794890859faf38197ad9de83971cef6e8/src/./nullmodels.jl#L69)
 
 
