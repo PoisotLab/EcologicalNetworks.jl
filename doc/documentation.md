@@ -3,6 +3,17 @@
 ## Exported
 ---
 
+#### a_var(p::Array{Float64, N})
+Variance of a series of additive Bernoulli events
+
+f(<p>): ∑(p(1-p))
+
+
+**source:**
+[ProbabilisticNetwork/src/./proba_utils.jl:63](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./proba_utils.jl#L63)
+
+---
+
 #### centrality_katz(A::Array{Float64, 2})
  Measures Katz's centrality for each node in a unipartite network.
 
@@ -13,7 +24,7 @@
 
 
 **source:**
-[ProbabilisticNetwork/src/./centrality.jl:10](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./centrality.jl#L10)
+[ProbabilisticNetwork/src/./centrality.jl:10](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./centrality.jl#L10)
 
 ---
 
@@ -23,7 +34,7 @@ of expected links, divided by the size of the matrix.
 
 
 **source:**
-[ProbabilisticNetwork/src/./connectance.jl:15](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./connectance.jl#L15)
+[ProbabilisticNetwork/src/./connectance.jl:15](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./connectance.jl#L15)
 
 ---
 
@@ -34,7 +45,29 @@ the matrix.
 
 
 **source:**
-[ProbabilisticNetwork/src/./connectance.jl:23](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./connectance.jl#L23)
+[ProbabilisticNetwork/src/./connectance.jl:23](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./connectance.jl#L23)
+
+---
+
+#### i_esp(p::Float64)
+Expected value of a single Bernoulli event
+
+Simply f(p): p
+
+
+**source:**
+[ProbabilisticNetwork/src/./proba_utils.jl:37](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./proba_utils.jl#L37)
+
+---
+
+#### i_var(p::Float64)
+Variance of a single Bernoulli event
+
+f(p): p(1-p)
+
+
+**source:**
+[ProbabilisticNetwork/src/./proba_utils.jl:50](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./proba_utils.jl#L50)
 
 ---
 
@@ -43,7 +76,7 @@ the matrix.
 
 
 **source:**
-[ProbabilisticNetwork/src/./connectance.jl:2](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./connectance.jl#L2)
+[ProbabilisticNetwork/src/./connectance.jl:2](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./connectance.jl#L2)
 
 ---
 
@@ -52,7 +85,51 @@ the matrix.
 
 
 **source:**
-[ProbabilisticNetwork/src/./connectance.jl:8](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./connectance.jl#L8)
+[ProbabilisticNetwork/src/./connectance.jl:8](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./connectance.jl#L8)
+
+---
+
+#### m_var(p::Array{Float64, N})
+Variance of a series of multiplicative Bernoulli events
+
+
+**source:**
+[ProbabilisticNetwork/src/./proba_utils.jl:72](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./proba_utils.jl#L72)
+
+---
+
+#### make_unipartite(A::Array{Float64, 2})
+Transforms a bipartite network into a unipartite network
+
+Note that this function returns an asymetric unipartite network.
+
+
+**source:**
+[ProbabilisticNetwork/src/./matrix_utils.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./matrix_utils.jl#L7)
+
+---
+
+#### nestedness(A::Array{Float64, 2})
+Nestedness of a matrix, using the Bastolla et al. (XXXX) measure
+
+Returns three values:
+
+- nestedness of the entire matrix
+- nestedness of the columns
+- nestedness of the rows
+
+
+**source:**
+[ProbabilisticNetwork/src/./nestedness.jl:36](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nestedness.jl#L36)
+
+---
+
+#### nestedness_axis(A::Array{Float64, 2})
+Nestedness of a single axis (called internally by `nestedness`)
+
+
+**source:**
+[ProbabilisticNetwork/src/./nestedness.jl:5](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nestedness.jl#L5)
 
 ---
 
@@ -62,7 +139,7 @@ every interaction happens with a probability equal to the connectance of `A`.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./nullmodels.jl#L7)
+[ProbabilisticNetwork/src/./nullmodels.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nullmodels.jl#L7)
 
 ---
 
@@ -73,7 +150,7 @@ species.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:46](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./nullmodels.jl#L46)
+[ProbabilisticNetwork/src/./nullmodels.jl:46](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nullmodels.jl#L46)
 
 ---
 
@@ -85,7 +162,7 @@ possible predecessors.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:34](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./nullmodels.jl#L34)
+[ProbabilisticNetwork/src/./nullmodels.jl:34](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nullmodels.jl#L34)
 
 ---
 
@@ -97,7 +174,7 @@ successors.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:20](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./nullmodels.jl#L20)
+[ProbabilisticNetwork/src/./nullmodels.jl:20](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nullmodels.jl#L20)
 
 ---
 
@@ -122,6 +199,25 @@ routines will be part of a later release.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:78](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/8b000e923a08f3bfccaeff17deca9ca5b5478628/src/./nullmodels.jl#L78)
+[ProbabilisticNetwork/src/./nullmodels.jl:78](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nullmodels.jl#L78)
+
+## Internal
+---
+
+#### @checkprob(p)
+Quite crude way of checking that a number is a probability
+
+The two steps are
+
+1. The number should be of the `Float64` type -- if not, will yield a `TypeError`
+2. The number should belong to [0,1] -- if not, will throw a `DomainError`
+
+
+
+**signature:**
+checkprob(p)
+
+**source:**
+[ProbabilisticNetwork/src/./proba_utils.jl:15](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./proba_utils.jl#L15)
 
 

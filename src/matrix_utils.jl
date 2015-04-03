@@ -1,6 +1,10 @@
 #=
 Makes a bipartite network unipartite
 =#
+@doc """Transforms a bipartite network into a unipartite network
+
+Note that this function returns an asymetric unipartite network.
+""" ->
 function make_unipartite(A::Array{Float64,2})
   S = sum(size(A))
   B = zeros(Float64,(S,S))

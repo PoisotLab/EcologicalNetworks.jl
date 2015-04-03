@@ -1,3 +1,8 @@
+#=
+Measures the nestedness on a single axis
+=#
+@doc """Nestedness of a single axis (called internally by `nestedness`)
+""" ->
 function nestedness_axis(A::Array{Float64,2}; axis::Int64=1)
    @assert axis in 1:2
    if axis == 2
@@ -18,6 +23,17 @@ function nestedness_axis(A::Array{Float64,2}; axis::Int64=1)
    return sum(num ./ den)
 end
 
+#=
+Summarizes the nestedness
+=#
+@doc """Nestedness of a matrix, using the Bastolla et al. (XXXX) measure
+
+Returns three values:
+
+- nestedness of the entire matrix
+- nestedness of the columns
+- nestedness of the rows
+""" ->
 function nestedness(A::Array{Float64,2})
    n_1 = nestedness_axis(A, axis=1)
    n_2 = nestedness_axis(A, axis=2)

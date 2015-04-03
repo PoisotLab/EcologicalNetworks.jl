@@ -57,6 +57,10 @@ end
 #=
 Variance of additive events
 =#
+@doc """Variance of a series of additive Bernoulli events
+
+f(<p>): ∑(p(1-p))
+""" ->
 function a_var(p::Array{Float64})
    return reduce(+, map(i_var, p))
 end
@@ -64,6 +68,8 @@ end
 #=
 Variance of multiplicative events
 =#
+@doc """Variance of a series of multiplicative Bernoulli events
+""" ->
 function m_var(p::Array{Float64})
    return reduce(*, map((x) -> i_var(x) + i_esp(x)*i_esp(x), p)) - reduce(*, map((x) -> i_esp(x)*i_esp(x), p))
 end
