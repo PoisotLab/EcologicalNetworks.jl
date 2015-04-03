@@ -10,7 +10,7 @@ f(<p>): ∑(p(1-p))
 
 
 **source:**
-[ProbabilisticNetwork/src/./proba_utils.jl:63](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./proba_utils.jl#L63)
+[ProbabilisticNetwork/src/./proba_utils.jl:63](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./proba_utils.jl#L63)
 
 ---
 
@@ -24,7 +24,7 @@ f(<p>): ∑(p(1-p))
 
 
 **source:**
-[ProbabilisticNetwork/src/./centrality.jl:10](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./centrality.jl#L10)
+[ProbabilisticNetwork/src/./centrality.jl:10](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./centrality.jl#L10)
 
 ---
 
@@ -34,7 +34,7 @@ of expected links, divided by the size of the matrix.
 
 
 **source:**
-[ProbabilisticNetwork/src/./connectance.jl:15](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./connectance.jl#L15)
+[ProbabilisticNetwork/src/./connectance.jl:15](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./connectance.jl#L15)
 
 ---
 
@@ -45,7 +45,7 @@ the matrix.
 
 
 **source:**
-[ProbabilisticNetwork/src/./connectance.jl:23](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./connectance.jl#L23)
+[ProbabilisticNetwork/src/./connectance.jl:23](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./connectance.jl#L23)
 
 ---
 
@@ -56,7 +56,7 @@ Simply f(p): p
 
 
 **source:**
-[ProbabilisticNetwork/src/./proba_utils.jl:37](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./proba_utils.jl#L37)
+[ProbabilisticNetwork/src/./proba_utils.jl:37](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./proba_utils.jl#L37)
 
 ---
 
@@ -67,7 +67,7 @@ f(p): p(1-p)
 
 
 **source:**
-[ProbabilisticNetwork/src/./proba_utils.jl:50](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./proba_utils.jl#L50)
+[ProbabilisticNetwork/src/./proba_utils.jl:50](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./proba_utils.jl#L50)
 
 ---
 
@@ -76,7 +76,7 @@ f(p): p(1-p)
 
 
 **source:**
-[ProbabilisticNetwork/src/./connectance.jl:2](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./connectance.jl#L2)
+[ProbabilisticNetwork/src/./connectance.jl:2](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./connectance.jl#L2)
 
 ---
 
@@ -85,7 +85,7 @@ f(p): p(1-p)
 
 
 **source:**
-[ProbabilisticNetwork/src/./connectance.jl:8](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./connectance.jl#L8)
+[ProbabilisticNetwork/src/./connectance.jl:8](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./connectance.jl#L8)
 
 ---
 
@@ -94,7 +94,47 @@ Variance of a series of multiplicative Bernoulli events
 
 
 **source:**
-[ProbabilisticNetwork/src/./proba_utils.jl:72](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./proba_utils.jl#L72)
+[ProbabilisticNetwork/src/./proba_utils.jl:72](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./proba_utils.jl#L72)
+
+---
+
+#### make_bernoulli(A::Array{Float64, 2})
+Generate a random 0/1 matrix from probabilities
+
+Returns a matrix B of the same size as A, in which each element B(i,j) is 1 with
+probability A(i,j).
+
+
+**source:**
+[ProbabilisticNetwork/src/./matrix_utils.jl:22](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./matrix_utils.jl#L22)
+
+---
+
+#### make_binary(A::Array{Float64, 2})
+Returns the adjacency/incidence matrix from a probability matrix
+
+Returns a matrix B of the same size as A, in which each element B(i,j) is 1 if
+A(i,j) is greater than 0.
+
+
+**source:**
+[ProbabilisticNetwork/src/./matrix_utils.jl:85](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./matrix_utils.jl#L85)
+
+---
+
+#### make_threshold(A::Array{Float64, 2}, k::Float64)
+Generate a random 0/1 matrix from probabilities
+
+Returns a matrix B of the same size as A, in which each element B(i,j) is 1 if
+A(i,j) is > `k`. This is probably unwise to use this function since this
+practice is of questionnable relevance, but it is included for the sake of
+exhaustivity.
+
+`k` must be in [0;1[.
+
+
+**source:**
+[ProbabilisticNetwork/src/./matrix_utils.jl:68](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./matrix_utils.jl#L68)
 
 ---
 
@@ -105,7 +145,7 @@ Note that this function returns an asymetric unipartite network.
 
 
 **source:**
-[ProbabilisticNetwork/src/./matrix_utils.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./matrix_utils.jl#L7)
+[ProbabilisticNetwork/src/./matrix_utils.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./matrix_utils.jl#L7)
 
 ---
 
@@ -120,7 +160,7 @@ Returns three values:
 
 
 **source:**
-[ProbabilisticNetwork/src/./nestedness.jl:36](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nestedness.jl#L36)
+[ProbabilisticNetwork/src/./nestedness.jl:36](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./nestedness.jl#L36)
 
 ---
 
@@ -129,7 +169,30 @@ Nestedness of a single axis (called internally by `nestedness`)
 
 
 **source:**
-[ProbabilisticNetwork/src/./nestedness.jl:5](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nestedness.jl#L5)
+[ProbabilisticNetwork/src/./nestedness.jl:5](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./nestedness.jl#L5)
+
+---
+
+#### nodiag!(A::Array{Float64, 2})
+Sets the diagonal to 0 in place
+
+Modify the A matrix, with the diagonal elements set to 0.
+
+
+**source:**
+[ProbabilisticNetwork/src/./matrix_utils.jl:51](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./matrix_utils.jl#L51)
+
+---
+
+#### nodiag(A::Array{Float64, 2})
+Sets the diagonal to 0
+
+Returns a copy of the matrix A, with  the diagonal set to 0. Will fail if the
+matrix is not square.
+
+
+**source:**
+[ProbabilisticNetwork/src/./matrix_utils.jl:38](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./matrix_utils.jl#L38)
 
 ---
 
@@ -139,7 +202,7 @@ every interaction happens with a probability equal to the connectance of `A`.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nullmodels.jl#L7)
+[ProbabilisticNetwork/src/./nullmodels.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./nullmodels.jl#L7)
 
 ---
 
@@ -150,7 +213,7 @@ species.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:46](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nullmodels.jl#L46)
+[ProbabilisticNetwork/src/./nullmodels.jl:46](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./nullmodels.jl#L46)
 
 ---
 
@@ -162,7 +225,7 @@ possible predecessors.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:34](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nullmodels.jl#L34)
+[ProbabilisticNetwork/src/./nullmodels.jl:34](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./nullmodels.jl#L34)
 
 ---
 
@@ -174,7 +237,7 @@ successors.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:20](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nullmodels.jl#L20)
+[ProbabilisticNetwork/src/./nullmodels.jl:20](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./nullmodels.jl#L20)
 
 ---
 
@@ -199,7 +262,7 @@ routines will be part of a later release.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:78](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./nullmodels.jl#L78)
+[ProbabilisticNetwork/src/./nullmodels.jl:78](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./nullmodels.jl#L78)
 
 ## Internal
 ---
@@ -218,6 +281,6 @@ The two steps are
 checkprob(p)
 
 **source:**
-[ProbabilisticNetwork/src/./proba_utils.jl:15](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/d11caf8f3c6b2f591a84fd946ae6cc67ab154215/src/./proba_utils.jl#L15)
+[ProbabilisticNetwork/src/./proba_utils.jl:15](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/c33df79cd1db6554b3549504106a2b1b66f638ad/src/./proba_utils.jl#L15)
 
 
