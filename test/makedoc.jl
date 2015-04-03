@@ -2,4 +2,4 @@ using ProbabilisticNetwork
 using Docile
 using Lexicon
 
-save("./doc/documentation.md", ProbabilisticNetwork)
+save("./doc/api.md", ProbabilisticNetwork)
