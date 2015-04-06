@@ -14,17 +14,17 @@ The two steps are
 
 """ ->
 macro checkprob(p)
-  quote
-    # Check the correct type
-    if typeof($p) != Float64
-      throw(TypeError("Probabilities should be floating point numbers", "@checkprob", Float64, typeof($p)))
-    end
-    # Check the values
-    if ($p < 0.0) | ($p > 1.0)
-      warn("Probabilities must be in [0.0;1.0]")
-      throw(DomainError())
-    end
-  end
+	quote
+		# Check the correct type
+		if typeof($p) != Float64
+			throw(TypeError("Probabilities should be floating point numbers", "@checkprob", Float64, typeof($p)))
+		end
+		# Check the values
+		if ($p < 0.0) | ($p > 1.0)
+			warn("Probabilities must be in [0.0;1.0]")
+			throw(DomainError())
+		end
+	end
 end
 
 
@@ -49,8 +49,8 @@ Variance of a Bernoulli process (p(1-p))
 f(p): p(1-p)
 """ ->
 function i_var(p::Float64)
-   @checkprob p
-   return p*(1.0-p)
+  @checkprob p
+  return p*(1.0-p)
 end
 
 
