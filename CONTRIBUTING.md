@@ -27,7 +27,7 @@ version-controlled repository grants authorship of the paper. For this reason,
 it is important to correctly identify yourself. For `R` packages, this is done
 through the `DESCRIPTION` file. Whenever a `CONTRIBUTORS` file is found, add
 your name to it as part of the workflow described next. For authorship of
-papers, the first and last authors will decide on the position.s
+papers, the first and last authors will decide on the position.
 
 ## Workflow
 
