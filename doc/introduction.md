@@ -50,10 +50,21 @@ probabilistic (ecological) networks, and measure their structure. As much as
 possible, functions are named after the name of the measure they implement:
 `connectance` measures connectance. When an analytical expression of variance
 can be measured, the function is suffixed with `_var`. For example,
-`connectance_var`.
+`connectance_var` is the variance of connectance.
+
+All functions in the module take as their first argument a matrix **A**, whose
+elements are all floating point numbers between 0 and 1. The type of **A** is
+*always* `A::Array{Float64, 2}` (a two-dimensional array of floats). If
+required, additional arguments are given as *keyword arguments*.
 
 ## Wrappers
+
+There are, currently, two wrappers. The first is used to generate random
+Bernoulli networks. The second is used to optimize modularity. Both are highly
+experimental and should probably not be trusted too much.
 
 ## Use-cases
 
 ## How to contribute
+
+See the `CONTRIBUTING.md` file that is within this repository.
