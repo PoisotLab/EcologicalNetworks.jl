@@ -36,8 +36,8 @@ Esperance of a Bernoulli process (p)
 Simply f(p): p
 """ ->
 function i_esp(p::Float64)
-   @checkprob p
-   return p
+	@checkprob p
+	return p
 end
 
 
@@ -62,7 +62,7 @@ Variance of additive events
 f(<p>): ∑(p(1-p))
 """ ->
 function a_var(p::Array{Float64})
-   return reduce(+, map(i_var, p))
+	return reduce(+, map(i_var, p))
 end
 
 #=
@@ -71,5 +71,5 @@ Variance of multiplicative events
 @doc """Variance of a series of multiplicative Bernoulli events
 """ ->
 function m_var(p::Array{Float64})
-   return reduce(*, map((x) -> i_var(x) + i_esp(x)*i_esp(x), p)) - reduce(*, map((x) -> i_esp(x)*i_esp(x), p))
+	return reduce(*, map((x) -> i_var(x) + i_esp(x)*i_esp(x), p)) - reduce(*, map((x) -> i_esp(x)*i_esp(x), p))
 end

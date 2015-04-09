@@ -5,15 +5,29 @@ of the [Poisot lab of computational ecology][pl], Université de Montréal. It
 should be followed by lab members (at all times), as well as people with
 suggested added features, or willing to contribute enhancement or bug fixes.
 
+Edits to this document must be suggested as pull requests on the github project
+located at `https://github.com/PoisotLab/PLCG`, and not made on the document
+itself.
+
+## Issues
+
+Reporting issues is the simplest and most efficient way to contribute. A useful
+issue includes:
+
+1. The version of all relevant software
+2. Your operating system
+3. A minimal reproducible example (the shortest code we can copy/paste to reproduce the issue)
+
 ## Authorship
 
 Any contribution to the code of a software grants authorship on the next paper
-describing this software. Any contribution to a paper hosted as a public
+describing this software, and immediate authorship to the next release (which
+will receive a DOI). Any contribution to a paper hosted as a public
 version-controlled repository grants authorship of the paper. For this reason,
 it is important to correctly identify yourself. For `R` packages, this is done
-throug the `DESCRIPTION` file. Whenever a `CONTRIBUTORS` file is found, add your
-name to it as part of the workflow described next. For authorship of papers, the
-first and last authors will decide on the position.
+through the `DESCRIPTION` file. Whenever a `CONTRIBUTORS` file is found, add
+your name to it as part of the workflow described next. For authorship of
+papers, the first and last authors will decide on the position.s
 
 ## Workflow
 
@@ -30,9 +44,19 @@ interested in contributing to the project. Once this is done, push often, and be
 explicit about what the commits do. This gives the opportunity for feedback
 during your work, and allow for tweaks in what you are doing.
 
+A *good* pull request (in addition to satisfying to all of the criteria below)
+is:
+
+1. Single purpose - it should do one thing, and one thing only
+2. Short - it should ideally involve less than 250 lines of code
+3. Limited in scope - it should ideally not span more than a handful of files
+
+This will ensure that your contribution is rapidly reviewed and evaluated.
+
 ## Tests and coverage
 
-Most of our repositories undergo continuous integration, and code coverage analysis.
+Most of our repositories undergo continuous integration, and code coverage
+analysis.
 
 It is expected that:
 
@@ -44,16 +68,52 @@ This information will be given in the thread of your pull request. Most of our
 repositories are set-up in a way that new commits that decrease coverage by more
 than 10% won't be pulled.
 
+Good tests make sure that:
+
+1. The code works as it should
+2. The code breaks as it should (see *Program defensively* below)
+3. Functions play nicely together
+
 ## Coding practices
 
 ### Use functions
 
 Don't repeat yourself. If you have to do something more than once, write a
-function for it.
+function for it. Functions should be as short as possible, and should be single
+purpose. Think of every piece of code you write as an element of a library.
 
 ### Program defensively
 
-Check user input, check data structure, and fail often but explicitely.
+Check user input, check data structure, and fail often but explicitly.
+
+Bad:
+``` julia
+function add(x, y)
+  return x + y
+end
+```
+
+Acceptable:
+``` julia
+function add(x, y)
+  @assert typeof(x) == Int64
+  @assert typeof(y) == Int64
+  return x + y
+end
+```
+
+Good:
+``` julia
+function add(x, y)
+  if typeof(x) != Int64
+    throw(TypeError("The first argument should be an Int64", "add", Int64, typeof(x)))
+  end
+  if typeof(y) != Int64
+    throw(TypeError("The second argument should be an Int64", "add", Int64, typeof(y)))
+  end
+  return x + y
+end
+```
 
 ### Use type-static functions
 
@@ -70,16 +130,20 @@ for the documentation), but how it does it.
 
 ### Variables names
 
-Be as explicit as possible. Have a look at the rest of the codebase before your
-start.
+Be as explicit as possible. Have a look at the rest of the codebase before you
+start. Using `i`, `j`, `k` for loops is, as usual, fine.
 
 ### Docstrings and documentation
 
-Write som. `R` packages, must be compiled with `roxygen`, `python` code must
+Write some. `R` packages, must be compiled with `roxygen`, `python` code must
 have docstrings for all documentable objects, and `Julia` functions must be
-commented.
+documented using `Docile.jl` and `Lexicon.jl`.
 
-If there is a documentation, add the parts relevant for your changes.
+There are three levels of documentation: the API documentation (which will be
+generated from the docstrings), the documentation for fellow devellopers (which
+resides ideally entirely in the comments), and documentation for the end users.
+Your pull request must include relevant changes and additions to the
+documentation.
 
 ### Versionning
 
@@ -87,7 +151,8 @@ We use [semantic versioning][sv] (`major`.`minor`.`patch`). Anything that adds
 no new feature should increase the `patch` number, new non-API-breaking changes
 should increase `minor`, and major changes should increase `major`. Any increase
 of a higher level resets the number after it (*e.g*, `0.3.1` becomes `1.0.0` for
-the first major release).
+the first major release). It is highly recommended that you do not start working
+on API-breaking changes without having received a go from us first.
 
 [pl]: http://poisotlab.io/
 [sv]: http://semver.org/
