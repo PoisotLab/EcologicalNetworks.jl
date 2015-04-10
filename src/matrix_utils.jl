@@ -51,7 +51,7 @@ Modify the A matrix, with the diagonal elements set to 0.
 """ ->
 function nodiag!(A::Array{Float64,2})
   A = nodiag(A)
-  
+  A
 end
 
 #=
