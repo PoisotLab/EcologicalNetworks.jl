@@ -6,3 +6,9 @@
 
 This module implements a set of measures and utilities to work on probabilistic
 ecological networks. Works on bipartite and unipartite networks.
+
+An automatically-generated documentation of all functions can be found
+[here][doc], and a tentative tutorial-style documentation is [here][int].
+
+[doc]: https://github.com/PoisotLab/ProbabilisticNetwork.jl/blob/dev/doc/api.md
+[int]: https://github.com/PoisotLab/ProbabilisticNetwork.jl/blob/dev/doc/introduction.md
