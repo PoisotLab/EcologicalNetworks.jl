@@ -32,8 +32,5 @@ module TestUtilities
   @test nodiag(A)[2,2] == 0.0
   @test nodiag(A)[3,3] == 0.0
   @test nodiag(A)[1,1] == 0.0
-  nodiag!(A)
-  @test A[1,1] == 0.0
-  @test A[1,2] == 1.0
 
 end
