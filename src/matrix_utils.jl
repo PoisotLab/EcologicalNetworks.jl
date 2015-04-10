@@ -38,7 +38,7 @@ matrix is not square.
 """ ->
 function nodiag(A::Array{Float64,2})
   # The diagonal is only relevant for square matrices
-  @assert size(A)[1] != size(A)[2]
+  @assert size(A)[1] == size(A)[2]
   return A .* (1.0 .- eye(Float64, size(A)[1]))
 end
 
