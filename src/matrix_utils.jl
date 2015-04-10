@@ -43,18 +43,6 @@ function nodiag(A::Array{Float64,2})
 end
 
 #=
-Sets the diagonal to 0 and replace
-=#
-@doc """Sets the diagonal to 0 in place
-
-Modify the A matrix, with the diagonal elements set to 0.
-""" ->
-function nodiag!(A::Array{Float64,2})
-  A = nodiag(A)
-  A
-end
-
-#=
 Use a threshold
 =#
 @doc """Generate a random 0/1 matrix from probabilities
