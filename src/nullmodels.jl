@@ -6,7 +6,7 @@ Given a matrix `A`, `null1(A)` returns a matrix with the same dimensions, where
 every interaction happens with a probability equal to the connectance of `A`.
 """ ->
 function null1(A::Array{Float64, 2})
-   return ones(A) .* connectance(A)
+  return ones(A) .* connectance(A)
 end
 
 #=
@@ -19,8 +19,8 @@ where every interaction happens with a probability equal to the out-degree
 successors.
 """ ->
 function null3out(A::Array{Float64, 2})
-   p_rows = degree_out(A) ./ size(A)[2]
-   return hcat(map((x) -> p_rows, [1:size(A)[2];])...)
+  p_rows = degree_out(A) ./ size(A)[2]
+  return hcat(map((x) -> p_rows, [1:size(A)[2];])...)
 end
 
 #=
@@ -33,7 +33,7 @@ where every interaction happens with a probability equal to the in-degree
 possible predecessors.
 """ ->
 function null3in(A::Array{Float64, 2})
-   return null3out(A')' # I don't work hard, so I work smart
+  return null3out(A')' # I don't work hard, so I work smart
 end
 
 #=
@@ -45,7 +45,7 @@ every interaction happens with a probability equal to the degree of each
 species.
 """ ->
 function null2(A::Array{Float64, 2})
-   return (null3in(A) .+ null3out(A))./2.0
+  return (null3in(A) .+ null3out(A))./2.0
 end
 
 #=
