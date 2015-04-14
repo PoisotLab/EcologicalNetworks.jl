@@ -1,6 +1,8 @@
 JEXEC=julia
 
-.PHONY: clean CONTRIBUTING.md
+.PHONY: clean CONTRIBUTING.md ALL
+
+ALL: test doc manual clean
 
 test: src/*jl test/*jl
 	$(JEXEC) --code-coverage ./test/runtests.jl
