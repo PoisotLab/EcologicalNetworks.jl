@@ -14,6 +14,15 @@ module TestDegreeFunctions
   Dout = degree_out(A)
   Dtot = degree(A)
 
+  Dov = degree_out_var(A)
+  @test_approx_eq Dov[2] 0.3
+
+  Div = degree_in_var(A)
+  @test_approx_eq Div[1] 0.3816
+
+  Dv = degree_var(A)
+  @test_approx_eq Dv[2] 0.63
+
   for i in 1:2
     @test_approx_eq d_in[i] Din[i]
     @test_approx_eq d_out[i] Dout[i]
