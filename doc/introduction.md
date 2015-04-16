@@ -1,19 +1,14 @@
 # Analysis of probabilistic networks
 
-## Installation and documentation
+## Loading the package
 
-`ProbabilisticNetwork` works under the 0.3 and 0.4 releases of `Julia`. To
-install it, from within the `Julia` REPL, type:
-
-``` julia
-Pkg.clone("git@github.com:PoisotLab/ProbabilisticNetwork.jl.git")
-```
-
-The package can now be loaded with
+Simply use
 
 ``` julia
 using ProbabilisticNetwork
 ```
+
+## Documentation
 
 The package comes with full documentation, so typing `?functionname` will
 display its docstring. For example, `?centrality_katz` returns
