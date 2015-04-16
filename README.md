@@ -5,5 +5,11 @@
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.16578.svg)](http://dx.doi.org/10.5281/zenodo.16578)
 [![Documentation Status](https://readthedocs.org/projects/probabilisticnetworkjl/badge/?version=latest)](https://readthedocs.org/projects/probabilisticnetworkjl/?badge=latest)
 
-This module implements a set of measures and utilities to work on probabilistic
-ecological networks. Works on bipartite and unipartite networks.
+This `Julia` module implements a set of measures and utilities to work on
+probabilistic ecological networks.
+
+It is compagnon code to the paper by Poisot et al., currently *under revision*
+for *Methods in Ecology and Evolution*. A preprint of the paper can be accessed
+on [bioRxiv][brxpaper].
+
+[brxpaper]: http://biorxiv.org/content/early/2015/03/13/016485

@@ -11,6 +11,7 @@ clean:
 	- rm src/*.cov
 
 doc: src/*jl
+	cp README.md doc/index.md
 	$(JEXEC) ./test/makedoc.jl
 
 manual: doc/*.md
