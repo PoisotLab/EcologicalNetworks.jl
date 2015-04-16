@@ -1,6 +1,16 @@
 #=
-New type
+Partition, a type to store a community partition
 =#
+@doc """
+Type to store a community partition
+
+This type has three elements:
+
+- `A`, the probability matrix
+- `L`, the array of (integers) module labels
+- `Q`, if needed, the modularity value
+
+""" ->
 type Partition
   A::Array{Float64, 2}
   L::Array{Int64, 1}
@@ -10,6 +20,12 @@ end
 #=
 Modularity function
 =#
+@doc """
+Q -- a measure of modularity
+
+This measures Barber's bipartite modularity based on a matrix and a list of
+module labels.
+""" ->
 function Q(A::Array{Float64, 2}, L::Array{Int64, 1})
   if length(unique(L)) == 1
     return 0.0
@@ -22,25 +38,64 @@ function Q(A::Array{Float64, 2}, L::Array{Int64, 1})
   return sum((aij .- kij) .* (L .== L'))
 end
 
+@doc """
+Q -- a measure of modularity
+
+This measures Barber's bipartite modularity based on a `Partition` object, and
+update the object in the proccess.
+""" ->
 function Q(P::Partition)
-  return P.Q
+  P.Q = Q(P.A, P.L)
+  P.Q
 end
 
 #=
 Realized modularity function
 =#
-function Qr(P::Partition)
-  if length(unique(P.L)) == 1
+@doc """
+Qr -- a measure of realized modularity
+
+Measures Poisot's realized modularity, based on a  a matrix and a list of module
+labels. Realized modularity takes values in the [0;1] interval, and is the
+proportion of interactions established *within* modules.
+
+Note that in some situations, `Qr` can be *lower* than 0. This reflects a
+partition in which more links are established between than within modules.
+""" ->
+function Qr(A::Array{Float64, 2}, L::Array{Int64, 1})
+  if length(unique(L)) == 1
     return 0.0
   end
-  W = sum(P.A .* (P.L .== P.L'))
-  E = links(P.A)
+  W = sum(A .* (L .== L'))
+  E = links(A)
   return 2.0 * (W/E) - 1.0
+end
+
+
+@doc """
+Qr -- a measure of realized modularity
+
+Measures Poisot's realized modularity, based on a `Partition` object.
+""" ->
+function Qr(P::Partition)
+  return Qr(P.A, P.L)
 end
 
 #=
 Propagate labels edge by edge
 =#
+@doc """
+A **very** experimental label propagation method for probabilistic networks
+
+This function is a take on the usual LP method for community detection. Instead
+of updating labels by taking the most frequent in the neighbors, this algorithm
+takes each interaction, and transfers the label across it with a probability
+equal to the probability of the interaction. It is therefore *not* generalizable
+for non-probabilistic networks.
+
+The other pitfall is that there is a need to do a *large* number of iterations
+to get to a good partition. This method is also untested.
+""" ->
 function propagate_labels(A::Array{Float64, 2}, kmax::Int64, smax::Int64)
   # Make a list of labels
   n_lab = maximum(size(A))

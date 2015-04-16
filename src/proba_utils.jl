@@ -59,7 +59,7 @@ Variance of additive events
 =#
 @doc """Variance of a series of additive Bernoulli events
 
-f(<p>): ∑(p(1-p))
+f(p): ∑(p(1-p))
 """ ->
 function a_var(p::Array{Float64})
 	return reduce(+, map(i_var, p))

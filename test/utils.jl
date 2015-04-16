@@ -33,4 +33,10 @@ module TestUtilities
   @test nodiag(A)[3,3] == 0.0
   @test nodiag(A)[1,1] == 0.0
 
+  # Mutltiplication of Bernoulli events
+  @test_approx_eq m_var([1.0 0.0]) 0.0
+  @test_approx_eq m_var([1.0 1.0]) 0.0
+  @test_approx_eq m_var([1.0 0.1]) 0.09
+  @test_approx_eq m_var([0.5 0.5]) 0.1875
+
 end
