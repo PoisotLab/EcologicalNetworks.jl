@@ -1,5 +1,5 @@
-site_name:           ProbabilisticNetowrk.jl
-repo_url:            https://github.com/PoisotLab/ProbabilisticNetowrk.jl
+site_name:           ProbabilisticNetwork.jl
+repo_url:            https://github.com/PoisotLab/ProbabilisticNetwork.jl
 site_description:    Analysis of probabilistic ecological networks.
 site_author:         Timothée Poisot
 theme:               readthedocs

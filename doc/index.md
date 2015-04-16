@@ -8,7 +8,7 @@
 This `Julia` module implements a set of measures and utilities to work on
 probabilistic ecological networks.
 
-It is compagnon code to the paper by Poisot et al., currently *under revision*
+It is companion code to the paper by Poisot et al., currently *under revision*
 for *Methods in Ecology and Evolution*. A preprint of the paper can be accessed
 on [bioRxiv][brxpaper].
 
