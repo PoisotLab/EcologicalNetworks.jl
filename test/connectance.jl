@@ -9,5 +9,6 @@ module TestConnectance
   @test_approx_eq links(A) 1.4
   @test_approx_eq links_var(A) 0.9
   @test_approx_eq connectance(A) 1.4 / 9.0
+  @test_approx_eq connectance_var(A) 0.011111111111111111111
 
 end
