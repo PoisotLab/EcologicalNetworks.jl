@@ -1,6 +1,4 @@
-# Analysis of probabilistic networks
-
-## Loading the package
+# Loading the package
 
 Simply use
 
@@ -8,7 +6,7 @@ Simply use
 using ProbabilisticNetwork
 ```
 
-## Documentation
+# Documentation
 
 The package comes with full documentation, so typing `?functionname` will
 display its docstring. For example, `?centrality_katz` returns
@@ -38,7 +36,7 @@ To get a list of all functions, you can either type `ProbabilisticNetwork.` and
 press Tab, or have a look at the automated documentation in the `/doc/api.md`
 file. The manual is also available as a PDF file (`/doc/manual.pdf`).
 
-## Overview and coding conventions
+# Overview and coding conventions
 
 The `ProbabilisticNetwork` package provides a series of functions to manipulate
 probabilistic (ecological) networks, and measure their structure. As much as
@@ -52,14 +50,10 @@ elements are all floating point numbers between 0 and 1. The type of **A** is
 *always* `A::Array{Float64, 2}` (a two-dimensional array of floats). If
 required, additional arguments are given as *keyword arguments*.
 
-## Wrappers
+# Wrappers
 
 There are, currently, two wrappers. The first is used to generate random
 Bernoulli networks. The second is used to optimize modularity. Both are highly
 experimental and should probably not be trusted too much.
 
-## Use-cases
-
-## How to contribute
-
-See the `CONTRIBUTING.md` file that is within this repository.
+# Use-cases
