@@ -33,8 +33,7 @@ ProbabilisticNetwork.centrality_katz(A::Array{Float64, 2})
 ```
 
 To get a list of all functions, you can either type `ProbabilisticNetwork.` and
-press Tab, or have a look at the automated documentation in the `/doc/api.md`
-file. The manual is also available as a PDF file (`/doc/manual.pdf`).
+press Tab, or have a look at the automated [documentation file][api.md].
 
 # Overview and coding conventions
 
