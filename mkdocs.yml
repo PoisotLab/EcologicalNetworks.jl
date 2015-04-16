@@ -5,6 +5,7 @@ site_author:         Timothée Poisot
 theme:               readthedocs
 markdown_extensions: [tables, fenced_code]
 pages:
-    - ['installation.md', 'Introduction', 'Installation']
-    - ['introduction.md', 'Introduction', 'Introduction']
-    - ['api.md', 'Full API reference']
+  - ['index.md', 'Introduction']
+  - ['install.md', 'Introduction', 'Installation']
+  - ['fsteps.md', 'Introduction', 'First steps']
+  - ['api.md', 'Full API reference']
