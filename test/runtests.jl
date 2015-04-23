@@ -13,6 +13,7 @@ my_tests = [
   "centrality.jl",
   "make_unipartite.jl",
   "free_species.jl",
+  "paths.jl",
   "modularity.jl"]
 
 for my_test in my_tests
