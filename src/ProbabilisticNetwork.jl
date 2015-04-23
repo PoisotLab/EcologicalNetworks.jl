@@ -35,7 +35,10 @@ export nestedness, nestedness_axis,
   draw_matrix,
 
   # Modularity
-  Partition, Q, Qr, propagate_labels, modularity
+  Partition, Q, Qr, propagate_labels, modularity,
+
+  # Paths
+  number_of_paths
 
 @docstrings
 @document
@@ -50,5 +53,6 @@ include(joinpath(".", "proba_utils.jl"))
 include(joinpath(".", "nullmodels.jl"))
 include(joinpath(".", "draw.jl"))
 include(joinpath(".", "modularity.jl"))
+include(joinpath(".", "paths.jl"))
 
 end

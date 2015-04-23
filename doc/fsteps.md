@@ -56,3 +56,14 @@ elements are all floating point numbers between 0 and 1. The type of **A** is
 required, additional arguments are given as *keyword arguments*.
 
 # Use-cases
+
+## Number of paths
+
+The `number_of_paths` function will return a matrix giving the *expected* number
+of paths of a given length between all pairs of nodes. For example, the
+following code will give the expected number of paths of length 3:
+
+``` julia
+A = [0.1 0.3; 1.0 0.0]
+number_of_paths(A, n=3)
+```
