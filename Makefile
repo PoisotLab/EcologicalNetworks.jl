@@ -12,6 +12,7 @@ clean:
 
 doc: src/*jl
 	cp README.md doc/index.md
+	cp CONTRIBUTING.md doc/contr.md
 	$(JEXEC) ./test/makedoc.jl
 
 CONTRIBUTING.md:

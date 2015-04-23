@@ -9,4 +9,5 @@ pages:
   - ['install.md', 'User guide', 'Installation']
   - ['fsteps.md', 'User guide', 'First steps']
   - ['wrap.md', 'User guide', 'Wrappers']
-  - ['api.md', 'Full API reference']
+  - ['api.md', 'Developer guide', 'API reference']
+  - ['contr.md', 'Developer guide', 'Contribution guide']
