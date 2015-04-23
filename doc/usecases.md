@@ -1,4 +1,5 @@
-This page presents a number of use-cases, *i.e.* short examples of how the library can be used to perform real-world analyses.
+This page presents a number of use-cases, *i.e.* short examples of how the
+library can be used to perform real-world analyses.
 
 # Number of links in a probabilistic network
 
@@ -37,4 +38,29 @@ following code will give the expected number of paths of length 3:
 ``` julia
 A = [0.1 0.3; 1.0 0.0]
 number_of_paths(A, n=3)
+```
+
+# Network β-diversity
+
+The package currently implements three measures of pairwise network
+dissimilarity: `jaccard`, `sorensen`, and `whittaker`. The common approach to
+measure the dissimilarity of two networks is first, after Koleff et al. (2004;
+JAE), to measure the dissimilarity set, then to feed it into any of the three
+functions.
+
+Note that for this analysis to make sense, the two matrices *must* have the
+species at the same positions in rows and columns.
+
+``` julia
+# Dummy test with equal matrices
+A = eye(10)
+B = eye(10)
+S = betadiversity(A, B)
+println("Whittaker: ", whittaker(S)) # Should give 0.0, the networks are similar
+
+# Test with real data
+A = [1.0 0.3 0.0; 0.2 0.8 1.0; 0.2 0.4 0.3]
+B = [1.0 0.8 0.2; 0.4 0.6 0.7; 0.1 0.7 0.6]
+S = betadiversity(A, B)
+jaccard(S) # Should give approx. 0.471
 ```

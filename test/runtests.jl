@@ -14,7 +14,8 @@ my_tests = [
   "make_unipartite.jl",
   "free_species.jl",
   "paths.jl",
-  "modularity.jl"]
+  "modularity.jl",
+  "betadiversity.jl"]
 
 for my_test in my_tests
   try

@@ -38,7 +38,10 @@ export nestedness, nestedness_axis,
   Partition, Q, Qr, propagate_labels, modularity,
 
   # Paths
-  number_of_paths
+  number_of_paths,
+
+  # Beta-diversity
+  betadiversity, whittaker, sorensen, jaccard
 
 @docstrings
 @document
@@ -54,5 +57,6 @@ include(joinpath(".", "nullmodels.jl"))
 include(joinpath(".", "draw.jl"))
 include(joinpath(".", "modularity.jl"))
 include(joinpath(".", "paths.jl"))
+include(joinpath(".", "betadiversity.jl"))
 
 end
