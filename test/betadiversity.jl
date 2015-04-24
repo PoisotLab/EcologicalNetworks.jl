@@ -18,6 +18,7 @@ module TestBetaDiv
   @test sorensen(S) == 1.0
 
   # Different matrices
+
   A = [1.0 0.3 0.0; 0.2 0.8 1.0; 0.2 0.4 0.3]
   B = [1.0 0.8 0.2; 0.4 0.6 0.7; 0.1 0.7 0.6]
 
@@ -26,5 +27,10 @@ module TestBetaDiv
   @test_approx_eq jaccard(S) 0.4715189873417721
   @test_approx_eq whittaker(S) 0.35913978494623655
   @test_approx_eq sorensen(S) 0.6408602150537633
+
+  # TODO Find examples where the expected value is simple
+
+  # TODO Show that it works in the 0.0/1.0 version too (although the test with
+  # eye does that)
 
 end

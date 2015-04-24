@@ -39,12 +39,12 @@ end
 
 @doc """ Whittaker measure of beta-diversity """ ->
 function whittaker(S::BetaSet)
-  return (S.a + S.b + S.c)/(((S.a + S.b + S.c)+S.a)/2.0) - 1.0
+  return (S.a + S.b + S.c)/((2.0*S.a + S.b + S.c)/2.0) - 1.0
 end
 
 @doc """ Sorensen measure of beta-diversity """ ->
 function sorensen(S::BetaSet)
-  return (2.0*S.a)/((S.a + S.b + S.c)+S.a)
+  return (2.0*S.a)/(2.0*S.a + S.b + S.c)
 end
 
 @doc """ Jaccard measure of beta-diversity """ ->
