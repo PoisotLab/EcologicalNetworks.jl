@@ -20,10 +20,11 @@ export nestedness, nestedness_axis,
   degree_out, degree_in, degree_out_var, degree_in_var, degree, degree_var,
 
   # Expected number of species with 0 interactions
+  species_has_no_succcessors, species_has_no_predecessors,
   species_is_free, free_species,
 
   # Matrix manipulation utilities
-  make_unipartite, make_threshold, make_binary, make_bernoulli, nodiag, nodiag!,
+  make_unipartite, make_threshold, make_binary, make_bernoulli, nodiag,
 
   # Probability algebra utilities
   checkprob, i_esp, i_var, a_var, m_var,
