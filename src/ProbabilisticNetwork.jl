@@ -20,7 +20,7 @@ export nestedness, nestedness_axis,
   degree_out, degree_in, degree_out_var, degree_in_var, degree, degree_var,
 
   # Expected number of species with 0 interactions
-  species_has_no_succcessors, species_has_no_predecessors,
+  species_has_no_successors, species_has_no_predecessors,
   species_is_free, free_species,
 
   # Matrix manipulation utilities
