@@ -23,7 +23,13 @@ have the same species at the same position! If this is note the case, a
 `BoundsError` will be thrown.
 
 This function will return a `BetaSet`, which is then used by the function to
-actually measure the beta-diversity.
+actually measure the beta-diversity. This package uses the approach of Koleff et a. (2003).
+
+**References**
+
+1. Koleff, P., Gaston, K. J. and Lennon, J. J. (2003), Measuring beta diversity
+for presence–absence data. Journal of Animal Ecology, 72: 367–382. doi:
+10.1046/j.1365-2656.2003.00710.x
 
 """ ->
 function betadiversity(A::Array{Float64,2}, B::Array{Float64,2})
@@ -36,6 +42,11 @@ function betadiversity(A::Array{Float64,2}, B::Array{Float64,2})
   c = sum(A .* (1 .- B))
   return BetaSet(a, b, c)
 end
+
+#=
+TODO
+Give the reference in the docstring of each function
+=#
 
 @doc """ Whittaker measure of beta-diversity """ ->
 function whittaker(S::BetaSet)
