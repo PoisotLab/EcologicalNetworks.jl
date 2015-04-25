@@ -51,3 +51,33 @@ end
 function jaccard(S::BetaSet)
   return S.a/(S.a + S.b + S.c)
 end
+
+@doc """ Gaston measure of beta-diversity """ ->
+function gaston(S::BetaSet)
+  return (S.b+S.c)/(S.a + S.b + S.c)
+end
+
+@doc """ Williams measure of beta-diversity """ ->
+function williams(S::BetaSet)
+  return minimum(S.b, S.c)/(S.a + S.b + S.c)
+end
+
+@doc """ Lande measure of beta-diversity """ ->
+function lande(S::BetaSet)
+  return (S.b + S.c)/2.0
+end
+
+@doc """ Ruggiero measure of beta-diversity """ ->
+function ruggiero(S::BetaSet)
+  return (S.a)/(S.a + S.c)
+end
+
+@doc """ Harte-Kinzig measure of beta-diversity """ ->
+function hartekinzig(S::BetaSet)
+  return 1.0 - (2.0 * S.a)/(2.0 * S.a + S.b + S.c)
+end
+
+@doc """ Harrison measure of beta-diversity """ ->
+function harrison(S::BetaSet)
+  return minimum(S.b, S.c)/(minimum(S.b, S.c) + S.a)
+end

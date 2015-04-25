@@ -42,7 +42,10 @@ export nestedness, nestedness_axis,
   number_of_paths,
 
   # Beta-diversity
-  betadiversity, whittaker, sorensen, jaccard
+  betadiversity,
+  whittaker, sorensen, jaccard, gaston,
+  williams, lande, ruggiero, hartekinzig,
+  harrison
 
 @docstrings
 @document
