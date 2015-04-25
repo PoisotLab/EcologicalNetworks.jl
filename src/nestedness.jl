@@ -11,7 +11,7 @@ function nestedness_axis(A::Array{Float64,2}; axis::Int64=1)
   n = vec(sum(B, 2))
   num = 0.0
   den = 0.0
-  for j in 2:S
+  @simd for j in 2:S
     @simd for i in 1:(j-1)
       @inbounds num += sum(B[i,:].*B[j,:])
       @inbounds den += minimum([n[i], n[j]])
