@@ -1,10 +1,12 @@
 @doc """ Probability that a species has no predecessors """ ->
 function species_has_no_predecessors(A::Array{Float64,2})
+  @assert size(A)[1] == size(A)[2]
   return vec(prod(1.0 .- nodiag(A),1))
 end
 
 @doc """ Probability that a species has no successors """ ->
 function species_has_no_successors(A::Array{Float64,2})
+  @assert size(A)[1] == size(A)[2]
   return vec(prod(1.0 .- nodiag(A),2))
 end
 
@@ -16,6 +18,7 @@ networks.
 
 """ ->
 function species_is_free(A::Array{Float64,2})
+  @assert size(A)[1] == size(A)[2]
   return species_has_no_successors(A) .* species_has_no_predecessors(A)
 end
 
