@@ -11,7 +11,7 @@ module labels.
 
 
 **source:**
-[ProbabilisticNetwork/src/./modularity.jl:28](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./modularity.jl#L28)
+[ProbabilisticNetwork/src/./modularity.jl:28](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./modularity.jl#L28)
 
 ---
 
@@ -23,7 +23,7 @@ update the object in the proccess.
 
 
 **source:**
-[ProbabilisticNetwork/src/./modularity.jl:46](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./modularity.jl#L46)
+[ProbabilisticNetwork/src/./modularity.jl:46](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./modularity.jl#L46)
 
 ---
 
@@ -39,7 +39,7 @@ partition in which more links are established between than within modules.
 
 
 **source:**
-[ProbabilisticNetwork/src/./modularity.jl:64](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./modularity.jl#L64)
+[ProbabilisticNetwork/src/./modularity.jl:64](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./modularity.jl#L64)
 
 ---
 
@@ -50,7 +50,7 @@ Measures Poisot's realized modularity, based on a `Partition` object.
 
 
 **source:**
-[ProbabilisticNetwork/src/./modularity.jl:79](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./modularity.jl#L79)
+[ProbabilisticNetwork/src/./modularity.jl:79](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./modularity.jl#L79)
 
 ---
 
@@ -61,7 +61,7 @@ f(p): ∑(p(1-p))
 
 
 **source:**
-[ProbabilisticNetwork/src/./proba_utils.jl:63](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./proba_utils.jl#L63)
+[ProbabilisticNetwork/src/./proba_utils.jl:63](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./proba_utils.jl#L63)
 
 ---
 
@@ -73,12 +73,18 @@ have the same species at the same position! If this is note the case, a
 `BoundsError` will be thrown.
 
 This function will return a `BetaSet`, which is then used by the function to
-actually measure the beta-diversity.
+actually measure the beta-diversity. This package uses the approach of Koleff et a. (2003).
+
+**References**
+
+1. Koleff, P., Gaston, K. J. and Lennon, J. J. (2003), Measuring beta diversity
+for presence–absence data. Journal of Animal Ecology, 72: 367–382. doi:
+10.1046/j.1365-2656.2003.00710.x
 
 
 
 **source:**
-[ProbabilisticNetwork/src/./betadiversity.jl:28](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./betadiversity.jl#L28)
+[ProbabilisticNetwork/src/./betadiversity.jl:34](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./betadiversity.jl#L34)
 
 ---
 
@@ -92,7 +98,7 @@ actually measure the beta-diversity.
 
 
 **source:**
-[ProbabilisticNetwork/src/./centrality.jl:10](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./centrality.jl#L10)
+[ProbabilisticNetwork/src/./centrality.jl:10](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./centrality.jl#L10)
 
 ---
 
@@ -102,7 +108,7 @@ of expected links, divided by the size of the matrix.
 
 
 **source:**
-[ProbabilisticNetwork/src/./connectance.jl:15](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./connectance.jl#L15)
+[ProbabilisticNetwork/src/./connectance.jl:15](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./connectance.jl#L15)
 
 ---
 
@@ -113,7 +119,7 @@ the matrix.
 
 
 **source:**
-[ProbabilisticNetwork/src/./connectance.jl:23](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./connectance.jl#L23)
+[ProbabilisticNetwork/src/./connectance.jl:23](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./connectance.jl#L23)
 
 ---
 
@@ -122,7 +128,7 @@ the matrix.
 
 
 **source:**
-[ProbabilisticNetwork/src/./degree.jl:20](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./degree.jl#L20)
+[ProbabilisticNetwork/src/./degree.jl:20](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./degree.jl#L20)
 
 ---
 
@@ -131,7 +137,7 @@ the matrix.
 
 
 **source:**
-[ProbabilisticNetwork/src/./degree.jl:14](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./degree.jl#L14)
+[ProbabilisticNetwork/src/./degree.jl:14](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./degree.jl#L14)
 
 ---
 
@@ -140,7 +146,7 @@ the matrix.
 
 
 **source:**
-[ProbabilisticNetwork/src/./degree.jl:8](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./degree.jl#L8)
+[ProbabilisticNetwork/src/./degree.jl:8](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./degree.jl#L8)
 
 ---
 
@@ -154,7 +160,31 @@ the unipartite situation is more general.
 
 
 **source:**
-[ProbabilisticNetwork/src/./free_species.jl:28](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./free_species.jl#L28)
+[ProbabilisticNetwork/src/./free_species.jl:28](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./free_species.jl#L28)
+
+---
+
+#### gaston(S::ProbabilisticNetwork.BetaSet)
+ Gaston measure of beta-diversity 
+
+**source:**
+[ProbabilisticNetwork/src/./betadiversity.jl:66](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./betadiversity.jl#L66)
+
+---
+
+#### harrison(S::ProbabilisticNetwork.BetaSet)
+ Harrison measure of beta-diversity 
+
+**source:**
+[ProbabilisticNetwork/src/./betadiversity.jl:91](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./betadiversity.jl#L91)
+
+---
+
+#### hartekinzig(S::ProbabilisticNetwork.BetaSet)
+ Harte-Kinzig measure of beta-diversity 
+
+**source:**
+[ProbabilisticNetwork/src/./betadiversity.jl:86](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./betadiversity.jl#L86)
 
 ---
 
@@ -165,7 +195,7 @@ Simply f(p): p
 
 
 **source:**
-[ProbabilisticNetwork/src/./proba_utils.jl:37](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./proba_utils.jl#L37)
+[ProbabilisticNetwork/src/./proba_utils.jl:37](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./proba_utils.jl#L37)
 
 ---
 
@@ -176,7 +206,7 @@ f(p): p(1-p)
 
 
 **source:**
-[ProbabilisticNetwork/src/./proba_utils.jl:50](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./proba_utils.jl#L50)
+[ProbabilisticNetwork/src/./proba_utils.jl:50](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./proba_utils.jl#L50)
 
 ---
 
@@ -184,7 +214,15 @@ f(p): p(1-p)
  Jaccard measure of beta-diversity 
 
 **source:**
-[ProbabilisticNetwork/src/./betadiversity.jl:50](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./betadiversity.jl#L50)
+[ProbabilisticNetwork/src/./betadiversity.jl:61](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./betadiversity.jl#L61)
+
+---
+
+#### lande(S::ProbabilisticNetwork.BetaSet)
+ Lande measure of beta-diversity 
+
+**source:**
+[ProbabilisticNetwork/src/./betadiversity.jl:76](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./betadiversity.jl#L76)
 
 ---
 
@@ -193,7 +231,7 @@ f(p): p(1-p)
 
 
 **source:**
-[ProbabilisticNetwork/src/./connectance.jl:2](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./connectance.jl#L2)
+[ProbabilisticNetwork/src/./connectance.jl:2](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./connectance.jl#L2)
 
 ---
 
@@ -202,7 +240,7 @@ f(p): p(1-p)
 
 
 **source:**
-[ProbabilisticNetwork/src/./connectance.jl:8](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./connectance.jl#L8)
+[ProbabilisticNetwork/src/./connectance.jl:8](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./connectance.jl#L8)
 
 ---
 
@@ -211,7 +249,7 @@ Variance of a series of multiplicative Bernoulli events
 
 
 **source:**
-[ProbabilisticNetwork/src/./proba_utils.jl:72](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./proba_utils.jl#L72)
+[ProbabilisticNetwork/src/./proba_utils.jl:72](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./proba_utils.jl#L72)
 
 ---
 
@@ -223,7 +261,7 @@ probability A(i,j).
 
 
 **source:**
-[ProbabilisticNetwork/src/./matrix_utils.jl:22](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./matrix_utils.jl#L22)
+[ProbabilisticNetwork/src/./matrix_utils.jl:22](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./matrix_utils.jl#L22)
 
 ---
 
@@ -235,7 +273,7 @@ A(i,j) is greater than 0.
 
 
 **source:**
-[ProbabilisticNetwork/src/./matrix_utils.jl:73](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./matrix_utils.jl#L73)
+[ProbabilisticNetwork/src/./matrix_utils.jl:73](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./matrix_utils.jl#L73)
 
 ---
 
@@ -251,7 +289,7 @@ exhaustivity.
 
 
 **source:**
-[ProbabilisticNetwork/src/./matrix_utils.jl:56](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./matrix_utils.jl#L56)
+[ProbabilisticNetwork/src/./matrix_utils.jl:56](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./matrix_utils.jl#L56)
 
 ---
 
@@ -262,7 +300,7 @@ Note that this function returns an asymetric unipartite network.
 
 
 **source:**
-[ProbabilisticNetwork/src/./matrix_utils.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./matrix_utils.jl#L7)
+[ProbabilisticNetwork/src/./matrix_utils.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./matrix_utils.jl#L7)
 
 ---
 
@@ -277,7 +315,7 @@ Returns three values:
 
 
 **source:**
-[ProbabilisticNetwork/src/./nestedness.jl:36](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./nestedness.jl#L36)
+[ProbabilisticNetwork/src/./nestedness.jl:30](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./nestedness.jl#L30)
 
 ---
 
@@ -286,7 +324,7 @@ Nestedness of a single axis (called internally by `nestedness`)
 
 
 **source:**
-[ProbabilisticNetwork/src/./nestedness.jl:5](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./nestedness.jl#L5)
+[ProbabilisticNetwork/src/./nestedness.jl:2](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./nestedness.jl#L2)
 
 ---
 
@@ -298,7 +336,7 @@ matrix is not square.
 
 
 **source:**
-[ProbabilisticNetwork/src/./matrix_utils.jl:38](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./matrix_utils.jl#L38)
+[ProbabilisticNetwork/src/./matrix_utils.jl:38](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./matrix_utils.jl#L38)
 
 ---
 
@@ -308,7 +346,7 @@ every interaction happens with a probability equal to the connectance of `A`.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./nullmodels.jl#L7)
+[ProbabilisticNetwork/src/./nullmodels.jl:7](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./nullmodels.jl#L7)
 
 ---
 
@@ -319,7 +357,7 @@ species.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:46](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./nullmodels.jl#L46)
+[ProbabilisticNetwork/src/./nullmodels.jl:46](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./nullmodels.jl#L46)
 
 ---
 
@@ -331,7 +369,7 @@ possible predecessors.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:34](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./nullmodels.jl#L34)
+[ProbabilisticNetwork/src/./nullmodels.jl:34](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./nullmodels.jl#L34)
 
 ---
 
@@ -343,7 +381,7 @@ successors.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:20](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./nullmodels.jl#L20)
+[ProbabilisticNetwork/src/./nullmodels.jl:20](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./nullmodels.jl#L20)
 
 ---
 
@@ -368,7 +406,7 @@ routines will be part of a later release.
 
 
 **source:**
-[ProbabilisticNetwork/src/./nullmodels.jl:78](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./nullmodels.jl#L78)
+[ProbabilisticNetwork/src/./nullmodels.jl:78](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./nullmodels.jl#L78)
 
 ---
 
@@ -381,7 +419,7 @@ routines will be part of a later release.
 
 
 **source:**
-[ProbabilisticNetwork/src/./paths.jl:9](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./paths.jl#L9)
+[ProbabilisticNetwork/src/./paths.jl:9](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./paths.jl#L9)
 
 ---
 
@@ -399,7 +437,15 @@ to get to a good partition. This method is also untested.
 
 
 **source:**
-[ProbabilisticNetwork/src/./modularity.jl:98](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./modularity.jl#L98)
+[ProbabilisticNetwork/src/./modularity.jl:98](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./modularity.jl#L98)
+
+---
+
+#### ruggiero(S::ProbabilisticNetwork.BetaSet)
+ Ruggiero measure of beta-diversity 
+
+**source:**
+[ProbabilisticNetwork/src/./betadiversity.jl:81](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./betadiversity.jl#L81)
 
 ---
 
@@ -407,7 +453,7 @@ to get to a good partition. This method is also untested.
  Sorensen measure of beta-diversity 
 
 **source:**
-[ProbabilisticNetwork/src/./betadiversity.jl:45](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./betadiversity.jl#L45)
+[ProbabilisticNetwork/src/./betadiversity.jl:56](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./betadiversity.jl#L56)
 
 ---
 
@@ -415,7 +461,7 @@ to get to a good partition. This method is also untested.
  Probability that a species has no predecessors 
 
 **source:**
-[ProbabilisticNetwork/src/./free_species.jl:1](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./free_species.jl#L1)
+[ProbabilisticNetwork/src/./free_species.jl:1](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./free_species.jl#L1)
 
 ---
 
@@ -429,7 +475,7 @@ networks.
 
 
 **source:**
-[ProbabilisticNetwork/src/./free_species.jl:17](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./free_species.jl#L17)
+[ProbabilisticNetwork/src/./free_species.jl:17](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./free_species.jl#L17)
 
 ---
 
@@ -437,7 +483,15 @@ networks.
  Whittaker measure of beta-diversity 
 
 **source:**
-[ProbabilisticNetwork/src/./betadiversity.jl:40](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./betadiversity.jl#L40)
+[ProbabilisticNetwork/src/./betadiversity.jl:51](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./betadiversity.jl#L51)
+
+---
+
+#### williams(S::ProbabilisticNetwork.BetaSet)
+ Williams measure of beta-diversity 
+
+**source:**
+[ProbabilisticNetwork/src/./betadiversity.jl:71](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./betadiversity.jl#L71)
 
 ---
 
@@ -453,7 +507,7 @@ This type has three elements:
 
 
 **source:**
-[ProbabilisticNetwork/src/./modularity.jl:13](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./modularity.jl#L13)
+[ProbabilisticNetwork/src/./modularity.jl:13](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./modularity.jl#L13)
 
 ## Internal
 ---
@@ -462,7 +516,7 @@ This type has three elements:
  Probability that a species has no successors 
 
 **source:**
-[ProbabilisticNetwork/src/./free_species.jl:6](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./free_species.jl#L6)
+[ProbabilisticNetwork/src/./free_species.jl:6](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./free_species.jl#L6)
 
 ---
 
@@ -481,7 +535,7 @@ events, the expected cardinality of each set is not integers.
 
 
 **source:**
-[ProbabilisticNetwork/src/./betadiversity.jl:12](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./betadiversity.jl#L12)
+[ProbabilisticNetwork/src/./betadiversity.jl:12](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./betadiversity.jl#L12)
 
 ---
 
@@ -499,6 +553,6 @@ The two steps are
 checkprob(p)
 
 **source:**
-[ProbabilisticNetwork/src/./proba_utils.jl:15](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/a28d4ab52373519d019ea82fd95245b27823ed7b/src/./proba_utils.jl#L15)
+[ProbabilisticNetwork/src/./proba_utils.jl:15](https://github.com/PoisotLab/ProbabilisticNetwork.jl/tree/4e67083a8db24ab1a01a48b6f5ab3de07a0700cd/src/./proba_utils.jl#L15)
 
 
