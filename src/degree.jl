@@ -1,9 +1,3 @@
-#=
-
-Degree for all species
-
-=#
-
 @doc """ Expected number of outgoing degrees
 """ ->
 function degree_out(A::Array{Float64,2})
@@ -24,13 +18,13 @@ function degree(A::Array{Float64,2})
 end
 
 function degree_out_var(A::Array{Float64,2})
-   return mapslices(a_var, A, 2)
+  return mapslices(a_var, A, 2)
 end
 
 function degree_in_var(A::Array{Float64,2})
-   return mapslices(a_var, A, 1)'
+  return mapslices(a_var, A, 1)'
 end
 
 function degree_var(A::Array{Float64,2})
-   return degree_out_var(A) .+ degree_in_var(A)
+  return degree_out_var(A) .+ degree_in_var(A)
 end
