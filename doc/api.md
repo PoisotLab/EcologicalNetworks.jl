@@ -84,7 +84,7 @@ for presence–absence data. Journal of Animal Ecology, 72: 367–382. doi:
 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:34](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:40](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -128,7 +128,7 @@ the matrix.
 
 
 *source:*
-[ProbabilisticNetwork/src/./degree.jl:20](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./degree.jl)
+[ProbabilisticNetwork/src/./degree.jl:14](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./degree.jl)
 
 ---
 
@@ -137,7 +137,7 @@ the matrix.
 
 
 *source:*
-[ProbabilisticNetwork/src/./degree.jl:14](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./degree.jl)
+[ProbabilisticNetwork/src/./degree.jl:8](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./degree.jl)
 
 ---
 
@@ -146,7 +146,7 @@ the matrix.
 
 
 *source:*
-[ProbabilisticNetwork/src/./degree.jl:8](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./degree.jl)
+[ProbabilisticNetwork/src/./degree.jl:2](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./degree.jl)
 
 ---
 
@@ -160,7 +160,7 @@ the unipartite situation is more general.
 
 
 *source:*
-[ProbabilisticNetwork/src/./free_species.jl:28](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./free_species.jl)
+[ProbabilisticNetwork/src/./free_species.jl:31](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./free_species.jl)
 
 ---
 
@@ -168,7 +168,7 @@ the unipartite situation is more general.
  Gaston measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:66](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:72](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -176,7 +176,7 @@ the unipartite situation is more general.
  Harrison measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:91](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:97](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -184,7 +184,7 @@ the unipartite situation is more general.
  Harte-Kinzig measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:86](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:92](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -214,7 +214,7 @@ f(p): p(1-p)
  Jaccard measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:61](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:67](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -222,7 +222,7 @@ f(p): p(1-p)
  Lande measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:76](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:82](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -445,7 +445,7 @@ to get to a good partition. This method is also untested.
  Ruggiero measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:81](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:87](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -453,7 +453,7 @@ to get to a good partition. This method is also untested.
  Sorensen measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:56](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:62](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -462,6 +462,14 @@ to get to a good partition. This method is also untested.
 
 *source:*
 [ProbabilisticNetwork/src/./free_species.jl:1](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./free_species.jl)
+
+---
+
+### species_has_no_successors(A::Array{Float64, 2})
+ Probability that a species has no successors 
+
+*source:*
+[ProbabilisticNetwork/src/./free_species.jl:7](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./free_species.jl)
 
 ---
 
@@ -475,7 +483,7 @@ networks.
 
 
 *source:*
-[ProbabilisticNetwork/src/./free_species.jl:17](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./free_species.jl)
+[ProbabilisticNetwork/src/./free_species.jl:19](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./free_species.jl)
 
 ---
 
@@ -483,7 +491,7 @@ networks.
  Whittaker measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:51](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:57](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -491,7 +499,7 @@ networks.
  Williams measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:71](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:77](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -510,14 +518,6 @@ This type has three elements:
 [ProbabilisticNetwork/src/./modularity.jl:13](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./modularity.jl)
 
 ## Internal
----
-
-### species_has_no_successors(A::Array{Float64, 2})
- Probability that a species has no successors 
-
-*source:*
-[ProbabilisticNetwork/src/./free_species.jl:6](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./free_species.jl)
-
 ---
 
 ### BetaSet

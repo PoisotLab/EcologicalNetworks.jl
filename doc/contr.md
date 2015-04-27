@@ -75,6 +75,24 @@ For the development of new features, it is generally recommended to fork the
 "hotfixes" (changes that address issues), forking either branch is fine, and
 we'll take care of pulling the changes into `dev` and/or `master` as needed.
 
+### Of emojis
+
+[Atom's][atom] guideline suggest the use of emojis to easily identify what is
+the purpose of each commit. This is a good idea and should be followed, and it
+also saves a few characters from the commit first line. Specifically, prepend
+your commits as follow
+
+| What the commit is about |       emoji        | example                                     |
+|:-------------------------|:------------------:|:--------------------------------------------|
+| Add test                 | :white_check_mark: | :white_check_mark: wget JSON resource       |
+| Fix bug                  |       :bug:        | :bug: mean fails if NA                      |
+| Documentation            |  :page_facing_up:  | :page_facing_up: null models wrapper        |
+| New data                 |    :bar_chart:     | :bar_chart: example pollination network     |
+| Improve performance      |      :clock2:      | :clock2: parallelizes null model by default |
+| Cool new feature         |      :metal:       | :metal: (anything amazing)                  |
+
+[atom]: https://github.com/atom/atom/blob/master/CONTRIBUTING.md
+
 ## Tests and coverage
 
 Most of our repositories undergo continuous integration, and code coverage
