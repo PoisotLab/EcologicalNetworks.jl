@@ -44,10 +44,10 @@ number_of_paths(A, n=3)
 
 The package currently implements the following measures of pairwise network
 dissimilarity: `jaccard`, `sorensen`, `gaston`, `williams`, `lande`, `ruggiero`,
-`hartekinzig`, and `whittaker`. The common approach to measure the dissimilarity
-of two networks is first, after Koleff et al. (2004; JAE), to measure the
-dissimilarity set, then to feed it into any of the pairwise dissimilarity
-functions.
+`hartekinzig`, `harrison`, and `whittaker`. The common approach to measure the
+dissimilarity of two networks is first, after Koleff et al. (2004; JAE), to
+measure the dissimilarity set, then to feed it into any of the pairwise
+dissimilarity functions.
 
 Note that for this analysis to make sense, the two matrices *must* have the
 species at the same positions in rows and columns.

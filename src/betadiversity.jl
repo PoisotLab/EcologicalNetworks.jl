@@ -76,7 +76,7 @@ end
 
 @doc """ Williams measure of beta-diversity """ ->
 function williams(S::BetaSet)
-  return minimum(S.b, S.c)/sum(S)
+  return minimum(vec([S.b S.c]))/sum(S)
 end
 
 @doc """ Lande measure of beta-diversity """ ->
@@ -96,5 +96,5 @@ end
 
 @doc """ Harrison measure of beta-diversity """ ->
 function harrison(S::BetaSet)
-  return minimum(S.b, S.c)/(minimum(S.b, S.c) + S.a)
+  return minimum(vec([S.b S.c]))/(minimum(vec([S.b S.c])) + S.a)
 end
