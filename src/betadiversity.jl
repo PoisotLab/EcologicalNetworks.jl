@@ -16,6 +16,12 @@ type BetaSet
   c::Float64
 end
 
+import Base.sum
+
+function sum(S::BetaSet)
+  return S.a + S.b + S.c
+end
+
 @doc """ Measure the expected network similarity
 
 Note that this is only meaningful to apply this function when the two matrices
@@ -50,27 +56,27 @@ Give the reference in the docstring of each function
 
 @doc """ Whittaker measure of beta-diversity """ ->
 function whittaker(S::BetaSet)
-  return (S.a + S.b + S.c)/((2.0*S.a + S.b + S.c)/2.0) - 1.0
+  return sum(S)/((S.a + sum(S))/2.0) - 1.0
 end
 
 @doc """ Sorensen measure of beta-diversity """ ->
 function sorensen(S::BetaSet)
-  return (2.0*S.a)/(2.0*S.a + S.b + S.c)
+  return (2.0*S.a)/(S.a + sum(S))
 end
 
 @doc """ Jaccard measure of beta-diversity """ ->
 function jaccard(S::BetaSet)
-  return S.a/(S.a + S.b + S.c)
+  return S.a/sum(S)
 end
 
 @doc """ Gaston measure of beta-diversity """ ->
 function gaston(S::BetaSet)
-  return (S.b+S.c)/(S.a + S.b + S.c)
+  return (S.b+S.c)/sum(S)
 end
 
 @doc """ Williams measure of beta-diversity """ ->
 function williams(S::BetaSet)
-  return minimum(S.b, S.c)/(S.a + S.b + S.c)
+  return minimum(S.b, S.c)/sum(S)
 end
 
 @doc """ Lande measure of beta-diversity """ ->
@@ -85,7 +91,7 @@ end
 
 @doc """ Harte-Kinzig measure of beta-diversity """ ->
 function hartekinzig(S::BetaSet)
-  return 1.0 - (2.0 * S.a)/(2.0 * S.a + S.b + S.c)
+  return 1.0 - (2.0 * S.a)/(S.a + sum(S))
 end
 
 @doc """ Harrison measure of beta-diversity """ ->

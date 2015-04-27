@@ -42,10 +42,11 @@ number_of_paths(A, n=3)
 
 # Network β-diversity
 
-The package currently implements three measures of pairwise network
-dissimilarity: `jaccard`, `sorensen`, and `whittaker`. The common approach to
-measure the dissimilarity of two networks is first, after Koleff et al. (2004;
-JAE), to measure the dissimilarity set, then to feed it into any of the three
+The package currently implements the following measures of pairwise network
+dissimilarity: `jaccard`, `sorensen`, `gaston`, `williams`, `lande`, `ruggiero`,
+`hartekinzig`, and `whittaker`. The common approach to measure the dissimilarity
+of two networks is first, after Koleff et al. (2004; JAE), to measure the
+dissimilarity set, then to feed it into any of the pairwise dissimilarity
 functions.
 
 Note that for this analysis to make sense, the two matrices *must* have the
