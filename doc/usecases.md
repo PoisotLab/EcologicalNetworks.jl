@@ -72,8 +72,8 @@ This library implements two measures of modularity. The one given by Barber
 (`Q`), which compares the linkage across modules to a null model based on degree
 (basically, `null2`), and the *realized* modularity (`Qr`), which is simply the
 expected proportion of the expected number of links that are within the same
-modules. Note than when there is a single module, `Qr` is *by default* equal to
-0.
+modules. Note than when there is a single module, `Qr` and `Q` are *by default*
+equal to 0.
 
 The modularity functions work on a type called `Partition`, which has three
 attributes: `A` is the probability matrix, `L` is an array of (`Int64`) module
