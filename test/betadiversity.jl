@@ -67,4 +67,9 @@ module TestBetaDiv
   @test_approx_eq harrison(set_d) 1.0
   @test_approx_eq harrison(set_e) 0.5
 
+  # Harte-Kinzig
+  @test_approx_eq hartekinzig(set_s) 0.0
+  @test_approx_eq hartekinzig(set_d) 1.0
+  @test_approx_eq hartekinzig(set_e) 0.5
+
 end

@@ -40,7 +40,6 @@ for presence–absence data. Journal of Animal Ecology, 72: 367–382. doi:
 """ ->
 function betadiversity(A::Array{Float64,2}, B::Array{Float64,2})
   if size(A) != size(B)
-    # TODO Custom error type?
     throw(BoundsError())
   end
   a = sum(A .* B)
