@@ -56,4 +56,7 @@ module TestModularity
   @test Qr(mod) == 0.0
   @test Q(mod) == 0.0
 
+  # Test with no increase
+  mod = modularity(A, smax=3)
+
 end

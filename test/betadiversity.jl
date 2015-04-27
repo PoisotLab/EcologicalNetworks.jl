@@ -6,6 +6,10 @@ module TestBetaDiv
 
   @test_throws BoundsError betadiversity(eye(4), eye(5))
 
+  # Sum for custom ProbaSet test
+
+  @test sum(ProbabilisticNetwork.BetaSet(0.0, 0.0, 0.0)) == 0.0
+
   # Equal matrices
 
   S = betadiversity(eye(10), eye(10))
@@ -29,8 +33,5 @@ module TestBetaDiv
   @test_approx_eq sorensen(S) 0.6408602150537633
 
   # TODO Find examples where the expected value is simple
-
-  # TODO Show that it works in the 0.0/1.0 version too (although the test with
-  # eye does that)
 
 end
