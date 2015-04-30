@@ -42,4 +42,21 @@ module TestModularity
   A = eye(Float64, 3)
   @test_approx_eq modularity(A).Q 15/36
 
+  # Tests with a single module
+  A = eye(2)
+  mod = modularity(A)
+  mod.L = vec([1 1])
+  @test Qr(mod) == 0.0
+  @test Q(mod) == 0.0
+
+  # Test with a complete graph
+  A = ones(Float64, (3, 3))
+  mod = modularity(A)
+  @test length(unique(mod.L)) == 1
+  @test Qr(mod) == 0.0
+  @test Q(mod) == 0.0
+
+  # Test with no increase
+  mod = modularity(A, smax=3, verbose=true)
+
 end

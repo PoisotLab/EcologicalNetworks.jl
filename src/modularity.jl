@@ -158,5 +158,6 @@ function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0, verbos
       info(string("Modularity run $trial of $replicates -- Q=", best_partition.Q))
     end
   end
+  Q(best_partition)
   return best_partition
 end

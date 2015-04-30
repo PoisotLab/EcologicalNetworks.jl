@@ -1,0 +1,14 @@
+site_name:           ProbabilisticNetwork.jl
+repo_url:            https://github.com/PoisotLab/ProbabilisticNetwork.jl
+site_description:    Analysis of probabilistic ecological networks.
+site_author:         Timothée Poisot
+theme:               readthedocs
+markdown_extensions: [tables, fenced_code]
+pages:
+  - ['index.md', 'User guide']
+  - ['install.md', 'User guide', 'Installation']
+  - ['fsteps.md', 'User guide', 'Getting started']
+  - ['wrap.md', 'User guide', 'Wrappers']
+  - ['usecases.md', 'User guide', 'Use cases']
+  - ['api.md', 'Developer guide', 'API reference']
+  - ['contr.md', 'Developer guide', 'Contribution guide']
