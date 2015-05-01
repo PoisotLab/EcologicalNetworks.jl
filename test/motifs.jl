@@ -21,4 +21,11 @@ module TestMotifs
   @test motif(B, B) == 1.0
   @test motif_var(B, B) == 0.0
 
+  # Test with some variation
+  ovl = [0.0 1.0 1.0; 0.0 0.0 1.0; 0.0 0.0 0.0]
+  A = [0.0 1.0 0.8; 0.0 0.0 1.0; 0.0 0.0 0.0]
+  @test_approx_eq motif(A, ovl) 0.8
+  fchain = [0.0 1.0 0.0; 0.0 0.0 1.0; 0.0 0.0 0.0]
+  @test_approx_eq motif(A, fchain) 0.2
+
 end

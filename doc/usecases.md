@@ -78,3 +78,29 @@ equal to 0.
 The modularity functions work on a type called `Partition`, which has three
 attributes: `A` is the probability matrix, `L` is an array of (`Int64`) module
 IDs, and `Q` is Barber's modularity of the partition.
+
+# Motif enumeration
+
+Motifs can be specified by their adjacency matrix. For example, an omnivory loop
+(A eats B and C, B eats C), is
+
+``` julia
+ovl = [0.0 1.0 1.0; 0.0 0.0 1.0; 0.0 0.0 0.0]
+```
+
+We can then count how many times this motif appears within itself:
+
+``` julia
+motif(ovl, ovl) # This will return 1
+```
+
+If we design a simple network in which A eats C only 80% of the time, we can
+compare the number of times we expect to see an omnivory loop as opposed to a
+single linear food chain:
+
+``` julia
+A = [0.0 1.0 0.8; 0.0 0.0 1.0; 0.0 0.0 0.0]
+motif(A, ovl) # This will return 0.8
+fchain = [0.0 1.0 0.0; 0.0 0.0 1.0; 0.0 0.0 0.0]
+motif(A, fchain) # This will return 0.2
+```

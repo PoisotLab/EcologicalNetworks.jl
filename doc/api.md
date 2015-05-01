@@ -123,6 +123,20 @@ the matrix.
 
 ---
 
+### count_motifs(A::Array{Float64, 2}, m::Array{Float64, 2})
+ Motif counter
+
+This function will go through all k-permutations of `A` to measure the
+probability of each induced subgraph being an instance of the motif given by
+`m` (the square adjacency matrix of the motif, with 0 and 1).
+
+
+
+*source:*
+[ProbabilisticNetwork/src/./motifs.jl:37](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./motifs.jl)
+
+---
+
 ### degree(A::Array{Float64, 2})
  Expected degree
 
@@ -304,6 +318,14 @@ Note that this function returns an asymetric unipartite network.
 
 ---
 
+### motif(A::Array{Float64, 2}, m::Array{Float64, 2})
+ Expected number of a given motif 
+
+*source:*
+[ProbabilisticNetwork/src/./motifs.jl:53](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./motifs.jl)
+
+---
+
 ### motif_p(A::Array{Float64, 2}, m::Array{Float64, 2})
  Probability that a group of species form a given motif 
 
@@ -317,6 +339,14 @@ Note that this function returns an asymetric unipartite network.
 
 *source:*
 [ProbabilisticNetwork/src/./motifs.jl:26](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./motifs.jl)
+
+---
+
+### motif_var(A::Array{Float64, 2}, m::Array{Float64, 2})
+ Expected variance of a given motif 
+
+*source:*
+[ProbabilisticNetwork/src/./motifs.jl:58](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./motifs.jl)
 
 ---
 
