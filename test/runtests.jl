@@ -15,7 +15,8 @@ my_tests = [
   "free_species.jl",
   "paths.jl",
   "modularity.jl",
-  "betadiversity.jl"]
+  "betadiversity.jl",
+  "motifs.jl"]
 
 for my_test in my_tests
   try
