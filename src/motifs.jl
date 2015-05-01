@@ -46,8 +46,14 @@ function count_motifs(A::Array{Float64, 2}, m::Array{Float64, 2})
   # The motif must be no larger than A
   @assert nmax >= nmot
   # Define the sets
-  output = map((y) -> vec(map((x) -> motif_p(A[vec(x), vec(x)], m), permutations(y))), combinations(1:nmax, nmot))[1]
-  return output
+  single_probas = Float64[]
+  for c in combinations(1:nmax, nmot)
+    for p in permutations(c)
+      #= FIXME Growing the array is slow, do some algebra you idiot =#
+      push!(single_probas, motif_p(A[vec(p), vec(p)], m))
+    end
+  end
+  return single_probas
 end
 
 @doc """ Expected number of a given motif """ ->
