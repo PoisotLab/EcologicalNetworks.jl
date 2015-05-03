@@ -5,13 +5,12 @@ JEXEC=julia
 ALL: test doc clean
 
 test: src/*jl test/*jl
-	# $(JEXEC) --code-coverage ./test/runtests.jl
-	cd test; $(JEXEC) --code-coverage -e 'include("runtests.jl")'
+	$(JEXEC) --code-coverage -e 'Pkg.test(pwd(), coverage=true)'
 
 clean:
 	- rm src/*.cov
 
-doc: src/*jl
+doc: src/*jl CONTRIBUTING.md
 	cp README.md doc/index.md
 	cp CONTRIBUTING.md doc/contr.md
 	$(JEXEC) ./test/makedoc.jl
