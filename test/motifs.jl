@@ -28,4 +28,19 @@ module TestMotifs
   fchain = [0.0 1.0 0.0; 0.0 0.0 1.0; 0.0 0.0 0.0]
   @test_approx_eq motif(A, fchain) 0.2
 
+  # Test of the simplest situation: two nodes, ten random matrices
+  for i in 1:10
+    A = rand((2, 2))
+    possible_motifs = {
+      [0 1; 0 0], [1 0; 0 0], [0 0; 1 0], [0 0; 0 1],
+      [1 1; 0 0], [1 0; 0 1], [1 0; 1 0],
+      [0 1; 1 0], [0 1; 0 1],
+      [0 0; 1 1],
+      [0 1; 1 1], [1 0; 1 1], [1 1; 1 0], [1 1; 0 1],
+      [0 0; 0 0], [1 1; 1 1]
+    }
+    all_probas = map((x) -> motif_p(A, float(x)), possible_motifs)
+    @test_approx_eq sum(all_probas) 1.0
+  end
+
 end
