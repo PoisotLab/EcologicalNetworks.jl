@@ -5,7 +5,8 @@ JEXEC=julia
 ALL: test doc clean
 
 test: src/*jl test/*jl
-	$(JEXEC) --code-coverage ./test/runtests.jl
+	# $(JEXEC) --code-coverage ./test/runtests.jl
+	cd test; $(JEXEC) --code-coverage -e 'include("runtests.jl")'
 
 clean:
 	- rm src/*.cov
