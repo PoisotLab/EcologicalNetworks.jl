@@ -1,2 +1,2 @@
 *.cov
-
+coverage/coverage.json
