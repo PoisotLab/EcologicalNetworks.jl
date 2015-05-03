@@ -8,7 +8,7 @@ right state for the motif, *i.e.* P if m is 1, and 1 - P if m is 0.
 """ ->
 function motif_internal(A::Array{Float64, 2}, m::Array{Float64, 2})
   # The motif structure can only be 0 or 1
-  @assert sort(unique(m)) == vec([0.0 1.0])
+  @assert sort(unique(m)) == vec([0.0 1.0]) | unique(m) == 0.0 | unique(m) == 1.0
   # The motif structure must have the same size than the partial adjacency matrix
   @assert size(A) == size(m)
   # Change the motif structure into a multiplication structure
