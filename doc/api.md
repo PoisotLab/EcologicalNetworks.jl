@@ -123,6 +123,20 @@ the matrix.
 
 ---
 
+### count_motifs(A::Array{Float64, 2}, m::Array{Float64, 2})
+ Motif counter
+
+This function will go through all k-permutations of `A` to measure the
+probability of each induced subgraph being an instance of the motif given by
+`m` (the square adjacency matrix of the motif, with 0 and 1).
+
+
+
+*source:*
+[ProbabilisticNetwork/src/./motifs.jl:37](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./motifs.jl)
+
+---
+
 ### degree(A::Array{Float64, 2})
  Expected degree
 
@@ -168,7 +182,7 @@ the unipartite situation is more general.
  Gaston measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:72](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:71](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -176,7 +190,7 @@ the unipartite situation is more general.
  Harrison measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:97](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:96](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -184,7 +198,7 @@ the unipartite situation is more general.
  Harte-Kinzig measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:92](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:91](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -214,7 +228,7 @@ f(p): p(1-p)
  Jaccard measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:67](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:66](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -222,7 +236,7 @@ f(p): p(1-p)
  Lande measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:82](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:81](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -301,6 +315,38 @@ Note that this function returns an asymetric unipartite network.
 
 *source:*
 [ProbabilisticNetwork/src/./matrix_utils.jl:7](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./matrix_utils.jl)
+
+---
+
+### motif(A::Array{Float64, 2}, m::Array{Float64, 2})
+ Expected number of a given motif 
+
+*source:*
+[ProbabilisticNetwork/src/./motifs.jl:53](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./motifs.jl)
+
+---
+
+### motif_p(A::Array{Float64, 2}, m::Array{Float64, 2})
+ Probability that a group of species form a given motif 
+
+*source:*
+[ProbabilisticNetwork/src/./motifs.jl:21](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./motifs.jl)
+
+---
+
+### motif_v(A::Array{Float64, 2}, m::Array{Float64, 2})
+ Variance that a group of species form a given motif 
+
+*source:*
+[ProbabilisticNetwork/src/./motifs.jl:26](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./motifs.jl)
+
+---
+
+### motif_var(A::Array{Float64, 2}, m::Array{Float64, 2})
+ Expected variance of a given motif 
+
+*source:*
+[ProbabilisticNetwork/src/./motifs.jl:58](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./motifs.jl)
 
 ---
 
@@ -445,7 +491,7 @@ to get to a good partition. This method is also untested.
  Ruggiero measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:87](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:86](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -453,7 +499,7 @@ to get to a good partition. This method is also untested.
  Sorensen measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:62](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:61](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -491,7 +537,7 @@ networks.
  Whittaker measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:57](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:56](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -499,7 +545,7 @@ networks.
  Williams measure of beta-diversity 
 
 *source:*
-[ProbabilisticNetwork/src/./betadiversity.jl:77](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
+[ProbabilisticNetwork/src/./betadiversity.jl:76](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./betadiversity.jl)
 
 ---
 
@@ -518,6 +564,21 @@ This type has three elements:
 [ProbabilisticNetwork/src/./modularity.jl:13](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./modularity.jl)
 
 ## Internal
+---
+
+### motif_internal(A::Array{Float64, 2}, m::Array{Float64, 2})
+ Internal motif calculations
+
+The two arguments are `A` the adjacency matrix (probabilistic) and `m` the motif
+adjacency matrix (0.0 or 1.0 only). The two matrices must have the same size.
+The function returns a *vectorized* probability of each interaction being in the
+right state for the motif, *i.e.* P if m is 1, and 1 - P if m is 0.
+
+
+
+*source:*
+[ProbabilisticNetwork/src/./motifs.jl:8](file:///home/tpoisot/.julia/v0.3/ProbabilisticNetwork/src/./motifs.jl)
+
 ---
 
 ### BetaSet

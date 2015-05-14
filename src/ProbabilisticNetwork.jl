@@ -55,7 +55,10 @@ export nestedness, nestedness_axis,
   betadiversity,
   whittaker, sorensen, jaccard, gaston,
   williams, lande, ruggiero, hartekinzig,
-  harrison
+  harrison,
+
+  # Motifs
+  motif_p, motif_v, count_motifs, motif, motif_var
 
 @docstrings
 @document
@@ -72,5 +75,6 @@ include(joinpath(".", "draw.jl"))
 include(joinpath(".", "modularity.jl"))
 include(joinpath(".", "paths.jl"))
 include(joinpath(".", "betadiversity.jl"))
+include(joinpath(".", "motifs.jl"))
 
 end
