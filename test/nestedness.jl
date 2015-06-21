@@ -12,5 +12,6 @@ module TestNestedness
     @test_approx_eq nestedness(A)[1] 0.0
     @test_approx_eq nestedness(B)[1] 1.0
     @test_approx_eq nestedness(C)[1] 0.9153846153846155
+    @test_approx_eq nestedness(D)[1] 1.0
 
 end
