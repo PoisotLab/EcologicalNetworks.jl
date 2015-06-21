@@ -57,6 +57,6 @@ module TestModularity
   @test Q(mod) == 0.0
 
   # Test with no increase
-  mod = modularity(A, smax=3, verbose=true)
+  mod = modularity(A, smax=3, replicates=2, verbose=true)
 
 end
