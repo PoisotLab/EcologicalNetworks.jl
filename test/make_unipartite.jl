@@ -1,6 +1,6 @@
 module TestMakeUnipartite
   using Base.Test
-  using ProbabilisticNetwork
+  using EcologicalNetwork
 
   # Generate some data
 

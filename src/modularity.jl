@@ -12,9 +12,9 @@ This type has three elements:
 
 """ ->
 type Partition
-  A::Array{Float64, 2}
-  L::Array{Int64, 1}
-  Q::Float64
+    A::Array{Float64, 2}
+    L::Array{Int64, 1}
+    Q::Float64
 end
 
 #=

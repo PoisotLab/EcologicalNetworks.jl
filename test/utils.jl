@@ -1,13 +1,13 @@
 module TestUtilities
   using Base.Test
-  using ProbabilisticNetwork
+  using EcologicalNetwork
 
   # Probabilities must be floating point
-  @test_throws TypeError ProbabilisticNetwork.@checkprob 1
+  @test_throws TypeError EcologicalNetwork.@checkprob 1
 
   # Probabilities must be in 0-1
-  @test_throws DomainError ProbabilisticNetwork.@checkprob -0.2
-  @test_throws DomainError ProbabilisticNetwork.@checkprob 1.2
+  @test_throws DomainError EcologicalNetwork.@checkprob -0.2
+  @test_throws DomainError EcologicalNetwork.@checkprob 1.2
 
   # Function to make thresholded or binary networks
   A = [0.2 0.05; 1.0 0.0]

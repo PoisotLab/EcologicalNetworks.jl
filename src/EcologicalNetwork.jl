@@ -1,4 +1,4 @@
-module ProbabilisticNetwork
+module EcologicalNetwork
 
 # Dependencies
 using StatsBase

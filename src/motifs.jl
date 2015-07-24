@@ -36,24 +36,24 @@ probability of each induced subgraph being an instance of the motif given by
 
 """ ->
 function count_motifs(A::Array{Float64, 2}, m::Array{Float64, 2})
-  # Both should be square matrices -- this makes my life easier
-  @assert size(A)[1] == size(A)[2]
-  @assert size(m)[1] == size(m)[2]
-  # How many nodes in the graph?
-  nmax = size(A)[1]
-  # How many nodes in the motif?
-  nmot = size(m)[1]
-  # The motif must be no larger than A
-  @assert nmax >= nmot
-  # Define the sets
-  single_probas = Float64[]
-  for c in combinations(1:nmax, nmot)
-    for p in permutations(c)
-      #= FIXME Growing the array is slow, do some algebra you idiot =#
-      push!(single_probas, motif_p(A[vec(p), vec(p)], m))
-    end
-  end
-  return single_probas
+   # Both should be square matrices -- this makes my life easier
+   @assert size(A)[1] == size(A)[2]
+   @assert size(m)[1] == size(m)[2]
+   # How many nodes in the graph?
+   nmax = size(A)[1]
+   # How many nodes in the motif?
+   nmot = size(m)[1]
+   # The motif must be no larger than A
+   @assert nmax >= nmot
+   # Define the sets
+   single_probas = Float64[]
+   for c in combinations(1:nmax, nmot)
+      for p in permutations(c)
+         #= FIXME Growing the array is slow, do some algebra you idiot =#
+         push!(single_probas, motif_p(A[vec(p), vec(p)], m))
+      end
+   end
+   return single_probas
 end
 
 @doc """ Expected number of a given motif """ ->

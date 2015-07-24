@@ -1,6 +1,6 @@
 module TestModularity
   using Base.Test
-  using ProbabilisticNetwork
+  using EcologicalNetwork
 
   # Example network 1
   A = [0.0 1.0 1.0 0.0 0.0 0.0;
@@ -57,6 +57,6 @@ module TestModularity
   @test Q(mod) == 0.0
 
   # Test with no increase
-  mod = modularity(A, smax=3, verbose=true)
+  mod = modularity(A, smax=3, replicates=2, verbose=true)
 
 end

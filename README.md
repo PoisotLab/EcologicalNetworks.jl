@@ -1,10 +1,11 @@
-# Probabilistic Networks (for ecology)
+# Ecological Networks structure measures
 
 This `Julia` module implements a set of measures and utilities to work on
-probabilistic ecological networks.
+ecological networks, with an emphasis on probabilistic ones.
 
-[![Build Status](https://travis-ci.org/PoisotLab/ProbabilisticNetwork.jl.svg?branch=master)](https://travis-ci.org/PoisotLab/ProbabilisticNetwork.jl)
-[![Coverage Status](https://coveralls.io/repos/PoisotLab/ProbabilisticNetwork.jl/badge.svg)](https://coveralls.io/r/PoisotLab/ProbabilisticNetwork.jl)
+[![Build Status](https://travis-ci.org/PoisotLab/EcologicalNetwork.jl.svg?branch=master)](https://travis-ci.org/PoisotLab/EcologicalNetwork.jl)
+[![Coverage Status](https://coveralls.io/repos/PoisotLab/EcologicalNetwork.jl/badge.svg)](https://coveralls.io/r/PoisotLab/EcologicalNetwork.jl)
+[![codecov.io](http://codecov.io/github/PoisotLab/EcologicalNetwork.jl/coverage.svg?branch=master)](http://codecov.io/github/PoisotLab/EcologicalNetwork.jl?branch=master)
 [![DOI](https://zenodo.org/badge/doi/10.5281/zenodo.16578.svg)](http://dx.doi.org/10.5281/zenodo.16578)
 [![Documentation Status](https://readthedocs.org/projects/probabilisticnetworkjl/badge/?version=latest)](http://probabilisticnetworkjl.readthedocs.org/en/latest/)
 

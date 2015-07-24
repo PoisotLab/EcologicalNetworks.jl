@@ -1,6 +1,6 @@
 module TestBetaDiv
   using Base.Test
-  using ProbabilisticNetwork
+  using EcologicalNetwork
 
   # Matrices of unequal sizes
 
@@ -8,7 +8,7 @@ module TestBetaDiv
 
   # Sum for custom ProbaSet test
 
-  @test sum(ProbabilisticNetwork.BetaSet(0.0, 0.0, 0.0)) == 0.0
+  @test sum(EcologicalNetwork.BetaSet(0.0, 0.0, 0.0)) == 0.0
 
   # Equal matrices
 
@@ -33,9 +33,9 @@ module TestBetaDiv
   @test_approx_eq sorensen(S) 0.6408602150537633
 
   # Examples using simple sets
-  set_s = ProbabilisticNetwork.BetaSet(2.0, 0.0, 0.0)
-  set_d = ProbabilisticNetwork.BetaSet(0.0, 1.0, 1.0)
-  set_e = ProbabilisticNetwork.BetaSet(1.0, 1.0, 1.0)
+  set_s = EcologicalNetwork.BetaSet(2.0, 0.0, 0.0)
+  set_d = EcologicalNetwork.BetaSet(0.0, 1.0, 1.0)
+  set_e = EcologicalNetwork.BetaSet(1.0, 1.0, 1.0)
 
   # Whittaker
   @test_approx_eq whittaker(set_s) 0.0

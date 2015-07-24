@@ -36,3 +36,5 @@ nest = map(x -> nestedness(x)[1], M)
 ```
 
 # Modularity
+
+*Coming soon*.

@@ -1,6 +1,3 @@
-#=
-Number of paths
-=#
 @doc """ Measures the expected number of paths in a probabilistic network
 
 **Keyword arguments**
