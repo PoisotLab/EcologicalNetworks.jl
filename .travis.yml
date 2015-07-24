@@ -3,6 +3,8 @@ sudo: false
 julia:
   - release
   - nightly
+before_install:
+  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
 script:
   - julia -e 'versioninfo(); Pkg.init(); Pkg.clone(pwd()); Pkg.build("EcologicalNetwork")'
   - julia --code-coverage test/runtests.jl
