@@ -4,10 +4,9 @@ julia:
   - release
   - nightly
 script:
-  - julia -e 'versioninfo(); Pkg.init(); Pkg.clone(pwd())'
+  - julia -e 'versioninfo(); Pkg.init(); Pkg.clone(pwd()); Pkg.build("EcologicalNetwork")'
   - julia --code-coverage test/runtests.jl
 after_success:
-  - julia -e 'cd(Pkg.dir("EcologicalNetwork")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
-  - julia -e 'cd(Pkg.dir("EcologicalNetwork")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
+  - julia -e 'cd(Pkg.dir("EcologicalNetwork")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder()); Codecov.submit(Codecov.process_folder())'
 notifications:
   slack: poisotlab:vZrPMJvEwUSgXFBzstIvhRnX
