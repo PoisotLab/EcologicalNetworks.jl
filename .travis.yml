@@ -3,8 +3,6 @@ sudo: false
 julia:
   - release
   - nightly
-before_install:
-  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.test("EcologicalNetwork"; coverage=true)'
