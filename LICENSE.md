@@ -1,4 +1,4 @@
-The ProbabilisticNetwork.jl package is licensed under the MIT "Expat" License:
+The EcologicalNetwork.jl package is licensed under the MIT "Expat" License:
 
 > Copyright (c) 2014: Timothée Poisot.
 >

@@ -1,6 +1,6 @@
 module TestMotifs
   using Base.Test
-  using ProbabilisticNetwork
+  using EcologicalNetwork
 
   # Test with a single link
   A = [0.2 0.8; 0.2 0.1]

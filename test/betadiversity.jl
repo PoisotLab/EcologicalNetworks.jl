@@ -1,6 +1,6 @@
 module TestBetaDiv
   using Base.Test
-  using ProbabilisticNetwork
+  using EcologicalNetwork
 
   # Matrices of unequal sizes
 

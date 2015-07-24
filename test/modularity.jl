@@ -1,6 +1,6 @@
 module TestModularity
   using Base.Test
-  using ProbabilisticNetwork
+  using EcologicalNetwork
 
   # Example network 1
   A = [0.0 1.0 1.0 0.0 0.0 0.0;

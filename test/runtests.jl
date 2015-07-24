@@ -1,4 +1,4 @@
-using ProbabilisticNetwork
+using EcologicalNetwork
 using Base.Test
 
 anyerrors = false

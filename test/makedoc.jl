@@ -1,5 +1,5 @@
-using ProbabilisticNetwork
+using EcologicalNetwork
 using Docile
 using Lexicon
 
-save("./doc/api.md", ProbabilisticNetwork)
+save("./doc/api.md", EcologicalNetwork)
