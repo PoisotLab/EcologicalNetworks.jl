@@ -1,6 +1,6 @@
 JEXEC=julia
 
-.PHONY: clean CONTRIBUTING.md ALL
+.PHONY: clean ALL
 
 ALL: test doc clean
 

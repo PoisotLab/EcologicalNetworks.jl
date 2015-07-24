@@ -10,4 +10,5 @@ module TestMakeUnipartite
 
   @test M[3,1] == 0.0
   @test M[1,4] == 1.0
+
 end

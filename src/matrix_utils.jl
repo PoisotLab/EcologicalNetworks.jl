@@ -1,6 +1,3 @@
-#=
-Makes a bipartite network unipartite
-=#
 @doc """Transforms a bipartite network into a unipartite network
 
 Note that this function returns an asymetric unipartite network.
