@@ -1,13 +1,14 @@
 language: julia
 sudo: false
+os:
+  - linux
+  - osx
 julia:
   - release
   - nightly
-before_install:
-  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.test("EcologicalNetwork"; coverage=true)'
+  - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.build("EcologicalNetwork"); Pkg.test("EcologicalNetwork"; coverage=true)'
 after_success:
   - julia -e 'cd(Pkg.dir("EcologicalNetwork")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
   - julia -e 'cd(Pkg.dir("EcologicalNetwork")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
