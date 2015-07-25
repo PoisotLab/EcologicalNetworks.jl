@@ -4,19 +4,7 @@ module EcologicalNetwork
 using StatsBase
 using Cairo
 
-# Documentation
-using Docile
-#= XXX
-This fugly piece of code checks if Base has a @doc macro (which means we are
-working on 0.4), and if not, defaults back to the one provided by Docile. In a
-perfect world, this will be a very short-lived block.
-=#
-try
-  import Base.@doc
-catch
-  import Docile.@doc
-end
-using Lexicon
+VERSION < v"0.4-dev" && import Lexicon
 
 export nestedness, nestedness_axis,
 
@@ -59,9 +47,6 @@ export nestedness, nestedness_axis,
 
   # Motifs
   motif_p, motif_v, count_motifs, motif, motif_var
-
-@docstrings
-@document
 
 include(joinpath(".", "centrality.jl"))
 include(joinpath(".", "connectance.jl"))
