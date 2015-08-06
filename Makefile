@@ -9,11 +9,7 @@ test: src/*jl test/*jl
 
 clean:
 	- rm src/*.cov
-
-coverage/coverage.json: test jsoncoverage.py
-	mkdir -p coverage
-	chmod +x jsoncoverage.py
-	./jsoncoverage.py
+	- rm test/network.log
 
 doc: src/*jl CONTRIBUTING.md
 	cp README.md doc/index.md

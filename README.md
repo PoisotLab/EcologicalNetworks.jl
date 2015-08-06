@@ -23,3 +23,8 @@ on [bioRxiv][brxpaper].
 ``` julia
 Pkg.add("EcologicalNetwork")
 ```
+
+## Logging
+
+All outputs are written in the `network.log` file, in the folder from which the
+analysis is started. There is a timestamp included.
