@@ -71,7 +71,7 @@ f(p): ∑(p(1-p))
 
 
 *source:*
-[EcologicalNetwork/src/proba_utils.jl:64](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
+[EcologicalNetwork/src/proba_utils.jl:65](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
 
 ---
 
@@ -232,7 +232,7 @@ Simply f(p): p
 
 
 *source:*
-[EcologicalNetwork/src/proba_utils.jl:38](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
+[EcologicalNetwork/src/proba_utils.jl:39](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
 
 ---
 
@@ -244,7 +244,7 @@ f(p): p(1-p)
 
 
 *source:*
-[EcologicalNetwork/src/proba_utils.jl:51](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
+[EcologicalNetwork/src/proba_utils.jl:52](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
 
 ---
 
@@ -292,7 +292,7 @@ Variance of a series of multiplicative Bernoulli events
 
 
 *source:*
-[EcologicalNetwork/src/proba_utils.jl:73](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
+[EcologicalNetwork/src/proba_utils.jl:74](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
 
 ---
 
@@ -351,6 +351,34 @@ Note that this function returns an asymetric unipartite network.
 
 ---
 
+<a id="method__modularity.1" class="lexicon_definition"></a>
+#### modularity(A::Array{Float64, 2}) [¶](#method__modularity.1)
+
+
+This function is a wrapper for the modularity code. The number of replicates is
+the number of times the modularity optimization should be run.
+
+Non-keywords arguments:
+
+1. `A`, probability matrix
+
+Keywords arguments:
+
+1. `replicates`, defaults to `100`
+1. `kmax`, defaults to twice the matrix size, number of propagations to do
+2. `smax`, maximum number of steps without an increase in modularity before LP stops
+
+**Keep in mind** that this approach has not been thoroughly tested. The
+*measure* of modularity works, but the *optimization routine* is not
+guaranteed to give robust/correct results.
+
+
+
+*source:*
+[EcologicalNetwork/src/modularity.jl:155](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/modularity.jl)
+
+---
+
 <a id="method__motif.1" class="lexicon_definition"></a>
 #### motif(A::Array{Float64, 2}, m::Array{Float64, 2}) [¶](#method__motif.1)
  Expected number of a given motif 
@@ -389,6 +417,7 @@ Note that this function returns an asymetric unipartite network.
 
 <a id="method__nestedness.1" class="lexicon_definition"></a>
 #### nestedness(A::Array{Float64, 2}) [¶](#method__nestedness.1)
+
 Nestedness of a matrix, using the Bastolla et al. (XXXX) measure
 
 Returns three values:
@@ -399,17 +428,18 @@ Returns three values:
 
 
 *source:*
-[EcologicalNetwork/src/nestedness.jl:31](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/nestedness.jl)
+[EcologicalNetwork/src/nestedness.jl:33](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/nestedness.jl)
 
 ---
 
 <a id="method__nestedness_axis.1" class="lexicon_definition"></a>
 #### nestedness_axis(A::Array{Float64, 2}) [¶](#method__nestedness_axis.1)
+
 Nestedness of a single axis (called internally by `nestedness`)
 
 
 *source:*
-[EcologicalNetwork/src/nestedness.jl:3](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/nestedness.jl)
+[EcologicalNetwork/src/nestedness.jl:4](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/nestedness.jl)
 
 ---
 
@@ -535,7 +565,7 @@ to get to a good partition. This method is also untested.
 
 
 *source:*
-[EcologicalNetwork/src/modularity.jl:99](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/modularity.jl)
+[EcologicalNetwork/src/modularity.jl:96](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/modularity.jl)
 
 ---
 
@@ -666,6 +696,7 @@ events, the expected cardinality of each set is not integers.
 
 <a id="macro___checkprob.1" class="lexicon_definition"></a>
 #### @checkprob(p) [¶](#macro___checkprob.1)
+
 Quite crude way of checking that a number is a probability
 
 The two steps are
@@ -676,5 +707,5 @@ The two steps are
 
 
 *source:*
-[EcologicalNetwork/src/proba_utils.jl:16](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
+[EcologicalNetwork/src/proba_utils.jl:17](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
 
