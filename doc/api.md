@@ -6,6 +6,7 @@
 
 <a id="method__q.1" class="lexicon_definition"></a>
 #### Q(A::Array{Float64, 2}, L::Array{Int64, 1}) [¶](#method__q.1)
+
 Q -- a measure of modularity
 
 This measures Barber's bipartite modularity based on a matrix and a list of
@@ -13,12 +14,13 @@ module labels.
 
 
 *source:*
-[EcologicalNetwork/src/./modularity.jl:28](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./modularity.jl)
+[EcologicalNetwork/src/modularity.jl:29](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/modularity.jl)
 
 ---
 
 <a id="method__q.2" class="lexicon_definition"></a>
 #### Q(P::Partition) [¶](#method__q.2)
+
 Q -- a measure of modularity
 
 This measures Barber's bipartite modularity based on a `Partition` object, and
@@ -26,12 +28,13 @@ update the object in the proccess.
 
 
 *source:*
-[EcologicalNetwork/src/./modularity.jl:46](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./modularity.jl)
+[EcologicalNetwork/src/modularity.jl:47](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/modularity.jl)
 
 ---
 
 <a id="method__qr.1" class="lexicon_definition"></a>
 #### Qr(A::Array{Float64, 2}, L::Array{Int64, 1}) [¶](#method__qr.1)
+
 Qr -- a measure of realized modularity
 
 Measures Poisot's realized modularity, based on a  a matrix and a list of module
@@ -43,19 +46,20 @@ partition in which more links are established between than within modules.
 
 
 *source:*
-[EcologicalNetwork/src/./modularity.jl:64](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./modularity.jl)
+[EcologicalNetwork/src/modularity.jl:65](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/modularity.jl)
 
 ---
 
 <a id="method__qr.2" class="lexicon_definition"></a>
 #### Qr(P::Partition) [¶](#method__qr.2)
+
 Qr -- a measure of realized modularity
 
 Measures Poisot's realized modularity, based on a `Partition` object.
 
 
 *source:*
-[EcologicalNetwork/src/./modularity.jl:79](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./modularity.jl)
+[EcologicalNetwork/src/modularity.jl:80](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/modularity.jl)
 
 ---
 
@@ -67,7 +71,7 @@ f(p): ∑(p(1-p))
 
 
 *source:*
-[EcologicalNetwork/src/./proba_utils.jl:63](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./proba_utils.jl)
+[EcologicalNetwork/src/proba_utils.jl:64](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
 
 ---
 
@@ -91,7 +95,7 @@ for presence–absence data. Journal of Animal Ecology, 72: 367–382. doi:
 
 
 *source:*
-[EcologicalNetwork/src/./betadiversity.jl:40](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./betadiversity.jl)
+[EcologicalNetwork/src/betadiversity.jl:41](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/betadiversity.jl)
 
 ---
 
@@ -106,7 +110,7 @@ for presence–absence data. Journal of Animal Ecology, 72: 367–382. doi:
 
 
 *source:*
-[EcologicalNetwork/src/./centrality.jl:10](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./centrality.jl)
+[EcologicalNetwork/src/centrality.jl:11](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/centrality.jl)
 
 ---
 
@@ -117,7 +121,7 @@ of expected links, divided by the size of the matrix.
 
 
 *source:*
-[EcologicalNetwork/src/./connectance.jl:15](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./connectance.jl)
+[EcologicalNetwork/src/connectance.jl:16](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/connectance.jl)
 
 ---
 
@@ -129,7 +133,7 @@ the matrix.
 
 
 *source:*
-[EcologicalNetwork/src/./connectance.jl:23](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./connectance.jl)
+[EcologicalNetwork/src/connectance.jl:24](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/connectance.jl)
 
 ---
 
@@ -144,7 +148,7 @@ probability of each induced subgraph being an instance of the motif given by
 
 
 *source:*
-[EcologicalNetwork/src/./motifs.jl:37](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./motifs.jl)
+[EcologicalNetwork/src/motifs.jl:38](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/motifs.jl)
 
 ---
 
@@ -154,7 +158,7 @@ probability of each induced subgraph being an instance of the motif given by
 
 
 *source:*
-[EcologicalNetwork/src/./degree.jl:14](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./degree.jl)
+[EcologicalNetwork/src/degree.jl:15](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/degree.jl)
 
 ---
 
@@ -164,7 +168,7 @@ probability of each induced subgraph being an instance of the motif given by
 
 
 *source:*
-[EcologicalNetwork/src/./degree.jl:8](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./degree.jl)
+[EcologicalNetwork/src/degree.jl:9](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/degree.jl)
 
 ---
 
@@ -174,7 +178,7 @@ probability of each induced subgraph being an instance of the motif given by
 
 
 *source:*
-[EcologicalNetwork/src/./degree.jl:2](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./degree.jl)
+[EcologicalNetwork/src/degree.jl:3](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/degree.jl)
 
 ---
 
@@ -189,7 +193,7 @@ the unipartite situation is more general.
 
 
 *source:*
-[EcologicalNetwork/src/./free_species.jl:31](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./free_species.jl)
+[EcologicalNetwork/src/free_species.jl:32](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/free_species.jl)
 
 ---
 
@@ -198,7 +202,7 @@ the unipartite situation is more general.
  Gaston measure of beta-diversity 
 
 *source:*
-[EcologicalNetwork/src/./betadiversity.jl:71](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./betadiversity.jl)
+[EcologicalNetwork/src/betadiversity.jl:72](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/betadiversity.jl)
 
 ---
 
@@ -207,7 +211,7 @@ the unipartite situation is more general.
  Harrison measure of beta-diversity 
 
 *source:*
-[EcologicalNetwork/src/./betadiversity.jl:96](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./betadiversity.jl)
+[EcologicalNetwork/src/betadiversity.jl:97](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/betadiversity.jl)
 
 ---
 
@@ -216,7 +220,7 @@ the unipartite situation is more general.
  Harte-Kinzig measure of beta-diversity 
 
 *source:*
-[EcologicalNetwork/src/./betadiversity.jl:91](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./betadiversity.jl)
+[EcologicalNetwork/src/betadiversity.jl:92](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/betadiversity.jl)
 
 ---
 
@@ -228,7 +232,7 @@ Simply f(p): p
 
 
 *source:*
-[EcologicalNetwork/src/./proba_utils.jl:37](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./proba_utils.jl)
+[EcologicalNetwork/src/proba_utils.jl:38](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
 
 ---
 
@@ -240,7 +244,7 @@ f(p): p(1-p)
 
 
 *source:*
-[EcologicalNetwork/src/./proba_utils.jl:50](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./proba_utils.jl)
+[EcologicalNetwork/src/proba_utils.jl:51](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
 
 ---
 
@@ -249,7 +253,7 @@ f(p): p(1-p)
  Jaccard measure of beta-diversity 
 
 *source:*
-[EcologicalNetwork/src/./betadiversity.jl:66](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./betadiversity.jl)
+[EcologicalNetwork/src/betadiversity.jl:67](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/betadiversity.jl)
 
 ---
 
@@ -258,7 +262,7 @@ f(p): p(1-p)
  Lande measure of beta-diversity 
 
 *source:*
-[EcologicalNetwork/src/./betadiversity.jl:81](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./betadiversity.jl)
+[EcologicalNetwork/src/betadiversity.jl:82](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/betadiversity.jl)
 
 ---
 
@@ -268,7 +272,7 @@ f(p): p(1-p)
 
 
 *source:*
-[EcologicalNetwork/src/./connectance.jl:2](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./connectance.jl)
+[EcologicalNetwork/src/connectance.jl:3](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/connectance.jl)
 
 ---
 
@@ -278,7 +282,7 @@ f(p): p(1-p)
 
 
 *source:*
-[EcologicalNetwork/src/./connectance.jl:8](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./connectance.jl)
+[EcologicalNetwork/src/connectance.jl:9](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/connectance.jl)
 
 ---
 
@@ -288,7 +292,7 @@ Variance of a series of multiplicative Bernoulli events
 
 
 *source:*
-[EcologicalNetwork/src/./proba_utils.jl:72](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./proba_utils.jl)
+[EcologicalNetwork/src/proba_utils.jl:73](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
 
 ---
 
@@ -301,7 +305,7 @@ probability A(i,j).
 
 
 *source:*
-[EcologicalNetwork/src/./matrix_utils.jl:19](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./matrix_utils.jl)
+[EcologicalNetwork/src/matrix_utils.jl:20](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/matrix_utils.jl)
 
 ---
 
@@ -314,7 +318,7 @@ A(i,j) is greater than 0.
 
 
 *source:*
-[EcologicalNetwork/src/./matrix_utils.jl:70](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./matrix_utils.jl)
+[EcologicalNetwork/src/matrix_utils.jl:71](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/matrix_utils.jl)
 
 ---
 
@@ -331,7 +335,7 @@ exhaustivity.
 
 
 *source:*
-[EcologicalNetwork/src/./matrix_utils.jl:53](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./matrix_utils.jl)
+[EcologicalNetwork/src/matrix_utils.jl:54](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/matrix_utils.jl)
 
 ---
 
@@ -343,7 +347,7 @@ Note that this function returns an asymetric unipartite network.
 
 
 *source:*
-[EcologicalNetwork/src/./matrix_utils.jl:4](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./matrix_utils.jl)
+[EcologicalNetwork/src/matrix_utils.jl:5](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/matrix_utils.jl)
 
 ---
 
@@ -352,7 +356,7 @@ Note that this function returns an asymetric unipartite network.
  Expected number of a given motif 
 
 *source:*
-[EcologicalNetwork/src/./motifs.jl:59](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./motifs.jl)
+[EcologicalNetwork/src/motifs.jl:60](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/motifs.jl)
 
 ---
 
@@ -361,7 +365,7 @@ Note that this function returns an asymetric unipartite network.
  Probability that a group of species form a given motif 
 
 *source:*
-[EcologicalNetwork/src/./motifs.jl:21](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./motifs.jl)
+[EcologicalNetwork/src/motifs.jl:22](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/motifs.jl)
 
 ---
 
@@ -370,7 +374,7 @@ Note that this function returns an asymetric unipartite network.
  Variance that a group of species form a given motif 
 
 *source:*
-[EcologicalNetwork/src/./motifs.jl:26](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./motifs.jl)
+[EcologicalNetwork/src/motifs.jl:27](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/motifs.jl)
 
 ---
 
@@ -379,7 +383,7 @@ Note that this function returns an asymetric unipartite network.
  Expected variance of a given motif 
 
 *source:*
-[EcologicalNetwork/src/./motifs.jl:64](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./motifs.jl)
+[EcologicalNetwork/src/motifs.jl:65](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/motifs.jl)
 
 ---
 
@@ -395,7 +399,7 @@ Returns three values:
 
 
 *source:*
-[EcologicalNetwork/src/./nestedness.jl:30](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./nestedness.jl)
+[EcologicalNetwork/src/nestedness.jl:31](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/nestedness.jl)
 
 ---
 
@@ -405,7 +409,7 @@ Nestedness of a single axis (called internally by `nestedness`)
 
 
 *source:*
-[EcologicalNetwork/src/./nestedness.jl:2](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./nestedness.jl)
+[EcologicalNetwork/src/nestedness.jl:3](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/nestedness.jl)
 
 ---
 
@@ -418,35 +422,38 @@ matrix is not square.
 
 
 *source:*
-[EcologicalNetwork/src/./matrix_utils.jl:35](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./matrix_utils.jl)
+[EcologicalNetwork/src/matrix_utils.jl:36](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/matrix_utils.jl)
 
 ---
 
 <a id="method__null1.1" class="lexicon_definition"></a>
 #### null1(A::Array{Float64, 2}) [¶](#method__null1.1)
+
 Given a matrix `A`, `null1(A)` returns a matrix with the same dimensions, where
 every interaction happens with a probability equal to the connectance of `A`.
 
 
 *source:*
-[EcologicalNetwork/src/./nullmodels.jl:7](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./nullmodels.jl)
+[EcologicalNetwork/src/nullmodels.jl:8](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/nullmodels.jl)
 
 ---
 
 <a id="method__null2.1" class="lexicon_definition"></a>
 #### null2(A::Array{Float64, 2}) [¶](#method__null2.1)
+
 Given a matrix `A`, `null2(A)` returns a matrix with the same dimensions, where
 every interaction happens with a probability equal to the degree of each
 species.
 
 
 *source:*
-[EcologicalNetwork/src/./nullmodels.jl:46](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./nullmodels.jl)
+[EcologicalNetwork/src/nullmodels.jl:47](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/nullmodels.jl)
 
 ---
 
 <a id="method__null3in.1" class="lexicon_definition"></a>
 #### null3in(A::Array{Float64, 2}) [¶](#method__null3in.1)
+
 Given a matrix `A`, `null3in(A)` returns a matrix with the same dimensions,
 where every interaction happens with a probability equal to the in-degree
 (number of predecessors) of each species, divided by the total number of
@@ -454,12 +461,13 @@ possible predecessors.
 
 
 *source:*
-[EcologicalNetwork/src/./nullmodels.jl:34](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./nullmodels.jl)
+[EcologicalNetwork/src/nullmodels.jl:35](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/nullmodels.jl)
 
 ---
 
 <a id="method__null3out.1" class="lexicon_definition"></a>
 #### null3out(A::Array{Float64, 2}) [¶](#method__null3out.1)
+
 Given a matrix `A`, `null3out(A)` returns a matrix with the same dimensions,
 where every interaction happens with a probability equal to the out-degree
 (number of successors) of each species, divided by the total number of possible
@@ -467,7 +475,7 @@ successors.
 
 
 *source:*
-[EcologicalNetwork/src/./nullmodels.jl:20](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./nullmodels.jl)
+[EcologicalNetwork/src/nullmodels.jl:21](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/nullmodels.jl)
 
 ---
 
@@ -493,7 +501,7 @@ routines will be part of a later release.
 
 
 *source:*
-[EcologicalNetwork/src/./nullmodels.jl:78](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./nullmodels.jl)
+[EcologicalNetwork/src/nullmodels.jl:79](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/nullmodels.jl)
 
 ---
 
@@ -507,12 +515,13 @@ routines will be part of a later release.
 
 
 *source:*
-[EcologicalNetwork/src/./paths.jl:6](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./paths.jl)
+[EcologicalNetwork/src/paths.jl:7](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/paths.jl)
 
 ---
 
 <a id="method__propagate_labels.1" class="lexicon_definition"></a>
 #### propagate_labels(A::Array{Float64, 2}, kmax::Int64, smax::Int64) [¶](#method__propagate_labels.1)
+
 A **very** experimental label propagation method for probabilistic networks
 
 This function is a take on the usual LP method for community detection. Instead
@@ -526,7 +535,7 @@ to get to a good partition. This method is also untested.
 
 
 *source:*
-[EcologicalNetwork/src/./modularity.jl:98](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./modularity.jl)
+[EcologicalNetwork/src/modularity.jl:99](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/modularity.jl)
 
 ---
 
@@ -535,7 +544,7 @@ to get to a good partition. This method is also untested.
  Ruggiero measure of beta-diversity 
 
 *source:*
-[EcologicalNetwork/src/./betadiversity.jl:86](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./betadiversity.jl)
+[EcologicalNetwork/src/betadiversity.jl:87](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/betadiversity.jl)
 
 ---
 
@@ -544,7 +553,7 @@ to get to a good partition. This method is also untested.
  Sorensen measure of beta-diversity 
 
 *source:*
-[EcologicalNetwork/src/./betadiversity.jl:61](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./betadiversity.jl)
+[EcologicalNetwork/src/betadiversity.jl:62](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/betadiversity.jl)
 
 ---
 
@@ -553,7 +562,7 @@ to get to a good partition. This method is also untested.
  Probability that a species has no predecessors 
 
 *source:*
-[EcologicalNetwork/src/./free_species.jl:1](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./free_species.jl)
+[EcologicalNetwork/src/free_species.jl:2](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/free_species.jl)
 
 ---
 
@@ -562,7 +571,7 @@ to get to a good partition. This method is also untested.
  Probability that a species has no successors 
 
 *source:*
-[EcologicalNetwork/src/./free_species.jl:7](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./free_species.jl)
+[EcologicalNetwork/src/free_species.jl:8](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/free_species.jl)
 
 ---
 
@@ -577,7 +586,7 @@ networks.
 
 
 *source:*
-[EcologicalNetwork/src/./free_species.jl:19](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./free_species.jl)
+[EcologicalNetwork/src/free_species.jl:20](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/free_species.jl)
 
 ---
 
@@ -586,7 +595,7 @@ networks.
  Whittaker measure of beta-diversity 
 
 *source:*
-[EcologicalNetwork/src/./betadiversity.jl:56](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./betadiversity.jl)
+[EcologicalNetwork/src/betadiversity.jl:57](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/betadiversity.jl)
 
 ---
 
@@ -595,12 +604,13 @@ networks.
  Williams measure of beta-diversity 
 
 *source:*
-[EcologicalNetwork/src/./betadiversity.jl:76](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./betadiversity.jl)
+[EcologicalNetwork/src/betadiversity.jl:77](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/betadiversity.jl)
 
 ---
 
 <a id="type__partition.1" class="lexicon_definition"></a>
 #### Partition [¶](#type__partition.1)
+
 Type to store a community partition
 
 This type has three elements:
@@ -612,7 +622,7 @@ This type has three elements:
 
 
 *source:*
-[EcologicalNetwork/src/./modularity.jl:13](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./modularity.jl)
+[EcologicalNetwork/src/modularity.jl:14](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/modularity.jl)
 
 ## Internal
 
@@ -630,7 +640,7 @@ right state for the motif, *i.e.* P if m is 1, and 1 - P if m is 0.
 
 
 *source:*
-[EcologicalNetwork/src/./motifs.jl:8](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./motifs.jl)
+[EcologicalNetwork/src/motifs.jl:9](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/motifs.jl)
 
 ---
 
@@ -650,7 +660,7 @@ events, the expected cardinality of each set is not integers.
 
 
 *source:*
-[EcologicalNetwork/src/./betadiversity.jl:12](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./betadiversity.jl)
+[EcologicalNetwork/src/betadiversity.jl:13](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/betadiversity.jl)
 
 ---
 
@@ -666,5 +676,5 @@ The two steps are
 
 
 *source:*
-[EcologicalNetwork/src/./proba_utils.jl:15](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/./proba_utils.jl)
+[EcologicalNetwork/src/proba_utils.jl:16](file:///home/tpoisot/.julia/v0.3/EcologicalNetwork/src/proba_utils.jl)
 

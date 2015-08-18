@@ -1,2 +1,4 @@
 *.cov
 coverage/coverage.json
+network.log
+EcologicalNetwork.tar.gz

@@ -139,6 +139,7 @@ end
 Wrapper
 =#
 function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0, verbose=false)
+  #= TODO verbose is not used anymore, remove for next release =#
   # Get parameters
   if kmax == 0
     kmax = 2 * prod(size(A))
@@ -147,7 +148,7 @@ function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0, verbos
   # First trial
   best_partition = propagate_labels(A, kmax, smax)
   if verbose
-    info(string("Modularity run 1 of ", replicates, ": Q=", best_partition.Q))
+    Logging.info(string("Modularity run 1 of ", replicates, ": Q=", best_partition.Q))
   end
   for trial in 2:replicates
     trial_partition = propagate_labels(A, kmax, smax)
@@ -155,7 +156,7 @@ function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0, verbos
       best_partition = trial_partition
     end
     if verbose
-      info(string("Modularity run $trial of $replicates -- Q=", best_partition.Q))
+      Logging.info(string("Modularity run $trial of $replicates -- Q=", best_partition.Q))
     end
   end
   Q(best_partition)

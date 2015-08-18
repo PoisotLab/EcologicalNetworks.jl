@@ -3,6 +3,8 @@ module EcologicalNetwork
 # Dependencies
 using StatsBase
 using Cairo
+using Logging
+Logging.configure(output=open("network.log", "a"))
 
 VERSION < v"0.4-dev" && import Lexicon
 
