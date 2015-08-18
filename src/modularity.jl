@@ -138,8 +138,7 @@ end
 #=
 Wrapper
 =#
-function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0, verbose=false)
-  #= TODO verbose is not used anymore, remove for next release =#
+function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
   # Get parameters
   if kmax == 0
     kmax = 2 * prod(size(A))
