@@ -81,9 +81,6 @@ function Qr(P::Partition)
   return Qr(P.A, P.L)
 end
 
-#=
-Propagate labels edge by edge
-=#
 """
 A **very** experimental label propagation method for probabilistic networks
 
@@ -135,11 +132,33 @@ function propagate_labels(A::Array{Float64, 2}, kmax::Int64, smax::Int64)
   return Partition(A, L, best_Q)
 end
 
-#=
-Wrapper
-=#
-function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
-  # Get parameters
+"""
+
+This function is a wrapper for the modularity code. The number of replicates is
+the number of times the modularity optimization should be run.
+
+Non-keywords arguments:
+
+1. `A`, probability matrix
+
+Keywords arguments:
+
+1. `replicates`, defaults to `100`
+1. `kmax`, defaults to twice the matrix size, number of propagations to do
+2. `smax`, maximum number of steps without an increase in modularity before LP stops
+
+**Keep in mind** that this approach has not been thoroughly tested. The
+*measure* of modularity works, but the *optimization routine* is not
+guaranteed to give robust/correct results.
+
+"""
+function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0, verbose=true)
+  #=
+  Parameters for LP
+
+  By default, 2*s^2 steps are done. This may or may not be sufficient.
+
+  =#
   if kmax == 0
     kmax = 2 * prod(size(A))
     smax = maximum([round(Int64, kmax/5) 1])

@@ -7,7 +7,7 @@ ALL: $(ARCHIVENAME)
 
 $(ARCHIVENAME): test doc clean
 	rm -f $(ARCHIVENAME)
-	tar -zcvf $(ARCHIVENAME) .
+	cd ..; tar -zcvf EcologicalNetwork/$(ARCHIVENAME) EcologicalNetwork
 
 test: src/*jl test/*jl
 	$(JEXEC) --code-coverage -e 'Pkg.test(pwd(), coverage=true)'

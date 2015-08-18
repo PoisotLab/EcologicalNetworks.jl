@@ -5,7 +5,8 @@ and at most 1
 It is called internally by the i_var and i_esp function to make sure that
 the arguments are actually probabilities
 =#
-"""Quite crude way of checking that a number is a probability
+"""
+Quite crude way of checking that a number is a probability
 
 The two steps are
 
