@@ -1,8 +1,13 @@
 JEXEC=julia
+ARCHIVENAME=EcologicalNetwork.tar.gz
 
-.PHONY: clean ALL
+.PHONY: clean
 
-ALL: test doc clean
+ALL: $(ARCHIVENAME)
+
+$(ARCHIVENAME): test doc clean
+	rm -f $(ARCHIVENAME)
+	tar -zcvf $(ARCHIVENAME) .
 
 test: src/*jl test/*jl
 	$(JEXEC) --code-coverage -e 'Pkg.test(pwd(), coverage=true)'

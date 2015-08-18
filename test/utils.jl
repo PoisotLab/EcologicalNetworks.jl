@@ -3,7 +3,7 @@ module TestUtilities
   using EcologicalNetwork
 
   # Probabilities must be floating point
-  @test_throws TypeError EcologicalNetwork.@checkprob 1
+  # @test_throws TypeError EcologicalNetwork.@checkprob 1
 
   # Probabilities must be in 0-1
   @test_throws DomainError EcologicalNetwork.@checkprob -0.2

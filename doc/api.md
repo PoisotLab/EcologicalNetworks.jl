@@ -6,6 +6,7 @@
 
 <a id="method__q.1" class="lexicon_definition"></a>
 #### Q(A::Array{Float64, 2}, L::Array{Int64, 1}) [¶](#method__q.1)
+
 Q -- a measure of modularity
 
 This measures Barber's bipartite modularity based on a matrix and a list of
@@ -19,6 +20,7 @@ module labels.
 
 <a id="method__q.2" class="lexicon_definition"></a>
 #### Q(P::Partition) [¶](#method__q.2)
+
 Q -- a measure of modularity
 
 This measures Barber's bipartite modularity based on a `Partition` object, and
@@ -32,6 +34,7 @@ update the object in the proccess.
 
 <a id="method__qr.1" class="lexicon_definition"></a>
 #### Qr(A::Array{Float64, 2}, L::Array{Int64, 1}) [¶](#method__qr.1)
+
 Qr -- a measure of realized modularity
 
 Measures Poisot's realized modularity, based on a  a matrix and a list of module
@@ -49,6 +52,7 @@ partition in which more links are established between than within modules.
 
 <a id="method__qr.2" class="lexicon_definition"></a>
 #### Qr(P::Partition) [¶](#method__qr.2)
+
 Qr -- a measure of realized modularity
 
 Measures Poisot's realized modularity, based on a `Partition` object.
@@ -424,6 +428,7 @@ matrix is not square.
 
 <a id="method__null1.1" class="lexicon_definition"></a>
 #### null1(A::Array{Float64, 2}) [¶](#method__null1.1)
+
 Given a matrix `A`, `null1(A)` returns a matrix with the same dimensions, where
 every interaction happens with a probability equal to the connectance of `A`.
 
@@ -435,6 +440,7 @@ every interaction happens with a probability equal to the connectance of `A`.
 
 <a id="method__null2.1" class="lexicon_definition"></a>
 #### null2(A::Array{Float64, 2}) [¶](#method__null2.1)
+
 Given a matrix `A`, `null2(A)` returns a matrix with the same dimensions, where
 every interaction happens with a probability equal to the degree of each
 species.
@@ -447,6 +453,7 @@ species.
 
 <a id="method__null3in.1" class="lexicon_definition"></a>
 #### null3in(A::Array{Float64, 2}) [¶](#method__null3in.1)
+
 Given a matrix `A`, `null3in(A)` returns a matrix with the same dimensions,
 where every interaction happens with a probability equal to the in-degree
 (number of predecessors) of each species, divided by the total number of
@@ -460,6 +467,7 @@ possible predecessors.
 
 <a id="method__null3out.1" class="lexicon_definition"></a>
 #### null3out(A::Array{Float64, 2}) [¶](#method__null3out.1)
+
 Given a matrix `A`, `null3out(A)` returns a matrix with the same dimensions,
 where every interaction happens with a probability equal to the out-degree
 (number of successors) of each species, divided by the total number of possible
@@ -513,6 +521,7 @@ routines will be part of a later release.
 
 <a id="method__propagate_labels.1" class="lexicon_definition"></a>
 #### propagate_labels(A::Array{Float64, 2}, kmax::Int64, smax::Int64) [¶](#method__propagate_labels.1)
+
 A **very** experimental label propagation method for probabilistic networks
 
 This function is a take on the usual LP method for community detection. Instead
@@ -601,6 +610,7 @@ networks.
 
 <a id="type__partition.1" class="lexicon_definition"></a>
 #### Partition [¶](#type__partition.1)
+
 Type to store a community partition
 
 This type has three elements:
