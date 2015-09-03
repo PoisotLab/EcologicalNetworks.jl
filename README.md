@@ -9,11 +9,11 @@
 This `Julia` module implements a set of measures and utilities to work on
 ecological networks, with an emphasis on probabilistic ones. The measures
 are **not** designed to work on *quantitative* interaction networks,
-*i.e.* those in which the strength of the interaction is knwown.
+*i.e.* those in which the strength of the interaction is known.
 
-It is companion code to the paper by Poisot et al., currently *under revision*
-for *Methods in Ecology and Evolution*. A preprint of the paper can be accessed
-on [bioRxiv][brxpaper].
+It is companion code to the paper by Poisot et al., accepted for publication in
+*Methods in Ecology and Evolution*. A preprint of the paper can be accessed on
+[bioRxiv][brxpaper].
 
 [brxpaper]: http://biorxiv.org/content/early/2015/03/13/016485
 
