@@ -5,7 +5,6 @@ os:
     #- osx
 julia:
     - 0.5
-    - 0.6
 script:
     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
     - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.build("EcologicalNetwork"); Pkg.test("EcologicalNetwork"; coverage=true)'
