@@ -14,19 +14,18 @@ end
 
 """ Expected degree
 """
-function degree(A::Array{Float64,2})
-  @assert size(A)[1] == size(A)[2]
-  return degree_in(A) .+ degree_out(A)
+function degree(N::Unipartite)
+  return degree_in(N) .+ degree_out(N)
 end
 
-function degree_out_var(A::Array{Float64,2})
-  return mapslices(a_var, A, 2)
+function degree_out_var(N::ProbabilisticNetwork)
+  return mapslices(a_var, N.A, 2)
 end
 
-function degree_in_var(A::Array{Float64,2})
-  return mapslices(a_var, A, 1)'
+function degree_in_var(N::ProbabilisticNetwork)
+  return mapslices(a_var, N.A, 1)'
 end
 
-function degree_var(A::Array{Float64,2})
-  return degree_out_var(A) .+ degree_in_var(A)
+function degree_var(N::UnipartiteProbaNetwork)
+  return degree_out_var(N) .+ degree_in_var(N)
 end
