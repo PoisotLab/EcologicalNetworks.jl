@@ -26,7 +26,7 @@ where every interaction happens with a probability equal to the in-degree
 possible predecessors.
 """
 function null3in(N::DeterministicNetwork)
-  return null3out(A')' # I don't work hard, so I work smart
+    return null3out(A')' # I don't work hard, so I work smart
 end
 
 """
@@ -34,8 +34,11 @@ Given a matrix `A`, `null2(A)` returns a matrix with the same dimensions, where
 every interaction happens with a probability equal to the degree of each
 species.
 """
-function null2(A::Array{Float64, 2})
-  return (null3in(A) .+ null3out(A))./2.0
+function null2(N::DeterministicNetwork)
+    itype = typeof(N) <: Bipartite ? BipartiteProbaNetwork : UnipartiteProbaNetwork
+    # NOTE This is of course not ideal, in that I'd rather have additions for
+    # network types, but that will do for now
+    return itype((null3in(N).A .+ null3out(N).A)./2.0)
 end
 
 #=
