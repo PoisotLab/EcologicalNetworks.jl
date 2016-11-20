@@ -1,4 +1,5 @@
-"""Transforms a bipartite network into a unipartite network
+"""
+Transforms a bipartite network into a unipartite network
 
 Note that this function returns an asymetric unipartite network.
 """
@@ -8,7 +9,7 @@ function make_unipartite(B::Bipartite)
     S = richness(B)
 
     # Get the correct inner (int.) and outer (net.) types
-    itype, otype = typeof(B) == BipartiteNetwork ? (Int64, BipartiteNetwork) : (Float64, BipartiteProbaNetwork)
+    itype, otype = typeof(B) == BipartiteNetwork ? (Bool, BipartiteNetwork) : (Float64, BipartiteProbaNetwork)
 
     # Build the unipartite network template
     U = zeros(itype, (S,S))
@@ -20,27 +21,29 @@ function make_unipartite(B::Bipartite)
     return otype(U)
 end
 
-"""Generate a random 0/1 matrix from probabilities
+"""
+Generate a random 0/1 matrix from probabilities
 
-Returns a matrix B of the same size as A, in which each element B(i,j) is 1 with
-probability A(i,j).
+Returns a matrix B of the same size as A, in which each element B(i,j)
+is 1 with probability A(i,j).
 """
 function make_bernoulli(A::Array{Float64,2})
     return map(Float64, rand(size(A)) .<= A)
 end
 
-#=
-Sets the diagonal to 0
-=#
-"""Sets the diagonal to 0
-
-Returns a copy of the matrix A, with  the diagonal set to 0. Will fail if the
-matrix is not square.
 """
-function nodiag(A::Array{Float64,2})
-  # The diagonal is only relevant for square matrices
-  @assert size(A)[1] == size(A)[2]
-  return A .* (1.0 .- eye(Float64, size(A)[1]))
+Sets the diagonal to 0
+
+Returns a copy of the matrix A, with  the diagonal set to 0. Will fail if
+the matrix is not square.
+"""
+function nodiag(N::Unipartite)
+
+    # Get the type of the internal elements according to the network type
+    itype = typeof(N) == UnipartiteNetwork ? Bool : Float64
+
+    # Return a copy of the network with the same type
+    return typeof(N)(N.A .* (one(itype) .- eye(itype, size(N)[1])))
 end
 
 #=
