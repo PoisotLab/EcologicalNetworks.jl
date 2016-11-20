@@ -2,16 +2,24 @@
 
 Note that this function returns an asymetric unipartite network.
 """
-function make_unipartite(A::Array{Float64,2})
-  S = sum(size(A))
-  B = zeros(Float64,(S,S))
-  B[1:size(A)[1],size(A)[1]+1:S] = A
-  return B
+function make_unipartite(B::Bipartite)
+
+    # Get the richness of the total network
+    S = richness(B)
+
+    # Get the correct inner (int.) and outer (net.) types
+    itype, otype = typeof(B) == BipartiteNetwork ? (Int64, BipartiteNetwork) : (Float64, BipartiteProbaNetwork)
+
+    # Build the unipartite network template
+    U = zeros(itype, (S,S))
+
+    # Modify it by adding the correct values
+    U[1:size(A)[1],size(A)[1]+1:S] = B.A
+
+    # Retun the object
+    return otype(U)
 end
 
-#=
-Generates a random binary matrix based on a probabilistic one
-=#
 """Generate a random 0/1 matrix from probabilities
 
 Returns a matrix B of the same size as A, in which each element B(i,j) is 1 with
