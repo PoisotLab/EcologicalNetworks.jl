@@ -96,7 +96,7 @@ function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
             if idx > n
               break
             end
-            B = remotecall_fetch(p, make_bernoulli, A)
+            B = remotecall_fetch(make_bernoulli, p, A)
             if free_species(B) == 0
               push!(b, B)
             end
