@@ -17,4 +17,11 @@ module TestConnectance
     @test_eq connectance(N) 5/9
     @test_eq linkage_density(N) 5/6
 
+    # Once more with a deterministic unipartite network
+    N = UnipartiteNetwork([0 1 0; 0 0 1; 1 1 1])
+
+    @test_eq links(N) 5
+    @test_eq connectance(N) 5/9
+    @test_eq linkage_density(N) 5/3
+
 end
