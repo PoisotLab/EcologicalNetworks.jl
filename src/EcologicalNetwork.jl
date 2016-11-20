@@ -29,6 +29,7 @@ export EcoNetwork,
 
     # Links and connectances
     links, links_var, connectance, connectance_var,
+    linkage_density,
 
     # Measures of degree
     degree_out, degree_in, degree_out_var, degree_in_var, degree, degree_var,
