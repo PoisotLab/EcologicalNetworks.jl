@@ -1,44 +1,34 @@
-#=
-Type I
-=#
 """
 Given a matrix `A`, `null1(A)` returns a matrix with the same dimensions, where
 every interaction happens with a probability equal to the connectance of `A`.
 """
-function null1(A::Array{Float64, 2})
-  return ones(A) .* connectance(A)
+function null1(N::DeterministicNetwork)
+    itype = typeof(N) <: Bipartite ? BipartiteProbaNetwork : UnipartiteProbaNetwork
+    return itype(ones(N.A) .* connectance(N))
 end
 
-#=
-Type III out
-=#
 """
 Given a matrix `A`, `null3out(A)` returns a matrix with the same dimensions,
 where every interaction happens with a probability equal to the out-degree
 (number of successors) of each species, divided by the total number of possible
 successors.
 """
-function null3out(A::Array{Float64, 2})
-  p_rows = degree_out(A) ./ size(A)[2]
-  return hcat(map((x) -> p_rows, [1:size(A)[2];])...)
+function null3out(N::DeterministicNetwork)
+    itype = typeof(N) <: Bipartite ? BipartiteProbaNetwork : UnipartiteProbaNetwork
+    p_rows = degree_out(N) ./ size(N)[2]
+    return itype(hcat(map((x) -> p_rows, [1:size(N)[2];])...))
 end
 
-#=
-Type III in
-=#
 """
 Given a matrix `A`, `null3in(A)` returns a matrix with the same dimensions,
 where every interaction happens with a probability equal to the in-degree
 (number of predecessors) of each species, divided by the total number of
 possible predecessors.
 """
-function null3in(A::Array{Float64, 2})
+function null3in(N::DeterministicNetwork)
   return null3out(A')' # I don't work hard, so I work smart
 end
 
-#=
-Type II
-=#
 """
 Given a matrix `A`, `null2(A)` returns a matrix with the same dimensions, where
 every interaction happens with a probability equal to the degree of each
