@@ -26,7 +26,8 @@ where every interaction happens with a probability equal to the in-degree
 possible predecessors.
 """
 function null3in(N::DeterministicNetwork)
-    return null3out(A')' # I don't work hard, so I work smart
+    B = typeof(N)(N.A')
+    return null3out(B)' # I don't work hard, so I work smart
 end
 
 """
