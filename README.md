@@ -1,6 +1,7 @@
 # Measures of the structure of ecological networks
 
 [![Join the chat at https://gitter.im/PoisotLab/EcologicalNetwork.jl](https://badges.gitter.im/PoisotLab/EcologicalNetwork.jl.svg)](https://gitter.im/PoisotLab/EcologicalNetwork.jl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![GitHub tag](https://img.shields.io/github/tag/PoisotLab/EcologicalNetwork.svg)]()
 
 ## Current version
 
