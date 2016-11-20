@@ -1,5 +1,5 @@
 """
-Nestedness of a single axis (called internally by `nestedness`)
+Nestedness of a single axis (called internally by `η`)
 """
 function η_axis(N::Bipartite; axis::Int64=1)
     @assert axis in 1:2
@@ -31,8 +31,8 @@ Returns three values:
 - nestedness of the rows
 """
 function η(N::Bipartite)
-    n_1 = nestedness_axis(N, axis=1)
-    n_2 = nestedness_axis(N, axis=2)
+    n_1 = η_axis(N, axis=1)
+    n_2 = η_axis(N, axis=2)
     n = (n_1 + n_2)/2.0
     return [n, n_1, n_2]
 end
