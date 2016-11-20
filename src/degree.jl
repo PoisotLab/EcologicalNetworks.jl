@@ -1,13 +1,13 @@
 """ Expected number of outgoing degrees
 """
-function degree_out(A::Array{Float64,2})
-  return vec(sum(A, 2))
+function degree_out(N::EcoNetwork)
+  return vec(sum(N.A, 2))
 end
 
 """ Expected number of ingoing degrees
 """
-function degree_in(A::Array{Float64,2})
-  return vec(sum(A, 1))
+function degree_in(N::EcoNetwork)
+  return vec(sum(N.A, 1))
 end
 
 """ Expected degree
