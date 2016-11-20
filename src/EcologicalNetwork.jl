@@ -6,11 +6,17 @@ using Cairo
 
 VERSION < v"0.4-dev" && import Lexicon
 
-export EcoNetwork, Bipartite, Unipartite,
+export EcoNetwork,
+
+    # General types for all bipartite / unipartite
+    Bipartite, Unipartite,
 
     # Types
     BipartiteNetwork, UnipartiteNetwork,
     BipartiteProbaNetwork, UnipartiteProbaNetwork,
+    
+    # Union types for all proba or deterministic
+    ProbabilisticNetwork, DeterministicNetwork
 
     # Richness
     richness,

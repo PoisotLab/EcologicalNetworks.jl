@@ -22,6 +22,9 @@ type UnipartiteProbaNetwork <: Unipartite
     UnipartiteProbaNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
+ProbabilisticNetwork = Union{BipartiteProbaNetwork, UnipartiteProbaNetwork}
+DeterministicNetwork = Union{BipartiteNetwork, UnipartiteNetwork}
+
 """
 General ecological network functions
 """
