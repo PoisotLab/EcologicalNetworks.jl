@@ -16,7 +16,7 @@ end
 """ Connectance
 
 Number of links divided by the number of possible interactions. In unipartite
-networks, this is $L/S^2$. In bipartite networks, this is $L/(T × B)$.
+networks, this is ``L/S^2``. In bipartite networks, this is ``L/(T × B)``.
 """
 function connectance(N::EcoNetwork)
    return links(N) / prod(size(N))
