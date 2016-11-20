@@ -22,7 +22,6 @@ macro checkprob(p)
 		end
 		# Check the values
 		if ($p < 0.0) | ($p > 1.0)
-			Logging.warn("Probabilities must be in [0.0;1.0]")
 			throw(DomainError())
 		end
 	end

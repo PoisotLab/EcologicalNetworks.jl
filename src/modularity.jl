@@ -152,7 +152,7 @@ Keywords arguments:
 guaranteed to give robust/correct results.
 
 """
-function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0, verbose=true)
+function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
   #=
   Parameters for LP
 
@@ -165,18 +165,13 @@ function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0, verbos
   end
   # First trial
   best_partition = propagate_labels(A, kmax, smax)
-  if verbose
-    Logging.info(string("Modularity run 1 of ", replicates, ": Q=", best_partition.Q))
-  end
   for trial in 2:replicates
     trial_partition = propagate_labels(A, kmax, smax)
     if trial_partition.Q > best_partition.Q
       best_partition = trial_partition
     end
-    if verbose
-      Logging.info(string("Modularity run $trial of $replicates -- Q=", best_partition.Q))
-    end
   end
   Q(best_partition)
   return best_partition
 end
+
