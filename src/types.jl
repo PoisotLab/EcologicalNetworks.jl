@@ -5,11 +5,11 @@ abstract Unipartite <: EcoNetwork
 abstract Bipartite <: EcoNetwork
 
 type BipartiteNetwork <: Bipartite
-    A::Array{Int64, 2}
+    A::Array{Bool, 2}
 end
 
 type UnipartiteNetwork <: Unipartite
-    A::Array{Int64, 2}
+    A::Array{Bool, 2}
     UnipartiteNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 

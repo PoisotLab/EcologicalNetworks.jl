@@ -30,7 +30,7 @@ Linkage density
 Number of links divided by species richness.
 """
 function linkage_density(N::DeterministicNetwork)
-    return links(N) / richnes(N)
+    return links(N) / richness(N)
 end
 
 """

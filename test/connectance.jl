@@ -11,14 +11,14 @@ module TestConnectance
     @test_approx_eq connectance_var(N) 0.011111111111111111111
 
     # Once more with a deterministic network
-    N = BipartiteNetwork([0 1 0; 0 0 1; 1 1 1])
+    N = BipartiteNetwork([false true false; false false true; true true true])
 
     @test_eq links(N) 5
     @test_eq connectance(N) 5/9
     @test_eq linkage_density(N) 5/6
 
     # Once more with a deterministic unipartite network
-    N = UnipartiteNetwork([0 1 0; 0 0 1; 1 1 1])
+    N = UnipartiteNetwork([false true false; false false true; true true true])
 
     @test_eq links(N) 5
     @test_eq connectance(N) 5/9
