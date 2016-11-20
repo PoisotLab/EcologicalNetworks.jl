@@ -37,6 +37,13 @@ function Base.size(N::EcoNetwork)
 end
 
 """
+Getindex custom to get interaction value from an EcoNetwork
+"""
+function Base.getindex(N::EcoNetwork, i...)
+    return getindex(N.A, i...)
+end
+
+"""
 Richness (number of species) in a bipartite network
 """
 function richness(N::Bipartite)
