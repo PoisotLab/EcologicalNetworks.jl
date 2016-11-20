@@ -4,6 +4,7 @@ using Base.Test
 anyerrors = false
 
 my_tests = [
+  "types.jl",
   "utils.jl",
   "degree.jl",
   "connectance.jl",
