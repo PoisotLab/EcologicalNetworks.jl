@@ -18,11 +18,7 @@ Returns a matrix B of the same size as A, in which each element B(i,j) is 1 with
 probability A(i,j).
 """
 function make_bernoulli(A::Array{Float64,2})
-  return float64(rand(size(A)) .<= A)
-  # This next line will work once 0.4 becomes the current release. For now, the
-  # above works, but with a deprecation warning when used in the release
-  # version.
-  # return map(Float64, rand(size(A)) .<= A)
+    return map(Float64, rand(size(A)) .<= A)
 end
 
 #=
