@@ -93,43 +93,51 @@ for non-probabilistic networks.
 The other pitfall is that there is a need to do a *large* number of iterations
 to get to a good partition. This method is also untested.
 """
-function propagate_labels(A::Array{Float64, 2}, kmax::Int64, smax::Int64)
-  # Make a list of labels
-  n_lab = maximum(size(A))
-  L = vec(round(Int64, linspace(1, n_lab, n_lab)))
-  # Prepare the null model
-  m = links(A)
-  aij = A ./ (2*m)
-  ki = degree_out(A)
-  kj = degree_in(A)
-  kij = (ki .* kj') ./ ((2*m)*(2*m))
-  nmod = aij .- kij
-  best_Q = sum(nmod .* (L .== L')) # Initial modularity
-  # Update
-  no_increase = 0
-  for k in 1:kmax
-    i = rand(1:size(A)[1])
-    j = rand(1:size(A)[2])
-    if rand() <= A[i,j]
-      cj = L[j]
-      L[j] = L[i]
-      tentative_Q = sum(nmod .* (L .== L')) # Tentative modularity
-      if tentative_Q < best_Q
-        L[j] = cj
-        no_increase = no_increase + 1
-      else
-        no_increase = 0
-        best_Q = tentative_Q
-      end
+function propagate_labels(A::Array{Float64, 2})
+    # Make a list of labels
+    n_lab = maximum(size(A))
+    L = collect(1:n_lab)
+    # Prepare the null model
+    m = links(A)
+    aij = A ./ (2*m)
+    ki = degree_out(A)
+    kj = degree_in(A)
+    kij = (ki .* kj') ./ ((2*m)*(2*m))
+    nmod = aij .- kij
+    best_Q = sum(nmod .* (L .== L')) # Initial modularity
+    improved = true
+    # Update
+    while improved | (best_Q == 1.0)
+
+        # Pick a side of the matrix at random.
+        # This can be either 1 (rows) or 2 (columns)
+        # In practice, it means that we work on either the matrix
+        # or the transposed matrix
+        side = sample([1, 2], 1)[1]
+        B = side == 1 ? A : A'
+
+        # Within this side, we will pick one species at random
+        # Note that this makes the code working for both unipartite
+        # and bipartite networks.
+        i = rand(1:size(B, 1))
+
+        # For this species, we pick its neighbour's labels
+        i_neighbours = vec(B[i,:])
+
+        if rand() <= B[i,j]
+            cj = L[j]
+            L[j] = L[i]
+            tentative_Q = sum(nmod .* (L .== L')) # Tentative modularity
+            if tentative_Q < best_Q
+                improved = false
+                L[j] = cj
+            else
+                improved = true
+                best_Q = tentative_Q
+            end
+        end
     end
-    if no_increase == smax
-      break
-    end
-    if length(unique(L)) == 1
-      break
-    end
-  end
-  return Partition(A, L, best_Q)
+    return Partition(A, L, best_Q)
 end
 
 """
