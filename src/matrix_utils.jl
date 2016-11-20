@@ -46,10 +46,8 @@ function nodiag(N::Unipartite)
     return typeof(N)(N.A .* (one(itype) .- eye(itype, size(N)[1])))
 end
 
-#=
-Use a threshold
-=#
-"""Generate a random 0/1 matrix from probabilities
+"""
+Generate a deterministic network from a probabilistic one, using a threshold
 
 Returns a matrix B of the same size as A, in which each element B(i,j) is 1 if
 A(i,j) is > `k`. This is probably unwise to use this function since this
@@ -58,13 +56,18 @@ exhaustivity.
 
 `k` must be in [0;1[.
 """
-function make_threshold(A::Array{Float64,2}, k::Float64)
-  # Check the values of k
-  if (k < 0.0) | (k >= 1.0)
-    throw(DomainError())
-  end
-  # Return if not
-  return map((x) -> x>k ? 1.0 : 0.0, A)
+function make_threshold(N::Probabilistic, k::Float64)
+
+    # Check the values of k
+    if (k < 0.0) | (k >= 1.0)
+        throw(DomainError())
+    end
+
+    # Type of return
+    itype = typeof(N) == UnipartiteProbaNetwork ? UnipartiteNetwork : BipartiteNetwork
+
+    # Return a deterministic network
+    return itype(map((x) -> x>k ? 1.0 : 0.0, N.A))
 end
 
 #=
