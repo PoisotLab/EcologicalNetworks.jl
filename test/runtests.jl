@@ -5,7 +5,8 @@ anyerrors = false
 
 my_tests = [
   "types.jl",
-  "utils.jl",
+  "proba_utils.jl",
+  "matrix_utils.jl",
   "degree.jl",
   "connectance.jl",
   "nestedness.jl",
