@@ -41,16 +41,6 @@ function null2(N::DeterministicNetwork)
     return itype((null3in(N).A .+ null3out(N).A)./2.0)
 end
 
-#=
-Wrapper for null models
-
-Takes a proba matrix, and generates 0/1 networks until there are n done, or max
-have been tried.
-
-This function will try to run in parallel, because otherwise it takes forever to
-go through all of the potential networks.
-
-=#
 """ This function is a wrapper to generate replicated binary matrices from
 a template probability matrix `A`.
 
@@ -58,45 +48,40 @@ If you use julia on more than one CPU, *i.e.* if you started it with `julia -p
 k` where `k` is more than 1, this function will distribute each trial to one
 worker. Which means that it's fast.
 
-Note that you will get a warning if there are less networks created than have
-been requested. Not also that this function generates networks, but do not check
-that their distribution is matching what you expect. Simulated annealing
-routines will be part of a later release.
-
 **Keyword arguments**
 
 - `n` (def. 1000), number of replicates to generate
 - `max` (def. 10000), number of trials to make
 
 """
-function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
-  if max < n
-    max = n
-  end
-  # Number of cores
-  np = nprocs()
-  # Hold the results
-  b = Array{Float64, 2}[]
-  i = 1
-  nextidx() = (idx=i; i+=1; idx)
-  # Run simulations until there are enough networks
-  @sync begin
-    for p=1:np
-      if (p != myid() || np == 1) && (length(b) < n)
-        @async begin
-          while true
-            idx = nextidx()
-            if idx > n
-              break
-            end
-            B = remotecall_fetch(make_bernoulli, p, A)
-            if free_species(B) == 0
-              push!(b, B)
-            end
-          end
-        end
-      end
+function nullmodel(N::DeterministicNetwork; n=1000, max=10000)
+    if max < n
+        max = n
     end
-  end
-  return b
+    # Number of cores
+    np = nprocs()
+    # Hold the results
+    b = Array{typeof(N)}[]
+    i = 1
+    nextidx() = (idx=i; i+=1; idx)
+    # Run simulations until there are enough networks
+    @sync begin
+        for p=1:np
+            if (p != myid() || np == 1) && (length(b) < n)
+            @async begin
+                while true
+                    idx = nextidx()
+                    if idx > n
+                        break
+                    end
+                    B = remotecall_fetch(make_bernoulli, p, N)
+                    if free_species(B) == 0
+                        push!(b, B)
+                    end
+                end
+            end
+            end
+        end
+    end
+    return b
 end
