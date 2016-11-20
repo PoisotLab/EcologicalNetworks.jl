@@ -1,16 +1,17 @@
 module TestNestedness
-  using Base.Test
-  using EcologicalNetwork
+    using Base.Test
+    using EcologicalNetwork
 
-  # Generate some data
+    # Generate some data
 
-  A = [1.0 0.0 0.0; 0.0 0.1 0.0; 0.0 0.0 0.1]
-  B = [1.0 1.0 1.0; 1.0 0.1 0.0; 1.0 0.0 0.0]
-  C = [1.0 1.0 1.0; 1.0 0.1 0.3; 0.4 0.2 0.0]
-  D = [1.0 1.0 1.0; 0.0 0.1 1.0; 0.0 0.0 1.0]
+    A = BipartiteProbaNetwork([1.0 0.0 0.0; 0.0 0.1 0.0; 0.0 0.0 0.1])
+    B = BipartiteProbaNetwork([1.0 1.0 1.0; 1.0 0.1 0.0; 1.0 0.0 0.0])
+    C = BipartiteProbaNetwork([1.0 1.0 1.0; 1.0 0.1 0.3; 0.4 0.2 0.0])
+    D = BipartiteProbaNetwork([1.0 1.0 1.0; 0.0 0.1 1.0; 0.0 0.0 1.0])
 
-  @test_approx_eq nestedness(A)[1] 0.0
-  @test_approx_eq nestedness(B)[1] 1.0
-  @test_approx_eq nestedness(C)[1] 0.9153846153846155
-  @test_approx_eq nestedness(D)[1] 1.0
+    @test_approx_eq η(A)[1] 0.0
+    @test_approx_eq η(B)[1] 1.0
+    @test_approx_eq η(C)[1] 0.9153846153846155
+    @test_approx_eq η(D)[1] 1.0
+
 end
