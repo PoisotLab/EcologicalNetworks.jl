@@ -3,6 +3,7 @@ module EcologicalNetwork
 # Dependencies
 using StatsBase
 using Cairo
+using Combinatorics
 
 VERSION < v"0.4-dev" && import Lexicon
 
