@@ -79,7 +79,6 @@ routines will be part of a later release.
 function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
   if max < n
     max = n
-    Logging.info("Less maximal trials than requested sample size; adjusted.")
   end
   # Number of cores
   np = nprocs()
@@ -105,9 +104,6 @@ function nullmodel(A::Array{Float64, 2}; n=1000, max=10000)
         end
       end
     end
-  end
-  if length(b) < n
-    Logging.warn("Less samples than requested were found")
   end
   return b
 end
