@@ -1,10 +1,12 @@
-""" Expected number of outgoing degrees
+"""
+Expected number of outgoing degrees
 """
 function degree_out(N::EcoNetwork)
   return vec(sum(N.A, 2))
 end
 
-""" Expected number of ingoing degrees
+"""
+Expected number of ingoing degrees
 """
 function degree_in(N::EcoNetwork)
   return vec(sum(N.A, 1))
