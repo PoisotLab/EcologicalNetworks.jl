@@ -13,10 +13,19 @@ itself.
 
 It is suggested to include this file to your projects via a `Makefile` rule:
 
-``` makefile
+``` make
 CONTRIBUTING.md:
-  wget -O $@ https://raw.githubusercontent.com/PoisotLab/PLCG/master/README.md
+    wget -O $@ https://raw.githubusercontent.com/PoisotLab/PLCG/master/README.md
 ```
+
+## General code of behavior
+
+We follow the [Contributor Covenant][cc] and [The No Asshole Rule][nar].
+An amazing technical or scientific contribution is *no* excuse for creating
+a toxic environment.
+
+[cc]: http://contributor-covenant.org/version/1/2/0/
+[nar]: https://en.wikipedia.org/wiki/The_No_Asshole_Rule
 
 ## Issues
 
@@ -44,7 +53,7 @@ This section describes the general steps to make sure that your contribution is
 integrated rapidly. The general workflow is as follows:
 
 1. Fork the repository (see *Branches, etc.* below)
-2. Create an *explicitely named branch*
+2. Create an *explicitly named branch*
 3. Create a pull request *even if you haven't pushed code yet*
 4. Be as explicit as possible on your goals
 
@@ -89,7 +98,8 @@ your commits as follow
 | Documentation            |  :page_facing_up:  | :page_facing_up: null models wrapper        |
 | New data                 |    :bar_chart:     | :bar_chart: example pollination network     |
 | Improve performance      |      :clock2:      | :clock2: parallelizes null model by default |
-| Cool new feature         |      :metal:       | :metal: (anything amazing)                  |
+| New feature              |      :metal:       | :metal: (anything amazing)                  |
+| Upcoming release         |      :package:     | :package: v1.0.2                            |
 
 [atom]: https://github.com/atom/atom/blob/master/CONTRIBUTING.md
 
