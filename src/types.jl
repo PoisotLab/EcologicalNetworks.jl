@@ -26,7 +26,7 @@ ProbabilisticNetwork = Union{BipartiteProbaNetwork, UnipartiteProbaNetwork}
 DeterministicNetwork = Union{BipartiteNetwork, UnipartiteNetwork}
 
 """
-General ecological network functions
+Show the matrix from an EcoNetwork object
 """
 function Base.show(N::EcoNetwork)
     Base.show(N.A)
@@ -36,10 +36,16 @@ function Base.size(N::EcoNetwork)
     Base.size(N.A)
 end
 
+"""
+Richness (number of species) in a bipartite network
+"""
 function richness(N::Bipartite)
     return sum(size(N.A))
 end
 
+"""
+Richness (number of species) in a unipartite network
+"""
 function richness(N::Unipartite)
     return size(N.A, 1)
 end
