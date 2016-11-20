@@ -6,7 +6,14 @@ using Cairo
 
 VERSION < v"0.4-dev" && import Lexicon
 
-export nestedness, nestedness_axis,
+export EcoNetwork,
+    # Types
+    BipartiteNetwork, UnipartiteNetwork,
+    BipartiteQuantiNetwork, UnipartiteQuantiNetwork,
+    BipartiteProbaNetwork, UnipartiteProbaNetwork
+
+    # Nestedness
+    nestedness, nestedness_axis,
 
   # Measures of centrality
   centrality_katz,
@@ -48,6 +55,7 @@ export nestedness, nestedness_axis,
   # Motifs
   motif_p, motif_v, count_motifs, motif, motif_var
 
+include(joinpath(".", "types.jl"))
 include(joinpath(".", "centrality.jl"))
 include(joinpath(".", "connectance.jl"))
 include(joinpath(".", "degree.jl"))
