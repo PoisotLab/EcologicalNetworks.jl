@@ -27,8 +27,13 @@ Generate a random 0/1 matrix from probabilities
 Returns a matrix B of the same size as A, in which each element B(i,j)
 is 1 with probability A(i,j).
 """
-function make_bernoulli(A::Array{Float64,2})
-    return map(Float64, rand(size(A)) .<= A)
+function make_bernoulli(N::ProbabilisticNetwork)
+
+    # Get the correct network type
+    itype = typeof(N) == UnipartiteProbaNetwork ? UnipartiteNetwork : BipartiteNetwork
+
+    # Return the Bernoulli'ed network
+    return itype(rand(size(N)) .<= N.A)
 end
 
 """
@@ -56,7 +61,7 @@ exhaustivity.
 
 `k` must be in [0;1[.
 """
-function make_threshold(N::Probabilistic, k::Float64)
+function make_threshold(N::ProbabilisticNetwork, k::Float64)
 
     # Check the values of k
     if (k < 0.0) | (k >= 1.0)
@@ -70,14 +75,12 @@ function make_threshold(N::Probabilistic, k::Float64)
     return itype(map((x) -> x>k ? 1.0 : 0.0, N.A))
 end
 
-#=
-Set all probabilities to 1.0
-=#
-"""Returns the adjacency/incidence matrix from a probability matrix
+"""
+Returns the adjacency/incidence matrix from a probability matrix
 
 Returns a matrix B of the same size as A, in which each element B(i,j) is 1 if
 A(i,j) is greater than 0.
 """
-function make_binary(A::Array{Float64,2})
-  return make_threshold(A, 0.0)
+function make_binary(N::ProbabilisticNetwork)
+  return make_threshold(N, 0.0)
 end
