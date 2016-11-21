@@ -17,9 +17,17 @@ end
 """
 Constructor for the `Partition` type
 """
-function Partition(N::Bipartite)
+function Partition(N::EcoNetwork)
     t_L = 1:richness(N)
     return Partition(N, t_L, Q(N, t_L))
+end
+
+"""
+Constructor for the `Partition` type
+"""
+function Partition(N::EcoNetwork, L::Array{Int64, 1})
+    @assert length(L) == richness(N)
+    return Partition(N, L, Q(N, L))
 end
 
 """
@@ -173,49 +181,39 @@ for non-probabilistic networks.
 The other pitfall is that there is a need to do a *large* number of iterations
 to get to a good partition. This method is also untested.
 """
-function label_propagation(N::EcoNetwork)
-    # Make a list of labels
-    n_lab = maximum(size(N))
-    L = collect(1:n_lab)
-    # Prepare the null model
-    m = links(N)
-    aij = A ./ (2*m)
-    ki = degree_out(N)
-    kj = degree_in(N)
-    kij = (ki .* kj') ./ ((2*m)*(2*m))
-    nmod = aij .- kij
-    best_Q = sum(nmod .* (L .== L')) # Initial modularity
+function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
+
+    # There must be one label per species
+    @assert length(L) == richness(N)
+
+    # Initial modularity
+    imod = Q(N, L)
+    amod = imod
     improved = true
+
     # Update
-    while improved | (best_Q == 1.0)
+    while improved
 
-        # Pick a side of the matrix at random.
-        # In practice, it means that we work on either the matrix
-        # or the transposed matrix
-        B = rand() < 0.5 ? N : N'
+        # Random update order
+        update_order_row = shuffle(1:size(N.A, 1))
+        update_order_col = shuffle(1:size(N.A, 2))
 
-        # Within this side, we will pick one species at random
-        # Note that this makes the code working for both unipartite
-        # and bipartite networks.
-        i = rand(1:size(B, 1))
-
-        # For this species, we pick its neighbour's labels
-        i_neighbours = vec(B[i,:])
-
-        if rand() <= B[i,j]
-            cj = L[j]
-            L[j] = L[i]
-            tentative_Q = sum(nmod .* (L .== L')) # Tentative modularity
-            if tentative_Q < best_Q
-                improved = false
-                L[j] = cj
-            else
-                improved = true
-                best_Q = tentative_Q
-            end
+        # Update the rows
+        for ur in update_order_row
+            L[ur] = most_common_label(N, L, ur)
         end
+
+        # Update the columns
+        for uc in update_order_col
+            L[uc] = most_common_label(N', L, uc)
+        end
+
+        # Modularity improved?
+        amod = Q(N, L)
+        imod, improved = amod > imod ? (amod, true) : (amod, false)
+
     end
-    return Partition(A, L, best_Q)
+    return Partition(N, L)
 end
 
 """
