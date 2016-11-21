@@ -229,7 +229,7 @@ function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
 
         # Update the rows
         for ur in update_order_row
-            pos = typeof(N) <: Bipartite ? size(A, 1) + ur : ur
+            pos = typeof(N) <: Bipartite ? size(N.A, 1) + ur : ur
             L[pos] = most_common_label(N, L, ur)
         end
 
