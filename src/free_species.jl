@@ -31,7 +31,7 @@ that the functions `species_ |predecessors` will work on bipartite networks,
 but the unipartite situation is more general.
 """
 function free_species(N::EcoNetwork)
-    if N <: Unipartite
+    if typeof(N) <: Unipartite
         return N |> species_is_free |> sum
     else
         return N |> make_unipartite |> free_species
