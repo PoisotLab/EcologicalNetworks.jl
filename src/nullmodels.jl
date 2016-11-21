@@ -63,7 +63,7 @@ function nullmodel(N::ProbabilisticNetwork; n=1000, max=10000)
     np = nprocs()
     # Hold the results
     itype = typeof(N) <: Unipartite ? UnipartiteNetwork : BipartiteNetwork
-    b = Array{itype}[]
+    b = itype[]
     i = 1
     nextidx() = (idx=i; i+=1; idx)
     # Run simulations until there are enough networks
