@@ -3,7 +3,7 @@ Nestedness of a single axis (called internally by `η`)
 """
 function η_axis(N::Bipartite)
     S = size(N)[1]
-    n = vec(sum(N, 2))
+    n = vec(sum(N.A, 2))
     num = 0.0
     den = 0.0
     @simd for j in 2:S
