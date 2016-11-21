@@ -4,8 +4,8 @@ module TestFreeSpecies
 
   # Generate some data
 
-  A = [1.0 0.0 0.0; 0.0 0.1 0.0; 0.0 0.0 0.1]
-  B = [1.0 1.0 1.0 0.1; 0.0 1.0 0.1 0.0; 0.5 1.0 0.0 0.0]
+  A = UnipartiteProbaNetwork([1.0 0.0 0.0; 0.0 0.1 0.0; 0.0 0.0 0.1])
+  B = BipartiteProbaNetwork([1.0 1.0 1.0 0.1; 0.0 1.0 0.1 0.0; 0.5 1.0 0.0 0.0])
 
   # Unipartite case
   @test_approx_eq free_species(A) 3.0
@@ -14,7 +14,7 @@ module TestFreeSpecies
   @test_approx_eq free_species(B) 0.9
 
   # No predecessors and successors
-  A = make_unipartite([1.0 0.4 0.3 0.8; 0.0 0.2 0.3 0.6; 0.1 0.2 0.4 0.2])
+  A = make_unipartite(BipartiteProbaNetwork([1.0 0.4 0.3 0.8; 0.0 0.2 0.3 0.6; 0.1 0.2 0.4 0.2]))
 
   no_succ = species_has_no_successors(A)
   no_pred = species_has_no_predecessors(A)
