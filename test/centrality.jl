@@ -2,6 +2,8 @@ module TestCentrality
   using Base.Test
   using EcologicalNetwork
 
+  @test false
+
   # Generate some data
 
   A = [0.0 1.0 0.0 0.0; 0.0 0.0 0.0 1.0; 0.0 1.0 0.0 0.0; 0.0 0.0 0.0 0.0]

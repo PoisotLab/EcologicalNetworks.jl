@@ -2,6 +2,8 @@ module TestBetaDiv
   using Base.Test
   using EcologicalNetwork
 
+  @test false
+
   # Matrices of unequal sizes
 
   @test_throws BoundsError betadiversity(eye(4), eye(5))
