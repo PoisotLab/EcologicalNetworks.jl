@@ -1,39 +1,41 @@
-#=
-Partition, a type to store a community partition
-=#
 """
 Type to store a community partition
 
 This type has three elements:
 
-- `A`, the probability matrix
+- `N`, the network
 - `L`, the array of (integers) module labels
 - `Q`, if needed, the modularity value
 
 """
 type Partition
-    A::Array{Float64, 2}
+    N::EcoNetwork
     L::Array{Int64, 1}
     Q::Float64
 end
 
-#=
-Modularity function
-=#
+"""
+Constructor for the `Partition` type
+"""
+function Partition(N::Bipartite)
+    t_L = 1:richness(N)
+    return Partition(N, t_L, Q(N, t_L))
+end
+
 """
 Q -- a measure of modularity
 
 This measures Barber's bipartite modularity based on a matrix and a list of
 module labels.
 """
-function Q(A::Array{Float64, 2}, L::Array{Int64, 1})
+function Q(N::Bipartite, L::Array{Int64, 1})
   if length(unique(L)) == 1
     return 0.0
   end
-  m = links(A)
-  aij = A ./ (2*m)
-  ki = degree_out(A)
-  kj = degree_in(A)
+  m = links(N)
+  aij = N.A ./ (2*m)
+  ki = degree_out(N)
+  kj = degree_in(N)
   kij = (ki .* kj') ./ ((2*m)*(2*m))
   return sum((aij .- kij) .* (L .== L'))
 end
@@ -45,13 +47,10 @@ This measures Barber's bipartite modularity based on a `Partition` object, and
 update the object in the proccess.
 """
 function Q(P::Partition)
-  P.Q = Q(P.A, P.L)
+  P.Q = Q(P.N, P.L)
   P.Q
 end
 
-#=
-Realized modularity function
-=#
 """
 Qr -- a measure of realized modularity
 
@@ -62,12 +61,12 @@ proportion of interactions established *within* modules.
 Note that in some situations, `Qr` can be *lower* than 0. This reflects a
 partition in which more links are established between than within modules.
 """
-function Qr(A::Array{Float64, 2}, L::Array{Int64, 1})
+function Qr(N::Bipartite, L::Array{Int64, 1})
   if length(unique(L)) == 1
     return 0.0
   end
-  W = sum(A .* (L .== L'))
-  E = links(A)
+  W = sum(N.A .* (L .== L'))
+  E = links(N)
   return 2.0 * (W/E) - 1.0
 end
 
@@ -78,7 +77,7 @@ Qr -- a measure of realized modularity
 Measures Poisot's realized modularity, based on a `Partition` object.
 """
 function Qr(P::Partition)
-  return Qr(P.A, P.L)
+  return Qr(P.N, P.L)
 end
 
 """
