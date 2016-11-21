@@ -14,14 +14,13 @@ module TestModularity
     @test length(unique(mb.L)) == 2
     @test mb.Q == mu.Q
     @test Qr(mb) == 1.0
-    @test Qr(mb.N, mb.L) == 1.0
     @test Qr(mb.N, ones(Int64, richness(mb.N))) == 0.0
 
     # Test the partition with only a network given
     @test Partition(B).Q == 0.0
 
     # Test Q from a partition
-    @test Q(Partition(B)) == 0.0
+    @test Q(mb) == mb.Q
 
     # Test that the modularity if there is a single module
     @test Q(U, ones(Int64, richness(U))) == 0.0
