@@ -16,9 +16,10 @@ my_tests = [
   "nullmodels.jl",
   "nullmodelswrapper.jl",
   "centrality.jl",
-  "modularity.jl",
-  "betadiversity.jl",
-  "motifs.jl"]
+  "modularity.jl"]
+
+  #"betadiversity.jl",
+  #"motifs.jl"]
 
 for my_test in my_tests
   try
