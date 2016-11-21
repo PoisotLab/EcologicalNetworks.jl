@@ -98,12 +98,19 @@ Note that in some situations, `Qr` can be *lower* than 0. This reflects a
 partition in which more links are established between than within modules.
 """
 function Qr(N::EcoNetwork, L::Array{Int64, 1})
-  if length(unique(L)) == 1
-    return 0.0
-  end
-  W = sum(N.A .* (L .== L'))
-  E = links(N)
-  return 2.0 * (W/E) - 1.0
+    if length(unique(L)) == 1
+        return 0.0
+    end
+    if typeof(N) <: Bipartite
+        L_up = L[1:size(N.A, 1)]
+        L_lo = L[(size(N.A, 1)+1):richness(N)]
+        δ = L_up .== L_lo'
+    else 
+        δ = L .== L'
+    end
+    W = sum(N.A .* δ)
+    E = links(N)
+    return 2.0 * (W/E) - 1.0
 end
 
 
@@ -123,8 +130,11 @@ Arguments are the network, the community partition, and the species id
 """
 function most_common_label(N::DeterministicNetwork, L, sp)
 
+    # If this is a bipartite network, the margin should be changed
+    pos_in_L = typeof(N) <: Bipartite ? size(N.A, 1) + sp : sp
+
     if sum(N[:,sp]) == 0
-        return L[sp]
+        return L[pos_in_L]
     end
 
     # Get positions with interactions
@@ -145,7 +155,7 @@ function most_common_label(N::DeterministicNetwork, L, sp)
     candidate_labels = [uni_nei_lab[i] for i in eachindex(uni_nei_lab) if f[i] == local_max]
 
     # Return
-    return L[sp] ∈ candidate_labels ? L[sp] : sample(candidate_labels)
+    return L[pos_in_L] ∈ candidate_labels ? L[pos_in_L] : sample(candidate_labels)
 
 end
 
@@ -155,9 +165,12 @@ Count most common labels
 Arguments are the network, the community partition, and the species id
 """
 function most_common_label(N::ProbabilisticNetwork, L, sp)
+    
+    # If this is a bipartite network, the margin should be changed
+    pos_in_L = typeof(N) <: Bipartite ? size(N.A, 1) + sp : sp
 
     if sum(N[:,sp]) == 0
-        return L[sp]
+        return L[pos_in_L]
     end
 
     # Get positions with interactions
