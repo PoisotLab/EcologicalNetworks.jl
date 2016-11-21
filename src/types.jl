@@ -40,7 +40,7 @@ end
 Return a transposed network with the correct type
 """
 function Base.transpose(N::EcoNetwork)
-    typeof(N)(N.A')
+    return typeof(N)(transpose(N.A))
 end
 
 """
