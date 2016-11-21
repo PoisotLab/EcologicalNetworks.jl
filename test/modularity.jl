@@ -7,7 +7,7 @@ module TestModularity
     A = [true true true false false false; true true true false false false;
          false false false true true true; false false false true true true]
     B = BipartiteNetwork(A)
-    U = make_unipartite(A)
+    U = make_unipartite(B)
     L = collect(1:richness(B))
     mb = label_propagation(B, L)
     mu = label_propagation(U, L)
