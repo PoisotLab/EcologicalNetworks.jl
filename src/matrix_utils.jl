@@ -15,7 +15,7 @@ function make_unipartite(B::Bipartite)
     U = zeros(itype, (S,S))
 
     # Modify it by adding the correct values
-    U[1:size(A)[1],size(A)[1]+1:S] = B.A
+    U[1:size(B)[1],size(B)[1]+1:S] = B.A
 
     # Retun the object
     return otype(U)
