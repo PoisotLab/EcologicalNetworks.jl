@@ -92,15 +92,15 @@ for non-probabilistic networks.
 The other pitfall is that there is a need to do a *large* number of iterations
 to get to a good partition. This method is also untested.
 """
-function propagate_labels(A::Array{Float64, 2})
+function label_propagation(N::Bipartite)
     # Make a list of labels
-    n_lab = maximum(size(A))
+    n_lab = maximum(size(N))
     L = collect(1:n_lab)
     # Prepare the null model
-    m = links(A)
+    m = links(N)
     aij = A ./ (2*m)
-    ki = degree_out(A)
-    kj = degree_in(A)
+    ki = degree_out(N)
+    kj = degree_in(N)
     kij = (ki .* kj') ./ ((2*m)*(2*m))
     nmod = aij .- kij
     best_Q = sum(nmod .* (L .== L')) # Initial modularity
@@ -109,11 +109,9 @@ function propagate_labels(A::Array{Float64, 2})
     while improved | (best_Q == 1.0)
 
         # Pick a side of the matrix at random.
-        # This can be either 1 (rows) or 2 (columns)
         # In practice, it means that we work on either the matrix
         # or the transposed matrix
-        side = sample([1, 2], 1)[1]
-        B = side == 1 ? A : A'
+        B = rand() < 0.5 ? N : N'
 
         # Within this side, we will pick one species at random
         # Note that this makes the code working for both unipartite
