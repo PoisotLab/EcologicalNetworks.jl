@@ -23,7 +23,7 @@ export EcoNetwork,
     richness,
 
     # Nestedness
-    η, nestedness,
+    η,
 
     # Measures of centrality
     centrality_katz,

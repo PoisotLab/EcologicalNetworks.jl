@@ -31,7 +31,3 @@ function η(N::Bipartite)
     return [n, n_1, n_2]
 end
 
-function nestedness(N::Bipartite)
-    warn("nestedness is deprecated, use η instead")
-    return η(N)
-end
