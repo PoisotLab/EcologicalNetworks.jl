@@ -26,5 +26,16 @@ module TestModularity
     # Test that the modularity if there is a single module
     @test Q(U, ones(Int64, richness(U))) == 0.0
 
+    # Test with a probabilistic network
+    P = map(Float64, A)
+    pB = BipartiteProbaNetwork(P)
+    pU = make_unipartite(pB)
+
+    mb = label_propagation(pB, collect(1:richness(pB)))
+    mu = label_propagation(pU, collect(1:richness(pU)))
+
+    @test mb.Q > 0.25
+    @test mu.Q > 0.25
+
 
 end
