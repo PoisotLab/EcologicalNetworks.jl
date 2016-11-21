@@ -41,7 +41,8 @@ function null2(N::DeterministicNetwork)
     return itype((null3in(N).A .+ null3out(N).A)./2.0)
 end
 
-""" This function is a wrapper to generate replicated binary matrices from
+"""
+This function is a wrapper to generate replicated binary matrices from
 a template probability matrix `A`.
 
 If you use julia on more than one CPU, *i.e.* if you started it with `julia -p
@@ -54,7 +55,7 @@ worker. Which means that it's fast.
 - `max` (def. 10000), number of trials to make
 
 """
-function nullmodel(N::DeterministicNetwork; n=1000, max=10000)
+function nullmodel(N::ProbabilisticNetwork; n=1000, max=10000)
     if max < n
         max = n
     end
