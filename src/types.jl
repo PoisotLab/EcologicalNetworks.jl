@@ -37,6 +37,13 @@ function Base.size(N::EcoNetwork)
 end
 
 """
+Return a transposed network with the correct type
+"""
+function Base.transpose(N::EcoNetwork)
+    typeof(N)(N.A')
+end
+
+"""
 Getindex custom to get interaction value from an EcoNetwork
 """
 function Base.getindex(N::EcoNetwork, i...)
