@@ -10,7 +10,7 @@ $(ARCHIVENAME): test doc clean
 	cd ..; tar -zcvf EcologicalNetwork/$(ARCHIVENAME) EcologicalNetwork
 
 test: src/*jl test/*jl
-	$(JEXEC) --code-coverage -e 'Pkg.test(pwd(), coverage=true)'
+	$(JEXEC) -e 'include("src/EcologicalNetwork.jl"); include("test/runtests.jl")'
 
 clean:
 	- rm src/*.cov

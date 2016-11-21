@@ -14,6 +14,7 @@ module TestModularity
     @test length(unique(mb.L)) == 2
     @test mb.Q == mu.Q
     @test Qr(mb) == 1.0
+    @test Qr(mu) == 1.0
     @test Qr(mb.N, ones(Int64, richness(mb.N))) == 0.0
 
     # Test the partition with only a network given
@@ -30,11 +31,12 @@ module TestModularity
     pB = BipartiteProbaNetwork(P)
     pU = make_unipartite(pB)
 
-    mb = label_propagation(pB, collect(1:richness(pB)))
-    mu = label_propagation(pU, collect(1:richness(pU)))
+    mpb = label_propagation(pB, collect(1:richness(pB)))
+    mpu = label_propagation(pU, collect(1:richness(pU)))
 
-    @test mb.Q > 0.25
-    @test mu.Q > 0.25
+    @test_approx_eq mpu.Q mpb.Q
+    @test_approx_eq mpu.Q 1.0
+    @test_approx_eq mpb.Q 1.0
 
 
 end
