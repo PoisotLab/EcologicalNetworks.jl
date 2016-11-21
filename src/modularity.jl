@@ -204,13 +204,20 @@ function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
     # Update
     while improved
 
-        # Random update order
-        update_order_row = shuffle(1:size(N.A, 1))
-        update_order_col = shuffle(1:size(N.A, 2))
+        # Random update order -- identity of possible species varies between
+        # bipartite and unipartite networks
+        if typeof(N) <: Bipartite
+            update_order_col = shuffle(1:size(N.A, 1))
+            update_order_row = shuffle((size(N.A, 1)+1):richness(N)).-size(N.A, 1)
+        else
+            update_order_col = shuffle(1:size(N.A, 1))
+            update_order_row = shuffle(1:size(N.A, 2))
+        end
 
         # Update the rows
         for ur in update_order_row
-            L[ur] = most_common_label(N, L, ur)
+            pos = typeof(N) <: Bipartite ? size(A, 1) + ur : ur
+            L[pos] = most_common_label(N, L, ur)
         end
 
         # Update the columns
