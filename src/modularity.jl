@@ -235,7 +235,14 @@ function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
 
         # Update the columns
         for uc in update_order_col
-            L[uc] = most_common_label(N', L, uc)
+            if typeof(N) <: Bipartite 
+                cols = size(N.A, 1) .+ (1:size(N.A, 2))
+                rows = 1:size(N.A, 1)
+                tL = L[vcat(cols, rows)]
+            else
+                tl = L
+            end
+            L[uc] = most_common_label(N', tL, uc)
         end
 
         # Modularity improved?
