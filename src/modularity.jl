@@ -28,16 +28,32 @@ Q -- a measure of modularity
 This measures Barber's bipartite modularity based on a matrix and a list of
 module labels.
 """
-function Q(N::Bipartite, L::Array{Int64, 1})
-  if length(unique(L)) == 1
-    return 0.0
-  end
-  m = links(N)
-  aij = N.A ./ (2*m)
-  ki = degree_out(N)
-  kj = degree_in(N)
-  kij = (ki .* kj') ./ ((2*m)*(2*m))
-  return sum((aij .- kij) .* (L .== L'))
+function Q(N::EcoNetwork, L::Array{Int64, 1})
+    # Easy case
+    if length(unique(L)) == 1
+        return 0.0
+    end
+
+    # Same community?
+    δ = L .== L'
+
+    # Degrees
+    k = degree(N)
+
+    # Value of m -- sum of weights, total number of int, ...
+    m = links(N)
+
+    # Null model
+    kikj = (k .* k')
+    Pij = kikj ./ (2.0*m)
+
+    # Difference 
+    diff = N.A .- Pij
+
+    # Diff × delta
+    dd = diff .* δ
+
+    return 1.0/(2.0*m)*sum(dd)
 end
 
 """

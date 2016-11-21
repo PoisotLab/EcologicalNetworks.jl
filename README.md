@@ -25,11 +25,7 @@ ecological networks, with an emphasis on probabilistic ones. The measures
 are **not** designed to work on *quantitative* interaction networks,
 *i.e.* those in which the strength of the interaction is known.
 
-It is companion code to the paper by Poisot et al., accepted for publication in
-*Methods in Ecology and Evolution*. A preprint of the paper can be accessed on
-[bioRxiv][brxpaper].
-
-[brxpaper]: http://biorxiv.org/content/early/2015/03/13/016485
+> Poisot, T., Cirtwill, A. R., Cazelles, K., Gravel, D., Fortin, M.-J. and Stouffer, D. B. (2016), The structure of probabilistic networks. Methods Ecol Evol, 7: 303–312. doi:10.1111/2041-210X.12468
 
 ## Installation
 
