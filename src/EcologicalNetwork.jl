@@ -45,14 +45,14 @@ export EcoNetwork,
     # Probability algebra utilities
     checkprob, i_esp, i_var, a_var, m_var,
 
-    # NAIVE !!! null models
+    # Null models
     null1, null2, null3out, null3in, nullmodel,
 
     # Draw
     draw_matrix,
 
     # Modularity
-    Partition, Q, Qr, propagate_labels, modularity,
+    Partition, Q, Qr, label_propagation, modularity,
 
     # Paths
     number_of_paths,
