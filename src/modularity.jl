@@ -99,6 +99,61 @@ function Qr(P::Partition)
 end
 
 """
+Count most common labels
+
+Arguments are the network, the community partition, and the species id
+"""
+function most_common_label(N::DeterministicNetwork, L, sp)
+
+    # Get positions with interactions
+    nei = [i for i in eachindex(N[:,sp]) if N[i,sp]]
+
+    # Labels of the neighbors
+    nei_lab = L[nei]
+    uni_nei_lab = unique(nei_lab)
+
+    # Count
+    f = zeros(Int64, uni_nei_lab)
+    for i in eachindex(uni_nei_lab)
+        f[i] = sum(nei_lab .== uni_nei_lab[i])
+    end
+
+    # Argmax
+    local_max = maximum(f)
+    candidate_labels = [uni_nei_lab[i] for i in eachindex(uni_nei_lab) if f[i] == local_max]
+
+    # Return
+    return L[sp] ∈ candidate_labels ? L[sp] : sample(candidate_labels)
+
+end
+
+"""
+Count most common labels
+
+Arguments are the network, the community partition, and the species id
+"""
+function most_common_label(N::ProbabilisticNetwork, L, sp)
+
+    # Get positions with interactions
+    nei = [i for i in eachindex(N[:,sp]) if N[i,sp] > 0.0]
+
+    # Labels of the neighbors
+    nei_lab = L[nei]
+    uni_nei_lab = unique(nei_lab)
+
+    # Count
+    f = zeros(Int64, uni_nei_lab)
+    for i in eachindex(uni_nei_lab)
+        have_this_label = [A[j,sp] for j in eachindex(L) if L[j] == uni_nei_lab[i]]
+        f[i] = sum(have_this_label)
+    end
+
+    # Return (sampled by weight of unique labels)
+    return sample(uni_nei_lab, WeightVec(f), 1)
+
+end
+
+"""
 A **very** experimental label propagation method for probabilistic networks
 
 This function is a take on the usual LP method for community detection. Instead
