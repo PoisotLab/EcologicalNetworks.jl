@@ -247,45 +247,33 @@ function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
 end
 
 """
-
 This function is a wrapper for the modularity code. The number of replicates is
 the number of times the modularity optimization should be run.
 
 Non-keywords arguments:
 
-1. `A`, probability matrix
+1. `N`, a network
+2. `L`, an array of module id
+
 
 Keywords arguments:
 
 1. `replicates`, defaults to `100`
-1. `kmax`, defaults to twice the matrix size, number of propagations to do
-2. `smax`, maximum number of steps without an increase in modularity before LP stops
-
-**Keep in mind** that this approach has not been thoroughly tested. The
-*measure* of modularity works, but the *optimization routine* is not
-guaranteed to give robust/correct results.
-
 """
-function modularity(A::Array{Float64, 2}; replicates=100, kmax=0, smax=0)
-  #=
-  Parameters for LP
-
-  By default, 2*s^2 steps are done. This may or may not be sufficient.
-
-  =#
-  if kmax == 0
-    kmax = 2 * prod(size(A))
-    smax = maximum([round(Int64, kmax/5) 1])
-  end
-  # First trial
-  best_partition = propagate_labels(A, kmax, smax)
-  for trial in 2:replicates
-    trial_partition = propagate_labels(A, kmax, smax)
-    if trial_partition.Q > best_partition.Q
-      best_partition = trial_partition
+function modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates=100)
+    @assert length(L) == richness(N)
+    q = zeros(replicates)
+    # First trial
+    best_partition = label_propagation(N, L)
+    q[i] = best_partition.Q
+    for trial in 2:replicates
+        trial_partition = label_propagation(N, L)
+        q[trial] = trial_partition.Q
+        if trial_partition.Q > best_partition.Q
+            best_partition = trial_partition
+        end
     end
-  end
-  Q(best_partition)
-  return best_partition
+    Q(best_partition)
+    return [best_partition, q]
 end
 
