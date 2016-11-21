@@ -105,6 +105,10 @@ Arguments are the network, the community partition, and the species id
 """
 function most_common_label(N::DeterministicNetwork, L, sp)
 
+    if sum(N[:,sp]) == 0
+        return L[sp]
+    end
+
     # Get positions with interactions
     nei = [i for i in eachindex(N[:,sp]) if N[i,sp]]
 
@@ -113,7 +117,7 @@ function most_common_label(N::DeterministicNetwork, L, sp)
     uni_nei_lab = unique(nei_lab)
 
     # Count
-    f = zeros(Int64, uni_nei_lab)
+    f = zeros(Int64, size(uni_nei_lab))
     for i in eachindex(uni_nei_lab)
         f[i] = sum(nei_lab .== uni_nei_lab[i])
     end
@@ -134,6 +138,10 @@ Arguments are the network, the community partition, and the species id
 """
 function most_common_label(N::ProbabilisticNetwork, L, sp)
 
+    if sum(N[:,sp]) == 0
+        return L[sp]
+    end
+
     # Get positions with interactions
     nei = [i for i in eachindex(N[:,sp]) if N[i,sp] > 0.0]
 
@@ -142,9 +150,9 @@ function most_common_label(N::ProbabilisticNetwork, L, sp)
     uni_nei_lab = unique(nei_lab)
 
     # Count
-    f = zeros(Int64, uni_nei_lab)
+    f = zeros(Float64, size(uni_nei_lab))
     for i in eachindex(uni_nei_lab)
-        have_this_label = [A[j,sp] for j in eachindex(L) if L[j] == uni_nei_lab[i]]
+        have_this_label = [N[j,sp] for j in eachindex(L) if L[j] == uni_nei_lab[i]]
         f[i] = sum(have_this_label)
     end
 
