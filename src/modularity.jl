@@ -25,8 +25,10 @@ end
 """
 Q -- a measure of modularity
 
-This measures Barber's bipartite modularity based on a matrix and a list of
-module labels.
+This measures modularity based on a matrix and a list of module labels. Note
+that this function assumes that interactions are directional, so that
+``A_{ij}`` represents an interaction from ``i`` to ``j``, but not the other way
+around.
 """
 function Q(N::EcoNetwork, L::Array{Int64, 1})
     # Easy case
@@ -38,14 +40,14 @@ function Q(N::EcoNetwork, L::Array{Int64, 1})
     δ = L .== L'
 
     # Degrees
-    k = degree(N)
+    kin, kout = degree_in(N), degree_out(N)
 
     # Value of m -- sum of weights, total number of int, ...
     m = links(N)
 
     # Null model
-    kikj = (k .* k')
-    Pij = kikj ./ (2.0*m)
+    kikj = (kin .* kout')
+    Pij = kikj ./ m
 
     # Difference 
     diff = N.A .- Pij
@@ -53,7 +55,7 @@ function Q(N::EcoNetwork, L::Array{Int64, 1})
     # Diff × delta
     dd = diff .* δ
 
-    return 1.0/(2.0*m)*sum(dd)
+    return sum(dd)/m
 end
 
 """
@@ -77,7 +79,7 @@ proportion of interactions established *within* modules.
 Note that in some situations, `Qr` can be *lower* than 0. This reflects a
 partition in which more links are established between than within modules.
 """
-function Qr(N::Bipartite, L::Array{Int64, 1})
+function Qr(N::EcoNetwork, L::Array{Int64, 1})
   if length(unique(L)) == 1
     return 0.0
   end
@@ -108,7 +110,7 @@ for non-probabilistic networks.
 The other pitfall is that there is a need to do a *large* number of iterations
 to get to a good partition. This method is also untested.
 """
-function label_propagation(N::Bipartite)
+function label_propagation(N::EcoNetwork)
     # Make a list of labels
     n_lab = maximum(size(N))
     L = collect(1:n_lab)
