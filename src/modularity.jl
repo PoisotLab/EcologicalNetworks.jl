@@ -240,7 +240,7 @@ function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
                 rows = 1:size(N.A, 1)
                 tL = L[vcat(cols, rows)]
             else
-                tl = L
+                tL = L
             end
             L[uc] = most_common_label(N', tL, uc)
         end
