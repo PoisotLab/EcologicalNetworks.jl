@@ -45,7 +45,17 @@ function Q(N::EcoNetwork, L::Array{Int64, 1})
     end
 
     # Same community?
-    δ = L .== L'
+    if typeof(N) <: Bipartite
+        # In the case of bipartite networks the block A of the δ matrix is
+        # considered:
+        # 0 A
+        # 0 0
+        L_up = L[1:size(N.A, 1)]
+        L_lo = L[(size(N.A, 1)+1):richness(N)]
+        δ = L_up .== L_lo'
+    else 
+        δ = L .== L'
+    end
 
     # Degrees
     kin, kout = degree_in(N), degree_out(N)
@@ -54,7 +64,7 @@ function Q(N::EcoNetwork, L::Array{Int64, 1})
     m = links(N)
 
     # Null model
-    kikj = (kin .* kout')
+    kikj = (kout .* kin')
     Pij = kikj ./ m
 
     # Difference 
