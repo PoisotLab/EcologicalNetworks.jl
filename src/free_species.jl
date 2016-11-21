@@ -2,14 +2,14 @@
 Probability that a species has no predecessors
 """
 function species_has_no_predecessors(N::Unipartite)
-  return vec(prod(1.0 .- nodiag(N),1))
+    return vec(prod(1.0 .- nodiag(N),1))
 end
 
 """
 Probability that a species has no successors
 """
 function species_has_no_successors(N::Unipartite)
-  return vec(prod(1.0 .- nodiag(N),2))
+    return species_has_no_predecessors(N')
 end
 
 """
