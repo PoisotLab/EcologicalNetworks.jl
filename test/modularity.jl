@@ -14,8 +14,8 @@ module TestModularity
     @test length(unique(mb.L)) == 2
     @test mb.Q == mu.Q
     @test Qr(mb) == 1.0
-    @test Qr(mb, mb.L) == 1.0
-    @test Qr(mb, ones(Int64, richness(mb.N))) == 1.0
+    @test Qr(mb.N, mb.L) == 1.0
+    @test Qr(mb.N, ones(Int64, richness(mb.N))) == 1.0
 
     # Test the partition with only a network given
     @test Partition(B).Q == 0.0
