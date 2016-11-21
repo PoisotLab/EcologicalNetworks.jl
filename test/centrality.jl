@@ -2,11 +2,7 @@ module TestCentrality
   using Base.Test
   using EcologicalNetwork
 
-  @test false
-
-  # Generate some data
-
-  A = [0.0 1.0 0.0 0.0; 0.0 0.0 0.0 1.0; 0.0 1.0 0.0 0.0; 0.0 0.0 0.0 0.0]
+  A = UnipartiteNetwork(map(Bool, [0.0 1.0 0.0 0.0; 0.0 0.0 0.0 1.0; 0.0 1.0 0.0 0.0; 0.0 0.0 0.0 0.0]))
 
   c_1_1 = centrality_katz(A, a=0.1, k=1)
   c_2_1 = centrality_katz(A, a=0.2, k=1)
