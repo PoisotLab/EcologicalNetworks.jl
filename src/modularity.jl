@@ -183,7 +183,7 @@ function most_common_label(N::ProbabilisticNetwork, L, sp)
     # Count
     f = zeros(Float64, size(uni_nei_lab))
     for i in eachindex(uni_nei_lab)
-        have_this_label = [N[j,sp] for j in eachindex(L) if L[j] == uni_nei_lab[i]]
+        have_this_label = [N[j,sp] for j in 1:size(N.A, 1) if L[j] == uni_nei_lab[i]]
         f[i] = sum(have_this_label)
     end
 
