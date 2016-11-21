@@ -4,11 +4,17 @@ module TestMakeUnipartite
 
   # Generate some data
 
-  A = [1.0 1.0; 1.0 1.0]
+  N = BipartiteProbaNetwork([1.0 1.0; 1.0 1.0])
+  M = make_unipartite(N)
 
-  M = make_unipartite(A)
+  @test typeof(M) == UnipartiteProbaNetwork
 
   @test M[3,1] == 0.0
   @test M[1,4] == 1.0
+  
+  N = BipartiteNetwork([true true; true true])
+  M = make_unipartite(N)
+
+  @test typeof(M) == UnipartiteNetwork
 
 end
