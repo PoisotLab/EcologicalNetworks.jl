@@ -18,8 +18,8 @@ end
 Constructor for the `Partition` type
 """
 function Partition(N::EcoNetwork)
-    t_L = 1:richness(N)
-    return Partition(N, t_L, Q(N, t_L))
+    tL = 1:richness(N)
+    return Partition(N, tL, Q(N, tL))
 end
 
 """
