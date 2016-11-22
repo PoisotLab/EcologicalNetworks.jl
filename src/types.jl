@@ -1,9 +1,35 @@
 using Base
 
+"""
+EcoNetwork type
+
+
+This is an abstract type that allows to generate functions for all sorts of
+networks. All other types are derived from this one.
+"""
 abstract EcoNetwork
+
+"""
+Unipartite type
+
+All unipartite networks
+"""
 abstract Unipartite <: EcoNetwork
+
+"""
+Bipartite type
+
+All bipartite networks
+"""
 abstract Bipartite <: EcoNetwork
 
+"""
+BipartiteNetwork
+
+A bipartite deterministic network is represented as a two-dimensional array of
+Booleans. This is one of the most memory-efficient solutions. Interactions and
+their absences are represented by true and false, respectively.
+"""
 type BipartiteNetwork <: Bipartite
     A::Array{Bool, 2}
 end
