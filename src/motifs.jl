@@ -54,7 +54,7 @@ probability of each induced subgraph being an instance of the motif given by
 `m` (the adjacency matrix of the motif, with 0 and 1). Note that the `k` is
 determined by the dimensions of `n`.
 """
-function count_motifs(A::Bipartite, m::DeterministicNetwork)
+function count_motifs(N::Bipartite, m::DeterministicNetwork)
 
     # The motif must be no larger than N, and this must be true for all
     # dimensions
@@ -82,9 +82,38 @@ function count_motifs(A::Bipartite, m::DeterministicNetwork)
     return single_probas
 end
 
+"""
+Motif counter for an unipartite network
+
+This function will go through all k-permutations of `N` to measure the
+probability of each induced subgraph being an instance of the motif given by
+`m` (the adjacency matrix of the motif, with 0 and 1). Note that the `k` is
+determined by the dimensions of `n`.
+"""
+function count_motifs(N::Unipartite, m::DeterministicNetwork)
+
+    # The motif must be no larger than N
+    @assert richness(N) >= richness(m)
+
+    sp_pick = 1:richness(N)
+    sp_comb = combinations(sp_pick, richness(m))
+
+    # Store the probabilities
+    single_probas = Float64[]
+
+    # Compute the probabilities for each k-plet
+    for cr in sp_comb
+        for pr in permutations(cr)
+            push!(single_probas, motif_p(typeof(N)(N[vec(pr), vec(pr)]), m))
+        end
+    end
+    
+    return single_probas
+end
+
 """ Expected number of a given motif """
-function motif(A::Array{Float64, 2}, m::Array{Float64, 2})
-  return sum(float(count_motifs(A, m)))
+function motif(N::EcoNetwork, m::DeterministicNetwork)
+  return sum(float(count_motifs(N, m)))
 end
 
 """ Expected variance of a given motif """
