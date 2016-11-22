@@ -30,6 +30,9 @@ function Partition(N::EcoNetwork, L::Array{Int64, 1})
     return Partition(N, L, Q(N, L))
 end
 
+"""
+Get the δ matrix
+"""
 function delta_matrix(N::EcoNetwork, L::Array{Int64, 1})
     @assert length(L) == richness(N)
 
@@ -37,9 +40,9 @@ function delta_matrix(N::EcoNetwork, L::Array{Int64, 1})
     if typeof(N) <: Bipartite
 
         # If the network is bipartite, the L array is split in two
-        L_row = L[1:nrows(N)]
-        L_col = L[(nrows(N)+1):richness(N)]
-        δ = L_row .== L_col'
+        R = L[1:nrows(N)]
+        C = L[(nrows(N)+1):richness(N)]
+        δ = R .== C'
     else
         # If the network is unipartite, we're good to go
         δ = L .== L'
@@ -218,22 +221,36 @@ function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
     amod = imod
     improved = true
 
+    # If the network is bipartite, what we need to do is actually split the
+    # L array into a C and a R array for columns and rows, respectively. Note
+    # that neither R nor C would be defined for a unipartite network.
+    if typeof(N) <: Bipartite
+        R, C = L[1:nrows(N)], L[(nrows(N)+1):richness(N)]
+    end
+
     # Update
     while improved
 
         # Random update order -- identity of possible species varies between
         # bipartite and unipartite networks
-        if typeof(N) <: Bipartite
-            update_order_col = shuffle(1:size(N.A, 1))
-            update_order_row = shuffle((size(N.A, 1)+1):richness(N)).-size(N.A, 1)
-        else
-            update_order_col = shuffle(1:size(N.A, 1))
-            update_order_row = shuffle(1:size(N.A, 2))
-        end
+        
+        # The naming in this part of the code is a bit weird, so here goes: the
+        # labels are updated column-wise, because the interactions are from the
+        # species in the row, to the species in the column. So when we want to
+        # know which row to update, the relevant information is actually in the
+        # column id.
+        update_order_col = shuffle(1:nrows(N))
+        update_order_row = shuffle(1:ncols(N))
 
         # Update the rows
         for ur in update_order_row
-            pos = typeof(N) <: Bipartite ? size(N.A, 1) + ur : ur
+
+            # The real position of the updated column must be corrected if we
+            # are talking about a bipartite network. Column 1 is, in fact, the
+            # nrows(N)+1th element of the community vector L.
+            pos = typeof(N) <: Bipartite ? nrows(N) + ur : ur
+
+            # When this is done, we can get the most common label.
             L[pos] = most_common_label(N, L, ur)
         end
 
