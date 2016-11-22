@@ -72,6 +72,10 @@ function Base.size(N::EcoNetwork)
     Base.size(N.A)
 end
 
+function Base.copy(N::EcoNetwork)
+    return typeof(N)(N.A)
+end
+
 """
 Return a transposed network with the correct type
 """
