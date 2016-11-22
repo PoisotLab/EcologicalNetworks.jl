@@ -35,8 +35,7 @@ module TestModularity
     mpu = label_propagation(pU, collect(1:richness(pU)))
 
     @test_approx_eq mpu.Q mpb.Q
-    @test_approx_eq mpu.Q 1.0
-    @test_approx_eq mpb.Q 1.0
-
+    @test_approx_eq mpu.Q 0.5
+    @test_approx_eq mpb.Q 0.5
 
 end

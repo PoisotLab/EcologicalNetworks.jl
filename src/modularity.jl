@@ -221,13 +221,6 @@ function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
     amod = imod
     improved = true
 
-    # If the network is bipartite, what we need to do is actually split the
-    # L array into a C and a R array for columns and rows, respectively. Note
-    # that neither R nor C would be defined for a unipartite network.
-    if typeof(N) <: Bipartite
-        R, C = L[1:nrows(N)], L[(nrows(N)+1):richness(N)]
-    end
-
     # Update
     while improved
 
@@ -250,20 +243,29 @@ function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
             # nrows(N)+1th element of the community vector L.
             pos = typeof(N) <: Bipartite ? nrows(N) + ur : ur
 
-            # When this is done, we can get the most common label.
+            # When this is done, we can get the most common label. If this is
+            # a bipartite network, since R and C are views instead of duplicate
+            # arrays, everything will be kept up to date.
             L[pos] = most_common_label(N, L, ur)
+
         end
 
         # Update the columns
         for uc in update_order_col
-            if typeof(N) <: Bipartite 
-                cols = size(N.A, 1) .+ (1:size(N.A, 2))
-                rows = 1:size(N.A, 1)
-                tL = L[vcat(cols, rows)]
+
+            # If the network is bipartite, we need to move things around in the
+            # L array. Specifically, since we transpose the matrix, the columns
+            # need to come first.
+            if typeof(N) <: Bipartite
+                R = 1:nrows(N)
+                C = nrows(N).+(1:ncols(N))
+                vec_to_use = vcat(L[C], L[R])
             else
-                tL = L
+                vec_to_use = L
             end
-            L[uc] = most_common_label(N', tL, uc)
+
+            # Update
+            L[uc] = most_common_label(N', vec_to_use, uc)
         end
 
         # Modularity improved?
