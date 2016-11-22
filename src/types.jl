@@ -26,14 +26,17 @@ abstract Bipartite <: EcoNetwork
 """
 BipartiteNetwork
 
-A bipartite deterministic network is represented as a two-dimensional array of
-Booleans. This is one of the most memory-efficient solutions. Interactions and
-their absences are represented by true and false, respectively.
+A bipartite deterministic network.
 """
 type BipartiteNetwork <: Bipartite
     A::Array{Bool, 2}
 end
 
+"""
+UnipartiteNetwork
+
+An unipartite deterministic network.
+"""
 type UnipartiteNetwork <: Unipartite
     A::Array{Bool, 2}
     UnipartiteNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
@@ -48,6 +51,13 @@ type UnipartiteProbaNetwork <: Unipartite
     UnipartiteProbaNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
+"""
+Probabilistic network
+
+This is a union type for both Bipartite and Unipartite probabilistic networks.
+Probabilistic networks are represented as arrays of floating point values ∈
+[0;1].
+"""
 ProbabilisticNetwork = Union{BipartiteProbaNetwork, UnipartiteProbaNetwork}
 DeterministicNetwork = Union{BipartiteNetwork, UnipartiteNetwork}
 
