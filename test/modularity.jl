@@ -38,4 +38,8 @@ module TestModularity
     @test_approx_eq mpu.Q 0.5
     @test_approx_eq mpb.Q 0.5
 
+
+    # Modularity wrapper
+    @test length(modularity(pB, collect(1:richness(pB)), replicates=10)) == 10
+
 end

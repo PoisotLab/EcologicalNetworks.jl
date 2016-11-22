@@ -291,19 +291,14 @@ Keywords arguments:
 1. `replicates`, defaults to `100`
 """
 function modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates=100)
+    
+    # Each species must have an entry
     @assert length(L) == richness(N)
-    q = zeros(replicates)
-    # First trial
-    best_partition = label_propagation(N, L)
-    q[i] = best_partition.Q
-    for trial in 2:replicates
-        trial_partition = label_propagation(N, L)
-        q[trial] = trial_partition.Q
-        if trial_partition.Q > best_partition.Q
-            best_partition = trial_partition
-        end
-    end
-    Q(best_partition)
-    return [best_partition, q]
+
+    # We just pmap the label propagation function
+    partitions = pmap((x) -> label_propagation(N, L), 1:replicates)
+
+    # And return
+    return partitions
 end
 
