@@ -19,7 +19,10 @@ module TestMotifs
   # Test on a three-species network
   B = UnipartiteNetwork([false true true; false false true; false false false])
   @test motif(B, B) == 1.0
-  @test motif_var(B, B) == 0.0
+
+  # Test on the same network, this time with a proba one
+  P = UnipartiteProbaNetwork([0.0 1.0 1.0; 0.0 0.0 1.0; 0.0 0.0 0.0])
+  @test motif_var(P, B) == 0.0
 
   # Test with some variation
   ovl = [0.0 1.0 1.0; 0.0 0.0 1.0; 0.0 0.0 0.0]
