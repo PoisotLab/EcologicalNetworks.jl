@@ -19,6 +19,9 @@ module TestMotifs
   # Test on a three-species network
   B = UnipartiteNetwork([false true true; false false true; false false false])
   @test motif(B, B) == 1.0
+  
+  BDN = BipartiteNetwork([false true true; false false true; false false false])
+  @test motif(BDN, BDN) == 1.0
 
   # Test on the same network, this time with a proba one
   P = UnipartiteProbaNetwork([0.0 1.0 1.0; 0.0 0.0 1.0; 0.0 0.0 0.0])
