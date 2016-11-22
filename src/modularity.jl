@@ -30,6 +30,25 @@ function Partition(N::EcoNetwork, L::Array{Int64, 1})
     return Partition(N, L, Q(N, L))
 end
 
+function delta_matrix(N::EcoNetwork, L::Array{Int64, 1})
+    @assert length(L) == richness(N)
+
+    # The actual matrix depends on the shape of the network
+    if typeof(N) <: Bipartite
+
+        # If the network is bipartite, the L array is split in two
+        L_row = L[1:nrows(N)]
+        L_col = L[(nrows(N)+1):richness(N)]
+        δ = L_row .== L_col'
+    else
+        # If the network is unipartite, we're good to go
+        δ = L .== L'
+    end
+
+    # Return the 0/1 matrix
+    return δ
+end
+
 """
 Q -- a measure of modularity
 
@@ -43,19 +62,9 @@ function Q(N::EcoNetwork, L::Array{Int64, 1})
     if length(unique(L)) == 1
         return 0.0
     end
-
-    # Same community?
-    if typeof(N) <: Bipartite
-        # In the case of bipartite networks the block A of the δ matrix is
-        # considered:
-        # 0 A
-        # 0 0
-        L_up = L[1:size(N.A, 1)]
-        L_lo = L[(size(N.A, 1)+1):richness(N)]
-        δ = L_up .== L_lo'
-    else 
-        δ = L .== L'
-    end
+    
+    # Communities matrix
+    δ = delta_matrix(N, L)
 
     # Degrees
     kin, kout = degree_in(N), degree_out(N)
@@ -101,13 +110,8 @@ function Qr(N::EcoNetwork, L::Array{Int64, 1})
     if length(unique(L)) == 1
         return 0.0
     end
-    if typeof(N) <: Bipartite
-        L_up = L[1:size(N.A, 1)]
-        L_lo = L[(size(N.A, 1)+1):richness(N)]
-        δ = L_up .== L_lo'
-    else 
-        δ = L .== L'
-    end
+
+    δ = delta_matrix(N, L)
     W = sum(N.A .* δ)
     E = links(N)
     return 2.0 * (W/E) - 1.0
@@ -131,7 +135,7 @@ Arguments are the network, the community partition, and the species id
 function most_common_label(N::DeterministicNetwork, L, sp)
 
     # If this is a bipartite network, the margin should be changed
-    pos_in_L = typeof(N) <: Bipartite ? size(N.A, 1) + sp : sp
+    pos_in_L = typeof(N) <: Bipartite ? nrows(N) + sp : sp
 
     if sum(N[:,sp]) == 0
         return L[pos_in_L]
@@ -183,7 +187,7 @@ function most_common_label(N::ProbabilisticNetwork, L, sp)
     # Count
     f = zeros(Float64, size(uni_nei_lab))
     for i in eachindex(uni_nei_lab)
-        have_this_label = [N[j,sp] for j in 1:size(N.A, 1) if L[j] == uni_nei_lab[i]]
+        have_this_label = [N[j,sp] for j in 1:nrows(N) if L[j] == uni_nei_lab[i]]
         f[i] = sum(have_this_label)
     end
 

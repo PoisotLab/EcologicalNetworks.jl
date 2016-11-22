@@ -50,6 +50,14 @@ function Base.getindex(N::EcoNetwork, i...)
     return getindex(N.A, i...)
 end
 
+function nrows(N::EcoNetwork)
+    return size(N.A, 1)
+end
+
+function ncols(N::EcoNetwork)
+    return size(N.A, 2)
+end
+
 """
 Richness (number of species) in a bipartite network
 """
