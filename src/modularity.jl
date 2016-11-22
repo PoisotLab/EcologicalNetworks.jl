@@ -65,7 +65,7 @@ function Q(N::EcoNetwork, L::Array{Int64, 1})
     if length(unique(L)) == 1
         return 0.0
     end
-    
+
     # Communities matrix
     δ = delta_matrix(N, L)
 
@@ -79,7 +79,7 @@ function Q(N::EcoNetwork, L::Array{Int64, 1})
     kikj = (kout .* kin')
     Pij = kikj ./ m
 
-    # Difference 
+    # Difference
     diff = N.A .- Pij
 
     # Diff × delta
@@ -172,7 +172,7 @@ Count most common labels
 Arguments are the network, the community partition, and the species id
 """
 function most_common_label(N::ProbabilisticNetwork, L, sp)
-    
+
     # If this is a bipartite network, the margin should be changed
     pos_in_L = typeof(N) <: Bipartite ? size(N.A, 1) + sp : sp
 
@@ -226,7 +226,7 @@ function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
 
         # Random update order -- identity of possible species varies between
         # bipartite and unipartite networks
-        
+
         # The naming in this part of the code is a bit weird, so here goes: the
         # labels are updated column-wise, because the interactions are from the
         # species in the row, to the species in the column. So when we want to
@@ -291,7 +291,7 @@ Keywords arguments:
 1. `replicates`, defaults to `100`
 """
 function modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates=100)
-    
+
     # Each species must have an entry
     @assert length(L) == richness(N)
 
@@ -302,3 +302,17 @@ function modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates=100)
     return partitions
 end
 
+"""
+Return the best partition
+"""
+function best_partition(modpart)
+
+    # TODO tests on inputs
+
+    # We get the values of Q
+    Qs = map((x) -> x.Q, modpart)
+
+    # Then return the best partitions
+    return filter(x -> x.Q == minimum(Qs), modpart)
+
+end
