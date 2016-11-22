@@ -1,21 +1,22 @@
 """ Internal motif calculations
 
-The two arguments are `A` the adjacency matrix (probabilistic) and `m` the motif
-adjacency matrix (0.0 or 1.0 only). The two matrices must have the same size.
-The function returns a *vectorized* probability of each interaction being in the
-right state for the motif, *i.e.* P if m is 1, and 1 - P if m is 0.
-
+The two arguments are `A` the adjacency matrix (probabilistic) and `m`
+the motif adjacency matrix (as a `DeterministicNetwork`). The two matrices
+must have the same size.  The function returns a *vectorized* probability of
+each interaction being in the right state for the motif, *i.e.* P if m is 1,
+and 1 - P if m is 0.
 """
-function motif_internal(A::Array{Float64, 2}, m::Array{Float64, 2})
-  # The motif structure can only be 0 or 1
-  @assert sort(unique(m)) == vec([0.0 1.0]) || unique(m) == vec([0.0]) || unique(m) == vec([1.0])
-  # The motif structure must have the same size than the partial adjacency matrix
-  @assert size(A) == size(m)
-  # Change the motif structure into a multiplication structure
-  b = copy(m)
-  b[m .== 0.0] = 1.0
-  b[m .== 1.0] = 2.0 .* A[m .== 1.0]
-  return vec(b .- A)
+function motif_internal(A::EcoNetwork, m::DeterministicNetwork)
+
+    # The motif structure can only be 0 or 1
+    @assert sort(unique(m)) == vec([0.0 1.0]) || unique(m) == vec([0.0]) || unique(m) == vec([1.0])
+    # The motif structure must have the same size than the partial adjacency matrix
+    @assert size(A) == size(m)
+    # Change the motif structure into a multiplication structure
+    b = copy(m)
+    b[m .== 0.0] = 1.0
+    b[m .== 1.0] = 2.0 .* A[m .== 1.0]
+    return vec(b .- A)
 end
 
 """ Probability that a group of species form a given motif """
