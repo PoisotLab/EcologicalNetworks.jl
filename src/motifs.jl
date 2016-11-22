@@ -117,6 +117,6 @@ function motif(N::EcoNetwork, m::DeterministicNetwork)
 end
 
 """ Expected variance of a given motif """
-function motif_var(A::Array{Float64, 2}, m::Array{Float64, 2})
-  return a_var(float(count_motifs(A, m)))
+function motif_var(N::EcoNetwork, m::DeterministicNetwork)
+  return a_var(float(count_motifs(N, m)))
 end
