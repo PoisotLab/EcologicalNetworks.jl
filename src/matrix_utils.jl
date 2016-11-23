@@ -47,8 +47,11 @@ function nodiag(N::Unipartite)
     # Get the type of the internal elements according to the network type
     itype = typeof(N) == UnipartiteNetwork ? Bool : Float64
 
+    # Inner matrix
+    A = N.A .* (one(itype) .- eye(itype, size(N)[1]))
+
     # Return a copy of the network with the same type
-    return typeof(N)(N.A .* (one(itype) .- eye(itype, size(N)[1])))
+    return typeof(N)(A)
 end
 
 """

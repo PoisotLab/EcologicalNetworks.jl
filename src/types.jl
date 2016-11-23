@@ -26,18 +26,50 @@ abstract Bipartite <: EcoNetwork
 """
 BipartiteNetwork
 
-A bipartite deterministic network is represented as a two-dimensional array of
-Booleans. This is one of the most memory-efficient solutions. Interactions and
-their absences are represented by true and false, respectively.
+A bipartite deterministic network.
 """
 type BipartiteNetwork <: Bipartite
     A::Array{Bool, 2}
 end
 
+"""
+Construct a bipartite network from a matrix of integer
+"""
+function BipartiteNetwork(A::Array{Int64, 2})
+
+    # It can only be 0s and 1s
+    u_val = sort(unique(A))
+    # The following line will allow fully connected or emmpty networks
+    @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
+
+    # Return
+    return BipartiteNetwork(map(Bool, A))
+end
+
+"""
+UnipartiteNetwork
+
+An unipartite deterministic network.
+"""
 type UnipartiteNetwork <: Unipartite
     A::Array{Bool, 2}
     UnipartiteNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
+
+"""
+Construct an unipartite network from a matrix of integer
+"""
+function UnipartiteNetwork(A::Array{Int64, 2})
+
+    # It can only be 0s and 1s
+    u_val = sort(unique(A))
+    # The following line will allow fully connected or emmpty networks
+    @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
+
+    # Return
+    return UnipartiteNetwork(map(Bool, A))
+end
+
 
 type BipartiteProbaNetwork <: Bipartite
     A::Array{Float64, 2}
@@ -48,6 +80,13 @@ type UnipartiteProbaNetwork <: Unipartite
     UnipartiteProbaNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
+"""
+Probabilistic network
+
+This is a union type for both Bipartite and Unipartite probabilistic networks.
+Probabilistic networks are represented as arrays of floating point values ∈
+[0;1].
+"""
 ProbabilisticNetwork = Union{BipartiteProbaNetwork, UnipartiteProbaNetwork}
 DeterministicNetwork = Union{BipartiteNetwork, UnipartiteNetwork}
 
@@ -60,6 +99,10 @@ end
 
 function Base.size(N::EcoNetwork)
     Base.size(N.A)
+end
+
+function Base.copy(N::EcoNetwork)
+    return typeof(N)(N.A)
 end
 
 """

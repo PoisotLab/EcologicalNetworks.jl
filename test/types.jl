@@ -18,4 +18,13 @@ module TestTypes
     @test typeof(UnipartiteNetwork(rand(Bool, (3, 3)))) <: Unipartite
     @test typeof(UnipartiteNetwork(rand(Bool, (3, 3)))) <: DeterministicNetwork
 
+    B = BipartiteProbaNetwork(rand(3, 5))
+    @test typeof(copy(B)) == typeof(B)
+
+    A = BipartiteNetwork([0 1; 0 0])
+    @test typeof(A) <: DeterministicNetwork
+    
+    A = UnipartiteNetwork([0 1; 0 0])
+    @test typeof(A) <: DeterministicNetwork
+
 end

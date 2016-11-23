@@ -31,11 +31,21 @@ module TestModularity
     pB = BipartiteProbaNetwork(P)
     pU = make_unipartite(pB)
 
-    mpb = label_propagation(pB, collect(1:richness(pB)))
+    # We know that the best modularity should be 0.5
     mpu = label_propagation(pU, collect(1:richness(pU)))
+    ispointfive = mpu.Q == 0.5
+    while !ispointfive
+        mpu = label_propagation(pU, collect(1:richness(pU)))
+        ispointfive = mpu.Q == 0.5
+    end
+    mpb = label_propagation(pB, collect(1:richness(pB)))
 
     @test_approx_eq mpu.Q mpb.Q
     @test_approx_eq mpu.Q 0.5
     @test_approx_eq mpb.Q 0.5
+
+
+    # Modularity wrapper
+    @test length(modularity(pB, collect(1:richness(pB)), replicates=10)) == 10
 
 end

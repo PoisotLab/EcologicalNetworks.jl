@@ -1,6 +1,3 @@
-#=
-Draws a matrix in grey scale
-=#
 function draw_matrix(A::Array{Float64,2}; transform = (x) -> 1-x, file="pen.png")
     nbot, ntop = size(A)
     # Check size

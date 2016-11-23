@@ -14,7 +14,7 @@
 ## Development version
 
 [![Build Status](https://travis-ci.org/PoisotLab/EcologicalNetwork.jl.svg?branch=dev)](https://travis-ci.org/PoisotLab/EcologicalNetwork.jl)
-[![Coverage Status](https://coveralls.io/repos/PoisotLab/EcologicalNetwork.jl/badge.svg?branch=dev&service=github)](https://coveralls.io/github/PoisotLab/EcologicalNetwork.jl?branch=dev)
+[![Coverage Status](https://coveralls.io/repos/github/PoisotLab/EcologicalNetwork.jl/badge.svg?branch=dev)](https://coveralls.io/github/PoisotLab/EcologicalNetwork.jl?branch=dev)
 [![codecov.io](http://codecov.io/github/PoisotLab/EcologicalNetwork.jl/coverage.svg?branch=dev)](http://codecov.io/github/PoisotLab/EcologicalNetwork.jl/branch/dev)
 [![Documentation Status](https://readthedocs.org/projects/ecologicalnetworkjl/badge/?version=dev)](http://ecologicalnetworkjl.readthedocs.io/en/dev/?badge=dev)
 
