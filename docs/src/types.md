@@ -69,7 +69,8 @@ should give the same results (connectance is one notable example).
 ## Type reference
 
 ```@autodocs
-Modules = [EcologicalNetworks]
+Modules = [EcologicalNetwork]
 Order = [:type]
+Pages = ["types.jl"]
 ```
 
