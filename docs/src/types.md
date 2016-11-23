@@ -54,15 +54,22 @@ as the species in rows and columns are different species. It is possible to
 convert a network from `Bipartite` to `Unipartite` using the `make_unipartite`
 function:
 
-~~~ julia
+``` julia
 B = BipartiteNetwork(rand(Bool, (3, 5)))
 richnes(B) # 8
 U = make_unipartite(B)
 richness(U) # 8
-~~~
+```
 
 The documentation for `make_unipartite` gives additional explanations about
 how the conversion is done. In the overwhelming majority of cases, applying
 any measure to a bipartite network, and to the same network made unipartite,
 should give the same results (connectance is one notable example).
+
+## Type reference
+
+```@autodocs
+Modules = [EcologicalNetworks]
+Order = [:type]
+```
 
