@@ -5,7 +5,7 @@ ARCHIVENAME=EcologicalNetwork.tar.gz
 
 ALL: $(ARCHIVENAME)
 
-$(ARCHIVENAME): test doc clean
+$(ARCHIVENAME): test clean
 	rm -f $(ARCHIVENAME)
 	cd ..; tar -zcvf EcologicalNetwork/$(ARCHIVENAME) EcologicalNetwork
 
