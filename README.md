@@ -20,10 +20,10 @@
 
 # Introduction
 
-This `Julia` module implements a set of measures and utilities to work on
+This *julia* module implements a set of measures and utilities to work on
 ecological networks, with an emphasis on probabilistic ones. The measures
-are **not** designed to work on *quantitative* interaction networks,
-*i.e.* those in which the strength of the interaction is known.
+are **not** designed to work on *quantitative* interaction networks, *i.e.*
+those in which the strength of the interaction is known.
 
 > Poisot, T., Cirtwill, A. R., Cazelles, K., Gravel, D., Fortin, M.-J. and Stouffer, D. B. (2016), The structure of probabilistic networks. Methods Ecol Evol, 7: 303–312. doi:10.1111/2041-210X.12468
 
