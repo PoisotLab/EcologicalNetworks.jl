@@ -1,62 +1,51 @@
 module TestModularity
-  using Base.Test
-  using EcologicalNetwork
+    using Base.Test
+    using EcologicalNetwork
 
-  # Example network 1
-  A = [0.0 1.0 1.0 0.0 0.0 0.0;
-  1.0 0.0 1.0 0.0 0.0 0.0;
-  1.0 1.0 0.0 0.0 0.0 0.0;
-  0.0 0.0 0.0 0.0 1.0 1.0;
-  0.0 0.0 0.0 1.0 0.0 1.0;
-  0.0 0.0 0.0 1.0 1.0 0.0;]
+    # Perfectly modular bipartite network
+    A = [true true true false false false; true true true false false false;
+         false false false true true true; false false false true true true]
+    B = BipartiteNetwork(A)
+    U = make_unipartite(B)
+    mb = label_propagation(B, collect(1:richness(B)))
+    mu = label_propagation(U, collect(1:richness(U)))
 
-  mod = modularity(A)
-  @test_approx_eq mod.Q 0.375
-  @test length(unique(mod.L)) == 2
-  @test mod.L[1] == mod.L[2]
-  @test mod.L[3] != mod.L[4]
-  @test mod.Q == Q(mod.A, mod.L)
+    @test mb.Q == 0.5
+    @test length(unique(mb.L)) == 2
+    @test mb.Q == mu.Q
+    @test Qr(mb) == 1.0
+    @test Qr(mu) == 1.0
+    @test Qr(mb.N, ones(Int64, richness(mb.N))) == 0.0
 
-  # Example network 2
-  A = [0.0 1.0 1.0 0.0 0.2 0.0;
-  1.0 0.0 1.0 0.0 0.0 0.0;
-  1.0 1.0 0.0 0.0 0.0 0.0;
-  0.0 0.0 0.0 0.0 1.0 1.0;
-  0.0 0.1 0.0 1.0 0.0 1.0;
-  0.3 0.0 0.0 1.0 1.0 0.0;]
+    # Test the partition with only a network given
+    @test Partition(B).Q == 0.0
 
-  mod = modularity(A)
-  @test mod.Q < 0.375
+    # Test Q from a partition
+    @test Q(mb) == mb.Q
 
-  # Example network 3
-  A = eye(Float64, 5)
+    # Test that the modularity if there is a single module
+    @test Q(U, ones(Int64, richness(U))) == 0.0
 
-  mod = modularity(A)
-  @test mod.L[1] == 1
-  @test mod.L[2] == 2
-  @test mod.L[3] == 3
-  @test_approx_eq Qr(mod) 1.0
-  @test_approx_eq Q(mod) mod.Q
+    # Test with a probabilistic network
+    P = map(Float64, A)
+    pB = BipartiteProbaNetwork(P)
+    pU = make_unipartite(pB)
 
-  # Example network 4
-  A = eye(Float64, 3)
-  @test_approx_eq modularity(A).Q 15/36
+    # We know that the best modularity should be 0.5
+    mpu = label_propagation(pU, collect(1:richness(pU)))
+    ispointfive = mpu.Q == 0.5
+    while !ispointfive
+        mpu = label_propagation(pU, collect(1:richness(pU)))
+        ispointfive = mpu.Q == 0.5
+    end
+    mpb = label_propagation(pB, collect(1:richness(pB)))
 
-  # Tests with a single module
-  A = eye(2)
-  mod = modularity(A)
-  mod.L = vec([1 1])
-  @test Qr(mod) == 0.0
-  @test Q(mod) == 0.0
+    @test_approx_eq mpu.Q mpb.Q
+    @test_approx_eq mpu.Q 0.5
+    @test_approx_eq mpb.Q 0.5
 
-  # Test with a complete graph
-  A = ones(Float64, (3, 3))
-  mod = modularity(A)
-  @test length(unique(mod.L)) == 1
-  @test Qr(mod) == 0.0
-  @test Q(mod) == 0.0
 
-  # Test with no increase
-  mod = modularity(A, smax=3, replicates=2, verbose=true)
+    # Modularity wrapper
+    @test length(modularity(pB, collect(1:richness(pB)), replicates=10)) == 10
 
 end

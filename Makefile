@@ -5,21 +5,15 @@ ARCHIVENAME=EcologicalNetwork.tar.gz
 
 ALL: $(ARCHIVENAME)
 
-$(ARCHIVENAME): test doc clean
+$(ARCHIVENAME): test clean
 	rm -f $(ARCHIVENAME)
 	cd ..; tar -zcvf EcologicalNetwork/$(ARCHIVENAME) EcologicalNetwork
 
 test: src/*jl test/*jl
-	$(JEXEC) --code-coverage -e 'Pkg.test(pwd(), coverage=true)'
+	$(JEXEC) -e 'include("src/EcologicalNetwork.jl"); include("test/runtests.jl")'
 
 clean:
 	- rm src/*.cov
-	- rm test/network.log
-
-doc: src/*jl CONTRIBUTING.md
-	cp README.md doc/index.md
-	cp CONTRIBUTING.md doc/contr.md
-	$(JEXEC) ./test/makedoc.jl
 
 CONTRIBUTING.md:
 	wget -O $@ https://raw.githubusercontent.com/PoisotLab/PLCG/master/README.md

@@ -1,5 +1,5 @@
-julia 0.3
+julia 0.5
 StatsBase
 Cairo
 Lexicon
-Logging
+Combinatorics

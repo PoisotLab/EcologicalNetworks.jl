@@ -1,26 +1,43 @@
-""" Expected number of links for a probabilistic matrix
 """
-function links(A::Array{Float64,2})
-   return sum(A)
+Number of links
+
+For all type of networks, this is the sum of the adjacency matrix.
+"""
+function links(N::EcoNetwork)
+   return sum(N.A)
 end
 
-""" Expected variance of the number of links for a probabilistic matrix
 """
-function links_var(A::Array{Float64,2})
-   return sum(A.*(1.-A))
+Expected variance of the number of links for a probabilistic network
+"""
+function links_var(N::ProbabilisticNetwork)
+   return sum(N.A.*(1.-N.A))
 end
 
-""" Expected connectance for a probabilistic matrix, measured as the number
-of expected links, divided by the size of the matrix.
 """
-function connectance(A::Array{Float64,2})
-   return links(A) / prod(size(A))
+Connectance
+
+Number of links divided by the number of possible interactions. In unipartite
+networks, this is ``L/S^2``. In bipartite networks, this is ``L/(T × B)``.
+"""
+function connectance(N::EcoNetwork)
+   return links(N) / prod(size(N))
 end
 
-""" Expected variance of the connectance for a probabilistic matrix,
+"""
+Linkage density
+
+Number of links divided by species richness.
+"""
+function linkage_density(N::DeterministicNetwork)
+    return links(N) / richness(N)
+end
+
+"""
+Expected variance of the connectance for a probabilistic matrix,
 measured as the variance of the number of links divided by the squared size of
 the matrix.
 """
-function connectance_var(A::Array{Float64,2})
-   return links_var(A) / (prod(size(A))^2)
+function connectance_var(N::ProbabilisticNetwork)
+   return links_var(N) / (prod(size(N))^2)
 end

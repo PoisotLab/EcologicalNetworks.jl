@@ -2,3 +2,5 @@
 coverage/coverage.json
 network.log
 EcologicalNetwork.tar.gz
+docs/build/
+docs/site/

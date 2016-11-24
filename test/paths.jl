@@ -4,7 +4,7 @@ module TestPaths
 
   # Generate some data
 
-  A = [0.0 0.1; 0.2 0.8]
+  A = UnipartiteProbaNetwork([0.0 0.1; 0.2 0.8])
 
   P = number_of_paths(A, n=2)
 

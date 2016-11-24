@@ -1,22 +1,16 @@
 """
-Nestedness of a single axis (called internally by `nestedness`)
+Nestedness of a single axis (called internally by `η`)
 """
-function nestedness_axis(A::Array{Float64,2}; axis::Int64=1)
-    @assert axis in 1:2
-    if axis == 2
-        B = A
-    else
-        B = A'
-    end
-    S = size(B)[1]
-    n = vec(sum(B, 2))
+function η_axis(N::Bipartite)
+    S = size(N)[1]
+    n = vec(sum(N.A, 2))
     num = 0.0
     den = 0.0
     @simd for j in 2:S
         @simd for i in 1:(j-1)
-            @inbounds num += sum(B[i,:].*B[j,:])
+            @inbounds num += sum(N[i,:].*N[j,:])
             @inbounds den += minimum([n[i], n[j]])
-         end
+            end
     end
     return sum(num ./ den)
 end
@@ -30,9 +24,10 @@ Returns three values:
 - nestedness of the columns
 - nestedness of the rows
 """
-function nestedness(A::Array{Float64,2})
-   n_1 = nestedness_axis(A, axis=1)
-   n_2 = nestedness_axis(A, axis=2)
-   n = (n_1 + n_2)/2.0
-   return [n, n_1, n_2]
+function η(N::Bipartite)
+    n_1 = η_axis(N')
+    n_2 = η_axis(N)
+    n = (n_1 + n_2)/2.0
+    return [n, n_1, n_2]
 end
+

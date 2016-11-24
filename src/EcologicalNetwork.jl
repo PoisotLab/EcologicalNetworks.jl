@@ -3,53 +3,70 @@ module EcologicalNetwork
 # Dependencies
 using StatsBase
 using Cairo
-using Logging
-Logging.configure(output=open("network.log", "a"))
+using Combinatorics
 
 VERSION < v"0.4-dev" && import Lexicon
 
-export nestedness, nestedness_axis,
+export EcoNetwork,
 
-  # Measures of centrality
-  centrality_katz,
+    # General types for all bipartite / unipartite
+    Bipartite, Unipartite,
 
-  # Links and connectances
-  links, links_var, connectance, connectance_var,
+    # Types
+    BipartiteNetwork, UnipartiteNetwork,
+    BipartiteProbaNetwork, UnipartiteProbaNetwork,
+    
+    # Union types for all proba or deterministic
+    ProbabilisticNetwork, DeterministicNetwork,
 
-  # Measures of degree
-  degree_out, degree_in, degree_out_var, degree_in_var, degree, degree_var,
+    # Richness
+    richness,
 
-  # Expected number of species with 0 interactions
-  species_has_no_successors, species_has_no_predecessors,
-  species_is_free, free_species,
+    # Nestedness
+    η,
 
-  # Matrix manipulation utilities
-  make_unipartite, make_threshold, make_binary, make_bernoulli, nodiag,
+    # Measures of centrality
+    centrality_katz,
 
-  # Probability algebra utilities
-  checkprob, i_esp, i_var, a_var, m_var,
+    # Links and connectances
+    links, links_var, connectance, connectance_var,
+    linkage_density,
 
-  # NAIVE !!! null models
-  null1, null2, null3out, null3in, nullmodel,
+    # Measures of degree
+    degree_out, degree_in, degree_out_var, degree_in_var, degree, degree_var,
 
-  # Draw
-  draw_matrix,
+    # Expected number of species with 0 interactions
+    species_has_no_successors, species_has_no_predecessors,
+    species_is_free, free_species,
 
-  # Modularity
-  Partition, Q, Qr, propagate_labels, modularity,
+    # Matrix manipulation utilities
+    make_unipartite, make_threshold, make_binary, make_bernoulli, nodiag,
 
-  # Paths
-  number_of_paths,
+    # Probability algebra utilities
+    checkprob, i_esp, i_var, a_var, m_var,
 
-  # Beta-diversity
-  betadiversity,
-  whittaker, sorensen, jaccard, gaston,
-  williams, lande, ruggiero, hartekinzig,
-  harrison,
+    # Null models
+    null1, null2, null3out, null3in, nullmodel,
 
-  # Motifs
-  motif_p, motif_v, count_motifs, motif, motif_var
+    # Draw
+    draw_matrix,
 
+    # Modularity
+    Partition, Q, Qr, label_propagation, modularity,
+
+    # Paths
+    number_of_paths,
+
+    # Beta-diversity
+    betadiversity,
+    whittaker, sorensen, jaccard, gaston,
+    williams, lande, ruggiero, hartekinzig,
+    harrison,
+
+    # Motifs
+    motif_p, motif_v, count_motifs, motif, motif_var
+
+include(joinpath(".", "types.jl"))
 include(joinpath(".", "centrality.jl"))
 include(joinpath(".", "connectance.jl"))
 include(joinpath(".", "degree.jl"))
