@@ -12,12 +12,21 @@ function degree_in(N::EcoNetwork)
   return vec(sum(N.A, 1))
 end
 
-""" Expected degree
+"""
+Degree of a unipartite network
+
+This function returns the sum of the in and out degree of a unipartite graph
 """
 function degree(N::Unipartite)
   return degree_in(N) .+ degree_out(N)
 end
 
+"""
+Degree of a bipartite graph
+
+This function returns the total degree of nodes in a bipartite network. This
+is a concatenation of the out degree and the in degrees of nodes on both sizes
+"""
 function degree(N::Bipartite)
     return degree(make_unipartite(N))
 end

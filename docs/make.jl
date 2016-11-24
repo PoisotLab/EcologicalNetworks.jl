@@ -1,7 +1,7 @@
 using Documenter
+push!(LOAD_PATH, "../src/")
 using EcologicalNetwork
 
-push!(LOAD_PATH, "../src/")
 
 makedocs(
          modules = [EcologicalNetwork]

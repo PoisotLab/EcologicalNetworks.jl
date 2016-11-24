@@ -33,18 +33,6 @@ those in which the strength of the interaction is known.
 Pkg.add("EcologicalNetwork")
 ```
 
-## Types
+## How to use
 
-The package has four basic types of networks: `BipartiteProbaNetwork`,
-`BipartiteNetwork`, `UnipartiteProbaNetwork`, and `UnipartiteNetwork`. All
-of these types are in fact `Array`s with two dimensions. The number of types
-is used to take advantage of Julia's multiple dispatch ability: the function
-names are the same regardless of the network type.
-
-A bit of information for those of you wanting to add functionalities: all of
-these types are also accessible through `EcoNetwork` (all types), `Bipartite`
-and `Unipartite` (all bipartite and unipartite, regardless of the probabilistic
-or deterministic state of interactions), and `ProbabilisticNetwork` and
-`DeterministicNetwork` (same thing). In the long term, this will make the
-addition of *e.g.* a `BipartiteQuantiNetwork` and `UnipartiteQuantiNetwork`
-easier.
+See the documentation.
