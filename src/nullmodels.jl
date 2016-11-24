@@ -1,6 +1,7 @@
 """
-Given a matrix `A`, `null1(A)` returns a matrix with the same dimensions, where
-every interaction happens with a probability equal to the connectance of `A`.
+Given a matrix `A`, `null1(A)` returns a matrix with the same dimensions,
+where every interaction happens with a probability equal to the connectance of
+`A`.
 """
 function null1(N::DeterministicNetwork)
     itype = typeof(N) <: Bipartite ? BipartiteProbaNetwork : UnipartiteProbaNetwork

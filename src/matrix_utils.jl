@@ -1,7 +1,6 @@
 """
-Transforms a bipartite network into a unipartite network
-
-Note that this function returns an asymetric unipartite network.
+Transforms a bipartite network into a unipartite network. Note that this
+function returns an asymetric unipartite network.
 """
 function make_unipartite(B::Bipartite)
 
@@ -22,8 +21,6 @@ function make_unipartite(B::Bipartite)
 end
 
 """
-Generate a random 0/1 matrix from probabilities
-
 Returns a matrix B of the same size as A, in which each element B(i,j)
 is 1 with probability A(i,j).
 """
@@ -37,8 +34,6 @@ function make_bernoulli(N::ProbabilisticNetwork)
 end
 
 """
-Sets the diagonal to 0
-
 Returns a copy of the matrix A, with  the diagonal set to 0. Will fail if
 the matrix is not square.
 """
@@ -55,8 +50,6 @@ function nodiag(N::Unipartite)
 end
 
 """
-Generate a deterministic network from a probabilistic one, using a threshold
-
 Returns a matrix B of the same size as A, in which each element B(i,j) is 1 if
 A(i,j) is > `k`. This is probably unwise to use this function since this
 practice is of questionnable relevance, but it is included for the sake of
@@ -79,8 +72,6 @@ function make_threshold(N::ProbabilisticNetwork, k::Float64)
 end
 
 """
-Returns the adjacency/incidence matrix from a probability matrix
-
 Returns a matrix B of the same size as A, in which each element B(i,j) is 1 if
 A(i,j) is greater than 0.
 """

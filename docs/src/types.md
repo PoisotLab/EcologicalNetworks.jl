@@ -1,4 +1,4 @@
-# Informations about types
+# [Informations about types](@id types)
 
 As there are many ways to represent ecological networks, and the correct
 way to measure a given property varies in function of the representation,

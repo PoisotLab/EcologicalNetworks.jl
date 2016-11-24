@@ -23,3 +23,4 @@ docs_dir: 'build'
 pages:
     - Home: index.md
     - Types: types.md
+    - "Null models": nullmodels.md
