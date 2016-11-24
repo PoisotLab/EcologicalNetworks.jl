@@ -17,6 +17,7 @@ my_tests = [
   "nullmodelswrapper.jl",
   "centrality.jl",
   "motifs.jl",
+  "betadiversity.jl",
   "modularity.jl"]
 
   #"betadiversity.jl",

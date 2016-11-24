@@ -38,14 +38,26 @@ for presence–absence data. Journal of Animal Ecology, 72: 367–382. doi:
 10.1046/j.1365-2656.2003.00710.x
 
 """
-function betadiversity(A::Array{Float64,2}, B::Array{Float64,2})
-  if size(A) != size(B)
-    throw(BoundsError())
-  end
-  a = sum(A .* B)
-  b = sum((1 .- A) .* B)
-  c = sum(A .* (1 .- B))
-  return BetaSet(a, b, c)
+function betadiversity(N1::EcoNetwork, N2::EcoNetwork)
+
+    # The two networks must have the same size
+    if size(N1) != size(N2)
+        throw(BoundsError())
+    end
+
+    # The two networks must be of the same type
+    if typeof(N1) != typeof(N2)
+        throw(TypeError(:betadiversity, "Both networks must have the same type", typeof(N1), typeof(N2)))
+    end
+
+    # We need to know how values are stored internally
+    itype = typeof(N1) <: DeterministicNetwork ? Bool : Float64
+    unity = one(itype)
+
+    a = sum(N1.A .* N2.A)
+    b = sum((unity .- N1.A) .* N2.A)
+    c = sum(N1.A .* (unity .- N2.A))
+    return BetaSet(a, b, c)
 end
 
 #=

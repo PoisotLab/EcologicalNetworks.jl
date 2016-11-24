@@ -2,11 +2,10 @@ module TestBetaDiv
   using Base.Test
   using EcologicalNetwork
 
-  @test false
-
   # Matrices of unequal sizes
 
-  @test_throws BoundsError betadiversity(eye(4), eye(5))
+  @test_throws BoundsError betadiversity(BipartiteProbaNetwork(eye(4)), BipartiteProbaNetwork(eye(5)))
+  @test_throws TypeError betadiversity(BipartiteProbaNetwork(eye(4)), UnipartiteProbaNetwork(eye(4)))
 
   # Sum for custom ProbaSet test
 
@@ -14,7 +13,9 @@ module TestBetaDiv
 
   # Equal matrices
 
-  S = betadiversity(eye(10), eye(10))
+  N = BipartiteNetwork(eye(Bool, 10))
+
+  S = betadiversity(N, N)
   @test S.a == 10.0
   @test S.b == 0.0
   @test S.c == 0.0
@@ -25,8 +26,8 @@ module TestBetaDiv
 
   # Different matrices
 
-  A = [1.0 0.3 0.0; 0.2 0.8 1.0; 0.2 0.4 0.3]
-  B = [1.0 0.8 0.2; 0.4 0.6 0.7; 0.1 0.7 0.6]
+  A = BipartiteProbaNetwork([1.0 0.3 0.0; 0.2 0.8 1.0; 0.2 0.4 0.3])
+  B = BipartiteProbaNetwork([1.0 0.8 0.2; 0.4 0.6 0.7; 0.1 0.7 0.6])
 
   S = betadiversity(A, B)
 
