@@ -15,9 +15,10 @@ export EcoNetwork,
     # Types
     BipartiteNetwork, UnipartiteNetwork,
     BipartiteProbaNetwork, UnipartiteProbaNetwork,
+    BipartiteQuantiNetwork, UnipartiteQuantiNetwork,
     
     # Union types for all proba or deterministic
-    ProbabilisticNetwork, DeterministicNetwork,
+    ProbabilisticNetwork, DeterministicNetwork, QuantitativeNetwork,
 
     # Richness
     richness,
