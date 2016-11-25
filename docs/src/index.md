@@ -8,6 +8,7 @@ Pages = [
     "man/types.md",
     "man/data.md",
     "man/nullmodels.md"
+    "man/modularity.md"
 ]
 Depth = 2
 ~~~

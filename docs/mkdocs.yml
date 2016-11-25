@@ -39,6 +39,7 @@ pages:
         - Types: man/types.md
         - Data: man/data.md
         - "Null models": man/nullmodels.md
+        - Modularity: man/modularity.md
     - Library:
         - Public: lib/public.md
         - Internals: lib/internals.md
