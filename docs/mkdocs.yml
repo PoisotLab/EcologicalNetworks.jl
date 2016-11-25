@@ -24,4 +24,5 @@ pages:
     - Home: index.md
     - Manual:
         - Types: man/types.md
+        - Data: man/data.md
         - "Null models": man/nullmodels.md

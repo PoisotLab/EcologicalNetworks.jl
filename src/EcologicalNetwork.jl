@@ -64,7 +64,10 @@ export EcoNetwork,
     harrison,
 
     # Motifs
-    motif_p, motif_v, count_motifs, motif, motif_var
+    motif_p, motif_v, count_motifs, motif, motif_var,
+
+    # Data
+    stony, mcmullen
 
 include(joinpath(".", "types.jl"))
 include(joinpath(".", "centrality.jl"))
@@ -80,5 +83,6 @@ include(joinpath(".", "modularity.jl"))
 include(joinpath(".", "paths.jl"))
 include(joinpath(".", "betadiversity.jl"))
 include(joinpath(".", "motifs.jl"))
+include(joinpath(".", "data.jl"))
 
 end
