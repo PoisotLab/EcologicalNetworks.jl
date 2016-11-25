@@ -38,7 +38,13 @@ module TestModularity
         mpu = label_propagation(pU, collect(1:richness(pU)))
         ispointfive = mpu.Q == 0.5
     end
+
     mpb = label_propagation(pB, collect(1:richness(pB)))
+    ispointfive = mpb.Q == 0.5
+    while !ispointfive
+        mpb = label_propagation(pB, collect(1:richness(pB)))
+        ispointfive = mpb.Q == 0.5
+    end
 
     @test_approx_eq mpu.Q mpb.Q
     @test_approx_eq mpu.Q 0.5

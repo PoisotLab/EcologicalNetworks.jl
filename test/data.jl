@@ -12,7 +12,7 @@ module TestData
 
     # Ollerton
     @test typeof(ollerton()) <: Bipartite
-    @test typeof(ollerton()) <: Deterministic
-    @test size(mcmullen()) == (26, 10)
+    @test typeof(ollerton()) <: DeterministicNetwork
+    @test size(ollerton()) == (26, 10)
 
 end
