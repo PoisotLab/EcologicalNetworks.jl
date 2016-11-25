@@ -3,8 +3,12 @@
 The `EcologicalNetwork` package offers a convenient interface to analyse
 several types of ecological networks.
 
-## Overview of features
-
-## Network types
-
+~~~@contents
+Pages = [
+    "man/types.md",
+    "man/data.md",
+    "man/nullmodels.md"
+]
+Depth = 2
+~~~
 
