@@ -29,4 +29,6 @@ module TestDegreeFunctions
     @test_approx_eq d_tot[i] Dtot[i]
   end
 
+  @test degree(ollerton())[1] > 0
+
 end
