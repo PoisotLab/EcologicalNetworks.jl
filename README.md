@@ -19,7 +19,7 @@
 
 # Introduction
 
-This *julia* module implements a set of measures and utilities to work on
+This *julia* package implements a set of measures and utilities to work on
 ecological networks, with an emphasis on probabilistic ones. The measures
 are **not yet** designed to work on *quantitative* interaction networks,
 *i.e.* those in which the strength of the interaction is known.
