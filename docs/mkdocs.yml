@@ -6,9 +6,10 @@ site_author: Timothée Poisot
 theme: material
 
 extra:
+    logo: "images/logo.png"
     palette:
-        primary: 'blue'
-        accent: 'deep orange'
+        primary: 'green'
+        accent: 'teal'
     font:
         text: 'PT Sans'
         code: 'PT Mono'
