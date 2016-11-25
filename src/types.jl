@@ -100,13 +100,6 @@ numbers.
 QuantitativeNetwork = Union{BipartiteQuantiNetwork, UnipartiteQuantiNetwork}
 
 """
-Show the matrix from an EcoNetwork object
-"""
-function Base.show(N::EcoNetwork)
-    Base.show(N.A)
-end
-
-"""
 Return the size of the adjacency matrix of an EcoNetwork object.
 """
 function Base.size(N::EcoNetwork)
