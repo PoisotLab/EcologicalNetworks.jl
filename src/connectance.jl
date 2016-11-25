@@ -1,7 +1,6 @@
 """
-Number of links
-
-For all type of networks, this is the sum of the adjacency matrix.
+For all type of networks, this is the sum of the adjacency matrix. Note that
+for quantitative networks, this is the cumulative sum of link weights.
 """
 function links(N::EcoNetwork)
    return sum(N.A)
@@ -15,8 +14,6 @@ function links_var(N::ProbabilisticNetwork)
 end
 
 """
-Connectance
-
 Number of links divided by the number of possible interactions. In unipartite
 networks, this is ``L/S^2``. In bipartite networks, this is ``L/(T × B)``.
 """
