@@ -115,10 +115,10 @@ can be measured using the `species_is_free` function:
 template = null2(mcmullen())
 
 # Probability that every species has at least one interaction
-at_least_one = 1.-species_is_free(make_unipartite(t))
+at_least_one = 1.-species_is_free(make_unipartite(template))
 
 # Probability that a randomized network has no unconnected species
-prod(at_leas_one)
+prod(at_least_one)
 ~~~
 
 ~~~@docs
