@@ -7,8 +7,8 @@ theme: material
 
 extra:
     palette:
-        primary: blue
-        accent: lightblue
+        primary: 'blue'
+        accent: 'deep orange'
     font:
         text: 'PT Sans'
         code: 'PT Mono'
@@ -28,6 +28,7 @@ markdown_extensions:
     - tables
     - fenced_code
     - mdx_math
+    - codehilite
 
 docs_dir: 'build'
 
