@@ -22,5 +22,6 @@ docs_dir: 'build'
 
 pages:
     - Home: index.md
-    - Types: types.md
-    - "Null models": nullmodels.md
+    - Manual:
+        - Types: man/types.md
+        - "Null models": man/nullmodels.md
