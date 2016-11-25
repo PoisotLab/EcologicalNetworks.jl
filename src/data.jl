@@ -18,3 +18,13 @@ function mcmullen()
     return BipartiteNetwork(readdlm(n_path))
 end
 
+"""
+Fish-anemone interactions
+
+Taken from `https://www.nceas.ucsb.edu/interactionweb/html/ollerton_et_al_2007.html`
+"""
+function ollerton()
+    n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "db_ollerton.txt")
+    return BipartiteNetwork(readdlm(n_path))
+end
+

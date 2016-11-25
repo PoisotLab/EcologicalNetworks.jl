@@ -9,4 +9,10 @@ module TestData
     # McMullen
     @test typeof(mcmullen()) <: Bipartite
     @test size(mcmullen()) == (54, 105)
+
+    # Ollerton
+    @test typeof(ollerton()) <: Bipartite
+    @test typeof(ollerton()) <: Deterministic
+    @test size(mcmullen()) == (26, 10)
+
 end
