@@ -2,7 +2,7 @@
 
 `EcologicalNetwork` comes with a few datasets:
 
-~~~ @docs
+~~~@docs
 stony
 mcmullen
 ~~~

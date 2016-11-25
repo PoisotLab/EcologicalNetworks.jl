@@ -83,3 +83,44 @@ For an example:
 N = make_bernoulli(BipartiteProbaNetwork(rand(3, 5)))
 null2(N).A
 ~~~
+
+## Null model wrapper
+
+`EcologicalNetwork` has a wrapper to generate an arbitrary number of Bernoulli
+networks from a probability matrix. This approach is encourage over simply
+generating your own networks, because the wrapper will make sure that all
+networks have no species without any interactions. This ensures that the
+networks have the same size.
+
+For example, we can generate a hundred replicates from the `stony` food web
+dataset, using the type 2 model:
+
+~~~@example enet
+template = null2(stony())
+
+# Generate up to 100 networks
+N = nullmodel(template, n=100, max=1000)
+
+# Average connectance
+mean(map(connectance, N))
+~~~
+
+It must be noted that the number of networks returned by `nullmodel` may
+be *lower* than the requested number of networks. This is because of the
+constraint on the fact that no species can end up without interactions. When
+this constrained is enforced, some networks have very low success rates. This
+can be measured using the `species_is_free` function:
+
+~~~@example enet
+template = null2(mcmullen())
+
+# Probability that every species has at least one interaction
+at_least_one = 1.-species_is_free(make_unipartite(t))
+
+# Probability that a randomized network has no unconnected species
+prod(at_leas_one)
+~~~
+
+~~~@docs
+nullmodel
+~~~
