@@ -56,7 +56,7 @@ module TestModularity
     # Test with a quantitative network
     Q1 = BipartiteQuantiNetwork(eye(Int64, 10))
     Q2 = BipartiteQuantiNetwork(eye(Int64, 10).*10)
-    @test label_propagation(Q1, collect(1:20)).Q == 0.9
-    @test label_propagation(Q2, collect(1:20)).Q == 0.9
+    @test_approx_eq label_propagation(Q1, collect(1:20)).Q 0.9
+    @test_approx_eq label_propagation(Q2, collect(1:20)).Q 0.9
 
 end
