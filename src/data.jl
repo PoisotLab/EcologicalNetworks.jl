@@ -1,7 +1,5 @@
 """
 Stony food web from Thompson & Townsend
-
-Taken from `https://www.nceas.ucsb.edu/interactionweb/html/thomps_towns.html`
 """
 function stony()
     n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "du_stony.txt")
@@ -10,8 +8,6 @@ end
 
 """
 Plant-flower visitor interactions in the Galapagos.
-
-Taken from `https://www.nceas.ucsb.edu/interactionweb/html/mc_mullen.html`
 """
 function mcmullen()
     n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "db_mcmullen.txt")
@@ -19,12 +15,26 @@ function mcmullen()
 end
 
 """
-Fish-anemone interactions
-
-Taken from `https://www.nceas.ucsb.edu/interactionweb/html/ollerton_et_al_2007.html`
+Fish-anemone interactions from Ollerton et al. 2007
 """
 function ollerton()
     n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "db_ollerton.txt")
+    return BipartiteNetwork(readdlm(n_path))
+end
+
+"""
+Pollination interaction from Robertson 1927
+"""
+function robertson()
+    n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "db_robertson.txt")
+    return BipartiteNetwork(readdlm(n_path))
+end
+
+"""
+Number of visits from Bluthgen et al XXX
+"""
+function bluthgen()
+    n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "qb_bluthgen.txt")
     return BipartiteNetwork(readdlm(n_path))
 end
 
