@@ -49,8 +49,9 @@ export EcoNetwork,
     # Probability algebra utilities
     checkprob, i_esp, i_var, a_var, m_var,
 
-    # Null models
+    # Null models and testing
     null1, null2, null3out, null3in, nullmodel,
+    test_network_property,
 
     # Draw
     draw_matrix,
@@ -88,5 +89,6 @@ include(joinpath(".", "paths.jl"))
 include(joinpath(".", "betadiversity.jl"))
 include(joinpath(".", "motifs.jl"))
 include(joinpath(".", "data.jl"))
+include(joinpath(".", "test.jl"))
 
 end

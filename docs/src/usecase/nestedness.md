@@ -23,5 +23,18 @@ nest(N)
 # Now that this is done, we can generate a few random networks with the same
 # degree distribution as the original one
 S = nullmodel(null2(N), n=1000, max=2000)
+
+# There is a functionm to apply a test rapidly to all randomized networks
+results = test_network_property(N, nest, S, test=:greater);
+
+# We can look at the p-value of the test
+results.pval
+
+# Or the z-scores
+minimum(results.z)
+median(results.z)
+maximum(results.z)
 ~~~
 
+In this simple example, we used [`nullmodel`](@ref) to generate random
+realizations of a network, and [`test_network_property`](@ref) to evaluate whether the observed nestedness was observed by chance.
