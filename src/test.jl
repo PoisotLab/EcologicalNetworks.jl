@@ -24,9 +24,15 @@ end
 Test a network property using randomizations based on a null model, from a
 pre-existing collection of networks.
 
-Keyword argument: `test` (`:smaller` or `:greater`)
+Arguments:
+- `N` -- the original network
+- `f` -- the function to test, must return a single floating point value
+- `S` -- an array of randomized networks (*e.g.* the output of `nullmodel`)
+
+Keywords:
+- `test` -- the type of test to perform (`:smaller` or `:greater`)
 """
-function test_network_property(N::DeterministicNetwork, f, S::Array{DeterministicNetwork, 1}; test::Symbol=:greater)
+function test_network_property(N::EcoNetwork, f, S; test::Symbol=:greater)
     
     # Check the keyword arguments
     @assert test ∈ [:greater, :smaller]
@@ -50,20 +56,3 @@ function test_network_property(N::DeterministicNetwork, f, S::Array{Deterministi
                )
 
 end
-
-"""
-Test a network property using randomizations based on a null model, by
-specifying the number of replicates and the model to use.
-"""
-function test_network_property(N::DeterministicNetwork, f; model::Function=null1, n=100, max=1000, test::Symbol=:greater)
-    
-    # Check the keyword arguments
-    @assert model ∈ [null1, null2, null3in, null3out]
-
-    # Generate the networks
-    S = nullmodel(model(N), n=n, max=max)
-
-    return test_network_property(N, f, S, test=test)
-
-end
-

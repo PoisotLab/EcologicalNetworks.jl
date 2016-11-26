@@ -54,7 +54,7 @@ export EcoNetwork,
     test_network_property,
 
     # Draw
-    draw_matrix,
+    plot_network,
 
     # Modularity
     Partition, Q, Qr, label_propagation, modularity,
