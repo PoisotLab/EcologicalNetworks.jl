@@ -8,7 +8,13 @@ function make_unipartite(B::Bipartite)
     S = richness(B)
 
     # Get the correct inner (int.) and outer (net.) types
-    itype, otype = typeof(B) <: DeterministicNetwork ? (Bool, UnipartiteNetwork) : (Float64, UnipartiteProbaNetwork)
+    if typeof(B) <: DeterministicNetwork
+        itype, otype = Bool, UnipartiteNetwork
+    elseif typeof(B) <: ProbabilisticNetwork
+        itype, otype = Float64, UnipartiteProbaNetwork
+    elseif typeof(B) <: QuantitativeNetwork
+        itype, otype = typeof(B.A[1,1]), UnipartiteQuantiNetwork
+    end
 
     # Build the unipartite network template
     U = zeros(itype, (S,S))

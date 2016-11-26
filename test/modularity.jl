@@ -58,5 +58,6 @@ module TestModularity
     Q2 = BipartiteQuantiNetwork(eye(Int64, 10).*10)
     @test_approx_eq label_propagation(Q1, collect(1:20)).Q 0.9
     @test_approx_eq label_propagation(Q2, collect(1:20)).Q 0.9
+    @test_approx_eq label_propagation(make_unipartite(Q2), collect(1:20)).Q 0.9
 
 end

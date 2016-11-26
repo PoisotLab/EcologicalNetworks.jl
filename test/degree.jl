@@ -31,4 +31,6 @@ module TestDegreeFunctions
 
   @test degree(ollerton())[1] > 0
 
+  @test_approx_eq link_number(BipartiteQuantiNetwork(eye(Int64, 10))) 10
+
 end
