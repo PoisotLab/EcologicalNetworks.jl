@@ -35,6 +35,6 @@ Number of visits from Bluthgen et al XXX
 """
 function bluthgen()
     n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "qb_bluthgen.txt")
-    return BipartiteNetwork(readdlm(n_path))
+    return BipartiteQuantiNetwork(readdlm(n_path))
 end
 
