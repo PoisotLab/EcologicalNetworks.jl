@@ -23,6 +23,6 @@ module TestData
     # Robertson
     @test typeof(robertson()) <: Bipartite
     @test typeof(robertson()) <: DeterministicNetwork
-    @test size(robertson()) == (1429, 456)
+    @test size(robertson()) == (1428, 456)
 
 end
