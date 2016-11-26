@@ -26,7 +26,7 @@ pre-existing collection of networks.
 
 Keyword argument: `test` (`:smaller` or `:greater`)
 """
-function test_network_property(N::DeterministicNetwork, f::Function, S::Array{DeterministicNetwork, 1}; test::Symbol=:greater)
+function test_network_property(N::DeterministicNetwork, f, S::Array{DeterministicNetwork, 1}; test::Symbol=:greater)
     
     # Check the keyword arguments
     @assert test ∈ [:greater, :smaller]
@@ -55,7 +55,7 @@ end
 Test a network property using randomizations based on a null model, by
 specifying the number of replicates and the model to use.
 """
-function test_network_property(N::DeterministicNetwork, f::Function; model::Function=null1, n=100, max=1000, test::Symbol=:greater)
+function test_network_property(N::DeterministicNetwork, f; model::Function=null1, n=100, max=1000, test::Symbol=:greater)
     
     # Check the keyword arguments
     @assert model ∈ [null1, null2, null3in, null3out]

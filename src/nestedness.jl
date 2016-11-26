@@ -28,6 +28,6 @@ function η(N::Bipartite)
     n_1 = η_axis(N')
     n_2 = η_axis(N)
     n = (n_1 + n_2)/2.0
-    return [n, n_1, n_2]
+    return vec([n, n_1, n_2])
 end
 
