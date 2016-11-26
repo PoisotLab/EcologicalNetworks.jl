@@ -19,6 +19,7 @@ export EcoNetwork,
     
     # Union types for all proba or deterministic
     ProbabilisticNetwork, DeterministicNetwork, QuantitativeNetwork,
+    NonProbabilisticNetwork,
 
     # Richness
     richness,

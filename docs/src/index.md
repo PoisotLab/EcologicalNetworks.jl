@@ -25,15 +25,3 @@ the method exists *but* works on the *Deterministic* part of the network
 | centrality      |      yes      |              |      yes      |
 | number of paths |      yes      |              |      yes      |
 
-## Table of contents
-
-~~~@contents
-Pages = [
-    "man/types.md",
-    "man/data.md",
-    "man/nullmodels.md"
-    "man/modularity.md"
-]
-Depth = 2
-~~~
-

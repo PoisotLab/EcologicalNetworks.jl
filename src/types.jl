@@ -100,6 +100,11 @@ numbers.
 QuantitativeNetwork = Union{BipartiteQuantiNetwork, UnipartiteQuantiNetwork}
 
 """
+All non-probabilistic networks
+"""
+NonProbabilisticNetwork = Union{DeterministicNetwork, QuantitativeNetwork}
+
+"""
 Return the size of the adjacency matrix of an EcoNetwork object.
 """
 function Base.size(N::EcoNetwork)
