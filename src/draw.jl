@@ -12,19 +12,23 @@ function plot_network(N::EcoNetwork; order::Symbol=:degree, transform::Function=
 
     # Apply the transformation if needed
     for i in eachindex(A)
-        A[i] = A[i] == 0.0 ? 0.0 : transform(0.0)
+        A[i] = A[i] == 0.0 ? 0.0 : transform(A[i])
     end
 
     # If we re-order the species by degree...
-    if typeof(N) <: Unipartite
-        ord = sortperm(degree(N))
-        A = A[ord, ord]
-    else
-        ord_row = sortperm(degree_out(N))
-        ord_col = sortperm(degree_in(N))
-        A = A[ord_row, ord_col]
+    if order == :degree
+        if typeof(N) <: Unipartite
+            ord = sortperm(degree(N))
+            A = A[ord, ord]
+        else
+            ord_row = sortperm(degree_out(N))
+            ord_col = sortperm(degree_in(N))
+            A = A[ord_row, ord_col]
+        end
     end
 
+    # Draw the matrix
+    draw_matrix(A, file=file)
 
 end
 
@@ -52,7 +56,7 @@ function draw_matrix(A::Array{Float64,2}; file="ecologicalnetwork.png")
     # Draw the blocks
     for top in 1:ntop
         for bot in 1:nbot
-            p = transform(A[bot,top])
+            p = 1.0 - A[bot,top]
             set_source_rgb(cr, p, p, p)
             rectangle(cr, 4 + (bot-1)*14, 4 + (top-1)*14, 10, 10)
             fill(cr)
