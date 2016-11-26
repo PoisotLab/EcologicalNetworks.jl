@@ -18,7 +18,7 @@ module TestData
     # Bluthgen
     @test typeof(bluthgen()) <: Bipartite
     @test typeof(bluthgen()) <: QuantitativeNetwork
-    @test sizeof(bluthgen()) == (41, 51)
+    @test size(bluthgen()) == (41, 51)
 
     # Robertson
     @test typeof(robertson()) <: Bipartite
