@@ -53,3 +53,9 @@ using EcologicalNetwork
 N = ollerton()
 plot_network(N, file="ollerton.png")
 ~~~
+
+This is what the result should look like:
+
+![ollerton plot][ollertonplot]
+
+[ollertonplot]: ollerton.png
