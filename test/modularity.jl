@@ -50,8 +50,14 @@ module TestModularity
     @test_approx_eq mpu.Q 0.5
     @test_approx_eq mpb.Q 0.5
 
-
     # Modularity wrapper
     @test length(modularity(pB, collect(1:richness(pB)), replicates=10)) == 10
+
+    # Test with a quantitative network
+    Q1 = BipartiteQuantiNetwork(eye(Int64, 10))
+    Q2 = BipartiteQuantiNetwork(eye(Int64, 10).*10)
+    @test_approx_eq label_propagation(Q1, collect(1:20)).Q 0.9
+    @test_approx_eq label_propagation(Q2, collect(1:20)).Q 0.9
+    @test_approx_eq label_propagation(make_unipartite(Q2), collect(1:20)).Q 0.9
 
 end

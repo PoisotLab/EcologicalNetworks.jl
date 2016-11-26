@@ -35,3 +35,8 @@ Pkg.add("EcologicalNetwork")
 ## How to use
 
 See the documentation.
+
+## Informations for `dev` branch
+
+[![Build Status](https://travis-ci.org/PoisotLab/EcologicalNetwork.jl.svg?branch=dev)](https://travis-ci.org/PoisotLab/EcologicalNetwork.jl)
+[![Coverage Status](https://coveralls.io/repos/github/PoisotLab/EcologicalNetwork.jl/badge.svg?branch=dev)](https://coveralls.io/github/PoisotLab/EcologicalNetwork.jl?branch=dev)

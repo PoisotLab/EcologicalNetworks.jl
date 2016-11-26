@@ -15,9 +15,10 @@ export EcoNetwork,
     # Types
     BipartiteNetwork, UnipartiteNetwork,
     BipartiteProbaNetwork, UnipartiteProbaNetwork,
+    BipartiteQuantiNetwork, UnipartiteQuantiNetwork,
     
     # Union types for all proba or deterministic
-    ProbabilisticNetwork, DeterministicNetwork,
+    ProbabilisticNetwork, DeterministicNetwork, QuantitativeNetwork,
 
     # Richness
     richness,
@@ -30,10 +31,11 @@ export EcoNetwork,
 
     # Links and connectances
     links, links_var, connectance, connectance_var,
-    linkage_density,
+    linkage_density, link_number,
 
     # Measures of degree
     degree_out, degree_in, degree_out_var, degree_in_var, degree, degree_var,
+    specificity,
 
     # Expected number of species with 0 interactions
     species_has_no_successors, species_has_no_predecessors,
@@ -41,6 +43,7 @@ export EcoNetwork,
 
     # Matrix manipulation utilities
     make_unipartite, make_threshold, make_binary, make_bernoulli, nodiag,
+    adjacency,
 
     # Probability algebra utilities
     checkprob, i_esp, i_var, a_var, m_var,
@@ -67,7 +70,7 @@ export EcoNetwork,
     motif_p, motif_v, count_motifs, motif, motif_var,
 
     # Data
-    stony, mcmullen, ollerton
+    stony, mcmullen, ollerton, bluthgen, robertson
 
 include(joinpath(".", "types.jl"))
 include(joinpath(".", "centrality.jl"))
