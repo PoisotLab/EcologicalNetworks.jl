@@ -24,7 +24,9 @@ nest(N)
 
 # There is a functionm to apply a test rapidly to randomized networks that are
 # generated on the fly.
-results = test_network_property(N, nest, model=null2, n=100, max=2000 test=:greater);
+results = test_network_property(N, nest,
+        model=null2, n=100, max=2000,
+        test=:greater);
 
 # We can look at the p-value of the test
 results.pval
@@ -39,5 +41,5 @@ In this simple example, we used [`nullmodel`](@ref) to generate random
 realizations of a network, and [`test_network_property`](@ref) to evaluate
 whether the observed nestedness was observed by chance. As it stands, all
 randomized networks had *lower* values, and so the *p*-value is (essentially)
-0. In short, this network is significantly more nested than expected by
+null. In short, this network is significantly more nested than expected by
 chance knowing its degree distribution.
