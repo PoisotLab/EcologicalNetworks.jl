@@ -7,6 +7,13 @@ function links(N::EcoNetwork)
 end
 
 """
+In quantitative networks only, returns the number of non-zero interactions.
+"""
+function link_number(N::QuantitativeNetwork)
+    return sum(N.A .> 0.0)
+end
+
+"""
 Expected variance of the number of links for a probabilistic network
 """
 function links_var(N::ProbabilisticNetwork)
