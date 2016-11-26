@@ -35,6 +35,8 @@ docs_dir: 'build'
 
 pages:
     - Home: index.md
+    - "Use cases":
+        - Nestedness: usecase/nestedness.md
     - Manual:
         - Types: man/types.md
         - Data: man/data.md

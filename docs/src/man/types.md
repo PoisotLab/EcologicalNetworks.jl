@@ -63,6 +63,7 @@ convert a network from `Bipartite` to `Unipartite` using the `make_unipartite`
 function:
 
 ~~~@example
+using EcologicalNetwork
 B = BipartiteNetwork(rand(Bool, (3, 5)))
 U = make_unipartite(B)
 richness(U) == richness(B)
