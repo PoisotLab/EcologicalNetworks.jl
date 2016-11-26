@@ -15,17 +15,19 @@ richness(N)
 
 # We will create a function to return the nestedness of the entire
 # network instead of an array of nestedness values
-function nest(x)
-    return η(x)[1]
-end
+nest = (x) -> η(x)[1]
 
 # The nestedness of the network is...
 nest(N)
 
-# There is a functionm to apply a test rapidly to randomized networks that are
-# generated on the fly.
-results = test_network_property(N, nest,
-        model=null2, n=100, max=2000,
+# We will now generate a series of random networks preserving the degree
+# distribution
+S = nullmodel(null2(N));
+
+# There is a function to apply a test rapidly to randomized networks. In this
+# situation we are interested in testing the fact that the network is more
+# nested than expected by chance.
+results = test_network_property(N, nest, S,
         test=:greater);
 
 # We can look at the p-value of the test
@@ -43,3 +45,11 @@ whether the observed nestedness was observed by chance. As it stands, all
 randomized networks had *lower* values, and so the *p*-value is (essentially)
 null. In short, this network is significantly more nested than expected by
 chance knowing its degree distribution.
+
+We can also decide to plot the network to visualize what it looks like:
+
+~~~@repl
+using EcologicalNetwork
+N = ollerton()
+plot_network(N, file="ollerton.png")
+~~~
