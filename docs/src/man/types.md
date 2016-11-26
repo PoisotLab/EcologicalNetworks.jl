@@ -1,4 +1,4 @@
-# [Informations about types](@id types)
+# Informations about types
 
 As there are many ways to represent ecological networks, and the correct
 way to measure a given property varies in function of the representation,
@@ -6,13 +6,16 @@ way to measure a given property varies in function of the representation,
 
 ## Type hierarchy
 
-The `EcologicalNetwork` package has four main types that are meant to be used
-by the user: `BipartiteNetwork`, `BipartiteProbaNetwork`, `UnipartiteNetwork`,
-and `UnipartiteProbaNetwork`. All types with `Proba` in their names are meant
-to represent probabilistic networks, and are also part of the union type
-`ProbabilisticNetwork`. All types *without* `Proba` in their name are part
-of the union type `DeterministicNetwork`, and represent networks in which
-interactions are either present or absent. All types starting with `Bipartite`
+The `EcologicalNetwork` package has six main types that are meant
+to be used by the user: `BipartiteNetwork`, `BipartiteProbaNetwork`,
+`BipartiteQuantiNetwork`, `UnipartiteNetwork`, `UnipartiteProbaNetwork`
+and `UnipartiteQuantiNetwork`. All types with `Proba` in their names are
+meant to represent probabilistic networks, and are also part of the union
+type `ProbabilisticNetwork`. All types *without* `Proba` in their name are
+part of the union type `DeterministicNetwork`, and represent networks in
+which interactions are either present or absent. All types with `Quanti`
+in their names are part of the `QuantitativeNetwork` groups, and represent
+networks with weighted interactions. All types starting with `Bipartite`
 are also part of the abstract type `Bipartite`, and types with `Unipartite`
 in their names are part of the abstract type `Unipartite`. Finally, both
 `Unipartite` and `Bipartite` are part of the abstract type `EcoNetwork`.
@@ -34,6 +37,10 @@ uses `N.A`. These matrices must be read as: the existence/probability of
 an interaction *from* the species of the *i*-th row *to* the species in the
 *j*-th column. This implies that the networks are, by default, directed.
 
+Note that the type of a network will determine what methods can be applied
+to it. For example, all measures of variance are only making sense for
+probabilistic networks.
+
 ## Data types
 
 Interactions in deterministic networks are represented as boolean
@@ -45,7 +52,8 @@ of integers, *as long as these matrices only contain 0 and 1*.
 
 In probabilistic networks, interactions are stored as floating point
 (`Float64`) numbers. These values have to be between 0.0 and 1.0, as they
-represent probabilities.
+represent probabilities. In quantitative networks, interactions are stored
+as any type of number.
 
 Networks of the `Unipartite` class must have the same number of rows and
 columns. The species in the rows and columns are the same. Networks of the
@@ -54,12 +62,11 @@ as the species in rows and columns are different species. It is possible to
 convert a network from `Bipartite` to `Unipartite` using the `make_unipartite`
 function:
 
-``` julia
+~~~@example
 B = BipartiteNetwork(rand(Bool, (3, 5)))
-richnes(B) # 8
 U = make_unipartite(B)
-richness(U) # 8
-```
+richness(U) == richness(B)
+~~~
 
 The documentation for `make_unipartite` gives additional explanations about
 how the conversion is done. In the overwhelming majority of cases, applying
@@ -68,9 +75,8 @@ should give the same results (connectance is one notable example).
 
 ## Type reference
 
-```@autodocs
+~~~@autodocs
 Modules = [EcologicalNetwork]
 Order = [:type]
 Pages = ["types.jl"]
-```
-
+~~~

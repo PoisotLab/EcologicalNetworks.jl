@@ -15,7 +15,7 @@ type Partition
 end
 
 """
-Constructor for the `Partition` type
+Constructor for the `Partition` type from a `EcoNetwork` object.
 """
 function Partition(N::EcoNetwork)
     tL = collect(1:richness(N))
@@ -23,7 +23,8 @@ function Partition(N::EcoNetwork)
 end
 
 """
-Constructor for the `Partition` type
+Constructor for the `Partition` type from an `EcoNetwork` object and an array
+of module id.
 """
 function Partition(N::EcoNetwork, L::Array{Int64, 1})
     @assert length(L) == richness(N)
@@ -31,7 +32,7 @@ function Partition(N::EcoNetwork, L::Array{Int64, 1})
 end
 
 """
-Get the δ matrix
+Get the δ matrix, representing whether two nodes are part of the same module.
 """
 function delta_matrix(N::EcoNetwork, L::Array{Int64, 1})
     @assert length(L) == richness(N)
@@ -53,8 +54,6 @@ function delta_matrix(N::EcoNetwork, L::Array{Int64, 1})
 end
 
 """
-Q -- a measure of modularity
-
 This measures modularity based on a matrix and a list of module labels. Note
 that this function assumes that interactions are directional, so that
 ``A_{ij}`` represents an interaction from ``i`` to ``j``, but not the other way
@@ -200,16 +199,46 @@ function most_common_label(N::ProbabilisticNetwork, L, sp)
 end
 
 """
-A **very** experimental label propagation method for probabilistic networks
+Count most common labels
 
-This function is a take on the usual LP method for community detection. Instead
-of updating labels by taking the most frequent in the neighbors, this algorithm
-takes each interaction, and transfers the label across it with a probability
-equal to the probability of the interaction. It is therefore *not* generalizable
-for non-probabilistic networks.
+Arguments are the network, the community partition, and the species id
+"""
+function most_common_label(N::QuantitativeNetwork, L, sp)
 
-The other pitfall is that there is a need to do a *large* number of iterations
-to get to a good partition. This method is also untested.
+    # If this is a bipartite network, the margin should be changed
+    pos_in_L = typeof(N) <: Bipartite ? size(N.A, 1) + sp : sp
+
+    if sum(N[:,sp]) == 0
+        return L[pos_in_L]
+    end
+
+    # Get positions with interactions
+    nei = [i for i in eachindex(N[:,sp]) if N[i,sp] > 0.0]
+
+    # Labels of the neighbors
+    nei_lab = L[nei]
+    uni_nei_lab = unique(nei_lab)
+
+    # Count
+    # HACK to get the type of the inner elements
+    itype = typeof(N[1,1])
+    f = zeros(itype, size(uni_nei_lab))
+    for i in eachindex(uni_nei_lab)
+        have_this_label = [N[j,sp] for j in 1:nrows(N) if L[j] == uni_nei_lab[i]]
+        f[i] = sum(have_this_label)
+    end
+
+    # Argmax
+    local_max = maximum(f)
+    candidate_labels = [uni_nei_lab[i] for i in eachindex(uni_nei_lab) if f[i] == local_max]
+
+    # Return
+    return L[pos_in_L] ∈ candidate_labels ? L[pos_in_L] : sample(candidate_labels)
+
+end
+
+"""
+Performs label propagation in an `EcoNetwork`.
 """
 function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
 

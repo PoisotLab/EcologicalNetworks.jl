@@ -1,32 +1,23 @@
 using Base
 
 """
-EcoNetwork type
-
-
 This is an abstract type that allows to generate functions for all sorts of
 networks. All other types are derived from this one.
 """
 abstract EcoNetwork
 
 """
-Unipartite type
-
 All unipartite networks
 """
 abstract Unipartite <: EcoNetwork
 
 """
-Bipartite type
-
 All bipartite networks
 """
 abstract Bipartite <: EcoNetwork
 
 """
-BipartiteNetwork
-
-A bipartite deterministic network.
+A bipartite deterministic network is a two-dimensional array of boolean values.
 """
 type BipartiteNetwork <: Bipartite
     A::Array{Bool, 2}
@@ -47,8 +38,6 @@ function BipartiteNetwork(A::Array{Int64, 2})
 end
 
 """
-UnipartiteNetwork
-
 An unipartite deterministic network.
 """
 type UnipartiteNetwork <: Unipartite
@@ -80,27 +69,47 @@ type UnipartiteProbaNetwork <: Unipartite
     UnipartiteProbaNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
-"""
-Probabilistic network
+type BipartiteQuantiNetwork <: Bipartite
+    A::Array{Number, 2}
+end
 
+type UnipartiteQuantiNetwork <: Unipartite
+    A::Array{Number, 2}
+    UnipartiteQuantiNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
+end
+
+"""
 This is a union type for both Bipartite and Unipartite probabilistic networks.
 Probabilistic networks are represented as arrays of floating point values ∈
 [0;1].
 """
 ProbabilisticNetwork = Union{BipartiteProbaNetwork, UnipartiteProbaNetwork}
+
+"""
+This is a union type for both Bipartite and Unipartite deterministic networks.
+All networks from these class have adjacency matrices represented as arrays of
+Boolean values.
+"""
 DeterministicNetwork = Union{BipartiteNetwork, UnipartiteNetwork}
 
 """
-Show the matrix from an EcoNetwork object
+This is a union type for both unipartite and bipartite quantitative networks.
+All networks of this type have adjancency matrices as two-dimensional arrays of
+numbers.
 """
-function Base.show(N::EcoNetwork)
-    Base.show(N.A)
-end
+QuantitativeNetwork = Union{BipartiteQuantiNetwork, UnipartiteQuantiNetwork}
 
+"""
+Return the size of the adjacency matrix of an EcoNetwork object.
+"""
 function Base.size(N::EcoNetwork)
     Base.size(N.A)
 end
 
+"""
+Creates a copy of a network -- this returns an object with the same type, and
+the same content.
+"""
 function Base.copy(N::EcoNetwork)
     return typeof(N)(N.A)
 end

@@ -24,4 +24,8 @@ module TestConnectance
     @test_approx_eq connectance(N) 5/9
     @test_approx_eq linkage_density(N) 5/3
 
+
+    # Convert to adjacency
+    @test_approx_eq connectance(UnipartiteNetwork(eye(Int64, 10))) connectance(UnipartiteQuantiNetwork(eye(Int64, 10).*2))
+
 end
