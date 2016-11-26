@@ -10,15 +10,18 @@ function of the network type. In the *Quantitative* column, a `D` means that
 the method exists *but* works on the *Deterministic* part of the network
 (*i.e.* the information about interaction weight is removed).
 
-| Measure        | Deterministic | Quantitative | Probabilistic |
-|:---------------|:-------------:|:------------:|:-------------:|
-| degree         |      yes      |      yes     |      yes      |
-| specificity    |      yes      |      yes     |               |
-| connectance    |      yes      |              |      yes      |
-| nestedness     |      yes      |              |      yes      |
-| modularity     |      yes      |      yes     |      yes      |
-| motif counting |      yes      |              |      yes      |
-| null models    |      yes      |              |               |
+| Measure         | Deterministic | Quantitative | Probabilistic |
+|:----------------|:-------------:|:------------:|:-------------:|
+| degree          |      yes      |      yes     |      yes      |
+| specificity     |      yes      |      yes     |               |
+| connectance     |      yes      |       D      |      yes      |
+| link density    |      yes      |              |               |
+| nestedness      |      yes      |              |      yes      |
+| modularity      |      yes      |      yes     |      yes      |
+| motif counting  |      yes      |              |      yes      |
+| null models     |      yes      |              |               |
+| centrality      |      yes      |              |      yes      |
+| number of paths |      yes      |              |      yes      |
 
 ## Table of contents
 

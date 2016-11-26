@@ -21,6 +21,19 @@ function make_unipartite(B::Bipartite)
 end
 
 """
+Returns the adjaceny matrix of a non-deterministic network as a deterministic
+network.
+"""
+function adjacency(N::EcoNetwork)
+    t = typeof(N)
+    if t <: DeterministicNetwork
+        return copy(N)
+    end
+    otype = t <: Bipartite ? BipartiteNetwork : UnipartiteNetwork
+    return otype(N.A .> 0.0)
+end
+
+"""
 Returns a matrix B of the same size as A, in which each element B(i,j)
 is 1 with probability A(i,j).
 """

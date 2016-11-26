@@ -43,6 +43,7 @@ export EcoNetwork,
 
     # Matrix manipulation utilities
     make_unipartite, make_threshold, make_binary, make_bernoulli, nodiag,
+    adjacency,
 
     # Probability algebra utilities
     checkprob, i_esp, i_var, a_var, m_var,
