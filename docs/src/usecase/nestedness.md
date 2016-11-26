@@ -22,12 +22,9 @@ end
 # The nestedness of the network is...
 nest(N)
 
-# Now that this is done, we can generate a few random networks with the same
-# degree distribution as the original one
-S = nullmodel(null2(N), n=1000, max=2000);
-
-# There is a functionm to apply a test rapidly to all randomized networks
-results = test_network_property(N, nest, S, test=:greater);
+# There is a functionm to apply a test rapidly to randomized networks that are
+# generated on the fly.
+results = test_network_property(N, nest, model=null2, n=100, max=2000 test=:greater);
 
 # We can look at the p-value of the test
 results.pval
