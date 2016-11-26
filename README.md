@@ -18,9 +18,8 @@
 # Introduction
 
 This *julia* package implements a set of measures and utilities to work on
-ecological networks, with an emphasis on probabilistic ones. The measures
-are **not yet** designed to work on *quantitative* interaction networks,
-*i.e.* those in which the strength of the interaction is known.
+ecological networks, with an emphasis on probabilistic ones. Most of the
+work on probabilistic ecological networks comes from:
 
 > Poisot, T., Cirtwill, A. R., Cazelles, K., Gravel, D., Fortin, M.-J. and
 > Stouffer, D. B. (2016), The structure of probabilistic networks. Methods Ecol
@@ -28,9 +27,17 @@ are **not yet** designed to work on *quantitative* interaction networks,
 
 ## Installation
 
-``` julia
+To get the `stable` version:
+
+~~~ julia
 Pkg.add("EcologicalNetwork")
-```
+~~~
+
+To get the `lastest` version (after `Pkg.add`):
+
+~~~ julia
+Pkg.checkout("EcologicalNetwork")
+~~~
 
 ## How to use
 
