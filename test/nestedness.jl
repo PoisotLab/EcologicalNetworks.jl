@@ -15,10 +15,15 @@ module TestNestedness
     @test_approx_eq η(D)[1] 1.0
 
     N = BipartiteNetwork([1 1 1 1; 1 1 1 0; 1 1 0 0; 1 0 0 0])
+    E = BipartiteNetwork(eye(Int64, 4))
 
     @test_approx_eq nodf(N)[1] 1.0
     @test_approx_eq nodf(N)[2] 1.0
     @test_approx_eq nodf(N)[3] 1.0
+    
+    @test_approx_eq nodf(E)[1] 1.0
+    @test_approx_eq nodf(E)[2] 1.0
+    @test_approx_eq nodf(E)[3] 1.0
 
 
 end
