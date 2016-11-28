@@ -47,9 +47,20 @@ function wnodf_axis(N::BipartiteQuantiNetwork)
     WNODFr = 0.0
     for i in 1:(size(A, 1)-1)
         for j in (i+1):size(A, 1)
-            Nj = sum(A[j,:] .> 0.0)
-            kij = sum(A[j,:] .< A[i,:])
-            WNODFr += kij/Nj
+            if (sum(A[i,:]) .> sum(A[j,:]))
+                Nj = sum(A[j,:] .> 0.0)
+                kij = 0.0
+                # The following is only applied to interactions that are non-0
+                # in j, which is not really clear in the original paper
+                for l in eachindex(A[i,:])
+                    if (A[j,l] > 0.0)
+                        if A[j,l] < A[i,l]
+                            kij += 1.0
+                        end
+                    end
+                end
+                WNODFr += kij/Nj
+            end
         end
     end
 
@@ -103,7 +114,7 @@ function nodf(N::Union{BipartiteNetwork,BipartiteQuantiNetwork})
 
     row_pair = (nrows(N) * (nrows(N) - 1))
     col_pair = (ncols(N) * (ncols(N) - 1))
-
+    
     return [
             2 * (NODFc + NODFr) / (row_pair + col_pair),
             2 * NODFc / col_pair,
