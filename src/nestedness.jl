@@ -73,8 +73,8 @@ function nodf(N::Union{BipartiteNetwork,BipartiteQuantiNetwork})
     WNODFr = nodf_axis(N)
     WNODFc = nodf_axis(N')
 
-    row_pair = nrows(N) * (nrows(N) - 1)
-    col_pair = ncols(N) * (ncols(N) - 1)
+    row_pair = (nrows(N) * (nrows(N) - 1)) / 2
+    col_pair = (ncols(N) * (ncols(N) - 1)) / 2
 
     return [
             2 * (WNODFc + WNODFr) / (row_pair + col_pair),
