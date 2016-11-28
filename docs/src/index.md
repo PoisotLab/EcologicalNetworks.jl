@@ -12,16 +12,24 @@ function of the network type. In the *Quantitative* column, a `D` means that
 the method exists *but* works on the *Deterministic* part of the network
 (*i.e.* the information about interaction weight is removed).
 
-| Measure         | Deterministic | Quantitative | Probabilistic |
-|:----------------|:-------------:|:------------:|:-------------:|
-| degree          |      yes      |      yes     |      yes      |
-| specificity     |      yes      |      yes     |               |
-| connectance     |      yes      |       D      |      yes      |
-| link density    |      yes      |              |               |
-| nestedness      |      yes      |              |      yes      |
-| modularity      |      yes      |      yes     |      yes      |
-| motif counting  |      yes      |              |      yes      |
-| null models     |      yes      |              |               |
-| centrality      |      yes      |              |      yes      |
-| number of paths |      yes      |              |      yes      |
+| Measure type    | Measure           | Deterministic | Quantitative | Probabilistic |
+|:----------------|-------------------|:-------------:|:------------:|:-------------:|
+| degree          |                   |      yes      |      yes     |      yes      |
+| specificity     | PDI               |               |      yes     |               |
+|                 | RR                |      yes      |              |               |
+| connectance     |                   |      yes      |       D      |      yes      |
+| link density    |                   |      yes      |              |               |
+| nestedness      | $\eta$            |   bipartite   |              |   bipartite   |
+|                 | NODF              |   bipartite   |              |               |
+|                 | WNODF             |               |   bipartite  |               |
+| modularity      | $Q$               |      yes      |      yes     |      yes      |
+|                 | $Q'_R$            |      yes      |      yes     |      yes      |
+|                 | label propagation |      yes      |      yes     |      yes      |
+| motif counting  |                   |      yes      |              |      yes      |
+| null models     | 1 (connectance)   |      yes      |              |               |
+|                 | 2 (degree)        |      yes      |              |               |
+|                 | 3in (columns)     |      yes      |              |               |
+|                 | 3out (rows)       |      yes      |              |               |
+| centrality      | Kaltz             |      yes      |              |      yes      |
+| number of paths |                   |      yes      |              |      yes      |
 
