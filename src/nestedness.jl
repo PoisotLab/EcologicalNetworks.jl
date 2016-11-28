@@ -39,7 +39,7 @@ NODF of a single axis
 function nodf_axis(N::Union{BipartiteNetwork,BipartiteQuantiNetwork})
 
     # Get the row order
-    row_order = sortperm(sum(N.A, 2))
+    row_order = sortperm(vec(sum(N.A, 2)))
 
     # Extract the ordered matrix as floating point values, so that all other
     # measures will work for both the quanti and deterministic networks
