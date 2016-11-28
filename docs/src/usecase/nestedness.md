@@ -5,20 +5,15 @@ network and (ii) evaluate whether it differs from the random expectation. We
 will use the [`ollerton`](@ref) data, which are reasonably small, and the
 [`η`](@ref) measure of nestedness.
 
-~~~@repl
+~~~@example
 using EcologicalNetwork
 
 # Get the data in an object
 N = ollerton();
 
-richness(N)
-
 # We will create a function to return the nestedness of the entire
 # network instead of an array of nestedness values
 nest = (x) -> η(x)[1]
-
-# The nestedness of the network is...
-nest(N)
 
 # We will now generate a series of random networks preserving the degree
 # distribution
@@ -30,13 +25,16 @@ S = nullmodel(null2(N));
 results = test_network_property(N, nest, S,
         test=:greater);
 
-# We can look at the p-value of the test
-results.pval
-
-# Or the z-scores
-minimum(results.z)
-median(results.z)
-maximum(results.z)
+# We can print the results
+println(
+        "The original network has a nestedness of ",
+        nest(N),
+        ", which is greater than expected by chance (p ~ ",
+        results.pval,
+        ") -- ",
+        results.n,
+        " random networks."
+        )
 ~~~
 
 In this simple example, we used [`nullmodel`](@ref) to generate random
