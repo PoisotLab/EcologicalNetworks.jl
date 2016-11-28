@@ -29,7 +29,7 @@ results = test_network_property(N, nest, S,
 println(
         "The original network has a nestedness of ",
         nest(N),
-        ", which is greater than expected by chance (p ~ ",
+        ",\n", "which is greater than expected by chance (p ~ ",
         results.pval,
         ") -- ",
         results.n,

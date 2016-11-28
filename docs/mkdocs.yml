@@ -37,6 +37,7 @@ pages:
     - Home: index.md
     - "Use cases":
         - Nestedness: usecase/nestedness.md
+        - Modularity: usecase/modularity.md
     - Manual:
         - Types: man/types.md
         - Data: man/data.md
