@@ -14,16 +14,12 @@ module TestNestedness
     @test_approx_eq η(C)[1] 0.9153846153846155
     @test_approx_eq η(D)[1] 1.0
 
-    N = BipartiteNetwork([1 1 1 1; 1 1 1 0; 1 1 0 0; 1 0 0 0])
-    E = BipartiteNetwork(eye(Int64, 4))
+    # Almeida-Neto original example
+    AN = BipartiteNetwork([1 0 1 1 1; 1 1 1 0 0; 0 1 1 1 0; 1 1 0 0 0; 1 1 0 0 0])
+    @test_approx_eq_eps nodf(AN)[1] 0.58 0.01
+    @test_approx_eq_eps nodf(AN)[2] 0.63 0.01
+    @test_approx_eq_eps nodf(AN)[3] 0.53 0.01
 
-    @test_approx_eq nodf(N)[1] 1.0
-    @test_approx_eq nodf(N)[2] 1.0
-    @test_approx_eq nodf(N)[3] 1.0
-    
-    @test_approx_eq nodf(E)[1] 1.0
-    @test_approx_eq nodf(E)[2] 1.0
-    @test_approx_eq nodf(E)[3] 1.0
 
 
 end

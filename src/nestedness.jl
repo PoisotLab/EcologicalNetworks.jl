@@ -31,12 +31,10 @@ function η(N::Bipartite)
     return vec([n, n_1, n_2])
 end
 
-
-
 """
-NODF of a single axis
+WNODF of a single axis
 """
-function nodf_axis(N::Union{BipartiteNetwork,BipartiteQuantiNetwork})
+function wnodf_axis(N::BipartiteQuantiNetwork)
 
     # Get the row order
     row_order = sortperm(vec(sum(N.A, 2)), rev=true)
@@ -61,6 +59,33 @@ function nodf_axis(N::Union{BipartiteNetwork,BipartiteQuantiNetwork})
 end
 
 """
+NODF of a single axis
+"""
+function nodf_axis(N::BipartiteNetwork)
+
+    # Get the row order
+    row_order = sortperm(vec(sum(N.A, 2)), rev=true)
+
+    # Extract the ordered matrix as floating point values, so that all other
+    # measures will work for both the quanti and deterministic networks
+    A = N.A[row_order,:]
+
+    # Initialize the value
+    NODFr = 0.0
+    for i in 1:(size(A, 1)-1)
+        for j in (i+1):size(A, 1)
+            DFpaired = sum(A[j,:]) < sum(A[i,:]) ? 1.0 : 0.0
+            Npaired = sum(A[i,:] & A[j,:]) / sum(A[j,:])
+            NODFr += (DFpaired * Npaired)
+        end
+    end
+
+    # Return the value
+    return NODFr
+
+end
+
+"""
 Measures the Nestedness based on Overlap and Decreasing Fill. If the network is
 quantitative, then *WNODF* is measured instead of *NODF*. Note that in *all*
 situations, the value goes between 0 (not nested) to 1 (perfectly nested). This
@@ -70,16 +95,19 @@ of the rows.
 """
 function nodf(N::Union{BipartiteNetwork,BipartiteQuantiNetwork})
 
-    WNODFr = nodf_axis(N)
-    WNODFc = nodf_axis(N')
+    # Determine the inner function to use
+    inner_nestedness_f = typeof(N) <: DeterministicNetwork ? nodf_axis : wnodf_axis
 
-    row_pair = (nrows(N) * (nrows(N) - 1)) / 2
-    col_pair = (ncols(N) * (ncols(N) - 1)) / 2
+    NODFr = inner_nestedness_f(N)
+    NODFc = inner_nestedness_f(N')
+
+    row_pair = (nrows(N) * (nrows(N) - 1))
+    col_pair = (ncols(N) * (ncols(N) - 1))
 
     return [
-            2 * (WNODFc + WNODFr) / (row_pair + col_pair),
-            WNODFc / col_pair,
-            WNODFr / row_pair
+            2 * (NODFc + NODFr) / (row_pair + col_pair),
+            2 * NODFc / col_pair,
+            2 * NODFr / row_pair
             ]
 
 end
