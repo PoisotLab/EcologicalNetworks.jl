@@ -24,7 +24,7 @@ Returns three values:
 - nestedness of the columns
 - nestedness of the rows
 """
-function η(N::Bipartite)
+function η(N::Union{BipartiteNetwork, BipartiteProbaNetwork})
     n_1 = η_axis(N')
     n_2 = η_axis(N)
     n = (n_1 + n_2)/2.0
