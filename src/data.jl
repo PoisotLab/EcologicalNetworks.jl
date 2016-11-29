@@ -45,5 +45,6 @@ Lake of the Woods host-parasite data. Interactions content are prevalence.
 """
 function woods()
     n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "qb_woods.txt")
-    return BipartiteQuantiNetwork(readdlm(n_path))
+    # This matrix is in the wrong format on IWDB
+    return BipartiteQuantiNetwork(readdlm(n_path)')
 end
