@@ -112,7 +112,7 @@ end
 
 """
 In a network `N`, counts the number of time a motif `m` appears. In the case of
-a probabilistic network, `N` is the expected number of motfs. In the case of
+a probabilistic network, `N` is the expected number of motifs. In the case of
 a quantitative network, `N` is the number of times the motif appears in the
 unweighted network.
 
