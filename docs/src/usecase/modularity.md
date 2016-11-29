@@ -21,7 +21,7 @@ Pkg.add("UnicodePlots")
 using UnicodePlots
 
 # Note the "dot" notation here: we apply Q to every elements of M
-histogram(Q.(M))
+histogram(Q.(M), symb="-")
 
 # Finally, we can get the best partition
 b_part = best_partition(M);
