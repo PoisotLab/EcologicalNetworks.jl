@@ -1,12 +1,8 @@
 using EcologicalNetwork
 
-a = rand((50, 50)) .* 0.05
-a[1:25, 1:25] = rand((25, 25)) .* 0.6
-a[26:50, 26:50] = rand((25, 25)) .* 0.8
-
-N = make_bernoulli(BipartiteProbaNetwork(a))
+N = bluthgen()
 L = rand(1:richness(N), richness(N))
-P = label_propagation(N, L)
+P = best_partition(modularity(N, L))[1]
 
 # We want to know the unique labels
 labels = unique(P.L)
