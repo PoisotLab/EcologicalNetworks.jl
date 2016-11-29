@@ -97,14 +97,43 @@ function count_motifs(N::Unipartite, m::DeterministicNetwork)
     sp_pick = 1:richness(N)
     sp_comb = combinations(sp_pick, richness(m))
 
+    # Unique motif permutations
+    m_perm = permutations(1:richness(m))
+    
+    # We will store the unique conformations of the permuted motifs using
+    # hashes
+    hashes = UInt64[]
+    shuffled_motifs = typeof(m)[]
+    for pr in m_perm
+        m_adj = m[vec(pr), vec(pr)]
+        if hash(m_adj) ∈ hashes
+            continue
+        else
+            push!(shuffled_motifs, typeof(m)(m_adj))
+            push!(hashes, hash(m_adj))
+        end
+    end
+
+
     # Store the probabilities
-    single_probas = Float64[]
+    single_probas = zeros(Float64, (length(sp_comb), length(shuffled_motifs)))
 
     # Compute the probabilities for each k-plet
+    n_k_perm = 1
     for cr in sp_comb
-        for pr in permutations(cr)
-            push!(single_probas, motif_p(typeof(N)(N[vec(pr), vec(pr)]), m))
+
+        # We need to keeep track of which motif permutation this is
+        n_m_perm = 1
+
+        # We keep the subpart of the graph constant, but permute the motif
+        # instead. This is faster and also avoids duplicating counts.
+        for pr in eachindex(shuffled_motifs)
+                single_probas[n_k_perm, pr] = motif_p(
+                                            typeof(N)(N[vec(cr), vec(cr)]),
+                                            shuffled_motifs[pr]
+                                            )
         end
+        n_k_perm += 1
     end
     
     return single_probas
