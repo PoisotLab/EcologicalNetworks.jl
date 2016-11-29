@@ -84,8 +84,11 @@ function draw_matrix(A::Array{Float64,2}; file="ecologicalnetwork.png")
     @assert nbot <= 4000
     @assert ntop <= 4000
     # Get image size
-    width  = 4 + nbot*(10+4)
-    height = 4 + ntop*(10+4)
+    _GAP = 6
+    _WDT = 18
+    _TTL = _GAP + _WDT
+    width  = _GAP + nbot*(_TTL)
+    height = _GAP + ntop*(_TTL)
     # Initialize device
     c = CairoRGBSurface(width, height)
     cr = CairoContext(c)
@@ -102,11 +105,12 @@ function draw_matrix(A::Array{Float64,2}; file="ecologicalnetwork.png")
             if A[bot,top] > 0.0
                 p = 1.0 - A[bot,top]
                 set_source_rgb(cr, p, p, p)
-                rectangle(cr, 4 + (bot-1)*14, 4 + (top-1)*14, 10, 10)
+                rectangle(cr, _GAP + (bot-1)*_TTL, _GAP + (top-1)*_TTL, _WDT, _WDT)
                 fill(cr)
                 Cairo.save(cr)
                 set_source_rgb(cr, 0.0, 0.0, 0.0)
-                rectangle(cr, 4 + (bot-1)*14, 4 + (top-1)*14, 10, 10)
+                set_line_width(cr, _GAP/4)
+                rectangle(cr, _GAP + (bot-1)*_TTL, _GAP + (top-1)*_TTL, _WDT, _WDT)
                 stroke(cr)
                 Cairo.save(cr)
             end
