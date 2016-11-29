@@ -99,15 +99,17 @@ function draw_matrix(A::Array{Float64,2}; file="ecologicalnetwork.png")
     # Draw the blocks
     for top in 1:ntop
         for bot in 1:nbot
-            p = 1.0 - A[bot,top]
-            set_source_rgb(cr, p, p, p)
-            rectangle(cr, 4 + (bot-1)*14, 4 + (top-1)*14, 10, 10)
-            fill(cr)
-            Cairo.save(cr)
-            set_source_rgb(cr, 0.0, 0.0, 0.0)
-            rectangle(cr, 4 + (bot-1)*14, 4 + (top-1)*14, 10, 10)
-            stroke(cr)
-            Cairo.save(cr)
+            if A[bot,top] > 0.0
+                p = 1.0 - A[bot,top]
+                set_source_rgb(cr, p, p, p)
+                rectangle(cr, 4 + (bot-1)*14, 4 + (top-1)*14, 10, 10)
+                fill(cr)
+                Cairo.save(cr)
+                set_source_rgb(cr, 0.0, 0.0, 0.0)
+                rectangle(cr, 4 + (bot-1)*14, 4 + (top-1)*14, 10, 10)
+                stroke(cr)
+                Cairo.save(cr)
+            end
         end
     end
     write_to_png(c, file)
