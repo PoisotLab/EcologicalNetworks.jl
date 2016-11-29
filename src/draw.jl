@@ -43,6 +43,39 @@ function plot_network(N::EcoNetwork; order::Symbol=:degree, transform::Function=
 end
 
 """
+Draw a network as a matrix to a png file, and respects the modules of every
+nodes. In the case of a quantitative or probabilistic network, nuances of grey
+indicate interaction strength.
+
+Arguments:
+1. `N::EcoNetwork`, the network to draw
+1. `P::Partition`, the partition of the network
+
+Keywords:
+- `order::Symbol`, either `:none` or `:degree` (default), the criteria to use to re-order nodes within modules
+- `transform::Function`, the function to apply to every interaction (`x -> x` by default, but can be `sqrt`, `log`, ...)
+- `file`, the name of the file (with the `.png` extension) to write to
+
+"""
+function plot_network(N::EcoNetwork, P::Partition; order::Symbol=:degree, transform::Function=(x) -> x, file="en.png")
+    @assert order ∈ [:degree, :none]
+    
+    # Convert to floating point values
+    A = map(Float64, N.A)
+
+    # Ranges the matrix in 0-1
+    A = A ./ maximum(A)
+
+    # Apply the transformation if needed
+    for i in eachindex(A)
+        A[i] = A[i] == 0.0 ? 0.0 : transform(A[i])
+    end
+
+    # Re-order nodes by module
+
+end
+
+"""
 Low-level function to draw the network.
 """
 function draw_matrix(A::Array{Float64,2}; file="ecologicalnetwork.png")
@@ -70,6 +103,10 @@ function draw_matrix(A::Array{Float64,2}; file="ecologicalnetwork.png")
             set_source_rgb(cr, p, p, p)
             rectangle(cr, 4 + (bot-1)*14, 4 + (top-1)*14, 10, 10)
             fill(cr)
+            Cairo.save(cr)
+            set_source_rgb(cr, 0.0, 0.0, 0.0)
+            rectangle(cr, 4 + (bot-1)*14, 4 + (top-1)*14, 10, 10)
+            stroke(cr)
             Cairo.save(cr)
         end
     end

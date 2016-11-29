@@ -14,6 +14,11 @@ This is what the result should look like:
 
 [bldg]: bluthgenDegree.png
 
+## Plotting modular networks
+
+Plotting modular networks is a special case, for which the `plot_network`
+function accepts an additional argument (a network [`Partition`](@ref)).
+
 ## Additional information
 
 ~~~@docs
