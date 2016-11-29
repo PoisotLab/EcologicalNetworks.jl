@@ -83,12 +83,12 @@ include(joinpath(".", "matrix_utils.jl"))
 include(joinpath(".", "nestedness.jl"))
 include(joinpath(".", "proba_utils.jl"))
 include(joinpath(".", "nullmodels.jl"))
-include(joinpath(".", "draw.jl"))
 include(joinpath(".", "modularity.jl"))
 include(joinpath(".", "paths.jl"))
 include(joinpath(".", "betadiversity.jl"))
 include(joinpath(".", "motifs.jl"))
 include(joinpath(".", "data.jl"))
 include(joinpath(".", "test.jl"))
+include(joinpath(".", "draw.jl"))
 
 end
