@@ -53,11 +53,11 @@ export EcoNetwork,
     null1, null2, null3out, null3in, nullmodel,
     test_network_property,
 
-    # Draw
-    plot_network,
-
     # Modularity
     Partition, Q, Qr, label_propagation, modularity, best_partition,
+
+    # Draw
+    plot_network,
 
     # Paths
     number_of_paths,
