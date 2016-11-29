@@ -20,6 +20,11 @@ module TestData
     @test typeof(bluthgen()) <: QuantitativeNetwork
     @test size(bluthgen()) == (41, 51)
 
+    # Lake of the Woods
+    @test typeof(woods()) <: Bipartite
+    @test typeof(woods()) <: QuantitativeNetwork
+    @test size(woods()) == (144, 31)
+
     # Robertson
     @test typeof(robertson()) <: Bipartite
     @test typeof(robertson()) <: DeterministicNetwork

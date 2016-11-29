@@ -1,5 +1,6 @@
 """
-Stony food web from Thompson & Townsend
+Stony food web from Thompson & Townsend. This was sampled in a tussock
+grassland near Otago, New Zealand.
 """
 function stony()
     n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "du_stony.txt")
@@ -23,7 +24,8 @@ function ollerton()
 end
 
 """
-Pollination interaction from Robertson 1927
+Pollination interaction from Robertson 1927, in an agricultural area dominated
+by crops, with some natural forest and pasture.
 """
 function robertson()
     n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "db_robertson.txt")
@@ -38,3 +40,10 @@ function bluthgen()
     return BipartiteQuantiNetwork(readdlm(n_path))
 end
 
+"""
+Lake of the Woods host-parasite data. Interactions content are prevalence.
+"""
+function woods()
+    n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "qb_woods.txt")
+    return BipartiteQuantiNetwork(readdlm(n_path))
+end

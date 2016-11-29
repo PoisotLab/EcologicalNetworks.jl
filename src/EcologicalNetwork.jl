@@ -72,7 +72,7 @@ export EcoNetwork,
     motif_p, motif_v, count_motifs, motif, motif_var,
 
     # Data
-    stony, mcmullen, ollerton, bluthgen, robertson
+    stony, mcmullen, ollerton, bluthgen, robertson, woods
 
 include(joinpath(".", "types.jl"))
 include(joinpath(".", "centrality.jl"))
