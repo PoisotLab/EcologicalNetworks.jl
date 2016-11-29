@@ -52,6 +52,7 @@ module TestModularity
 
     # Modularity wrapper
     @test length(modularity(pB, collect(1:richness(pB)), replicates=10)) == 10
+    @test best_partition(modularity(pB, collect(1:richness(pB))))[1].Q ≈ 0.5
 
     # Test with a quantitative network
     Q1 = BipartiteQuantiNetwork(eye(Int64, 10))
