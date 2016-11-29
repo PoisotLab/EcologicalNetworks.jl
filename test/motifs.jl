@@ -2,6 +2,8 @@ module TestMotifs
     using Base.Test
     using EcologicalNetwork
 
+@testset "Motif functions" begin
+
     @testset "Single link, probabilistic" begin
         # Test with a single link
         N = UnipartiteProbaNetwork([0.2 0.8; 0.2 0.1])
@@ -71,9 +73,9 @@ module TestMotifs
     # Test with some variation
     ovl = UnipartiteNetwork([false true true; false false true; false false false])
     N = UnipartiteProbaNetwork([0.0 1.0 0.8; 0.0 0.0 1.0; 0.0 0.0 0.0])
-    @test_approx_eq motif(N, ovl) 0.8
+    @test motif(N, ovl) ≈ 0.8
     fchain = UnipartiteNetwork([false true false; false false true; false false false])
-    @test_approx_eq motif(N, fchain) 0.2
+    @test motif(N, fchain) ≈ 0.2
 
     # Test of the simplest situation: two nodes, ten random matrices
     for i in 1:10
@@ -87,7 +89,8 @@ module TestMotifs
         [0 0; 0 0], [1 1; 1 1]
     )
     all_probas = map((x) -> motif_p(N, BipartiteNetwork(map(Bool, x))), possible_motifs)
-    @test_approx_eq sum(all_probas) 1.0
+    @test sum(all_probas) ≈ 1.0
     end
 
+end
 end
