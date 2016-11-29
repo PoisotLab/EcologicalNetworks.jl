@@ -31,9 +31,8 @@ function motif_internal(N::EcoNetwork, m::DeterministicNetwork)
 end
 
 """
-Probability that a group of species form a given motif
-
-This works for both the probabilistic and deterministic networks.
+Probability that a group of species form a given motif. This works for both the
+probabilistic and deterministic networks.
 """
 function motif_p(N::EcoNetwork, m::DeterministicNetwork)
     return prod(motif_internal(N, m))
@@ -111,12 +110,28 @@ function count_motifs(N::Unipartite, m::DeterministicNetwork)
     return single_probas
 end
 
-""" Expected number of a given motif """
+"""
+In a network `N`, counts the number of time a motif `m` appears. In the case of
+a probabilistic network, `N` is the expected number of motfs. In the case of
+a quantitative network, `N` is the number of times the motif appears in the
+unweighted network.
+
+Arguments:
+- `N::EcoNetwork`, the network in which to count the motifs
+- `m::DeterministicNetwork`, the adjacency matrix of the motif
+"""
 function motif(N::EcoNetwork, m::DeterministicNetwork)
-  return sum(float(count_motifs(N, m)))
+
+    # If the nework is weighted, we start by removing the interaction strength
+    # information
+    if typeof(N) <: QuantitativeNetwork
+        return motif(adjacency(N), m)
+    else
+        return sum(float(count_motifs(N, m)))
+    end
 end
 
 """ Expected variance of a given motif """
-function motif_var(N::EcoNetwork, m::DeterministicNetwork)
+function motif_var(N::ProbabilisticNetwork, m::DeterministicNetwork)
   return a_var(float(count_motifs(N, m)))
 end

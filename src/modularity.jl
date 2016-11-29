@@ -307,19 +307,17 @@ end
 
 """
 This function is a wrapper for the modularity code. The number of replicates is
-the number of times the modularity optimization should be run.
+the number of times the modularity optimization should be run. By default, it
+uses `label_propagation`.
 
-Non-keywords arguments:
+Arguments:
+1. `N::EcoNetwork`, the network to work on
+2. `L::Array{Int64,1}`, an array of module identities
 
-1. `N`, a network
-2. `L`, an array of module id
-
-
-Keywords arguments:
-
-1. `replicates`, defaults to `100`
+Keywords:
+- `replicates::Int64`, defaults to `100`
 """
-function modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates=100)
+function modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates::Int64=100)
 
     # Each species must have an entry
     @assert length(L) == richness(N)
@@ -332,16 +330,31 @@ function modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates=100)
 end
 
 """
-Return the best partition
+Return the best partition out of a number of replicates. This returns an
+*array* of partitions. If there is a single partition maximizing the given
+function `f` (as a keyword), the results are *still* returned as an array with
+a single element.
+
+Arguments:
+1. `modpart::Array{Partition,1}`, an array of partitions returned by *e.g.*
+   `modularity`
+
+Keywords:
+- `f::Function`, either `Q` or `Qr` (any function for which the highest value
+   represents a more modular structure).
 """
-function best_partition(modpart)
+function best_partition(modpart; f::Function=Q)
 
-    # TODO tests on inputs
+    # Tests on inputs
+    @assert prod(map(x -> typeof(x) <: Partition, modpart))
 
-    # We get the values of Q
-    Qs = map((x) -> x.Q, modpart)
+    # We get the values of the "best" criteria
+    crit = map(f, modpart)
+
+    # And the positions of the matching partitions
+    best_pos = collect(1:length(crit))[crit .== maximum(crit)]
 
     # Then return the best partitions
-    return filter(x -> x.Q == minimum(Qs), modpart)
+    return best_pos
 
 end

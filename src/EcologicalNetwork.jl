@@ -57,7 +57,7 @@ export EcoNetwork,
     plot_network,
 
     # Modularity
-    Partition, Q, Qr, label_propagation, modularity,
+    Partition, Q, Qr, label_propagation, modularity, best_partition,
 
     # Paths
     number_of_paths,
