@@ -28,9 +28,9 @@ results = test_network_property(N, nest, S,
 # We can print the results
 println(
         "The original network has a nestedness of ",
-        nest(N),
+        round(nest(N), 3),
         ",\n", "which is greater than expected by chance (p ~ ",
-        results.pval,
+        round(results.pval, 4),
         ") -- ",
         results.n,
         " random networks."
