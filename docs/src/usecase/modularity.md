@@ -24,13 +24,13 @@ using UnicodePlots
 histogram(Q.(M))
 
 # Finally, we can get the best partition
-mod = best_partition(M)
+b_part = best_partition(M);
 
 # And print its modularity and number of modules
 println("Q: ",
-        round(mod[1].Q, 2),
+        round(b_part[1].Q, 2),
         " |c|: ",
-        length(unique(mod[1].L))
+        length(unique(b_part[1].L))
         )
 ~~~
 
