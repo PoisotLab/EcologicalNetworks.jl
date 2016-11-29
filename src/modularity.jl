@@ -355,6 +355,6 @@ function best_partition(modpart; f::Function=Q)
     best_pos = collect(1:length(crit))[crit .== maximum(crit)]
 
     # Then return the best partitions
-    return best_pos
+    return M[best_pos]
 
 end
