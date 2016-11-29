@@ -1,4 +1,71 @@
 """
+Take a bipartite network, returns a collection of unique permutations
+"""
+function permute_network(N::Bipartite)
+
+    # Prepare to store the hashes
+    hashes = UInt64[]
+
+    # Prepare to store the unique networks
+    uniques = typeof(N)[]
+
+    # Get the margins
+    col_margin, row_margin = 1:ncols(N), 1:nrows(N)
+
+    for rperm in permutations(row_margin)
+        for cperm in permutations(col_margin)
+
+            # Tentative network
+            m_adj = N.A[vec(rperm), vec(cperm)]
+
+            # Check the hash
+            if hash(m_adj) ∈ hashes
+                continue
+            else
+                # Now we know this network
+                push!(hashes, hash(m_adj))
+                # So we keep it
+                push!(uniques, typeof(N)(m_adj))
+            end
+        end
+    end
+    return uniques
+end
+
+"""
+Take a unipartite network, returns a collection of unique permutations
+"""
+function permute_network(N::Unipartite)
+
+    # Prepare to store the hashes
+    hashes = UInt64[]
+
+    # Prepare to store the unique networks
+    uniques = typeof(N)[]
+
+    # Get the margins
+    sp_margin = 1:richness(N)
+
+    for iperm in permutations(sp_margin)
+
+        # Tentative network
+        m_adj = N.A[vec(iperm), vec(iperm)]
+
+        # Check the hash
+        if hash(m_adj) ∈ hashes
+            continue
+        else
+            # Now we know this network
+            push!(hashes, hash(m_adj))
+            # So we keep it
+            push!(uniques, typeof(N)(m_adj))
+        end
+    end
+
+    return uniques
+end
+
+"""
 Internal motif calculations
 
 The two arguments are `N` the network and `m` the motif adjacency matrix (as
@@ -64,16 +131,25 @@ function count_motifs(N::Bipartite, m::DeterministicNetwork)
     row_pick, col_pick = 1:nrows(N), 1:ncols(N)
     row_comb, col_comb = combinations(row_pick, nrows(m)), combinations(col_pick, ncols(m))
 
+    # We will store the unique conformations of the permuted motifs using
+    # hashes
+    shuffled_motifs = permute_network(m)
+
     # Store the probabilities
     single_probas = Float64[]
 
     # Compute the probabilities for each k-plet
+    n_r_perm = 1
     for cr in row_comb
+        n_c_perm = 1
         for cc in col_comb
-            for pr in permutations(cr)
-                for pc in permutations(cc)
-                    push!(single_probas, motif_p(typeof(N)(N[vec(pr), vec(pc)]), m))
-                end
+            for shmi in eachindex(shuffled_motifs)
+                push!(single_probas,
+                      motif_p(
+                              typeof(N)(N[vec(cr), vec(cc)]),
+                              shuffled_motifs[shmi]
+                             )
+                     )
             end
         end
     end
@@ -97,23 +173,9 @@ function count_motifs(N::Unipartite, m::DeterministicNetwork)
     sp_pick = 1:richness(N)
     sp_comb = combinations(sp_pick, richness(m))
 
-    # Unique motif permutations
-    m_perm = permutations(1:richness(m))
-    
     # We will store the unique conformations of the permuted motifs using
     # hashes
-    hashes = UInt64[]
-    shuffled_motifs = typeof(m)[]
-    for pr in m_perm
-        m_adj = m[vec(pr), vec(pr)]
-        if hash(m_adj) ∈ hashes
-            continue
-        else
-            push!(shuffled_motifs, typeof(m)(m_adj))
-            push!(hashes, hash(m_adj))
-        end
-    end
-
+    shuffled_motifs = permute_network(m)
 
     # Store the probabilities
     single_probas = zeros(Float64, (length(sp_comb), length(shuffled_motifs)))

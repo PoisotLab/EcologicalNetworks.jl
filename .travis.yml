@@ -2,7 +2,6 @@ language: julia
 sudo: false
 os:
     - linux
-    - osx
 julia:
     - 0.5
 script:

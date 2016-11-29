@@ -44,6 +44,16 @@ module TestMotifs
         @test motif(diam, cdir) ≈ 1.0
     end
 
+    @testset "Bipartite test" begin
+        # Test with a diamond food web
+        diam = BipartiteNetwork([1 1 0; 1 1 1])
+        tthr = BipartiteNetwork([1 0; 1 1])
+        tfou = BipartiteNetwork([1 1; 1 1])
+
+        @test motif(diam, tthr) ≈ 2.0
+        @test motif(diam, tfou) ≈ 1.0
+    end
+
     @testset "Three species" begin
         # Test on a three-species network
         B = UnipartiteNetwork([false true true; false false true; false false false])
@@ -55,6 +65,7 @@ module TestMotifs
 
     # Test on the same network, this time with a proba one
     P = UnipartiteProbaNetwork([0.0 1.0 1.0; 0.0 0.0 1.0; 0.0 0.0 0.0])
+    B = UnipartiteNetwork([false true true; false false true; false false false])
     @test motif_var(P, B) == 0.0
 
     # Test with some variation
