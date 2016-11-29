@@ -1,5 +1,15 @@
 """
-Draw a network as a matrix to a file
+Draw a network as a matrix to a png file. In the case of a quantitative or
+probabilistic network, nuances of grey indicate interaction strength.
+
+Arguments:
+1. `N::EcoNetwork`, the network to draw
+
+Keywords:
+- `order::Symbol`, either `:none` or `:degree` (default), the criteria to use to re-order nodes
+- `transform::Function`, the function to apply to every interaction (`x -> x` by default, but can be `sqrt`, `log`, ...)
+- `file`, the name of the file (with the `.png` extension) to write to
+
 """
 function plot_network(N::EcoNetwork; order::Symbol=:degree, transform::Function=(x) -> x, file="en.png")
     @assert order ∈ [:degree, :none]
@@ -33,7 +43,7 @@ function plot_network(N::EcoNetwork; order::Symbol=:degree, transform::Function=
 end
 
 """
-Low-level function to draw the network
+Low-level function to draw the network.
 """
 function draw_matrix(A::Array{Float64,2}; file="ecologicalnetwork.png")
     nbot, ntop = size(A)

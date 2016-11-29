@@ -43,6 +43,7 @@ pages:
         - Data: man/data.md
         - "Null models": man/nullmodels.md
         - Modularity: man/modularity.md
+        - Plotting: man/plotting.md
     - Library:
         - Public: lib/public.md
         - Internals: lib/internals.md
