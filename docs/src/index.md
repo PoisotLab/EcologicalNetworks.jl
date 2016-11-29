@@ -31,14 +31,14 @@ the method exists *but* works on the *Deterministic* part of the network
 |                 | $Q'_R$            |      yes      |      yes     |      yes      |
 |                 | label propagation |      yes      |      yes     |      yes      |
 |                 |                   |               |              |               |
-| motif counting  |                   |      yes      |              |      yes      |
+| motif counting  |                   |      yes      |       D      |      yes      |
 |                 |                   |               |              |               |
 | null models     | 1 (connectance)   |      yes      |              |               |
 |                 | 2 (degree)        |      yes      |              |               |
 |                 | 3in (columns)     |      yes      |              |               |
 |                 | 3out (rows)       |      yes      |              |               |
 |                 |                   |               |              |               |
-| centrality      | Kaltz             |      yes      |              |      yes      |
+| centrality      | Katz              |      yes      |              |      yes      |
 |                 |                   |               |              |               |
 | number of paths |                   |      yes      |              |      yes      |
 
