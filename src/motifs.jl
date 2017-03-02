@@ -153,7 +153,7 @@ function count_motifs(N::Bipartite, m::DeterministicNetwork)
             end
         end
     end
-    
+
     return single_probas
 end
 
@@ -197,7 +197,7 @@ function count_motifs(N::Unipartite, m::DeterministicNetwork)
         end
         n_k_perm += 1
     end
-    
+
     return single_probas
 end
 
@@ -206,6 +206,10 @@ In a network `N`, counts the number of time a motif `m` appears. In the case of
 a probabilistic network, `N` is the expected number of motifs. In the case of
 a quantitative network, `N` is the number of times the motif appears in the
 unweighted network.
+
+Note that because self-edges (*a.k.a.* loops, or cannibalism) are *not* counted
+in the motifs (the adjacency matrix is treated as if it had all diagonal
+elements set to 0).
 
 Arguments:
 - `N::EcoNetwork`, the network in which to count the motifs
