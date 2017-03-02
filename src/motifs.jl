@@ -217,13 +217,16 @@ Arguments:
 """
 function motif(N::EcoNetwork, m::DeterministicNetwork)
 
-    # If the nework is weighted, we start by removing the interaction strength
-    # information
-    if typeof(N) <: QuantitativeNetwork
-        return motif(adjacency(N), m)
-    else
-        return sum(float(count_motifs(N, m)))
-    end
+  # We make sure that there are no diagonal elements
+  Y = nodiag(N)
+
+  # If the nework is weighted, we start by removing the interaction strength
+  # information
+  if typeof(Y) <: QuantitativeNetwork
+    return motif(adjacency(Y), m)
+  else
+    return sum(float(count_motifs(Y, m)))
+  end
 end
 
 """ Expected variance of a given motif """
