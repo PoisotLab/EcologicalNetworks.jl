@@ -5,8 +5,6 @@ using StatsBase
 using Cairo
 using Combinatorics
 
-VERSION < v"0.4-dev" && import Lexicon
-
 export EcoNetwork,
 
     # General types for all bipartite / unipartite
@@ -16,7 +14,7 @@ export EcoNetwork,
     BipartiteNetwork, UnipartiteNetwork,
     BipartiteProbaNetwork, UnipartiteProbaNetwork,
     BipartiteQuantiNetwork, UnipartiteQuantiNetwork,
-    
+
     # Union types for all proba or deterministic
     ProbabilisticNetwork, DeterministicNetwork, QuantitativeNetwork,
     NonProbabilisticNetwork,
