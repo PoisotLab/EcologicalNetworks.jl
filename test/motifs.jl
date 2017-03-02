@@ -46,6 +46,20 @@ module TestMotifs
         @test motif(diam, cdir) ≈ 1.0
     end
 
+    @testset "Linear food chain with a loop" begin
+      lfc = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0])
+      wsl = UnipartiteNetwork([1 1 0; 0 0 1; 0 0 0])
+
+      @test motif(wsl, lfc) ≈ 1.0
+    end
+
+    @testset "Linear quantitative food chain with a loop" begin
+      lfc = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0])
+      wsl = UnipartiteQuantiNetwork([1 0.5 0; 0 0 1.6; 0 0 0])
+
+      @test motif(wsl, lfc) ≈ 1.0
+    end
+
     @testset "Bipartite test" begin
         # Test with a diamond food web
         diam = BipartiteNetwork([1 1 0; 1 1 1])

@@ -53,8 +53,9 @@ function make_bernoulli(N::ProbabilisticNetwork)
 end
 
 """
-Returns a copy of the matrix A, with  the diagonal set to 0. Will fail if
-the matrix is not square.
+Returns a copy of the network with all diagonal elements set to the the
+appropriate zero value. This means `false` for deterministic networks, and 0.0
+for all other networks.
 """
 function nodiag(N::Unipartite)
 
@@ -66,6 +67,23 @@ function nodiag(N::Unipartite)
 
     # Return a copy of the network with the same type
     return typeof(N)(A)
+end
+
+"""
+Return a copy of a bipartite network with all diagonal elements set to the
+appropriate zero. You may yell "This is stupid, the diagonal means nothing in a
+bipartite network, and it's also unlikely that they will be square anyways.
+Morons." Well, this is rude. This function will return the network *unchanged*.
+
+"Then why do you need this function in the first place?". We're glad you asked.
+Some functions work better if the networks have no diagonal elements, and it's
+better to have a function that does nothing, than a series of ifelses in these
+functions.
+
+Also, we can read your thoughts. Always.
+"""
+function nodiag(N::Bipartite)
+  return N
 end
 
 """

@@ -153,7 +153,7 @@ function count_motifs(N::Bipartite, m::DeterministicNetwork)
             end
         end
     end
-    
+
     return single_probas
 end
 
@@ -197,7 +197,7 @@ function count_motifs(N::Unipartite, m::DeterministicNetwork)
         end
         n_k_perm += 1
     end
-    
+
     return single_probas
 end
 
@@ -207,19 +207,26 @@ a probabilistic network, `N` is the expected number of motifs. In the case of
 a quantitative network, `N` is the number of times the motif appears in the
 unweighted network.
 
+Note that because self-edges (*a.k.a.* loops, or cannibalism) are *not* counted
+in the motifs (the adjacency matrix is treated as if it had all diagonal
+elements set to 0).
+
 Arguments:
 - `N::EcoNetwork`, the network in which to count the motifs
 - `m::DeterministicNetwork`, the adjacency matrix of the motif
 """
 function motif(N::EcoNetwork, m::DeterministicNetwork)
 
-    # If the nework is weighted, we start by removing the interaction strength
-    # information
-    if typeof(N) <: QuantitativeNetwork
-        return motif(adjacency(N), m)
-    else
-        return sum(float(count_motifs(N, m)))
-    end
+  # We make sure that there are no diagonal elements
+  Y = nodiag(N)
+
+  # If the nework is weighted, we start by removing the interaction strength
+  # information
+  if typeof(Y) <: QuantitativeNetwork
+    return motif(adjacency(Y), m)
+  else
+    return sum(float(count_motifs(Y, m)))
+  end
 end
 
 """ Expected variance of a given motif """
