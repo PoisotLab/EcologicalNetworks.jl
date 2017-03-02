@@ -21,9 +21,6 @@ my_tests = [
   "betadiversity.jl",
   "modularity.jl"]
 
-  #"betadiversity.jl",
-  #"motifs.jl"]
-
 for my_test in my_tests
   try
     include(my_test)
