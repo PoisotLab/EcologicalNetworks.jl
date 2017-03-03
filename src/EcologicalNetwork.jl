@@ -67,7 +67,7 @@ export EcoNetwork,
     harrison,
 
     # Motifs
-    motif_p, motif_v, count_motifs, motif, motif_var,
+    motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs,
 
     # Data
     stony, mcmullen, ollerton, bluthgen, robertson, woods

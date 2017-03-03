@@ -4,6 +4,10 @@ module TestMotifs
 
 @testset "Motif functions" begin
 
+  @testset "Usual motifs" begin
+    @test unipartitemotifs()[:S1].A == [0 1 0; 0 0 1; 0 0 0];
+  end
+
     @testset "Single link, probabilistic" begin
         # Test with a single link
         N = UnipartiteProbaNetwork([0.2 0.8; 0.2 0.1])
@@ -61,19 +65,19 @@ module TestMotifs
     end
 
     @testset "Bipartite test" begin
-        # Test with a diamond food web
-        diam = BipartiteNetwork([1 1 0; 1 1 1])
-        tthr = BipartiteNetwork([1 0; 1 1])
-        tfou = BipartiteNetwork([1 1; 1 1])
+      # Test with a diamond food web
+      diam = BipartiteNetwork([1 1 0; 1 1 1])
+      tthr = BipartiteNetwork([1 0; 1 1])
+      tfou = BipartiteNetwork([1 1; 1 1])
 
-        @test motif(diam, tthr) ≈ 2.0
-        @test motif(diam, tfou) ≈ 1.0
+      @test motif(diam, tthr) ≈ 2.0
+      @test motif(diam, tfou) ≈ 1.0
     end
 
     @testset "Three species" begin
-        # Test on a three-species network
-        B = UnipartiteNetwork([false true true; false false true; false false false])
-        @test motif(B, B) == 1.0
+      # Test on a three-species network
+      B = UnipartiteNetwork([false true true; false false true; false false false])
+      @test motif(B, B) == 1.0
     end
 
     BDN = BipartiteNetwork([false true true; false false true; false false false])
@@ -93,17 +97,17 @@ module TestMotifs
 
     # Test of the simplest situation: two nodes, ten random matrices
     for i in 1:10
-    N = BipartiteProbaNetwork(rand((2, 2)))
-    possible_motifs = (
+      N = BipartiteProbaNetwork(rand((2, 2)))
+      possible_motifs = (
         [0 1; 0 0], [1 0; 0 0], [0 0; 1 0], [0 0; 0 1],
         [1 1; 0 0], [1 0; 0 1], [1 0; 1 0],
         [0 1; 1 0], [0 1; 0 1],
         [0 0; 1 1],
         [0 1; 1 1], [1 0; 1 1], [1 1; 1 0], [1 1; 0 1],
         [0 0; 0 0], [1 1; 1 1]
-    )
-    all_probas = map((x) -> motif_p(N, BipartiteNetwork(map(Bool, x))), possible_motifs)
-    @test sum(all_probas) ≈ 1.0
+      )
+      all_probas = map((x) -> motif_p(N, BipartiteNetwork(map(Bool, x))), possible_motifs)
+      @test sum(all_probas) ≈ 1.0
     end
 
 end

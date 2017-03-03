@@ -1,35 +1,67 @@
 """
+Returns a dictionary of the usual unipartite motifs. The names of the motifs
+come from Stouffer et al. (2007) -- especially Fig. 1, available online at
+<http://rspb.royalsocietypublishing.org/content/274/1621/1931.figures-only>
+"""
+function unipartitemotifs()
+
+  # Everything is stored in a Dict, and the keys are symbols with the names of
+  # the motifs.
+  motifs = Dict{Symbol, UnipartiteNetwork}()
+
+  # Single-linked motifs
+  motifs[:S1] = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0])
+  motifs[:S2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 0 0])
+  motifs[:S3] = UnipartiteNetwork([0 1 0; 0 0 1; 1 0 0])
+  motifs[:S4] = UnipartiteNetwork([0 1 0; 0 0 0; 0 1 0])
+  motifs[:S5] = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0])
+
+  # Double-linked motifs
+  motifs[:D1] = UnipartiteNetwork([0 1 1; 0 0 0; 1 1 0])
+  motifs[:D2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 1 0])
+  motifs[:D3] = UnipartiteNetwork([0 0 1; 0 0 0; 1 1 0])
+  motifs[:D4] = UnipartiteNetwork([0 1 0; 0 0 1; 0 1 0])
+  motifs[:D5] = UnipartiteNetwork([0 1 0; 0 0 1; 1 1 0])
+  motifs[:D6] = UnipartiteNetwork([0 1 1; 1 0 1; 1 1 0])
+  motifs[:D7] = UnipartiteNetwork([0 1 1; 1 0 0; 1 1 0])
+  motifs[:D8] = UnipartiteNetwork([0 1 1; 1 0 0; 1 0 0])
+
+  # Return
+  return motifs
+end
+
+"""
 Take a bipartite network, returns a collection of unique permutations
 """
 function permute_network(N::Bipartite)
 
-    # Prepare to store the hashes
-    hashes = UInt64[]
+  # Prepare to store the hashes
+  hashes = UInt64[]
 
-    # Prepare to store the unique networks
-    uniques = typeof(N)[]
+  # Prepare to store the unique networks
+  uniques = typeof(N)[]
 
-    # Get the margins
-    col_margin, row_margin = 1:ncols(N), 1:nrows(N)
+  # Get the margins
+  col_margin, row_margin = 1:ncols(N), 1:nrows(N)
 
-    for rperm in permutations(row_margin)
-        for cperm in permutations(col_margin)
+  for rperm in permutations(row_margin)
+    for cperm in permutations(col_margin)
 
-            # Tentative network
-            m_adj = N.A[vec(rperm), vec(cperm)]
+      # Tentative network
+      m_adj = N.A[vec(rperm), vec(cperm)]
 
-            # Check the hash
-            if hash(m_adj) ∈ hashes
-                continue
-            else
-                # Now we know this network
-                push!(hashes, hash(m_adj))
-                # So we keep it
-                push!(uniques, typeof(N)(m_adj))
-            end
-        end
+      # Check the hash
+      if hash(m_adj) ∈ hashes
+        continue
+      else
+        # Now we know this network
+        push!(hashes, hash(m_adj))
+        # So we keep it
+        push!(uniques, typeof(N)(m_adj))
+      end
     end
-    return uniques
+  end
+  return uniques
 end
 
 """
@@ -37,32 +69,32 @@ Take a unipartite network, returns a collection of unique permutations
 """
 function permute_network(N::Unipartite)
 
-    # Prepare to store the hashes
-    hashes = UInt64[]
+  # Prepare to store the hashes
+  hashes = UInt64[]
 
-    # Prepare to store the unique networks
-    uniques = typeof(N)[]
+  # Prepare to store the unique networks
+  uniques = typeof(N)[]
 
-    # Get the margins
-    sp_margin = 1:richness(N)
+  # Get the margins
+  sp_margin = 1:richness(N)
 
-    for iperm in permutations(sp_margin)
+  for iperm in permutations(sp_margin)
 
-        # Tentative network
-        m_adj = N.A[vec(iperm), vec(iperm)]
+    # Tentative network
+    m_adj = N.A[vec(iperm), vec(iperm)]
 
-        # Check the hash
-        if hash(m_adj) ∈ hashes
-            continue
-        else
-            # Now we know this network
-            push!(hashes, hash(m_adj))
-            # So we keep it
-            push!(uniques, typeof(N)(m_adj))
-        end
+    # Check the hash
+    if hash(m_adj) ∈ hashes
+      continue
+    else
+      # Now we know this network
+      push!(hashes, hash(m_adj))
+      # So we keep it
+      push!(uniques, typeof(N)(m_adj))
     end
+  end
 
-    return uniques
+  return uniques
 end
 
 """
@@ -75,25 +107,25 @@ right state for the motif, *i.e.* P if m is 1, and 1 - P if m is 0.
 """
 function motif_internal(N::EcoNetwork, m::DeterministicNetwork)
 
-    # The motif structure must have the same size than the partial adjacency
-    # matrix
-    @assert size(N) == size(m)
+  # The motif structure must have the same size than the partial adjacency
+  # matrix
+  @assert size(N) == size(m)
 
-    # Check that the types are the same
-    if typeof(N) <: Bipartite
-        @assert typeof(m) <: Bipartite
-    else
-        @assert typeof(m) <: Unipartite
-    end
+  # Check that the types are the same
+  if typeof(N) <: Bipartite
+    @assert typeof(m) <: Bipartite
+  else
+    @assert typeof(m) <: Unipartite
+  end
 
-    # Get the interaction-level probability of having the right motif
-    # conformation
-    b = zeros(Float64, size(m))
-    b[!m.A] = 1.0
-    b[m.A] = 2.0 .* N.A[m.A]
+  # Get the interaction-level probability of having the right motif
+  # conformation
+  b = zeros(Float64, size(m))
+  b[!m.A] = 1.0
+  b[m.A] = 2.0 .* N.A[m.A]
 
-    # Finally, return this as an unfolded matrix.
-    return vec(b .- N.A)
+  # Finally, return this as an unfolded matrix.
+  return vec(b .- N.A)
 
 end
 
@@ -102,14 +134,14 @@ Probability that a group of species form a given motif. This works for both the
 probabilistic and deterministic networks.
 """
 function motif_p(N::EcoNetwork, m::DeterministicNetwork)
-    return prod(motif_internal(N, m))
+  return prod(motif_internal(N, m))
 end
 
 """
 Variance that a group of species form a given motif
 """
 function motif_v(N::ProbabilisticNetwork, m::DeterministicNetwork)
-    return m_var(motif_internal(N, m))
+  return m_var(motif_internal(N, m))
 end
 
 """
