@@ -121,11 +121,19 @@ function motif_internal(N::EcoNetwork, m::DeterministicNetwork)
   # Get the interaction-level probability of having the right motif
   # conformation
   b = zeros(Float64, size(m))
-  b[!m.A] = 1.0
-  b[m.A] = 2.0 .* N.A[m.A]
+  #b[!m.A] = 1.0
+  #b[m.A] = 2.0 .* N.A[m.A]
+  for i in eachindex(b)
+    b[i] = m.A[i] ? 2.0 * N.A[i] : 1.0;
+  end
 
-  # Finally, return this as an unfolded matrix.
-  return vec(b .- N.A)
+  # Finally, return this as an unfolded matrix. The version with broadcast is
+  # easier to read, but seems slow, so we prepare an array instead.
+  out = zeros(Float64, prod(size(b)))
+  for i in eachindex(b)
+    out[i] = b[i] - N.A[i]
+  end
+  return out
 
 end
 
