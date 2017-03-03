@@ -5,7 +5,7 @@ module TestMotifs
 @testset "Motif functions" begin
 
   @testset "Usual motifs" begin
-    @test unipartitemotifs()[:S1].A = [0 1 0; 0 0 1; 0 0 0];
+    @test unipartitemotifs()[:S1].A == [0 1 0; 0 0 1; 0 0 0];
   end
 
     @testset "Single link, probabilistic" begin
