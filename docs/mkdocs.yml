@@ -6,44 +6,45 @@ site_author: Timothée Poisot
 theme: material
 
 extra:
-    logo: "images/logo.png"
-    palette:
-        primary: 'green'
-        accent: 'teal'
-    font:
-        text: 'PT Sans'
-        code: 'PT Mono'
-    author:
-        twitter: poisotlab
-        github: poisotlab
+  logo: "images/logo.png"
+  palette:
+    primary: 'green'
+    accent: 'teal'
+  font:
+    text: 'PT Sans'
+    code: 'PT Mono'
+  author:
+    twitter: poisotlab
+    github: poisotlab
 
 extra_css:
-    - assets/Documenters.css
+  - assets/Documenters.css
 
 extra_javascript:
-    - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
-    - assets/mathjaxhelper.js
+  - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+  - assets/mathjaxhelper.js
 
 markdown_extensions:
-    - extra
-    - tables
-    - fenced_code
-    - mdx_math
-    - codehilite
+  - extra
+  - tables
+  - fenced_code
+  - mdx_math
+  - codehilite
 
 docs_dir: 'build'
 
 pages:
-    - Home: index.md
-    - "Use cases":
-        - Nestedness: usecase/nestedness.md
-        - Modularity: usecase/modularity.md
-    - Manual:
-        - Types: man/types.md
-        - Data: man/data.md
-        - "Null models": man/nullmodels.md
-        - Modularity: man/modularity.md
-        - Plotting: man/plotting.md
-    - Library:
-        - Public: lib/public.md
-        - Internals: lib/internals.md
+  - Home: index.md
+  - "Use cases":
+    - Nestedness: usecase/nestedness.md
+    - Modularity: usecase/modularity.md
+  - Manual:
+    - Types: man/types.md
+    - Data: man/data.md
+    - "Null models": man/nullmodels.md
+    - Modularity: man/modularity.md
+    - Motifs: man/motifs.md
+    - Plotting: man/plotting.md
+  - Library:
+    - Public: lib/public.md
+    - Internals: lib/internals.md
