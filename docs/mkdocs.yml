@@ -10,9 +10,6 @@ extra:
   palette:
     primary: 'blue grey'
     accent: 'orange'
-  font:
-    text: 'PT Sans'
-    code: 'PT Mono'
   author:
     twitter: poisotlab
     github: poisotlab
