@@ -1,4 +1,26 @@
 """
+Returns a dictionary of the usual unipartite motifs. The names of the motifs
+come from Stouffer et al. (2007) -- especially Fig. 1, available online at
+<http://rspb.royalsocietypublishing.org/content/274/1621/1931.figures-only>
+"""
+function unipartitemotifs()
+
+  # Everything is stored in a Dict, and the keys are symbols with the names of
+  # the motifs.
+  motifs = Dict{Symbol, UnipartiteNetwork}()
+
+  # Single motifs
+  motifs[:S1] = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0])
+  motifs[:S2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 0 0])
+  motifs[:S3] = UnipartiteNetwork([0 1 0; 0 0 1; 1 0 0])
+  motifs[:S4] = UnipartiteNetwork([0 1 0; 0 0 0; 0 1 0])
+  motifs[:S5] = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0])
+
+  # Return
+  return motifs
+end
+
+"""
 Take a bipartite network, returns a collection of unique permutations
 """
 function permute_network(N::Bipartite)
