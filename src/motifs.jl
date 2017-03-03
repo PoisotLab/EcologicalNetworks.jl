@@ -9,12 +9,22 @@ function unipartitemotifs()
   # the motifs.
   motifs = Dict{Symbol, UnipartiteNetwork}()
 
-  # Single motifs
+  # Single-linked motifs
   motifs[:S1] = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0])
   motifs[:S2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 0 0])
   motifs[:S3] = UnipartiteNetwork([0 1 0; 0 0 1; 1 0 0])
   motifs[:S4] = UnipartiteNetwork([0 1 0; 0 0 0; 0 1 0])
   motifs[:S5] = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0])
+
+  # Double-linked motifs
+  motifs[:D1] = UnipartiteNetwork([0 1 1; 0 0 0; 1 1 0])
+  motifs[:D2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 1 0])
+  motifs[:D3] = UnipartiteNetwork([0 0 1; 0 0 0; 1 1 0])
+  motifs[:D4] = UnipartiteNetwork([0 1 0; 0 0 1; 0 1 0])
+  motifs[:D5] = UnipartiteNetwork([0 1 0; 0 0 1; 1 1 0])
+  motifs[:D6] = UnipartiteNetwork([0 1 1; 1 0 1; 1 1 0])
+  motifs[:D7] = UnipartiteNetwork([0 1 1; 1 0 0; 1 1 0])
+  motifs[:D8] = UnipartiteNetwork([0 1 1; 1 0 0; 1 0 0])
 
   # Return
   return motifs
