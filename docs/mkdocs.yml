@@ -8,8 +8,8 @@ theme: material
 extra:
   logo: "images/logo.png"
   palette:
-    primary: 'green'
-    accent: 'teal'
+    primary: 'blue grey'
+    accent: 'orange'
   font:
     text: 'PT Sans'
     code: 'PT Mono'
@@ -30,6 +30,7 @@ markdown_extensions:
   - fenced_code
   - mdx_math
   - codehilite
+  - admonition
 
 docs_dir: 'build'
 
