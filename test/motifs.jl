@@ -4,6 +4,10 @@ module TestMotifs
 
 @testset "Motif functions" begin
 
+  @testset "Usual motifs" begin
+    @test unipartitemotifs()[:S1] = [0 1 0; 0 0 1; 0 0 0];
+  end
+
     @testset "Single link, probabilistic" begin
         # Test with a single link
         N = UnipartiteProbaNetwork([0.2 0.8; 0.2 0.1])

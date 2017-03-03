@@ -17,10 +17,18 @@ if this is a `Bipartite`) are extracted, and matched against all *unique*
 possible permutations of the motif. If there is a match, then this induced
 subgraph is an instance of this motif.
 
-~~~ @docs
+~~~@docs
 motifs
 ~~~
 
 ## Caveats
 
+The motifs are counted in a way that ignore self-links. This should not be an
+issue most of the time, and was also the ways this was done in most publications
+counting motifs in ecological networks.
+
 ## Usual motifs
+
+~~~@docs
+unipartitemotifs
+~~~
