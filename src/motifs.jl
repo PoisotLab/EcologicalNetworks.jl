@@ -25,33 +25,33 @@ Take a bipartite network, returns a collection of unique permutations
 """
 function permute_network(N::Bipartite)
 
-    # Prepare to store the hashes
-    hashes = UInt64[]
+  # Prepare to store the hashes
+  hashes = UInt64[]
 
-    # Prepare to store the unique networks
-    uniques = typeof(N)[]
+  # Prepare to store the unique networks
+  uniques = typeof(N)[]
 
-    # Get the margins
-    col_margin, row_margin = 1:ncols(N), 1:nrows(N)
+  # Get the margins
+  col_margin, row_margin = 1:ncols(N), 1:nrows(N)
 
-    for rperm in permutations(row_margin)
-        for cperm in permutations(col_margin)
+  for rperm in permutations(row_margin)
+    for cperm in permutations(col_margin)
 
-            # Tentative network
-            m_adj = N.A[vec(rperm), vec(cperm)]
+      # Tentative network
+      m_adj = N.A[vec(rperm), vec(cperm)]
 
-            # Check the hash
-            if hash(m_adj) ∈ hashes
-                continue
-            else
-                # Now we know this network
-                push!(hashes, hash(m_adj))
-                # So we keep it
-                push!(uniques, typeof(N)(m_adj))
-            end
-        end
+      # Check the hash
+      if hash(m_adj) ∈ hashes
+        continue
+      else
+        # Now we know this network
+        push!(hashes, hash(m_adj))
+        # So we keep it
+        push!(uniques, typeof(N)(m_adj))
+      end
     end
-    return uniques
+  end
+  return uniques
 end
 
 """
