@@ -130,22 +130,22 @@ end
 Getindex custom to get interaction value from an EcoNetwork
 """
 function Base.getindex(N::EcoNetwork, i...)
-    return getindex(N.A, i...)
+  return getindex(N.A, i...)
 end
 
 function nrows(N::EcoNetwork)
-    return size(N.A, 1)
+  return size(N.A, 1)
 end
 
 function ncols(N::EcoNetwork)
-    return size(N.A, 2)
+  return size(N.A, 2)
 end
 
 """
 Richness (number of species) in a bipartite network
 """
 function richness(N::Bipartite)
-    return sum(size(N.A))
+  return sum(size(N.A))
 end
 
 """
