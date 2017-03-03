@@ -12,18 +12,22 @@ module TestMotifs
         # Test with a single link
         N = UnipartiteProbaNetwork([0.2 0.8; 0.2 0.1])
         m = UnipartiteNetwork([false true; false false])
-        pmotif = EcologicalNetwork.motif_internal(N, m)
-        @test pmotif == vec([0.8 0.8 0.8 0.9])
+        b = zeros(Float64, size(m))
+        o = zeros(Float64, prod(size(m)))
+        EcologicalNetwork.motif_internal!(N, m, b, o)
+        @test o == vec([0.8 0.8 0.8 0.9])
     end
 
     @testset "Perfect match, probabilistic" begin
         # Test with a perfect match
         N = UnipartiteProbaNetwork([0.0 1.0; 0.0 0.0])
         m = UnipartiteNetwork([false true; false false])
-        pmotif = EcologicalNetwork.motif_internal(N, m)
-        @test pmotif == vec([1.0 1.0 1.0 1.0])
-        @test motif_p(N, m) == 1.0
-        @test motif_v(N, m) == 0.0
+        b = zeros(Float64, size(m))
+        o = zeros(Float64, prod(size(m)))
+        EcologicalNetwork.motif_internal!(N, m, b, o)
+        @test o == vec([1.0 1.0 1.0 1.0])
+        @test motif_p(N, m, b, o) == 1.0
+        @test motif_v(N, m, b, o) == 0.0
     end
 
     @testset "Fork food web" begin
@@ -106,7 +110,9 @@ module TestMotifs
         [0 1; 1 1], [1 0; 1 1], [1 1; 1 0], [1 1; 0 1],
         [0 0; 0 0], [1 1; 1 1]
       )
-      all_probas = map((x) -> motif_p(N, BipartiteNetwork(map(Bool, x))), possible_motifs)
+      b = zeros(Float64, size(N))
+      o = zeros(Float64, prod(size(N)))
+      all_probas = map((x) -> motif_p(N, BipartiteNetwork(map(Bool, x)), b, o), possible_motifs)
       @test sum(all_probas) ≈ 1.0
     end
 

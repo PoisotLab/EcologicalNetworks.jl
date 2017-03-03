@@ -105,11 +105,14 @@ a `DeterministicNetwork`). The two matrices must have the same size.  The
 function returns a *vectorized* probability of each interaction being in the
 right state for the motif, *i.e.* P if m is 1, and 1 - P if m is 0.
 """
-function motif_internal(N::EcoNetwork, m::DeterministicNetwork)
+function motif_internal!(N::EcoNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
 
   # The motif structure must have the same size than the partial adjacency
   # matrix
   @assert size(N) == size(m)
+
+  # The b matrix must have the same size as the motif
+  @assert size(b) == size(m)
 
   # Check that the types are the same
   if typeof(N) <: Bipartite
@@ -119,18 +122,15 @@ function motif_internal(N::EcoNetwork, m::DeterministicNetwork)
   end
 
   # Get the interaction-level probability of having the right motif.
-  b = zeros(Float64, size(m))
   for i in eachindex(b)
     b[i] = m.A[i] ? 2.0 * N.A[i] : 1.0;
   end
 
   # Finally, return this as an unfolded matrix. The version with broadcast is
   # easier to read, but seems slow, so we prepare an array instead.
-  out = zeros(Float64, prod(size(b)))
   for i in eachindex(b)
-    out[i] = b[i] - N.A[i]
+    o[i] = b[i] - N.A[i]
   end
-  return out
 
 end
 
@@ -138,15 +138,17 @@ end
 Probability that a group of species form a given motif. This works for both the
 probabilistic and deterministic networks.
 """
-function motif_p(N::EcoNetwork, m::DeterministicNetwork)
-  return prod(motif_internal(N, m))
+function motif_p(N::EcoNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
+  motif_internal!(N, m, b, o)
+  return prod(o)
 end
 
 """
 Variance that a group of species form a given motif
 """
-function motif_v(N::ProbabilisticNetwork, m::DeterministicNetwork)
-  return m_var(motif_internal(N, m))
+function motif_v(N::ProbabilisticNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
+  motif_internal!(N, m, b, o)
+  return m_var(o)
 end
 
 """
@@ -159,39 +161,44 @@ determined by the dimensions of `n`.
 """
 function count_motifs(N::Bipartite, m::DeterministicNetwork)
 
-    # The motif must be no larger than N, and this must be true for all
-    # dimensions
-    @assert richness(N) >= richness(m)
-    @assert nrows(N) >= nrows(m)
-    @assert ncols(N) >= ncols(m)
+  # The motif must be no larger than N, and this must be true for all
+  # dimensions
+  @assert richness(N) >= richness(m)
+  @assert nrows(N) >= nrows(m)
+  @assert ncols(N) >= ncols(m)
 
-    row_pick, col_pick = 1:nrows(N), 1:ncols(N)
-    row_comb, col_comb = combinations(row_pick, nrows(m)), combinations(col_pick, ncols(m))
+  row_pick, col_pick = 1:nrows(N), 1:ncols(N)
+  row_comb, col_comb = combinations(row_pick, nrows(m)), combinations(col_pick, ncols(m))
 
-    # We will store the unique conformations of the permuted motifs using
-    # hashes
-    shuffled_motifs = permute_network(m)
+  # We will store the unique conformations of the permuted motifs using
+  # hashes
+  shuffled_motifs = permute_network(m)
 
-    # Store the probabilities
-    single_probas = Float64[]
+  # Store the probabilities -- the size of the array is known
+  totalperm = length(shuffled_motifs)*length(row_comb)*length(col_comb)
+  single_probas = zeros(Float64, totalperm)
 
-    # Compute the probabilities for each k-plet
-    n_r_perm = 1
-    for cr in row_comb
-        n_c_perm = 1
-        for cc in col_comb
-            for shmi in eachindex(shuffled_motifs)
-                push!(single_probas,
-                      motif_p(
-                              typeof(N)(N[vec(cr), vec(cc)]),
-                              shuffled_motifs[shmi]
-                             )
-                     )
-            end
-        end
+  # Pre-allocate some internal objects
+  b = zeros(Float64, size(m))
+  o = zeros(Float64, prod(size(m)))
+
+  # Compute the probabilities for each k-plet
+  currentindex = 1
+  n_r_perm = 1
+  for cr in row_comb
+    n_c_perm = 1
+    for cc in col_comb
+      for shmi in eachindex(shuffled_motifs)
+        single_probas[currentindex] = motif_p(
+            typeof(N)(N[vec(cr), vec(cc)]),
+            shuffled_motifs[shmi], b, o
+          )
+        currentindex += 1
+      end
     end
+  end
 
-    return single_probas
+  return single_probas
 end
 
 """
@@ -204,38 +211,42 @@ determined by the dimensions of `n`.
 """
 function count_motifs(N::Unipartite, m::DeterministicNetwork)
 
-    # The motif must be no larger than N
-    @assert richness(N) >= richness(m)
+  # The motif must be no larger than N
+  @assert richness(N) >= richness(m)
 
-    sp_pick = 1:richness(N)
-    sp_comb = combinations(sp_pick, richness(m))
+  sp_pick = 1:richness(N)
+  sp_comb = combinations(sp_pick, richness(m))
 
-    # We will store the unique conformations of the permuted motifs using
-    # hashes
-    shuffled_motifs = permute_network(m)
+  # We will store the unique conformations of the permuted motifs using
+  # hashes
+  shuffled_motifs = permute_network(m)
 
-    # Store the probabilities
-    single_probas = zeros(Float64, (length(sp_comb), length(shuffled_motifs)))
+  # Pre-allocate some internal objects
+  b = zeros(Float64, size(m))
+  o = zeros(Float64, prod(size(m)))
 
-    # Compute the probabilities for each k-plet
-    n_k_perm = 1
-    for cr in sp_comb
+  # Store the probabilities
+  single_probas = zeros(Float64, (length(sp_comb), length(shuffled_motifs)))
 
-        # We need to keeep track of which motif permutation this is
-        n_m_perm = 1
+  # Compute the probabilities for each k-plet
+  n_k_perm = 1
+  for cr in sp_comb
 
-        # We keep the subpart of the graph constant, but permute the motif
-        # instead. This is faster and also avoids duplicating counts.
-        for pr in eachindex(shuffled_motifs)
-                single_probas[n_k_perm, pr] = motif_p(
-                                            typeof(N)(N[vec(cr), vec(cr)]),
-                                            shuffled_motifs[pr]
-                                            )
-        end
-        n_k_perm += 1
+    # We need to keeep track of which motif permutation this is
+    n_m_perm = 1
+
+    # We keep the subpart of the graph constant, but permute the motif
+    # instead. This is faster and also avoids duplicating counts.
+    for pr in eachindex(shuffled_motifs)
+      single_probas[n_k_perm, pr] = motif_p(
+        typeof(N)(N[vec(cr), vec(cr)]),
+        shuffled_motifs[pr], b, o
+      )
     end
+    n_k_perm += 1
+  end
 
-    return single_probas
+  return single_probas
 end
 
 """
