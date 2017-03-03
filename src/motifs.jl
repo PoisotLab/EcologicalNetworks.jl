@@ -118,11 +118,8 @@ function motif_internal(N::EcoNetwork, m::DeterministicNetwork)
     @assert typeof(m) <: Unipartite
   end
 
-  # Get the interaction-level probability of having the right motif
-  # conformation
+  # Get the interaction-level probability of having the right motif.
   b = zeros(Float64, size(m))
-  #b[!m.A] = 1.0
-  #b[m.A] = 2.0 .* N.A[m.A]
   for i in eachindex(b)
     b[i] = m.A[i] ? 2.0 * N.A[i] : 1.0;
   end
