@@ -14,8 +14,8 @@ function is_valid(a, x, c)
   xr = sum(x, 2)
   xc = sum(x, 1)
   # marginals of permutation attempt
-  ar = sum(x, 2)
-  ac = sum(x, 1)
+  ar = sum(a, 2)
+  ac = sum(a, 1)
   # compute
   same_r = xr == ar
   same_c = xc == ac
@@ -32,16 +32,16 @@ function is_valid(a, x, c)
   return true
 end
 
-function swap(x, constraint=:both)
+function swap(x::Array{Bool, 2}; constraint::Symbol=:both)
   @assert constraint ∈ [:both, :rows, :columns, :none]
 
   # Generate a first attempt
   attempt = reshape(x[shuffle(eachindex(x))], size(x))
-  still_searching = ! is_valid(attempt, x, constraint) # TODO write th `is_valid` function
+  valid = is_valid(attempt, x, constraint)
 
-  while still_searching
+  while (! valid)
     attempt = reshape(x[shuffle(eachindex(x))], size(x))
-    still_searching = ! is_valid(attempt, x, constraint)
+    valid = is_valid(attempt, x, constraint)
   end
 
   return attempt
