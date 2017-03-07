@@ -116,7 +116,8 @@ Creates a copy of a network -- this returns an object with the same type, and
 the same content.
 """
 function Base.copy(N::EcoNetwork)
-    return typeof(N)(N.A)
+  y = copy(N.A)
+  return typeof(N)(y)
 end
 
 """

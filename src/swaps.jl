@@ -62,7 +62,6 @@ function swap(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=
       else
         Y[species, species] = keep # restore and restart
       end
-
     end
   end
 
