@@ -3,7 +3,7 @@
 In this example, we will use [`label_propagation`](@ref) to optimize the
 modularity of a network. The data are from the [`mcmullen`](@ref) dataset.
 
-~~~@repl
+~~~@example
 using EcologicalNetwork
 
 # Get the data in an object
