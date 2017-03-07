@@ -75,7 +75,8 @@ harrison,
 motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs,
 
 # Data
-stony, mcmullen, ollerton, bluthgen, robertson, woods
+stony, mcmullen, ollerton, bluthgen, robertson, woods,
+soilphagebacteria
 
 include(joinpath(".", "types.jl"))
 include(joinpath(".", "centrality.jl"))
