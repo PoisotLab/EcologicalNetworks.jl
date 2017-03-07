@@ -121,6 +121,7 @@ Keywords:
 """
 function swaps(N::DeterministicNetwork, r::Int64; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
   @assert r > 0
+  @assert prod(degree(N).>0)
   # TODO make parallel
   return map(x -> swap(N, constraint=constraint, swapsize=swapsize, n=n), 1:r)
 end
