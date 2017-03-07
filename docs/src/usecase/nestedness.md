@@ -3,7 +3,7 @@
 The goal of this use case is to (i) measure the nestedness of a bipartite
 network and (ii) evaluate whether it differs from the random expectation. We
 will use the [`ollerton`](@ref) data, which are reasonably small, and the
-[`η`](@ref) measure of nestedness.
+[`η`](@ref) measure of nestedness (note that [`nodf`](@ref) is also available).
 
 ~~~@example
 using EcologicalNetwork
