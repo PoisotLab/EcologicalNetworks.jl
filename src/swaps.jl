@@ -78,3 +78,33 @@ function swap(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=
 
   return UnipartiteNetwork(Y)
 end
+
+"""
+Swaps a network while enforcing a constraint on degree distribution.
+
+Arguments:
+1. `N`, a `BipartiteNetwork`
+
+Keywords:
+- `constraint`: can be `:degree`, `:generality`, `:vulnerability`, or `:fill`
+- `swapsize`: the size of the square sub-matrix to swap (defaults to 3)
+- `n`: the number of sub-matrices to swap (defaults to 3000)
+"""
+function swap(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
+  # we want to have the same number of species as the required swap size
+  @assert minimum(size(N)) > swapsize
+
+  Y = copy(N.A)
+
+  doneswaps = 0
+  while doneswaps < n
+    sp_row = sample(1:size(N, 1), swapsize, replace=false)
+    sp_col = sample(1:size(N, 2), swapsize, replace=false)
+    if sum(Y[sp_row, sp_col]) >= 2
+      Y[sp_row, sp_col] = inner_swap(Y[sp_row, sp_col], constraint=constraint)
+      doneswaps += 1
+    end
+  end
+
+  return BipartiteNetwork(Y)
+end
