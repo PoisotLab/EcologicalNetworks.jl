@@ -39,7 +39,7 @@ function degree_var(N::UnipartiteProbaNetwork)
   return degree_out_var(N) .+ degree_in_var(N)
 end
 
-#= 
+#=
 Specificity
 =#
 

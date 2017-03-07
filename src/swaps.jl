@@ -8,25 +8,17 @@ function is_valid(a, x, c)
   @assert c ∈ [:degree, :generality, :vulnerability, :fill]
   # all unconstrained permutations are valid
   if c == :fill
-    return true
+    return sum(a) == sum(x)
   end
-  # marginals of original matrix
-  xr = sum(x, 2)
-  xc = sum(x, 1)
-  # marginals of permutation attempt
-  ar = sum(a, 2)
-  ac = sum(a, 1)
-  # compute
-  same_r = xr == ar
-  same_c = xc == ac
+  # other cases
   if c == :degree
-    return same_r & same_c
+    return (sum(a, 1) == sum(x, 1)) & (sum(a, 2) == sum(x, 2))
   end
   if c == :generality
-    return same_r
+    return sum(a, 2) == sum(x, 2)
   end
   if c == :vulnerability
-    return same_c
+    return sum(a, 1) == sum(x, 1)
   end
   # this should never happen
   return true
@@ -57,7 +49,7 @@ function swap(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=
   # we want to have the same number of species as the required swap size
   @assert minimum(size(N)) > swapsize
 
-  Y = copy(N.A)
+  Y = copy(N)
 
   doneswaps = 0
   while doneswaps < n
@@ -68,7 +60,7 @@ function swap(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=
     end
   end
 
-  return UnipartiteNetwork(Y)
+  return Y
 end
 
 """
