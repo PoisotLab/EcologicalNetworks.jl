@@ -15,4 +15,3 @@ Modules = [EcologicalNetwork]
 Order = [:function, :macro]
 Private = true
 ~~~
-
