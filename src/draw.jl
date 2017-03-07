@@ -13,7 +13,7 @@ Keywords:
 """
 function plot_network(N::EcoNetwork; order::Symbol=:degree, transform::Function=(x) -> x, file="en.png")
     @assert order ∈ [:degree, :none]
-    
+
     # Convert to floating point values
     A = map(Float64, N.A)
 
@@ -59,7 +59,7 @@ Keywords:
 """
 function plot_network(N::EcoNetwork, P::Partition; order::Symbol=:degree, transform::Function=(x) -> x, file="en.png")
     @assert order ∈ [:degree, :none]
-    
+
     # Convert to floating point values
     A = map(Float64, N.A)
 
