@@ -36,6 +36,7 @@ pages:
   - "Use cases":
     - Nestedness: usecase/nestedness.md
     - Modularity: usecase/modularity.md
+    - Motifs: usecase/motifs.md
   - Manual:
     - Types: man/types.md
     - Data: man/data.md
