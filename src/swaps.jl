@@ -98,8 +98,8 @@ function swap(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3
 
   doneswaps = 0
   while doneswaps < n
-    sp_row = sample(1:size(N, 1), swapsize, replace=false)
-    sp_col = sample(1:size(N, 2), swapsize, replace=false)
+    sp_row = sample(1:size(N.A, 1), swapsize, replace=false)
+    sp_col = sample(1:size(N.A, 2), swapsize, replace=false)
     if sum(Y[sp_row, sp_col]) >= 2
       Y[sp_row, sp_col] = inner_swap(Y[sp_row, sp_col], constraint=constraint)
       doneswaps += 1
