@@ -8,8 +8,8 @@ theme: material
 extra:
   logo: "images/logo.png"
   palette:
-    primary: 'blue grey'
-    accent: 'orange'
+    primary: 'green'
+    accent: 'deep orange'
   author:
     twitter: poisotlab
     github: poisotlab
