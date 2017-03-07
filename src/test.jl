@@ -45,7 +45,7 @@ function test_network_property(N::EcoNetwork, f, S; test::Symbol=:greater)
 
   # Count the number of positive cases
   hits = test == :greater ? sum(d .> v0) : sum(d .< v0)
-  
+
   return NetworkTestOutput(
   hits/length(S),      # p value
   test,                # test type

@@ -51,7 +51,7 @@ checkprob, i_esp, i_var, a_var, m_var,
 null1, null2, null3out, null3in, nullmodel,
 
 # Swap
-swap,
+swaps,
 
 # Testing
 test_network_property,

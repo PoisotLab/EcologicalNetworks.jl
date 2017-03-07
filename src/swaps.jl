@@ -51,15 +51,7 @@ function inner_swap(x::Array{Bool, 2}; constraint::Symbol=:degree)
 end
 
 """
-Swaps a network while enforcing a constraint on degree distribution.
-
-Arguments:
-1. `N`, an `UnipartiteNetwork`
-
-Keywords:
-- `constraint`: can be `:degree`, `:generality`, `:vulnerability`, or `:fill`
-- `swapsize`: the size of the sub-matrix to swap (defaults to 3)
-- `n`: the number of sub-matrices to swap (defaults to 3000)
+Swaps a unipartite network while enforcing a constraint on degree distribution.
 """
 function swap(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
   # we want to have the same number of species as the required swap size
@@ -80,15 +72,7 @@ function swap(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=
 end
 
 """
-Swaps a network while enforcing a constraint on degree distribution.
-
-Arguments:
-1. `N`, a `BipartiteNetwork`
-
-Keywords:
-- `constraint`: can be `:degree`, `:generality`, `:vulnerability`, or `:fill`
-- `swapsize`: the size of the square sub-matrix to swap (defaults to 3)
-- `n`: the number of sub-matrices to swap (defaults to 3000)
+Swaps a bipartite network while enforcing a constraint on degree distribution.
 """
 function swap(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
   # we want to have the same number of species as the required swap size
@@ -107,4 +91,33 @@ function swap(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3
   end
 
   return BipartiteNetwork(Y)
+end
+
+"""
+Generates randomized networks based on some constraints on degre distributions.
+
+By default, this method will look for random (x, x) sub-matrices, where x is
+given by the `swapsize` keyword, and shuffle them. There are four possible
+constraints:
+
+| value            | meaning                | proba equivalent |
+|:-----------------|:-----------------------|:-----------------|
+| `:degree`        | both in and out degree | `null2`          |
+| `:generality`    | only out degree        | `null3out`       |
+| `:vulnerability` | only in degree         | `null3in`        |
+| `:fill`          | only number of links   | `null1`          |
+
+Arguments:
+1. `N`, a `DeterministicNetwork`
+2. `r`, the number of randomized networks to generate
+
+Keywords:
+- `constraint`: can be `:degree`, `:generality`, `:vulnerability`, or `:fill`
+- `swapsize`: the size of the square sub-matrix to swap (defaults to 3)
+- `n`: the number of sub-matrices to swap (defaults to 3000)
+"""
+function swaps(N::DeterministicNetwork, r::Int64; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
+  @assert r > 0
+  # TODO make parallel
+  return map(x -> swap(N, constraint=constraint, swapsize=swapsize, n=n), 1:r)
 end
