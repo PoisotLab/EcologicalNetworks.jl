@@ -55,8 +55,14 @@ function swap(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=
   while doneswaps < n
     species = sample(1:richness(N), swapsize, replace=false)
     if sum(Y[species, species]) >= 2
+      keep = Y[species, species]
       Y[species, species] = inner_swap(Y[species, species], constraint=constraint)
-      doneswaps += 1
+      if prod(degree(Y) .> 0)
+        doneswaps += 1
+      else
+        Y[species, species] = keep # restore and restart
+      end
+
     end
   end
 
@@ -70,19 +76,24 @@ function swap(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3
   # we want to have the same number of species as the required swap size
   @assert minimum(size(N)) > swapsize
 
-  Y = copy(N.A)
+  Y = copy(N)
 
   doneswaps = 0
   while doneswaps < n
     sp_row = sample(1:size(N.A, 1), swapsize, replace=false)
     sp_col = sample(1:size(N.A, 2), swapsize, replace=false)
     if sum(Y[sp_row, sp_col]) >= 2
+      keep = Y[sp_row, sp_col]
       Y[sp_row, sp_col] = inner_swap(Y[sp_row, sp_col], constraint=constraint)
-      doneswaps += 1
+      if prod(degree(Y) .> 0)
+        doneswaps += 1
+      else
+        Y[sp_row, sp_col] = keep # restore and restart
+      end
     end
   end
 
-  return BipartiteNetwork(Y)
+  return Y
 end
 
 """
