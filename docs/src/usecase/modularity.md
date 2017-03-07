@@ -16,13 +16,6 @@ L = rand(1:richness(N), richness(N));
 # julia is started in parallel, this will use all assigned CPUs.
 M = modularity(N, L, replicates=100);
 
-# We can look at the distribution of the Q, using the `UnicodePlots` package
-Pkg.add("UnicodePlots")
-using UnicodePlots
-
-# Note the "dot" notation here: we apply Q to every elements of M
-histogram(Q.(M), symb="-")
-
 # Finally, we can get the best partition
 b_part = best_partition(M);
 
