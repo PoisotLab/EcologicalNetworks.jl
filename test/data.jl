@@ -4,7 +4,7 @@ module TestData
 
     # Stony
     @test typeof(stony()) <: Unipartite
-    @test richness(stony()) == 113
+    @test richness(stony()) == 112
 
     # McMullen
     @test typeof(mcmullen()) <: Bipartite

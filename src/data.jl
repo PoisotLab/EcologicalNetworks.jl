@@ -1,10 +1,16 @@
 """
-Stony food web from Thompson & Townsend. This was sampled in a tussock
-grassland near Otago, New Zealand.
+Stony food web from Thompson & Townsend. This was sampled in a tussock grassland
+near Otago, New Zealand. Note that there is, in the original matrix, a species
+with no interactions. It is removed when generating the network.
 """
 function stony()
     n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "du_stony.txt")
-    return UnipartiteNetwork(readdlm(n_path))
+    N = UnipartiteNetwork(readdlm(n_path))
+    # remove species without interactions
+    have_deg = degree(N) .> 0
+    keep_sp = filter(x -> have_deg[x], 1:richness(N))
+    # return
+    return UnipartiteNetwork(N[keep_sp, keep_sp])
 end
 
 """
