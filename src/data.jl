@@ -60,5 +60,6 @@ return.
 """
 function soilphagebacteria(i::Int64=1)
   @assert i ∈ [1:5]
-  
+  n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "qb_soilphagebacteria_", string(i), ".txt")
+  return BipartiteQuantiNetwork(readdlm(n_path))
 end
