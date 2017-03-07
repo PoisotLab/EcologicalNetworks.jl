@@ -37,12 +37,12 @@ s1 = motif(N, m[:S1])
 
 We may be interested in knowing whether this motif is over or under-represented
 in the empirical network, compared to a random expectation. To determine this,
-we will shuffle interactions around in a way that preserves only the number of
-interactions in the matrix, using [`swaps`](@ref). We will create 100 replicated
-networks to test.
+we will shuffle interactions around in a way that preserves the number of
+interactions*and* the degree distribution of all species, using [`swaps`](@ref).
+We will create 100 replicated networks to test.
 
 ~~~@example motif
-permutations = swaps(N, 100, constraint=:fill)
+permutations = swaps(N, 100, constraint=:degree)
 
 ms1 = map(x -> motif(x, m[:S1]), permutations)
 ~~~
