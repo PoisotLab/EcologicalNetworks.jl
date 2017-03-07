@@ -47,8 +47,13 @@ export EcoNetwork,
     # Probability algebra utilities
     checkprob, i_esp, i_var, a_var, m_var,
 
-    # Null models and testing
+    # Null models
     null1, null2, null3out, null3in, nullmodel,
+
+    # Swap
+    swap,
+
+    # Testing
     test_network_property,
 
     # Modularity
@@ -81,6 +86,7 @@ include(joinpath(".", "matrix_utils.jl"))
 include(joinpath(".", "nestedness.jl"))
 include(joinpath(".", "proba_utils.jl"))
 include(joinpath(".", "nullmodels.jl"))
+include(joinpath(".", "swap.jl"))
 include(joinpath(".", "modularity.jl"))
 include(joinpath(".", "paths.jl"))
 include(joinpath(".", "betadiversity.jl"))
