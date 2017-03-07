@@ -133,6 +133,13 @@ function Base.getindex(N::EcoNetwork, i...)
   return getindex(N.A, i...)
 end
 
+"""
+Setindex for EcoNetwork
+"""
+function Base.setindex!(N::EcoNetwork, i...)
+  return setindex!(N.A, i...)
+end
+
 function nrows(N::EcoNetwork)
   return size(N.A, 1)
 end
