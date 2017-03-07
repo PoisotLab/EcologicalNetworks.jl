@@ -19,7 +19,9 @@ The `m` object has 13 different motifs, named as in [Stouffer *et al.*
 needed. Let's look at the `m[:S1]` motif:
 
 ~~~@example
+
 plot_network(m[:S1], file="motifs1.png")
+
 ~~~
 
 ![motif s1][ms1]

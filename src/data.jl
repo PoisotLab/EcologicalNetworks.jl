@@ -48,3 +48,17 @@ function woods()
     # This matrix is in the wrong format on IWDB
     return BipartiteQuantiNetwork(readdlm(n_path)')
 end
+
+"""
+Soil-isolated phage-bacteria networks. Interactions are the impact of phage on
+the bacteria.
+
+<https://figshare.com/articles/Phage_bacteria_networks_isolated_in_soil/696102>
+
+Takes a positional argument `i`, indicating which network (from 1 to 5) to
+return.
+"""
+function soilphagebacteria(i::Int64=1)
+  @assert i ∈ [1:5]
+  
+end
