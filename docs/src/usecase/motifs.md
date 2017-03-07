@@ -43,5 +43,6 @@ networks to test.
 
 ~~~@example motif
 permutations = swaps(N, 100, constraint=:fill)
+
 ms1 = map(x -> motif(x, m[:S1]), permutations)
 ~~~
