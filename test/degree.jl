@@ -36,5 +36,7 @@ module TestDegreeFunctions
   # specificity
 
   @test_approx_eq EcologicalNetwork.pdi(vec([1.0 0.0 0.0])) 1.0
+  @test_approx_eq EcologicalNetwork.pdi(vec([0.0 1.0 0.0])) 1.0
+  @test_approx_eq EcologicalNetwork.pdi(vec([0.0 0.2 0.0])) 1.0
 
 end
