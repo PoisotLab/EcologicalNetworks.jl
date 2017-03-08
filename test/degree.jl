@@ -33,4 +33,8 @@ module TestDegreeFunctions
 
   @test_approx_eq link_number(BipartiteQuantiNetwork(eye(Int64, 10))) 10
 
+  # specificity
+
+  @test_approx_eq EcologicalNetwork.pdi(vec([1.0 0.0 0.0])) 1.0
+
 end

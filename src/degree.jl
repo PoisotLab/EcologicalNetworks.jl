@@ -47,7 +47,7 @@ Specificity
 Paired Differences Index for specificity. This function will range the values
 of each row, so that the strongest link has a value of one.
 """
-function pdi(x::Array{Number, 1})
+function pdi{T}(x::Array{T, 1})
     s = reverse(sort(x))
     s = s ./ maximum(s)
     p = s .- s[1]
