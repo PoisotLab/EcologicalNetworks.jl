@@ -47,12 +47,12 @@ function test_network_property(N::EcoNetwork, f, S; test::Symbol=:greater)
   hits = test == :greater ? sum(d .> v0) : sum(d .< v0)
 
   return NetworkTestOutput(
-  hits/length(S),      # p value
-  test,                # test type
-  v0,                  # measured value
-  length(S),           # true sample size
-  hits,                # number of hits
-  (d .- v0)./std(d)    # z-values
+    hits/length(S),      # p value
+    test,                # test type
+    v0,                  # measured value
+    length(S),           # true sample size
+    hits,                # number of hits
+    (d .- v0)./std(d)    # z-values
   )
 
 end
