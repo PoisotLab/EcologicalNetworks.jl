@@ -4,7 +4,6 @@ module TestProbaUtilities
 
   # Probabilities must be floating point
   @test_throws AssertionError EcologicalNetwork.@checkprob 1
-  EcologicalNetwork.@checkprob 1
 
   # Probabilities must be in 0-1
   @test_throws DomainError EcologicalNetwork.@checkprob -0.2
