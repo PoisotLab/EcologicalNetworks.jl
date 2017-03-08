@@ -50,7 +50,7 @@ of each row, so that the strongest link has a value of one.
 function pdi{T<:Number}(x::Array{T, 1})
     s = reverse(sort(x))
     s = s ./ maximum(s)
-    p = s .- s[1]
+    p = s[1] .- s
     return sum(p[2:end])/(length(s)-1)
 end
 
