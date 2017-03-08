@@ -16,6 +16,10 @@ module TestMatrixUtilities
 
   @test_throws DomainError make_threshold(N, 1.0)
 
+  # Adjacency
+  N = UnipartiteNetwork([true false; false true])
+  @test N.A == adjacency(N).A
+
   # Remove the diagonal
   N = UnipartiteProbaNetwork([1.0 1.0 1.0; 0.0 0.0 0.0; 1.0 1.0 1.0])
   @test nodiag(N)[2,2] == 0.0
