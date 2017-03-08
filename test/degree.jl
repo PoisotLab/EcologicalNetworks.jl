@@ -2,6 +2,8 @@ module TestDegreeFunctions
   using Base.Test
   using EcologicalNetwork
 
+  Pkg.update()
+
   # Generate some data
 
   N = UnipartiteProbaNetwork([0.22 0.4; 0.3 0.1])
