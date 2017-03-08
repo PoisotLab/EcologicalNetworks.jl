@@ -9,9 +9,7 @@ The two steps are
 macro checkprob(p)
 	quote
 		# Check the correct type
-		if typeof($p) != Float64
-			throw(TypeError("Probabilities should be floating point numbers", "@checkprob", Float64, typeof($p)))
-		end
+		@assert typeof($p) == Float64
 		# Check the values
 		if ($p < 0.0) | ($p > 1.0)
 			throw(DomainError())
@@ -36,8 +34,8 @@ Variance of a single Bernoulli event
 f(p): p(1-p)
 """
 function i_var(p::Float64)
-  @checkprob p
-  return p*(1.0-p)
+	@checkprob p
+	return p*(1.0-p)
 end
 
 
