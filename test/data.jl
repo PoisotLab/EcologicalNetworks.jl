@@ -30,4 +30,11 @@ module TestData
     @test typeof(robertson()) <: DeterministicNetwork
     @test size(robertson()) == (1428, 456)
 
+    # Phage and bacteria
+    for i in 1:5
+      @test typeof(soilphagebacteria(i)) <: Bipartite
+      @test size(soilphagebacteria(i)) == (24, 19)
+    end
+    @test_throws AssertionError soilphagebacteria(6)
+
 end
