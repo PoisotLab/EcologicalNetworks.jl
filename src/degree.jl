@@ -46,6 +46,17 @@ Specificity
 """
 Paired Differences Index for specificity. This function will range the values
 of each row, so that the strongest link has a value of one.
+
+```jldoctest
+julia> pdi(vec([1.0 0.0 0.0]))
+1.0
+
+julia> pdi(vec([0.0 0.0 1.0]))
+1.0
+
+julia> pdi(vec([1.0 1.0 1.0]))
+0.0
+```
 """
 function pdi{T<:Number}(x::Array{T, 1})
     s = reverse(sort(x))
