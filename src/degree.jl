@@ -1,4 +1,6 @@
 """
+    degree_out(N::EcoNetwork)
+
 Expected number of outgoing degrees.
 """
 function degree_out(N::EcoNetwork)
@@ -6,6 +8,8 @@ function degree_out(N::EcoNetwork)
 end
 
 """
+    degree_in(N::EcoNetwork)
+
 Expected number of ingoing degrees.
 """
 function degree_in(N::EcoNetwork)
@@ -13,14 +17,18 @@ function degree_in(N::EcoNetwork)
 end
 
 """
-This function returns the sum of the in and out degree of a unipartite graph
+    degree(N::Unipartite)
+
+Sum of the in and out degree of a unipartite graph
 """
 function degree(N::Unipartite)
   return degree_in(N) .+ degree_out(N)
 end
 
 """
-This function returns the total degree of nodes in a bipartite network. This
+    degree(N::Unipartite)
+
+Total degree of nodes in a bipartite network. This
 is a concatenation of the out degree and the in degrees of nodes on both sizes
 """
 function degree(N::Bipartite)
@@ -39,13 +47,13 @@ function degree_var(N::UnipartiteProbaNetwork)
   return degree_out_var(N) .+ degree_in_var(N)
 end
 
-#=
-Specificity
-=#
-
 """
-Paired Differences Index for specificity. This function will range the values
-of each row, so that the strongest link has a value of one.
+    pdi{T<:Number}(x::Array{T, 1})
+
+Paired Differences Index for specificity.
+
+This function will range the values of each row, so that the strongest link has
+a value of one.
 
 ```jldoctest
 julia> pdi(vec([1.0 0.0 0.0]))
@@ -67,6 +75,8 @@ end
 
 
 """
+    specificity(N::DeterministicNetwork)
+
 Resource-range measure of specificity in deterministic networks.
 """
 function specificity(N::DeterministicNetwork)
@@ -75,6 +85,8 @@ function specificity(N::DeterministicNetwork)
 end
 
 """
+    specificity(N::DeterministicNetwork)
+
 Paired Differences Index of specificity in quantitative networks.
 """
 function specificity(N::QuantitativeNetwork)

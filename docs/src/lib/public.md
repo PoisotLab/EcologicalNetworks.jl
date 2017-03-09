@@ -12,8 +12,22 @@ Pages = ["public.md"]
 
 ## Functions
 
-### Connectance
+### Connectance and linkage density
 
 ~~~@docs
 connectance
+connectance_var
+links
+link_number
+links_var
+linkage_density
+~~~
+
+### Degree distribution and specificity
+
+~~~@docs
+degree
+degree_out
+degree_in
+specificity
 ~~~
