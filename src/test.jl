@@ -1,15 +1,12 @@
 """
-Type to store the output of a permutation-based test
+**Output of a permutation-based test**
 
-The fields are
-
-1. `pval` -- the test p-value
-2. `test` -- the type of test (`:smaller` or `:greater`)
-3. `v0` -- the measure of the empirical network
-4. `n` -- the number of randomized networks used
-5. `hits` -- the number of randomized network matching the test condition
-6. `z` -- the *z*-scores of the statistics for each randomized network
-
+- `pval` -- the test p-value
+- `test` -- the type of test (`:smaller` or `:greater`)
+- `v0` -- the measure of the empirical network
+- `n` -- the number of randomized networks used
+- `hits` -- the number of randomized network matching the test condition
+- `z` -- the *z*-scores of the statistics for each randomized network
 """
 type NetworkTestOutput
   pval::Float64
