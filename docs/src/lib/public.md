@@ -18,7 +18,7 @@ Pages = ["public.md"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["connectance.jl"]
+Pages = ["connectance.jl"]
 ~~~
 
 ### Centrality
@@ -27,7 +27,7 @@ Page = ["connectance.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["connectance.jl"]
+Pages = ["connectance.jl"]
 ~~~
 
 ### Degree
@@ -36,7 +36,7 @@ Page = ["connectance.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["degree.jl"]
+Pages = ["degree.jl"]
 ~~~
 
 ### Nestedness
@@ -45,7 +45,7 @@ Page = ["degree.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["nestedness.jl"]
+Pages = ["nestedness.jl"]
 ~~~
 
 ### Modularity
@@ -54,7 +54,7 @@ Page = ["nestedness.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["modularity.jl"]
+Pages = ["modularity.jl"]
 ~~~
 
 ### Food-web specific measures
@@ -63,7 +63,7 @@ Page = ["modularity.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["foodwebs.jl"]
+Pages = ["foodwebs.jl"]
 ~~~
 
 ### Motif counting
@@ -72,7 +72,7 @@ Page = ["foodwebs.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["motifs.jl"]
+Pages = ["motifs.jl"]
 ~~~
 
 ### Null models
@@ -81,7 +81,7 @@ Page = ["motifs.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["nullmodels.jl"]
+Pages = ["nullmodels.jl"]
 ~~~
 
 ### Swaps
@@ -90,7 +90,7 @@ Page = ["nullmodels.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["swaps.jl"]
+Pages = ["swaps.jl"]
 ~~~
 
 ### Hypothesis testing
@@ -99,7 +99,7 @@ Page = ["swaps.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["test.jl"]
+Pages = ["test.jl"]
 ~~~
 
 ### Beta-diversity
@@ -108,7 +108,7 @@ Page = ["test.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["betadiversity.jl"]
+Pages = ["betadiversity.jl"]
 ~~~
 
 ### Path length
@@ -117,7 +117,7 @@ Page = ["betadiversity.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["paths.jl"]
+Pages = ["paths.jl"]
 ~~~
 
 ### Datasets
@@ -126,7 +126,7 @@ Page = ["paths.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["data.jl"]
+Pages = ["data.jl"]
 ~~~
 
 ### Plotting
@@ -135,7 +135,7 @@ Page = ["data.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["draw.jl"]
+Pages = ["draw.jl"]
 ~~~
 
 ### Other utilities
@@ -144,5 +144,5 @@ Page = ["draw.jl"]
 Modules = [EcologicalNetwork]
 Order = [:function]
 Private = false
-Page = ["free_species.jl", "matrix_utils.jl", "proba_utils.jl"]
+Pages = ["free_species.jl", "matrix_utils.jl", "proba_utils.jl"]
 ~~~
