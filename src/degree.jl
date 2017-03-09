@@ -26,7 +26,7 @@ function degree(N::Unipartite)
 end
 
 """
-    degree(N::Unipartite)
+    degree(N::Bipartite)
 
 Total degree of nodes in a bipartite network. This
 is a concatenation of the out degree and the in degrees of nodes on both sizes
