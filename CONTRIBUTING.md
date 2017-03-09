@@ -89,19 +89,22 @@ we'll take care of pulling the changes into `dev` and/or `master` as needed.
 [Atom's][atom] guideline suggest the use of emojis to easily identify what is
 the purpose of each commit. This is a good idea and should be followed, and it
 also saves a few characters from the commit first line. Specifically, prepend
-your commits as follow
+your commits as follow (adapted from [these guidelines]).
 
-| What the commit is about |       emoji        | example                                     |
-|:-------------------------|:------------------:|:--------------------------------------------|
-| Add test                 | :white_check_mark: | :white_check_mark: wget JSON resource       |
-| Fix bug                  |       :bug:        | :bug: mean fails if NA                      |
-| Documentation            |  :page_facing_up:  | :page_facing_up: null models wrapper        |
-| New data                 |    :bar_chart:     | :bar_chart: example pollination network     |
-| Improve performance      |      :clock2:      | :clock2: parallelizes null model by default |
-| New feature              |      :metal:       | :metal: (anything amazing)                  |
-| Upcoming release         |     :package:      | :package: v1.0.2                            |
+| What the commit is about |      emoji       | example                                        |
+|:-------------------------|:----------------:|:-----------------------------------------------|
+| Add test                 | :rotating_light: | :rotating_light: wget JSON resource            |
+| Fix bug                  |      :bug:       | :bug: mean fails if NA                         |
+| Documentation            |     :books:      | :books: null models wrapper                    |
+| New data                 |   :bar_chart:    | :bar_chart: example pollination network        |
+| Improve performance      |   :racehorse:    | :racehorse: parallelizes null model by default |
+| New feature              |     :metal:      | :metal: (anything amazing)                     |
+| Upcoming release         |    :package:     | :package: v1.0.2                               |
+| Code maintenance         |     :wrench:     | :wrench: fix variable names                    |
+| Work in progress         |  :construction:  | :construction: new graphics                    |
 
 [atom]: https://github.com/atom/atom/blob/master/CONTRIBUTING.md
+[these guidelines]: https://github.com/dannyfritz/commit-message-emoji
 
 ## Tests and coverage
 
