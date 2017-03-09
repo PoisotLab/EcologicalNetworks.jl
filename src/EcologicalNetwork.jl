@@ -76,7 +76,10 @@ motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs,
 
 # Data
 stony, mcmullen, ollerton, bluthgen, robertson, woods,
-soilphagebacteria
+soilphagebacteria,
+
+# Food webs measures
+fractional_trophic_level
 
 include(joinpath(".", "types.jl"))
 include(joinpath(".", "centrality.jl"))
@@ -95,5 +98,6 @@ include(joinpath(".", "motifs.jl"))
 include(joinpath(".", "data.jl"))
 include(joinpath(".", "test.jl"))
 include(joinpath(".", "draw.jl"))
+include(joinpath(".", "foodwebs.jl"))
 
 end
