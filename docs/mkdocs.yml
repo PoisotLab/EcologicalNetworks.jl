@@ -46,6 +46,8 @@ pages:
     - "Nestedness": community/nestedness.md
   - "Hypothesis testing":
     - "Probabilistic null models": nhst/nullmodels.md
+    - "Network permutations": nhst/swaps.md
+    - "Null Hypothesis Significance Testing": nhst/nhst.md
   - Library:
     - Public: lib/public.md
     - Internals: lib/internals.md
