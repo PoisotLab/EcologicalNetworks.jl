@@ -14,6 +14,6 @@ Pages = ["public.md"]
 
 ### Connectance
 
-~~~@autodocs
+~~~@docs
 connectance
 ~~~
