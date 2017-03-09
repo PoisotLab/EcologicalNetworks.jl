@@ -33,17 +33,19 @@ docs_dir: 'build'
 
 pages:
   - Home: index.md
+  - "Different types of networks": types.md
+  - "Datasets": data.md
   - "Use cases":
     - Nestedness: usecase/nestedness.md
     - Modularity: usecase/modularity.md
     - Motifs: usecase/motifs.md
-  - Manual:
-    - Types: man/types.md
-    - Data: man/data.md
-    - "Null models": man/nullmodels.md
-    - Modularity: man/modularity.md
-    - Motifs: man/motifs.md
-    - Plotting: man/plotting.md
+  - "Network structure":
+    - "Linkage density and connectance": community/nlinks.md
+    - "Degree and specificity": community/degree.md
+    - "Interaction motifs": community/motifs.md
+    - "Nestedness": community/nestedness.md
+  - "Hypothesis testing":
+    - "Probabilistic null models": nhst/nullmodels.md
   - Library:
     - Public: lib/public.md
     - Internals: lib/internals.md

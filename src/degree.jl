@@ -8,49 +8,61 @@ function degree_out(N::EcoNetwork)
 end
 
 """
-    degree_in(N::EcoNetwork)
+**Expected number of ingoing degrees.**
 
-Expected number of ingoing degrees.
+    degree_in(N::EcoNetwork)
 """
 function degree_in(N::EcoNetwork)
   return vec(sum(N.A, 1))
 end
 
 """
-    degree(N::Unipartite)
+**Degree of a unipartite graph**
 
-Sum of the in and out degree of a unipartite graph
+    degree(N::Unipartite)
 """
 function degree(N::Unipartite)
   return degree_in(N) .+ degree_out(N)
 end
 
 """
+**Degree of a bipartite graph**
+
     degree(N::Bipartite)
 
-Total degree of nodes in a bipartite network. This
-is a concatenation of the out degree and the in degrees of nodes on both sizes
+This is a concatenation of the out degree and the in degrees of nodes on both
+sizes, as measured by making the graph unipartite first. Rows are first, columns
+second.
 """
 function degree(N::Bipartite)
     return degree(make_unipartite(N))
 end
 
+"""
+    degree_out_var(N::ProbabilisticNetwork)
+"""
 function degree_out_var(N::ProbabilisticNetwork)
   return mapslices(a_var, N.A, 2)
 end
 
+"""
+    degree_in_var(N::ProbabilisticNetwork)
+"""
 function degree_in_var(N::ProbabilisticNetwork)
   return mapslices(a_var, N.A, 1)'
 end
 
+"""
+    degree_var(N::UnipartiteProbaNetwork)
+"""
 function degree_var(N::UnipartiteProbaNetwork)
   return degree_out_var(N) .+ degree_in_var(N)
 end
 
 """
-    pdi{T<:Number}(x::Array{T, 1})
+**Paired Differences Index**
 
-Paired Differences Index for specificity.
+    pdi{T<:Number}(x::Array{T, 1})
 
 This function will range the values of each row, so that the strongest link has
 a value of one. This works for deterministic and quantitative networks.
@@ -75,9 +87,12 @@ end
 
 
 """
+**Resource-range**
+
     specificity(N::DeterministicNetwork)
 
-Resource-range measure of specificity in deterministic networks.
+Measure of specificity in a deterministic network. This returns a value between
+0 and 1, where 1 indicates maximal specificity.
 
 ```jldoctest
 julia> N = BipartiteNetwork(eye(Bool, 10));
@@ -92,9 +107,20 @@ function specificity(N::DeterministicNetwork)
 end
 
 """
+**Paired Differences Index**
+
     specificity(N::QuantitativeNetwork)
 
-Paired Differences Index of specificity in quantitative networks.
+Measure of specificity in a quantitative network. This returns a value between 0
+and 1, where 1 indicates maximal specificity. Note that the PDI is measured
+species-wise, and the maximal interaction strength of every species is set to 1.
+
+```jldoctest
+julia> N = BipartiteNetwork(eye(Int64, 10));
+
+julia> specificity(N)[1]
+1.0
+```
 """
 function specificity(N::QuantitativeNetwork)
     return vec(mapslices(pdi, N.A, 2))
