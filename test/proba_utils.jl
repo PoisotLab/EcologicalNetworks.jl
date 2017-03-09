@@ -6,8 +6,8 @@ module TestProbaUtilities
   @test_throws AssertionError EcologicalNetwork.@checkprob 1
 
   # Probabilities must be in 0-1
-  @test_throws DomainError EcologicalNetwork.@checkprob -0.2
-  @test_throws DomainError EcologicalNetwork.@checkprob 1.2
+  @test_throws AssertionError EcologicalNetwork.@checkprob -0.2
+  @test_throws AssertionError EcologicalNetwork.@checkprob 1.2
 
   # Base proba function
   @test i_esp(0.2) == 0.2

@@ -3,17 +3,15 @@ Quite crude way of checking that a number is a probability
 
 The two steps are
 
-1. The number should be of the `Float64` type -- if not, will yield a `TypeError`
-2. The number should belong to [0,1] -- if not, will throw a `DomainError`
+1. The number should be of the `Float64` type
+2. The number should belong to [0.0,1.0]
 """
 macro checkprob(p)
 	quote
 		# Check the correct type
 		@assert typeof($p) == Float64
-		# Check the values
-		if ($p < 0.0) | ($p > 1.0)
-			throw(DomainError())
-		end
+		@assert $p >= 0.0
+		@assert $p <= 1.0
 	end
 end
 
