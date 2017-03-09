@@ -13,5 +13,5 @@ Pages = ["internal.md"]
 ~~~@autodocs
 Modules = [EcologicalNetwork]
 Order = [:function, :macro]
-Private = true
+Public = false
 ~~~
