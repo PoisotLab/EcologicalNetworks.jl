@@ -99,7 +99,7 @@ your commits as follow
 | New data                 |    :bar_chart:     | :bar_chart: example pollination network     |
 | Improve performance      |      :clock2:      | :clock2: parallelizes null model by default |
 | New feature              |      :metal:       | :metal: (anything amazing)                  |
-| Upcoming release         |      :package:     | :package: v1.0.2                            |
+| Upcoming release         |     :package:      | :package: v1.0.2                            |
 
 [atom]: https://github.com/atom/atom/blob/master/CONTRIBUTING.md
 

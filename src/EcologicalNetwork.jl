@@ -79,7 +79,7 @@ stony, mcmullen, ollerton, bluthgen, robertson, woods,
 soilphagebacteria,
 
 # Food webs measures
-fractional_trophic_level
+fractional_trophic_level, trophic_level
 
 include(joinpath(".", "types.jl"))
 include(joinpath(".", "centrality.jl"))
