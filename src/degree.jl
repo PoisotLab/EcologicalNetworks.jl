@@ -53,7 +53,7 @@ end
 Paired Differences Index for specificity.
 
 This function will range the values of each row, so that the strongest link has
-a value of one.
+a value of one. This works for deterministic and quantitative networks.
 
 ```jldoctest
 julia> EcologicalNetwork.pdi(vec([1.0 0.0 0.0]))
