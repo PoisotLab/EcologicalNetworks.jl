@@ -78,6 +78,13 @@ end
     specificity(N::DeterministicNetwork)
 
 Resource-range measure of specificity in deterministic networks.
+
+```jldoctest
+julia> N = BipartiteNetwork(eye(Bool, 10));
+
+julia> specificity(N)[1]
+1.0
+```
 """
 function specificity(N::DeterministicNetwork)
     A = map(Int64, N.A)
@@ -85,7 +92,7 @@ function specificity(N::DeterministicNetwork)
 end
 
 """
-    specificity(N::DeterministicNetwork)
+    specificity(N::QuantitativeNetwork)
 
 Paired Differences Index of specificity in quantitative networks.
 """
