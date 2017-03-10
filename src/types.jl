@@ -73,7 +73,7 @@ end
 """
 Construct an unipartite network from a matrix of integer
 """
-function UnipartiteNetwork(A::Union{Array{Int64, 2},NamedArray{Int64, 2}})
+function UnipartiteNetwork(A::Array{Int64, 2})
 
   # It can only be 0s and 1s
   u_val = sort(unique(A))
