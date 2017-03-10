@@ -1,8 +1,11 @@
 using Base
 
 """
+**EcoNetwork**
+
 This is an abstract type that allows to generate functions for all sorts of
-networks. All other types are derived from this one.
+networks. All other types are derived from this one. This is an abstract type
+only, so you cannot create an object of this type directly.
 """
 abstract EcoNetwork
 
