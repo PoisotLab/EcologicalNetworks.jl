@@ -3,7 +3,7 @@
 
 ```@meta
 DocTestSetup = quote
-  using EcologicalNetworks
+  using EcologicalNetwork
 end
 ```
 
