@@ -47,7 +47,7 @@ type BipartiteQuantiNetwork <: Bipartite
   A::NamedArray{Float64, 2}
 end
 
-type UnipartiteQuantiNetwork{T <: Number} <: Unipartite
+type UnipartiteQuantiNetwork <: Unipartite
   A::NamedArray{Float64, 2}
   UnipartiteQuantiNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
@@ -87,13 +87,19 @@ function UnipartiteProbaNetwork(A::Array{Float64, 2})
   return UnipartiteProbaNetwork(A)
 end
 
-function UnipartiteQuantiNetwork(A::Array{Int64, 2})
+function UnipartiteQuantiNetwork{T <: Number}(A::Array{T, 2})
   A = convert(NamedArray, map(float, A))
   setdimnames!(A, "predators", 1)
   setdimnames!(A, "preys", 2)
   return UnipartiteQuantiNetwork(A)
 end
 
+function BipartiteQuantiNetwork{T <: Number}(A::Array{T, 2})
+  A = convert(NamedArray, map(float, A))
+  setdimnames!(A, "predators", 1)
+  setdimnames!(A, "preys", 2)
+  return BipartiteQuantiNetwork(A)
+end
 
 """
 Construct a bipartite network from a matrix of integer
