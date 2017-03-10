@@ -1,4 +1,6 @@
 """
+**Number of links**
+
     links(N::EcoNetwork)
 
 For all type of networks, this is the sum of the adjacency matrix. Note that
@@ -9,6 +11,8 @@ function links(N::EcoNetwork)
 end
 
 """
+**Number of links in a quantitative network**
+
     link_number(N::QuantitativeNetwork)
 
 In quantitative networks only, returns the number of non-zero interactions.
@@ -30,7 +34,7 @@ end
     connectance(N::EcoNetwork)
 
 Number of links divided by the number of possible interactions. In unipartite
-networks, this is ``L/S^2``. In bipartite networks, this is ``L/(T × B)``.
+networks, this is ``L/S^2``. In bipartite networks, this is ``L/(T \times B)``.
 """
 function connectance(N::EcoNetwork)
     return links(N) / prod(size(N))

@@ -34,9 +34,13 @@ function adjacency(N::EcoNetwork)
   t = typeof(N)
   if t <: DeterministicNetwork
     return copy(N)
+  else
+    otype = t <: Bipartite ? BipartiteNetwork : UnipartiteNetwork
+    y = similar(N.A, Bool)
+    y[:,:] = false
+    y[N.A .> 0.0] = true
+    return otype(y)
   end
-  otype = t <: Bipartite ? BipartiteNetwork : UnipartiteNetwork
-  return otype(N.A .> 0.0)
 end
 
 """
