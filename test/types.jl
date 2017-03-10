@@ -18,7 +18,6 @@ module TestTypes
     @test typeof(UnipartiteNetwork(rand(Bool, (3, 3)))) <: Unipartite
     @test typeof(UnipartiteNetwork(rand(Bool, (3, 3)))) <: DeterministicNetwork
 
-
     @test typeof(UnipartiteQuantiNetwork(rand(Int64, (5, 5)))) == UnipartiteQuantiNetwork
     @test typeof(UnipartiteQuantiNetwork(rand(Float64, (5, 5)))) <: QuantitativeNetwork
 

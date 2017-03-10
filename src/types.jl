@@ -43,14 +43,57 @@ type UnipartiteProbaNetwork <: Unipartite
   UnipartiteProbaNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
-type BipartiteQuantiNetwork{T <: Number} <: Bipartite
-  A::NamedArray{T, 2}
+type BipartiteQuantiNetwork <: Bipartite
+  A::NamedArray{Float64, 2}
 end
 
 type UnipartiteQuantiNetwork{T <: Number} <: Unipartite
-  A::NamedArray{T, 2}
+  A::NamedArray{Float64, 2}
   UnipartiteQuantiNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
+
+function rename_bipartite!(B::NamedArray)
+  setdimnames!(B, "top", 1)
+  setdimnames!(B, "bottom", 2)
+end
+
+function rename_unipartite!(B::NamedArray)
+  setdimnames!(B, "predators", 1)
+  setdimnames!(B, "preys", 2)
+end
+
+function BipartiteNetwork(A::Array{Bool, 2})
+  A = convert(NamedArray, A)
+  rename_bipartite!(A)
+  return BipartiteNetwork(A)
+end
+
+function UnipartiteNetwork(A::Array{Bool, 2})
+  A = convert(NamedArray, A)
+  rename_unipartite!(A)
+  return UnipartiteNetwork(A)
+end
+
+function BipartiteProbaNetwork(A::Array{Float64, 2})
+  A = convert(NamedArray, A)
+  rename_bipartite!(A)
+  return BipartiteProbaNetwork(A)
+end
+
+function UnipartiteProbaNetwork(A::Array{Float64, 2})
+  A = convert(NamedArray, A)
+  setdimnames!(A, "predators", 1)
+  setdimnames!(A, "preys", 2)
+  return UnipartiteProbaNetwork(A)
+end
+
+function UnipartiteQuantiNetwork(A::Array{Int64, 2})
+  A = convert(NamedArray, map(float, A))
+  setdimnames!(A, "predators", 1)
+  setdimnames!(A, "preys", 2)
+  return UnipartiteQuantiNetwork(A)
+end
+
 
 """
 Construct a bipartite network from a matrix of integer
@@ -85,7 +128,7 @@ function UnipartiteNetwork(A::Array{Int64, 2})
   setdimnames!(A, "predators", 1)
   setdimnames!(A, "preys", 2)
   # Return
-  return UnipartiteNetwork(A
+  return UnipartiteNetwork(A)
 end
 
 """

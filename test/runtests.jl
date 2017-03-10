@@ -4,23 +4,23 @@ using Base.Test
 anyerrors = false
 
 my_tests = [
-  "types.jl",
-  "data.jl",
-  "proba_utils.jl",
-  "matrix_utils.jl",
-  "make_unipartite.jl",
-  "degree.jl",
-  "free_species.jl",
-  "connectance.jl",
-  "paths.jl",
-  "nestedness.jl",
-  "nullmodels.jl",
-  "nullmodelswrapper.jl",
-  "centrality.jl",
-  "tests.jl",
-  "motifs.jl",
-  "betadiversity.jl",
-  "modularity.jl"]
+  "types.jl"]#,
+  #"data.jl",
+  #"proba_utils.jl",
+  #"matrix_utils.jl",
+  #"make_unipartite.jl",
+  #"degree.jl",
+  #"free_species.jl",
+  #"connectance.jl",
+  #"paths.jl",
+  #"nestedness.jl",
+  #"nullmodels.jl",
+  #"nullmodelswrapper.jl",
+  #"centrality.jl",
+  #"tests.jl",
+  #"motifs.jl",
+  #"betadiversity.jl",
+  #"modularity.jl"]
 
 for my_test in my_tests
   try
