@@ -8,3 +8,9 @@ maintained, or only the in or out degree, or both.
 ~~~@docs
 swaps
 ~~~
+
+It is also possible to produce a single permutation of a network if needed.
+
+~~~@docs
+swap
+~~~

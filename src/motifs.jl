@@ -1,6 +1,10 @@
 """
-Returns a dictionary of the usual unipartite motifs. The names of the motifs
-come from Stouffer et al. (2007) -- especially Fig. 1, available online at
+**Unipartite motifs**
+
+    unipartitemotifs()
+
+The names of the motifs come from Stouffer et al. (2007) -- especially Fig. 1,
+available online at
 <http://rspb.royalsocietypublishing.org/content/274/1621/1931.figures-only>
 """
 function unipartitemotifs()
@@ -98,7 +102,9 @@ function permute_network(N::Unipartite)
 end
 
 """
-Internal motif calculations
+**Internal motif calculations**
+
+    motif_internal!(N::EcoNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
 
 The two arguments are `N` the network and `m` the motif adjacency matrix (as
 a `DeterministicNetwork`). The two matrices must have the same size.  The
@@ -135,8 +141,9 @@ function motif_internal!(N::EcoNetwork, m::DeterministicNetwork, b::Array{Float6
 end
 
 """
-Probability that a group of species form a given motif. This works for both the
-probabilistic and deterministic networks.
+**Probability that a group of species form a given motif**
+
+This works for both the probabilistic and deterministic networks.
 """
 function motif_p(N::EcoNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
   motif_internal!(N, m, b, o)
@@ -144,7 +151,7 @@ function motif_p(N::EcoNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o
 end
 
 """
-Variance that a group of species form a given motif
+**Variance that a group of species form a given motif**
 """
 function motif_v(N::ProbabilisticNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
   motif_internal!(N, m, b, o)
@@ -152,7 +159,9 @@ function motif_v(N::ProbabilisticNetwork, m::DeterministicNetwork, b::Array{Floa
 end
 
 """
-Motif counter for a bipartite network
+**Motif counter for a bipartite network**
+
+    count_motifs(N::Bipartite, m::DeterministicNetwork)
 
 This function will go through all k-permutations of `N` to measure the
 probability of each induced subgraph being an instance of the motif given by
@@ -202,7 +211,9 @@ function count_motifs(N::Bipartite, m::DeterministicNetwork)
 end
 
 """
-Motif counter for an unipartite network
+**Motif counter for an unipartite network**
+
+    count_motifs(N::Unipartite, m::DeterministicNetwork)
 
 This function will go through all k-permutations of `N` to measure the
 probability of each induced subgraph being an instance of the motif given by
@@ -250,6 +261,10 @@ function count_motifs(N::Unipartite, m::DeterministicNetwork)
 end
 
 """
+**Count motifs**
+
+    motif(N::EcoNetwork, m::DeterministicNetwork)
+
 In a network `N`, counts the number of time a motif `m` appears. In the case of
 a probabilistic network, `N` is the expected number of motifs. In the case of
 a quantitative network, `N` is the number of times the motif appears in the
@@ -277,7 +292,9 @@ function motif(N::EcoNetwork, m::DeterministicNetwork)
   end
 end
 
-""" Expected variance of a given motif """
+"""
+**Expected variance of a given motif**
+"""
 function motif_var(N::ProbabilisticNetwork, m::DeterministicNetwork)
   return a_var(float(count_motifs(N, m)))
 end

@@ -1,9 +1,9 @@
 """
-Number of paths of length n between all pairs of nodes
+**Number of paths of length n between all pairs of nodes**
+
+    number_of_paths(N::Unipartite; n::Int64=2)
 
 This returns an array, not a network.
-
-**Keyword arguments**
 
 - `n` (def. 2), the path length
 """
