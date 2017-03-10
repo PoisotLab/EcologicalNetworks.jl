@@ -94,58 +94,31 @@ end
 
 function UnipartiteProbaNetwork(A::Array{Float64, 2})
   A = convert(NamedArray, A)
-  setdimnames!(A, "predators", 1)
-  setdimnames!(A, "preys", 2)
+  rename_unipartite!(A)
   return UnipartiteProbaNetwork(A)
 end
 
 function UnipartiteQuantiNetwork{T <: Number}(A::Array{T, 2})
   A = convert(NamedArray, map(float, A))
-  setdimnames!(A, "predators", 1)
-  setdimnames!(A, "preys", 2)
+  rename_unipartite!(A)
   return UnipartiteQuantiNetwork(A)
 end
 
 function BipartiteQuantiNetwork{T <: Number}(A::Array{T, 2})
   A = convert(NamedArray, map(float, A))
-  setdimnames!(A, "predators", 1)
-  setdimnames!(A, "preys", 2)
+  rename_bipartite!(A)
   return BipartiteQuantiNetwork(A)
 end
 
-"""
-Construct a bipartite network from a matrix of integer
-"""
-function BipartiteNetwork(A::Array{Int64, 2})
-
-  # It can only be 0s and 1s
-  u_val = sort(unique(A))
-  # The following line will allow fully connected or emmpty networks
-  @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
+function BipartiteNetwork{T <: Number}(A::NamedArray{T, 2})
   A = map(Bool, A)
-  # Convert to NamedArray and update name
-  A = convert(NamedArray, A)
-  setdimnames!(A, "top", 1)
-  setdimnames!(A, "bottom", 2)
-  # Return
+  rename_bipartite!(A)
   return BipartiteNetwork(A)
 end
 
-"""
-Construct an unipartite network from a matrix of integer
-"""
-function UnipartiteNetwork(A::Array{Int64, 2})
-
-  # It can only be 0s and 1s
-  u_val = sort(unique(A))
-  # The following line will allow fully connected or emmpty networks
-  @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
+function UnipartiteNetwork{T <: Number}(A::NamedArray{T, 2})
   A = map(Bool, A)
-  # Convert to NamedArray and update name
-  A = convert(NamedArray, A)
-  setdimnames!(A, "predators", 1)
-  setdimnames!(A, "preys", 2)
-  # Return
+  rename_unipartite!(A)
   return UnipartiteNetwork(A)
 end
 
