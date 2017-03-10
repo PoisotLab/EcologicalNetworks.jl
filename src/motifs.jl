@@ -155,7 +155,7 @@ end
 """
 function motif_v(N::ProbabilisticNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
   motif_internal!(N, m, b, o)
-  return m_var(o)
+  return m_var(NamedVector(o))
 end
 
 """
@@ -296,5 +296,5 @@ end
 **Expected variance of a given motif**
 """
 function motif_var(N::ProbabilisticNetwork, m::DeterministicNetwork)
-  return a_var(float(count_motifs(N, m)))
+  return a_var(NamedVector(vec(float(count_motifs(N, m)))))
 end

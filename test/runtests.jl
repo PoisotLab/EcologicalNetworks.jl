@@ -15,12 +15,12 @@ my_tests = [
   "paths.jl",
   "nestedness.jl",
   "nullmodels.jl",
-  "nullmodelswrapper.jl"]#,
-  #"centrality.jl",
-  #"tests.jl",
-  #"motifs.jl",
-  #"betadiversity.jl",
-  #"modularity.jl"]
+  "nullmodelswrapper.jl",
+  "centrality.jl",
+  "tests.jl",
+  "motifs.jl",
+  "betadiversity.jl",
+  "modularity.jl"]
 
 for my_test in my_tests
   try
