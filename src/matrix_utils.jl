@@ -50,8 +50,10 @@ is 1 with probability A(i,j).
 function make_bernoulli(N::ProbabilisticNetwork)
   # Get the correct network type
   itype = typeof(N) == UnipartiteProbaNetwork ? UnipartiteNetwork : BipartiteNetwork
+  # Out
+  y = convert(Array{Bool, 2}, rand(size(N)) .<= N.A)
   # Return the Bernoulli'ed network
-  return itype(rand(size(N)) .<= N.A)
+  return itype(y)
 end
 
 """
@@ -61,14 +63,11 @@ for all other networks.
 """
 function nodiag(N::Unipartite)
 
-    # Get the type of the internal elements according to the network type
-    itype = typeof(N) == UnipartiteNetwork ? Bool : Float64
-
-    # Inner matrix
-    A = N.A .* (one(itype) .- eye(itype, size(N)[1]))
-
-    # Return a copy of the network with the same type
-    return typeof(N)(A)
+  Y = copy(N)
+  # Inner matrix
+  Y.A[diagind(Y.A)] = typeof(N) == UnipartiteNetwork ? false : 0.0
+  # Return a copy of the network with the same type
+  return Y
 end
 
 """
@@ -85,7 +84,7 @@ functions.
 Also, we can read your thoughts. Always.
 """
 function nodiag(N::Bipartite)
-  return N
+  return copy(N)
 end
 
 """
