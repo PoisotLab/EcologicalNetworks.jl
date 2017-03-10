@@ -1,5 +1,12 @@
 # Degree distribution and specificity
 
+
+```@meta
+DocTestSetup = quote
+  using EcologicalNetworks
+end
+```
+
 ~~~@index
 Pages = ["degree.md"]
 ~~~
@@ -25,3 +32,7 @@ degree_in_var
 ~~~@docs
 specificity
 ~~~
+
+```@meta
+DocTestSetup = nothing
+```
