@@ -20,7 +20,7 @@ abstract Bipartite <: EcoNetwork
 A bipartite deterministic network is a two-dimensional array of boolean values.
 """
 type BipartiteNetwork <: Bipartite
-    A::NamedArray{Bool, 2}
+  A::NamedArray{Bool, 2}
 end
 
 """
@@ -28,54 +28,54 @@ Construct a bipartite network from a matrix of integer
 """
 function BipartiteNetwork(A::Array{Int64, 2})
 
-    # It can only be 0s and 1s
-    u_val = sort(unique(A))
-    # The following line will allow fully connected or emmpty networks
-    @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
+  # It can only be 0s and 1s
+  u_val = sort(unique(A))
+  # The following line will allow fully connected or emmpty networks
+  @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
 
-    # Return
-    return BipartiteNetwork(map(Bool, A))
+  # Return
+  return BipartiteNetwork(map(Bool, A))
 end
 
 """
 An unipartite deterministic network.
 """
 type UnipartiteNetwork <: Unipartite
-    A::NamedArray{Bool, 2}
-    UnipartiteNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
+  A::NamedArray{Bool, 2}
+  UnipartiteNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
 """
 Construct an unipartite network from a matrix of integer
 """
-function UnipartiteNetwork(A::Array{Int64, 2})
+function UnipartiteNetwork(A::Union{Array{Int64, 2},NamedArray{Int64, 2}})
 
-    # It can only be 0s and 1s
-    u_val = sort(unique(A))
-    # The following line will allow fully connected or emmpty networks
-    @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
+  # It can only be 0s and 1s
+  u_val = sort(unique(A))
+  # The following line will allow fully connected or emmpty networks
+  @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
 
-    # Return
-    return UnipartiteNetwork(map(Bool, A))
+  # Return
+  return UnipartiteNetwork(map(Bool, A))
 end
 
 
 type BipartiteProbaNetwork <: Bipartite
-    A::NamedArray{Float64, 2}
+  A::NamedArray{Float64, 2}
 end
 
 type UnipartiteProbaNetwork <: Unipartite
-    A::NamedArray{Float64, 2}
-    UnipartiteProbaNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
+  A::NamedArray{Float64, 2}
+  UnipartiteProbaNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
 type BipartiteQuantiNetwork{T <: Number} <: Bipartite
-    A::NamedArray{T, 2}
+  A::NamedArray{T, 2}
 end
 
-type UnipartiteQuantiNetwork <: Unipartite
-    A::NamedArray{Number, 2}
-    UnipartiteQuantiNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
+type UnipartiteQuantiNetwork{T <: Number} <: Unipartite
+  A::NamedArray{T, 2}
+  UnipartiteQuantiNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
 """
@@ -108,7 +108,7 @@ NonProbabilisticNetwork = Union{DeterministicNetwork, QuantitativeNetwork}
 Return the size of the adjacency matrix of an EcoNetwork object.
 """
 function Base.size(N::EcoNetwork)
-    Base.size(N.A)
+  Base.size(N.A)
 end
 
 """
@@ -124,7 +124,7 @@ end
 Return a transposed network with the correct type
 """
 function Base.transpose(N::EcoNetwork)
-    return typeof(N)(transpose(N.A))
+  return typeof(N)(transpose(N.A))
 end
 
 """
@@ -160,5 +160,5 @@ end
 Richness (number of species) in a unipartite network
 """
 function richness(N::Unipartite)
-    return size(N.A, 1)
+  return size(N.A, 1)
 end
