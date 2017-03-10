@@ -1,4 +1,8 @@
 """
+**Make a unipartite network bipartite**
+
+    make_unipartite(B::Bipartite)
+
 Transforms a bipartite network into a unipartite network. Note that this
 function returns an asymetric unipartite network.
 """
@@ -27,8 +31,13 @@ function make_unipartite(B::Bipartite)
 end
 
 """
-Returns the adjaceny matrix of a non-deterministic network as a deterministic
-network.
+**Return a unipartite network from any sort of network**
+
+    adjacency(N::EcoNetwork)
+
+All existing interactions are `true`, the other are `false`. This is *different*
+from `make_bernoulli` as this function does not rely on random draws.
+Essentially, think of it as a way to remove quantitative information.
 """
 function adjacency(N::EcoNetwork)
     t = typeof(N)
