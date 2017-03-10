@@ -10,10 +10,8 @@ function make_unipartite(B::Bipartite)
   # Get the correct inner (int.) and outer (net.) types
   if typeof(B) <: DeterministicNetwork
     itype, otype = Bool, UnipartiteNetwork
-  elseif typeof(B) <: ProbabilisticNetwork
-    itype, otype = Float64, UnipartiteProbaNetwork
-  elseif typeof(B) <: QuantitativeNetwork
-    itype, otype = typeof(B.A[1,1]), UnipartiteQuantiNetwork
+  else
+    itype, otype = Float64, typeof(B)
   end
 
   # Build the unipartite network template
@@ -93,17 +91,26 @@ exhaustivity.
 `k` must be in [0;1[.
 """
 function make_threshold(N::ProbabilisticNetwork, k::Float64)
+  # Initialize an empty network
+  Y = similar(N.A, Bool)
+  Y[:,:] = false
   # Check the values of k
   if (k < 0.0) | (k >= 1.0)
     throw(DomainError())
   end
   # Type of return
   itype = typeof(N) == UnipartiteProbaNetwork ? UnipartiteNetwork : BipartiteNetwork
+  # Fill
+  Y[N.A .> k] = true
   # Return a deterministic network
-  return itype(map((x) -> x>k ? 1.0 : 0.0, N.A))
+  return itype(Y)
 end
 
 """
+**Make a network deterministic**
+
+    make_binary(N::ProbabilisticNetwork)
+
 Returns a matrix B of the same size as A, in which each element B(i,j) is 1 if
 A(i,j) is greater than 0.
 """
