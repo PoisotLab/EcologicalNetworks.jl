@@ -69,8 +69,8 @@ type UnipartiteProbaNetwork <: Unipartite
     UnipartiteProbaNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
-type BipartiteQuantiNetwork <: Bipartite
-    A::NamedArray{Number, 2}
+type BipartiteQuantiNetwork{T <: Number} <: Bipartite
+    A::NamedArray{T, 2}
 end
 
 type UnipartiteQuantiNetwork <: Unipartite
