@@ -1,4 +1,6 @@
 """
+**Stony food web**
+
 Stony food web from Thompson & Townsend. This was sampled in a tussock grassland
 near Otago, New Zealand. Note that there is, in the original matrix, a species
 with no interactions. It is removed when generating the network.
@@ -14,7 +16,7 @@ function stony()
 end
 
 """
-Plant-flower visitor interactions in the Galapagos.
+**Plant-flower visitor interactions in the Galapagos**
 """
 function mcmullen()
   n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "db_mcmullen.txt")
@@ -22,7 +24,9 @@ function mcmullen()
 end
 
 """
-Fish-anemone interactions from Ollerton et al. 2007
+**Fish-anemone interactions**
+
+From Ollerton et al. 2007
 """
 function ollerton()
   n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "db_ollerton.txt")
@@ -30,8 +34,10 @@ function ollerton()
 end
 
 """
-Pollination interaction from Robertson 1927, in an agricultural area dominated
-by crops, with some natural forest and pasture.
+**Pollination interactions**
+
+From Robertson 1927, in an agricultural area dominated by crops, with some
+natural forest and pasture.
 """
 function robertson()
   n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "db_robertson.txt")
@@ -39,7 +45,7 @@ function robertson()
 end
 
 """
-Number of visits from Bluthgen et al XXX
+**Number of visits from Bluthgen et al XXX**
 """
 function bluthgen()
   n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "qb_bluthgen.txt")
@@ -47,7 +53,9 @@ function bluthgen()
 end
 
 """
-Lake of the Woods host-parasite data. Interactions content are prevalence.
+**Lake of the Woods host-parasite data**
+
+Interactions content are prevalence.
 """
 function woods()
   n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "qb_woods.txt")
@@ -56,8 +64,11 @@ function woods()
 end
 
 """
-Soil-isolated phage-bacteria networks. Interactions are the impact of phage on
-the bacteria.
+**Soil-isolated phage-bacteria networks**
+
+    soilphagebacteria(i::Int64=1)
+
+Interactions are the impact of phage on the bacteria.
 
 <https://figshare.com/articles/Phage_bacteria_networks_isolated_in_soil/696102>
 

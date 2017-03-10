@@ -1,21 +1,27 @@
 """
-Probability that a species has no predecessors
+**Probability that a species has no predecessors**
+
+    species_has_no_predecessors(N::Unipartite)
 """
 function species_has_no_predecessors(N::Unipartite)
     return vec(prod(1.0 .- nodiag(N).A,1))
 end
 
 """
-Probability that a species has no successors
+**Probability that a species has no successors**
+
+    species_has_no_successors(N::Unipartite)
 """
 function species_has_no_successors(N::Unipartite)
     return species_has_no_predecessors(N')
 end
 
 """
-Probability that a species has no links
+**Probability that a species has no links**
 
-This will return a vector, where the *i*th element is the probability that
+    species_is_free(N::Unipartite)
+
+This will return a vector, where the *i*-th element is the probability that
 species *i* has no interaction. Note that this is only meaningful for
 unipartite networks.
 """
@@ -24,11 +30,11 @@ function species_is_free(N::Unipartite)
 end
 
 """
-Expected number of species with no interactions
+**Expected number of species with no interactions**
 
-This function will be applied on the *unipartite* version of the network. Note
-that the functions `species_ |predecessors` will work on bipartite networks,
-but the unipartite situation is more general.
+    free_species(N::EcoNetwork)
+
+This function will be applied on the *unipartite* version of the network.
 """
 function free_species(N::EcoNetwork)
     if typeof(N) <: Unipartite
