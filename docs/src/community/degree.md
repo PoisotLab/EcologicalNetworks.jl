@@ -11,6 +11,12 @@ end
 Pages = ["degree.md"]
 ~~~
 
+## Species richness
+
+~~~@docs
+richness
+~~~
+
 ## Counting degrees
 
 ~~~@docs
