@@ -1,28 +1,35 @@
 # Guidelines for contribution
 
 This document described guidelines for contributions for projects led by members
-of the [Poisot lab of computational ecology][pl], Université de Montréal. It
-should be followed by lab members (at all times), as well as people with
-suggested added features, or willing to contribute enhancement or bug fixes.
+of the [Poisot lab -- Quantitative and Computational Ecology][pl], Université de
+Montréal. It should be followed by lab members (at all times), as well as people
+with suggested added features, or willing to contribute enhancement or bug
+fixes.
 
 [pl]: http://poisotlab.io/
 
 Edits to this document must be suggested as pull requests on the github project
-located at `https://github.com/PoisotLab/PLCG`, and not made on the document
+located at <https://github.com/PoisotLab/PLCG>, and not made on the document
 itself.
 
 It is suggested to include this file to your projects via a `Makefile` rule:
 
 ``` make
 CONTRIBUTING.md:
-    wget -O $@ https://raw.githubusercontent.com/PoisotLab/PLCG/master/README.md
+  wget -O $@ https://raw.githubusercontent.com/PoisotLab/PLCG/master/README.md
 ```
 
-## General code of behavior
+This work is licensed under a Creative Commons Attribution 4.0 International
+License.
 
-We follow the [Contributor Covenant][cc] and [The No Asshole Rule][nar].
-An amazing technical or scientific contribution is *no* excuse for creating
-a toxic environment.
+You should have received a copy of the license along with this
+work. If not, see <http://creativecommons.org/licenses/by/4.0/>.
+
+## General code of behaviour
+
+We follow the [Contributor Covenant][cc] and (more pragmatically) [The No
+Asshole Rule][nar]. No amazing technical or scientific contribution is an excuse
+for creating a toxic environment.
 
 [cc]: http://contributor-covenant.org/version/1/2/0/
 [nar]: https://en.wikipedia.org/wiki/The_No_Asshole_Rule
@@ -35,6 +42,10 @@ issue includes:
 1. The version of all relevant software
 2. Your operating system
 3. A minimal reproducible example (the shortest code we can copy/paste to reproduce the issue)
+4. A description of what was expected to happen
+5. A description of what happened instead
+
+Some repositories have issues templates enabled -- if so, they should be used.
 
 ## Authorship
 
@@ -45,7 +56,7 @@ version-controlled repository grants authorship of the paper. For this reason,
 it is important to correctly identify yourself. For `R` packages, this is done
 through the `DESCRIPTION` file. Whenever a `CONTRIBUTORS` file is found, add
 your name to it as part of the workflow described next. For authorship of
-papers, the first and last authors will decide on the position.s
+papers, we go for alphabetical order except for the first and last authors.
 
 ## Workflow
 
@@ -56,13 +67,15 @@ integrated rapidly. The general workflow is as follows:
 2. Create an *explicitly named branch*
 3. Create a pull request *even if you haven't pushed code yet*
 4. Be as explicit as possible on your goals
+5. Do not squash / rebase commits while you work -- we will do so when merging
 
 ### Pull requests
 
 Creating a pull request *before* you push any code will signal that you are
 interested in contributing to the project. Once this is done, push often, and be
-explicit about what the commits do. This gives the opportunity for feedback
-during your work, and allow for tweaks in what you are doing.
+explicit about what the commits do (see commits, below). This gives the
+opportunity for feedback during your work, and allow for tweaks in what you are
+doing.
 
 A *good* pull request (in addition to satisfying to all of the criteria below)
 is:
@@ -70,19 +83,18 @@ is:
 1. Single purpose - it should do one thing, and one thing only
 2. Short - it should ideally involve less than 250 lines of code
 3. Limited in scope - it should ideally not span more than a handful of files
+4. Well tested and well documented
+5. Written in a style similar to the rest of the codebase
 
 This will ensure that your contribution is rapidly reviewed and evaluated.
 
 ### Branches, etc.
 
-The `master` branch is *always* the currently stable, build passing, adequately
-covered version. Ideally, no one should ever push directly into master. The
-reference branch for development is `dev`.
-
-For the development of new features, it is generally recommended to fork the
-`master` branch, and submit your pull request to the `dev` branch. For
-"hotfixes" (changes that address issues), forking either branch is fine, and
-we'll take care of pulling the changes into `dev` and/or `master` as needed.
+The *tagged* versions of anything on `master` are stable releases. The `master`
+branch itself is the latest version, which implies that it might be broken at
+times. For more intensive development, there is usually a `dev` branch, or
+feature-specific branches. All significant branches are under continuous
+integration *and* code coverage analysis.
 
 ### Of emojis
 
@@ -91,17 +103,17 @@ the purpose of each commit. This is a good idea and should be followed, and it
 also saves a few characters from the commit first line. Specifically, prepend
 your commits as follow (adapted from [these guidelines]).
 
-| What the commit is about |      emoji       | example                                        |
-|:-------------------------|:----------------:|:-----------------------------------------------|
-| Add test                 | :rotating_light: | :rotating_light: wget JSON resource            |
-| Fix bug                  |      :bug:       | :bug: mean fails if NA                         |
-| Documentation            |     :books:      | :books: null models wrapper                    |
-| New data                 |   :bar_chart:    | :bar_chart: example pollination network        |
-| Improve performance      |   :racehorse:    | :racehorse: parallelizes null model by default |
-| New feature              |     :metal:      | :metal: (anything amazing)                     |
-| Upcoming release         |    :package:     | :package: v1.0.2                               |
-| Code maintenance         |     :wrench:     | :wrench: fix variable names                    |
-| Work in progress         |  :construction:  | :construction: new graphics                    |
+| If the commit is about... | ...then use        | Example                                        |
+|:--------------------------|:-------------------|:-----------------------------------------------|
+| Work in progress          | `:construction:`   | :construction: new graphics                    |
+| Bug fix                   | `:bug:`            | :bug: mean fails if NA                         |
+| Code maintenance          | `:wrench:`         | :wrench: fix variable names                    |
+| New test                  | `:rotating_light:` | :rotating_light: wget JSON resource            |
+| New data                  | `:bar_chart:`      | :bar_chart: example pollination network        |
+| New feature               | `:sparkles:`       | :sparkles: (anything amazing)                  |
+| Documentation             | `:books:`          | :books: null models wrapper                    |
+| Performance improvement   | `:racehorse:`      | :racehorse: parallelizes null model by default |
+| Upcoming release          | `:package:`        | :package: v1.0.2                               |
 
 [atom]: https://github.com/atom/atom/blob/master/CONTRIBUTING.md
 [these guidelines]: https://github.com/dannyfritz/commit-message-emoji
@@ -114,12 +126,12 @@ analysis.
 It is expected that:
 
 1. Your commits will not break a passing repo
-2. Your commits *can* make a breaking repo pass (thank you so much!)
+2. Your commits *can* make a breaking repo pass
 3. Your additions or changes will be adequately tested
 
 This information will be given in the thread of your pull request. Most of our
 repositories are set-up in a way that new commits that decrease coverage by more
-than 10% won't be pulled.
+than 10% won't be merged.
 
 Good tests make sure that:
 
@@ -146,6 +158,7 @@ purpose. Think of every piece of code you write as an element of a library.
 Check user input, check data structure, and fail often but explicitly.
 
 Bad:
+
 ``` julia
 function add(x, y)
   return x + y
@@ -153,6 +166,7 @@ end
 ```
 
 Acceptable:
+
 ``` julia
 function add(x, y)
   @assert typeof(x) == Int64
@@ -162,6 +176,7 @@ end
 ```
 
 Good:
+
 ``` julia
 function add(x, y)
   if typeof(x) != Int64
@@ -173,6 +188,9 @@ function add(x, y)
   return x + y
 end
 ```
+
+(Of course all three solutions are actually bad because they are not the
+idiomatic way of doing this, but you get the general idea.)
 
 ### Use type-static functions
 
@@ -194,15 +212,17 @@ start. Using `i`, `j`, `k` for loops is, as usual, fine.
 
 ### Docstrings and documentation
 
-Write some. `R` packages, must be compiled with `roxygen`, `python` code must
-have docstrings for all documentable objects, and `Julia` functions must be
-documented using `Docile.jl` and `Lexicon.jl`.##
+Write some.
+
+`R` packages must be compiled with `roxygen`, `python` code must have docstrings
+for all documentable objects, and `Julia` functions must be documented using
+base docstrings, and `jldoctests` wherever possible.
 
 There are three levels of documentation: the API documentation (which will be
 generated from the docstrings), the documentation for fellow developers (which
-resides ideally entirely in the comments), and documentation for the end users.
-Your pull request must include relevant changes and additions to the
-documentation.
+resides ideally entirely in the comments), and documentation for the end users
+(which include use cases, *i.e.* how is the feature use in the real world). Your
+pull request must include relevant changes and additions to the documentation.
 
 ### Versioning
 

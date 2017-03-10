@@ -1,15 +1,12 @@
 """
-Type to store the output of a permutation-based test
+**Output of a permutation-based test**
 
-The fields are
-
-1. `pval` -- the test p-value
-2. `test` -- the type of test (`:smaller` or `:greater`)
-3. `v0` -- the measure of the empirical network
-4. `n` -- the number of randomized networks used
-5. `hits` -- the number of randomized network matching the test condition
-6. `z` -- the *z*-scores of the statistics for each randomized network
-
+- `pval` -- the test p-value
+- `test` -- the type of test (`:smaller` or `:greater`)
+- `v0` -- the measure of the empirical network
+- `n` -- the number of randomized networks used
+- `hits` -- the number of randomized network matching the test condition
+- `z` -- the *z*-scores of the statistics for each randomized network
 """
 type NetworkTestOutput
   pval::Float64
@@ -21,16 +18,26 @@ type NetworkTestOutput
 end
 
 """
-Test a network property using randomizations based on a null model, from a
-pre-existing collection of networks.
+**Null Hypothesis Significance Testing**
 
-Arguments:
-- `N` -- the original network
-- `f` -- the function to test, must return a single floating point value
-- `S` -- an array of randomized networks (*e.g.* the output of `nullmodel`)
+    test_network_property(N::EcoNetwork, f, S; test::Symbol=:greater)
 
-Keywords:
-- `test` -- the type of test to perform (`:smaller` or `:greater`)
+Test whether the observed value (through applying a function `f`) on an
+empirical network `N` differs from the distribution derived from measuring the
+same value on a collection of randomized networks `S`. `S` is an array of
+networks of the same type as `N`.
+
+There are two possible values for the `test` keyword argument: `:greater` and
+`:smaller`. The test is one-tailed. The results are returned as a
+`NetworkTestOutput` object (see `?EcologicalNetwork.NetworkTestOutput` for the
+complete edocumentation).
+
+The *p*-value (`pval`) is measured by counting the proportion of networks with a larger
+(resp. smaller) value of the measure than the original network, as in normal
+permutation tests.
+
+The original value of the measure is given (`v0`), as well as the *z*-scores
+(`z`) of all randomized networks.
 """
 function test_network_property(N::EcoNetwork, f, S; test::Symbol=:greater)
 

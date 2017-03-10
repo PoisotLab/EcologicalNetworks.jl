@@ -1,5 +1,5 @@
 """
-Type to store a community partition
+**Community partition**
 
 This type has three elements:
 
@@ -32,7 +32,11 @@ function Partition(N::EcoNetwork, L::Array{Int64, 1})
 end
 
 """
-Get the δ matrix, representing whether two nodes are part of the same module.
+**Get the δ matrix**
+
+    delta_matrix(N::EcoNetwork, L::Array{Int64, 1})
+
+This matrix represents whether two nodes are part of the same module.
 """
 function delta_matrix(N::EcoNetwork, L::Array{Int64, 1})
     @assert length(L) == richness(N)
@@ -54,6 +58,10 @@ function delta_matrix(N::EcoNetwork, L::Array{Int64, 1})
 end
 
 """
+**Modularity**
+
+    Q(N::EcoNetwork, L::Array{Int64, 1})
+
 This measures modularity based on a matrix and a list of module labels. Note
 that this function assumes that interactions are directional, so that
 ``A_{ij}`` represents an interaction from ``i`` to ``j``, but not the other way
@@ -88,7 +96,9 @@ function Q(N::EcoNetwork, L::Array{Int64, 1})
 end
 
 """
-Q -- a measure of modularity
+**Modularity (from a `Partition`)**
+
+    Q(P::Partition)
 
 This measures Barber's bipartite modularity based on a `Partition` object, and
 update the object in the proccess.
@@ -99,11 +109,13 @@ function Q(P::Partition)
 end
 
 """
-Qr -- a measure of realized modularity
+**Realized modularity**
 
-Measures Poisot's realized modularity, based on a  a matrix and a list of module
-labels. Realized modularity takes values in the [0;1] interval, and is the
-proportion of interactions established *within* modules.
+    Qr(N::EcoNetwork, L::Array{Int64, 1})
+
+Measures realized modularity, based on a  a matrix and a list of module labels.
+Realized modularity takes values in the [0;1] interval, and is the proportion of
+interactions established *within* modules.
 
 Note that in some situations, `Qr` can be *lower* than 0. This reflects a
 partition in which more links are established between than within modules.
@@ -121,7 +133,9 @@ end
 
 
 """
-Qr -- a measure of realized modularity
+**Realized modularity (from a `Partition`)**
+
+    Qr(P::Partition)
 
 Measures Poisot's realized modularity, based on a `Partition` object.
 """
@@ -130,7 +144,9 @@ function Qr(P::Partition)
 end
 
 """
-Count most common labels
+**Most common labels**
+
+    most_common_label(N::DeterministicNetwork, L, sp)
 
 Arguments are the network, the community partition, and the species id
 """
@@ -166,7 +182,9 @@ function most_common_label(N::DeterministicNetwork, L, sp)
 end
 
 """
-Count most common labels
+**Most common labels**
+
+    most_common_label(N::ProbabilisticNetwork, L, sp)
 
 Arguments are the network, the community partition, and the species id
 """
@@ -199,7 +217,9 @@ function most_common_label(N::ProbabilisticNetwork, L, sp)
 end
 
 """
-Count most common labels
+**Most common labels**
+
+    most_common_label(N::QuantitativeNetwork, L, sp)
 
 Arguments are the network, the community partition, and the species id
 """
@@ -238,7 +258,9 @@ function most_common_label(N::QuantitativeNetwork, L, sp)
 end
 
 """
-Performs label propagation in an `EcoNetwork`.
+**Label propagation**
+
+    label_propagation(N::EcoNetwork, L::Array{Int64, 1})
 """
 function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
 
@@ -306,6 +328,10 @@ function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
 end
 
 """
+**Detect modules in a network**
+
+    modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates::Int64=100)
+
 This function is a wrapper for the modularity code. The number of replicates is
 the number of times the modularity optimization should be run. By default, it
 uses `label_propagation`.
@@ -330,6 +356,10 @@ function modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates::Int64=100)
 end
 
 """
+**Most modular partition**
+
+    best_partition(modpart; f::Function=Q)
+
 Return the best partition out of a number of replicates. This returns an
 *array* of partitions. If there is a single partition maximizing the given
 function `f` (as a keyword), the results are *still* returned as an array with

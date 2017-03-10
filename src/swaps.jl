@@ -1,5 +1,3 @@
-# Swaps for deterministic networks
-
 """
 This function will take two matrices and one constraint, and return whether the
 first matrix is a valid permutation of the second one under a given constraint.
@@ -69,7 +67,12 @@ function swap(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=
 end
 
 """
+**Generate a single permutation of a network**
+
+    swap(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
+
 Swaps a bipartite network while enforcing a constraint on degree distribution.
+See the documentation for `swaps` for the complete explanation of arguments.
 """
 function swap(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
   # we want to have the same number of species as the required swap size
@@ -96,7 +99,9 @@ function swap(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3
 end
 
 """
-Generates randomized networks based on some constraints on degre distributions.
+**Generates permutations of a network**
+
+    swaps(N::DeterministicNetwork, r::Int64; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
 
 By default, this method will look for random (x, x) sub-matrices, where x is
 given by the `swapsize` keyword, and shuffle them. There are four possible
