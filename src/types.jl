@@ -27,41 +27,12 @@ type BipartiteNetwork <: Bipartite
 end
 
 """
-Construct a bipartite network from a matrix of integer
-"""
-function BipartiteNetwork(A::Array{Int64, 2})
-
-  # It can only be 0s and 1s
-  u_val = sort(unique(A))
-  # The following line will allow fully connected or emmpty networks
-  @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
-
-  # Return
-  return BipartiteNetwork(map(Bool, A))
-end
-
-"""
 An unipartite deterministic network.
 """
 type UnipartiteNetwork <: Unipartite
   A::NamedArray{Bool, 2}
   UnipartiteNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
-
-"""
-Construct an unipartite network from a matrix of integer
-"""
-function UnipartiteNetwork(A::Union{Array{Int64, 2},NamedArray{Int64, 2}})
-
-  # It can only be 0s and 1s
-  u_val = sort(unique(A))
-  # The following line will allow fully connected or emmpty networks
-  @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
-
-  # Return
-  return UnipartiteNetwork(map(Bool, A))
-end
-
 
 type BipartiteProbaNetwork <: Bipartite
   A::NamedArray{Float64, 2}
@@ -79,6 +50,34 @@ end
 type UnipartiteQuantiNetwork{T <: Number} <: Unipartite
   A::NamedArray{T, 2}
   UnipartiteQuantiNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
+end
+
+"""
+Construct a bipartite network from a matrix of integer
+"""
+function BipartiteNetwork(A::Union{Array{Int64, 2},NamedArray{Int64, 2}})
+
+  # It can only be 0s and 1s
+  u_val = sort(unique(A))
+  # The following line will allow fully connected or emmpty networks
+  @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
+
+  # Return
+  return BipartiteNetwork(map(Bool, A))
+end
+
+"""
+Construct an unipartite network from a matrix of integer
+"""
+function UnipartiteNetwork(A::Union{Array{Int64, 2},NamedArray{Int64, 2}})
+
+  # It can only be 0s and 1s
+  u_val = sort(unique(A))
+  # The following line will allow fully connected or emmpty networks
+  @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
+
+  # Return
+  return UnipartiteNetwork(map(Bool, A))
 end
 
 """
