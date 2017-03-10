@@ -20,7 +20,7 @@ abstract Bipartite <: EcoNetwork
 A bipartite deterministic network is a two-dimensional array of boolean values.
 """
 type BipartiteNetwork <: Bipartite
-    A::Array{Bool, 2}
+    A::NamedArray{Bool, 2}
 end
 
 """
@@ -41,7 +41,7 @@ end
 An unipartite deterministic network.
 """
 type UnipartiteNetwork <: Unipartite
-    A::Array{Bool, 2}
+    A::NamedArray{Bool, 2}
     UnipartiteNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
@@ -61,20 +61,20 @@ end
 
 
 type BipartiteProbaNetwork <: Bipartite
-    A::Array{Float64, 2}
+    A::NamedArray{Float64, 2}
 end
 
 type UnipartiteProbaNetwork <: Unipartite
-    A::Array{Float64, 2}
+    A::NamedArray{Float64, 2}
     UnipartiteProbaNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
 type BipartiteQuantiNetwork <: Bipartite
-    A::Array{Number, 2}
+    A::NamedArray{Number, 2}
 end
 
 type UnipartiteQuantiNetwork <: Unipartite
-    A::Array{Number, 2}
+    A::NamedArray{Number, 2}
     UnipartiteQuantiNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 

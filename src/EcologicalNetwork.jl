@@ -4,6 +4,7 @@ module EcologicalNetwork
 using StatsBase
 using Cairo
 using Combinatorics
+using NamedArrays
 
 export EcoNetwork,
 
