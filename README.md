@@ -22,9 +22,17 @@ This *julia* package implements a set of measures and utilities to work on
 ecological networks, with an emphasis on probabilistic ones. Most of the
 work on probabilistic ecological networks comes from:
 
-> Poisot, T., Cirtwill, A. R., Cazelles, K., Gravel, D., Fortin, M.-J. and
-> Stouffer, D. B. (2016), The structure of probabilistic networks. Methods Ecol
-> Evol, 7: 303–312. doi:10.1111/2041-210X.12468
+Poisot, Timothée, Alyssa R. Cirtwill, Kévin Cazelles, Dominique Gravel,
+Marie-Josée Fortin, and Daniel B. Stouffer. “The Structure of Probabilistic
+Networks.” Edited by Jana Vamosi. Methods in Ecology and Evolution 7, no. 3
+(March 2016): 303–12. doi:10.1111/2041-210X.12468.
+
+The package implements most of the measures discussed in the following preprint:
+
+Delmas, Eva, Mathilde Besson, Marie-Helene Brice, Laura Burkle, Giulio V. Dalla
+Riva, Marie-Josée Fortin, Dominique Gravel, et al. “Analyzing Ecological
+Networks of Species Interactions.” bioRxiv, February 28, 2017, 112540.
+doi:10.1101/112540.
 
 ## Installation
 
@@ -39,10 +47,6 @@ To get the `lastest` version (after `Pkg.add`):
 ~~~ julia
 Pkg.checkout("EcologicalNetwork")
 ~~~
-
-## How to use
-
-See the documentation.
 
 ## Informations for `dev` branch
 
