@@ -55,15 +55,19 @@ end
 """
 Construct a bipartite network from a matrix of integer
 """
-function BipartiteNetwork(A::Union{Array{Int64, 2},NamedArray{Int64, 2}})
+function BipartiteNetwork(A::Array{Int64, 2})
 
   # It can only be 0s and 1s
   u_val = sort(unique(A))
   # The following line will allow fully connected or emmpty networks
   @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
-
+  A = map(Bool, A)
+  # Convert to NamedArray and update name
+  A = convert(NamedArray, A)
+  setdimnames!(A, "top", 1)
+  setdimnames!(A, "bottom", 2)
   # Return
-  return BipartiteNetwork(map(Bool, A))
+  return BipartiteNetwork(A)
 end
 
 """
@@ -75,9 +79,13 @@ function UnipartiteNetwork(A::Union{Array{Int64, 2},NamedArray{Int64, 2}})
   u_val = sort(unique(A))
   # The following line will allow fully connected or emmpty networks
   @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
-
+  A = map(Bool, A)
+  # Convert to NamedArray and update name
+  A = convert(NamedArray, A)
+  setdimnames!(A, "predators", 1)
+  setdimnames!(A, "preys", 2)
   # Return
-  return UnipartiteNetwork(map(Bool, A))
+  return UnipartiteNetwork(A
 end
 
 """
