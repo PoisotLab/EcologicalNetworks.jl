@@ -68,8 +68,20 @@ function BipartiteNetwork(A::Array{Bool, 2})
   return BipartiteNetwork(A)
 end
 
+function BipartiteNetwork{T <: Number}(A::Array{T, 2})
+  A = convert(NamedArray, map(Bool, A))
+  rename_bipartite!(A)
+  return BipartiteNetwork(A)
+end
+
 function UnipartiteNetwork(A::Array{Bool, 2})
   A = convert(NamedArray, A)
+  rename_unipartite!(A)
+  return UnipartiteNetwork(A)
+end
+
+function UnipartiteNetwork{T <: Number}(A::Array{T, 2})
+  A = convert(NamedArray, map(Bool, A))
   rename_unipartite!(A)
   return UnipartiteNetwork(A)
 end

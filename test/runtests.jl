@@ -4,8 +4,8 @@ using Base.Test
 anyerrors = false
 
 my_tests = [
-  "types.jl"]#,
-  #"data.jl",
+  "types.jl",
+  "data.jl"]#,
   #"proba_utils.jl",
   #"matrix_utils.jl",
   #"make_unipartite.jl",
