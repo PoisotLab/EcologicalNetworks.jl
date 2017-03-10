@@ -1,6 +1,10 @@
 """
-Draw a network as a matrix to a png file. In the case of a quantitative or
-probabilistic network, nuances of grey indicate interaction strength.
+**Draw a network as a matrix to a png file**
+
+    plot_network(N::EcoNetwork; order::Symbol=:degree, transform::Function=(x) -> x, file="en.png")
+
+In the case of a quantitative or probabilistic network, nuances of grey indicate
+interaction strength.
 
 Arguments:
 1. `N::EcoNetwork`, the network to draw
@@ -43,9 +47,12 @@ function plot_network(N::EcoNetwork; order::Symbol=:degree, transform::Function=
 end
 
 """
-Draw a network as a matrix to a png file, and respects the modules of every
-nodes. In the case of a quantitative or probabilistic network, nuances of grey
-indicate interaction strength.
+**Draw a network as a matrix to a png file**
+
+    plot_network(N::EcoNetwork, P::Partition; order::Symbol=:degree, transform::Function=(x) -> x, file="en.png")
+
+Respects the modules of every nodes. In the case of a quantitative or
+probabilistic network, nuances of grey indicate interaction strength.
 
 Arguments:
 1. `N::EcoNetwork`, the network to draw
@@ -76,45 +83,45 @@ function plot_network(N::EcoNetwork, P::Partition; order::Symbol=:degree, transf
 end
 
 """
-Low-level function to draw the network.
+**Low-level function to draw the network**
 """
 function draw_matrix(A::Array{Float64,2}; file="ecologicalnetwork.png")
-    nbot, ntop = size(A)
-    # Check size
-    @assert nbot <= 4000
-    @assert ntop <= 4000
-    # Get image size
-    _GAP = 6
-    _WDT = 18
-    _TTL = _GAP + _WDT
-    width  = _GAP + nbot*(_TTL)
-    height = _GAP + ntop*(_TTL)
-    # Initialize device
-    c = CairoRGBSurface(width, height)
-    cr = CairoContext(c)
-    Cairo.save(cr)
-    # Background
-    set_source_rgba(cr, 1.0, 1.0, 1.0, 1.0)
-    rectangle(cr, 0.0, 0.0, float(width), float(height))
-    fill(cr)
-    restore(cr)
-    Cairo.save(cr)
-    # Draw the blocks
-    for top in 1:ntop
-        for bot in 1:nbot
-            if A[bot,top] > 0.0
-                p = 1.0 - A[bot,top]
-                set_source_rgb(cr, p, p, p)
-                rectangle(cr, _GAP + (bot-1)*_TTL, _GAP + (top-1)*_TTL, _WDT, _WDT)
-                fill(cr)
-                Cairo.save(cr)
-                set_source_rgb(cr, 0.0, 0.0, 0.0)
-                set_line_width(cr, _GAP/4)
-                rectangle(cr, _GAP + (bot-1)*_TTL, _GAP + (top-1)*_TTL, _WDT, _WDT)
-                stroke(cr)
-                Cairo.save(cr)
-            end
-        end
+  nbot, ntop = size(A)
+  # Check size
+  @assert nbot <= 4000
+  @assert ntop <= 4000
+  # Get image size
+  _GAP = 6
+  _WDT = 18
+  _TTL = _GAP + _WDT
+  width  = _GAP + nbot*(_TTL)
+  height = _GAP + ntop*(_TTL)
+  # Initialize device
+  c = CairoRGBSurface(width, height)
+  cr = CairoContext(c)
+  Cairo.save(cr)
+  # Background
+  set_source_rgba(cr, 1.0, 1.0, 1.0, 1.0)
+  rectangle(cr, 0.0, 0.0, float(width), float(height))
+  fill(cr)
+  restore(cr)
+  Cairo.save(cr)
+  # Draw the blocks
+  for top in 1:ntop
+    for bot in 1:nbot
+      if A[bot,top] > 0.0
+        p = 1.0 - A[bot,top]
+        set_source_rgb(cr, p, p, p)
+        rectangle(cr, _GAP + (bot-1)*_TTL, _GAP + (top-1)*_TTL, _WDT, _WDT)
+        fill(cr)
+        Cairo.save(cr)
+        set_source_rgb(cr, 0.0, 0.0, 0.0)
+        set_line_width(cr, _GAP/4)
+        rectangle(cr, _GAP + (bot-1)*_TTL, _GAP + (top-1)*_TTL, _WDT, _WDT)
+        stroke(cr)
+        Cairo.save(cr)
+      end
     end
-    write_to_png(c, file)
+  end
+  write_to_png(c, file)
 end

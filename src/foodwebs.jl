@@ -6,7 +6,11 @@ function positions(bool::Array{Bool, 1})
 end
 
 """
-Fractional trophic level as defined by Pauly & Palomares.
+**Fractional trophic level**
+
+    fractional_trophic_level(N::Union{UnipartiteNetwork, UnipartiteQuantiNetwork})
+
+As defined by Pauly & Palomares.
 
 This function takes a unipartite network, either deterministic or quantitative,
 as its input. There is currently no trophic rank formulation for probabilistic
@@ -54,7 +58,11 @@ function fractional_trophic_level(N::Union{UnipartiteNetwork, UnipartiteQuantiNe
 end
 
 """
-Trophic level as defined by Pauly & Palomares.
+**Trophic level**
+
+    trophic_level(N::Union{UnipartiteNetwork, UnipartiteQuantiNetwork})
+
+As defined by Pauly & Palomares.
 
 This function weighs the fractional trophic level as returned by
 `fractional_trophic_level` by the proportion of the prey in the predator's diet.
