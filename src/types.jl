@@ -66,31 +66,43 @@ function rename_unipartite!(B::NamedArray)
 end
 
 function BipartiteProbaNetwork{T <: Array}(A::T)
-  BipartiteProbaNetwork(convert(NamedArray, A))
+  A = convert(NamedArray, A)
+  rename_bipartite!(A)
+  BipartiteProbaNetwork(A)
 end
 
 function UnipartiteProbaNetwork{T <: Array}(A::T)
-  UnipartiteProbaNetwork(convert(NamedArray, A))
+  A = convert(NamedArray, A)
+  rename_unipartite!(A)
+  UnipartiteProbaNetwork(A)
 end
 
 function UnipartiteNetwork{T <: Array}(A::T)
   A = convert(Array{Bool, 2}, A)
-  UnipartiteNetwork(convert(NamedArray, A))
+  A = convert(NamedArray, A)
+  rename_unipartite!(A)
+  UnipartiteNetwork(A)
 end
 
 function BipartiteNetwork{T <: Array}(A::T)
   A = convert(Array{Bool, 2}, A)
-  BipartiteNetwork(convert(NamedArray, A))
+  A = convert(NamedArray, A)
+  rename_bipartite!(A)
+  BipartiteNetwork(A)
 end
 
 function UnipartiteQuantiNetwork{T <: Array}(A::T)
   A = convert(Array{Float64, 2}, A)
-  UnipartiteQuantiNetwork(convert(NamedArray, A))
+  A = convert(NamedArray, A)
+  rename_unipartite!(A)
+  UnipartiteQuantiNetwork(A)
 end
 
 function BipartiteQuantiNetwork{T <: Array}(A::T)
   A = convert(Array{Float64, 2}, A)
-  BipartiteQuantiNetwork(convert(NamedArray, A))
+  A = convert(NamedArray, A)
+  rename_bipartite!(A)
+  BipartiteQuantiNetwork(A)
 end
 
 """
