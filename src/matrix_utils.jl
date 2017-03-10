@@ -10,8 +10,10 @@ function make_unipartite(B::Bipartite)
   # Get the correct inner (int.) and outer (net.) types
   if typeof(B) <: DeterministicNetwork
     itype, otype = Bool, UnipartiteNetwork
-  else
-    itype, otype = Float64, typeof(B)
+  elseif typeof(B) <: QuantitativeNetwork
+    itype, otype = Float64, UnipartiteQuantiNetwork
+  elseif typeof(B) <: ProbabilisticNetwork
+    itype, otype = Float64, UnipartiteProbaNetwork
   end
 
   # Build the unipartite network template
