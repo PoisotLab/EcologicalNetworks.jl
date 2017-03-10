@@ -59,14 +59,10 @@ for all other networks.
 """
 function nodiag(N::Unipartite)
 
-    # Get the type of the internal elements according to the network type
-    itype = typeof(N) == UnipartiteNetwork ? Bool : Float64
-
-    # Inner matrix
-    A = N.A .* (one(itype) .- eye(itype, size(N)[1]))
-
-    # Return a copy of the network with the same type
-    return typeof(N)(A)
+  Y = copy(N)
+  Y.A[diagind(Y.A)] = typeof(N) == UnipartiteNetwork ? false : 0.0
+  # Return a copy of the network with the same type
+  return Y
 end
 
 """
@@ -83,7 +79,7 @@ functions.
 Also, we can read your thoughts. Always.
 """
 function nodiag(N::Bipartite)
-  return N
+  return copy(N)
 end
 
 """
