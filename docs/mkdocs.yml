@@ -48,5 +48,3 @@ pages:
     - "Probabilistic null models": nhst/nullmodels.md
     - "Network permutations": nhst/swaps.md
     - "Null Hypothesis Significance Testing": nhst/nhst.md
-  - "Library":
-    - Internals: lib/internals.md

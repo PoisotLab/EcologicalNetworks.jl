@@ -18,7 +18,7 @@ possible permutations of the motif. If there is a match, then this induced
 subgraph is an instance of this motif.
 
 ~~~@docs
-motifs
+motif
 ~~~
 
 ## Caveats
