@@ -92,16 +92,16 @@ exhaustivity.
 """
 function make_threshold(N::ProbabilisticNetwork, k::Float64)
 
-    # Check the values of k
-    if (k < 0.0) | (k >= 1.0)
-        throw(DomainError())
-    end
+  # Check the values of k
+  if (k < 0.0) | (k >= 1.0)
+    throw(DomainError())
+  end
 
-    # Type of return
-    itype = typeof(N) == UnipartiteProbaNetwork ? UnipartiteNetwork : BipartiteNetwork
+  # Type of return
+  itype = typeof(N) == UnipartiteProbaNetwork ? UnipartiteNetwork : BipartiteNetwork
 
-    # Return a deterministic network
-    return itype(map((x) -> x>k ? 1.0 : 0.0, N.A))
+  # Return a deterministic network
+  return itype(map((x) -> x>k ? 1.0 : 0.0, N.A))
 end
 
 """
