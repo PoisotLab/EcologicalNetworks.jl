@@ -39,7 +39,9 @@ where every interaction happens with a probability equal to the in-degree
 possible predecessors.
 """
 function null3in(N::DeterministicNetwork)
-  return null3out(N')' # I don't work hard, so I work smart
+  itype = typeof(N) <: Bipartite ? BipartiteProbaNetwork : UnipartiteProbaNetwork
+  p_cols = degree_in(N) ./ size(N)[1]
+  itype(vcat(map((x) -> p_cols', [1:size(N)[1];])...))
 end
 
 """
