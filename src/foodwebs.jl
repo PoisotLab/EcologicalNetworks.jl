@@ -5,6 +5,10 @@ function positions(bool::Array{Bool, 1})
   return filter(x -> bool[x], 1:length(bool))
 end
 
+function positions(bool::BitArray{1})
+  return filter(x -> bool[x], 1:length(bool))
+end
+
 """
 **Fractional trophic level**
 

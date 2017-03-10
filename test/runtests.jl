@@ -17,6 +17,7 @@ my_tests = [
   "nullmodels.jl",
   "nullmodelswrapper.jl",
   "swaps.jl",
+  "foodwebs.jl",
   "centrality.jl",
   "tests.jl",
   "motifs.jl",
