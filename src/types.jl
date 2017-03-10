@@ -1,33 +1,36 @@
 using Base
 
 """
-**EcoNetwork**
+**Ecological network**
 
 This is an abstract type that allows to generate functions for all sorts of
 networks. All other types are derived from this one. This is an abstract type
 only, so you cannot create an object of this type directly.
+
+All `EcoNetwork` objects have a `NamedArray{T, 2}` filed, where `T` varies from
+one type of network to the other.
 """
 abstract EcoNetwork
 
 """
-All unipartite networks
+**Unipartite network**
 """
 abstract Unipartite <: EcoNetwork
 
 """
-All bipartite networks
+**Bipartite network**
 """
 abstract Bipartite <: EcoNetwork
 
 """
-A bipartite deterministic network is a two-dimensional array of boolean values.
+**Bipartite deterministic network**
 """
 type BipartiteNetwork <: Bipartite
   A::NamedArray{Bool, 2}
 end
 
 """
-An unipartite deterministic network.
+**Unipartite deterministic network**
 """
 type UnipartiteNetwork <: Unipartite
   A::NamedArray{Bool, 2}
@@ -62,64 +65,32 @@ function rename_unipartite!(B::NamedArray)
   setdimnames!(B, "preys", 2)
 end
 
-function BipartiteNetwork(A::Array{Bool, 2})
-  A = convert(NamedArray, A)
-  rename_bipartite!(A)
-  return BipartiteNetwork(A)
+function BipartiteProbaNetwork{T <: Array}(A::T)
+  BipartiteProbaNetwork(convert(NamedArray, A))
 end
 
-function BipartiteNetwork{T <: Number}(A::Array{T, 2})
-  A = convert(NamedArray, map(Bool, A))
-  rename_bipartite!(A)
-  return BipartiteNetwork(A)
+function UnipartiteProbaNetwork{T <: Array}(A::T)
+  UnipartiteProbaNetwork(convert(NamedArray, A))
 end
 
-function UnipartiteNetwork(A::Array{Bool, 2})
-  A = convert(NamedArray, A)
-  rename_unipartite!(A)
-  return UnipartiteNetwork(A)
+function UnipartiteNetwork{T <: Array}(A::T)
+  A = convert(Array{Bool, 2}, A)
+  UnipartiteNetwork(convert(NamedArray, A))
 end
 
-function UnipartiteNetwork{T <: Number}(A::Array{T, 2})
-  A = convert(NamedArray, map(Bool, A))
-  rename_unipartite!(A)
-  return UnipartiteNetwork(A)
+function BipartiteNetwork{T <: Array}(A::T)
+  A = convert(Array{Bool, 2}, A)
+  BipartiteNetwork(convert(NamedArray, A))
 end
 
-function BipartiteProbaNetwork(A::Array{Float64, 2})
-  A = convert(NamedArray, A)
-  rename_bipartite!(A)
-  return BipartiteProbaNetwork(A)
+function UnipartiteQuantiNetwork{T <: Array}(A::T)
+  A = convert(Array{Float64, 2}, A)
+  UnipartiteQuantiNetwork(convert(NamedArray, A))
 end
 
-function UnipartiteProbaNetwork(A::Array{Float64, 2})
-  A = convert(NamedArray, A)
-  rename_unipartite!(A)
-  return UnipartiteProbaNetwork(A)
-end
-
-function UnipartiteQuantiNetwork{T <: Number}(A::Array{T, 2})
-  A = convert(NamedArray, map(float, A))
-  rename_unipartite!(A)
-  return UnipartiteQuantiNetwork(A)
-end
-
-function BipartiteQuantiNetwork{T <: Number}(A::Array{T, 2})
-  A = convert(NamedArray, map(float, A))
-  rename_bipartite!(A)
-  return BipartiteQuantiNetwork(A)
-end
-
-function BipartiteNetwork{T <: Number}(A::NamedArray{T, 2})
-  A = map(Bool, A)
-  rename_bipartite!(A)
-  return BipartiteNetwork(A)
-end
-
-function UnipartiteNetwork{T <: Number}(A::NamedArray{T, 2})
-  A = map(Bool, A)
-  rename_unipartite!(A)
-  return UnipartiteNetwork(A)
+function BipartiteQuantiNetwork{T <: Array}(A::T)
+  A = convert(Array{Float64, 2}, A)
+  BipartiteQuantiNetwork(convert(NamedArray, A))
 end
 
 """
