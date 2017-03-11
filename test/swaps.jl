@@ -33,6 +33,6 @@ module TestSwaps
 
   # test the swap wrapper
   a = ollerton()
-  @test length(swaps(a, 4)) == 4
+  @test length(swaps(a, 3)) == 3
 
 end
