@@ -10,6 +10,59 @@ work on probabilistic ecological networks comes from:
 > Stouffer, D. B. (2016), The structure of probabilistic networks. Methods Ecol
 > Evol, 7: 303–312. doi:10.1111/2041-210X.12468
 
+## Project overview
+
+<table>
+  <tr>
+    <td rowspan="2">
+    <b>Problem</b>
+    <p>There is no software package to analyze <em>all</em> types of ecological interactions (food webs, bipartite networks, probabilistic interactions, quantitative interactions, ...).</p>
+    <p>The most complete packages are difficult to contribute to because they do not have a consolidated code base.</p>
+    </td>
+    <td>
+    <b>Solution</b>
+    <p>We provide a common interface to multiple types of ecological interaction data, which is easy to expand.</p>
+    </td>
+    <td colspan="3"><b>Unique value proposition</b>
+    <p>Same interface no matter what the data type is.</p>
+    <p>Easy to expand thanks to the type system.</p>
+    <p>Well tested and documented.</p>
+    <p>Selection of the most robust measures after a <a href="http://biorxiv.org/content/early/2017/02/28/112540">literature review</a>.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <b>Metrics for success</b>
+    <p>Number of users / downloads.</p>
+    <p>Citations / software paper.</p>
+    </td>
+    <td colspan="2">
+      <b>User profiles</b>
+      <p>Ecologists analyzing data on ecological networks.</p>
+      <p>Students.</p>
+    </td>
+    <td>
+      <b>User channels</b>
+      <p>Conferences.</p>
+      <p><a href="https://gitter.im/PoisotLab/EcologicalNetwork.jl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">Gitter</a>.</p>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2"><b>Resources</b>
+    <p>GitHub account.</p>
+    <p>Hosting for the documentation.</p>
+    </td>
+    <td colspan="2"><b>Contributor profiles</b>
+    <p>More advanced users.</p>
+    <p>Methods developers.</p>
+    </td>
+    <td>
+    <b>Contributors channels</b>
+    <p><a href="https://gitter.im/PoisotLab/EcologicalNetwork.jl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">Gitter</a>.</p>
+    </td>
+  </tr>
+</table>
+
 ## Installation
 
 To get the `stable` version:
