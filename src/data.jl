@@ -1,6 +1,8 @@
 """
 **Stony food web**
 
+    stony()
+
 Stony food web from Thompson & Townsend. This was sampled in a tussock grassland
 near Otago, New Zealand. Note that there is, in the original matrix, a species
 with no interactions. It is removed when generating the network.
@@ -17,6 +19,9 @@ end
 
 """
 **Plant-flower visitor interactions in the Galapagos**
+
+    mcmullen()
+
 """
 function mcmullen()
   n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "db_mcmullen.txt")
