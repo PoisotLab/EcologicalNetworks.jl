@@ -12,4 +12,9 @@ module TestPaths
   @test_approx_eq P[1,2] 0.08
   @test_approx_eq P[2,2] 0.66
 
+  # Shortest paths
+  u = unipartitemotifs()
+  d = shortest_path(u[:S1], nmax=200)
+  @test d == [0 1 2; 0 0 1; 0 0 0]
+
 end

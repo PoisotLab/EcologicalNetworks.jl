@@ -63,7 +63,7 @@ Partition, Q, Qr, label_propagation, modularity, best_partition,
 plot_network,
 
 # Paths
-number_of_paths,
+number_of_paths, shortest_path,
 
 # Beta-diversity
 betadiversity,
