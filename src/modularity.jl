@@ -114,8 +114,11 @@ end
     Qr(N::EcoNetwork, L::Array{Int64, 1})
 
 Measures realized modularity, based on a  a matrix and a list of module labels.
-Realized modularity takes values in the [0;1] interval, and is the proportion of
-interactions established *within* modules.
+Realized modularity usually takes values in the [0;1] interval, and is the
+proportion of interactions established *within* modules.
+
+The realized modularity is defined as ``Q_R' = 2\times (W/E) - 1``, where ``W``
+is the number of links *within* modules, and ``E`` is the total number of links.
 
 Note that in some situations, `Qr` can be *lower* than 0. This reflects a
 partition in which more links are established between than within modules.
@@ -137,7 +140,7 @@ end
 
     Qr(P::Partition)
 
-Measures Poisot's realized modularity, based on a `Partition` object.
+Measures realized modularity, based on a `Partition` object.
 """
 function Qr(P::Partition)
   return Qr(P.N, P.L)
