@@ -50,5 +50,6 @@ the method exists *but* works on the *Deterministic* part of the network
 |                 | degre distribution |      yes      |              |               |
 |                 |                    |               |              |               |
 | centrality      | Katz               |      yes      |              |      yes      |
+|                 | Closeness          |      yes      |              |               |
 |                 |                    |               |              |               |
 | number of paths |                    |      yes      |              |      yes      |

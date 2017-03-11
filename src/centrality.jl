@@ -26,3 +26,17 @@ function centrality_katz(N::Unipartite; a::Float64=0.1, k::Int64=5)
 	centr = sum(hcat(map((x) -> vec(sum((a^x).*(N.A^x),1)), [1:k;])...),2)
 	return centr ./ sum(centr)
 end
+
+"""
+**Closeness centrality**
+
+    centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
+
+"""
+function centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
+  d = shortest_path(N, nmax=nmax)
+  d[diagind(d)] = 0
+  d = d ./ (richness(N)-1)
+  cc = sum(d, 2)
+  return cc
+end
