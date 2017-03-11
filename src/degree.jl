@@ -17,7 +17,7 @@ function degree_in(N::EcoNetwork)
 end
 
 """
-**Degree of a unipartite graph**
+**Degree of species in a unipartite network**
 
     degree(N::Unipartite)
 """
@@ -26,7 +26,7 @@ function degree(N::Unipartite)
 end
 
 """
-**Degree of a bipartite graph**
+**Degree of species in a bipartite network**
 
     degree(N::Bipartite)
 
