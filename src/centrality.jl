@@ -32,6 +32,15 @@ end
 
     centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
 
+Closeness centrality is defined as:
+
+``C_{c}(i) = \sum_j \left( \frac{d_{ij}}{n-1} \right)``
+
+where ``d`` is a matrix containing the lengths of the shortest paths between all
+pairs of species, and ``n`` is the number of species.
+
+The function calls `shortest_path` internally -- the `nmax` argument is the
+maximal path length that wil be tried.
 """
 function centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
   d = shortest_path(N, nmax=nmax)
