@@ -8,7 +8,7 @@ Pages = ["nlinks.md"]
 
 ~~~docs
 links
-links_number
+link_number
 links_var
 ~~~
 
