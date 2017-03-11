@@ -68,31 +68,31 @@ that this function assumes that interactions are directional, so that
 around.
 """
 function Q(N::EcoNetwork, L::Array{Int64, 1})
-    # Easy case
-    if length(unique(L)) == 1
-        return 0.0
-    end
+  # Easy case
+  if length(unique(L)) == 1
+    return 0.0
+  end
 
-    # Communities matrix
-    δ = delta_matrix(N, L)
+  # Communities matrix
+  δ = delta_matrix(N, L)
 
-    # Degrees
-    kin, kout = degree_in(N), degree_out(N)
+  # Degrees
+  kin, kout = degree_in(N), degree_out(N)
 
-    # Value of m -- sum of weights, total number of int, ...
-    m = links(N)
+  # Value of m -- sum of weights, total number of int, ...
+  m = links(N)
 
-    # Null model
-    kikj = (kout .* kin')
-    Pij = kikj ./ m
+  # Null model
+  kikj = (kout .* kin')
+  Pij = kikj ./ m
 
-    # Difference
-    diff = N.A .- Pij
+  # Difference
+  diff = N.A .- Pij
 
-    # Diff × delta
-    dd = diff .* δ
+  # Diff × delta
+  dd = diff .* δ
 
-    return sum(dd)/m
+  return sum(dd)/m
 end
 
 """
@@ -121,14 +121,14 @@ Note that in some situations, `Qr` can be *lower* than 0. This reflects a
 partition in which more links are established between than within modules.
 """
 function Qr(N::EcoNetwork, L::Array{Int64, 1})
-    if length(unique(L)) == 1
-        return 0.0
-    end
+  if length(unique(L)) == 1
+    return 0.0
+  end
 
-    δ = delta_matrix(N, L)
-    W = sum(N.A .* δ)
-    E = links(N)
-    return 2.0 * (W/E) - 1.0
+  δ = delta_matrix(N, L)
+  W = sum(N.A .* δ)
+  E = links(N)
+  return 2.0 * (W/E) - 1.0
 end
 
 
@@ -152,32 +152,32 @@ Arguments are the network, the community partition, and the species id
 """
 function most_common_label(N::DeterministicNetwork, L, sp)
 
-    # If this is a bipartite network, the margin should be changed
-    pos_in_L = typeof(N) <: Bipartite ? nrows(N) + sp : sp
+  # If this is a bipartite network, the margin should be changed
+  pos_in_L = typeof(N) <: Bipartite ? nrows(N) + sp : sp
 
-    if sum(N[:,sp]) == 0
-        return L[pos_in_L]
-    end
+  if sum(N[:,sp]) == 0
+    return L[pos_in_L]
+  end
 
-    # Get positions with interactions
-    nei = [i for i in eachindex(N[:,sp]) if N[i,sp]]
+  # Get positions with interactions
+  nei = [i for i in eachindex(N[:,sp]) if N[i,sp]]
 
-    # Labels of the neighbors
-    nei_lab = L[nei]
-    uni_nei_lab = unique(nei_lab)
+  # Labels of the neighbors
+  nei_lab = L[nei]
+  uni_nei_lab = unique(nei_lab)
 
-    # Count
-    f = zeros(Int64, size(uni_nei_lab))
-    for i in eachindex(uni_nei_lab)
-        f[i] = sum(nei_lab .== uni_nei_lab[i])
-    end
+  # Count
+  f = zeros(Int64, size(uni_nei_lab))
+  for i in eachindex(uni_nei_lab)
+    f[i] = sum(nei_lab .== uni_nei_lab[i])
+  end
 
-    # Argmax
-    local_max = maximum(f)
-    candidate_labels = [uni_nei_lab[i] for i in eachindex(uni_nei_lab) if f[i] == local_max]
+  # Argmax
+  local_max = maximum(f)
+  candidate_labels = [uni_nei_lab[i] for i in eachindex(uni_nei_lab) if f[i] == local_max]
 
-    # Return
-    return L[pos_in_L] ∈ candidate_labels ? L[pos_in_L] : sample(candidate_labels)
+  # Return
+  return L[pos_in_L] ∈ candidate_labels ? L[pos_in_L] : sample(candidate_labels)
 
 end
 
@@ -190,29 +190,29 @@ Arguments are the network, the community partition, and the species id
 """
 function most_common_label(N::ProbabilisticNetwork, L, sp)
 
-    # If this is a bipartite network, the margin should be changed
-    pos_in_L = typeof(N) <: Bipartite ? size(N.A, 1) + sp : sp
+  # If this is a bipartite network, the margin should be changed
+  pos_in_L = typeof(N) <: Bipartite ? size(N.A, 1) + sp : sp
 
-    if sum(N[:,sp]) == 0
-        return L[pos_in_L]
-    end
+  if sum(N[:,sp]) == 0
+    return L[pos_in_L]
+  end
 
-    # Get positions with interactions
-    nei = [i for i in eachindex(N[:,sp]) if N[i,sp] > 0.0]
+  # Get positions with interactions
+  nei = [i for i in eachindex(N[:,sp]) if N[i,sp] > 0.0]
 
-    # Labels of the neighbors
-    nei_lab = L[nei]
-    uni_nei_lab = unique(nei_lab)
+  # Labels of the neighbors
+  nei_lab = L[nei]
+  uni_nei_lab = unique(nei_lab)
 
-    # Count
-    f = zeros(Float64, size(uni_nei_lab))
-    for i in eachindex(uni_nei_lab)
-        have_this_label = [N[j,sp] for j in 1:nrows(N) if L[j] == uni_nei_lab[i]]
-        f[i] = sum(have_this_label)
-    end
+  # Count
+  f = zeros(Float64, size(uni_nei_lab))
+  for i in eachindex(uni_nei_lab)
+    have_this_label = [N[j,sp] for j in 1:nrows(N) if L[j] == uni_nei_lab[i]]
+    f[i] = sum(have_this_label)
+  end
 
-    # Return (sampled by weight of unique labels)
-    return sample(uni_nei_lab, WeightVec(f), 1)[1]
+  # Return (sampled by weight of unique labels)
+  return sample(uni_nei_lab, WeightVec(f), 1)[1]
 
 end
 
@@ -225,27 +225,27 @@ Arguments are the network, the community partition, and the species id
 """
 function most_common_label(N::QuantitativeNetwork, L, sp)
 
-    # If this is a bipartite network, the margin should be changed
-    pos_in_L = typeof(N) <: Bipartite ? size(N.A, 1) + sp : sp
+  # If this is a bipartite network, the margin should be changed
+  pos_in_L = typeof(N) <: Bipartite ? size(N.A, 1) + sp : sp
 
-    if sum(N[:,sp]) == 0
-        return L[pos_in_L]
-    end
+  if sum(N[:,sp]) == 0
+    return L[pos_in_L]
+  end
 
-    # Get positions with interactions
-    nei = [i for i in eachindex(N[:,sp]) if N[i,sp] > 0.0]
+  # Get positions with interactions
+  nei = [i for i in eachindex(N[:,sp]) if N[i,sp] > 0.0]
 
-    # Labels of the neighbors
-    nei_lab = L[nei]
-    uni_nei_lab = unique(nei_lab)
+  # Labels of the neighbors
+  nei_lab = L[nei]
+  uni_nei_lab = unique(nei_lab)
 
-    # Count
-    # HACK to get the type of the inner elements
-    itype = typeof(N[1,1])
+  # Count
+  # HACK to get the type of the inner elements
+  itype = typeof(N[1,1])
     f = zeros(itype, size(uni_nei_lab))
     for i in eachindex(uni_nei_lab)
-        have_this_label = [N[j,sp] for j in 1:nrows(N) if L[j] == uni_nei_lab[i]]
-        f[i] = sum(have_this_label)
+      have_this_label = [N[j,sp] for j in 1:nrows(N) if L[j] == uni_nei_lab[i]]
+      f[i] = sum(have_this_label)
     end
 
     # Argmax
@@ -264,67 +264,67 @@ end
 """
 function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
 
-    # There must be one label per species
-    @assert length(L) == richness(N)
+  # There must be one label per species
+  @assert length(L) == richness(N)
 
-    # Initial modularity
-    imod = Q(N, L)
-    amod = imod
-    improved = true
+  # Initial modularity
+  imod = Q(N, L)
+  amod = imod
+  improved = true
 
-    # Update
-    while improved
+  # Update
+  while improved
 
-        # Random update order -- identity of possible species varies between
-        # bipartite and unipartite networks
+    # Random update order -- identity of possible species varies between
+    # bipartite and unipartite networks
 
-        # The naming in this part of the code is a bit weird, so here goes: the
-        # labels are updated column-wise, because the interactions are from the
-        # species in the row, to the species in the column. So when we want to
-        # know which row to update, the relevant information is actually in the
-        # column id.
-        update_order_col = shuffle(1:nrows(N))
-        update_order_row = shuffle(1:ncols(N))
+    # The naming in this part of the code is a bit weird, so here goes: the
+    # labels are updated column-wise, because the interactions are from the
+    # species in the row, to the species in the column. So when we want to
+    # know which row to update, the relevant information is actually in the
+    # column id.
+    update_order_col = shuffle(1:nrows(N))
+    update_order_row = shuffle(1:ncols(N))
 
-        # Update the rows
-        for ur in update_order_row
+    # Update the rows
+    for ur in update_order_row
 
-            # The real position of the updated column must be corrected if we
-            # are talking about a bipartite network. Column 1 is, in fact, the
-            # nrows(N)+1th element of the community vector L.
-            pos = typeof(N) <: Bipartite ? nrows(N) + ur : ur
+      # The real position of the updated column must be corrected if we
+      # are talking about a bipartite network. Column 1 is, in fact, the
+      # nrows(N)+1th element of the community vector L.
+      pos = typeof(N) <: Bipartite ? nrows(N) + ur : ur
 
-            # When this is done, we can get the most common label. If this is
-            # a bipartite network, since R and C are views instead of duplicate
-            # arrays, everything will be kept up to date.
-            L[pos] = most_common_label(N, L, ur)
-
-        end
-
-        # Update the columns
-        for uc in update_order_col
-
-            # If the network is bipartite, we need to move things around in the
-            # L array. Specifically, since we transpose the matrix, the columns
-            # need to come first.
-            if typeof(N) <: Bipartite
-                R = 1:nrows(N)
-                C = nrows(N).+(1:ncols(N))
-                vec_to_use = vcat(L[C], L[R])
-            else
-                vec_to_use = L
-            end
-
-            # Update
-            L[uc] = most_common_label(N', vec_to_use, uc)
-        end
-
-        # Modularity improved?
-        amod = Q(N, L)
-        imod, improved = amod > imod ? (amod, true) : (amod, false)
+      # When this is done, we can get the most common label. If this is
+      # a bipartite network, since R and C are views instead of duplicate
+      # arrays, everything will be kept up to date.
+      L[pos] = most_common_label(N, L, ur)
 
     end
-    return Partition(N, L)
+
+    # Update the columns
+    for uc in update_order_col
+
+      # If the network is bipartite, we need to move things around in the
+      # L array. Specifically, since we transpose the matrix, the columns
+      # need to come first.
+      if typeof(N) <: Bipartite
+        R = 1:nrows(N)
+        C = nrows(N).+(1:ncols(N))
+        vec_to_use = vcat(L[C], L[R])
+      else
+        vec_to_use = L
+      end
+
+      # Update
+      L[uc] = most_common_label(N', vec_to_use, uc)
+    end
+
+    # Modularity improved?
+    amod = Q(N, L)
+    imod, improved = amod > imod ? (amod, true) : (amod, false)
+
+  end
+  return Partition(N, L)
 end
 
 """
@@ -345,14 +345,14 @@ Keywords:
 """
 function modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates::Int64=100)
 
-    # Each species must have an entry
-    @assert length(L) == richness(N)
+  # Each species must have an entry
+  @assert length(L) == richness(N)
 
-    # We just pmap the label propagation function
-    partitions = pmap((x) -> label_propagation(N, copy(L)), 1:replicates)
+  # We just pmap the label propagation function
+  partitions = pmap((x) -> label_propagation(N, copy(L)), 1:replicates)
 
-    # And return
-    return partitions
+  # And return
+  return partitions
 end
 
 """
@@ -375,16 +375,16 @@ Keywords:
 """
 function best_partition(modpart; f::Function=Q)
 
-    # Tests on inputs
-    @assert prod(map(x -> typeof(x) <: Partition, modpart))
+  # Tests on inputs
+  @assert prod(map(x -> typeof(x) <: Partition, modpart))
 
-    # We get the values of the "best" criteria
-    crit = map(f, modpart)
+  # We get the values of the "best" criteria
+  crit = map(f, modpart)
 
-    # And the positions of the matching partitions
-    best_pos = collect(1:length(crit))[crit .== maximum(crit)]
+  # And the positions of the matching partitions
+  best_pos = collect(1:length(crit))[crit .== maximum(crit)]
 
-    # Then return the best partitions
-    return modpart[best_pos]
+  # Then return the best partitions
+  return modpart[best_pos]
 
 end
