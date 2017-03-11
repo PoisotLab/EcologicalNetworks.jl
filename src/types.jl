@@ -28,21 +28,21 @@ Construct a bipartite network from a matrix of integer
 """
 function BipartiteNetwork(A::Array{Int64, 2})
 
-    # It can only be 0s and 1s
-    u_val = sort(unique(A))
-    # The following line will allow fully connected or emmpty networks
-    @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
+  # It can only be 0s and 1s
+  u_val = sort(unique(A))
+  # The following line will allow fully connected or emmpty networks
+  @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
 
-    # Return
-    return BipartiteNetwork(map(Bool, A))
+  # Return
+  return BipartiteNetwork(map(Bool, A))
 end
 
 """
 An unipartite deterministic network.
 """
 type UnipartiteNetwork <: Unipartite
-    A::Array{Bool, 2}
-    UnipartiteNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
+  A::Array{Bool, 2}
+  UnipartiteNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
 """
@@ -50,32 +50,32 @@ Construct an unipartite network from a matrix of integer
 """
 function UnipartiteNetwork(A::Array{Int64, 2})
 
-    # It can only be 0s and 1s
-    u_val = sort(unique(A))
-    # The following line will allow fully connected or emmpty networks
-    @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
+  # It can only be 0s and 1s
+  u_val = sort(unique(A))
+  # The following line will allow fully connected or emmpty networks
+  @assert u_val == vec([0 1]) || u_val == vec([0]) || u_val == vec([1])
 
-    # Return
-    return UnipartiteNetwork(map(Bool, A))
+  # Return
+  return UnipartiteNetwork(map(Bool, A))
 end
 
 
 type BipartiteProbaNetwork <: Bipartite
-    A::Array{Float64, 2}
+  A::Array{Float64, 2}
 end
 
 type UnipartiteProbaNetwork <: Unipartite
-    A::Array{Float64, 2}
-    UnipartiteProbaNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
+  A::Array{Float64, 2}
+  UnipartiteProbaNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
 type BipartiteQuantiNetwork <: Bipartite
-    A::Array{Number, 2}
+  A::Array{Number, 2}
 end
 
 type UnipartiteQuantiNetwork <: Unipartite
-    A::Array{Number, 2}
-    UnipartiteQuantiNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
+  A::Array{Number, 2}
+  UnipartiteQuantiNetwork(A) = size(A, 1) == size(A, 2) ? new(A) : error("Unequal size")
 end
 
 """
