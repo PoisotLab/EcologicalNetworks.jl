@@ -26,7 +26,7 @@ richness,
 η, nodf,
 
 # Measures of centrality
-centrality_katz, centrality_closeness,
+centrality_katz, centrality_closeness, centrality_degree,
 
 # Links and connectances
 links, links_var, connectance, connectance_var,
