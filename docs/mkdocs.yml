@@ -41,9 +41,12 @@ pages:
     - Motifs: usecase/motifs.md
   - "Network structure":
     - "Linkage density and connectance": community/nlinks.md
-    - "Degree and specificity": community/degree.md
+    - "Degree distribution": community/degree.md
     - "Interaction motifs": community/motifs.md
     - "Nestedness": community/nestedness.md
+  - "Species-level measures":
+    - "Specificity": species/specificity.md
+    - "Centrality": species/centrality.md
   - "Hypothesis testing":
     - "Probabilistic null models": nhst/nullmodels.md
     - "Network permutations": nhst/swaps.md
