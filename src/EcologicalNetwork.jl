@@ -75,8 +75,7 @@ harrison,
 motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs,
 
 # Data
-stony, mcmullen, ollerton, bluthgen, robertson, woods,
-soilphagebacteria,
+stony, mcmullen, ollerton, bluthgen, robertson, woods, kato, soilphagebacteria,
 
 # Food webs measures
 fractional_trophic_level, trophic_level
