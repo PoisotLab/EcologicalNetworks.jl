@@ -49,3 +49,20 @@ function centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
   cc = sum(d, 2)
   return cc
 end
+
+
+"""
+**Degree centrality**
+
+    centrality_degree(N::UnipartiteNetwork)
+
+Degree centrality, corrected by the maximum degree (the most central species has
+a degree of 1).
+
+``C_{d}(i) = k_i / \text{max}(\mathbf{k})``
+
+"""
+function centrality_degree(N::UnipartiteNetwork)
+  d = degree(N)
+  return d ./ maximum(d)
+end
