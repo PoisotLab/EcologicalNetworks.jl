@@ -9,8 +9,8 @@ Interaction strength is the mumber of plant visits by insects.
 """
 function kato()
   n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "qb_kato.txt")
-  N = UnipartiteNetwork(readdlm(n_path))
-  return BipartiteQuantiNetwork(N)
+  N = BipartiteQuantiNetwork(readdlm(n_path))
+  return N
 end
 
 """
