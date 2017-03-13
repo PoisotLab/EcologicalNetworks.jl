@@ -13,10 +13,11 @@ presented here are reviewed.
 
 ## Overview of methods
 
-This table gives an overview of the currently available methods, as a
-function of the network type. In the *Quantitative* column, a `D` means that
-the method exists *but* works on the *Deterministic* part of the network
-(*i.e.* the information about interaction weight is removed).
+This table gives an overview of the currently available methods, as a function
+of the network type. In the *Quantitative* column, a `D` means that the method
+exists *but* works on the *Deterministic* part of the network (*i.e.* the
+information about interaction weight is removed). `B`: bipartite; `U`:
+unipartite.
 
 | Measure type   | Measure            | Deterministic | Quantitative | Probabilistic |
 |:---------------|:-------------------|:-------------:|:------------:|:-------------:|
@@ -29,9 +30,9 @@ the method exists *but* works on the *Deterministic* part of the network
 |                |                    |               |              |               |
 | link density   |                    |      yes      |              |               |
 |                |                    |               |              |               |
-| nestedness     | $\eta$             |   bipartite   |              |   bipartite   |
-|                | NODF               |   bipartite   |              |               |
-|                | WNODF              |               |  bipartite   |               |
+| nestedness     | $\eta$             |       B       |              |       B       |
+|                | NODF               |       B       |              |               |
+|                | WNODF              |               |      B       |               |
 |                |                    |               |              |               |
 | modularity     | $Q$                |      yes      |     yes      |      yes      |
 |                | $Q'_R$             |      yes      |     yes      |      yes      |
@@ -55,5 +56,6 @@ the method exists *but* works on the *Deterministic* part of the network
 | paths          | number             |      yes      |              |      yes      |
 |                | shortest           |      yes      |     yes      |               |
 |                |                    |               |              |               |
-| trophic level  | fractional         |  unipartite   |              |               |
-|                | weighted           |  unipartite   |              |               |
+| trophic level  | fractional         |       U       |      D       |               |
+|                | weighted           |       U       |      D       |               |
+|                | position           |       U       |      D       |               |
