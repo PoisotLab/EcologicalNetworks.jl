@@ -111,16 +111,20 @@ self-interactions should count -- this is `false` by default, so the network is
 used without self-interactions.
 """
 function foodweb_position(N::UnipartiteNetwork; loops::Bool=false)
-  Y = loops ? copy(N) : nodiag(N)
-  ki = degree_in(N) .> 0
-  ko = degree_out(N) .> 0
-  pos = Array{Symbol, 1}(richness(N))
+  if loops
+    Y = copy(N)
+  else
+    Y = nodiag(N)
+  end
+  ki = degree_in(Y) .> 0
+  ko = degree_out(Y) .> 0
+  pos = Array{Symbol, 1}(richness(Y))
   for i in eachindex(pos)
     pos[i] = :intermediate
-    if ki & !ko
+    if ki[i] & !ko[i]
       pos[i] = :bottom
     end
-    if !ki & ko
+    if !ki[i] & ko[i]
       pos[i] = :top
     end
   end
