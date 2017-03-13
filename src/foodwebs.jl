@@ -115,7 +115,7 @@ function foodweb_position(N::UnipartiteNetwork; loops::Bool=false)
   ki = degree_in(N) .> 0
   ko = degree_out(N) .> 0
   pos = Array{Symbol, 1}(richness(N))
-  for i in eahcindex(pos)
+  for i in eachindex(pos)
     pos[i] = :intermediate
     if ki & !ko
       pos[i] = :bottom
