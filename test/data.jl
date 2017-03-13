@@ -1,40 +1,45 @@
 module TestData
-    using Base.Test
-    using EcologicalNetwork
+  using Base.Test
+  using EcologicalNetwork
 
-    # Stony
-    @test typeof(stony()) <: Unipartite
-    @test richness(stony()) == 112
+  # Stony
+  @test typeof(stony()) <: Unipartite
+  @test richness(stony()) == 112
 
-    # McMullen
-    @test typeof(mcmullen()) <: Bipartite
-    @test size(mcmullen()) == (54, 105)
+  # McMullen
+  @test typeof(mcmullen()) <: Bipartite
+  @test size(mcmullen()) == (54, 105)
 
-    # Ollerton
-    @test typeof(ollerton()) <: Bipartite
-    @test typeof(ollerton()) <: DeterministicNetwork
-    @test size(ollerton()) == (26, 10)
+  # Kato
+  @test typeof(kato()) <: Bipartite
+  @test typeof(kato()) <: QuantitativeNetwork
+  @test size(kato()) == (679, 91)
 
-    # Bluthgen
-    @test typeof(bluthgen()) <: Bipartite
-    @test typeof(bluthgen()) <: QuantitativeNetwork
-    @test size(bluthgen()) == (41, 51)
+  # Ollerton
+  @test typeof(ollerton()) <: Bipartite
+  @test typeof(ollerton()) <: DeterministicNetwork
+  @test size(ollerton()) == (26, 10)
 
-    # Lake of the Woods
-    @test typeof(woods()) <: Bipartite
-    @test typeof(woods()) <: QuantitativeNetwork
-    @test size(woods()) == (144, 31)
+  # Bluthgen
+  @test typeof(bluthgen()) <: Bipartite
+  @test typeof(bluthgen()) <: QuantitativeNetwork
+  @test size(bluthgen()) == (41, 51)
 
-    # Robertson
-    @test typeof(robertson()) <: Bipartite
-    @test typeof(robertson()) <: DeterministicNetwork
-    @test size(robertson()) == (1428, 456)
+  # Lake of the Woods
+  @test typeof(woods()) <: Bipartite
+  @test typeof(woods()) <: QuantitativeNetwork
+  @test size(woods()) == (144, 31)
 
-    # Phage and bacteria
-    for i in 1:5
-      @test typeof(soilphagebacteria(i)) <: Bipartite
-      @test size(soilphagebacteria(i)) == (24, 19)
-    end
-    @test_throws AssertionError soilphagebacteria(6)
+  # Robertson
+  @test typeof(robertson()) <: Bipartite
+  @test typeof(robertson()) <: DeterministicNetwork
+  @test size(robertson()) == (1428, 456)
+
+  # Phage and bacteria
+  for i in 1:5
+    @test typeof(soilphagebacteria(i)) <: Bipartite
+    @test size(soilphagebacteria(i)) == (24, 19)
+  end
+  @test_throws AssertionError soilphagebacteria(6)
 
 end

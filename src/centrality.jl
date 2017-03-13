@@ -34,18 +34,39 @@ end
 
 Closeness centrality is defined as:
 
-``C_{c}(i) = \sum_j \left( \frac{d_{ij}}{n-1} \right)``
+``C_{c}(i) = \sum_j \left( \frac{n-1}{d_{ji}} \right)``
 
-where ``d`` is a matrix containing the lengths of the shortest paths between all
-pairs of species, and ``n`` is the number of species.
+where ``\mathbf{d}`` is a matrix containing the lengths of the shortest paths
+between all pairs of species, and ``n`` is the number of species.
 
 The function calls `shortest_path` internally -- the `nmax` argument is the
 maximal path length that wil be tried.
 """
 function centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
   d = shortest_path(N, nmax=nmax)
+  n = richness(N)-1
   d[diagind(d)] = 0
-  d = d ./ (richness(N)-1)
-  cc = sum(d, 2)
-  return cc
+  interm = sum(d, 2)
+  interm = vec(n ./ interm)
+  for i in eachindex(interm)
+    interm[i] = interm[i] == Inf ? 0.0 : interm[i]
+  end
+  return interm
+end
+
+
+"""
+**Degree centrality**
+
+    centrality_degree(N::UnipartiteNetwork)
+
+Degree centrality, corrected by the maximum degree (the most central species has
+a degree of 1).
+
+``C_{d}(i) = k_i / \text{max}(\mathbf{k})``
+
+"""
+function centrality_degree(N::UnipartiteNetwork)
+  d = degree(N)
+  return d ./ maximum(d)
 end

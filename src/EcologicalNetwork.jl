@@ -26,7 +26,7 @@ richness,
 η, nodf,
 
 # Measures of centrality
-centrality_katz, centrality_closeness,
+centrality_katz, centrality_closeness, centrality_degree,
 
 # Links and connectances
 links, links_var, connectance, connectance_var,
@@ -75,8 +75,7 @@ harrison,
 motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs,
 
 # Data
-stony, mcmullen, ollerton, bluthgen, robertson, woods,
-soilphagebacteria,
+stony, mcmullen, ollerton, bluthgen, robertson, woods, kato, soilphagebacteria,
 
 # Food webs measures
 fractional_trophic_level, trophic_level
