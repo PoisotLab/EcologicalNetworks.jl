@@ -13,7 +13,7 @@ module TestData
   # Kato
   @test typeof(kato()) <: Bipartite
   @test typeof(kato()) <: QuantitativeNetwork
-  @test size(kato()) == (679, 93)
+  @test size(kato()) == (679, 91)
 
   # Ollerton
   @test typeof(ollerton()) <: Bipartite
