@@ -35,9 +35,9 @@ module TestCentrality
   @test_approx_eq centrality_degree(N)[5] 1/3
 
   @test_approx_eq centrality_closeness(N)[1] 4 / 7
-  @test_approx_eq centrality_closeness(N)[2] 3 / 7
-  @test_approx_eq centrality_closeness(N)[3] 3 / 7
-  @test_approx_eq centrality_closeness(N)[5] 4 / 1
-  @test_approx_eq centrality_closeness(N)[4] 0.0
+  @test_approx_eq centrality_closeness(N)[2] 1.3333333333333
+  @test_approx_eq centrality_closeness(N)[3] 1.3333333333333
+  @test_approx_eq centrality_closeness(N)[4] 4 / 1
+  @test_approx_eq centrality_closeness(N)[5] 0.0
 
 end

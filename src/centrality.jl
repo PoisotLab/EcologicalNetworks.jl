@@ -49,7 +49,7 @@ function centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
   interm = sum(d, 2)
   interm = vec(n ./ interm)
   for i in eachindex(interm)
-    interm[i] = Inf ? 0.0 : interm[i]
+    interm[i] = interm[i] == Inf ? 0.0 : interm[i]
   end
   return interm
 end
