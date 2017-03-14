@@ -99,3 +99,45 @@ function trophic_level(N::Union{UnipartiteNetwork, UnipartiteQuantiNetwork})
   # return
   return 1 .+ (D * TL)
 end
+
+"""
+**Relative food web position**
+
+    foodweb_position(N::UnipartiteNetwork)
+
+Returns the trophic positions (`:top`, `:intermediate`, or `:bottom`) of species
+in a food web. Uses a keyword argument `loops` to decide whether
+self-interactions should count -- this is `false` by default, so the network is
+used without self-interactions.
+"""
+function foodweb_position(N::UnipartiteNetwork; loops::Bool=false)
+  if loops
+    Y = copy(N)
+  else
+    Y = nodiag(N)
+  end
+  ki = degree_in(Y) .> 0
+  ko = degree_out(Y) .> 0
+  pos = Array{Symbol, 1}(richness(Y))
+  for i in eachindex(pos)
+    pos[i] = :intermediate
+    if ki[i] & !ko[i]
+      pos[i] = :bottom
+    end
+    if !ki[i] & ko[i]
+      pos[i] = :top
+    end
+  end
+  return pos
+end
+
+"""
+**Relative food web position**
+
+    foodweb_position(N::UnipartiteQuantiNetwork; loops::Bool=false)
+
+Returns the trophic position based on the adjacency matrix.
+"""
+function foodweb_position(N::UnipartiteQuantiNetwork; loops::Bool=false)
+  return foodweb_position(adjacency(N))
+end

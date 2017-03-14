@@ -78,7 +78,7 @@ motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs,
 stony, mcmullen, ollerton, bluthgen, robertson, woods, kato, soilphagebacteria,
 
 # Food webs measures
-fractional_trophic_level, trophic_level
+fractional_trophic_level, trophic_level, foodweb_position
 
 include(joinpath(".", "types.jl"))
 include(joinpath(".", "centrality.jl"))
