@@ -331,6 +331,16 @@ function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
 end
 
 """
+**Louvain method for modularity on large networks**
+
+    louvain(N::EcoNetwork, L::Array{Int64, 1})
+
+TODO
+"""
+function louvain(N::EcoNetwork, L::Array{Int64, 1})
+end
+
+"""
 **Detect modules in a network**
 
     modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates::Int64=100)
