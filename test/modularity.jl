@@ -53,8 +53,9 @@ end
 @test_approx_eq mpb.Q 0.5
 
 # Modularity wrapper
-@test length(modularity(pB, collect(1:richness(pB)), replicates=10)) == 10
-@test best_partition(modularity(pB, collect(1:richness(pB))))[1].Q ≈ 0.5
+test_10 = modularity(pB, collect(1:richness(pB)), label_propagation, replicates=10)
+@test length(test_10) == 10
+@test best_partition(test_10)[1].Q ≈ 0.5
 
 # Test with a quantitative network
 Q1 = BipartiteQuantiNetwork(eye(Int64, 10))
