@@ -105,6 +105,15 @@ All non-probabilistic networks
 NonProbabilisticNetwork = Union{DeterministicNetwork, QuantitativeNetwork}
 
 """
+Test if the there is an interaction from i to j
+
+    has_interaction(N::EcoNetwork, i::Int64, j::Int64)
+"""
+function has_interaction(N::EcoNetwork, i::Int64, j::Int64)
+  return N[i,j] > zero(typeof(N[i,j]))
+end
+
+"""
 Return the size of the adjacency matrix of an EcoNetwork object.
 """
 function Base.size(N::EcoNetwork)
