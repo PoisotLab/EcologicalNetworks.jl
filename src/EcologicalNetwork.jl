@@ -19,6 +19,9 @@ BipartiteQuantiNetwork, UnipartiteQuantiNetwork,
 ProbabilisticNetwork, DeterministicNetwork, QuantitativeNetwork,
 NonProbabilisticNetwork,
 
+# General useful things
+has_interaction,
+
 # Richness
 richness,
 
