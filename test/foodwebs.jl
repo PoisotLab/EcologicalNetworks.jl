@@ -24,4 +24,9 @@ module TestFoodWebs
   @test foodweb_position(s1)[2] == :intermediate
   @test foodweb_position(s1)[3] == :bottom
 
+  # test that the results are the same with and without loops
+  A = unipartitemotifs()[:S1]
+  @test foodweb_position(A, loops=false)[1] == :top
+  @test foodweb_position(A, loops=true)[1] == :top
+
 end
