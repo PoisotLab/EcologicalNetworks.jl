@@ -60,7 +60,10 @@ swaps, swap,
 test_network_property,
 
 # Modularity
-Partition, Q, Qr, label_propagation, modularity, best_partition,
+Partition, Q, Qr, modularity, best_partition,
+
+# Modularity - specifics
+label_propagation, louvain,
 
 # Draw
 plot_network,
@@ -95,6 +98,7 @@ include(joinpath(".", "nullmodels.jl"))
 include(joinpath(".", "swaps.jl"))
 include(joinpath(".", "modularity.jl"))
 include(joinpath(".", "louvain.jl"))
+include(joinpath(".", "labelpropagation.jl"))
 include(joinpath(".", "paths.jl"))
 include(joinpath(".", "betadiversity.jl"))
 include(joinpath(".", "motifs.jl"))
