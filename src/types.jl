@@ -105,11 +105,16 @@ All non-probabilistic networks
 NonProbabilisticNetwork = Union{DeterministicNetwork, QuantitativeNetwork}
 
 """
-Test if the there is an interaction from i to j
+**Interaction between two species**
 
     has_interaction(N::EcoNetwork, i::Int64, j::Int64)
+
+This function returns `true` if the interaction between `i` and `j` is not 0.
+This is used internally by a few function, but is exported because it may be of
+general use.
 """
 function has_interaction(N::EcoNetwork, i::Int64, j::Int64)
+  # TODO check that i and j are within the dimensions of the network
   return N[i,j] > zero(typeof(N[i,j]))
 end
 
