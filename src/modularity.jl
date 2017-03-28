@@ -184,30 +184,32 @@ function most_common_label(N::DeterministicNetwork, L, sp)
 
 end
 
-
 """
 **Detect modules in a network**
 
-    modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates::Int64=100)
+    modularity(N::EcoNetwork, L::Array{Int64, 1}, f::Function; replicates::Int64=100)
 
 This function is a wrapper for the modularity code. The number of replicates is
-the number of times the modularity optimization should be run. By default, it
-uses `label_propagation`.
+the number of times the modularity optimization should be run.
 
 Arguments:
 1. `N::EcoNetwork`, the network to work on
 2. `L::Array{Int64,1}`, an array of module identities
+3. `f::Function`, the function to use
 
 Keywords:
 - `replicates::Int64`, defaults to `100`
+
+The function `f` *must* (1) accept `N, L` as arguments, and (2) return a
+`Partition` as an output.
 """
-function modularity(N::EcoNetwork, L::Array{Int64, 1}; replicates::Int64=100)
+function modularity(N::EcoNetwork, L::Array{Int64, 1}, f::Function; replicates::Int64=100)
 
   # Each species must have an entry
   @assert length(L) == richness(N)
 
   # We just pmap the label propagation function
-  partitions = pmap((x) -> label_propagation(N, copy(L)), 1:replicates)
+  partitions = pmap((x) -> f(N, copy(L)), 1:replicates)
 
   # And return
   return partitions
