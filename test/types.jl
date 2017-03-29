@@ -42,4 +42,13 @@ A = BipartiteNetwork([0 1; 0 0])
 A = UnipartiteNetwork([0 1; 0 0])
 @test typeof(A) <: DeterministicNetwork
 
+# Is there an interaction?
+A = UnipartiteNetwork([false true; true false])
+@test has_interaction(A, 1, 2)
+@test !has_interaction(A, 1, 1)
+
+A = UnipartiteQuantiNetwork([0.0 1.0; 1.0 0.0])
+@test has_interaction(A, 1, 2)
+@test !has_interaction(A, 1, 1)
+
 end
