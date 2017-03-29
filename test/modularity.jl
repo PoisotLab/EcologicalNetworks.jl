@@ -72,5 +72,5 @@ A = [
 B = BipartiteNetwork(A)
 m = louvain(B, collect(1:richness(B)))
 @test_approx_eq m.Q 0.5
-@test_approx_eq m.Qr 1.0
+@test_approx_eq Qr(m) 1.0
 end
