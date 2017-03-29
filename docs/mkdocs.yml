@@ -47,6 +47,7 @@ pages:
   - "Species-level measures":
     - "Specificity": species/specificity.md
     - "Centrality": species/centrality.md
+    - "Food-web specific": species/foodweb.md
   - "Hypothesis testing":
     - "Probabilistic null models": nhst/nullmodels.md
     - "Network permutations": nhst/swaps.md

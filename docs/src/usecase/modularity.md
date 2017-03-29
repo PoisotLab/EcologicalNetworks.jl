@@ -11,17 +11,18 @@ N = mcmullen();
 ~~~
 
 The next step is to generate starting communities for every species. We will
-assign species to random initial modules.
+assign species to random initial modules:
 
 ~~~@example modularity
 L = rand(1:richness(N), richness(N));
 ~~~
 
-We can now start a repeated number of attempts to find the best partition. If
-`julia` is started in parallel, this will use all assigned CPUs.
+We can now start a repeated number of attempts to find the best partition, here
+using [`label_propagation`](@ref). If `julia` is started in parallel, this will
+use all assigned CPUs.
 
 ~~~@example modularity
-M = modularity(N, L, replicates=100);
+M = modularity(N, L, label_propagation, replicates=100);
 
 # Finally, we can get the best partition
 b_part = best_partition(M);

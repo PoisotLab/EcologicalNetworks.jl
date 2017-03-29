@@ -273,10 +273,6 @@ unweighted network.
 Note that because self-edges (*a.k.a.* loops, or cannibalism) are *not* counted
 in the motifs (the adjacency matrix is treated as if it had all diagonal
 elements set to 0).
-
-Arguments:
-- `N::EcoNetwork`, the network in which to count the motifs
-- `m::DeterministicNetwork`, the adjacency matrix of the motif
 """
 function motif(N::EcoNetwork, m::DeterministicNetwork)
 

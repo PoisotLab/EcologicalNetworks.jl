@@ -19,6 +19,9 @@ BipartiteQuantiNetwork, UnipartiteQuantiNetwork,
 ProbabilisticNetwork, DeterministicNetwork, QuantitativeNetwork,
 NonProbabilisticNetwork,
 
+# General useful things
+has_interaction,
+
 # Richness
 richness,
 
@@ -57,7 +60,10 @@ swaps, swap,
 test_network_property,
 
 # Modularity
-Partition, Q, Qr, label_propagation, modularity, best_partition,
+Partition, Q, Qr, modularity, best_partition,
+
+# Modularity - specifics
+label_propagation, louvain,
 
 # Draw
 plot_network,
@@ -78,7 +84,7 @@ motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs,
 stony, mcmullen, ollerton, bluthgen, robertson, woods, kato, soilphagebacteria,
 
 # Food webs measures
-fractional_trophic_level, trophic_level
+fractional_trophic_level, trophic_level, foodweb_position
 
 include(joinpath(".", "types.jl"))
 include(joinpath(".", "centrality.jl"))
@@ -91,6 +97,8 @@ include(joinpath(".", "proba_utils.jl"))
 include(joinpath(".", "nullmodels.jl"))
 include(joinpath(".", "swaps.jl"))
 include(joinpath(".", "modularity.jl"))
+include(joinpath(".", "louvain.jl"))
+include(joinpath(".", "labelpropagation.jl"))
 include(joinpath(".", "paths.jl"))
 include(joinpath(".", "betadiversity.jl"))
 include(joinpath(".", "motifs.jl"))
