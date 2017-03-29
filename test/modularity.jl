@@ -64,4 +64,13 @@ Q2 = BipartiteQuantiNetwork(eye(Int64, 10).*10)
 @test_approx_eq label_propagation(Q2, collect(1:20)).Q 0.9
 @test_approx_eq label_propagation(make_unipartite(Q2), collect(1:20)).Q 0.9
 
+# Louvain modularity
+A = [
+  true true true false false false; true true true false false false;
+  false false false true true true; false false false true true true
+  ]
+B = BipartiteNetwork(A)
+m = louvain(B, collect(1:richness(B)))
+@test_approx_eq m.Q 0.5
+@test_approx_eq m.Qr 1.0
 end
