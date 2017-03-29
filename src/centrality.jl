@@ -34,7 +34,7 @@ end
 
 Closeness centrality is defined as:
 
-``C_{c}(i) = \sum_j \left( \frac{n-1}{d_{ji}} \right)``
+``C_{c}(i) = \\sum_j \\left( \\frac{n-1}{d_{ji}} \\right)``
 
 where ``\mathbf{d}`` is a matrix containing the lengths of the shortest paths
 between all pairs of species, and ``n`` is the number of species.
@@ -63,7 +63,7 @@ end
 Degree centrality, corrected by the maximum degree (the most central species has
 a degree of 1).
 
-``C_{d}(i) = k_i / \text{max}(\mathbf{k})``
+``C_{d}(i) = k_i / \\text{max}(\\mathbf{k})``
 
 """
 function centrality_degree(N::UnipartiteNetwork)
