@@ -42,7 +42,6 @@ A = BipartiteNetwork([0 1; 0 0])
 A = UnipartiteNetwork([0 1; 0 0])
 @test typeof(A) <: DeterministicNetwork
 
-
 # Is there an interaction?
 A = UnipartiteNetwork([false true; true false])
 @test has_interaction(A, 1, 2)
