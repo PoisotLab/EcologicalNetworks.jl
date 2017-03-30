@@ -9,7 +9,6 @@ The sets are, respectively
 
 Note that *all* values are `Float64`, since when dealing with probabilistic
 events, the expected cardinality of each set is not integers.
-
 """
 type BetaSet
   a::Float64
@@ -19,6 +18,13 @@ end
 
 import Base.sum
 
+"""
+**Sum of the elements of a BetaSet**
+
+    sum(S::BetaSet)
+
+Returns the sum of the sets `a`, `b`, and `c`.
+"""
 function sum(S::BetaSet)
   return S.a + S.b + S.c
 end
@@ -34,11 +40,18 @@ have the same species at the same position! If this is not the case, a
 
 This function will return a `BetaSet`, which is then used by the function to
 actually measure the beta-diversity. This package uses the approach of Koleff et
-a. (2003).
+al. (2003).
 
-Koleff, P., Gaston, K. J. and Lennon, J. J. (2003), Measuring beta diversity for
-presence–absence data. Journal of Animal Ecology, 72: 367–382. doi:
-10.1046/j.1365-2656.2003.00710.x
+> Koleff, P., Gaston, K.J., Lennon, J.J., 2003. Measuring beta diversity for
+> presence–absence data. Journal of Animal Ecology 72, 367–382.
+> doi:10.1046/j.1365-2656.2003.00710.x
+
+The method to measure beta-diversity on networks is given in Poisot et al. (2012).
+
+> Poisot, T., Canard, E., Mouillot, D., Mouquet, N., Gravel, D., 2012. The
+> dissimilarity of species interaction networks. Ecol. Lett. 15, 1353–1361.
+> doi:10.1111/ele.12002
+
 
 """
 function betadiversity(N1::EcoNetwork, N2::EcoNetwork)
