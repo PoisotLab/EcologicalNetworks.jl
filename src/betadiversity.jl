@@ -52,7 +52,6 @@ The method to measure beta-diversity on networks is given in Poisot et al. (2012
 > dissimilarity of species interaction networks. Ecol. Lett. 15, 1353–1361.
 > doi:10.1111/ele.12002
 
-
 """
 function betadiversity(N1::EcoNetwork, N2::EcoNetwork)
 

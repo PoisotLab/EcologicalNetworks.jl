@@ -18,6 +18,10 @@ julia> centrality_katz(N)
  0.2
  0.2
 ```
+
+> Katz, L., 1953. A new status index derived from sociometric analysis.
+> Psychometrika 18, 39–43. doi:10.1007/bf02289026
+
 """
 function centrality_katz(N::Unipartite; a::Float64=0.1, k::Int64=5)
 	@assert a <= 1.0
@@ -41,6 +45,10 @@ between all pairs of species, and ``n`` is the number of species.
 
 The function calls `shortest_path` internally -- the `nmax` argument is the
 maximal path length that wil be tried.
+
+> Bavelas, A., 1950. Communication Patterns in Task‐Oriented Groups. The Journal
+> of the Acoustical Society of America 22, 725–730. doi:10.1121/1.1906679
+
 """
 function centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
   d = shortest_path(N, nmax=nmax)
