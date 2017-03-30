@@ -33,6 +33,10 @@ julia> stony() |> fractional_trophic_level |> maximum
 julia> stony() |> fractional_trophic_level |> minimum
 1.0
 ```
+
+> Pauly, D., Palomares, M.-L., 2005. Fishing down marine food web: it is far
+> more pervasive than we thought. Bulletin of Marine Science 76, 197–212.
+
 """
 function fractional_trophic_level(N::Union{UnipartiteNetwork, UnipartiteQuantiNetwork})
   Y = nodiag(N)
@@ -82,6 +86,10 @@ deterministic networks although it works out to ``1 / k_{o}(i)`` in the end.
 
 As for `fractional_trophic_level`, this function is applied to the network
 without self-edges.
+
+> Pauly, D., Palomares, M.-L., 2005. Fishing down marine food web: it is far
+> more pervasive than we thought. Bulletin of Marine Science 76, 197–212.
+
 """
 function trophic_level(N::Union{UnipartiteNetwork, UnipartiteQuantiNetwork})
   TL = fractional_trophic_level(N)
