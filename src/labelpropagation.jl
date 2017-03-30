@@ -3,7 +3,7 @@
 
     most_common_label(N::ProbabilisticNetwork, L, sp)
 
-Arguments are the network, the community partition, and the species id
+Arguments are the network, the community partition, and the species id.
 """
 function most_common_label(N::ProbabilisticNetwork, L, sp)
 
