@@ -1,4 +1,6 @@
 """
+**Expected number of outgoing degrees**
+
     degree_out(N::EcoNetwork)
 
 Expected number of outgoing degrees.
@@ -8,7 +10,7 @@ function degree_out(N::EcoNetwork)
 end
 
 """
-**Expected number of ingoing degrees.**
+**Expected number of ingoing degrees**
 
     degree_in(N::EcoNetwork)
 """
@@ -39,6 +41,8 @@ function degree(N::Bipartite)
 end
 
 """
+**Variance in the outgoing degree**
+
     degree_out_var(N::ProbabilisticNetwork)
 """
 function degree_out_var(N::ProbabilisticNetwork)
@@ -46,6 +50,8 @@ function degree_out_var(N::ProbabilisticNetwork)
 end
 
 """
+**Variance in the ingoing degree**
+
     degree_in_var(N::ProbabilisticNetwork)
 """
 function degree_in_var(N::ProbabilisticNetwork)
@@ -53,6 +59,8 @@ function degree_in_var(N::ProbabilisticNetwork)
 end
 
 """
+**Variance in the degree**
+
     degree_var(N::UnipartiteProbaNetwork)
 """
 function degree_var(N::UnipartiteProbaNetwork)
@@ -77,6 +85,11 @@ julia> EcologicalNetwork.pdi(vec([0.0 0.0 1.0]))
 julia> EcologicalNetwork.pdi(vec([1.0 1.0 1.0]))
 0.0
 ```
+
+> Poisot, T., Canard, E., Mouquet, N., Hochberg, M.E., 2012. A comparative study
+> of ecological specialization estimators. Methods in Ecology and Evolution 3,
+> 537–544. doi:10.1111/j.2041-210X.2011.00174.x
+
 """
 function pdi{T<:Number}(x::Array{T, 1})
     s = reverse(sort(x))
@@ -87,7 +100,7 @@ end
 
 
 """
-**Resource-range**
+**Resource range**
 
     specificity(N::DeterministicNetwork)
 
@@ -100,6 +113,11 @@ julia> N = BipartiteNetwork(eye(Bool, 10));
 julia> specificity(N)[1]
 1.0
 ```
+
+> Poisot, T., Canard, E., Mouquet, N., Hochberg, M.E., 2012. A comparative study
+> of ecological specialization estimators. Methods in Ecology and Evolution 3,
+> 537–544. doi:10.1111/j.2041-210X.2011.00174.x
+
 """
 function specificity(N::DeterministicNetwork)
     A = map(Int64, N.A)
@@ -121,6 +139,10 @@ julia> N = BipartiteNetwork(eye(Int64, 10));
 julia> specificity(N)[1]
 1.0
 ```
+> Poisot, T., Canard, E., Mouquet, N., Hochberg, M.E., 2012. A comparative study
+> of ecological specialization estimators. Methods in Ecology and Evolution 3,
+> 537–544. doi:10.1111/j.2041-210X.2011.00174.x
+
 """
 function specificity(N::QuantitativeNetwork)
     return vec(mapslices(pdi, N.A, 2))

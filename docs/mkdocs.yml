@@ -44,6 +44,7 @@ pages:
     - "Degree distribution": community/degree.md
     - "Interaction motifs": community/motifs.md
     - "Nestedness": community/nestedness.md
+    - "Modularity": community/modularity.md
   - "Species-level measures":
     - "Specificity": species/specificity.md
     - "Centrality": species/centrality.md

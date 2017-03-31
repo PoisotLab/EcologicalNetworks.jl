@@ -94,6 +94,12 @@ Interactions are the impact of phage on the bacteria.
 
 Takes a positional argument `i`, indicating which network (from 1 to 5) to
 return.
+
+> Poisot, T., Lounnas, M., Hochberg, M.E., 2013. The structure of natural
+> microbial enemy-victim networks. Ecological Processes 2, 1.
+> doi:10.1186/2192-1709-2-13
+
+
 """
 function soilphagebacteria(i::Int64=1)
   @assert i ∈ 1:5
