@@ -55,8 +55,8 @@ Pkg.clone("https://github.com/PoisotLab/EcologicalNetwork.jl")
 [![Coverage Status](https://coveralls.io/repos/PoisotLab/EcologicalNetwork.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/PoisotLab/EcologicalNetwork.jl?branch=master)
 [![codecov.io](http://codecov.io/github/PoisotLab/EcologicalNetwork.jl/coverage.svg?branch=master)](http://codecov.io/github/PoisotLab/EcologicalNetwork.jl?branch=master)
 
-### On `dev`
+### On `develop`
 
-[![Build Status](https://travis-ci.org/PoisotLab/EcologicalNetwork.jl.svg?branch=dev)](https://travis-ci.org/PoisotLab/EcologicalNetwork.jl)
-[![Coverage Status](https://coveralls.io/repos/github/PoisotLab/EcologicalNetwork.jl/badge.svg?branch=dev)](https://coveralls.io/github/PoisotLab/EcologicalNetwork.jl?branch=dev)
-[![codecov.io](http://codecov.io/github/PoisotLab/EcologicalNetwork.jl/coverage.svg?branch=dev)](http://codecov.io/github/PoisotLab/EcologicalNetwork.jl?branch=dev)
+[![Build Status](https://travis-ci.org/PoisotLab/EcologicalNetwork.jl.svg?branch=develop)](https://travis-ci.org/PoisotLab/EcologicalNetwork.jl)
+[![Coverage Status](https://coveralls.io/repos/github/PoisotLab/EcologicalNetwork.jl/badge.svg?branch=develop)](https://coveralls.io/github/PoisotLab/EcologicalNetwork.jl?branch=develop)
+[![codecov.io](http://codecov.io/github/PoisotLab/EcologicalNetwork.jl/coverage.svg?branch=develop)](http://codecov.io/github/PoisotLab/EcologicalNetwork.jl?branch=develop)
