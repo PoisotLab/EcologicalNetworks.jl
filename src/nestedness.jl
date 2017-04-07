@@ -18,14 +18,10 @@ end
 """
 **Nestedness η of a matrix**
 
-   η(N::Union{BipartiteNetwork, BipartiteProbaNetwork})
+    η(N::Union{BipartiteNetwork, BipartiteProbaNetwork})
 
-Using the Bastolla et al. (XXXX) measure
-
-Returns three values:
-- nestedness of the entire matrix
-- nestedness of the columns
-- nestedness of the rows
+This returns the nestedness of the entire matrix, of the columns, and of the
+rows.
 """
 function η(N::Union{BipartiteNetwork, BipartiteProbaNetwork})
   n_1 = η_axis(N')

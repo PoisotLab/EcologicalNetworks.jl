@@ -7,10 +7,6 @@ DocTestSetup = quote
 end
 ```
 
-~~~@index
-Pages = ["degree.md"]
-~~~
-
 ## Species richness
 
 ~~~@docs

@@ -1,8 +1,6 @@
 # Counting motifs
 
-There are a number of ways to...
-
-!!! note
+!!! warning
     The enumeration of motifs can take a little while. It depends on the number
     of nodes in the networks, and in the number of nodes in the motif. It may be
     wise, in case you want to count several motifs on a single network, to use

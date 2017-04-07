@@ -114,7 +114,10 @@ This is used internally by a few function, but is exported because it may be of
 general use.
 """
 function has_interaction(N::EcoNetwork, i::Int64, j::Int64)
-  # TODO check that i and j are within the dimensions of the network
+  # We need to make sure that the interaction is somewhere within the network
+  @assert i < size(a, 1)
+  @assert j < size(a, 2)
+  # This should be reasonably general...
   return N[i,j] > zero(typeof(N[i,j]))
 end
 

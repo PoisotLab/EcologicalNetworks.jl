@@ -1,12 +1,8 @@
 # Number of links and connectance
 
-~~~@index
-Pages = ["nlinks.md"]
-~~~
-
 ## Number of links
 
-~~~docs
+~~~@docs
 links
 link_number
 links_var
