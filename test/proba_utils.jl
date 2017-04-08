@@ -11,13 +11,13 @@ module TestProbaUtilities
 
   # Base proba function
   @test i_esp(0.2) == 0.2
-  @test_approx_eq i_var(0.4) 0.4*0.6
-  @test_approx_eq a_var([0.2, 0.4, 0.3]) 0.61
+  @test i_var(0.4) ≈ 0.4*0.6
+  @test a_var([0.2, 0.4, 0.3]) ≈ 0.61
 
   # Mutltiplication of Bernoulli events
-  @test_approx_eq m_var([1.0 0.0]) 0.0
-  @test_approx_eq m_var([1.0 1.0]) 0.0
-  @test_approx_eq m_var([1.0 0.1]) 0.09
-  @test_approx_eq m_var([0.5 0.5]) 0.1875
+  @test m_var([1.0 0.0]) ≈ 0.0
+  @test m_var([1.0 1.0]) ≈ 0.0
+  @test m_var([1.0 0.1]) ≈ 0.09
+  @test m_var([0.5 0.5]) ≈ 0.1875
 
 end

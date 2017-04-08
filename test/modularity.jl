@@ -48,9 +48,9 @@ while !ispointfive
   ispointfive = mpb.Q == 0.5
 end
 
-@test_approx_eq mpu.Q mpb.Q
-@test_approx_eq mpu.Q 0.5
-@test_approx_eq mpb.Q 0.5
+@test mpu.Q ≈ mpb.Q
+@test mpu.Q ≈ 0.5
+@test mpb.Q ≈ 0.5
 
 # Modularity wrapper
 test_10 = modularity(pB, collect(1:richness(pB)), label_propagation, replicates=10)
@@ -60,9 +60,9 @@ test_10 = modularity(pB, collect(1:richness(pB)), label_propagation, replicates=
 # Test with a quantitative network
 Q1 = BipartiteQuantiNetwork(eye(Int64, 10))
 Q2 = BipartiteQuantiNetwork(eye(Int64, 10).*10)
-@test_approx_eq label_propagation(Q1, collect(1:20)).Q 0.9
-@test_approx_eq label_propagation(Q2, collect(1:20)).Q 0.9
-@test_approx_eq label_propagation(make_unipartite(Q2), collect(1:20)).Q 0.9
+@test label_propagation(Q1, collect(1:20)).Q ≈ 0.9
+@test label_propagation(Q2, collect(1:20)).Q ≈ 0.9
+@test label_propagation(make_unipartite(Q2), collect(1:20)).Q ≈ 0.9
 
 # Louvain modularity
 A = [
@@ -71,6 +71,6 @@ A = [
   ]
 B = BipartiteNetwork(A)
 m = louvain(B, collect(1:richness(B)))
-@test_approx_eq m.Q 0.5
-@test_approx_eq Qr(m) 1.0
+@test m.Q ≈ 0.5
+@test Qr(m) ≈ 1.0
 end

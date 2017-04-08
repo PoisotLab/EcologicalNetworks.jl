@@ -8,10 +8,10 @@ module TestFreeSpecies
   B = BipartiteProbaNetwork([1.0 1.0 1.0 0.1; 0.0 1.0 0.1 0.0; 0.5 1.0 0.0 0.0])
 
   # Unipartite case
-  @test_approx_eq free_species(A) 3.0
+  @test free_species(A) ≈ 3.0
 
   # Make bipartite unipartite case
-  @test_approx_eq free_species(B) 0.9
+  @test free_species(B) ≈ 0.9
 
   # No predecessors and successors
   A = make_unipartite(BipartiteProbaNetwork([1.0 0.4 0.3 0.8; 0.0 0.2 0.3 0.6; 0.1 0.2 0.4 0.2]))

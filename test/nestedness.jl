@@ -9,10 +9,10 @@ module TestNestedness
     C = BipartiteProbaNetwork([1.0 1.0 1.0; 1.0 0.1 0.3; 0.4 0.2 0.0])
     D = BipartiteProbaNetwork([1.0 1.0 1.0; 0.0 0.1 1.0; 0.0 0.0 1.0])
 
-    @test_approx_eq η(A)[1] 0.0
-    @test_approx_eq η(B)[1] 1.0
-    @test_approx_eq η(C)[1] 0.9153846153846155
-    @test_approx_eq η(D)[1] 1.0
+    @test η(A)[1] ≈ 0.0
+    @test η(B)[1] ≈ 1.0
+    @test η(C)[1] ≈ 0.9153846153846155
+    @test η(D)[1] ≈ 1.0
 
     # Almeida-Neto original example
     AN = BipartiteNetwork([1 0 1 1 1; 1 1 1 0 0; 0 1 1 1 0; 1 1 0 0 0; 1 1 0 0 0])
