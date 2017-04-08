@@ -10,9 +10,9 @@ module TestStatsTests
   # mock NODF output
   output = test_network_property(A, x -> nodf(x)[3], X)
 
-  @test_approx_eq output.pval 0.00
+  @test output.pval ≈ 0.00
   @test output.test == :greater
-  @test_approx_eq output.v0 1.0
+  @test output.v0 ≈ 1.0
   @test output.n == 10
 
 end
