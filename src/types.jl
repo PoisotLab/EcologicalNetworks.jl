@@ -115,8 +115,8 @@ general use.
 """
 function has_interaction(N::EcoNetwork, i::Int64, j::Int64)
   # We need to make sure that the interaction is somewhere within the network
-  @assert i < size(N.A, 1)
-  @assert j < size(N.A, 2)
+  @assert i <= size(N.A, 1)
+  @assert j <= size(N.A, 2)
   # This should be reasonably general...
   return N[i,j] > zero(typeof(N[i,j]))
 end
