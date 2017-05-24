@@ -128,14 +128,8 @@ function motif_internal!(N::EcoNetwork, m::DeterministicNetwork, b::Array{Float6
   end
 
   # Get the interaction-level probability of having the right motif.
-  for i in eachindex(b)
-    b[i] = m.A[i] ? 2.0 * N.A[i] : 1.0;
-  end
-
-  # Finally, return this as an unfolded matrix. The version with broadcast is
-  # easier to read, but seems slow, so we prepare an array instead.
-  for i in eachindex(b)
-    o[i] = b[i] - N.A[i]
+  for i in eachindex(o)
+    o[i] = (m[i] ? 2.0 * N[i] : 1.0) - N[i]
   end
 
 end
@@ -184,25 +178,26 @@ function count_motifs(N::Bipartite, m::DeterministicNetwork)
   shuffled_motifs = permute_network(m)
 
   # Store the probabilities -- the size of the array is known
-  totalperm = length(shuffled_motifs)*length(row_comb)*length(col_comb)
-  single_probas = zeros(Float64, totalperm)
+  single_probas = zeros(Float64, (length(row_comb), length(col_comb), length(shuffled_motifs)))
 
   # Pre-allocate some internal objects
   b = zeros(Float64, size(m))
   o = zeros(Float64, prod(size(m)))
 
   # Compute the probabilities for each k-plet
-  currentindex = 1
-  n_r_perm = 1
-  for cr in row_comb
-    n_c_perm = 1
-    for cc in col_comb
-      for shmi in eachindex(shuffled_motifs)
-        single_probas[currentindex] = motif_p(
-            typeof(N)(N[vec(cr), vec(cc)]),
-            shuffled_motifs[shmi], b, o
-          )
-        currentindex += 1
+  rcol = collect(row_comb)
+  ccol = collect(col_comb)
+  for r in 1:size(single_probas, 1)
+    cr = rcol[r]
+    for c in 1:size(single_probas, 2)
+      cc = ccol[c]
+      if sum(N.A[vec(cr), vec(cc)]) > 0.0
+        for s in 1:size(single_probas, 3)
+          single_probas[r,c,s] = motif_p(
+              typeof(N)(N.A[vec(cr), vec(cc)]),
+              shuffled_motifs[s], b, o
+            )
+        end
       end
     end
   end
@@ -242,9 +237,6 @@ function count_motifs(N::Unipartite, m::DeterministicNetwork)
   # Compute the probabilities for each k-plet
   n_k_perm = 1
   for cr in sp_comb
-
-    # We need to keeep track of which motif permutation this is
-    n_m_perm = 1
 
     # We keep the subpart of the graph constant, but permute the motif
     # instead. This is faster and also avoids duplicating counts.
