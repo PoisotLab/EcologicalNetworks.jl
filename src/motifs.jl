@@ -276,6 +276,16 @@ elements set to 0).
 """
 function motif(N::EcoNetwork, m::DeterministicNetwork)
 
+  if richness(N) < richness(m)
+    warn("The network has less species than the motif, skipping")
+    return 0.0
+  end
+
+  if minimum(size(N.A)) < minimum(size(m.A))
+    warn("The network is smaller than the motif, skipping")
+    return 0.0
+  end
+
   # We make sure that there are no diagonal elements
   Y = nodiag(N)
 
