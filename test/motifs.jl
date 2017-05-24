@@ -8,7 +8,7 @@ module TestMotifs
     @test unipartitemotifs()[:S1].A == [0 1 0; 0 0 1; 0 0 0];
   end
 
-    @testset "Small network (unipartite)"
+    @testset "Small network (unipartite)" begin
       n = UnipartiteNetwork(zeros(Int64, (2, 2)))
       m = unipartitemotifs()[:S1]
       @test motif(n, m) ≈ 0.0
