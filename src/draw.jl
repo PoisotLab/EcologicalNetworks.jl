@@ -1,91 +1,166 @@
 """
-**Draw a network as a matrix to a png file**
-
-    plot_network(N::EcoNetwork; order::Symbol=:degree, transform::Function=(x) -> x, file="en.png")
-
-In the case of a quantitative or probabilistic network, nuances of grey indicate
-interaction strength.
-
-Arguments:
-1. `N::EcoNetwork`, the network to draw
-
-Keywords:
-- `order::Symbol`, either `:none` or `:degree` (default), the criteria to use to re-order nodes
-- `transform::Function`, the function to apply to every interaction (`x -> x` by default, but can be `sqrt`, `log`, ...)
-- `file`, the name of the file (with the `.png` extension) to write to
-
+**Plot a bipartite network (ordered by degree)**
 """
-function plot_network(N::EcoNetwork; order::Symbol=:degree, transform::Function=(x) -> x, file="en.png")
-    @assert order ∈ [:degree, :none]
+@recipe function f(n::Bipartite)
 
-    # Convert to floating point values
-    A = map(Float64, N.A)
+   legend --> false
+   grid --> false
+   ticks --> nothing
+   foreground_color_axis --> nothing
+   foreground_color_border --> nothing
 
-    # Ranges the matrix in 0-1
-    A = A ./ maximum(A)
+   markersize --> 10
+   markerstrokewidth --> 0.8
+   markerstrokecolor --> colorant"#888888"
 
-    # Apply the transformation if needed
-    for i in eachindex(A)
-        A[i] = A[i] == 0.0 ? 0.0 : transform(A[i])
-    end
+   # Re-order the matrix by degree
+   dout = degree_out(n)
+   din  = degree_in(n)
+   rout = sortperm(dout, rev=true)
+   rin  = sortperm(din, rev=true)
+   n.A = n.A[rout, rin]
 
-    # If we re-order the species by degree...
-    if order == :degree
-        if typeof(N) <: Unipartite
-            ord = sortperm(degree(N))
-            A = A[ord, ord]
-        else
-            ord_row = sortperm(degree_out(N))
-            ord_col = sortperm(degree_in(N))
-            A = A[ord_row, ord_col]
-        end
-    end
+   largest_dim = maximum(size(n))
+   smallest_dim = minimum(size(n))
+   xlims := (0, largest_dim+1)
+   ylims := (-1, 8)
 
-    # Draw the matrix
-    draw_matrix(A, file=file)
+   if size(n.A,1) > 1
+      x_top = collect(linspace(1, largest_dim, size(n.A,1)))
+   else 
+      x_top = [mean([1, largest_dim])]
+   end
+   y_top = [7 for i in x_top]
 
-end
+   if size(n.A,2) > 1
+      x_bot = collect(linspace(1, largest_dim, size(n.A,2)))
+   else 
+      x_bot = [mean([1, largest_dim])]
+   end
+   y_bot = [0 for i in x_bot]
 
-"""
-**Low-level function to draw the network**
-"""
-function draw_matrix(A::Array{Float64,2}; file="ecologicalnetwork.png")
-  nbot, ntop = size(A)
-  # Check size
-  @assert nbot <= 4000
-  @assert ntop <= 4000
-  # Get image size
-  _GAP = 6
-  _WDT = 18
-  _TTL = _GAP + _WDT
-  width  = _GAP + nbot*(_TTL)
-  height = _GAP + ntop*(_TTL)
-  # Initialize device
-  c = CairoRGBSurface(width, height)
-  cr = CairoContext(c)
-  Cairo.save(cr)
-  # Background
-  set_source_rgba(cr, 1.0, 1.0, 1.0, 1.0)
-  rectangle(cr, 0.0, 0.0, float(width), float(height))
-  fill(cr)
-  restore(cr)
-  Cairo.save(cr)
-  # Draw the blocks
-  for top in 1:ntop
-    for bot in 1:nbot
-      if A[bot,top] > 0.0
-        p = 1.0 - A[bot,top]
-        set_source_rgb(cr, p, p, p)
-        rectangle(cr, _GAP + (bot-1)*_TTL, _GAP + (top-1)*_TTL, _WDT, _WDT)
-        fill(cr)
-        Cairo.save(cr)
-        set_source_rgb(cr, 0.0, 0.0, 0.0)
-        set_line_width(cr, _GAP/4)
-        rectangle(cr, _GAP + (bot-1)*_TTL, _GAP + (top-1)*_TTL, _WDT, _WDT)
-        stroke(cr)
-        Cairo.save(cr)
+   for i in 1:size(n)[1]
+      for j in 1:size(n)[2]
+         if has_interaction(n, i, j)
+            @series begin
+               color --> colorant"#888888"
+               xi = [x_top[i], x_bot[j]]
+               yi = [y_top[i].-0.30, y_bot[j].+0.30]
+               xi, yi
+            end
+         end
       end
-    end
-  end
-  write_to_png(c, file)
+   end
+
+   # Draw the top layer
+   @series begin
+      seriestype --> :scatter
+      markercolor --> colorant"#f1a340"
+      marker --> :circle
+      x_top, y_top
+   end
+
+   # Draw the bottom layer
+   @series begin
+      seriestype --> :scatter
+      markercolor --> colorant"#998ec3"
+      marker --> :rect
+      x_bot, y_bot
+   end
+
 end
+
+"""
+**Plot a bipartite network (order by module)**
+"""
+@recipe function f(n::Bipartite, p::Partition)
+
+   legend --> false
+   grid --> false
+   ticks --> nothing
+   foreground_color_axis --> nothing
+   foreground_color_border --> nothing
+
+   markersize --> 10
+   markerstrokewidth --> 0.8
+   markerstrokecolor --> colorant"#888888"
+
+   # Re-order the matrix by module
+   module_ids = unique(p.L)
+   module_richness = vec(sum(p.L .== module_ids', 1))
+   module_order = module_ids[sortperm(module_richness)]
+   module_top = p.L[1:size(n.A,1)]
+   module_bot = p.L[(length(module_top)+1):end]
+
+   # Order the top level
+   top_order = zeros(module_top)
+   i = 0
+   for m in module_order
+       sub_samp = filter(x -> module_top[x] == m, 1:size(n.A,1))
+       #sub_samp = sub_samp[sortperm(degree_out(n)[sub_samp])]
+       top_order[(i+1):(i+length(sub_samp))] = sub_samp
+       i = i + length(sub_samp)
+   end
+
+   # Order the bottom level
+   bot_order = zeros(module_bot)
+   i = 0
+   for m in module_order
+       sub_samp = filter(x -> module_bot[x] == m, 1:size(n.A,2))
+       #sub_samp = sub_samp[sortperm(degree_in(n)[sub_samp])]
+       bot_order[(i+1):(i+length(sub_samp))] = sub_samp
+       i = i + length(sub_samp)
+   end
+
+   largest_dim = maximum(size(n))
+   smallest_dim = minimum(size(n))
+   xlims := (0, largest_dim+1)
+   ylims := (-1, 8)
+
+   if size(n.A,1) > 1
+      x_top = collect(linspace(1, largest_dim, size(n.A,1)))
+   else 
+      x_top = [mean([1, largest_dim])]
+   end
+   y_top = [7 for i in x_top]
+   x_top = x_top[top_order]
+
+   if size(n.A,2) > 1
+      x_bot = collect(linspace(1, largest_dim, size(n.A,2)))
+   else 
+      x_bot = [mean([1, largest_dim])]
+   end
+   y_bot = [0 for i in x_bot]
+   x_bot = x_bot[bot_order]
+
+   for i in 1:size(n)[1]
+      for j in 1:size(n)[2]
+         if has_interaction(n, i, j)
+            @series begin
+               color --> colorant"#888888"
+               xi = [x_top[i], x_bot[j]]
+               yi = [y_top[i].-0.30, y_bot[j].+0.30]
+               xi, yi
+            end
+         end
+      end
+   end
+
+   # Draw the top layer
+   @series begin
+      seriestype --> :scatter
+      markercolor --> colorant"#f1a340"
+      marker --> :circle
+      x_top, y_top
+   end
+
+   # Draw the bottom layer
+   @series begin
+      seriestype --> :scatter
+      markercolor --> colorant"#998ec3"
+      marker --> :rect
+      x_bot, y_bot
+   end
+
+end
+

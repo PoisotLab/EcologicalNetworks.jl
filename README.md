@@ -1,21 +1,21 @@
 # EcologicalNetwork.jl
 
-This `julia` package provides a common interface to analyze all types of data on
-ecological networks. It is designed to be general, easy to expand, and work on
-bipartite/unipartite as well as deterministic/quantitative/probabilistic
-networks.
+This `julia` package provides a common interface to analyze all types of data
+on ecological networks. It is designed to be general, easy to expand, and work
+on bipartite/unipartite as well as deterministic/quantitative/probabilistic
+networks. The development version is compatible with `julia` 0.6.
 
 [![Join the chat at https://gitter.im/PoisotLab/EcologicalNetwork.jl](https://badges.gitter.im/PoisotLab/EcologicalNetwork.jl.svg)](https://gitter.im/PoisotLab/EcologicalNetwork.jl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 You can read more about the selection of measures in:
 
 > Delmas, E. et al. Analyzing ecological networks of species interactions.
-bioRxiv 112540 (2017). doi:10.1101/112540
+> bioRxiv 112540 (2017). doi:10.1101/112540
 
 and about probabilistic networks in:
 
 > Poisot, T. et al. The structure of probabilistic networks. Methods in Ecology
-and Evolution 7, 303–312 (2016). doi: 10.1111/2041-210X.12468
+> and Evolution 7, 303–312 (2016). doi: 10.1111/2041-210X.12468
 
 ## Getting started
 

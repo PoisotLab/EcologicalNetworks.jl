@@ -66,9 +66,6 @@ Partition, Q, Qr, modularity, best_partition,
 # Modularity - specifics
 label_propagation, louvain,
 
-# Draw
-plot_network,
-
 # Paths
 number_of_paths, shortest_path,
 
