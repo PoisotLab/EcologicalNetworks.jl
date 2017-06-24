@@ -29,8 +29,6 @@ module TestDegreeFunctions
     @test d_tot[i] ≈ Dtot[i]
   end
 
-  @test degree(ollerton())[1] > 0
-
   @test link_number(BipartiteQuantiNetwork(eye(Int64, 10))) ≈ 10
 
   # specificity
@@ -43,3 +41,4 @@ module TestDegreeFunctions
   @test specificity(BipartiteQuantiNetwork(eye(Float64, 10)))[1] ≈ 1.0
 
 end
+

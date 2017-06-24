@@ -2,12 +2,9 @@ module TestProbaUtilities
   using Base.Test
   using EcologicalNetwork
 
-  # Probabilities must be floating point
-  @test_throws AssertionError EcologicalNetwork.@checkprob 1
-
   # Probabilities must be in 0-1
-  @test_throws AssertionError EcologicalNetwork.@checkprob -0.2
-  @test_throws AssertionError EcologicalNetwork.@checkprob 1.2
+  @test_throws AssertionError EcologicalNetwork.checkprob(-0.2)
+  @test_throws AssertionError EcologicalNetwork.checkprob(1.2)
 
   # Base proba function
   @test i_esp(0.2) == 0.2

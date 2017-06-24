@@ -94,7 +94,7 @@ without self-edges.
 function trophic_level(N::Union{UnipartiteNetwork, UnipartiteQuantiNetwork})
   TL = fractional_trophic_level(N)
   Y = nodiag(N)
-  D = zeros(Float64, Y.A)
+  D = zeros(Float64, size(Y.A))
   ko = degree_out(Y)
 
   # inner loop to avoid dealing with primary producers

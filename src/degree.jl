@@ -2,8 +2,6 @@
 **Expected number of outgoing degrees**
 
     degree_out(N::EcoNetwork)
-
-Expected number of outgoing degrees.
 """
 function degree_out(N::EcoNetwork)
   return vec(sum(N.A, 2))

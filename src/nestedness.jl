@@ -85,7 +85,7 @@ function nodf_axis(N::BipartiteNetwork)
   for i in 1:(size(A, 1)-1)
     for j in (i+1):size(A, 1)
       DFpaired = sum(A[j,:]) < sum(A[i,:]) ? 1.0 : 0.0
-      Npaired = sum(A[i,:] & A[j,:]) / sum(A[j,:])
+      Npaired = sum(A[i,:] .& A[j,:]) / sum(A[j,:])
       NODFr += (DFpaired * Npaired)
     end
   end
