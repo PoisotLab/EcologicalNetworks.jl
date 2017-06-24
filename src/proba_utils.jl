@@ -8,9 +8,7 @@ The two steps are
 """
 macro checkprob(p)
     # Check the correct type
-    @assert typeof(p) == Float64
-    @assert p >= 0.0
-    @assert p <= 1.0
+    :(@assert (typeof($p) == Float64) & (0.0 <= $p <= 1.0))
 end
 
 
