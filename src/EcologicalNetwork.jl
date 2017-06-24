@@ -2,7 +2,8 @@ module EcologicalNetwork
 
 # Dependencies
 using StatsBase
-using Cairo
+using Plots
+using RecipesBase
 using Combinatorics
 
 export EcoNetwork,

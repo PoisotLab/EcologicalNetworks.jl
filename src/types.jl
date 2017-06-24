@@ -4,17 +4,17 @@ using Base
 This is an abstract type that allows to generate functions for all sorts of
 networks. All other types are derived from this one.
 """
-abstract EcoNetwork
+abstract type EcoNetwork end
 
 """
 All unipartite networks
 """
-abstract Unipartite <: EcoNetwork
+abstract type Unipartite <: EcoNetwork end
 
 """
 All bipartite networks
 """
-abstract Bipartite <: EcoNetwork
+abstract type Bipartite <: EcoNetwork end
 
 """
 A bipartite deterministic network is a two-dimensional array of boolean values.
