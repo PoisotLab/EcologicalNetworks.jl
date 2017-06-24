@@ -7,12 +7,10 @@ The two steps are
 2. The number should belong to [0.0,1.0]
 """
 macro checkprob(p)
-	quote
-		# Check the correct type
-		@assert typeof($p) == Float64
-		@assert $p >= 0.0
-		@assert $p <= 1.0
-	end
+    # Check the correct type
+    @assert typeof(p) == Float64
+    @assert p >= 0.0
+    @assert p <= 1.0
 end
 
 
