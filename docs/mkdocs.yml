@@ -39,6 +39,7 @@ pages:
     - Nestedness: usecase/nestedness.md
     - Modularity: usecase/modularity.md
     - Motifs: usecase/motifs.md
+    - Plots: usecase/plot.md
   - "Network structure":
     - "Linkage density and connectance": community/nlinks.md
     - "Degree distribution": community/degree.md
