@@ -2,8 +2,9 @@
 
 The goal of this use case is to (i) measure the nestedness of a bipartite
 network and (ii) evaluate whether it differs from the random expectation. We
-will use the [`ollerton`](@ref) data, which are reasonably small, and the
-[`η`](@ref) measure of nestedness (note that [`nodf`](@ref) is also available).
+will use the [`ollerton`](@ref) data, which are reasonably small, and
+the [`η`](@ref) measure of nestedness (note that [`nodf`](@ref) is also
+available).
 
 ~~~@example
 using EcologicalNetwork
@@ -22,8 +23,7 @@ S = nullmodel(null2(N));
 # There is a function to apply a test rapidly to randomized networks. In this
 # situation we are interested in testing the fact that the network is more
 # nested than expected by chance.
-results = test_network_property(N, nest, S,
-        test=:greater);
+results = test_network_property(N, nest, S, test=:greater);
 
 # We can print the results
 println(
@@ -43,13 +43,4 @@ whether the observed nestedness was observed by chance. As it stands, all
 randomized networks had *lower* values, and so the *p*-value is (essentially)
 null. In short, this network is significantly more nested than expected by
 chance knowing its degree distribution.
-
-We can also decide to plot the network to visualize what it looks like:
-
-~~~@repl
-using EcologicalNetwork
-using Plots
-N = ollerton()
-plot(N)
-~~~
 
