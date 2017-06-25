@@ -3,7 +3,7 @@
 
     most_common_label(N::ProbabilisticNetwork, L, sp)
 
-Arguments are the network, the community partition, and the species id.
+Arguments are the network, the community partition, and the species id
 """
 function most_common_label(N::ProbabilisticNetwork, L, sp)
 
@@ -29,7 +29,7 @@ function most_common_label(N::ProbabilisticNetwork, L, sp)
   end
 
   # Return (sampled by weight of unique labels)
-  return sample(uni_nei_lab, WeightVec(f), 1)[1]
+  return sample(uni_nei_lab, Weights(f), 1)[1]
 
 end
 

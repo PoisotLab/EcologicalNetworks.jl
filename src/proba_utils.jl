@@ -6,13 +6,9 @@ The two steps are
 1. The number should be of the `Float64` type
 2. The number should belong to [0.0,1.0]
 """
-macro checkprob(p)
-	quote
-		# Check the correct type
-		@assert typeof($p) == Float64
-		@assert $p >= 0.0
-		@assert $p <= 1.0
-	end
+function checkprob(p::Float64)
+    # Check the correct type
+    @assert 0.0 <= p <= 1.0
 end
 
 
@@ -22,7 +18,7 @@ Expected value of a single Bernoulli event
 Simply f(p): p
 """
 function i_esp(p::Float64)
-	@checkprob p
+    checkprob(p)
 	return p
 end
 
@@ -32,7 +28,7 @@ Variance of a single Bernoulli event
 f(p): p(1-p)
 """
 function i_var(p::Float64)
-	@checkprob p
+    checkprob(p)
 	return p*(1.0-p)
 end
 

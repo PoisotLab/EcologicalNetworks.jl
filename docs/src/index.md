@@ -8,7 +8,7 @@ robust.
 You can read more about the selection of measures in:
 
 > Delmas, E. et al. Analyzing ecological networks of species interactions.
-bioRxiv 112540 (2017). doi:10.1101/112540
+> bioRxiv 112540 (2017). doi:10.1101/112540
 
 The structure of this documentation is trying to match (as much as possible) the
 structure of Delmas *et al.* ([2017][anei]), where most of the measures
@@ -20,4 +20,4 @@ This package also offers an interface for probabilistic network, about which you
 can read more in:
 
 > Poisot, T. et al. The structure of probabilistic networks. Methods in Ecology
-and Evolution 7, 303–312 (2016). doi: 10.1111/2041-210X.12468
+> and Evolution 7, 303–312 (2016). doi: 10.1111/2041-210X.12468

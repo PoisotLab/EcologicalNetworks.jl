@@ -15,31 +15,30 @@ module TestDegreeFunctions
   Dtot = degree(N)
 
   Dov = degree_out_var(N)
-  @test_approx_eq Dov[2] 0.3
+  @test Dov[2] ≈ 0.3
 
   Div = degree_in_var(N)
-  @test_approx_eq Div[1] 0.3816
+  @test Div[1] ≈ 0.3816
 
   Dv = degree_var(N)
-  @test_approx_eq Dv[2] 0.63
+  @test Dv[2] ≈ 0.63
 
   for i in 1:2
-    @test_approx_eq d_in[i] Din[i]
-    @test_approx_eq d_out[i] Dout[i]
-    @test_approx_eq d_tot[i] Dtot[i]
+    @test d_in[i] ≈ Din[i]
+    @test d_out[i] ≈ Dout[i]
+    @test d_tot[i] ≈ Dtot[i]
   end
 
-  @test degree(ollerton())[1] > 0
-
-  @test_approx_eq link_number(BipartiteQuantiNetwork(eye(Int64, 10))) 10
+  @test link_number(BipartiteQuantiNetwork(eye(Int64, 10))) ≈ 10
 
   # specificity
 
-  @test_approx_eq EcologicalNetwork.pdi(vec([1.0 0.0 0.0])) 1.0
-  @test_approx_eq EcologicalNetwork.pdi(vec([0.0 1.0 0.0])) 1.0
-  @test_approx_eq EcologicalNetwork.pdi(vec([0.0 0.2 0.0])) 1.0
+  @test EcologicalNetwork.pdi(vec([1.0 0.0 0.0])) ≈ 1.0
+  @test EcologicalNetwork.pdi(vec([0.0 1.0 0.0])) ≈ 1.0
+  @test EcologicalNetwork.pdi(vec([0.0 0.2 0.0])) ≈ 1.0
 
-  @test_approx_eq specificity(BipartiteNetwork(eye(Bool, 10)))[1] 1.0
-  @test_approx_eq specificity(BipartiteQuantiNetwork(eye(Float64, 10)))[1] 1.0
+  @test specificity(BipartiteNetwork(eye(Bool, 10)))[1] ≈ 1.0
+  @test specificity(BipartiteQuantiNetwork(eye(Float64, 10)))[1] ≈ 1.0
 
 end
+

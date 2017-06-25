@@ -16,15 +16,7 @@ m = unipartitemotifs();
 
 The `m` object has 13 different motifs, named as in [Stouffer *et al.*
 (2007)][sto]. The function [`unipartitemotifs`](@ref) will generate them when
-needed. Let's look at the `m[:S1]` motif:
-
-~~~@example motif
-plot_network(m[:S1], file="motifs1.png")
-~~~
-
-![motif s1][ms1]
-
-[ms1]: motifs1.png
+needed.
 
 [sto]: http://rspb.royalsocietypublishing.org/content/274/1621/1931
 

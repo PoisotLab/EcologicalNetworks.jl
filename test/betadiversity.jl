@@ -31,9 +31,9 @@ module TestBetaDiv
 
   S = betadiversity(A, B)
 
-  @test_approx_eq jaccard(S) 0.4715189873417721
-  @test_approx_eq whittaker(S) 0.35913978494623655
-  @test_approx_eq sorensen(S) 0.6408602150537633
+  @test jaccard(S) ≈ 0.4715189873417721
+  @test whittaker(S) ≈ 0.35913978494623655
+  @test sorensen(S) ≈ 0.6408602150537633
 
   # Examples using simple sets
   set_s = EcologicalNetwork.BetaSet(2.0, 0.0, 0.0)
@@ -41,38 +41,38 @@ module TestBetaDiv
   set_e = EcologicalNetwork.BetaSet(1.0, 1.0, 1.0)
 
   # Whittaker
-  @test_approx_eq whittaker(set_s) 0.0
-  @test_approx_eq whittaker(set_d) 1.0
-  @test_approx_eq whittaker(set_e) 0.5
+  @test whittaker(set_s) ≈ 0.0
+  @test whittaker(set_d) ≈ 1.0
+  @test whittaker(set_e) ≈ 0.5
 
   # Gaston
-  @test_approx_eq gaston(set_s) 0.0
-  @test_approx_eq gaston(set_d) 1.0
-  @test_approx_eq gaston(set_e) 2.0/3.0
+  @test gaston(set_s) ≈ 0.0
+  @test gaston(set_d) ≈ 1.0
+  @test gaston(set_e) ≈ 2.0/3.0
 
   # Williams
-  @test_approx_eq williams(set_s) 0.0
-  @test_approx_eq williams(set_d) 0.5
-  @test_approx_eq williams(set_e) 1.0/3.0
+  @test williams(set_s) ≈ 0.0
+  @test williams(set_d) ≈ 0.5
+  @test williams(set_e) ≈ 1.0/3.0
 
   # Lande
-  @test_approx_eq lande(set_s) 0.0
-  @test_approx_eq lande(set_d) 1.0
-  @test_approx_eq lande(set_e) 1.0
+  @test lande(set_s) ≈ 0.0
+  @test lande(set_d) ≈ 1.0
+  @test lande(set_e) ≈ 1.0
 
   # Ruggiero
-  @test_approx_eq ruggiero(set_s) 1.0
-  @test_approx_eq ruggiero(set_d) 0.0
-  @test_approx_eq ruggiero(set_e) 0.5
+  @test ruggiero(set_s) ≈ 1.0
+  @test ruggiero(set_d) ≈ 0.0
+  @test ruggiero(set_e) ≈ 0.5
 
   # Harrison
-  @test_approx_eq harrison(set_s) 0.0
-  @test_approx_eq harrison(set_d) 1.0
-  @test_approx_eq harrison(set_e) 0.5
+  @test harrison(set_s) ≈ 0.0
+  @test harrison(set_d) ≈ 1.0
+  @test harrison(set_e) ≈ 0.5
 
   # Harte-Kinzig
-  @test_approx_eq hartekinzig(set_s) 0.0
-  @test_approx_eq hartekinzig(set_d) 1.0
-  @test_approx_eq hartekinzig(set_e) 0.5
+  @test hartekinzig(set_s) ≈ 0.0
+  @test hartekinzig(set_d) ≈ 1.0
+  @test hartekinzig(set_e) ≈ 0.5
 
 end

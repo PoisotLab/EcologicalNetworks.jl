@@ -4,17 +4,17 @@ using Base
 This is an abstract type that allows to generate functions for all sorts of
 networks. All other types are derived from this one.
 """
-abstract EcoNetwork
+abstract type EcoNetwork end
 
 """
 All unipartite networks
 """
-abstract Unipartite <: EcoNetwork
+abstract type Unipartite <: EcoNetwork end
 
 """
 All bipartite networks
 """
-abstract Bipartite <: EcoNetwork
+abstract type Bipartite <: EcoNetwork end
 
 """
 A bipartite deterministic network is a two-dimensional array of boolean values.
@@ -114,7 +114,10 @@ This is used internally by a few function, but is exported because it may be of
 general use.
 """
 function has_interaction(N::EcoNetwork, i::Int64, j::Int64)
-  # TODO check that i and j are within the dimensions of the network
+  # We need to make sure that the interaction is somewhere within the network
+  @assert i <= size(N.A, 1)
+  @assert j <= size(N.A, 2)
+  # This should be reasonably general...
   return N[i,j] > zero(typeof(N[i,j]))
 end
 

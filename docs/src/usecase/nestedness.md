@@ -48,12 +48,8 @@ We can also decide to plot the network to visualize what it looks like:
 
 ~~~@repl
 using EcologicalNetwork
+using Plots
 N = ollerton()
-plot_network(N, file="ollerton.png")
+plot(N)
 ~~~
 
-This is what the result should look like:
-
-![ollerton plot][ollertonplot]
-
-[ollertonplot]: ollerton.png

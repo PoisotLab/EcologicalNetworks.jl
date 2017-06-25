@@ -24,22 +24,22 @@ module TestNullModels
   @test typeof(null3out(B)) == BipartiteProbaNetwork
 
   # Null model 1
-  @test_approx_eq n1[1,1] 6.0 / 9.0
-  @test_approx_eq n1[2,2] 6.0 / 9.0
-  @test_approx_eq n1[3,3] 6.0 / 9.0
+  @test n1[1,1] ≈ 6.0 / 9.0
+  @test n1[2,2] ≈ 6.0 / 9.0
+  @test n1[3,3] ≈ 6.0 / 9.0
 
   # Null model 2
-  @test_approx_eq n2[1,3] 0.5
-  @test_approx_eq n2[2,2] 1.0
-  @test_approx_eq n2[1,1] 2.0 / 3.0
+  @test n2[1,3] ≈ 0.5
+  @test n2[2,2] ≈ 1.0
+  @test n2[1,1] ≈ 2.0 / 3.0
 
   # Null model 3
-  @test_approx_eq n3o[1,1] 2.0 / 3.0
-  @test_approx_eq n3o[2,1] 1.0
-  @test_approx_eq n3o[3,3] 1.0 / 3.0
+  @test n3o[1,1] ≈ 2.0 / 3.0
+  @test n3o[2,1] ≈ 1.0
+  @test n3o[3,3] ≈ 1.0 / 3.0
 
-  @test_approx_eq n3i[1,1] 2.0 / 3.0
-  @test_approx_eq n3i[2,2] 1.0
-  @test_approx_eq n3i[3,3] 1.0 / 3.0
+  @test n3i[1,1] ≈ 2.0 / 3.0
+  @test n3i[2,2] ≈ 1.0
+  @test n3i[3,3] ≈ 1.0 / 3.0
 
 end

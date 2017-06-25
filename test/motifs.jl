@@ -8,6 +8,12 @@ module TestMotifs
     @test unipartitemotifs()[:S1].A == [0 1 0; 0 0 1; 0 0 0];
   end
 
+    @testset "Small network (unipartite)" begin
+      n = UnipartiteNetwork(zeros(Int64, (2, 2)))
+      m = unipartitemotifs()[:S1]
+      @test motif(n, m) ≈ 0.0
+    end
+
     @testset "Single link, probabilistic" begin
         # Test with a single link
         N = UnipartiteProbaNetwork([0.2 0.8; 0.2 0.1])
