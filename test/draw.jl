@@ -1,4 +1,4 @@
-module TestTypes
+module TestPlot
 using Base.Test
 using EcologicalNetwork
 using Plots

@@ -8,7 +8,7 @@ Interaction strength is the mumber of plant visits by insects.
 <https://www.nceas.ucsb.edu/interactionweb/html/kato_1990.html>
 """
 function kato()
-  n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "qb_kato.txt")
+  n_path = joinpath(@__DIR__, "..", "data", "qb_kato.txt")
   N = BipartiteQuantiNetwork(readdlm(n_path))
   return N
 end
@@ -23,7 +23,7 @@ near Otago, New Zealand. Note that there is, in the original matrix, a species
 with no interactions. It is removed when generating the network.
 """
 function stony()
-  n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "du_stony.txt")
+  n_path = joinpath(@__DIR__, "..", "data", "du_stony.txt")
   N = UnipartiteNetwork(readdlm(n_path))
   # remove species without interactions
   have_deg = degree(N) .> 0
@@ -39,7 +39,7 @@ end
 
 """
 function mcmullen()
-  n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "db_mcmullen.txt")
+  n_path = joinpath(@__DIR__, "..", "data", "db_mcmullen.txt")
   return BipartiteNetwork(readdlm(n_path))
 end
 
@@ -49,7 +49,7 @@ end
 From Ollerton et al. 2007
 """
 function ollerton()
-  n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "db_ollerton.txt")
+  n_path = joinpath(@__DIR__, "..", "data", "db_ollerton.txt")
   return BipartiteNetwork(readdlm(n_path))
 end
 
@@ -60,7 +60,7 @@ From Robertson 1927, in an agricultural area dominated by crops, with some
 natural forest and pasture.
 """
 function robertson()
-  n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "db_robertson.txt")
+  n_path = joinpath(@__DIR__, "..", "data", "db_robertson.txt")
   return BipartiteNetwork(readdlm(n_path))
 end
 
@@ -68,7 +68,7 @@ end
 **Number of visits from Bluthgen et al XXX**
 """
 function bluthgen()
-  n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "qb_bluthgen.txt")
+  n_path = joinpath(@__DIR__, "..", "data", "qb_bluthgen.txt")
   return BipartiteQuantiNetwork(readdlm(n_path))
 end
 
@@ -78,7 +78,7 @@ end
 Interactions content are prevalence.
 """
 function woods()
-  n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "qb_woods.txt")
+  n_path = joinpath(@__DIR__, "..", "data", "qb_woods.txt")
   # This matrix is in the wrong format on IWDB
   return BipartiteQuantiNetwork(readdlm(n_path)')
 end
@@ -103,6 +103,6 @@ return.
 """
 function soilphagebacteria(i::Int64=1)
   @assert i ∈ 1:5
-  n_path = joinpath(Pkg.dir("EcologicalNetwork"), "data", "qb_soilphagebacteria_"*string(i)*".txt")
+  n_path = joinpath(@__DIR__, "..", "data", "qb_soilphagebacteria_"*string(i)*".txt")
   return BipartiteQuantiNetwork(readdlm(n_path))
 end
