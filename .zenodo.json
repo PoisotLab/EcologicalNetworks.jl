@@ -1,0 +1,16 @@
+{
+   "title": "Ecological network anaylzes in Julia",
+   "description": "This packages provides a common platform to perform analyzes of the structure of ecological networks, suing the Julia language.",
+   "grants": [
+      {}
+   ],
+   "upload_type": "software",
+   "creators": [
+      {
+         "affiliation": "Université de Montréal",
+         "name": "Timothée Poisot"
+      }
+   ],
+   "access_right": "open",
+   "license": "mit-license"
+}
