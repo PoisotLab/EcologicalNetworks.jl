@@ -64,7 +64,7 @@ test_network_property,
 Partition, Q, Qr, modularity, best_partition,
 
 # Modularity - specifics
-label_propagation, louvain,
+label_propagation, louvain, brim,
 
 # Paths
 number_of_paths, shortest_path,
@@ -97,6 +97,7 @@ include(joinpath(".", "swaps.jl"))
 include(joinpath(".", "modularity.jl"))
 include(joinpath(".", "louvain.jl"))
 include(joinpath(".", "labelpropagation.jl"))
+include(joinpath(".", "brim.jl"))
 include(joinpath(".", "paths.jl"))
 include(joinpath(".", "betadiversity.jl"))
 include(joinpath(".", "motifs.jl"))
