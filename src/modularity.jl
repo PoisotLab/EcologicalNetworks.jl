@@ -197,19 +197,26 @@ Arguments:
 2. `L::Array{Int64,1}`, an array of module identities
 3. `f::Function`, the function to use
 
+The function `f` *must* (1) accept `N, L` as arguments, and (2) return a
+`Partition` as an output. Note that by default, `L` will be set to `nothing`,
+and modules will be generated at random. In unipartite networks, there can
+be up to one module per species. In bipartite networks, the minimum number
+of modules is the richness of the less speciose level.
+
 Keywords:
 - `replicates::Int64`, defaults to `100`
 
-The function `f` *must* (1) accept `N, L` as arguments, and (2) return a
-`Partition` as an output.
 """
-function modularity(N::EcoNetwork, L::Array{Int64, 1}, f::Function; replicates::Int64=100)
+function modularity(N::EcoNetwork, L::Union{Void,Array{Int64, 1}}=nothing, f::Function=label_propagation; replicates::Int64=100)
 
   # Each species must have an entry
   @assert length(L) == richness(N)
 
+  # Start with a random partition if there are none
+  L_container = map(x -> L == nothing ? rand(1:minimum(size(N)), richness(N)) : copy(L), 1:replicates)
+
   # We just pmap the label propagation function
-  partitions = pmap((x) -> f(N, deepcopy(L)), 1:replicates)
+  partitions = pmap(x -> f(N, x), L_container)
 
   # And return
   return partitions

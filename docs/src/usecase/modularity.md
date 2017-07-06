@@ -18,11 +18,11 @@ L = rand(1:richness(N), richness(N));
 ~~~
 
 We can now start a repeated number of attempts to find the best partition, here
-using [`label_propagation`](@ref). If `julia` is started in parallel, this will
+using [`brim`](@ref). If `julia` is started in parallel, this will
 use all assigned CPUs.
 
 ~~~@example modularity
-M = modularity(N, L, label_propagation, replicates=100);
+M = modularity(N, L, brim, replicates=100);
 
 # Finally, we can get the best partition
 b_part = best_partition(M);

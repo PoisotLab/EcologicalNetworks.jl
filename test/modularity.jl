@@ -80,7 +80,7 @@ A = [
   false false false true true true; false false false true true true
   ]
 B = BipartiteNetwork(A)
-m = brim(B, collect(1:richness(B)))
+m = brim(B, rand(1:4, richness(B)))
 @test m.Q ≈ 0.5
 @test Qr(m) ≈ 1.0
 end
