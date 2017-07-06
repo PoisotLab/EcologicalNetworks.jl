@@ -209,7 +209,7 @@ function modularity(N::EcoNetwork, L::Array{Int64, 1}, f::Function; replicates::
   @assert length(L) == richness(N)
 
   # We just pmap the label propagation function
-  partitions = pmap((x) -> f(N, copy(L)), 1:replicates)
+  partitions = pmap((x) -> f(N, deepcopy(L)), 1:replicates)
 
   # And return
   return partitions

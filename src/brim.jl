@@ -53,7 +53,7 @@ function brim(N::BipartiteNetwork, L::Array{Int64, 1})
   for (i, l) in enumerate(unique(L))
     nL[L.==l] = i
   end
-  L = nL
+  L = deepcopy(nL)
   c = length(unique(L))
   R = map(Int64, L[1:size(N.A,1)] .== unique(L)')
   T = map(Int64, L[(size(N.A,1)+1):end] .== unique(L)')
