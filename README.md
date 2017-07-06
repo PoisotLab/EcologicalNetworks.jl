@@ -42,8 +42,8 @@ Pkg.clone("https://github.com/PoisotLab/EcologicalNetwork.jl")
 [![license](https://img.shields.io/badge/license-MIT%20%22Expat%22-yellowgreen.svg)](https://github.com/PoisotLab/EcologicalNetwork.jl/blob/master/LICENSE.md)
 
 [![GitHub tag](https://img.shields.io/github/tag/PoisotLab/EcologicalNetwork.jl.svg)]()
-[![GitHub issues](https://img.shields.io/github/issues/badges/shields.svg)]()
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/cdnjs/cdnjs.svg)]()
+[![GitHub issues](https://img.shields.io/github/issues/PoisotLab/EcologicalNetwork.jl.svg)]()
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/PoisotLab/EcologicalNetwork.jl.svg)]()
 
 [![EcologicalNetwork](http://pkg.julialang.org/badges/EcologicalNetwork_0.4.svg)](http://pkg.julialang.org/?pkg=EcologicalNetwork)
 [![EcologicalNetwork](http://pkg.julialang.org/badges/EcologicalNetwork_0.5.svg)](http://pkg.julialang.org/?pkg=EcologicalNetwork)
