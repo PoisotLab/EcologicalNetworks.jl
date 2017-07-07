@@ -18,8 +18,6 @@ function is_valid(a, x, c)
   if c == :vulnerability
     return sum(a, 1) == sum(x, 1)
   end
-  # this should never happen
-  return true
 end
 
 """
