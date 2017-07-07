@@ -59,3 +59,9 @@ modularity
 ~~~@docs
 best_partition
 ~~~
+
+## Network roles
+
+~~~@docs
+networkroles
+~~~
