@@ -78,6 +78,7 @@ m = louvain(B, collect(1:richness(B)))
 m = brim(mcmullen(), rand(1:10, richness(mcmullen())))
 @test m.Q ≈ 0.5 atol = 0.2
 @test Qr(m) ≈ 0.5 atol = 0.2
+@test brim(m).Q ≈ m.Q atol = 0.1
 
 # Functional roles
 
