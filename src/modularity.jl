@@ -283,7 +283,9 @@ networkroles(P::Partition)
 """
 function networkroles(P::Partition; cutoff_z::Float64=2.5, cutoff_c::Float64=0.62)
 
-  N = adjacency(make_unipartite(P.N))
+  N = typeof(P.N) <: Bipartite ? make_unipartite(P.N) : P.N
+  N = typeof(N) <: DeterministicNetwork ? N : adjacency(N)
+
   K = (N.A' .| N.A)
 
   l = unique(P.L)
@@ -308,6 +310,8 @@ function networkroles(P::Partition; cutoff_z::Float64=2.5, cutoff_c::Float64=0.6
 
   # C
   c = 1.-sum((by_sp_by_module./own_degree).^2,2)
+
+  return hcat(z,c)
 
 end
 
