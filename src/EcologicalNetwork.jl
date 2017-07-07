@@ -61,7 +61,7 @@ swaps, swap,
 test_network_property,
 
 # Modularity
-Partition, Q, Qr, modularity, best_partition,
+Partition, Q, Qr, modularity, best_partition, networkroles,
 
 # Modularity - specifics
 label_propagation, louvain, brim,
