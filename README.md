@@ -5,6 +5,8 @@ on ecological networks. It is designed to be general, easy to expand, and work
 on bipartite/unipartite as well as deterministic/quantitative/probabilistic
 networks. The development version is compatible with `julia` 0.6.
 
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://PoisotLab.github.io/EcologicalNetwork.jl/stable)
+[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://PoisotLab.github.io/EcologicalNetwork.jl/latest)
 [![Join the chat at https://gitter.im/PoisotLab/EcologicalNetwork.jl](https://badges.gitter.im/PoisotLab/EcologicalNetwork.jl.svg)](https://gitter.im/PoisotLab/EcologicalNetwork.jl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 You can read more about the selection of measures in:
@@ -25,25 +27,23 @@ To get the `stable` version:
 Pkg.add("EcologicalNetwork")
 ~~~
 
-[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://PoisotLab.github.io/EcologicalNetwork.jl/stable)
-
-Note that the package is currently undergoing a lot of work, and you may want to
-check the `latest` version instead:
+To stay up to date on more recent features, you may want to use the `latest`
+version -- it will always be stable:
 
 ~~~ julia
 Pkg.clone("https://github.com/PoisotLab/EcologicalNetwork.jl")
 ~~~
-
-[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://PoisotLab.github.io/EcologicalNetwork.jl/latest)
 
 ## How's the code doing?
 
 ### Released version
 
 [![DOI](https://zenodo.org/badge/25148478.svg)](https://zenodo.org/badge/latestdoi/25148478)
+[![license](https://img.shields.io/badge/license-MIT%20%22Expat%22-yellowgreen.svg)](https://github.com/PoisotLab/EcologicalNetwork.jl/blob/master/LICENSE.md)
 
 [![GitHub tag](https://img.shields.io/github/tag/PoisotLab/EcologicalNetwork.jl.svg)]()
-[![license](https://img.shields.io/github/license/PoisotLab/EcologicalNetwork.jl.svg)]()
+[![GitHub issues](https://img.shields.io/github/issues/PoisotLab/EcologicalNetwork.jl.svg)]()
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/PoisotLab/EcologicalNetwork.jl.svg)]()
 
 [![EcologicalNetwork](http://pkg.julialang.org/badges/EcologicalNetwork_0.4.svg)](http://pkg.julialang.org/?pkg=EcologicalNetwork)
 [![EcologicalNetwork](http://pkg.julialang.org/badges/EcologicalNetwork_0.5.svg)](http://pkg.julialang.org/?pkg=EcologicalNetwork)

@@ -42,6 +42,12 @@ For larger graphs (as long as they are not probabilistic), there is the
 louvain
 ~~~
 
+Finally, there is a `brim` function for bipartite networks.
+
+~~~@docs
+brim
+~~~
+
 ## Analyze modularity
 
 ~~~@docs
@@ -52,4 +58,10 @@ modularity
 
 ~~~@docs
 best_partition
+~~~
+
+## Network roles
+
+~~~@docs
+networkroles
 ~~~
