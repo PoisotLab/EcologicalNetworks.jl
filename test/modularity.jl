@@ -75,14 +75,9 @@ m = louvain(B, collect(1:richness(B)))
 @test Qr(m) ≈ 1.0
 
 # Brim
-A = [
-  true true true false false false; true true true false false false;
-  false false false true true true; false false false true true true
-  ]
-B = BipartiteNetwork(A)
-m = brim(B, rand(1:3, richness(B)))
-@test m.Q ≈ 0.5
-@test Qr(m) ≈ 1.0
+m = brim(mcmullen(), rand(1:10, richness(mcmullen())))
+@test m.Q ≈ 0.5 atol = 0.2
+@test Qr(m) ≈ 1.0 atol = 0.2
 
 # Functional roles
 
