@@ -78,6 +78,11 @@ end
 **Label propagation**
 
     label_propagation(N::EcoNetwork, L::Array{Int64, 1})
+
+This function will optimize modularity by propagating labels along interactions.
+A node receives the label that is most frequent in its neighborhood. For
+quantitative networks, the interaction weight is taken into account. For
+probabilistic network, probabilities are used to draw the label.
 """
 function label_propagation(N::EcoNetwork, L::Array{Int64, 1})
 
