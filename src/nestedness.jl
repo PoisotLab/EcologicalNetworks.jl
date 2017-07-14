@@ -33,7 +33,7 @@ end
 """
 WNODF of a single axis
 """
-function wnodf_axis(N::BipartiteQuantiNetwork)
+function nodf_axis(N::BipartiteQuantiNetwork)
 
   # Get the row order
   row_order = sortperm(vec(sum(N.A, 2)), rev=true)
@@ -108,11 +108,8 @@ the columns, and of the rows.
 """
 function nodf(N::Union{BipartiteNetwork,BipartiteQuantiNetwork})
 
-  # Determine the inner function to use
-  inner_nestedness_f = typeof(N) <: DeterministicNetwork ? nodf_axis : wnodf_axis
-
-  NODFr = inner_nestedness_f(N)
-  NODFc = inner_nestedness_f(N')
+  NODFr = nodf_axis(N)
+  NODFc = nodf_axis(N')
 
   row_pair = (nrows(N) * (nrows(N) - 1))
   col_pair = (ncols(N) * (ncols(N) - 1))
