@@ -59,18 +59,18 @@ function most_common_label(N::QuantitativeNetwork, L, sp)
   # Count
   # HACK to get the type of the inner elements
   itype = typeof(N[1,1])
-    f = zeros(itype, size(uni_nei_lab))
-    for i in eachindex(uni_nei_lab)
-      have_this_label = [N[j,sp] for j in 1:nrows(N) if L[j] == uni_nei_lab[i]]
-      f[i] = sum(have_this_label)
-    end
+  f = zeros(itype, size(uni_nei_lab))
+  for i in eachindex(uni_nei_lab)
+    have_this_label = [N[j,sp] for j in 1:nrows(N) if L[j] == uni_nei_lab[i]]
+    f[i] = sum(have_this_label)
+  end
 
-    # Argmax
-    local_max = maximum(f)
-    candidate_labels = [uni_nei_lab[i] for i in eachindex(uni_nei_lab) if f[i] == local_max]
+  # Argmax
+  local_max = maximum(f)
+  candidate_labels = [uni_nei_lab[i] for i in eachindex(uni_nei_lab) if f[i] == local_max]
 
-    # Return
-    return L[pos_in_L] ∈ candidate_labels ? L[pos_in_L] : sample(candidate_labels)
+  # Return
+  return L[pos_in_L] ∈ candidate_labels ? L[pos_in_L] : sample(candidate_labels)
 
 end
 
