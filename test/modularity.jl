@@ -80,6 +80,12 @@ m = brim(mcmullen(), rand(1:10, richness(mcmullen())))
 @test Qr(m) ≈ 0.5 atol = 0.2
 @test brim(m).Q ≈ m.Q atol = 0.1
 
+# LP-Brim
+m = lpbrim(mcmullen(), rand(1:10, richness(mcmullen())))
+@test m.Q ≈ 0.5 atol = 0.2
+@test Qr(m) ≈ 0.5 atol = 0.2
+@test lpbrim(m).Q ≈ m.Q atol = 0.1
+
 # Functional roles
 
 A = [

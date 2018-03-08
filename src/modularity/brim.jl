@@ -1,8 +1,8 @@
 """
 **Pick a module at random**
 
-~~~
-pick_random_module(x::Array{Int64, 1}
+~~~julia
+pick_random_module(x::Array{Int64, 1})
 ~~~
 
 Returns a random module if there are several choices for the best
@@ -47,7 +47,7 @@ function brim(N::BipartiteNetwork, L::Array{Int64, 1})
   new_Q = old_Q+0.00001
 
   m = links(N)
-  
+
   # R and T matrices
   nL = zeros(L)
   for (i, l) in enumerate(unique(L))
@@ -68,7 +68,7 @@ function brim(N::BipartiteNetwork, L::Array{Int64, 1})
     S = vcat(R, T)
     S = mapslices(pick_random_module, S, 2)
     L = vec(mapslices(x -> find(k -> k==1, x), S, 2))
-    
+
     old_Q = new_Q
     new_Q = Q(N,L)
 
