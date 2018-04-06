@@ -28,7 +28,9 @@ my_tests = [
 
 my_tests = [
    "types/declaration.jl",
-   "types/utilities.jl"
+   "types/utilities.jl",
+   "links/degree.jl",
+   "links/specificity.jl"
 ]
 
 for my_test in my_tests

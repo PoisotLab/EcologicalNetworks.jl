@@ -5,6 +5,9 @@ using StatsBase
 using Plots
 using RecipesBase
 using Combinatorics
+using NamedTuples
+
+include(joinpath(".", "misc/probabilities.jl"))
 
 # Types
 include(joinpath(".", "types/declarations.jl"))
@@ -26,6 +29,13 @@ export AbstractEcologicalNetwork,
 include(joinpath(".", "types/utilities.jl"))
 export species, has_interaction, richness
 
+# Degree
+include(joinpath(".", "links/degree.jl"))
+export degree_out, degree_in, degree_out_var, degree_in_var, degree, degree_var
+
+include(joinpath(".", "links/specificity.jl"))
+export specificity
+
 #=
 # Nestedness
 export η, nodf,
@@ -38,7 +48,6 @@ links, links_var, connectance, connectance_var,
 linkage_density, link_number,
 
 # Measures of degree
-degree_out, degree_in, degree_out_var, degree_in_var, degree, degree_var,
 specificity,
 
 # Expected number of species with 0 interactions

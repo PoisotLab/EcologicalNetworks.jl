@@ -4,7 +4,7 @@ module TestDegreeFunctions
 
   # Generate some data
 
-  N = UnipartiteProbaNetwork([0.22 0.4; 0.3 0.1])
+  N = UnipartiteProbabilisticNetwork([0.22 0.4; 0.3 0.1])
 
   d_in = vec([0.52 0.5])
   d_out = vec([0.62 0.4])
@@ -29,16 +29,4 @@ module TestDegreeFunctions
     @test d_tot[i] ≈ Dtot[i]
   end
 
-  @test link_number(BipartiteQuantiNetwork(eye(Int64, 10))) ≈ 10
-
-  # specificity
-
-  @test EcologicalNetwork.pdi(vec([1.0 0.0 0.0])) ≈ 1.0
-  @test EcologicalNetwork.pdi(vec([0.0 1.0 0.0])) ≈ 1.0
-  @test EcologicalNetwork.pdi(vec([0.0 0.2 0.0])) ≈ 1.0
-
-  @test specificity(BipartiteNetwork(eye(Bool, 10)))[1] ≈ 1.0
-  @test specificity(BipartiteQuantiNetwork(eye(Float64, 10)))[1] ≈ 1.0
-
 end
-
