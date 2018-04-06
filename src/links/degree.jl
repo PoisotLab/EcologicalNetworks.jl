@@ -70,3 +70,7 @@ function degree_var(N::UnipartiteProbabilisticNetwork)
   d_t_v = mapslices(a_var, N.A, 1)' .+ mapslices(a_var, N.A, 2)
   return Dict(zip(species(N), d_t_v))
 end
+
+function degree_var(N::BipartiteProbabilisticNetwork)
+  return merge(degree_in(N), degree_out(N))
+end
