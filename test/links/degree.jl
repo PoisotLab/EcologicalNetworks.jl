@@ -4,7 +4,7 @@ module TestDegreeFunctions
 
   # Generate some data
 
-  N = UnipartiteProbabilisticNetwork([0.22 0.4; 0.3 0.1])
+  N = UnipartiteProbabilisticNetwork([0.22 0.4; 0.3 0.1], [:a, :b])
 
   d_in = vec([0.52 0.5])
   d_out = vec([0.62 0.4])
@@ -15,18 +15,18 @@ module TestDegreeFunctions
   Dtot = degree(N)
 
   Dov = degree_out_var(N)
-  @test Dov[2] ≈ 0.3
+  @test Dov[:b] ≈ 0.3
 
   Div = degree_in_var(N)
-  @test Div[1] ≈ 0.3816
+  @test Div[:a] ≈ 0.3816
 
   Dv = degree_var(N)
-  @test Dv[2] ≈ 0.63
+  @test Dv[:b] ≈ 0.63
 
-  for i in 1:2
-    @test d_in[i] ≈ Din[i]
-    @test d_out[i] ≈ Dout[i]
-    @test d_tot[i] ≈ Dtot[i]
+  for i in eachindex(species(N))
+    @test d_in[i] ≈ Din[species(N)[i]]
+    @test d_out[i] ≈ Dout[species(N)[i]]
+    @test d_tot[i] ≈ Dtot[species(N)[i]]
   end
 
 end

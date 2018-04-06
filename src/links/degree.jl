@@ -24,7 +24,8 @@ end
     degree(N::Unipartite)
 """
 function degree(N::AbstractUnipartiteNetwork)
-  return degree_in(N) .+ degree_out(N)
+  d_t = vec(sum(N.A, 2)) .+ vec(sum(N.A, 1))
+  return Dict(zip(species(N), d_t))
 end
 
 """
@@ -37,7 +38,7 @@ sizes, as measured by making the graph unipartite first. Rows are first, columns
 second.
 """
 function degree(N::AbstractBipartiteNetwork)
-    return degree(make_unipartite(N))
+    return merge(degree_in(N), degree_out(N))
 end
 
 """
@@ -46,7 +47,8 @@ end
     degree_out_var(N::ProbabilisticNetwork)
 """
 function degree_out_var(N::ProbabilisticNetwork)
-  return mapslices(a_var, N.A, 2)
+  d_o_v = mapslices(a_var, N.A, 2)
+  return Dict(zip(species(N,1), d_o_v))
 end
 
 """
@@ -55,7 +57,8 @@ end
     degree_in_var(N::ProbabilisticNetwork)
 """
 function degree_in_var(N::ProbabilisticNetwork)
-  return mapslices(a_var, N.A, 1)'
+  d_i_v = mapslices(a_var, N.A, 1)'
+  return Dict(zip(species(N,2), d_i_v))
 end
 
 """
@@ -64,5 +67,6 @@ end
     degree_var(N::UnipartiteProbaNetwork)
 """
 function degree_var(N::UnipartiteProbabilisticNetwork)
-  return degree_out_var(N) .+ degree_in_var(N)
+  d_t_v = mapslices(a_var, N.A, 1)' .+ mapslices(a_var, N.A, 2)
+  return Dict(zip(species(N), d_t_v))
 end
