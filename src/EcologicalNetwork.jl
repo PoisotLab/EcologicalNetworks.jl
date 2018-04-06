@@ -24,7 +24,7 @@ export AbstractEcologicalNetwork,
 
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))
-export has_interaction, richness
+export species, has_interaction, richness
 
 #=
 # Nestedness

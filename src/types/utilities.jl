@@ -1,5 +1,31 @@
 using Base
 
+function species(N::AbstractUnipartiteNetwork)
+  return N.S
+end
+
+function species(N::AbstractBipartiteNetwork)
+  return vcat(N.T, N.B)
+end
+
+function species(N::AbstractBipartiteNetwork, i::Int64)
+  @assert i ∈ [1,2]
+  return i == 1 ? N.T : N.B
+end
+
+function species(N::AbstractUnipartiteNetwork, i::Int64)
+  @assert i ∈ [1,2]
+  return N.S
+end
+
+function species_objects(N::AbstractUnipartiteNetwork)
+  return (N.S,)
+end
+
+function species_objects(N::AbstractBipartiteNetwork)
+  return (N.T, N.B)
+end
+
 """
 **Interaction between two species**
 
@@ -17,21 +43,11 @@ function has_interaction(N::AbstractEcologicalNetwork, i::Int64, j::Int64)
   return N[i,j] > zero(typeof(N[i,j]))
 end
 
-function has_interaction{NT<:Union{AbstractString,Symbol}}(N::AbstractBipartiteNetwork, i::NT, j::NT)
-  # We need to make sure that the interaction is somewhere within the network
-  @assert i ∈ N.T
-  @assert j ∈ N.B
-  i_pos = first(find(i.==N.T))
-  j_pos = first(find(j.==N.B))
-  return has_interaction(N, i_pos, j_pos)
-end
-
-function has_interaction{NT<:Union{AbstractString,Symbol}}(N::AbstractUnipartiteNetwork, i::NT, j::NT)
-  # We need to make sure that the interaction is somewhere within the network
-  @assert i ∈ N.S
-  @assert j ∈ N.S
-  i_pos = first(find(i.==N.S))
-  j_pos = first(find(j.==N.S))
+function has_interaction{NT<:Union{AbstractString,Symbol}}(N::AbstractEcologicalNetwork, i::NT, j::NT)
+  @assert i ∈ species(N, 1)
+  @assert j ∈ species(N, 2)
+  i_pos = first(find(i.==species(N,1)))
+  j_pos = first(find(j.==species(N,2)))
   return has_interaction(N, i_pos, j_pos)
 end
 
@@ -39,31 +55,24 @@ end
 Return the size of the adjacency matrix of an AbstractEcologicalNetwork object.
 """
 function Base.size(N::AbstractEcologicalNetwork)
-    Base.size(N.A)
+  Base.size(N.A)
 end
 
 """
 Creates a copy of a network -- this returns an object with the same type, and
 the same content.
 """
-function Base.copy(N::AbstractBipartiteNetwork)
+function Base.copy(N::AbstractEcologicalNetwork)
   a = copy(N.A)
-  t = copy(N.T)
-  b = copy(N.B)
-  return typeof(N)(a, t, b)
-end
-
-function Base.copy(N::AbstractUnipartiteNetwork)
-  a = copy(N.A)
-  s = copy(N.S)
-  return typeof(N)(a, s)
+  sp = copy.(species_objects(N))
+  return typeof(N)(a, sp...)
 end
 
 """
 Return a transposed network with the correct type
 """
 function Base.transpose(N::AbstractEcologicalNetwork)
-    return typeof(N)(transpose(N.A))
+  return typeof(N)(transpose(N.A), sp...)
 end
 
 """
@@ -91,13 +100,6 @@ end
 """
 Richness (number of species) in a bipartite network
 """
-function richness(N::AbstractBipartiteNetwork)
-  return sum(size(N.A))
-end
-
-"""
-Richness (number of species) in a unipartite network
-"""
-function richness(N::AbstractUnipartiteNetwork)
-    return size(N.A, 1)
+function richness(N::AbstractEcologicalNetwork)
+  return length(species(N))
 end
