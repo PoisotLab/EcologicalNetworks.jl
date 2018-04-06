@@ -32,7 +32,7 @@ end
 """
 **Expected network similarity**
 
-    betadiversity(N1::EcoNetwork, N2::EcoNetwork)
+    betadiversity(N1::AbstractEcologicalNetwork, N2::AbstractEcologicalNetwork)
 
 Note that this is only meaningful to apply this function when the two matrices
 have the same species at the same position! If this is not the case, a
@@ -53,7 +53,7 @@ The method to measure beta-diversity on networks is given in Poisot et al. (2012
 > doi:10.1111/ele.12002
 
 """
-function betadiversity(N1::EcoNetwork, N2::EcoNetwork)
+function betadiversity(N1::AbstractEcologicalNetwork, N2::AbstractEcologicalNetwork)
 
   # The two networks must have the same size
   if size(N1) != size(N2)

@@ -9,24 +9,24 @@ This type has three elements:
 
 """
 type Partition
-    N::EcoNetwork
+    N::AbstractEcologicalNetwork
     L::Array{Int64, 1}
     Q::Float64
 end
 
 """
-Constructor for the `Partition` type from a `EcoNetwork` object.
+Constructor for the `Partition` type from a `AbstractEcologicalNetwork` object.
 """
-function Partition(N::EcoNetwork)
+function Partition(N::AbstractEcologicalNetwork)
     tL = collect(1:richness(N))
     return Partition(N, tL)
 end
 
 """
-Constructor for the `Partition` type from an `EcoNetwork` object and an array
+Constructor for the `Partition` type from an `AbstractEcologicalNetwork` object and an array
 of module id.
 """
-function Partition(N::EcoNetwork, L::Array{Int64, 1})
+function Partition(N::AbstractEcologicalNetwork, L::Array{Int64, 1})
     @assert length(L) == richness(N)
     return Partition(N, L, Q(N, L))
 end
@@ -34,11 +34,11 @@ end
 """
 **Get the δ matrix**
 
-    delta_matrix(N::EcoNetwork, L::Array{Int64, 1})
+    delta_matrix(N::AbstractEcologicalNetwork, L::Array{Int64, 1})
 
 This matrix represents whether two nodes are part of the same module.
 """
-function delta_matrix(N::EcoNetwork, L::Array{Int64, 1})
+function delta_matrix(N::AbstractEcologicalNetwork, L::Array{Int64, 1})
     @assert length(L) == richness(N)
 
     # The actual matrix depends on the shape of the network
@@ -60,14 +60,14 @@ end
 """
 **Modularity**
 
-    Q(N::EcoNetwork, L::Array{Int64, 1})
+    Q(N::AbstractEcologicalNetwork, L::Array{Int64, 1})
 
 This measures modularity based on a matrix and a list of module labels. Note
 that this function assumes that interactions are directional, so that
 ``A_{ij}`` represents an interaction from ``i`` to ``j``, but not the other way
 around.
 """
-function Q(N::EcoNetwork, L::Array{Int64, 1})
+function Q(N::AbstractEcologicalNetwork, L::Array{Int64, 1})
   # Easy case
   if length(unique(L)) == 1
     return 0.0
@@ -111,7 +111,7 @@ end
 """
 **Realized modularity**
 
-    Qr(N::EcoNetwork, L::Array{Int64, 1})
+    Qr(N::AbstractEcologicalNetwork, L::Array{Int64, 1})
 
 Measures realized modularity, based on a  a matrix and a list of module labels.
 Realized modularity usually takes values in the [0;1] interval, and is the
@@ -123,7 +123,7 @@ is the number of links *within* modules, and ``E`` is the total number of links.
 Note that in some situations, `Qr` can be *lower* than 0. This reflects a
 partition in which more links are established between than within modules.
 """
-function Qr(N::EcoNetwork, L::Array{Int64, 1})
+function Qr(N::AbstractEcologicalNetwork, L::Array{Int64, 1})
   if length(unique(L)) == 1
     return 0.0
   end
@@ -187,13 +187,13 @@ end
 """
 **Detect modules in a network**
 
-    modularity(N::EcoNetwork, L::Array{Int64, 1}, f::Function; replicates::Int64=100)
+    modularity(N::AbstractEcologicalNetwork, L::Array{Int64, 1}, f::Function; replicates::Int64=100)
 
 This function is a wrapper for the modularity code. The number of replicates is
 the number of times the modularity optimization should be run.
 
 Arguments:
-1. `N::EcoNetwork`, the network to work on
+1. `N::AbstractEcologicalNetwork`, the network to work on
 2. `L::Array{Int64,1}`, an array of module identities
 3. `f::Function`, the function to use
 
@@ -207,7 +207,7 @@ Keywords:
 - `replicates::Int64`, defaults to `100`
 
 """
-function modularity(N::EcoNetwork, L::Union{Void,Array{Int64, 1}}=nothing, f::Function=label_propagation; replicates::Int64=100)
+function modularity(N::AbstractEcologicalNetwork, L::Union{Void,Array{Int64, 1}}=nothing, f::Function=label_propagation; replicates::Int64=100)
 
   # Each species must have an entry
   @assert length(L) == richness(N)

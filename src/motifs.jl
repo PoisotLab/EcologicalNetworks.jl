@@ -104,14 +104,14 @@ end
 """
 **Internal motif calculations**
 
-    motif_internal!(N::EcoNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
+    motif_internal!(N::AbstractEcologicalNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
 
 The two arguments are `N` the network and `m` the motif adjacency matrix (as
 a `DeterministicNetwork`). The two matrices must have the same size.  The
 function returns a *vectorized* probability of each interaction being in the
 right state for the motif, *i.e.* P if m is 1, and 1 - P if m is 0.
 """
-function motif_internal!(N::EcoNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
+function motif_internal!(N::AbstractEcologicalNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
 
   # The motif structure must have the same size than the partial adjacency
   # matrix
@@ -139,7 +139,7 @@ end
 
 This works for both the probabilistic and deterministic networks.
 """
-function motif_p(N::EcoNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
+function motif_p(N::AbstractEcologicalNetwork, m::DeterministicNetwork, b::Array{Float64, 2}, o::Array{Float64, 1})
   motif_internal!(N, m, b, o)
   return prod(o)
 end
@@ -255,7 +255,7 @@ end
 """
 **Count motifs**
 
-    motif(N::EcoNetwork, m::DeterministicNetwork)
+    motif(N::AbstractEcologicalNetwork, m::DeterministicNetwork)
 
 In a network `N`, counts the number of time a motif `m` appears. In the case of
 a probabilistic network, `N` is the expected number of motifs. In the case of
@@ -266,7 +266,7 @@ Note that because self-edges (*a.k.a.* loops, or cannibalism) are *not* counted
 in the motifs (the adjacency matrix is treated as if it had all diagonal
 elements set to 0).
 """
-function motif(N::EcoNetwork, m::DeterministicNetwork)
+function motif(N::AbstractEcologicalNetwork, m::DeterministicNetwork)
 
   if richness(N) < richness(m)
     warn("The network has less species than the motif, skipping")

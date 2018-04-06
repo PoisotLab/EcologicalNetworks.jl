@@ -1,18 +1,18 @@
 """
 **Expected number of outgoing degrees**
 
-    degree_out(N::EcoNetwork)
+    degree_out(N::AbstractEcologicalNetwork)
 """
-function degree_out(N::EcoNetwork)
+function degree_out(N::AbstractEcologicalNetwork)
   return vec(sum(N.A, 2))
 end
 
 """
 **Expected number of ingoing degrees**
 
-    degree_in(N::EcoNetwork)
+    degree_in(N::AbstractEcologicalNetwork)
 """
-function degree_in(N::EcoNetwork)
+function degree_in(N::AbstractEcologicalNetwork)
   return vec(sum(N.A, 1))
 end
 

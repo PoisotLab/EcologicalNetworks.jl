@@ -33,13 +33,13 @@ end
 """
 **Return a unipartite network from any sort of network**
 
-    adjacency(N::EcoNetwork)
+    adjacency(N::AbstractEcologicalNetwork)
 
 All existing interactions are `true`, the other are `false`. This is *different*
 from `make_bernoulli` as this function does not rely on random draws.
 Essentially, think of it as a way to remove quantitative information.
 """
-function adjacency(N::EcoNetwork)
+function adjacency(N::AbstractEcologicalNetwork)
     t = typeof(N)
     if t <: DeterministicNetwork
         return copy(N)

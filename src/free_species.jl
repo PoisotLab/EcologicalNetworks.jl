@@ -32,11 +32,11 @@ end
 """
 **Expected number of species with no interactions**
 
-    free_species(N::EcoNetwork)
+    free_species(N::AbstractEcologicalNetwork)
 
 This function will be applied on the *unipartite* version of the network.
 """
-function free_species(N::EcoNetwork)
+function free_species(N::AbstractEcologicalNetwork)
     if typeof(N) <: Unipartite
         return N |> species_is_free |> sum
     else

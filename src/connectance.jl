@@ -1,12 +1,12 @@
 """
 **Number of links in a network**
 
-    links(N::EcoNetwork)
+    links(N::AbstractEcologicalNetwork)
 
 For all type of networks, this is the sum of the adjacency matrix. Note that
 for quantitative networks, this is the cumulative sum of link weights.
 """
-function links(N::EcoNetwork)
+function links(N::AbstractEcologicalNetwork)
    return sum(N.A)
 end
 
@@ -35,12 +35,12 @@ end
 """
 **Connectance**
 
-    connectance(N::EcoNetwork)
+    connectance(N::AbstractEcologicalNetwork)
 
 Number of links divided by the number of possible interactions. In unipartite
 networks, this is ``L/S^2``. In bipartite networks, this is ``L/(T × B)``.
 """
-function connectance(N::EcoNetwork)
+function connectance(N::AbstractEcologicalNetwork)
     return links(N) / prod(size(N))
 end
 

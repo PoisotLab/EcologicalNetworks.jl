@@ -17,7 +17,7 @@ with `Quanti` in their names are part of the `QuantitativeNetwork` groups, and
 represent networks with weighted interactions. All types starting with
 `Bipartite` are also part of the abstract type `Bipartite`, and types with
 `Unipartite` in their names are part of the abstract type `Unipartite`. Finally,
-both `Unipartite` and `Bipartite` are part of the abstract type `EcoNetwork`.
+both `Unipartite` and `Bipartite` are part of the abstract type `AbstractEcologicalNetwork`.
 
 Although this may seem convoluted, this is important to understand: when writing
 functions, you can restrict them to any type of network you want by using the

@@ -6,28 +6,29 @@ using Plots
 using RecipesBase
 using Combinatorics
 
-export EcoNetwork,
-
-# General types for all bipartite / unipartite
-Bipartite, Unipartite,
-
 # Types
-BipartiteNetwork, UnipartiteNetwork,
-BipartiteProbaNetwork, UnipartiteProbaNetwork,
-BipartiteQuantiNetwork, UnipartiteQuantiNetwork,
+include(joinpath(".", "types/declarations.jl"))
+include(joinpath(".", "types/constructors.jl"))
+export AbstractEcologicalNetwork,
+    # General types for all bipartite / unipartite
+    AbstractBipartiteNetwork, AbstractUnipartiteNetwork,
 
-# Union types for all proba or deterministic
-ProbabilisticNetwork, DeterministicNetwork, QuantitativeNetwork,
-NonProbabilisticNetwork,
+    # Types
+    BipartiteNetwork, UnipartiteNetwork,
+    BipartiteProbabilisticNetwork, UnipartiteProbabilisticNetwork,
+    BipartiteQuantitativeNetwork, UnipartiteQuantitativeNetwork,
 
-# General useful things
-has_interaction,
+    # Union types for all proba or deterministic
+    ProbabilisticNetwork, DeterministicNetwork, QuantitativeNetwork,
+    BinaryNetwork
 
-# Richness
-richness,
+# General useful manipulations
+include(joinpath(".", "types/utilities.jl"))
+export has_interaction, richness
 
+#=
 # Nestedness
-η, nodf,
+export η, nodf,
 
 # Measures of centrality
 centrality_katz, centrality_closeness, centrality_degree,
@@ -83,28 +84,28 @@ stony, mcmullen, ollerton, bluthgen, robertson, woods, kato, soilphagebacteria,
 
 # Food webs measures
 fractional_trophic_level, trophic_level, foodweb_position
+=#
 
-include(joinpath(".", "types.jl"))
-include(joinpath(".", "centrality.jl"))
-include(joinpath(".", "connectance.jl"))
-include(joinpath(".", "degree.jl"))
-include(joinpath(".", "free_species.jl"))
-include(joinpath(".", "matrix_utils.jl"))
-include(joinpath(".", "nestedness.jl"))
-include(joinpath(".", "proba_utils.jl"))
-include(joinpath(".", "nullmodels.jl"))
-include(joinpath(".", "swaps.jl"))
-include(joinpath(".", "modularity/modularity.jl"))
-include(joinpath(".", "modularity/louvain.jl"))
-include(joinpath(".", "modularity/labelpropagation.jl"))
-include(joinpath(".", "modularity/brim.jl"))
-include(joinpath(".", "modularity/lpbrim.jl"))
-include(joinpath(".", "paths.jl"))
-include(joinpath(".", "betadiversity.jl"))
-include(joinpath(".", "motifs.jl"))
-include(joinpath(".", "data.jl"))
-include(joinpath(".", "test.jl"))
-include(joinpath(".", "draw.jl"))
-include(joinpath(".", "foodwebs.jl"))
+#include(joinpath(".", "centrality.jl"))
+#include(joinpath(".", "connectance.jl"))
+#include(joinpath(".", "degree.jl"))
+#include(joinpath(".", "free_species.jl"))
+#include(joinpath(".", "matrix_utils.jl"))
+#include(joinpath(".", "nestedness.jl"))
+#include(joinpath(".", "proba_utils.jl"))
+#include(joinpath(".", "nullmodels.jl"))
+#include(joinpath(".", "swaps.jl"))
+#include(joinpath(".", "modularity/modularity.jl"))
+#include(joinpath(".", "modularity/louvain.jl"))
+#include(joinpath(".", "modularity/labelpropagation.jl"))
+#include(joinpath(".", "modularity/brim.jl"))
+#include(joinpath(".", "modularity/lpbrim.jl"))
+#include(joinpath(".", "paths.jl"))
+#include(joinpath(".", "betadiversity.jl"))
+#include(joinpath(".", "motifs.jl"))
+#include(joinpath(".", "data.jl"))
+#include(joinpath(".", "test.jl"))
+#include(joinpath(".", "draw.jl"))
+#include(joinpath(".", "foodwebs.jl"))
 
 end

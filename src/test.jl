@@ -20,7 +20,7 @@ end
 """
 **Null Hypothesis Significance Testing**
 
-    test_network_property(N::EcoNetwork, f, S; test::Symbol=:greater)
+    test_network_property(N::AbstractEcologicalNetwork, f, S; test::Symbol=:greater)
 
 Test whether the observed value (through applying a function `f`) on an
 empirical network `N` differs from the distribution derived from measuring the
@@ -39,7 +39,7 @@ permutation tests.
 The original value of the measure is given (`v0`), as well as the *z*-scores
 (`z`) of all randomized networks.
 """
-function test_network_property(N::EcoNetwork, f, S; test::Symbol=:greater)
+function test_network_property(N::AbstractEcologicalNetwork, f, S; test::Symbol=:greater)
 
   # Check the keyword arguments
   @assert test ∈ [:greater, :smaller]

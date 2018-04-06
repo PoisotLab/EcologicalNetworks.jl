@@ -26,6 +26,11 @@ my_tests = [
    "draw.jl"
   ]
 
+my_tests = [
+   "types/declaration.jl",
+   "types/utilities.jl"
+]
+
 for my_test in my_tests
   try
     include(my_test)
