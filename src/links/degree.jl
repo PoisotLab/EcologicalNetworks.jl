@@ -4,7 +4,8 @@
     degree_out(N::AbstractEcologicalNetwork)
 """
 function degree_out(N::AbstractEcologicalNetwork)
-  return vec(sum(N.A, 2))
+  d_o = vec(sum(N.A, 2))
+  return Dict(zip(species(N,1), d_o))
 end
 
 """
@@ -13,7 +14,8 @@ end
     degree_in(N::AbstractEcologicalNetwork)
 """
 function degree_in(N::AbstractEcologicalNetwork)
-  return vec(sum(N.A, 1))
+  d_i = vec(sum(N.A, 1))
+  return Dict(zip(species(N,2), d_i))
 end
 
 """
