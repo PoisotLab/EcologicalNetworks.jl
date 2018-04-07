@@ -31,7 +31,8 @@ my_tests = [
    "types/utilities.jl",
    "types/conversions.jl",
    "links/degree.jl",
-   "links/specificity.jl"
+   "links/specificity.jl",
+   "links/connectance.jl"
 ]
 
 for my_test in my_tests
