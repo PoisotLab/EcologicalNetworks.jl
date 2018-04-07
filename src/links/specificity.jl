@@ -51,7 +51,7 @@ julia> specificity(N)[1]
 > 537–544. doi:10.1111/j.2041-210X.2011.00174.x
 
 """
-function specificity(N::DeterministicNetwork)
+function specificity(N::BinaryNetwork)
     A = map(Int64, N.A)
     return vec(mapslices(pdi, A, 2))
 end

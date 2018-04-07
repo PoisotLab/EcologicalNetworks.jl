@@ -17,7 +17,7 @@ end
 
 In quantitative networks only, returns the number of non-zero interactions.
 """
-function link_number(N::QuantitativeNetwork)
+function L(N::QuantitativeNetwork)
     return sum(N.A .> 0.0)
 end
 

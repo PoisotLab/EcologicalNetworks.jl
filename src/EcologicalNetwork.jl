@@ -2,16 +2,14 @@ module EcologicalNetwork
 
 # Dependencies
 using StatsBase
-using Plots
-using RecipesBase
 using Combinatorics
-using NamedTuples
 
 include(joinpath(".", "misc/probabilities.jl"))
 
 # Types
 include(joinpath(".", "types/declarations.jl"))
 include(joinpath(".", "types/constructors.jl"))
+include(joinpath(".", "types/conversions.jl"))
 export AbstractEcologicalNetwork,
     # General types for all bipartite / unipartite
     AbstractBipartiteNetwork, AbstractUnipartiteNetwork,
@@ -36,19 +34,16 @@ export degree_out, degree_in, degree_out_var, degree_in_var, degree, degree_var
 include(joinpath(".", "links/specificity.jl"))
 export specificity
 
+include(joinpath(".", "links/connectance.jl"))
+export links, links_var, connectance, connectance_var,
+    linkage_density, link_number
+
 #=
 # Nestedness
 export η, nodf,
 
 # Measures of centrality
 centrality_katz, centrality_closeness, centrality_degree,
-
-# Links and connectances
-links, links_var, connectance, connectance_var,
-linkage_density, link_number,
-
-# Measures of degree
-specificity,
 
 # Expected number of species with 0 interactions
 species_has_no_successors, species_has_no_predecessors,

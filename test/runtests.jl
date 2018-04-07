@@ -29,6 +29,7 @@ my_tests = [
 my_tests = [
    "types/declaration.jl",
    "types/utilities.jl",
+   "types/conversions.jl",
    "links/degree.jl",
    "links/specificity.jl"
 ]
