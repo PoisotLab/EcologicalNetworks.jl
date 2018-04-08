@@ -17,7 +17,7 @@ abstract type AbstractBipartiteNetwork <: AbstractEcologicalNetwork end
 """
 A bipartite deterministic network is a two-dimensional array of boolean values.
 """
-mutable struct BipartiteNetwork{NT<:Union{AbstractString,Symbol}} <: AbstractBipartiteNetwork
+struct BipartiteNetwork{NT<:Union{AbstractString,Symbol}} <: AbstractBipartiteNetwork
   A::Array{Bool,2}
   T::Array{NT,1}
   B::Array{NT,1}
@@ -26,30 +26,29 @@ end
 """
 An unipartite deterministic network.
 """
-mutable struct UnipartiteNetwork{NT<:Union{AbstractString,Symbol}} <: AbstractUnipartiteNetwork
+struct UnipartiteNetwork{NT<:Union{AbstractString,Symbol}} <: AbstractUnipartiteNetwork
   A::Array{Bool,2}
   S::Array{NT,1}
 end
 
-mutable struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:Union{AbstractString,Symbol}} <: AbstractBipartiteNetwork
+struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:Union{AbstractString,Symbol}} <: AbstractBipartiteNetwork
   A::Array{IT,2}
   T::Array{NT,1}
   B::Array{NT,1}
 end
 
-mutable struct BipartiteQuantitativeNetwork{IT<:Number, NT<:Union{AbstractString,Symbol}} <: AbstractBipartiteNetwork
+struct BipartiteQuantitativeNetwork{IT<:Number, NT<:Union{AbstractString,Symbol}} <: AbstractBipartiteNetwork
   A::Array{IT,2}
   T::Array{NT,1}
   B::Array{NT,1}
 end
 
-mutable struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:Union{AbstractString,Symbol}} <: AbstractUnipartiteNetwork
+struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:Union{AbstractString,Symbol}} <: AbstractUnipartiteNetwork
   A::Array{IT,2}
   S::Array{NT,1}
 end
 
-
-mutable struct UnipartiteQuantitativeNetwork{IT<:Number, NT<:Union{AbstractString,Symbol}} <: AbstractUnipartiteNetwork
+struct UnipartiteQuantitativeNetwork{IT<:Number, NT<:Union{AbstractString,Symbol}} <: AbstractUnipartiteNetwork
   A::Array{IT,2}
   S::Array{NT,1}
 end
