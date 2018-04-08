@@ -1,5 +1,13 @@
-function read_network_from_csv(f, t)
-  
+"""
+**Read a network from a CSV file**
+
+  read_network_from_csv{T<:AbstractEcologicalNetwork}(f, t::T)
+
+
+Will read a network from a CSV file, and return it as a correctly formated network.
+"""
+function read_network_from_csv{T<:AbstractEcologicalNetwork}(f, t::T)
+
 end
 
 """
