@@ -4,6 +4,7 @@ module EcologicalNetwork
 using StatsBase
 using Combinatorics
 
+# Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
 
 # Types
@@ -22,6 +23,9 @@ export AbstractEcologicalNetwork,
     # Union types for all proba or deterministic
     ProbabilisticNetwork, DeterministicNetwork, QuantitativeNetwork,
     BinaryNetwork
+
+# Datasets
+include(joinpath(".", "misc/data.jl"))
 
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))

@@ -3,7 +3,7 @@ module TestConnectance
     using EcologicalNetwork
 
     # Generate some data
-    N = BipartiteProbaNetwork([0.0 0.1 0.0; 0.2 0.0 0.2; 0.4 0.5 0.0])
+    N = BipartiteProbabilisticNetwork([0.0 0.1 0.0; 0.2 0.0 0.2; 0.4 0.5 0.0])
 
     @test links(N) ≈ 1.4
     @test links_var(N) ≈ 0.9
