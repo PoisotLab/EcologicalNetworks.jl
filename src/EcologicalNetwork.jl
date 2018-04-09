@@ -63,12 +63,6 @@ centrality_katz, centrality_closeness, centrality_degree,
 # Matrix manipulation utilities
 make_unipartite, make_threshold, make_binary, make_bernoulli,
 
-# Null models
-, nullmodel,
-
-# Testing
-test_network_property,
-
 # Modularity
 Partition, Q, Qr, modularity, best_partition, networkroles,
 
