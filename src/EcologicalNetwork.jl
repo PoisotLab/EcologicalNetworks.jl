@@ -14,12 +14,10 @@ include(joinpath(".", "types/conversions.jl"))
 export AbstractEcologicalNetwork, AllowedSpeciesTypes,
     # General types for all bipartite / unipartite
     AbstractBipartiteNetwork, AbstractUnipartiteNetwork,
-
     # Types
     BipartiteNetwork, UnipartiteNetwork,
     BipartiteProbabilisticNetwork, UnipartiteProbabilisticNetwork,
     BipartiteQuantitativeNetwork, UnipartiteQuantitativeNetwork,
-
     # Union types for all proba or deterministic
     ProbabilisticNetwork, DeterministicNetwork, QuantitativeNetwork,
     BinaryNetwork
