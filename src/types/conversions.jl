@@ -48,3 +48,12 @@ function convert(::Type{AbstractUnipartiteNetwork}, N::AbstractBipartiteNetwork)
         return convert(UnipartiteProbabilisticNetwork, N)
     end
 end
+
+function convert(::Type{BinaryNetwork}, N::QuantitativeNetwork)
+    if typeof(N) <: BipartiteQuantitativeNetwork
+        return convert(BipartiteNetwork, N)
+    end
+    if typeof(N) <: UnipartiteQuantitativeNetwork
+        return convert(UnipartiteNetwork, N)
+    end
+end

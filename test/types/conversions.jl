@@ -37,6 +37,9 @@ M = convert(BipartiteNetwork, N)
 @test !has_interaction(M, :a, :B)
 @test has_interaction(M, :b, :A)
 @test has_interaction(M, :b, :B)
+L = convert(BinaryNetwork, N)
+@test has_interaction(L, :a, :A)
+@test typeof(L) <: BipartiteNetwork
 
 N = UnipartiteQuantitativeNetwork([4 0 ; 2 1], [:a, :b])
 M = convert(UnipartiteNetwork, N)
