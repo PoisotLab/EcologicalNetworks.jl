@@ -53,7 +53,7 @@ Connectance of a quantitative network -- the information on link weight is
 ignored.
 """
 function connectance(N::QuantitativeNetwork)
-    A = adjacency(N)
+    A = typeof(N) <: AbstractUnipartiteNetwork ? convert(UnipartiteNetwork, N) : convert(BipartiteNetwork, N)
     return connectance(A)
 end
 
