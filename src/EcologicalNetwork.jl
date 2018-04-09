@@ -60,9 +60,6 @@ export η, nodf,
 # Measures of centrality
 centrality_katz, centrality_closeness, centrality_degree,
 
-# Matrix manipulation utilities
-make_unipartite, make_threshold, make_binary, make_bernoulli,
-
 # Modularity
 Partition, Q, Qr, modularity, best_partition, networkroles,
 
@@ -84,27 +81,5 @@ motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs,
 
 # Food webs measures
 =#
-
-#include(joinpath(".", "centrality.jl"))
-#include(joinpath(".", "connectance.jl"))
-#include(joinpath(".", "degree.jl"))
-#include(joinpath(".", "free_species.jl"))
-#include(joinpath(".", "matrix_utils.jl"))
-#include(joinpath(".", "nestedness.jl"))
-#include(joinpath(".", "proba_utils.jl"))
-#include(joinpath(".", "nullmodels.jl"))
-#include(joinpath(".", "swaps.jl"))
-#include(joinpath(".", "modularity/modularity.jl"))
-#include(joinpath(".", "modularity/louvain.jl"))
-#include(joinpath(".", "modularity/labelpropagation.jl"))
-#include(joinpath(".", "modularity/brim.jl"))
-#include(joinpath(".", "modularity/lpbrim.jl"))
-#include(joinpath(".", "paths.jl"))
-#include(joinpath(".", "betadiversity.jl"))
-#include(joinpath(".", "motifs.jl"))
-#include(joinpath(".", "data.jl"))
-#include(joinpath(".", "test.jl"))
-#include(joinpath(".", "draw.jl"))
-#include(joinpath(".", "foodwebs.jl"))
 
 end
