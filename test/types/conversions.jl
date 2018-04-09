@@ -41,4 +41,14 @@ M = convert(UnipartiteNetwork, N)
 @test has_interaction(M, :b, :a)
 @test has_interaction(M, :b, :b)
 
+N = BipartiteProbabilisticNetwork([1.0 1.0; 1.0 1.0])
+M = convert(UnipartiteProbabilisticNetwork, N)
+@test typeof(M) <: UnipartiteProbabilisticNetwork
+@test M[3,1] == 0.0
+@test M[1,4] == 1.0
+
+N = BipartiteNetwork([true true; true true])
+M = convert(UnipartiteNetwork, N)
+@test typeof(M) <: UnipartiteNetwork
+
 end
