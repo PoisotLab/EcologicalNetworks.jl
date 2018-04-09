@@ -47,6 +47,9 @@ include(joinpath(".", "links/degenerate.jl"))
 export isdegenerate#, species_has_no_successors, species_has_no_predecessors,
     #species_is_free, free_species
 
+# Random networks and permutations
+include(joinpath(".", "rand/draws.jl"))
+
 #=
 # Nestedness
 export η, nodf,
