@@ -146,3 +146,23 @@ Richness (number of species) in a bipartite network
 function richness(N::AbstractEcologicalNetwork)
   return length(species(N))
 end
+
+function Base.:<{T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
+  newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
+  return newtype(N.A.<n, species_objects(N)...)
+end
+
+function Base.:<={T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
+  newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
+  return newtype(N.A.<=n, species_objects(N)...)
+end
+
+function Base.:>{T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
+  newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
+  return newtype(N.A.>n, species_objects(N)...)
+end
+
+function Base.:>={T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
+  newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
+  return newtype(N.A.>=n, species_objects(N)...)
+end

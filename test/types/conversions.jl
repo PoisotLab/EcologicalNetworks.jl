@@ -58,4 +58,44 @@ N = BipartiteNetwork([true true; true true])
 M = convert(UnipartiteNetwork, N)
 @test typeof(M) <: UnipartiteNetwork
 
+N = BipartiteProbabilisticNetwork([0.2 0.4; 0.4 0.2])
+@test typeof(N<0.2) <: BipartiteNetwork
+@test links(N<0.2) == 0
+@test typeof(N<=0.2) <: BipartiteNetwork
+@test links(N<=0.2) == 2
+@test typeof(N>0.4) <: BipartiteNetwork
+@test links(N>0.4) == 0
+@test typeof(N>=0.4) <: BipartiteNetwork
+@test links(N>=0.4) == 2
+
+N = BipartiteQuantitativeNetwork([0.2 0.4; 0.4 0.2])
+@test typeof(N<0.2) <: BipartiteNetwork
+@test links(N<0.2) == 0
+@test typeof(N<=0.2) <: BipartiteNetwork
+@test links(N<=0.2) == 2
+@test typeof(N>0.4) <: BipartiteNetwork
+@test links(N>0.4) == 0
+@test typeof(N>=0.4) <: BipartiteNetwork
+@test links(N>=0.4) == 2
+
+N = UnipartiteProbabilisticNetwork([0.2 0.4; 0.4 0.2])
+@test typeof(N<0.2) <: UnipartiteNetwork
+@test links(N<0.2) == 0
+@test typeof(N<=0.2) <: UnipartiteNetwork
+@test links(N<=0.2) == 2
+@test typeof(N>0.4) <: UnipartiteNetwork
+@test links(N>0.4) == 0
+@test typeof(N>=0.4) <: UnipartiteNetwork
+@test links(N>=0.4) == 2
+
+N = UnipartiteQuantitativeNetwork([0.2 0.4; 0.4 0.2])
+@test typeof(N<0.2) <: UnipartiteNetwork
+@test links(N<0.2) == 0
+@test typeof(N<=0.2) <: UnipartiteNetwork
+@test links(N<=0.2) == 2
+@test typeof(N>0.4) <: UnipartiteNetwork
+@test links(N>0.4) == 0
+@test typeof(N>=0.4) <: UnipartiteNetwork
+@test links(N>=0.4) == 2
+
 end
