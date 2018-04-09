@@ -31,8 +31,4 @@ module TestSwaps
   @test links(b) == links(a)
   @test EcologicalNetwork.is_valid(a.A, b.A, :degree)
 
-  # test the swap wrapper
-  a = ollerton()
-  @test length(swaps(a, 3)) == 3
-
 end

@@ -50,6 +50,8 @@ export isdegenerate#, species_has_no_successors, species_has_no_predecessors,
 # Random networks and permutations
 include(joinpath(".", "rand/draws.jl"))
 include(joinpath(".", "rand/swaps.jl"))
+include(joinpath(".", "rand/null.jl"))
+export null1, null2, null3out, null3in
 
 #=
 # Nestedness
@@ -62,10 +64,7 @@ centrality_katz, centrality_closeness, centrality_degree,
 make_unipartite, make_threshold, make_binary, make_bernoulli,
 
 # Null models
-null1, null2, null3out, null3in, nullmodel,
-
-# Swap
-swaps, swap,
+, nullmodel,
 
 # Testing
 test_network_property,
@@ -88,9 +87,6 @@ harrison,
 
 # Motifs
 motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs,
-
-# Data
-stony, mcmullen, ollerton, bluthgen, robertson, woods, kato, soilphagebacteria,
 
 # Food webs measures
 =#
