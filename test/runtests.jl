@@ -30,6 +30,7 @@ my_tests = [
    "types/declaration.jl",
    "types/utilities.jl",
    "types/conversions.jl",
+   "data.jl",
    "links/degree.jl",
    "links/specificity.jl",
    "links/connectance.jl"

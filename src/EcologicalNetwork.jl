@@ -11,7 +11,7 @@ include(joinpath(".", "misc/probabilities.jl"))
 include(joinpath(".", "types/declarations.jl"))
 include(joinpath(".", "types/constructors.jl"))
 include(joinpath(".", "types/conversions.jl"))
-export AbstractEcologicalNetwork,
+export AbstractEcologicalNetwork, AllowedSpeciesTypes,
     # General types for all bipartite / unipartite
     AbstractBipartiteNetwork, AbstractUnipartiteNetwork,
 
@@ -26,6 +26,7 @@ export AbstractEcologicalNetwork,
 
 # Datasets
 include(joinpath(".", "misc/data.jl"))
+export thompson_townsend_catlins
 
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))
@@ -82,6 +83,7 @@ number_of_paths, shortest_path,
 betadiversity,
 whittaker, sorensen, jaccard, gaston,
 williams, lande, ruggiero, hartekinzig,
+fractional_trophic_level, trophic_level, foodweb_position
 harrison,
 
 # Motifs
@@ -91,7 +93,6 @@ motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs,
 stony, mcmullen, ollerton, bluthgen, robertson, woods, kato, soilphagebacteria,
 
 # Food webs measures
-fractional_trophic_level, trophic_level, foodweb_position
 =#
 
 #include(joinpath(".", "centrality.jl"))

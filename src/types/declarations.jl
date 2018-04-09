@@ -15,40 +15,45 @@ All bipartite networks
 abstract type AbstractBipartiteNetwork <: AbstractEcologicalNetwork end
 
 """
+The species names can be strings or symbols -- for now.
+"""
+AllowedSpeciesTypes = Union{String,Symbol}
+
+"""
 A bipartite deterministic network is a two-dimensional array of boolean values.
 """
-struct BipartiteNetwork{NT<:Union{AbstractString,Symbol}} <: AbstractBipartiteNetwork
-  A::Array{Bool,2}
-  T::Array{NT,1}
-  B::Array{NT,1}
+struct BipartiteNetwork{ST<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
+  A::AbstractMatrix{Bool}
+  T::Array{ST,1}
+  B::Array{ST,1}
 end
 
 """
 An unipartite deterministic network.
 """
-struct UnipartiteNetwork{NT<:Union{AbstractString,Symbol}} <: AbstractUnipartiteNetwork
-  A::Array{Bool,2}
+struct UnipartiteNetwork{NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
+  A::AbstractMatrix{Bool}
   S::Array{NT,1}
 end
 
-struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:Union{AbstractString,Symbol}} <: AbstractBipartiteNetwork
+struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
   A::Array{IT,2}
   T::Array{NT,1}
   B::Array{NT,1}
 end
 
-struct BipartiteQuantitativeNetwork{IT<:Number, NT<:Union{AbstractString,Symbol}} <: AbstractBipartiteNetwork
+struct BipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
   A::Array{IT,2}
   T::Array{NT,1}
   B::Array{NT,1}
 end
 
-struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:Union{AbstractString,Symbol}} <: AbstractUnipartiteNetwork
+struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
   A::Array{IT,2}
   S::Array{NT,1}
 end
 
-struct UnipartiteQuantitativeNetwork{IT<:Number, NT<:Union{AbstractString,Symbol}} <: AbstractUnipartiteNetwork
+struct UnipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
   A::Array{IT,2}
   S::Array{NT,1}
 end

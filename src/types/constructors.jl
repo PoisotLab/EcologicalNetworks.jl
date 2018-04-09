@@ -31,13 +31,13 @@ function check_probability_values(A)
   @assert maximum(A) <= one(eltype(A))
 end
 
-function UnipartiteNetwork(A::Array{Bool,2})
+function UnipartiteNetwork(A::AbstractMatrix{Bool})
   check_unipartiteness(A)
   S = "s".*string.(1:size(A,1))
   UnipartiteNetwork{eltype(S)}(A, S)
 end
 
-function UnipartiteNetwork{NT<:Union{AbstractString,Symbol}}(A::Array{Bool,2}, S::Array{NT,1})
+function UnipartiteNetwork{NT<:AllowedSpeciesTypes}(A::AbstractMatrix{Bool}, S::Array{NT,1})
   check_unipartiteness(A, S)
   UnipartiteNetwork{eltype(S)}(A, S)
 end
@@ -48,7 +48,7 @@ function UnipartiteQuantitativeNetwork{IT<:Number}(A::Array{IT,2})
   UnipartiteQuantitativeNetwork{eltype(A),eltype(S)}(A, S)
 end
 
-function UnipartiteQuantitativeNetwork{IT<:Number,NT<:Union{AbstractString,Symbol}}(A::Array{IT,2}, S::Array{NT,1})
+function UnipartiteQuantitativeNetwork{IT<:Number,NT<:AllowedSpeciesTypes}(A::Array{IT,2}, S::Array{NT,1})
   check_unipartiteness(A, S)
   UnipartiteQuantitativeNetwork{eltype(A),eltype(S)}(A, S)
 end
@@ -60,20 +60,20 @@ function UnipartiteProbabilisticNetwork{IT<:AbstractFloat}(A::Array{IT,2})
   UnipartiteProbabilisticNetwork{eltype(A),eltype(S)}(A, S)
 end
 
-function UnipartiteProbabilisticNetwork{IT<:AbstractFloat,NT<:Union{AbstractString,Symbol}}(A::Array{IT,2}, S::Array{NT,1})
+function UnipartiteProbabilisticNetwork{IT<:AbstractFloat,NT<:AllowedSpeciesTypes}(A::Array{IT,2}, S::Array{NT,1})
   check_unipartiteness(A, S)
   check_probability_values(A)
   UnipartiteProbabilisticNetwork{eltype(A),eltype(S)}(A, S)
 end
 
-function BipartiteNetwork(A::Array{Bool,2})
+function BipartiteNetwork(A::AbstractMatrix{Bool})
   check_bipartiteness(A)
   T = "t".*string.(1:size(A,1))
   B = "b".*string.(1:size(A,2))
   BipartiteNetwork{eltype(T)}(A, T, B)
 end
 
-function BipartiteNetwork{NT<:Union{AbstractString,Symbol}}(A::Array{Bool,2}, T::Array{NT,1}, B::Array{NT,1})
+function BipartiteNetwork{NT<:AllowedSpeciesTypes}(A::AbstractMatrix{Bool}, T::Array{NT,1}, B::Array{NT,1})
   check_bipartiteness(A, T, B)
   BipartiteNetwork{eltype(T)}(A, T, B)
 end
@@ -85,7 +85,7 @@ function BipartiteQuantitativeNetwork{IT<:Number}(A::Array{IT,2})
   BipartiteQuantitativeNetwork{eltype(A),eltype(T)}(A, T, B)
 end
 
-function BipartiteQuantitativeNetwork{IT<:Number,NT<:Union{AbstractString,Symbol}}(A::Array{IT,2}, T::Array{NT,1}, B::Array{NT,1})
+function BipartiteQuantitativeNetwork{IT<:Number,NT<:AllowedSpeciesTypes}(A::Array{IT,2}, T::Array{NT,1}, B::Array{NT,1})
   check_bipartiteness(A, T, B)
   BipartiteQuantitativeNetwork{eltype(A),eltype(T)}(A, T, B)
 end
@@ -98,7 +98,7 @@ function BipartiteProbabilisticNetwork{IT<:AbstractFloat}(A::Array{IT,2})
   BipartiteProbabilisticNetwork{eltype(A),eltype(T)}(A, T, B)
 end
 
-function BipartiteProbabilisticNetwork{IT<:AbstractFloat,NT<:Union{AbstractString,Symbol}}(A::Array{IT,2}, T::Array{NT,1}, B::Array{NT,1})
+function BipartiteProbabilisticNetwork{IT<:AbstractFloat,NT<:AllowedSpeciesTypes}(A::Array{IT,2}, T::Array{NT,1}, B::Array{NT,1})
   check_bipartiteness(A, T, B)
   check_probability_values(A)
   BipartiteProbabilisticNetwork{eltype(A),eltype(T)}(A, T, B)

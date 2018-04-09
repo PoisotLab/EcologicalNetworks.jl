@@ -26,6 +26,6 @@ module TestConnectance
 
 
     # Convert to adjacency
-    @test connectance(UnipartiteNetwork(eye(Int64, 10))) ≈ connectance(UnipartiteQuantiNetwork(eye(Int64, 10).*2))
+    @test connectance(UnipartiteNetwork(eye(Bool, 10))) ≈ connectance(UnipartiteQuantitativeNetwork(eye(Int64, 10).*2))
 
 end

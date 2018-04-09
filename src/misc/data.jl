@@ -1,26 +1,8 @@
-"""
-**Read a network from a CSV file**
-
-  read_network_from_csv{T<:AbstractEcologicalNetwork}(f, t::T)
-
-
-Will read a network from a CSV file, and return it as a correctly formated network.
-"""
-function read_network_from_csv{T<:AbstractEcologicalNetwork}(f, t::T)
-
-end
-
-"""
-**Kyoto University Forest of Ashu pollination network**
-
-    kato()
-
-Interaction strength is the mumber of plant visits by insects.
-
-<https://www.nceas.ucsb.edu/interactionweb/html/kato_1990.html>
-"""
-function kato()
-  n_path = joinpath(@__DIR__, "..", "data", "qb_kato.txt")
-  N = BipartiteQuantiNetwork(readdlm(n_path))
-  return N
+function thompson_townsend_catlins()
+  n_path = joinpath(@__DIR__, "../..", "data", "catlins.csv")
+  content = readdlm(n_path, ';')
+  species_names = convert(Array{String}, content[:,1][2:end])
+  interaction_matrix = map(Int64, content[2:end,2:end]).>0
+  interaction_matrix = convert(Array{Bool,2}, interaction_matrix)
+  UnipartiteNetwork(interaction_matrix, species_names)
 end
