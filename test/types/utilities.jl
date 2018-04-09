@@ -51,4 +51,31 @@ X = nodiagonal(A)
 @test !has_interaction(X, 2, 2)
 @test !has_interaction(X, 3, 3)
 
+# Accessing an interaction
+A = UnipartiteNetwork([true false; true true], [:a, :b])
+@test A[:a, :a]
+@test A[:b, :a]
+@test A[:b, :b]
+
+# Accessing a range of interactions
+A = UnipartiteNetwork(eye(Bool, 4), [:a, :b, :c, :d])
+B = A[[:a, :b]]
+@test typeof(B) <: UnipartiteNetwork
+@test richness(B) == 2
+
+# Accessing a range of interactions (bipartite case)
+A = BipartiteNetwork([true false true; false true true; true true true], [:A, :B, :C], [:a, :b, :c])
+
+B1 = A[:, [:b, :c]]
+@test typeof(B1) == typeof(A)
+@test richness(B1) == 5
+
+B2 = A[[:A, :B], :]
+@test typeof(B2) == typeof(A)
+@test richness(B2) == 5
+
+B3 = A[[:A, :B], [:a, :c]]
+@test typeof(B3) == typeof(A)
+@test richness(B3) == 4
+
 end
