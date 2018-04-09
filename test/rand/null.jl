@@ -12,16 +12,16 @@ module TestNullModels
   n3o = null3out(N)
   n3i = null3in(N)
 
-  @test typeof(n1) == UnipartiteProbabilisticNetwork
-  @test typeof(n2) == UnipartiteProbabilisticNetwork
-  @test typeof(n3o) == UnipartiteProbabilisticNetwork
-  @test typeof(n3i) == UnipartiteProbabilisticNetwork
+  @test typeof(n1) <: UnipartiteProbabilisticNetwork
+  @test typeof(n2) <: UnipartiteProbabilisticNetwork
+  @test typeof(n3o) <: UnipartiteProbabilisticNetwork
+  @test typeof(n3i) <: UnipartiteProbabilisticNetwork
 
   B = BipartiteNetwork(A)
-  @test typeof(null1(B)) == BipartiteProbabilisticNetwork
-  @test typeof(null2(B)) == BipartiteProbabilisticNetwork
-  @test typeof(null3in(B)) == BipartiteProbabilisticNetwork
-  @test typeof(null3out(B)) == BipartiteProbabilisticNetwork
+  @test typeof(null1(B)) <: BipartiteProbabilisticNetwork
+  @test typeof(null2(B)) <: BipartiteProbabilisticNetwork
+  @test typeof(null3in(B)) <: BipartiteProbabilisticNetwork
+  @test typeof(null3out(B)) <: BipartiteProbabilisticNetwork
 
   # Null model 1
   @test n1[1,1] ≈ 6.0 / 9.0

@@ -26,7 +26,7 @@ function null3out(N::BinaryNetwork)
   itype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
   A = N.A
   proba = sum(A,2)./size(A,1)
-  imat = repmat(proba, size(A,2))
+  imat = repmat(proba', size(A,2))'
   return itype(imat, species_objects(N)...)
 end
 
