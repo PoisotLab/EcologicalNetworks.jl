@@ -81,24 +81,55 @@ function Base.copy(N::AbstractEcologicalNetwork)
 end
 
 """
-Return a transposed network with the correct type
-"""
-function Base.transpose(N::AbstractEcologicalNetwork)
-  return typeof(N)(transpose(N.A), sp...)
-end
-
-"""
 Getindex custom to get interaction value from an AbstractEcologicalNetwork
 """
 function Base.getindex(N::AbstractEcologicalNetwork, i...)
   return getindex(N.A, i...)
 end
 
-"""
-Setindex for AbstractEcologicalNetwork
-"""
-function Base.setindex!(N::AbstractEcologicalNetwork, i...)
-  return setindex!(N.A, i...)
+function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, s1::T, s2::T)
+  @assert s1  ∈ species(N, 1)
+  @assert s2  ∈ species(N, 2)
+  s1_pos = first(find(s1.==species(N,1)))
+  s2_pos = first(find(s2.==species(N,2)))
+  return N[s1_pos, s2_pos]
+end
+
+function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp::Array{T})
+  @assert all(map(x -> x ∈ species(N), sp))
+  sp_pos = map(s -> first(find(s.==species(N))), sp)
+  n_sp = species(N)[sp_pos]
+  n_int = N.A[sp_pos, sp_pos]
+  return typeof(N)(n_int, n_sp)
+end
+
+function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::Array{T})
+  @assert all(map(x -> x ∈ species(N,2), sp))
+  sp_pos = map(s -> first(find(s.==species(N,2))), sp)
+  n_t = N.T
+  n_b = N.B[sp_pos]
+  n_int = N.A[:, sp_pos]
+  return typeof(N)(n_int, n_t, n_b)
+end
+
+function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::Array{T}, ::Colon)
+  @assert all(map(x -> x ∈ species(N,1), sp))
+  sp_pos = map(s -> first(find(s.==species(N,1))), sp)
+  n_t = N.T[sp_pos]
+  n_b = N.B
+  n_int = N.A[sp_pos,:]
+  return typeof(N)(n_int, n_t, n_b)
+end
+
+function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Array{T}, sp2::Array{T})
+  @assert all(map(x -> x ∈ species(N,1), sp1))
+  @assert all(map(x -> x ∈ species(N,2), sp2))
+  sp1_pos = map(s -> first(find(s.==species(N,1))), sp1)
+  sp2_pos = map(s -> first(find(s.==species(N,2))), sp2)
+  n_t = N.T[sp1_pos]
+  n_b = N.B[sp2_pos]
+  n_int = N.A[sp1_pos,sp2_pos]
+  return typeof(N)(n_int, n_t, n_b)
 end
 
 function nrows(N::AbstractEcologicalNetwork)
