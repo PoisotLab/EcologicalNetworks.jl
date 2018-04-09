@@ -5,8 +5,6 @@ anyerrors = false
 
 my_tests = [
    "matrix_utils.jl",
-   "make_unipartite.jl",
-   "degree.jl",
    "free_species.jl",
    "connectance.jl",
    "paths.jl",
@@ -30,7 +28,8 @@ my_tests = [
    "data.jl",
    "links/degree.jl",
    "links/specificity.jl",
-   "links/connectance.jl"
+   "links/connectance.jl",
+   "links/degenerate.jl"
 ]
 
 for my_test in my_tests

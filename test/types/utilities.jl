@@ -45,5 +45,10 @@ A = BipartiteNetwork([false true; true false], [:a, :b], [:c, :d])
 @test has_interaction(A, :b, :c)
 @test !has_interaction(A, :b, :d)
 
+A = UnipartiteNetwork(eye(Bool, 5))
+X = nodiagonal(A)
+@test !has_interaction(X, 1, 1)
+@test !has_interaction(X, 2, 2)
+@test !has_interaction(X, 3, 3)
 
 end

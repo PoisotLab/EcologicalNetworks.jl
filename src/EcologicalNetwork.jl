@@ -30,7 +30,7 @@ export thompson_townsend_catlins
 
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))
-export species, has_interaction, richness
+export species, has_interaction, richness, nodiagonal
 
 # Degree
 include(joinpath(".", "links/degree.jl"))
@@ -43,6 +43,10 @@ include(joinpath(".", "links/connectance.jl"))
 export links, links_var, connectance, connectance_var,
     linkage_density, link_number
 
+include(joinpath(".", "links/degenerate.jl"))
+export isdegenerate#, species_has_no_successors, species_has_no_predecessors,
+    #species_is_free, free_species
+
 #=
 # Nestedness
 export η, nodf,
@@ -50,16 +54,8 @@ export η, nodf,
 # Measures of centrality
 centrality_katz, centrality_closeness, centrality_degree,
 
-# Expected number of species with 0 interactions
-species_has_no_successors, species_has_no_predecessors,
-species_is_free, free_species,
-
 # Matrix manipulation utilities
-make_unipartite, make_threshold, make_binary, make_bernoulli, nodiag,
-adjacency,
-
-# Probability algebra utilities
-checkprob, i_esp, i_var, a_var, m_var,
+make_unipartite, make_threshold, make_binary, make_bernoulli,
 
 # Null models
 null1, null2, null3out, null3in, nullmodel,

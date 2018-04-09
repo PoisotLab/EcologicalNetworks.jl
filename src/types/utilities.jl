@@ -43,12 +43,24 @@ function has_interaction(N::AbstractEcologicalNetwork, i::Int64, j::Int64)
   return N[i,j] > zero(typeof(N[i,j]))
 end
 
-function has_interaction{NT<:Union{AbstractString,Symbol}}(N::AbstractEcologicalNetwork, i::NT, j::NT)
+function has_interaction{NT<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, i::NT, j::NT)
   @assert i ∈ species(N, 1)
   @assert j ∈ species(N, 2)
   i_pos = first(find(i.==species(N,1)))
   j_pos = first(find(j.==species(N,2)))
   return has_interaction(N, i_pos, j_pos)
+end
+
+function nodiagonal(N::AbstractUnipartiteNetwork)
+  x = N.A
+  for i in 1:size(x,1)
+    x[i,i] = zero(eltype(x))
+  end
+  return typeof(N)(x, N.S)
+end
+
+function nodiagonal(N::AbstractBipartiteNetwork)
+  return copy(N)
 end
 
 """
