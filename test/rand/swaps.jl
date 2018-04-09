@@ -20,14 +20,14 @@ module TestSwaps
   @test EcologicalNetwork.is_valid(a, b, :fill)
 
   # test the swap function
-  a = UnipartiteNetwork([true true false; false true false; true true true])
-  b = swap(a, constraint=:degree, swapsize=2)
+  a = BipartiteNetwork([true true false; false true false; true true true])
+  b = shuffle(a, constraint=:degree, swapsize=2)
   @test links(b) == links(a)
   @test EcologicalNetwork.is_valid(a.A, b.A, :degree)
 
   # test the swap function
-  a = BipartiteNetwork([true true false; false true false; true true true])
-  b = swap(a, constraint=:degree, swapsize=2)
+  a = UnipartiteNetwork([true true false; false true false; true true true])
+  b = shuffle(a, constraint=:degree, swapsize=2)
   @test links(b) == links(a)
   @test EcologicalNetwork.is_valid(a.A, b.A, :degree)
 

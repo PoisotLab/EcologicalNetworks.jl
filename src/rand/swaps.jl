@@ -1,3 +1,5 @@
+using Base
+
 """
 This function will take two matrices and one constraint, and return whether the
 first matrix is a valid permutation of the second one under a given constraint.
@@ -23,7 +25,7 @@ end
 """
 Performs an inner swap
 """
-function inner_swap(x::Array{Bool, 2}; constraint::Symbol=:degree)
+function inner_swap(x::AbstractMatrix{Bool}; constraint::Symbol=:degree)
   @assert constraint ∈ [:degree, :generality, :vulnerability, :fill]
 
   # Generate a first attempt
@@ -41,11 +43,11 @@ end
 """
 Swaps a unipartite network while enforcing a constraint on degree distribution.
 """
-function swap(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
+function Base.shuffle(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
   # we want to have the same number of species as the required swap size
   @assert minimum(size(N)) > swapsize
 
-  Y = copy(N)
+  Y = copy(N).A
 
   doneswaps = 0
   while doneswaps < n
@@ -53,7 +55,7 @@ function swap(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=
     if sum(Y[species, species]) >= 2
       keep = Y[species, species]
       Y[species, species] = inner_swap(Y[species, species], constraint=constraint)
-      if prod(degree(Y) .> 0)
+      if prod(vec(sum(Y,1)).*vec(sum(Y,2)) .> 0)
         doneswaps += 1
       else
         Y[species, species] = keep # restore and restart
@@ -61,7 +63,7 @@ function swap(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=
     end
   end
 
-  return Y
+  return typeof(N)(Y, species_objects(N)...)
 end
 
 """
@@ -72,20 +74,20 @@ end
 Swaps a bipartite network while enforcing a constraint on degree distribution.
 See the documentation for `swaps` for the complete explanation of arguments.
 """
-function swap(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
+function Base.shuffle(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
   # we want to have the same number of species as the required swap size
   @assert minimum(size(N)) > swapsize
 
-  Y = copy(N)
+  Y = copy(N).A
 
   doneswaps = 0
   while doneswaps < n
-    sp_row = sample(1:size(N.A, 1), swapsize, replace=false)
-    sp_col = sample(1:size(N.A, 2), swapsize, replace=false)
+    sp_row = sample(1:size(Y, 1), swapsize, replace=false)
+    sp_col = sample(1:size(Y, 2), swapsize, replace=false)
     if sum(Y[sp_row, sp_col]) >= 2
       keep = Y[sp_row, sp_col]
       Y[sp_row, sp_col] = inner_swap(Y[sp_row, sp_col], constraint=constraint)
-      if prod(degree(Y) .> 0)
+      if prod(vec(sum(Y,1)).*vec(sum(Y,2)) .> 0)
         doneswaps += 1
       else
         Y[sp_row, sp_col] = keep # restore and restart
@@ -93,37 +95,5 @@ function swap(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3
     end
   end
 
-  return Y
-end
-
-"""
-**Generates permutations of a network**
-
-    swaps(N::DeterministicNetwork, r::Int64; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
-
-By default, this method will look for random (x, x) sub-matrices, where x is
-given by the `swapsize` keyword, and shuffle them. There are four possible
-constraints:
-
-| value            | meaning                | proba equivalent |
-|:-----------------|:-----------------------|:-----------------|
-| `:degree`        | both in and out degree | `null2`          |
-| `:generality`    | only out degree        | `null3out`       |
-| `:vulnerability` | only in degree         | `null3in`        |
-| `:fill`          | only number of links   | `null1`          |
-
-Arguments:
-1. `N`, a `DeterministicNetwork`
-2. `r`, the number of randomized networks to generate
-
-Keywords:
-- `constraint`: can be `:degree`, `:generality`, `:vulnerability`, or `:fill`
-- `swapsize`: the size of the square sub-matrix to swap (defaults to 3)
-- `n`: the number of sub-matrices to swap (defaults to 3000)
-"""
-function swaps(N::DeterministicNetwork, r::Int64; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
-  @assert r > 0
-  @assert prod(degree(N).>0)
-  # TODO make parallel
-  return map(x -> swap(N, constraint=constraint, swapsize=swapsize, n=n), 1:r)
+  return typeof(N)(Y, species_objects(N)...)
 end

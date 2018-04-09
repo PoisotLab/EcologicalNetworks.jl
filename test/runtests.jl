@@ -30,7 +30,8 @@ my_tests = [
    "links/specificity.jl",
    "links/connectance.jl",
    "links/degenerate.jl",
-   "rand/draws.jl"
+   "rand/draws.jl",
+   "rand/swaps.jl"
 ]
 
 for my_test in my_tests
