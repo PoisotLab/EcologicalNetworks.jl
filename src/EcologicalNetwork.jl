@@ -51,10 +51,11 @@ include(joinpath(".", "rand/swaps.jl"))
 include(joinpath(".", "rand/null.jl"))
 export null1, null2, null3out, null3in
 
-#=
 # Nestedness
-export η, nodf,
+include(joinpath(".", "community/nestedness.jl"))
+export η, nodf
 
+#=
 # Measures of centrality
 centrality_katz, centrality_closeness, centrality_degree,
 

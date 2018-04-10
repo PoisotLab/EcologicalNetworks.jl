@@ -4,10 +4,10 @@ module TestNestedness
 
     # Generate some data
 
-    A = BipartiteProbaNetwork([1.0 0.0 0.0; 0.0 0.1 0.0; 0.0 0.0 0.1])
-    B = BipartiteProbaNetwork([1.0 1.0 1.0; 1.0 0.1 0.0; 1.0 0.0 0.0])
-    C = BipartiteProbaNetwork([1.0 1.0 1.0; 1.0 0.1 0.3; 0.4 0.2 0.0])
-    D = BipartiteProbaNetwork([1.0 1.0 1.0; 0.0 0.1 1.0; 0.0 0.0 1.0])
+    A = BipartiteProbabilisticNetwork([1.0 0.0 0.0; 0.0 0.1 0.0; 0.0 0.0 0.1])
+    B = BipartiteProbabilisticNetwork([1.0 1.0 1.0; 1.0 0.1 0.0; 1.0 0.0 0.0])
+    C = BipartiteProbabilisticNetwork([1.0 1.0 1.0; 1.0 0.1 0.3; 0.4 0.2 0.0])
+    D = BipartiteProbabilisticNetwork([1.0 1.0 1.0; 0.0 0.1 1.0; 0.0 0.0 1.0])
 
     @test η(A)[1] ≈ 0.0
     @test η(B)[1] ≈ 1.0
@@ -21,9 +21,9 @@ module TestNestedness
     @test nodf(AN)[3] ≈ 0.53 atol=0.01
 
     # Some WNODF examples
-    WN1A = BipartiteQuantiNetwork([5 4 3 2 1; 4 3 2 1 0; 3 2 1 0 0; 2 1 0 0 0; 1 0 0 0 0])
-    WN1B = BipartiteQuantiNetwork([5 4 3 2 1; 5 4 3 2 0; 5 4 3 0 0; 5 4 0 0 0; 5 0 0 0 0])
-    WN1D = BipartiteQuantiNetwork([5 1 1 1 1; 1 0 0 0 0; 1 0 0 0 0; 1 0 0 0 0; 1 0 0 0 0])
+    WN1A = BipartiteQuantitativeNetwork([5 4 3 2 1; 4 3 2 1 0; 3 2 1 0 0; 2 1 0 0 0; 1 0 0 0 0])
+    WN1B = BipartiteQuantitativeNetwork([5 4 3 2 1; 5 4 3 2 0; 5 4 3 0 0; 5 4 0 0 0; 5 0 0 0 0])
+    WN1D = BipartiteQuantitativeNetwork([5 1 1 1 1; 1 0 0 0 0; 1 0 0 0 0; 1 0 0 0 0; 1 0 0 0 0])
 
     @test nodf(WN1A)[1] ≈ 1.0 atol=0.01
     @test nodf(WN1A)[2] ≈ 1.0 atol=0.01
