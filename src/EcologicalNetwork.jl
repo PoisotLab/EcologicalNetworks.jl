@@ -58,6 +58,9 @@ export η, nodf
 include(joinpath(".", "community/paths.jl"))
 export number_of_paths, shortest_path
 
+include(joinpath(".", "community/centrality.jl"))
+export centrality_katz, centrality_closeness, centrality_degree
+
 #=
 # Measures of centrality
 centrality_katz, centrality_closeness, centrality_degree,
