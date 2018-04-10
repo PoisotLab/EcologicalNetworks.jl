@@ -166,3 +166,13 @@ function Base.:>={T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}
   newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
   return newtype(N.A.>=n, species_objects(N)...)
 end
+
+function Base.transpose(N::AbstractBipartiteNetwork)
+  A = copy(N.A)'
+  return typeof(N)(A, N.B, N.T)
+end
+
+function Base.transpose(N::AbstractUnipartiteNetwork)
+  A = copy(N.A)'
+  return typeof(N)(A, N.S)
+end

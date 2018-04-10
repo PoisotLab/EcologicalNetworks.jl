@@ -1,7 +1,7 @@
 """
 Nestedness of a single axis (called internally by `η`)
 """
-function η_axis(N::Bipartite)
+function η_axis(N::AbstractBipartiteNetwork)
   S = size(N)[1]
   n = vec(sum(N.A, 2))
   num = 0.0
@@ -23,17 +23,17 @@ end
 This returns the nestedness of the entire matrix, of the columns, and of the
 rows.
 """
-function η(N::Union{BipartiteNetwork, BipartiteProbaNetwork})
+function η(N::Union{BipartiteNetwork, BipartiteProbabilisticNetwork})
   n_1 = η_axis(N')
   n_2 = η_axis(N)
   n = (n_1 + n_2)/2.0
-  return vec([n, n_1, n_2])
+  return Dict(:network => n, :columns => n_1, :rows => n_2)
 end
 
 """
 WNODF of a single axis
 """
-function nodf_axis(N::BipartiteQuantiNetwork)
+function nodf_axis(N::BipartiteQuantitativeNetwork)
 
   # Get the row order
   row_order = sortperm(vec(sum(N.A, 2)), rev=true)
@@ -106,7 +106,7 @@ nested). This is a change with regard to the original papers, in which the
 maximal value is 100. The values returned are the nestedness of the network, of
 the columns, and of the rows.
 """
-function nodf(N::Union{BipartiteNetwork,BipartiteQuantiNetwork})
+function nodf(N::Union{BipartiteNetwork,BipartiteQuantitativeNetwork})
 
   NODFr = nodf_axis(N)
   NODFc = nodf_axis(N')
@@ -114,10 +114,10 @@ function nodf(N::Union{BipartiteNetwork,BipartiteQuantiNetwork})
   row_pair = (nrows(N) * (nrows(N) - 1))
   col_pair = (ncols(N) * (ncols(N) - 1))
 
-  return [
-  2 * (NODFc + NODFr) / (row_pair + col_pair),
-  2 * NODFc / col_pair,
-  2 * NODFr / row_pair
-  ]
+  return Dict(
+    :network => 2 * (NODFc + NODFr) / (row_pair + col_pair),
+    :columns => 2 * NODFc / col_pair,
+    :rows    => 2 * NODFr / row_pair
+    )
 
 end
