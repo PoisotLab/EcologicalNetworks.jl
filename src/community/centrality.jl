@@ -7,28 +7,16 @@ This measure can work on different path length (`k`), and give a different
 weight to every subsequent connection (`a`). `k` must be at least 1 (only
 immediate neighbors are considered). `a` (being a weight), must be positive.
 
-```jldoctest
-julia> N = UnipartiteNetwork(eye(5));
-
-julia> centrality_katz(N)
-5×1 Array{Float64,2}:
- 0.2
- 0.2
- 0.2
- 0.2
- 0.2
-```
-
 > Katz, L., 1953. A new status index derived from sociometric analysis.
 > Psychometrika 18, 39–43. doi:10.1007/bf02289026
 
 """
-function centrality_katz(N::Unipartite; a::Float64=0.1, k::Int64=5)
+function centrality_katz(N::Union{UnipartiteNetwork, UnipartiteProbabilisticNetwork}; a::Float64=0.1, k::Int64=5)
 	@assert a <= 1.0
 	@assert a >= 0.0
 	@assert k >= 1
 	centr = sum(hcat(map((x) -> vec(sum((a^x).*(N.A^x),1)), [1:k;])...),2)
-	return centr ./ sum(centr)
+	return Dict(zip(species(N), centr ./ sum(centr)))
 end
 
 """
@@ -59,7 +47,7 @@ function centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
   for i in eachindex(interm)
     interm[i] = interm[i] == Inf ? 0.0 : interm[i]
   end
-  return interm
+  return Dict(zip(species(N), interm))
 end
 
 
@@ -76,5 +64,6 @@ a degree of 1).
 """
 function centrality_degree(N::UnipartiteNetwork)
   d = degree(N)
-  return d ./ maximum(d)
+  dm = maximum(values(d))
+  return Dict([k=>v/dm for (k,v) in d])
 end
