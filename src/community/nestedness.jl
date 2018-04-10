@@ -111,8 +111,8 @@ function nodf(N::Union{BipartiteNetwork,BipartiteQuantitativeNetwork})
   NODFr = nodf_axis(N)
   NODFc = nodf_axis(N')
 
-  row_pair = (nrows(N) * (nrows(N) - 1))
-  col_pair = (ncols(N) * (ncols(N) - 1))
+  row_pair = (richness(N,1) * (richness(N,1) - 1))
+  col_pair = (richness(N,2) * (richness(N,2) - 1))
 
   return Dict(
     :network => 2 * (NODFc + NODFr) / (row_pair + col_pair),

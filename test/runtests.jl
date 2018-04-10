@@ -35,19 +35,22 @@ my_tests = [
    "rand/null.jl",
    "community/nestedness.jl",
    "community/paths.jl",
-   "community/centrality.jl"
+   "community/centrality.jl",
+   "modularity/utilities.jl"
 ]
 
+test_n = 1
 for my_test in my_tests
   try
     include(my_test)
-    println(">> \033[1m\033[32m++\033[0m $(my_test)")
+    println("[$(lpad(test_n,2))] \033[1m\033[32mPASS\033[0m $(my_test)")
   catch e
     anyerrors = true
-    println(">> \033[1m\033[31m!!\033[0m $(my_test)")
+    println("[$(lpad(test_n,2))] \033[1m\033[31mFAIL\033[0m $(my_test)")
     showerror(STDOUT, e, backtrace())
     println()
   end
+  test_n += 1
 end
 
 if anyerrors

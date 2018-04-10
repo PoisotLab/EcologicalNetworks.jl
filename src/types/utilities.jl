@@ -133,18 +133,21 @@ function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1:
 end
 
 function nrows(N::AbstractEcologicalNetwork)
+  warn("nrows is deprecated, use richness(N,1) instead")
   return size(N.A, 1)
 end
 
 function ncols(N::AbstractEcologicalNetwork)
+  warn("ncols is deprecated, use richness(N,2) instead")
   return size(N.A, 2)
 end
 
-"""
-Richness (number of species) in a bipartite network
-"""
 function richness(N::AbstractEcologicalNetwork)
   return length(species(N))
+end
+
+function richness(N::AbstractEcologicalNetwork, i::Int64)
+  return length(species(N,i))
 end
 
 function Base.:<{T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)

@@ -8,7 +8,7 @@ Arguments are the network, the community partition, and the species id
 function most_common_label(N::ProbabilisticNetwork, L, sp)
 
   # If this is a bipartite network, the margin should be changed
-  pos_in_L = typeof(N) <: Bipartite ? size(N.A, 1) + sp : sp
+  pos_in_L = typeof(N) <: AbstractBipartiteNetworkBipartite ? size(N.A, 1) + sp : sp
 
   if sum(N[:,sp]) == 0
     return L[pos_in_L]

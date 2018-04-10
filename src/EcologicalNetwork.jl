@@ -55,25 +55,29 @@ export null1, null2, null3out, null3in
 include(joinpath(".", "community/nestedness.jl"))
 export η, nodf
 
+# Paths
 include(joinpath(".", "community/paths.jl"))
 export number_of_paths, shortest_path
 
+# Centrality
 include(joinpath(".", "community/centrality.jl"))
 export centrality_katz, centrality_closeness, centrality_degree
 
-#=
-# Measures of centrality
-centrality_katz, centrality_closeness, centrality_degree,
-
 # Modularity
-Partition, Q, Qr, modularity, best_partition, networkroles,
+include(joinpath(".", "modularity/utilities.jl"))
+export Q, Qr
 
-# Modularity - specifics
-label_propagation, louvain, brim, lpbrim,
+#=
+include(joinpath(".", "modularity/brim.jl"))
+include(joinpath(".", "modularity/labelpropagation.jl"))
+include(joinpath(".", "modularity/louvain.jl"))
+include(joinpath(".", "modularity/lpbrim.jl"))
+include(joinpath(".", "modularity/modularity.jl"))
+export modularity, best_partition, networkroles
+export label_propagation, louvain, brim, lpbrim
+=#
 
-# Paths
-,
-
+#=
 # Beta-diversity
 betadiversity,
 whittaker, sorensen, jaccard, gaston,
