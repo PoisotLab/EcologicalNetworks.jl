@@ -37,14 +37,43 @@ that this function assumes that interactions are directional, so that
 around.
 """
 function Q(N::AbstractBipartiteNetwork, TL::Array{Int64, 1}, BL::Array{Int64, 1})
-  @assert length(TL) == size(N,1)
-  @assert length(BL) == size(N,2)
+  @assert length(TL) == richness(N,1)
+  @assert length(BL) == richness(N,2)
 
   # Communities matrix
-  δ = delta_matrix(N, L)
+  δ = delta_matrix(N, TL, BL)
 
   # Degrees
-  kin, kout = degree_in(N), degree_out(N)
+  dkin, dkout = degree_in(N), degree_out(N)
+  kin = map(x -> dkin[x], species(N,2))
+  kout = map(x -> dkout[x], species(N,1))
+
+  # Value of m -- sum of weights, total number of int, ...
+  m = links(N)
+
+  # Null model
+  kikj = (kout .* kin')
+  Pij = kikj ./ m
+
+  # Difference
+  diff = N.A .- Pij
+
+  # Diff × delta
+  dd = diff .* δ
+
+  return sum(dd)/m
+end
+
+function Q(N::AbstractUnipartiteNetwork, SL::Array{Int64, 1})
+  @assert length(SL) == richness(N)
+
+  # Communities matrix
+  δ = delta_matrix(N, SL)
+
+  # Degrees
+  dkin, dkout = degree_in(N), degree_out(N)
+  kin = map(x -> dkin[x], species(N,2))
+  kout = map(x -> dkout[x], species(N,1))
 
   # Value of m -- sum of weights, total number of int, ...
   m = links(N)
@@ -77,12 +106,18 @@ is the number of links *within* modules, and ``E`` is the total number of links.
 Note that in some situations, `Qr` can be *lower* than 0. This reflects a
 partition in which more links are established between than within modules.
 """
-function Qr(N::AbstractEcologicalNetwork, L::Array{Int64, 1})
-  if length(unique(L)) == 1
-    return 0.0
-  end
-
+function Qr(N::AbstractUnipartiteNetwork, SL::Array{Int64, 1})
+  @assert length(SL) == richness(N)
   δ = delta_matrix(N, L)
+  W = sum(N.A .* δ)
+  E = links(N)
+  return 2.0 * (W/E) - 1.0
+end
+
+function Qr(N::AbstractBipartiteNetwork, TL::Array{Int64, 1}, BL::Array{Int64, 1})
+  @assert length(TL) == richness(N,1)
+  @assert length(BL) == richness(N,2)
+  δ = delta_matrix(N, TL, BL)
   W = sum(N.A .* δ)
   E = links(N)
   return 2.0 * (W/E) - 1.0
