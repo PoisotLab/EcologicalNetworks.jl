@@ -55,6 +55,9 @@ export null1, null2, null3out, null3in
 include(joinpath(".", "community/nestedness.jl"))
 export η, nodf
 
+include(joinpath(".", "community/paths.jl"))
+export number_of_paths, shortest_path
+
 #=
 # Measures of centrality
 centrality_katz, centrality_closeness, centrality_degree,
@@ -66,7 +69,7 @@ Partition, Q, Qr, modularity, best_partition, networkroles,
 label_propagation, louvain, brim, lpbrim,
 
 # Paths
-number_of_paths, shortest_path,
+,
 
 # Beta-diversity
 betadiversity,

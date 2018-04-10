@@ -7,9 +7,13 @@ This returns an array, not a network.
 
 - `n` (def. 2), the path length
 """
-function number_of_paths(N::Unipartite; n::Int64=2)
+function number_of_paths(N::AbstractUnipartiteNetwork; n::Int64=2)
   @assert n >= 2
   return N.A^n
+end
+
+function number_of_paths(N::UnipartiteQuantitativeNetwork; n::Int64=2)
+  number_of_paths(convert(UnipartiteNetwork, N); n=n)
 end
 
 """
@@ -44,6 +48,6 @@ end
 This function will remove quantitative information, then measure the shortest
 path length.
 """
-function shortest_path(N::UnipartiteQuantiNetwork; nmax::Int64=50)
-  shortest_path(adjacency(N), nmax=nmax)
+function shortest_path(N::UnipartiteQuantitativeNetwork; nmax::Int64=50)
+  shortest_path(convert(UnipartiteNetwork, N); nmax=nmax)
 end

@@ -33,7 +33,8 @@ my_tests = [
    "rand/draws.jl",
    "rand/swaps.jl",
    "rand/null.jl",
-   "community/nestedness.jl"
+   "community/nestedness.jl",
+   "community/paths.jl"
 ]
 
 for my_test in my_tests
