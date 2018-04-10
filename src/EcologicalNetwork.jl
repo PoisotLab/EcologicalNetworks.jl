@@ -24,7 +24,7 @@ export AbstractEcologicalNetwork, AllowedSpeciesTypes,
 
 # Datasets
 include(joinpath(".", "misc/data.jl"))
-export thompson_townsend_catlins
+export thompson_townsend_catlins, fonseca_ganade_1996
 
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))

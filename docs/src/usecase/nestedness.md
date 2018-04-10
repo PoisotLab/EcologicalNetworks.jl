@@ -43,4 +43,3 @@ whether the observed nestedness was observed by chance. As it stands, all
 randomized networks had *lower* values, and so the *p*-value is (essentially)
 null. In short, this network is significantly more nested than expected by
 chance knowing its degree distribution.
-
