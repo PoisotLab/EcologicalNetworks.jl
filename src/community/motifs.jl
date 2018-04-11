@@ -14,21 +14,21 @@ function unipartitemotifs()
   motifs = Dict{Symbol, UnipartiteNetwork}()
 
   # Single-linked motifs
-  motifs[:S1] = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0])
-  motifs[:S2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 0 0])
-  motifs[:S3] = UnipartiteNetwork([0 1 0; 0 0 1; 1 0 0])
-  motifs[:S4] = UnipartiteNetwork([0 1 0; 0 0 0; 0 1 0])
-  motifs[:S5] = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0])
+  motifs[:S1] = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0, [:a, :b, :c])
+  motifs[:S2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 0 0].>0, [:a, :b, :c])
+  motifs[:S3] = UnipartiteNetwork([0 1 0; 0 0 1; 1 0 0].>0, [:a, :b, :c])
+  motifs[:S4] = UnipartiteNetwork([0 1 0; 0 0 0; 0 1 0].>0, [:a, :b, :c])
+  motifs[:S5] = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0].>0, [:a, :b, :c])
 
   # Double-linked motifs
-  motifs[:D1] = UnipartiteNetwork([0 1 1; 0 0 0; 1 1 0])
-  motifs[:D2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 1 0])
-  motifs[:D3] = UnipartiteNetwork([0 0 1; 0 0 0; 1 1 0])
-  motifs[:D4] = UnipartiteNetwork([0 1 0; 0 0 1; 0 1 0])
-  motifs[:D5] = UnipartiteNetwork([0 1 0; 0 0 1; 1 1 0])
-  motifs[:D6] = UnipartiteNetwork([0 1 1; 1 0 1; 1 1 0])
-  motifs[:D7] = UnipartiteNetwork([0 1 1; 1 0 0; 1 1 0])
-  motifs[:D8] = UnipartiteNetwork([0 1 1; 1 0 0; 1 0 0])
+  motifs[:D1] = UnipartiteNetwork([0 1 1; 0 0 0; 1 1 0].>0, [:a, :b, :c])
+  motifs[:D2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 1 0].>0, [:a, :b, :c])
+  motifs[:D3] = UnipartiteNetwork([0 0 1; 0 0 0; 1 1 0].>0, [:a, :b, :c])
+  motifs[:D4] = UnipartiteNetwork([0 1 0; 0 0 1; 0 1 0].>0, [:a, :b, :c])
+  motifs[:D5] = UnipartiteNetwork([0 1 0; 0 0 1; 1 1 0].>0, [:a, :b, :c])
+  motifs[:D6] = UnipartiteNetwork([0 1 1; 1 0 1; 1 1 0].>0, [:a, :b, :c])
+  motifs[:D7] = UnipartiteNetwork([0 1 1; 1 0 0; 1 1 0].>0, [:a, :b, :c])
+  motifs[:D8] = UnipartiteNetwork([0 1 1; 1 0 0; 1 0 0].>0, [:a, :b, :c])
 
   # Return
   return motifs
@@ -37,7 +37,7 @@ end
 """
 Take a bipartite network, returns a collection of unique permutations
 """
-function permute_network(N::Bipartite)
+function permute_network(N::AbstractBipartiteNetwork)
 
   # Prepare to store the hashes
   hashes = UInt64[]
@@ -71,7 +71,7 @@ end
 """
 Take a unipartite network, returns a collection of unique permutations
 """
-function permute_network(N::Unipartite)
+function permute_network(N::AbstractUnipartiteNetwork)
 
   # Prepare to store the hashes
   hashes = UInt64[]
@@ -162,7 +162,7 @@ probability of each induced subgraph being an instance of the motif given by
 `m` (the adjacency matrix of the motif, with 0 and 1). Note that the `k` is
 determined by the dimensions of `n`.
 """
-function count_motifs(N::Bipartite, m::DeterministicNetwork)
+function count_motifs(N::AbstractBipartiteNetwork, m::DeterministicNetwork)
 
   # The motif must be no larger than N, and this must be true for all
   # dimensions
@@ -215,7 +215,7 @@ probability of each induced subgraph being an instance of the motif given by
 `m` (the adjacency matrix of the motif, with 0 and 1). Note that the `k` is
 determined by the dimensions of `n`.
 """
-function count_motifs(N::Unipartite, m::DeterministicNetwork)
+function count_motifs(N::AbstractUnipartiteNetwork, m::DeterministicNetwork)
 
   # The motif must be no larger than N
   @assert richness(N) >= richness(m)

@@ -5,11 +5,11 @@ module TestMotifs
 @testset "Motif functions" begin
 
   @testset "Usual motifs" begin
-    @test unipartitemotifs()[:S1].A == [0 1 0; 0 0 1; 0 0 0];
+    @test unipartitemotifs()[:S1].A == [0 1 0; 0 0 1; 0 0 0].>0;
   end
 
     @testset "Small network (unipartite)" begin
-      n = UnipartiteNetwork(zeros(Int64, (2, 2)))
+      n = UnipartiteNetwork(zeros(Bool, (2, 2)))
       m = unipartitemotifs()[:S1]
       @test motif(n, m) ≈ 0.0
     end
@@ -38,10 +38,10 @@ module TestMotifs
 
     @testset "Fork food web" begin
         # Test with a fork-like thing
-        diam = UnipartiteNetwork([0 1 0 0; 0 0 1 1; 0 0 0 0; 0 0 0 0])
-        clin = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0])
-        capp = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0])
-        cdir = UnipartiteNetwork([0 0 1; 0 0 1; 0 0 0])
+        diam = UnipartiteNetwork([0 1 0 0; 0 0 1 1; 0 0 0 0; 0 0 0 0].>0)
+        clin = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0)
+        capp = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0].>0)
+        cdir = UnipartiteNetwork([0 0 1; 0 0 1; 0 0 0].>0)
 
         @test motif(diam, clin) ≈ 2.0
         @test motif(diam, capp) ≈ 1.0
@@ -50,10 +50,10 @@ module TestMotifs
 
     @testset "Diamond food web" begin
         # Test with a diamond food web
-        diam = UnipartiteNetwork([0 1 1 0; 0 0 0 1; 0 0 0 1; 0 0 0 0])
-        clin = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0])
-        capp = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0])
-        cdir = UnipartiteNetwork([0 0 1; 0 0 1; 0 0 0])
+        diam = UnipartiteNetwork([0 1 1 0; 0 0 0 1; 0 0 0 1; 0 0 0 0].>0)
+        clin = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0)
+        capp = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0].>0)
+        cdir = UnipartiteNetwork([0 0 1; 0 0 1; 0 0 0].>0)
 
         @test motif(diam, clin) ≈ 2.0
         @test motif(diam, capp) ≈ 1.0
@@ -61,14 +61,14 @@ module TestMotifs
     end
 
     @testset "Linear food chain with a loop" begin
-      lfc = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0])
-      wsl = UnipartiteNetwork([1 1 0; 0 0 1; 0 0 0])
+      lfc = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0)
+      wsl = UnipartiteNetwork([1 1 0; 0 0 1; 0 0 0].>0)
 
       @test motif(wsl, lfc) ≈ 1.0
     end
 
     @testset "Linear quantitative food chain with a loop" begin
-      lfc = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0])
+      lfc = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0)
       wsl = UnipartiteQuantiNetwork([1 0.5 0; 0 0 1.6; 0 0 0])
 
       @test motif(wsl, lfc) ≈ 1.0
@@ -76,9 +76,9 @@ module TestMotifs
 
     @testset "Bipartite test" begin
       # Test with a diamond food web
-      diam = BipartiteNetwork([1 1 0; 1 1 1])
-      tthr = BipartiteNetwork([1 0; 1 1])
-      tfou = BipartiteNetwork([1 1; 1 1])
+      diam = BipartiteNetwork([1 1 0; 1 1 1].>0)
+      tthr = BipartiteNetwork([1 0; 1 1].>0)
+      tfou = BipartiteNetwork([1 1; 1 1].>0)
 
       @test motif(diam, tthr) ≈ 2.0
       @test motif(diam, tfou) ≈ 1.0

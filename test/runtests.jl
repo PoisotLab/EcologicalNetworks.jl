@@ -36,6 +36,7 @@ my_tests = [
    "community/nestedness.jl",
    "community/paths.jl",
    "community/centrality.jl",
+   "community/motifs.jl",
    "modularity/utilities.jl",
    "modularity/labelpropagation.jl",
    "casestudies/generalities.jl",

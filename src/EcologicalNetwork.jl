@@ -63,6 +63,10 @@ export number_of_paths, shortest_path
 include(joinpath(".", "community/centrality.jl"))
 export centrality_katz, centrality_closeness, centrality_degree
 
+# Motifs
+include(joinpath(".", "community/motifs.jl"))
+export motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs
+
 # Modularity
 include(joinpath(".", "modularity/utilities.jl"))
 export Q, Qr
@@ -76,8 +80,8 @@ include(joinpath(".", "modularity/labelpropagation.jl"))
 include(joinpath(".", "modularity/louvain.jl"))
 include(joinpath(".", "modularity/lpbrim.jl"))
 include(joinpath(".", "modularity/modularity.jl"))
-export modularity, best_partition, networkroles
-export label_propagation, louvain, brim, lpbrim
+export modularity, networkroles
+export louvain, brim
 =#
 
 #=
