@@ -29,6 +29,7 @@ function degree(N::AbstractUnipartiteNetwork)
 end
 
 function degree(N::AbstractEcologicalNetwork, i::Integer)
+  @assert i ∈ [1,2]
   f = i == 1 ? degree_out : degree_in
   return f(N)
 end
@@ -86,4 +87,10 @@ end
 
 function degree_var(N::BipartiteProbabilisticNetwork)
   return merge(degree_in(N), degree_out(N))
+end
+
+function degree_var(N::ProbabilisticNetwork, i::Integer)
+  @assert i ∈ [1,2]
+  f = i == 1 ? degree_out_var : degree_in_var
+  return f(N)
 end
