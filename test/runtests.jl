@@ -36,7 +36,9 @@ my_tests = [
    "community/nestedness.jl",
    "community/paths.jl",
    "community/centrality.jl",
-   "modularity/utilities.jl"
+   "modularity/utilities.jl",
+   "casestudies/generalities.jl",
+   "casestudies/permutations.jl"
 ]
 
 test_n = 1

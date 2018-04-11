@@ -28,6 +28,19 @@ function degree(N::AbstractUnipartiteNetwork)
   return Dict(zip(species(N), d_t))
 end
 
+function degree(N::AbstractEcologicalNetwork, i::Integer)
+  f = i == 1 ? degree_out : degree_in
+  return f(N)
+end
+
+function degree(N::QuantitativeNetwork, i::Integer)
+  degree(convert(BinaryNetwork, N), i)
+end
+
+function degree(N::QuantitativeNetwork)
+  degree(convert(BinaryNetwork, N))
+end
+
 """
 **Degree of species in a bipartite network**
 

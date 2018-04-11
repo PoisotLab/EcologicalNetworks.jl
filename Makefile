@@ -14,3 +14,6 @@ test: src/*jl test/*jl
 
 CONTRIBUTING.md:
 	wget -O $@ https://raw.githubusercontent.com/PoisotLab/PLCG/master/README.md
+
+manual:test/casestudies/*.jl
+	julia manual/build.jl
