@@ -47,10 +47,10 @@ test_n = 1
 for my_test in my_tests
   try
     include(my_test)
-    println("[$(lpad(test_n,2))] \033[1m\033[32mPASS\033[0m $(my_test)")
+    println("[TEST $(lpad(test_n,2))] \033[1m\033[32mPASS\033[0m $(my_test)")
   catch e
     anyerrors = true
-    println("[$(lpad(test_n,2))] \033[1m\033[31mFAIL\033[0m $(my_test)")
+    println("[TEST $(lpad(test_n,2))] \033[1m\033[31mFAIL\033[0m $(my_test)")
     showerror(STDOUT, e, backtrace())
     println()
   end
