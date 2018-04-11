@@ -67,6 +67,9 @@ export centrality_katz, centrality_closeness, centrality_degree
 include(joinpath(".", "modularity/utilities.jl"))
 export Q, Qr
 
+include(joinpath(".", "modularity/labelpropagation.jl"))
+export label_propagation
+
 #=
 include(joinpath(".", "modularity/brim.jl"))
 include(joinpath(".", "modularity/labelpropagation.jl"))
