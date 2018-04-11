@@ -108,7 +108,7 @@ partition in which more links are established between than within modules.
 """
 function Qr(N::AbstractUnipartiteNetwork, SL::Array{Int64, 1})
   @assert length(SL) == richness(N)
-  δ = delta_matrix(N, L)
+  δ = delta_matrix(N, SL)
   W = sum(N.A .* δ)
   E = links(N)
   return 2.0 * (W/E) - 1.0
