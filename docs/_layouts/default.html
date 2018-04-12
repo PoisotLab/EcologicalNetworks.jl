@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+  <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+  <meta charset="utf-8">
+
+  <title>{{ site.title }} - {{ page.title }}</title>
+  <link rel="stylesheet" href="/styles/main.css">
+  
+<body>
+
+<main class="wrapper">
+
+<nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">{{ site.title }}</a>
+    <ul class="navigation-list">
+      <li class="navigation-item">
+        <a href="/casestudies/generalities" class="navigation-link">Generalities</a>
+      </li>
+      <li class="navigation-item">
+        <a href="/casestudies/permutations" class="navigation-link">Permutations</a>
+      </li>
+
+    </ul>
+  </section>
+</nav>
+
+<div class="container">
+
+      {{ content }}
+
+</div>
+
+</main>
+
+</body>
+</html>

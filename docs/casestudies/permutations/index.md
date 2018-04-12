@@ -2,6 +2,7 @@
 title : Case study 2 - permutations of networks
 author : Timothée Poisot
 date : 11th April 2018
+layout: default
 ---
 
 ````julia
@@ -102,9 +103,9 @@ rand(T)
 
 
 ````
-EcologicalNetwork.BipartiteNetwork{String}(Bool[false false … true false;
- false false … false false; … ; false false … false false; false fals
-e … false false], String["Camponotus balzanii", "Azteca alfari", "Azteca 
+EcologicalNetwork.BipartiteNetwork{String}(Bool[false false … false false
+; false false … false false; … ; false false … false false; false fal
+se … true false], String["Camponotus balzanii", "Azteca alfari", "Azteca 
 isthmica", "Azteca aff. Isthmica", "Allomerus D", "Allomerus prancei", "All
 omerus aff. Octoarticulata", "Solenops A", "Allomerus auripunctata", "Crema
 togaster B"  …  "Crematogaster A", "Azteca TO", "Crematogaster C", "Aztec
@@ -163,7 +164,7 @@ quantile(n_prime, n0[:network])
 
 
 
-0.19193893288609717
+0.1880553952396212
 
 
 We can also express much of this analysis as a single pipeline:

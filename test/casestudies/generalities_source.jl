@@ -2,6 +2,7 @@
 #' title : Case study 1 - generalities about the package
 #' author : Timothée Poisot
 #' date : 11th April 2018
+#' layout: default
 #' ---
 
 using EcologicalNetwork

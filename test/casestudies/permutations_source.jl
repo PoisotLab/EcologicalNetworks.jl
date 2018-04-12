@@ -2,6 +2,7 @@
 #' title : Case study 2 - permutations of networks
 #' author : Timothée Poisot
 #' date : 11th April 2018
+#' layout: default
 #' ---
 
 using EcologicalNetwork

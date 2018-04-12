@@ -7,7 +7,9 @@ valid_cases = filter(f -> contains(f, "_source.jl"), cases)
 include("../src/EcologicalNetwork.jl")
 
 for case in joinpath.(case_dir, valid_cases)
-    for doctype in ["pandoc2pdf", "github"]
-        weave(case, out_path="manual/pages", doctype=doctype)
-    end
+    println(case)
+    x = last(split(case, "test/casestudies/"))
+    x = first(split(x, "_source.jl"))
+    println(x)
+    weave(case, out_path="docs/casestudies/"*x*"/index.md", doctype="github")
 end
