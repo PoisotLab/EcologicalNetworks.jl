@@ -5,17 +5,16 @@
 #' layout: default
 #' ---
 
+#' # Accessing species interactions
+
+#' The purpose of this case study is to illustrate the ways to manipulate the
+#' network objects. First, let's load the package:
+
 using EcologicalNetwork
 
 #+ echo=false
 using Base.Test
 
-#' The purpose of this case study is to illustrate the ways to access
-#' information about the different types, and how to manipulate the networks. It
-#' contains a few lines starting with `@test` -- this is because when validating
-#' the code, the case studies are part of the test suite. If one of the line
-#' starting by `@test` return an error, there is something wrong with the
-#' package.
 
 #' We start by loading a network, in this case the one by Fonseca & Ganade
 #' (1996). This is a bipartite network.
@@ -29,17 +28,8 @@ typeof(N)
 
 #' This is a bipartite network, which contains quantitative information about
 #' species interactions, stored as `Int64`. The species are identified by
-#' `String` objects.
-
-#' The type of networks have a hierarchy between them. We can test that this
-#' network is bipartite:
-@test typeof(N) <: AbstractBipartiteNetwork
-
-#' We can also check that it is quantitative:
-@test typeof(N) <: QuantitativeNetwork
-
-#' Finally, we can also check that it is not probabilistic:
-@test typeof(N) <: DeterministicNetwork
+#' `String` objects. More information about the types is found in the
+#' [types](/manual/types/) page of the manual.
 
 #' This is a network with 25 insects and 16 plants. We can check that this
 #' richness is indeed 41::
@@ -47,10 +37,11 @@ richness(N)
 
 #+ echo=false; results="hidden"
 @test richness(N) == 25+16
+@test richness(N,1) == 25
+@test richness(N,2) == 16
 
 #' We can check the number of species on either side, using another method for
 #' `richness`:
-@test richness(N,1) == 25
 richness(N,1)
 
 #' The side `1` is the top-level species, and the side `2` is the bottom-level

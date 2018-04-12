@@ -5,20 +5,20 @@ date : 11th April 2018
 layout: default
 ---
 
+
+
+# Accessing species interactions
+
+
+
+The purpose of this case study is to illustrate the ways to manipulate the
+network objects. First, let's load the package:
+
 ````julia
 using EcologicalNetwork
 ````
 
 
-
-
-
-The purpose of this case study is to illustrate the ways to access
-information about the different types, and how to manipulate the networks. It
-contains a few lines starting with `@test` -- this is because when validating
-the code, the case studies are part of the test suite. If one of the line
-starting by `@test` return an error, there is something wrong with the
-package.
 
 
 
@@ -49,50 +49,8 @@ EcologicalNetwork.BipartiteQuantitativeNetwork{Int64,String}
 
 This is a bipartite network, which contains quantitative information about
 species interactions, stored as `Int64`. The species are identified by
-`String` objects.
-
-
-
-The type of networks have a hierarchy between them. We can test that this
-network is bipartite:
-
-````julia
-@test typeof(N) <: AbstractBipartiteNetwork
-````
-
-
-````
-Test Passed
-````
-
-
-
-
-We can also check that it is quantitative:
-
-````julia
-@test typeof(N) <: QuantitativeNetwork
-````
-
-
-````
-Test Passed
-````
-
-
-
-
-Finally, we can also check that it is not probabilistic:
-
-````julia
-@test typeof(N) <: DeterministicNetwork
-````
-
-
-````
-Test Passed
-````
-
+`String` objects. More information about the types is found in the
+[types](/manual/types/) page of the manual.
 
 
 
@@ -113,7 +71,6 @@ We can check the number of species on either side, using another method for
 `richness`:
 
 ````julia
-@test richness(N,1) == 25
 richness(N,1)
 ````
 

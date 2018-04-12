@@ -40,7 +40,8 @@ my_tests = [
    "modularity/utilities.jl",
    "modularity/labelpropagation.jl",
    "casestudies/generalities.jl",
-   "casestudies/permutations.jl"
+   "casestudies/permutations.jl",
+   "manual/types.jl"
 ]
 
 test_n = 1

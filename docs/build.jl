@@ -1,10 +1,12 @@
 using Weave
 
+include("../src/EcologicalNetwork.jl")
+
+# Case studies
+
 case_dir = "test/casestudies/"
 cases = readdir(case_dir)
 valid_cases = filter(f -> contains(f, "_source.jl"), cases)
-
-include("../src/EcologicalNetwork.jl")
 
 for case in joinpath.(case_dir, valid_cases)
     println(case)
@@ -12,4 +14,19 @@ for case in joinpath.(case_dir, valid_cases)
     x = first(split(x, "_source.jl"))
     println(x)
     weave(case, out_path="docs/casestudies/"*x*"/index.md", doctype="github")
+end
+
+# Manual
+
+case_dir = "test/manual/"
+cases = readdir(case_dir)
+valid_cases = filter(f -> contains(f, "_source.jl"), cases)
+
+
+for case in joinpath.(case_dir, valid_cases)
+    println(case)
+    x = last(split(case, "test/manual/"))
+    x = first(split(x, "_source.jl"))
+    println(x)
+    weave(case, out_path="docs/manual/"*x*"/index.md", doctype="github")
 end

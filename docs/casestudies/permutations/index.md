@@ -104,18 +104,18 @@ rand(T)
 
 ````
 EcologicalNetwork.BipartiteNetwork{String}(Bool[false false … false false
-; false false … false false; … ; false false … false false; false fal
-se … true false], String["Camponotus balzanii", "Azteca alfari", "Azteca 
-isthmica", "Azteca aff. Isthmica", "Allomerus D", "Allomerus prancei", "All
-omerus aff. Octoarticulata", "Solenops A", "Allomerus auripunctata", "Crema
-togaster B"  …  "Crematogaster A", "Azteca TO", "Crematogaster C", "Aztec
-a schummani", "Pseudomyrmex nigrescens", "Pseudomyrmex concolor", "Azteca D
-", "Azteca polymorpha", "Crematogaster E", "Azteca Q"], String["Cecropia pu
-rpuracens", "Cecropia concolor", "Cecropia distachya", "Cecropia ficifolia"
-, "Pouruma heterophylla", "Hirtella myrmecophila", "Hirtella physophora", "
-Duroia saccifera", "Cordia nodosa", "Cordia aff. Nodosa", "Tococa bullifera
-", "Maieta guianensis", "Maieta poeppiggi", "Tachigali polyphylla", "Tachig
-ali myrmecophila", "Amaioua aff. Guianensis"])
+; false false … true false; … ; false false … false false; true false
+ … true false], String["Camponotus balzanii", "Azteca alfari", "Azteca is
+thmica", "Azteca aff. Isthmica", "Allomerus D", "Allomerus prancei", "Allom
+erus aff. Octoarticulata", "Solenops A", "Allomerus auripunctata", "Cremato
+gaster B"  …  "Crematogaster A", "Azteca TO", "Crematogaster C", "Azteca 
+schummani", "Pseudomyrmex nigrescens", "Pseudomyrmex concolor", "Azteca D",
+ "Azteca polymorpha", "Crematogaster E", "Azteca Q"], String["Cecropia purp
+uracens", "Cecropia concolor", "Cecropia distachya", "Cecropia ficifolia", 
+"Pouruma heterophylla", "Hirtella myrmecophila", "Hirtella physophora", "Du
+roia saccifera", "Cordia nodosa", "Cordia aff. Nodosa", "Tococa bullifera",
+ "Maieta guianensis", "Maieta poeppiggi", "Tachigali polyphylla", "Tachigal
+i myrmecophila", "Amaioua aff. Guianensis"])
 ````
 
 
@@ -164,7 +164,7 @@ quantile(n_prime, n0[:network])
 
 
 
-0.1880553952396212
+0.1928261589915412
 
 
 We can also express much of this analysis as a single pipeline:
