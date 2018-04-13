@@ -5,6 +5,16 @@
 #' layout: default
 #' ---
 
+#' `EcologicalNetwork` uses a series of types to represent networks. Before we
+#' dig in, it is important to get a sense of what the types can do for you. The
+#' type of a network is used to define the types of things you can do to it. For
+#' example, the correct way to measure nestedness changes depending on if the
+#' network is quantitative or binary. Picking the correct network is important.
+
+#' ## Network types
+
+#' There are three types of networks 
+
 using EcologicalNetwork
 using Base.Test
 
