@@ -1,9 +1,7 @@
 ---
-title: EcologicalNetwork.jk
+title: EcologicalNetwork.jl
 layout: default
 ---
-
-# EcologicalNetwork.jl
 
 This `julia` package provides a common interface to analyze all types of data
 on ecological networks. It is designed to be general, easy to expand, and work
