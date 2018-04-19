@@ -4,7 +4,7 @@ function thompson_townsend_catlins()
   species_names = convert(Array{String}, content[:,1][2:end])
   interaction_matrix = map(Int64, content[2:end,2:end]).>0
   interaction_matrix = convert(Array{Bool,2}, interaction_matrix)
-  UnipartiteNetwork(interaction_matrix, species_names)
+  UnipartiteNetwork(interaction_matrix', species_names)
 end
 
 function fonseca_ganade_1996()

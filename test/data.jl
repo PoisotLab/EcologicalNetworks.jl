@@ -6,6 +6,7 @@ module TestData
   ttc = thompson_townsend_catlins()
   @test typeof(ttc) <: UnipartiteNetwork
   @test richness(ttc) == 49
+  @test degree_out(ttc)["Unidentified_detritus"] == 0
 
   fc96 = fonseca_ganade_1996()
   @test typeof(fc96) <: AbstractBipartiteNetwork
