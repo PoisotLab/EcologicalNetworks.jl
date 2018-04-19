@@ -61,7 +61,7 @@ function permute_network(N::AbstractBipartiteNetwork)
         # Now we know this network
         push!(hashes, hash(m_adj))
         # So we keep it
-        push!(uniques, typeof(N)(m_adj))
+        push!(uniques, typeof(N)(m_adj, species_objects(N)...))
       end
     end
   end
@@ -94,7 +94,7 @@ function permute_network(N::AbstractUnipartiteNetwork)
       # Now we know this network
       push!(hashes, hash(m_adj))
       # So we keep it
-      push!(uniques, typeof(N)(m_adj))
+      push!(uniques, typeof(N)(m_adj, species_objects(N)...))
     end
   end
 
@@ -121,10 +121,10 @@ function motif_internal!(N::AbstractEcologicalNetwork, m::DeterministicNetwork, 
   @assert size(b) == size(m)
 
   # Check that the types are the same
-  if typeof(N) <: Bipartite
-    @assert typeof(m) <: Bipartite
+  if typeof(N) <: AbstractBipartiteNetwork
+    @assert typeof(m) <: AbstractBipartiteNetwork
   else
-    @assert typeof(m) <: Unipartite
+    @assert typeof(m) <: AbstractUnipartiteNetwork
   end
 
   # Get the interaction-level probability of having the right motif.
@@ -279,7 +279,7 @@ function motif(N::AbstractEcologicalNetwork, m::DeterministicNetwork)
   end
 
   # We make sure that there are no diagonal elements
-  Y = nodiag(N)
+  Y = nodiagonal(N)
 
   # If the nework is weighted, we start by removing the interaction strength
   # information
