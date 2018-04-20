@@ -65,7 +65,7 @@ export centrality_katz, centrality_closeness, centrality_degree
 
 # Motifs
 include(joinpath(".", "community/motifs.jl"))
-export motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs
+export find_motif, expected_motif_count, unipartitemotifs
 
 # Modularity
 include(joinpath(".", "modularity/utilities.jl"))
