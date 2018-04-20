@@ -27,13 +27,13 @@ code, pre {
 }
 
 h1 {
-  color: #1E88E5;
+  color: #607D8B;
 }
 h2 {
-  color: #2196F3;
+  color: #78909C;
 }
 h3 {
-  color: #42A5F5;
+  color: #90A4AE;
 }
 
 code {
@@ -42,11 +42,10 @@ code {
 }
 
 .navbar {
-  padding: 1em;
-  background-color: #1565C0;
-  border-bottom: 1px solid #efefef;
+  padding: 2em;
+  background-color: #546E7A;
   a.nav-link, a.navbar-brand {
-    color: white;
+    color: #ECEFF1;
   }
 }
 
@@ -56,8 +55,8 @@ code {
 
 .highlighter-rouge div.highlight{
   border-left: 1px solid #CFD8DC;
-  background-color: #FAFAFA;
-  margin: 10px auto;
+  background-color: #FBFBFB;
+  margin: 20px auto;
   padding: 8px;
 }
 
@@ -79,4 +78,8 @@ code {
   pre {
     padding-top: 20px;
   }
+}
+
+.js-plotly-plot {
+  margin: 50px auto;
 }

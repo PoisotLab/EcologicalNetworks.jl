@@ -5,7 +5,9 @@ date : 11th April 2018
 layout: default
 ---
 
-
+```julia; echo=false
+using EcologicalNetwork
+```
 
 `EcologicalNetwork` uses a series of types to represent networks. Before we
 dig in, it is important to get a sense of what the types can do for you. The
@@ -17,8 +19,6 @@ and this page will walk you through the different types available.
 
 
 ## Network types
-
-
 
 There are three types of networks: binary (where interactions are either
 present or absent), quantitative (interactions have a strength), and
@@ -122,6 +122,3 @@ julia> typeof(M)
 EcologicalNetwork.UnipartiteNetwork{String}
 
 ````
-
-
-

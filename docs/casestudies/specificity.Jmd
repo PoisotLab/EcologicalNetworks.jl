@@ -1,0 +1,77 @@
+---
+title : Measuring species specificity
+author : Timothée Poisot
+layout: default
+---
+
+```julia; echo=false; results="hidden"
+using EcologicalNetwork
+using StatPlots
+plotly()
+```
+
+Ecological specificity is an important property of species within a network. One
+way to approach it is to measure the degree of species. For example we can
+measure the degree of ants in the ant-plant network of Fonseca & Ganade (1996):
+
+```julia
+N = fonseca_ganade_1996()
+degree(N, 1)
+```
+
+A useful way to see represent this information is to plot the sorted degrees:
+
+```julia
+degree(N,1) |> values |> collect |> sort |> reverse |> x -> scatter(x, ylab="Species degree", xlab="Species rank", lab="")
+```
+
+This is an easy way to see that there are comparatively fewer species with many
+interactions, and more species with a single interaction.
+
+Species degree is not really scaled -- it can vary between 0 and 1. For this
+reason, we will look at measures of specificity instead.
+
+An analog to degree is the *resource range*, which returns 0 when a species
+interacts will all possible partners, and 1 when it has a single partner.
+Because this amounts to measuring specificity in the absence of information on
+interaction strength, this is exactly what we will do:
+
+```julia
+N |>
+  n -> convert(BinaryNetwork, n) |>
+  specificity |>
+  sort |> reverse |>
+  x -> scatter(x, ylab="Resource range", xlab="Species rank", lab="")
+```
+
+Interesting! Even though some species have up to `j
+maximum(values(degree(N,1)))` interactions, because there are `j richness(N,2)`
+plants available, the specificity of all ants is high.
+
+We can also look at the specificity accounting for interaction strength -- this
+defaults to using the *Paired-differences index*, which similarly returns 1 when
+the species is a specialist.
+
+```julia
+N |>
+  specificity |>
+  sort |> reverse |>
+  x -> scatter(x, ylab="Paired-differences index", xlab="Species rank", lab="")
+```
+
+Because the value of the paired differences index is strongly contingent upon
+the number of interactions, it is almost always interesting to comapre the two.
+Specifically, because it is possible to show that the resource range is always
+lower or equal to the paired diffences index, we can safely substract them to
+look at the "residuals" of specificity due to the uneven strength of
+interactions:
+
+```julia
+rr = specificity(convert(BinaryNetwork,N))
+pdi = specificity(N)
+spe = Dict(zip(species(N,1),pdi-rr))
+sort(collect(spe), by=x->x[2])
+```
+
+Species with the highest values of this difference are increasingly specialized
+compared to their number of interactions.

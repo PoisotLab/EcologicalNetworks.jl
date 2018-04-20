@@ -5,7 +5,9 @@ date : 18th April 2018
 layout: default
 ---
 
-
+```julia; echo=false
+using EcologicalNetwork
+```
 
 `EcologicalNetwork` offers functions to count motifs in multiple sorts of
 networks. The most important function to know about is `find_motif`, which
@@ -111,5 +113,3 @@ expected_motif_count(motif)
 ````
 (139.85368472556303, 139.0496346810643)
 ````
-
-

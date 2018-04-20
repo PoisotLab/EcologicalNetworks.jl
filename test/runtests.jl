@@ -40,11 +40,7 @@ my_tests = [
    "community/centrality.jl",
    "community/motifs.jl",
    "modularity/utilities.jl",
-   "modularity/labelpropagation.jl",
-   "casestudies/nestedness.jl",
-   "manual/types.jl",
-   "manual/generalities.jl",
-   "manual/motifs.jl"
+   "modularity/labelpropagation.jl"
 ]
 
 test_n = 1

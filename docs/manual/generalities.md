@@ -7,23 +7,16 @@ layout: default
 
 
 
+
+
 The purpose of this case study is to illustrate the ways to manipulate the
-network objects. First, let's load the package:
-
-````julia
-using EcologicalNetwork
-````
-
-
-
-
-
-We start by loading a network, in this case the one by Fonseca & Ganade
-(1996). This is a bipartite network.
+network objects. We start by loading a network, in this case the one by Fonseca &
+Ganade (1996). This is a bipartite network.
 
 ````julia
 N = fonseca_ganade_1996()
 ````
+
 
 
 
@@ -47,8 +40,6 @@ This is a bipartite network, which contains quantitative information about
 species interactions, stored as `Int64`. The species are identified by
 `String` objects. More information about the types is found in the
 [types](/manual/types/) page of the manual.
-
-
 
 This is a network with 25 insects and 16 plants. We can check that this
 richness is indeed 41::
@@ -75,10 +66,9 @@ richness(N,1)
 25
 
 
+
 The side `1` is the top-level species, and the side `2` is the bottom-level
 species. Interactions go from species on side `1` to species on side `2`.
-
-
 
 We can look at the species that make up all sides:
 
@@ -114,6 +104,7 @@ species(N)
 
 
 
+
 Note that this also works for either side:
 
 ````julia
@@ -144,6 +135,7 @@ species(N,2)
 
 
 
+
 We can look for the presence of interactions between species in a few
 different ways. First, we can use their *position* in the network:
 
@@ -154,6 +146,7 @@ N[3,4]
 
 
 1
+
 
 
 But it's probably more intuitive to look at the species by names:
@@ -172,6 +165,7 @@ t3, b4
 
 
 
+
 We can access the interaction between these species:
 
 ````julia
@@ -181,6 +175,7 @@ N[t3,b4]
 
 
 1
+
 
 
 The package also offers a way to test the *existence* of an interaction,
@@ -208,11 +203,13 @@ all_cecropia = filter(x -> contains(x, "Cecropia "), species(N,2))
 
 
 
+
 Now, we can get a sub-network (the induced subgraph on these nodes):
 
 ````julia
 M = N[all_azteca, all_cecropia]
 ````
+
 
 
 
@@ -291,6 +288,7 @@ Dict{String,Int64} with 41 entries:
 
 
 
+
 We can also look at the degree on either sides, for example the degree of
 plants (*i.e.* number of insects interacting with them):
 
@@ -318,6 +316,5 @@ Dict{String,Int64} with 16 entries:
   "Maieta poeppiggi"        => 3
   "Tachigali myrmecophila"  => 6
 ````
-
 
 
