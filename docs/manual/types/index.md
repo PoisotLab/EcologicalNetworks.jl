@@ -76,7 +76,7 @@ EcologicalNetwork.BipartiteQuantitativeNetwork{Int64,String}
 
 
 
-The conversion itslef is performed with:
+The conversion itself is performed with:
 
 ````julia
 M = convert(BipartiteNetwork, N);
@@ -95,11 +95,6 @@ The conversion system also uses abstract types to make your life easier: we
 can convert to an abstract type, which makes the code more general. To change
 the partiteness of a network, we can use the `AbstractUnipartiteNetwork`
 conversion.
-
-````
-Test Passed
-````
-
 
 
 ````julia
