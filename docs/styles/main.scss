@@ -7,8 +7,8 @@
 body {
   padding-top: 205px;
   padding-bottom: 105px;
-  border-bottom: 50px solid #eee;
-  font-family: "Roboto Sans", sans-serif !important;
+  border-bottom: 20px solid #CFD8DC;
+  font-family: "IBM Plex Sans", sans-serif !important;
   h1:first-child {
     padding-bottom: 50px;
     font-weight: 700 !important;
@@ -19,11 +19,11 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: "Roboto Condensed", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
 }
 
 code, pre {
-  font-family: "Roboto Mono", monospace;
+  font-family: "IBM Plex Mono", monospace;
 }
 
 h1 {
@@ -42,10 +42,11 @@ code {
 }
 
 .navbar {
-  padding: 2em;
-  background-color: #546E7A;
+  background-color: white;
+  padding: 1.2em;
+  box-shadow: 0px 0px 2px 0px #546E7A;
   a.nav-link, a.navbar-brand {
-    color: #ECEFF1;
+    color: #546E7A;
   }
 }
 

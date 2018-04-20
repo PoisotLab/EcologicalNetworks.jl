@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,500,500i|IBM+Plex+Sans:300,300i,400,400i,500,500i" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<head>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" rel="stylesheet">
 
-<title>{{ site.title }} - {{ page.title }}</title>
-<link rel="stylesheet" href="/styles/main.css">
+  <script src="//code.jquery.com/jquery-latest.min.js"></script>
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,500,500i|IBM+Plex+Sans:300,300i,400,400i,500,500i" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>{{ site.title }} - {{ page.title }}</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
 
 <body>
 
@@ -38,7 +60,8 @@
               <a class="dropdown-item" href="/manual/types/">Types</a>
               <a class="dropdown-item" href="/manual/generalities">Generalities</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/manual/motifs/">Motif counting</a>
+              <a class="dropdown-item" href="/manual/nestedness/">Measuring nestedness</a>
+              <a class="dropdown-item" href="/manual/motifs/">Counting motifs</a>
             </div>
           </li>
           <li class="nav-item">
@@ -49,13 +72,22 @@
     </div>
   </nav>
 
-  <div class="container">
+  <div class="container maincontent">
     <h1>{{page.title}}</h1>
     {{ content }}
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  $(function () {
+    $('[data-toggle="popover"]').popover({html:true})
+  })
+  $('.popover-dismiss').popover({
+    trigger: 'focus'
+  })
+  </script>
+  {% include references.html %}
 </body>
 </html>
