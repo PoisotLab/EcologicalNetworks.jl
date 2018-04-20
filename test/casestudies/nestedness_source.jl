@@ -7,6 +7,10 @@
 
 #+ echo=false
 using Base.Test
+using Plots
+using StatPlots
+plotly()
+using EcologicalNetwork
 
 #' The purpose of this case study is to illustrate how we can use the package to
 #' perform significance testing. We will see how we can compare the measured
@@ -15,7 +19,6 @@ using Base.Test
 #' We start by loading a network, in this case the one by Fonseca & Ganade
 #' (1996). This is a bipartite network.
 
-using EcologicalNetwork
 N = fonseca_ganade_1996()
 
 #' We will start by getting rid of the quantitative information. This is done by
@@ -99,3 +102,8 @@ n_prime = N |>
 
 #' This notation is more compact, and can help understand the flow of the
 #' analysis better.
+
+#' Finally, we can also look at the distribution of these values:
+
+histogram(n_prime)
+vline!([n0[:network]])

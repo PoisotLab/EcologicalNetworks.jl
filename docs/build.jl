@@ -1,5 +1,9 @@
 using Weave
 
+using Plots
+using StatPlots
+plotly()
+
 include("../src/EcologicalNetwork.jl")
 
 # Manual

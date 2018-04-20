@@ -1,5 +1,7 @@
 using EcologicalNetwork
 using Base.Test
+using Plots
+plotly()
 
 anyerrors = false
 
