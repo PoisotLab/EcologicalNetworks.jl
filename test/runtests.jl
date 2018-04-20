@@ -39,9 +39,9 @@ my_tests = [
    "community/motifs.jl",
    "modularity/utilities.jl",
    "modularity/labelpropagation.jl",
-   "casestudies/generalities.jl",
-   "casestudies/permutations.jl",
+   "casestudies/nestedness.jl",
    "manual/types.jl",
+   "manual/generalities.jl",
    "manual/motifs.jl"
 ]
 

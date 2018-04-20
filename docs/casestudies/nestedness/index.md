@@ -1,5 +1,5 @@
 ---
-title : Case study 2 - permutations of networks
+title : Nestedness significance testing
 author : Timothée Poisot
 date : 11th April 2018
 layout: default
@@ -43,7 +43,7 @@ M = convert(BipartiteNetwork, N)
 We will now measure the nestedness of the network, using the $\eta$ measure:
 
 ````julia
-n0 = η(M)
+n0 = η(M);
 ````
 
 
@@ -103,9 +103,9 @@ rand(T)
 
 
 ````
-EcologicalNetwork.BipartiteNetwork{String}(Bool[true false … false false;
- false false … false false; … ; false false … false false; true false
- … false true], String["Camponotus balzanii", "Azteca alfari", "Azteca is
+EcologicalNetwork.BipartiteNetwork{String}(Bool[false false … false false
+; true false … true false; … ; false false … true false; false false 
+… false false], String["Camponotus balzanii", "Azteca alfari", "Azteca is
 thmica", "Azteca aff. Isthmica", "Allomerus D", "Allomerus prancei", "Allom
 erus aff. Octoarticulata", "Solenops A", "Allomerus auripunctata", "Cremato
 gaster B"  …  "Crematogaster A", "Azteca TO", "Crematogaster C", "Azteca 
@@ -164,7 +164,7 @@ quantile(n_prime, n0[:network])
 
 
 
-0.19127013149750613
+0.18742338072547887
 
 
 We can also express much of this analysis as a single pipeline:

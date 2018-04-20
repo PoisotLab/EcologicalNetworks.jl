@@ -1,11 +1,9 @@
 #' ---
-#' title : Case study 1 - generalities about the package
+#' title : Accessing species and interactions
 #' author : Timothée Poisot
 #' date : 11th April 2018
 #' layout: default
 #' ---
-
-#' # Accessing species interactions
 
 #' The purpose of this case study is to illustrate the ways to manipulate the
 #' network objects. First, let's load the package:
