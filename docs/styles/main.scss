@@ -42,7 +42,7 @@ code {
 }
 
 .navbar {
-  background-color: white;
+  background-color: #fdfdfd;
   padding: 1.2em;
   box-shadow: 0px 0px 2px 0px #546E7A;
   a.nav-link, a.navbar-brand {
@@ -79,6 +79,10 @@ code {
   pre {
     padding-top: 20px;
   }
+}
+
+img {
+  max-width: 100%;
 }
 
 .js-plotly-plot {

@@ -3,6 +3,7 @@ module EcologicalNetwork
 # Dependencies
 using StatsBase
 using Combinatorics
+using Luxor
 
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
@@ -73,6 +74,10 @@ export Q, Qr
 
 include(joinpath(".", "modularity/labelpropagation.jl"))
 export label_propagation
+
+# Plots
+include(joinpath(".", "plots/circular.jl"))
+export circular_network_plot
 
 #=
 include(joinpath(".", "modularity/brim.jl"))
