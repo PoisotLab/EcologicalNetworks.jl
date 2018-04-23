@@ -10,14 +10,14 @@ N = fonseca_ganade_1996()
 #N = unipartitemotifs()[:S1]
 
 Δt = 0.01
-L = 50.0
+L = 20.0
 Kr = 6250.0
 R = 0.05
 Ks = Kr/(R*L^3)
-max_squared_displacement = Δt*0.1
+max_squared_displacement = Δt*0.5
 
 # The infos for every nodes are a dictionary
-nodes = Dict([species(N)[i] => Dict(:x => rand()*10.5, :y => rand()*10.5, :fx => 0.0, :fy => 0.0, :n => eltype(species(N))[]) for i in 1:richness(N)])
+nodes = Dict([species(N)[i] => Dict(:x => rand()*100.5, :y => rand()*100.5, :fx => 0.0, :fy => 0.0, :n => eltype(species(N))[]) for i in 1:richness(N)])
 
 for s in species(N)
     neighbors = eltype(species(N))[]
@@ -39,7 +39,7 @@ for s in species(N)
     nodes[s][:n] = neighbors
 end
 
-for step in 1:10000
+for step in 1:100
     for s1_i in eachindex(species(N)[1:(end-1)])
         for s2_i in (s1_i+1):richness(N)
             s1, s2 = species(N)[[s1_i,s2_i]]
@@ -146,8 +146,8 @@ begin
         sethue("#222")
         circle(points[s], 15, :stroke)
 
-        #sethue("#000")
-        #settext(string(s), points[s])
+        sethue("#000")
+        settext(string(s), points[s])
     end
 
     finish()
