@@ -5,9 +5,10 @@ using Luxor
 include("src/EcologicalNetwork.jl")
 using EcologicalNetwork
 
-#N = fonseca_ganade_1996()
-N = thompson_townsend_catlins()
+N = fonseca_ganade_1996()
+#N = thompson_townsend_catlins()
 #N = unipartitemotifs()[:S1]
+#N = UnipartiteNetwork(eye(Bool, 10))
 
 Δt = 0.01
 L = 50.0
@@ -39,7 +40,7 @@ for s in species(N)
     nodes[s][:n] = neighbors
 end
 
-for step in 1:5000
+for step in 1:15000
     # Repulsion between all pairs
     for s1_i in eachindex(species(N)[1:(end-1)])
         for s2_i in (s1_i+1):richness(N)
@@ -138,7 +139,11 @@ begin
             p2 = points[s2]
             if has_interaction(N, s1, s2)
                 sethue("#222")
-                arrow(p1, p2, linewidth=3.5, arrowheadlength=25)
+                if s1 != s2
+                    arrow(p1, p2, linewidth=3.5, arrowheadlength=25)
+                else
+                    arrow(Point(p1.x+40, p1.y), 40, π*1.1, π/1.1, linewidth=3.5, arrowheadlength=25)
+                end
             end
         end
     end

@@ -49,3 +49,22 @@ circular_network_plot(U; filename=joinpath(working_path, "circular_ttc.png"));
 ```
 
 ![Circular layout](/figures/circular_ttc.png)
+
+## Graph layout
+
+Compared to circular layouts, graph layouts are a whole other beast. You know
+how in some recipes, the only way to have it turn out great is to accept that it
+will cook for a long time? Well, graph layouts are like this. We have hard-coded
+a very small maximum allowed displacement per step, which means that the overall
+behaviour is much more stable, *but* we need a lot of steps to reach an
+equilibrium.
+
+The graph layout implemented here has three main ingredients: all nodes want to
+move away from every other node, connected nodes are brought closer together by
+their interactions. and the center is pulling all nodes to itself (with a
+strength of one-tenth of an interaction). All of this means that all points will
+end up in a circle, and the connected components or modules will be well
+isolated from one another. Bipartite networks, in particular, tend to be very
+pretty when represented this way.
+
+But it takes time...
