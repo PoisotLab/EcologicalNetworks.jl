@@ -39,7 +39,7 @@ for s in species(N)
     nodes[s][:n] = neighbors
 end
 
-for step in 1:1000
+for step in 1:10000
     for s1_i in eachindex(species(N)[1:(end-1)])
         for s2_i in (s1_i+1):richness(N)
             s1, s2 = species(N)[[s1_i,s2_i]]
