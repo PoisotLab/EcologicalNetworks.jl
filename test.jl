@@ -8,71 +8,104 @@ using EcologicalNetwork
 N = fonseca_ganade_1996()
 #N = thompson_townsend_catlins()
 #N = unipartitemotifs()[:S1]
-#N = BipartiteNetwork(rand(10,5).< 0.3)
 
-#z = zeros(12,12)
-#for i in 1:12
-#    z[i,1:i] = 1.0
-#end
-#N = BipartiteNetwork(z.>0.0)
+Δt = 0.01
+L = 50.0
+Kr = 6250.0
+R = 0.05
+Ks = Kr/(R*L^3)
+max_squared_displacement = Δt*0.1
 
 # The infos for every nodes are a dictionary
-nodes = Dict([species(N)[i] => i for i in 1:richness(N)])
-angles = Dict([species(N)[i] => 0.0 for i in 1:richness(N)])
+nodes = Dict([species(N)[i] => Dict(:x => rand()*10.5, :y => rand()*10.5, :fx => 0.0, :fy => 0.0, :n => eltype(species(N))[]) for i in 1:richness(N)])
 
-function circle_angle(p, N)
-    return (p*2.0*π)/N
+for s in species(N)
+    neighbors = eltype(species(N))[]
+    if s in species(N,2)
+        for s2 in species(N,1)
+            if has_interaction(N, s2, s)
+                push!(neighbors, s2)
+            end
+        end
+    end
+    if s in species(N,1)
+        for s2 in species(N,2)
+            if has_interaction(N, s, s2)
+                push!(neighbors, s2)
+            end
+        end
+    end
+    neighbors = filter(x -> x!=s, neighbors)
+    nodes[s][:n] = neighbors
 end
 
-function angle_of_vector(x,y)
-    hypotenuse = sqrt(x*x+y*y)
-    θ = asin(y/hypotenuse)
-    if x < 0.0
-        θ = π - θ
+for step in 1:1000
+    for s1_i in eachindex(species(N)[1:(end-1)])
+        for s2_i in (s1_i+1):richness(N)
+            s1, s2 = species(N)[[s1_i,s2_i]]
+            dx = nodes[s1][:x] - nodes[s2][:x]
+            dy = nodes[s1][:y] - nodes[s2][:y]
+            if ((dx != 0.0) | (dy != 0.0))
+                squared_distance = dx*dx + dy*dy
+                distance = sqrt(squared_distance)
+                force = Kr/squared_distance
+                fx = force * dx / distance
+                fy = force * dy / distance
+                nodes[s1][:fx] += fx
+                nodes[s1][:fy] += fy
+                nodes[s2][:fx] -= fx
+                nodes[s2][:fy] -= fy
+            end
+        end
     end
-    if θ < 0.0
-         θ += 2.0*π
-    end
-    return θ
-end
-
-for step in 1:500
     for s1 in species(N)
-        p1 = nodes[s1]
-        sx = cos(circle_angle(p1, richness(N)))
-        sy = sin(circle_angle(p1, richness(N)))
-        if s1 in species(N,1)
-            for s2 in species(N, 2)
-                if has_interaction(N,s1,s2)
-                    p2 = nodes[s2]
-                    sx += cos(circle_angle(p2, richness(N)))
-                    sy += sin(circle_angle(p2, richness(N)))
+        if length(nodes[s1][:n]) > 0
+            for s2 in nodes[s1][:n]
+                spos = first(find(species(N).==s1))
+                s2pos = first(find(species(N).==s2))
+                if spos < s2pos
+                    dx = nodes[s1][:x] - nodes[s2][:x]
+                    dy = nodes[s1][:y] - nodes[s2][:y]
+                    if ((dx != 0.0) | (dy != 0.0))
+                        distance = sqrt(dx*dx + dy*dy)
+                        force = Ks * (distance - L)
+                        fx = force * dx / distance
+                        fy = force * dy / distance
+                        nodes[s1][:fx] -= fx
+                        nodes[s1][:fy] -= fy
+                        nodes[s2][:fx] += fx
+                        nodes[s2][:fy] += fy
+                    end
                 end
             end
         end
-        if s1 in species(N,2)
-            for s2 in species(N, 1)
-                if has_interaction(N,s2,s1)
-                    p2 = nodes[s2]
-                    sx += cos(circle_angle(p2, richness(N)))
-                    sy += sin(circle_angle(p2, richness(N)))
-                end
-            end
-        end
-        angles[s1] = angle_of_vector(sx, sy)
     end
-
-    nodes = Dict(zip(keys(angles), sortperm(collect(values(angles)))))
-    angles = Dict([s => circle_angle(v, richness(N)) for (s,v) in nodes])
+    for s in species(N)
+        dx = Δt * nodes[s][:fx]
+        dy = Δt * nodes[s][:fy]
+        squared_displacement = dx*dx + dy*dy
+        println(squared_displacement)
+        if squared_displacement > max_squared_displacement
+            sc = sqrt(max_squared_displacement / squared_displacement)
+            dx *= sc
+            dy *= sc
+        end
+        nodes[s][:x] += dx
+        nodes[s][:y] += dy
+        nodes[s][:fx] = 0.0
+        nodes[s][:fy] = 0.0
+    end
 end
 
-r = 400.0
+r = 630.0
+mx = minimum([n[:x] for (k,n) in nodes])
+my = minimum([n[:y] for (k,n) in nodes])
+Mx = maximum([n[:x] for (k,n) in nodes])
+My = maximum([n[:y] for (k,n) in nodes])
 
 points = Dict([
-    s => Point(r * cos(angles[s]), r * sin(angles[s])) for s in species(N)
+    s => Point(((nodes[s][:x] - mx)/(Mx-mx) * 2.0 - 1.0) * r, ((nodes[s][:y] - my)/(My-my) * 2.0 - 1.0) * r) for s in species(N)
     ])
-
-Θ = π/3
 
 begin
     Drawing(1360, 1360, "test.png")
@@ -81,36 +114,16 @@ begin
     background("#ffffff")
     sethue("#333")
 
-    circle_center = Point(0.0, 0.0)
-
     setline(3.5)
     setopacity(0.75)
     for s1 in species(N,1)
-        has_int = false
+        p1 = points[s1]
         for s2 in species(N,2)
+            p2 = points[s2]
             if has_interaction(N, s1, s2)
                 sethue("#222")
-                #has_int = true
-                p2, p1 = points[s1], points[s2]
-                detp1p2 = (p1.x) * (p2.y) - (p2.x) * (p1.y) < 0
-                if detp1p2
-                    p1, p2 = points[s1], points[s2]
-                end
-                mid = midpoint(p1, p2)
-                chord_length = sqrt((p1.x-p2.x)^2+(p1.y-p2.y)^2)
-                opposite_side = chord_length/2.0
-                adjacent_side = opposite_side/(2.0*tan(Θ/2.0))
-                dist_midpoint = sqrt(mid.x^2+mid.y^2)
-                dist_adj = (dist_midpoint + adjacent_side)/dist_midpoint
-                arc_center = between(circle_center, mid, dist_adj)
-                arc2r(arc_center, p2, p1, :stroke)
+                arrow(p1, p2, linewidth=3.5, arrowheadlength=25)
             end
-            if has_int
-                break
-            end
-        end
-        if has_int
-            break
         end
     end
     setopacity(1.0)
@@ -133,22 +146,9 @@ begin
         sethue("#222")
         circle(points[s], 15, :stroke)
 
-        sethue("#000")
-
-        tpos = between(circle_center, points[s], 1.05)
-        this_angle = rad2deg(slope(circle_center, points[s]))
-        align = "left"
-        #text(s, tpos, angle=angles[s], valign=:baseline)
-        if 90 <= this_angle <= 270
-            this_angle = this_angle+180
-            align="right"
-        end
-        settext(string(s), tpos, angle=-this_angle, halign=align, valign="center")
+        #sethue("#000")
+        #settext(string(s), points[s])
     end
 
     finish()
 end
-
-N["Azteca alfari","Cecropia purpuracens"]
-
-collect(0:22.5:360)

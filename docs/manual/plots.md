@@ -26,7 +26,8 @@ blue. In unipartite networks, all nodes are green. The colors come from @Won11 -
 and have been picked to ensure maximum disimilarity under normal vision,
 deuteranopia, tritanopia, and protanopia.
 
-## Circular layout
+This page will illustrate the currently implemented layouts using a bipartite
+and a unipartite network:
 
 ````julia
 N = fonseca_ganade_1996()
@@ -34,6 +35,10 @@ U = thompson_townsend_catlins()
 ````
 
 
+
+
+
+## Circular layout
 
 ````julia
 circular_network_plot(N; filename=joinpath(working_path, "circular_fg96.png"));
