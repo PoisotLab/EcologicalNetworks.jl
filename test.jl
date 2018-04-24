@@ -15,4 +15,5 @@ B = BipartiteNetwork(A)
 using StatPlots
 plotly()
 
-[B |> lp |> x -> brim(x...) |> x -> Q(x...) for i in 1:200] |> histogram
+[B |> lp |> x -> brim(x...) |> x -> Q(x...) for i in 1:2000] |>
+  density
