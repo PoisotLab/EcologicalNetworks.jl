@@ -59,10 +59,6 @@ circular_network_plot(N; filename=joinpath(working_path, "circular_fg96.png"));
 ````
 
 
-<pre class="julia-error">
-ERROR: InterruptException:
-</pre>
-
 
 
 
@@ -106,13 +102,9 @@ coefficient of repulsion [@McG12]. The defaults values of `L=50` and `R=0.05`
 give generally sensible results:
 
 ````julia
-graph_network_plot(N; filename=joinpath(working_path, "graph_fc96.png"), steps=10000);
+graph_network_plot(N; filename=joinpath(working_path, "graph_fg96.png"), steps=1000);
 ````
 
-
-<pre class="julia-error">
-ERROR: InterruptException:
-</pre>
 
 
 
@@ -120,13 +112,9 @@ ERROR: InterruptException:
 ![Circular layout](/figures/graph_fg96.png)
 
 ````julia
-graph_network_plot(U; filename=joinpath(working_path, "graph_ttc.png"), steps=10000);
+graph_network_plot(U; filename=joinpath(working_path, "graph_ttc.png"), steps=1000);
 ````
 
-
-<pre class="julia-error">
-ERROR: InterruptException:
-</pre>
 
 
 

@@ -18,30 +18,9 @@ degree(N, 1)
 ````
 
 
-````
-Dict{String,Int64} with 25 entries:
-  "Pseudomyrmex concolor"         => 2
-  "Azteca isthmica"               => 4
-  "Azteca schummani"              => 2
-  "Solenops A"                    => 2
-  "Pseudomyrmex nigrescens"       => 2
-  "Crematogaster B"               => 3
-  "Crematogaster C"               => 2
-  "Azteca D"                      => 1
-  "Allomerus aff. Octoarticulata" => 3
-  "Azteca G"                      => 3
-  "Azteca TO"                     => 1
-  "Crematogaster D"               => 2
-  "Pheidole minutula"             => 3
-  "Azteca polymorpha"             => 1
-  "Camponotus balzanii"           => 1
-  "Allomerus D"                   => 1
-  "Crematogaster A"               => 4
-  "Azteca Q"                      => 1
-  "Azteca HC"                     => 1
-  ⋮                               => ⋮
-````
-
+<pre class="julia-error">
+ERROR: InterruptException:
+</pre>
 
 
 
@@ -65,7 +44,7 @@ interactions, and more species with a single interaction.
 
 Species degree is not really scaled -- it can vary between 0 and 1. For this
 reason, we will look at measures of specificity instead. `EcologicalNetwork`
-follows the guidelines of @PoiCan12, and 
+follows the guidelines of @PoiCan12, and
 
 An analog to degree is the *resource range*, which returns 0 when a species
 interacts will all possible partners, and 1 when it has a single partner.
