@@ -14,7 +14,7 @@ function angle_of_vector(x,y)
    return θ
 end
 
-function circular_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="network.png", steps=500, Θ=π/3, fontname="Noto Sans Condensed", fontsize=16)
+function circular_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="network.png", steps=500, Θ=π/3, fontname="Noto Sans Condensed", fontsize=16, names=true)
    nodes = Dict([species(N)[i] => i for i in 1:richness(N)])
    angles = Dict([species(N)[i] => 0.0 for i in 1:richness(N)])
 
@@ -106,15 +106,16 @@ function circular_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="net
       circle(points[s], 15, :stroke)
 
       sethue("#000")
-
-      tpos = between(circle_center, points[s], 1.05)
-      this_angle = rad2deg(slope(circle_center, points[s]))
-      align = "left"
-      if 90 <= this_angle <= 270
-         this_angle = this_angle+180
-         align="right"
+      if names
+         tpos = between(circle_center, points[s], 1.05)
+         this_angle = rad2deg(slope(circle_center, points[s]))
+         align = "left"
+         if 90 <= this_angle <= 270
+            this_angle = this_angle+180
+            align="right"
+         end
+         settext(string(s), tpos, angle=-this_angle, halign=align, valign="center")
       end
-      settext(string(s), tpos, angle=-this_angle, halign=align, valign="center")
    end
    finish()
 end

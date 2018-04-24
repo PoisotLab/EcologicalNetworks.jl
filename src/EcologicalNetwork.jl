@@ -78,6 +78,8 @@ export label_propagation
 # Plots
 include(joinpath(".", "plots/circular.jl"))
 export circular_network_plot
+include(joinpath(".", "plots/graph.jl"))
+export graph_network_plot
 
 #=
 include(joinpath(".", "modularity/brim.jl"))
