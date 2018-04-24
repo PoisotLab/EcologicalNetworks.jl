@@ -67,8 +67,11 @@ function lp{T<:UnipartiteNetwork}(N::T)
         counts = StatsBase.counts(L[linked])
         cmax = maximum(counts)
         merged = Dict(zip(labels, counts))
-        newlab = StatsBase.sample(collect(keys(Dict(collect(filter((k,v) -> v==cmax, merged))))))
-        L[i] = newlab
+        ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
+        if length(ok_keys) > 0
+          newlab = StatsBase.sample(collect(ok_keys))
+          L[i] = newlab
+        end
       end
     end
 
@@ -81,8 +84,11 @@ function lp{T<:UnipartiteNetwork}(N::T)
         counts = StatsBase.counts(L[linked])
         cmax = maximum(counts)
         merged = Dict(zip(labels, counts))
-        newlab = StatsBase.sample(collect(keys(Dict(collect(filter((k,v) -> v==cmax, merged))))))
-        L[i] = newlab
+        ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
+        if length(ok_keys) > 0
+          newlab = StatsBase.sample(collect(ok_keys))
+          L[i] = newlab
+        end
       end
     end
 
