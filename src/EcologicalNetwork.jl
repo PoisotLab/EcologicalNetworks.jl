@@ -76,6 +76,9 @@ export Q, Qr
 include(joinpath(".", "modularity/labelpropagation.jl"))
 export lp
 
+include(joinpath(".", "modularity/brim.jl"))
+export brim
+
 # Plots
 include(joinpath(".", "plots/circular.jl"))
 export circular_network_plot
@@ -92,7 +95,7 @@ export whittaker, sorensen, jaccard, gaston, williams, lande, ruggiero,
     hartekinzig, harrison
 
 #=
-include(joinpath(".", "modularity/brim.jl"))
+
 include(joinpath(".", "modularity/labelpropagation.jl"))
 include(joinpath(".", "modularity/louvain.jl"))
 include(joinpath(".", "modularity/lpbrim.jl"))

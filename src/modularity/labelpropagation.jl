@@ -18,8 +18,11 @@ function lp{T<:BipartiteNetwork}(N::T)
         counts = StatsBase.counts(BL[linked])
         cmax = maximum(counts)
         merged = Dict(zip(labels, counts))
-        newlab = StatsBase.sample(collect(keys(Dict(collect(filter((k,v) -> v==cmax, merged))))))
-        TL[i] = newlab
+        ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
+        if length(ok_keys) > 0
+          newlab = StatsBase.sample(collect(ok_keys))
+          TL[i] = newlab
+        end
       end
     end
 
@@ -30,8 +33,11 @@ function lp{T<:BipartiteNetwork}(N::T)
         counts = StatsBase.counts(TL[linked])
         cmax = maximum(counts)
         merged = Dict(zip(labels, counts))
-        newlab = StatsBase.sample(collect(keys(Dict(collect(filter((k,v) -> v==cmax, merged))))))
-        BL[j] = newlab
+        ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
+        if length(ok_keys) > 0
+          newlab = StatsBase.sample(collect(ok_keys))
+          BL[j] = newlab
+        end
       end
     end
 

@@ -1,63 +1,27 @@
-"""
-**Pick a module at random**
+function brim(N::BipartiteNetwork, TL::Array{Int64, 1}, BL::Array{Int64, 1})
+  @assert length(TL) == richness(N,1)
+  @assert length(BL) == richness(N,2)
 
-~~~julia
-pick_random_module(x::Array{Int64, 1})
-~~~
-
-Returns a random module if there are several choices for the best
-solution. Used internally by brim.
-"""
-function pick_random_module(x::Array{Int64, 1})
-  if sum(x) > 1
-    keep = rand(find(n -> n == 1, x))
-    x = map(n -> n==keep ? 1 : 0, 1:length(x))
-  end
-  return x
-end
-
-
-"""
-**Bipartite Recursively Induced Modularity**
-
-~~~
-brim(P::Partition)
-~~~
-
-Returns the best partition using BRIM, based on a Partition object.
-"""
-function brim(P::Partition)
-  return brim(P.N, P.L)
-end
-
-"""
-**Bipartite Recursively Induced Modularity**
-
-~~~
-brim(N::BipartiteNetwork, L::Array{Int64, 1})
-~~~
-
-Returns the best partition using BRIM, based on a network and an initial
-set of modules.
-"""
-function brim(N::BipartiteNetwork, L::Array{Int64, 1})
-  @assert length(L) == richness(N)
-
-  old_Q = Q(N, L)
+  old_Q = Q(N, TL, BL)
   new_Q = old_Q+0.00001
 
   m = links(N)
 
   # R and T matrices
-  nL = zeros(L)
-  for (i, l) in enumerate(unique(L))
-    nL[L.==l] = i
+  nBL = zeros(BL)
+  nTL = zeros(TL)
+  for (i, l) in enumerate(unique(vcat(TL,BL)))
+    nBL[BL.==l] = i
+    nTL[TL.==l] = i
   end
-  L = deepcopy(nL)
-  c = length(unique(L))
-  R = map(Int64, L[1:size(N.A,1)] .== unique(L)')
-  T = map(Int64, L[(size(N.A,1)+1):end] .== unique(L)')
-  B = N.A .- kron(degree_out(N), degree_in(N)')./m
+
+
+  TL, BL = deepcopy(nTL), deepcopy(nBL)
+  c = length(unique(vcat(BL, TL)))
+  R = map(Int64, TL .== collect(1:c)')
+  T = map(Int64, BL .== collect(1:c)')
+
+  B = N.A .- null2(N).A
 
   while old_Q < new_Q
 
@@ -66,14 +30,15 @@ function brim(N::BipartiteNetwork, L::Array{Int64, 1})
     r_tilde = B'*R
     T = map(Int64, r_tilde .== maximum(r_tilde, 2))
     S = vcat(R, T)
-    S = mapslices(pick_random_module, S, 2)
-    L = vec(mapslices(x -> find(k -> k==1, x), S, 2))
+    L = vec(mapslices(r -> StatsBase.sample(find(r)), S, 2))
+    TL = L[1:richness(N,1)]
+    BL = L[(end-richness(N,2)+1):end]
 
     old_Q = new_Q
-    new_Q = Q(N,L)
+    new_Q = Q(N,TL, BL)
 
   end
 
-  return Partition(N, L, new_Q)
+  return (N, TL, BL)
 
 end
