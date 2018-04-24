@@ -74,7 +74,7 @@ include(joinpath(".", "modularity/utilities.jl"))
 export Q, Qr
 
 include(joinpath(".", "modularity/labelpropagation.jl"))
-export label_propagation
+export lp
 
 # Plots
 include(joinpath(".", "plots/circular.jl"))
