@@ -99,9 +99,6 @@ williams, lande, ruggiero, hartekinzig,
 fractional_trophic_level, trophic_level, foodweb_position
 harrison,
 
-# Motifs
-motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs,
-
 # Food webs measures
 =#
 
