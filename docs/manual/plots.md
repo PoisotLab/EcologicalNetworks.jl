@@ -59,6 +59,10 @@ circular_network_plot(N; filename=joinpath(working_path, "circular_fg96.png"));
 ````
 
 
+<pre class="julia-error">
+ERROR: InterruptException:
+</pre>
+
 
 
 
@@ -98,47 +102,33 @@ nice figure).
 The final product is determined by two parameters: the spring constant `L`,
 which acts as a sort of *scale* of the network, and the repulsion/attraction
 ratio `R`, which determines the coefficient of attraction *relative* to the
-coefficient of repulsion [@McG12].
-
-Let's see the effect of these parameters with a simple example:
+coefficient of repulsion [@McG12]. The defaults values of `L=50` and `R=0.05`
+give generally sensible results:
 
 ````julia
-a = zeros(Bool, (12,12))
-a[1:4,1:4] = rand(Bool, (4,4))
-a[5:8,5:8] = rand(Bool, (4,4))
-a[9:12,9:12] = rand(Bool, (4,4))
-T = nodiagonal(UnipartiteNetwork(a))
-
-L_values = [10.0, 50.0, 200.0]
-R_values = [0.001, 0.05, 1.5]
-
-for L in L_values, R in R_values
-    fname = joinpath(working_path, "graph_$(L)_$(R).png")
-    graph_network_plot(T; filename=fname, L=L, R=R, steps=5000, names=false);
-end
+graph_network_plot(N; filename=joinpath(working_path, "graph_fc96.png"), steps=10000);
 ````
 
 
+<pre class="julia-error">
+ERROR: InterruptException:
+</pre>
 
 
 
-|           |  L = 10   |  L = 50   |  L = 200  |
-|----------:|:---------:|:---------:|:---------:|
-| R = 0.001 | ![][r1c1] | ![][r1c2] | ![][r1c3] |
-|  R = 0.05 | ![][r2c1] | ![][r2c2] | ![][r2c3] |
-|   R = 1.5 | ![][r3c1] | ![][r3c2] | ![][r3c3] |
 
-[r1c1]: /figures/graph_10.0_0.001.png
-[r2c1]: /figures/graph_10.0_0.05.png
-[r3c1]: /figures/graph_10.0_1.5.png
+![Circular layout](/figures/graph_fg96.png)
 
-[r1c2]: /figures/graph_50.0_0.001.png
-[r2c2]: /figures/graph_50.0_0.05.png
-[r3c2]: /figures/graph_50.0_1.5.png
+````julia
+graph_network_plot(U; filename=joinpath(working_path, "graph_ttc.png"), steps=10000);
+````
 
-[r1c3]: /figures/graph_200.0_0.001.png
-[r2c3]: /figures/graph_200.0_0.05.png
-[r3c3]: /figures/graph_200.0_1.5.png
 
-There are not firm rules to decide on the correct value of `L` or `R`, and this
-is largely a matter of personal taste (and network connectance and size).
+<pre class="julia-error">
+ERROR: InterruptException:
+</pre>
+
+
+
+
+![Circular layout](/figures/graph_ttc.png)

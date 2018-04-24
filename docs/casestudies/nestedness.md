@@ -100,19 +100,19 @@ rand(T)
 
 
 ````
-EcologicalNetwork.BipartiteNetwork{String}(Bool[false false … false false
-; false false … false false; … ; false false … true false; false fals
-e … false false], String["Camponotus balzanii", "Azteca alfari", "Azteca 
-isthmica", "Azteca aff. Isthmica", "Allomerus D", "Allomerus prancei", "All
-omerus aff. Octoarticulata", "Solenops A", "Allomerus auripunctata", "Crema
-togaster B"  …  "Crematogaster A", "Azteca TO", "Crematogaster C", "Aztec
-a schummani", "Pseudomyrmex nigrescens", "Pseudomyrmex concolor", "Azteca D
-", "Azteca polymorpha", "Crematogaster E", "Azteca Q"], String["Cecropia pu
-rpuracens", "Cecropia concolor", "Cecropia distachya", "Cecropia ficifolia"
-, "Pouruma heterophylla", "Hirtella myrmecophila", "Hirtella physophora", "
-Duroia saccifera", "Cordia nodosa", "Cordia aff. Nodosa", "Tococa bullifera
-", "Maieta guianensis", "Maieta poeppiggi", "Tachigali polyphylla", "Tachig
-ali myrmecophila", "Amaioua aff. Guianensis"])
+EcologicalNetwork.BipartiteNetwork{String}(Bool[false false … true false;
+ false true … false false; … ; false false … false false; false false
+ … false false], String["Camponotus balzanii", "Azteca alfari", "Azteca i
+sthmica", "Azteca aff. Isthmica", "Allomerus D", "Allomerus prancei", "Allo
+merus aff. Octoarticulata", "Solenops A", "Allomerus auripunctata", "Cremat
+ogaster B"  …  "Crematogaster A", "Azteca TO", "Crematogaster C", "Azteca
+ schummani", "Pseudomyrmex nigrescens", "Pseudomyrmex concolor", "Azteca D"
+, "Azteca polymorpha", "Crematogaster E", "Azteca Q"], String["Cecropia pur
+puracens", "Cecropia concolor", "Cecropia distachya", "Cecropia ficifolia",
+ "Pouruma heterophylla", "Hirtella myrmecophila", "Hirtella physophora", "D
+uroia saccifera", "Cordia nodosa", "Cordia aff. Nodosa", "Tococa bullifera"
+, "Maieta guianensis", "Maieta poeppiggi", "Tachigali polyphylla", "Tachiga
+li myrmecophila", "Amaioua aff. Guianensis"])
 ````
 
 
@@ -138,6 +138,10 @@ valid_draws = filter(x -> !isdegenerate(x), random_draws)
 ````
 
 
+<pre class="julia-error">
+ERROR: InterruptException:
+</pre>
+
 
 
 
@@ -149,6 +153,10 @@ on all of these networks:
 n_prime = map(x -> η(x)[:network], valid_draws)
 ````
 
+
+<pre class="julia-error">
+ERROR: UndefVarError: valid_draws not defined
+</pre>
 
 
 
@@ -170,6 +178,10 @@ n_prime = N |>
 ````
 
 
+<pre class="julia-error">
+ERROR: InterruptException:
+</pre>
+
 
 
 
@@ -182,27 +194,45 @@ draws that are smaller than the empirical value:
 
 ````julia
 p = sum(n_prime .<= n0[:network])./length(n_prime)
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: n_prime not defined
+</pre>
+
+
+````julia
 println("p ≈ $(round(p,3)), n = $(length(n_prime))
 the network is $(p < 0.05 ? "less nested than" : "as nested as") expected by chance.")
 ````
 
 
-````
-p ≈ 0.049, n = 900
-the network is less nested than expected by chance.
-````
+<pre class="julia-error">
+ERROR: UndefVarError: p not defined
+</pre>
 
 
 
 
-
-Take note that the number of random draws used for this example (
-900) is **not enough** in most cases. Aim for anything above 10000.
+Take note that the number of random draws used for this example (<pre class="julia-error">
+ERROR: UndefVarError: n_prime not defined
+</pre>
+) is **not enough** in most cases. Aim for anything above 10000.
 Finally, we can also look at the distribution of these values (all of this code
 is intended to make the final plot more palatable):
 
 ````julia
 low, high = quantile(n_prime, [0.05, 0.95])
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: n_prime not defined
+</pre>
+
+
+````julia
 rectangle(w, h, x, y) = Shape(x + [0,w,w,0], y + [0,0,h,h])
 pl = histogram(n_prime, fill=:lightgrey, c=:grey, lc=:grey, lw=1, framestyle=:zerolines, lab="Random draws", size=(900,300));
 ````

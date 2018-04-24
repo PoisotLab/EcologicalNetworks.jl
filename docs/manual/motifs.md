@@ -31,14 +31,22 @@ motif, this array can get quite big.
 N = fonseca_ganade_1996()
 m = BipartiteNetwork([true true false; false true true])
 motif = find_motif(N,m)
+````
+
+
+<pre class="julia-error">
+ERROR: InterruptException:
+</pre>
+
+
+````julia
 println("This motif is found $(length(motif)) times")
 ````
 
 
-````
-This motif is found 50 times
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: motif not defined
+</pre>
 
 
 
@@ -52,12 +60,9 @@ N[first(motif)...].A
 ````
 
 
-````
-2×3 Array{Int64,2}:
- 3  27  0
- 0   2  2
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: motif not defined
+</pre>
 
 
 
