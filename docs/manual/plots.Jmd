@@ -92,13 +92,13 @@ coefficient of repulsion [@McG12]. The defaults values of `L=50` and `R=0.05`
 give generally sensible results:
 
 ```julia
-graph_network_plot(N; filename=joinpath(working_path, "graph_fg96.png"), steps=5000);
+graph_network_plot(N; filename=joinpath(working_path, "graph_fg96.png"), steps=25000);
 ```
 
 ![Circular layout](/figures/graph_fg96.png)
 
 ```julia
-graph_network_plot(U; filename=joinpath(working_path, "graph_ttc.png"), steps=5000);
+graph_network_plot(U; filename=joinpath(working_path, "graph_ttc.png"), steps=25000);
 ```
 
 ![Circular layout](/figures/graph_ttc.png)

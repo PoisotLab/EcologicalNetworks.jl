@@ -18,9 +18,30 @@ degree(N, 1)
 ````
 
 
-<pre class="julia-error">
-ERROR: InterruptException:
-</pre>
+````
+Dict{String,Int64} with 25 entries:
+  "Pseudomyrmex concolor"         => 2
+  "Azteca isthmica"               => 4
+  "Azteca schummani"              => 2
+  "Solenops A"                    => 2
+  "Pseudomyrmex nigrescens"       => 2
+  "Crematogaster B"               => 3
+  "Crematogaster C"               => 2
+  "Azteca D"                      => 1
+  "Allomerus aff. Octoarticulata" => 3
+  "Azteca G"                      => 3
+  "Azteca TO"                     => 1
+  "Crematogaster D"               => 2
+  "Pheidole minutula"             => 3
+  "Azteca polymorpha"             => 1
+  "Camponotus balzanii"           => 1
+  "Allomerus D"                   => 1
+  "Crematogaster A"               => 4
+  "Azteca Q"                      => 1
+  "Azteca HC"                     => 1
+  ⋮                               => ⋮
+````
+
 
 
 
@@ -28,7 +49,10 @@ ERROR: InterruptException:
 A useful way to see represent this information is to plot the sorted degrees:
 
 ````julia
-degree(N,1) |> values |> collect |> sort |> reverse |> x -> scatter(x, ylab="Species degree", xlab="Species rank", lab="")
+degree(N,1) |>
+  values |> collect |>
+  sort |> reverse |>
+  x -> scatter(x, ylab="Species degree", xlab="Species rank", lab="")
 ````
 
 

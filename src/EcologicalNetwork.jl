@@ -25,7 +25,7 @@ export AbstractEcologicalNetwork, AllowedSpeciesTypes,
 
 # Datasets
 include(joinpath(".", "misc/data.jl"))
-export thompson_townsend_catlins, fonseca_ganade_1996
+export thompson_townsend_catlins, fonseca_ganade_1996, trojelsgaard_et_al_2014
 
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))
@@ -43,7 +43,7 @@ export links, links_var, connectance, connectance_var,
     linkage_density, link_number
 
 include(joinpath(".", "links/degenerate.jl"))
-export isdegenerate#, species_has_no_successors, species_has_no_predecessors,
+export isdegenerate, simplify#, species_has_no_successors, species_has_no_predecessors,
     #species_is_free, free_species
 
 # Random networks and permutations
@@ -80,6 +80,9 @@ include(joinpath(".", "plots/circular.jl"))
 export circular_network_plot
 include(joinpath(".", "plots/graph.jl"))
 export graph_network_plot
+
+# Beta-diversity
+include(joinpath(".", "betadiversity/operations.jl"))
 
 #=
 include(joinpath(".", "modularity/brim.jl"))

@@ -51,14 +51,14 @@ code {
   margin: 0 0;
 }
 
-.highlighter-rouge div.highlight{
+.highlighter-rouge pre.highlight{
   border-left: 1px solid #CFD8DC;
   background-color: #FBFBFB;
   margin: 20px auto;
   padding: 8px;
 }
 
-.language-julia div.highlight {
+.language-julia pre.highlight {
   &::before {
     content: "input";
     background-color: #CFD8DC;
@@ -68,14 +68,14 @@ code {
     display: block;
     padding: 2px 8px;
     margin: -8px;
+    margin-bottom: 10px;
+    margin-top: -20px;
   }
   background-color: #fcfcfc;
   border: 1px solid #CFD8DC;
   z-index: 2;
   padding: 8px;
-  pre {
-    padding-top: 20px;
-  }
+  padding-top: 20px;
 }
 
 img {
@@ -87,4 +87,20 @@ img {
 
 .js-plotly-plot {
   margin: 50px auto;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  tr {
+    line-height: 35px;
+    border-bottom: 1px solid #dBdBdB;
+  }
+  thead {
+    background-color: #FBFBFB;
+    border-top: 1px solid #dBdBdB;
+    tr {
+      line-height: 40px;
+    }
+  }
 }

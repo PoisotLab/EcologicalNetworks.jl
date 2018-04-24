@@ -22,7 +22,10 @@ degree(N, 1)
 A useful way to see represent this information is to plot the sorted degrees:
 
 ```julia
-degree(N,1) |> values |> collect |> sort |> reverse |> x -> scatter(x, ylab="Species degree", xlab="Species rank", lab="")
+degree(N,1) |>
+  values |> collect |>
+  sort |> reverse |>
+  x -> scatter(x, ylab="Species degree", xlab="Species rank", lab="")
 ```
 
 This is an easy way to see that there are comparatively fewer species with many
