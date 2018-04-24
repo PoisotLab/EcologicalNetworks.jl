@@ -71,3 +71,14 @@ function intersect{T<:UnipartiteNetwork}(X::T, Y::T)
     end
     return UnipartiteNetwork(new_a, new_s)
 end
+
+function setdiff{T<:BipartiteNetwork}(X::T, Y::T)
+    new_t = setdiff(species(X,1), species(Y,1))
+    new_b = setdiff(species(X,2), species(Y,2))
+    return X[new_t, new_b]
+end
+
+function setdiff{T<:UnipartiteNetwork}(X::T, Y::T)
+    new_s = setdiff(species(X,1), species(Y,1))
+    return X[new_s]
+end

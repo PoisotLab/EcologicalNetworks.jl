@@ -4,6 +4,7 @@ module EcologicalNetwork
 using StatsBase
 using Combinatorics
 using Luxor
+using NamedTuples
 
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
@@ -83,6 +84,12 @@ export graph_network_plot
 
 # Beta-diversity
 include(joinpath(".", "betadiversity/operations.jl"))
+include(joinpath(".", "betadiversity/partitions.jl"))
+export βs, βos, βwn
+
+include(joinpath(".", "betadiversity/measures.jl"))
+export whittaker, sorensen, jaccard, gaston, williams, lande, ruggiero,
+    hartekinzig, harrison
 
 #=
 include(joinpath(".", "modularity/brim.jl"))
@@ -96,11 +103,7 @@ export louvain, brim
 
 #=
 # Beta-diversity
-betadiversity,
-whittaker, sorensen, jaccard, gaston,
-williams, lande, ruggiero, hartekinzig,
 fractional_trophic_level, trophic_level, foodweb_position
-harrison,
 
 # Food webs measures
 =#
