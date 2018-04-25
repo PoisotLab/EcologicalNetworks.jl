@@ -84,7 +84,7 @@ include(joinpath(".", "plots/circular.jl"))
 export circular_layout, circular_network_plot
 
 include(joinpath(".", "plots/graph.jl"))
-export graph_network_plot
+export graph_layout, graph_network_plot
 
 # Beta-diversity
 include(joinpath(".", "betadiversity/operations.jl"))

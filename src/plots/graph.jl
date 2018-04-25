@@ -151,7 +151,11 @@ function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T, nodes; filename=
                    setopacity(N[s1,s2])
                 end
                 if s1 != s2
-                    arrow(p1, p2, linewidth=lw, arrowheadlength=25)
+                    if typeof(N) <: AbstractUnipartiteNetwork
+                        arrow(p1, p2, linewidth=lw, arrowheadlength=25)
+                    else
+                        line(p1, p2, :stroke)
+                    end
                 else
                     arrow(Point(p1.x+40, p1.y), 40, π*1.1, π/1.1, linewidth=lw, arrowheadlength=25)
                 end
@@ -189,6 +193,6 @@ function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T, nodes; filename=
 end
 
 function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="network.png", steps=15000, L=50.0, R=0.05, fontname="Noto Sans Condensed", fontsize=16, names=true)
-    l = graph_layout(N, steps=steps, L=L, R=R)[2]
-    return graph_network_plot(l..., filename=filename, fontname=fontname, fontsize=fontsize, names=names)
+    l = graph_layout(N, steps=steps, L=L, R=R)
+    graph_network_plot(l..., filename=filename, fontname=fontname, fontsize=fontsize, names=names)
 end

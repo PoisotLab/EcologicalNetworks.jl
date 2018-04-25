@@ -25,7 +25,9 @@ Additionally, all functions share similarities in their output. In bipartite
 networks, nodes from the top level are orange, and the bottom level nodes are
 blue. In unipartite networks, all nodes are green. The colors come from @Won11 --
 and have been picked to ensure maximum dissimilarity under normal vision,
-deuteranopia, tritanopia, and protanopia.
+deuteranopia, tritanopia, and protanopia. The interaction strength changes the
+line width in quantitative networks, and the line opacity in probabilistic
+networks.
 
 This page will illustrate the currently implemented layouts using a bipartite
 and a unipartite network:
@@ -99,24 +101,52 @@ The final product is determined by two parameters: the spring constant `L`,
 which acts as a sort of *scale* of the network, and the repulsion/attraction
 ratio `R`, which determines the coefficient of attraction *relative* to the
 coefficient of repulsion [@McG12]. The defaults values of `L=50` and `R=0.05`
-give generally sensible results:
+give generally sensible results (but `R=0.1` works well too):
 
 ````julia
-graph_network_plot(N; filename=joinpath(working_path, "graph_fg96.png"), steps=25000);
+graph_network_plot(trojelsgaard_et_al_2014()[2];
+  filename=joinpath(working_path, "graph_tr2.png"), steps=3500, R=0.1, names=false);
 ````
 
 
 
 
 
-![Circular layout](/figures/graph_fg96.png)
+![Circular layout](/figures/graph_tr2.png)
+
+## Advanced uses for layouts
+
+### Multiple networks
+
+Plotting a network is a two step process: calculating a layout (*i.e.* deciding
+where the points should be), and the drawing the relevant information. These two
+steps are separate, and done by functions called `x_layout` and
+`x_network_plot`. Calling `x_network_plot` will use the default parameters, but
+one can have a finer control by calling the layout step separately from the
+plotting step. Let's consider the example of two networks -- we want to show the
+position of the first networks, but we want the layout to reflect our knowledge
+of both networks. This can be done by calculating the layout on the union of
+both networks, but only plotting the first:
 
 ````julia
-graph_network_plot(U; filename=joinpath(working_path, "graph_ttc.png"), steps=25000);
+X, Y = trojelsgaard_et_al_2014()[1:2]
+M = reduce(union, convert.(BinaryNetwork, [X, Y]))
+m_layout = circular_layout(M)
+circular_network_plot(X, m_layout[2]; filename=joinpath(working_path, "graph_m1.png"), names=false)
+circular_network_plot(m_layout...; filename=joinpath(working_path, "graph_m2.png"), names=false)
+circular_network_plot(Y, m_layout[2]; filename=joinpath(working_path, "graph_m3.png"), names=false)
 ````
 
 
 
+true
 
 
-![Circular layout](/figures/graph_ttc.png)
+
+| Network 1  | Both networks | Network 2  |
+|:----------:|:-------------:|:----------:|
+| ![n1][fn1] |  ![n2][fn2]   | ![n3][fn3] |
+
+[fn1]: /figures/graph_m1.png
+[fn2]: /figures/graph_m2.png
+[fn3]: /figures/graph_m3.png

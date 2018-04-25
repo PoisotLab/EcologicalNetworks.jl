@@ -112,7 +112,7 @@ end
 
 function circular_layout(N; steps=50)
    angles = Dict([species(N)[i] => circle_angle(i, richness(N)) for i in eachindex(species(N))])
-   return circular_layout(N, angles, steps=steps)
+   circular_layout(N, angles, steps=steps)
 end
 
 function circular_layout(N, angles; steps=50)
