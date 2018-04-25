@@ -11,42 +11,133 @@ A = zeros(Bool, (12,12))
 A[1:4,1:4] = rand(Bool, (4,4))
 A[5:8,5:8] = rand(Bool, (4,4))
 A[9:12,9:12] = rand(Bool, (4,4))
-B = simplify(BipartiteNetwork(A))
 
-function circle_angle(p, n)
-   return p*2.0*π/n
+B = EcologicalNetwork.simplify(BipartiteNetwork(A))
+
+function graph_layout(N; steps=15000, L=50.0, R=0.05)
+    nodes = Dict([species(N)[i] => Dict(:x => rand()-0.5, :y => rand()-0.5, :fx => 0.0, :fy => 0.0, :n => eltype(species(N))[]) for i in 1:richness(N)])
+    for s in species(N)
+        neighbors = eltype(species(N))[]
+        if s in species(N,2)
+            for s2 in species(N,1)
+                if has_interaction(N, s2, s)
+                    push!(neighbors, s2)
+                end
+            end
+        end
+        if s in species(N,1)
+            for s2 in species(N,2)
+                if has_interaction(N, s, s2)
+                    push!(neighbors, s2)
+                end
+            end
+        end
+        neighbors = filter(x -> x!=s, neighbors)
+        nodes[s][:n] = neighbors
+    end
+    return graph_layout(N, nodes, steps=steps, L=L, R=R)
 end
 
-function angle_of_vector(x,y)
-   hypotenuse = sqrt(x*x+y*y)
-   θ = asin(y/hypotenuse)
-   if x < 0.0
-      θ = π - θ
-   end
-   if θ < 0.0
-      θ += 2.0*π
-   end
-   return θ
+function graph_layout(N, nodes; steps=15000, L=50.0, R=0.05)
+
+    Δt = 0.01
+    Kr = 6250.0
+    Ks = Kr/(R*L^3)
+    max_squared_displacement = Δt*5.5
+
+    for step in 1:steps
+        # Repulsion between all pairs
+        for s1_i in eachindex(species(N)[1:(end-1)])
+            for s2_i in (s1_i+1):richness(N)
+                s1, s2 = species(N)[[s1_i,s2_i]]
+                dx = nodes[s1][:x] - nodes[s2][:x]
+                dy = nodes[s1][:y] - nodes[s2][:y]
+                if ((dx != 0.0) | (dy != 0.0))
+                    squared_distance = dx*dx + dy*dy
+                    distance = sqrt(squared_distance)
+                    force = Kr/squared_distance
+                    fx = force * dx / distance
+                    fy = force * dy / distance
+                    nodes[s1][:fx] += fx
+                    nodes[s1][:fy] += fy
+                    nodes[s2][:fx] -= fx
+                    nodes[s2][:fy] -= fy
+                end
+            end
+        end
+        # Attraction between connected pairs
+        for s1 in species(N)
+            if length(nodes[s1][:n]) > 0
+                for s2 in nodes[s1][:n]
+                    spos = first(find(species(N).==s1))
+                    s2pos = first(find(species(N).==s2))
+                    if spos < s2pos
+                        dx = nodes[s1][:x] - nodes[s2][:x]
+                        dy = nodes[s1][:y] - nodes[s2][:y]
+                        if ((dx != 0.0) | (dy != 0.0))
+                            distance = sqrt(dx*dx + dy*dy)
+                            force = Ks * (distance - L)
+                            fx = force * dx / distance
+                            fy = force * dy / distance
+                            nodes[s1][:fx] -= fx
+                            nodes[s1][:fy] -= fy
+                            nodes[s2][:fx] += fx
+                            nodes[s2][:fy] += fy
+                        end
+                    end
+                end
+            end
+        end
+        # Attraction to the center
+        for s1 in species(N)
+            dx = nodes[s1][:x] - 0.0
+            dy = nodes[s1][:y] - 0.0
+            if ((dx != 0.0) | (dy != 0.0))
+                distance = sqrt(dx*dx + dy*dy)
+                force = Ks * (distance - L) * 0.1
+                fx = force * dx / distance
+                fy = force * dy / distance
+                nodes[s1][:fx] -= fx
+                nodes[s1][:fy] -= fy
+            end
+        end
+        # Movement
+        for s in species(N)
+            dx = Δt * nodes[s][:fx]
+            dy = Δt * nodes[s][:fy]
+            squared_displacement = dx*dx + dy*dy
+            if squared_displacement > max_squared_displacement
+                sc = sqrt(max_squared_displacement / squared_displacement)
+                dx *= sc
+                dy *= sc
+            end
+            nodes[s][:x] += dx
+            nodes[s][:y] += dy
+            nodes[s][:fx] = 0.0
+            nodes[s][:fy] = 0.0
+        end
+    end
+    return (N, nodes)
 end
 
-function circular_network_plot{T<:AbstractEcologicalNetwork}(N::T; steps=50, filename="network.png", Θ=π/3, fontname="Noto Sans Condensed", fontsize=16, names=true)
-   circular_network_plot(circular_layout(N, steps=steps)...; Θ=Θ, filename=filename, fontname=fontname, fontsize=fontsize, names=names)
-end
+function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T, nodes; filename="network.png", steps=15000, L=50.0, R=0.05, fontname="Noto Sans Condensed", fontsize=16, names=true)
 
-function circular_network_plot{T<:AbstractEcologicalNetwork}(N::T, angles; steps=50, filename="network.png", Θ=π/3, fontname="Noto Sans Condensed", fontsize=16, names=true)
+    r = 550.0
+    mx = minimum([n[:x] for (k,n) in nodes])
+    my = minimum([n[:y] for (k,n) in nodes])
+    Mx = maximum([n[:x] for (k,n) in nodes])
+    My = maximum([n[:y] for (k,n) in nodes])
 
-   r = 400.0
-   points = Dict([
-   s => Point(r * cos(angles[s]), r * sin(angles[s])) for s in species(N)
-   ])
+    points = Dict([
+        s => Point(((nodes[s][:x] - mx)/(Mx-mx) * 2.0 - 1.0) * r, ((nodes[s][:y] - my)/(My-my) * 2.0 - 1.0) * r) for s in species(N)
+    ])
 
-   Drawing(1360, 1360, filename)
-   setfont(fontname, fontsize)
-   origin()
 
-   circle_center = Point(0.0, 0.0)
+    Drawing(1360, 1360, filename)
+    setfont(fontname, fontsize)
+    origin()
 
-   if typeof(N) <: QuantitativeNetwork
+    if typeof(N) <: QuantitativeNetwork
       sethue("#777")
       setopacity(1.0)
    end
@@ -60,122 +151,79 @@ function circular_network_plot{T<:AbstractEcologicalNetwork}(N::T, angles; steps
       setline(3.5)
    end
 
-   for s1 in species(N,1)
-      has_int = false
-      for s2 in species(N,2)
-         if has_interaction(N, s1, s2)
-            p2, p1 = points[s1], points[s2]
-            detp1p2 = (p1.x) * (p2.y) - (p2.x) * (p1.y) < 0
-            if detp1p2
-               p1, p2 = points[s1], points[s2]
+    for s1 in species(N,1)
+        p1 = points[s1]
+        for s2 in species(N,2)
+            p2 = points[s2]
+            if has_interaction(N, s1, s2)
+                lw = 3.5
+                if typeof(N) <: QuantitativeNetwork
+                   int_s = N[s1,s2]./maximum(N.A)
+                   lw = int_s*8.0+2.0
+                   setline(lw)
+                end
+                if typeof(N) <: ProbabilisticNetwork
+                   setopacity(N[s1,s2])
+                end
+                if s1 != s2
+                    arrow(p1, p2, linewidth=lw, arrowheadlength=25)
+                else
+                    arrow(Point(p1.x+40, p1.y), 40, π*1.1, π/1.1, linewidth=lw, arrowheadlength=25)
+                end
             end
-            mid = midpoint(p1, p2)
-            chord_length = sqrt((p1.x-p2.x)^2+(p1.y-p2.y)^2)
-            opposite_side = chord_length/2.0
-            adjacent_side = opposite_side/(2.0*tan(Θ/2.0))
-            dist_midpoint = sqrt(mid.x^2+mid.y^2)
-            dist_adj = (dist_midpoint + adjacent_side)/dist_midpoint
-            arc_center = between(circle_center, mid, dist_adj)
-            # Format interaction
-            if typeof(N) <: QuantitativeNetwork
-               int_s = N[s1,s2]./maximum(N.A)
-               setline(int_s*8.0+2.0)
+        end
+    end
+    setopacity(1.0)
+
+    setline(2)
+
+    for s in species(N)
+
+        sethue("#fff")
+        circle(points[s], 12, :fill)
+
+        if typeof(N) <: AbstractBipartiteNetwork
+            if s in species(N, 1)
+                sethue(230/255, 159/255, 0/255)
+            else
+                sethue(0/255, 114/255, 178/255)
             end
-            if typeof(N) <: ProbabilisticNetwork
-               setopacity(N[s1,s2])
-            end
-            arc2r(arc_center, p2, p1, :stroke)
-         end
-      end
-   end
+        else
+            sethue(0/255, 158/255, 115/255)
+        end
 
-   setopacity(1.0)
-   setline(2)
+        circle(points[s], 12, :stroke)
 
-   for s in species(N)
+        if names
+            sethue("#000")
+            settext(string(s), points[s], halign="center", valign="center")
+        end
+    end
 
-      sethue("#fff")
-      circle(points[s], 12, :fill)
-
-      if typeof(N) <: AbstractBipartiteNetwork
-         if s in species(N, 1)
-            sethue(230/255, 159/255, 0/255)
-         else
-            sethue(0/255, 114/255, 178/255)
-         end
-      else
-         sethue(0/255, 158/255, 115/255)
-      end
-
-      circle(points[s], 12, :stroke)
-
-      sethue("#000")
-      if names
-         tpos = between(circle_center, points[s], 1.05)
-         this_angle = rad2deg(slope(circle_center, points[s]))
-         align = "left"
-         if 90 <= this_angle <= 270
-            this_angle = this_angle+180
-            align="right"
-         end
-         settext(string(s), tpos, angle=-this_angle, halign=align, valign="center")
-      end
-   end
-   finish()
+    finish()
 end
 
-function circular_layout(N; steps=50)
-   angles = Dict([species(N)[i] => circle_angle(i, richness(N)) for i in eachindex(species(N))])
-   return circular_layout(N, angles, steps=steps)
+function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="network.png", steps=15000, L=50.0, R=0.05, fontname="Noto Sans Condensed", fontsize=16, names=true)
+    l = graph_layout(N, steps=steps, L=L, R=R)
+    return graph_network_plot(l..., filename=filename, fontname=fontname, fontsize=fontsize, names=names)
 end
 
-function circular_layout(N, angles; steps=50)
 
-   nodes = Dict(zip(keys(angles), sortperm(collect(values(angles)))))
+B = fonseca_ganade_1996()
 
-   # Radial barycenter algorithm
-   for step in 1:steps
-      for s1 in species(N)
-         p1 = nodes[s1]
-         sx = cos(circle_angle(p1, richness(N)))
-         sy = sin(circle_angle(p1, richness(N)))
-         if s1 in species(N,1)
-            for s2 in species(N, 2)
-               if has_interaction(N,s1,s2)
-                  p2 = nodes[s2]
-                  sx += cos(circle_angle(p2, richness(N)))
-                  sy += sin(circle_angle(p2, richness(N)))
-               end
-            end
-         end
-         if s1 in species(N,2)
-            for s2 in species(N, 1)
-               if has_interaction(N,s2,s1)
-                  p2 = nodes[s2]
-                  sx += cos(circle_angle(p2, richness(N)))
-                  sy += sin(circle_angle(p2, richness(N)))
-               end
-            end
-         end
-         angles[s1] = angle_of_vector(sx, sy)
-      end
-
-      sorted = sort(collect(zip(values(angles),keys(angles))))
-      nodes = Dict([sorted[i][2] => i for i in eachindex(sorted)])
-      angles = Dict([s => circle_angle(v, richness(N)) for (s,v) in nodes])
-   end
-
-   return (N, angles)
-end
-
-circular_network_plot(fonseca_ganade_1996())
-circular_network_plot(thompson_townsend_catlins())
+lay = graph_layout(B, steps=1000)
+lay = graph_layout(lay..., steps=1000, R=0.1)
+graph_network_plot(lay...)
 
 Tr = trojelsgaard_et_al_2014()
-for i in eachindex(Tr)
-   circular_network_plot(Tr[i], filename="network_$i.png")
-end
-
 mTr = reduce(union, convert.(BinaryNetwork, Tr))
-m_layout = circular_layout(mTr)
-circular_network_plot(Tr[9], m_layout[2], fontsize=10)
+m_lay = graph_layout(mTr, steps=200, R=0.1)
+m_lay = graph_layout(m_lay..., steps=200, R=0.1)
+graph_network_plot(Tr[1], m_lay[2])
+
+graph_network_plot(m_lay..., names=false)
+
+
+A = collect(reshape(1:6, (3,2)))
+B = BipartiteQuantitativeNetwork(A)
+circular_network_plot(B, steps=1, names=false, filename="docs/logo.png")

@@ -1,13 +1,6 @@
-function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="network.png", steps=15000, L=50.0, R=0.05, fontname="Noto Sans Condensed", fontsize=16, names=true)
 
-    Δt = 0.01
-    Kr = 6250.0
-    Ks = Kr/(R*L^3)
-    max_squared_displacement = Δt*0.5
-
-    # The infos for every nodes are a dictionary
+function graph_layout(N; steps=15000, L=50.0, R=0.05)
     nodes = Dict([species(N)[i] => Dict(:x => rand()-0.5, :y => rand()-0.5, :fx => 0.0, :fy => 0.0, :n => eltype(species(N))[]) for i in 1:richness(N)])
-
     for s in species(N)
         neighbors = eltype(species(N))[]
         if s in species(N,2)
@@ -27,6 +20,15 @@ function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="networ
         neighbors = filter(x -> x!=s, neighbors)
         nodes[s][:n] = neighbors
     end
+    return graph_layout(N, nodes, steps=steps, L=L, R=R)
+end
+
+function graph_layout(N, nodes; steps=15000, L=50.0, R=0.05)
+
+    Δt = 0.01
+    Kr = 6250.0
+    Ks = Kr/(R*L^3)
+    max_squared_displacement = Δt*5.5
 
     for step in 1:steps
         # Repulsion between all pairs
@@ -100,6 +102,10 @@ function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="networ
             nodes[s][:fy] = 0.0
         end
     end
+    return (N, nodes)
+end
+
+function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T, nodes; filename="network.png", steps=15000, L=50.0, R=0.05, fontname="Noto Sans Condensed", fontsize=16, names=true)
 
     r = 550.0
     mx = minimum([n[:x] for (k,n) in nodes])
@@ -115,20 +121,39 @@ function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="networ
     Drawing(1360, 1360, filename)
     setfont(fontname, fontsize)
     origin()
-    sethue("#333")
 
-    setline(3.5)
-    setopacity(0.75)
+    if typeof(N) <: QuantitativeNetwork
+      sethue("#777")
+      setopacity(1.0)
+   end
+   if typeof(N) <: BinaryNetwork
+      sethue("#333")
+      setline(3.5)
+      setopacity(0.5)
+   end
+   if typeof(N) <: ProbabilisticNetwork
+      sethue("#333")
+      setline(3.5)
+   end
+
     for s1 in species(N,1)
         p1 = points[s1]
         for s2 in species(N,2)
             p2 = points[s2]
             if has_interaction(N, s1, s2)
-                sethue("#222")
+                lw = 3.5
+                if typeof(N) <: QuantitativeNetwork
+                   int_s = N[s1,s2]./maximum(N.A)
+                   lw = int_s*8.0+2.0
+                   setline(lw)
+                end
+                if typeof(N) <: ProbabilisticNetwork
+                   setopacity(N[s1,s2])
+                end
                 if s1 != s2
-                    arrow(p1, p2, linewidth=3.5, arrowheadlength=25)
+                    arrow(p1, p2, linewidth=lw, arrowheadlength=25)
                 else
-                    arrow(Point(p1.x+40, p1.y), 40, π*1.1, π/1.1, linewidth=3.5, arrowheadlength=25)
+                    arrow(Point(p1.x+40, p1.y), 40, π*1.1, π/1.1, linewidth=lw, arrowheadlength=25)
                 end
             end
         end
@@ -138,6 +163,9 @@ function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="networ
     setline(2)
 
     for s in species(N)
+
+        sethue("#fff")
+        circle(points[s], 12, :fill)
 
         if typeof(N) <: AbstractBipartiteNetwork
             if s in species(N, 1)
@@ -149,9 +177,7 @@ function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="networ
             sethue(0/255, 158/255, 115/255)
         end
 
-        circle(points[s], 15, :fill)
-        sethue("#222")
-        circle(points[s], 15, :stroke)
+        circle(points[s], 12, :stroke)
 
         if names
             sethue("#000")
@@ -160,4 +186,9 @@ function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="networ
     end
 
     finish()
+end
+
+function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T; filename="network.png", steps=15000, L=50.0, R=0.05, fontname="Noto Sans Condensed", fontsize=16, names=true)
+    l = graph_layout(N, steps=steps, L=L, R=R)[2]
+    return graph_network_plot(l..., filename=filename, fontname=fontname, fontsize=fontsize, names=names)
 end
