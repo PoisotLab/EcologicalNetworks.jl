@@ -81,7 +81,8 @@ export brim
 
 # Plots
 include(joinpath(".", "plots/circular.jl"))
-export circular_network_plot
+export circular_layout, circular_network_plot
+
 include(joinpath(".", "plots/graph.jl"))
 export graph_network_plot
 
