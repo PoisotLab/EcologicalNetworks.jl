@@ -1,4 +1,4 @@
-function brim(N::BipartiteNetwork, TL::Array{Int64, 1}, BL::Array{Int64, 1})
+function brim{T<:BipartiteNetwork}(N::T, TL::Array{Int64, 1}, BL::Array{Int64, 1})
   @assert length(TL) == richness(N,1)
   @assert length(BL) == richness(N,2)
 

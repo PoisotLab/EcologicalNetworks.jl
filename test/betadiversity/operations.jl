@@ -23,7 +23,7 @@ module TestBetaDivOperations
   @assert richness(U) == richness(B)
   @assert links(I) <= links(B)
   @assert links(I) <= links(A)
-  @assert richness(I) == richness(B)
+  @assert richness(I) == richness(A)
 
   # TODO no setdiff
   # TODO only unique species
