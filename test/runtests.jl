@@ -22,7 +22,8 @@ my_tests = [
    "betadiversity/operations.jl",
    "modularity/utilities.jl",
    "modularity/labelpropagation.jl",
-   "modularity/brim.jl"
+   "modularity/brim.jl",
+   "modularity/louvain.jl"
 ]
 
 test_n = 1

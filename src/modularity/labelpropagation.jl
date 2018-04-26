@@ -1,55 +1,5 @@
-function lp{T<:BipartiteNetwork}(N::T)
-  TL = collect(1:length(species(N,1)))
-  BL = collect(1:length(species(N,2))).+richness(N,1)
-
-  # Initial modularity
-  imod = Q(N, TL, BL)
-  amod = imod
-  improved = true
-
-  while improved
-    order_t = shuffle(1:richness(N,1))
-    order_b = shuffle(1:richness(N,2))
-
-    for i in order_t
-      linked = filter(j -> N[i,j], collect(1:richness(N,2)))
-      labels = BL[linked]
-      if length(labels) > 0
-        counts = StatsBase.counts(BL[linked])
-        cmax = maximum(counts)
-        merged = Dict(zip(labels, counts))
-        ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
-        if length(ok_keys) > 0
-          newlab = StatsBase.sample(collect(ok_keys))
-          TL[i] = newlab
-        end
-      end
-    end
-
-    for j in order_b
-      linked = filter(i -> N[i,j], collect(1:richness(N,1)))
-      labels = TL[linked]
-      if length(labels) > 0
-        counts = StatsBase.counts(TL[linked])
-        cmax = maximum(counts)
-        merged = Dict(zip(labels, counts))
-        ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
-        if length(ok_keys) > 0
-          newlab = StatsBase.sample(collect(ok_keys))
-          BL[j] = newlab
-        end
-      end
-    end
-
-    # Modularity improved?
-    amod = Q(N, TL, BL)
-    imod, improved = amod > imod ? (amod, true) : (amod, false)
-  end
-  return (N, TL, BL)
-end
-
-function lp{T<:UnipartiteNetwork}(N::T)
-  L = collect(1:length(species(N)))
+function lp{T<:AbstractEcologicalNetwork}(N::T)
+  L = Dict([species(N)[i]=>i for i in 1:richness(N)])
 
   # Initial modularity
   imod = Q(N, L)
@@ -57,37 +7,35 @@ function lp{T<:UnipartiteNetwork}(N::T)
   improved = true
 
   while improved
+    update_t = shuffle(species(N,1))
+    update_b = shuffle(species(N,2))
 
-    order_s = shuffle(1:richness(N))
-
-    for i in order_s
-      linked = filter(j -> N[i,j], collect(1:richness(N)))
-      labels = L[linked]
+    for s1 in update_t
+      linked = filter(s2 -> has_interaction(N,s1,s2), species(N,2))
+      labels = [L[s2] for s2 in linked]
       if length(labels) > 0
-        counts = StatsBase.counts(L[linked])
+        counts = StatsBase.counts(labels)
         cmax = maximum(counts)
         merged = Dict(zip(labels, counts))
         ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
         if length(ok_keys) > 0
           newlab = StatsBase.sample(collect(ok_keys))
-          L[i] = newlab
+          L[s1] = newlab
         end
       end
     end
 
-    order_s = shuffle(1:richness(N))
-
-    for i in order_s
-      linked = filter(j -> N[j,i], collect(1:richness(N)))
-      labels = L[linked]
+    for s2 in update_b
+      linked = filter(s1 -> has_interaction(N,s1,s2), species(N,1))
+      labels = [L[s1] for s1 in linked]
       if length(labels) > 0
-        counts = StatsBase.counts(L[linked])
+        counts = StatsBase.counts(labels)
         cmax = maximum(counts)
         merged = Dict(zip(labels, counts))
         ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
         if length(ok_keys) > 0
           newlab = StatsBase.sample(collect(ok_keys))
-          L[i] = newlab
+          L[s2] = newlab
         end
       end
     end
@@ -96,5 +44,6 @@ function lp{T<:UnipartiteNetwork}(N::T)
     amod = Q(N, L)
     imod, improved = amod > imod ? (amod, true) : (amod, false)
   end
+  tidy_modules!(L)
   return (N, L)
 end

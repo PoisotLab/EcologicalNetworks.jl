@@ -79,6 +79,9 @@ export lp
 include(joinpath(".", "modularity/brim.jl"))
 export brim
 
+include(joinpath(".", "modularity/louvain.jl"))
+export louvain
+
 # Plots
 include(joinpath(".", "plots/circular.jl"))
 export circular_layout, circular_network_plot
@@ -97,12 +100,9 @@ export whittaker, sorensen, jaccard, gaston, williams, lande, ruggiero,
 
 #=
 
-include(joinpath(".", "modularity/labelpropagation.jl"))
 include(joinpath(".", "modularity/louvain.jl"))
-include(joinpath(".", "modularity/lpbrim.jl"))
 include(joinpath(".", "modularity/modularity.jl"))
 export modularity, networkroles
-export louvain, brim
 =#
 
 #=
