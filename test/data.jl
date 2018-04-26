@@ -14,4 +14,10 @@ module TestData
   @test typeof(fc96) <: BipartiteQuantitativeNetwork
   @test richness(fc96) == 16+25
 
+  mc93 = mccullen_1993()
+  @test typeof(mc93) <: AbstractBipartiteNetwork
+  @test richness(mc93) == 159
+  @test richness(mc93,1) == 54
+  @test richness(mc93,2) == 105
+
 end
