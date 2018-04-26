@@ -15,14 +15,20 @@ N = convert(BinaryNetwork, fonseca_ganade_1996())
 
 lpbrim = (n) -> n |> lp |> x -> brim(x...)
 
-@elapsed trials = [lpbrim(N) for i in 1:1000]
-plot(sort(trials .|> x -> Q(x...)))
+@elapsed trials = [Q(lpbrim(N)...) for i in 1:1000]
 
 Threads.nthreads()
 
-a = zeros(1000)
-@elapsed Threads.@threads for i in eachindex(a)
-  a[i] = Q(lpbrim(N)...)
+a = zeros(3000)
+chunks = 1000
+length(a)/chunks
+@elapsed Threads.@threads for i in 1:convert(Int64, length(a)/chunks)
+    i_start = (i-1)*chunks+1
+    i_end = i_start + chunks - 1
+    a[i_start:i_end] = [Q(lpbrim(N)...) for j in 1:chunks]
 end
 
-a
+Threads.@threads for i in 1:200
+    rand()*rand()
+    println(i)
+end
