@@ -16,8 +16,7 @@ mu = lp(U)
 @test Qr(mb...) == 1.0
 @test Qr(mu...) == 1.0
 
-@test length(unique(mb[2])) == 2
-@test length(unique(mb[3])) == 2
-@test length(unique(mu[2])) == 2
+@test length(unique(collect(values(mb[2])))) == 2
+@test length(unique(collect(values(mu[2])))) == 2
 
 end

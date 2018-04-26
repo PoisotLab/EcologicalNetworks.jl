@@ -22,12 +22,11 @@ my_tests = [
    "betadiversity/operations.jl",
    "modularity/utilities.jl",
    "modularity/labelpropagation.jl",
-   "modularity/brim.jl",
-   "modularity/louvain.jl"
+   "modularity/brim.jl"
 ]
 
 test_n = 1
-for my_test in shuffle(my_tests)
+for my_test in my_tests
   try
     include(my_test)
     println("[TEST $(lpad(test_n,2))] \033[1m\033[32mPASS\033[0m $(my_test)")

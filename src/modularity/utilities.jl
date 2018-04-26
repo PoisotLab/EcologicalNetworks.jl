@@ -34,8 +34,8 @@ end
 function Qr{T<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}(N::T, L::Dict{E,Int64})
   @assert all(species(N) .∈ keys(L))
   W = sum(N.A .* δ(N, L))
-  E = links(N)
-  return 2.0 * (W/E) - 1.0
+  B = links(N)
+  return 2.0 * (W/B) - 1.0
 end
 
 function tidy_modules!{E<:AllowedSpeciesTypes}(L::Dict{E,Int64})
