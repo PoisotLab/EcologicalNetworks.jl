@@ -1,19 +1,14 @@
 <h4>EcologicalNetwork.jl</h4>
 
-<ul class="nav maintoc">
+<nav>
+  <a href="/">Home</a>
   {% for collection in site.collections %}
   {% assign name = collection.label %}
   {% if name != "posts" %}
-  <li class="nav-item active">
-    <a href="#">{{collection.name}}</a>
-    <ul class="nav">
+    <span>{{collection.name}}</span>
     {% for page in site.[name] %}
-    <li class="nav-item">
-        <a href="{{page.url}}">{{page.title}}</a>
-      </li>
+    <a href="{{page.url}}" class="sublink-1">{{page.title}}</a>
     {% endfor %}
-  </ul>
-  </li>
   {% endif %}
   {% endfor %}
-</ul>
+</nav>

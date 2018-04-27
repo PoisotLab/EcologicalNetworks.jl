@@ -59,7 +59,7 @@ while (match != null) {
   }
 
   reflink = "<a href='" + GOTO + "' title='" + ref['title'] + "' target='_blank' >Go to the paper</a>";
-  btn = '<span class="btntip" title="' + ref['title'] + ' - ' + reflink + '">' + citation + '</span>';
+  btn = '<mark class="btntip reference" title="' + ref['title'] + ' - ' + reflink + '">' + citation + '</mark>';
 
   var new_html = $('.maincontent').html().replace(match[0], btn);
   $('.maincontent').html(function() {return new_html});

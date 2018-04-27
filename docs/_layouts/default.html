@@ -7,11 +7,13 @@
 <body>
 
 <div class="container">
-  <div class="columns">
-    <div class="column col-2 toc">
-      {% include navbar.html %}
+  <div class="row">
+    <div class="col-sm-12 col-md-4 col-lg-3">
+      <div class="toc">
+        {% include navbar.html %}
+      </div>
     </div>
-    <div class="column col-6 col-mx-auto maincontent">
+    <div class="col-sm-12 col-md-8 col-lg-8 maincontent">
       <h1>{{page.title}}</h1>
       {{ content }}
     </div>
@@ -23,6 +25,10 @@
 <script src="https://unpkg.com/tippy.js@2.5.2/dist/tippy.all.min.js"></script>
 
 {% include references.html %}
+
+<footer>
+  TODO
+</footer>
 
 <script>
 tippy('.btntip', {
