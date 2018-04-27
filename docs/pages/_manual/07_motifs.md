@@ -3,6 +3,7 @@ title : Motif enumeration
 author : Timothée Poisot
 date : 18th April 2018
 layout: default
+slug: motifs
 ---
 
 
@@ -31,22 +32,14 @@ motif, this array can get quite big.
 N = fonseca_ganade_1996()
 m = BipartiteNetwork([true true false; false true true])
 motif = find_motif(N,m)
-````
-
-
-<pre class="julia-error">
-ERROR: InterruptException:
-</pre>
-
-
-````julia
 println("This motif is found $(length(motif)) times")
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: motif not defined
-</pre>
+````
+This motif is found 50 times
+````
+
 
 
 
@@ -60,9 +53,12 @@ N[first(motif)...].A
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: motif not defined
-</pre>
+````
+2×3 Array{Int64,2}:
+ 3  27  0
+ 0   2  2
+````
+
 
 
 

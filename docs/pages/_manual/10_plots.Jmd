@@ -3,10 +3,13 @@ title : Drawing networks
 author : Timothée Poisot
 date : 11th April 2018
 layout: default
+slug: plots
 ---
 
-
-
+```julia; echo=false
+using EcologicalNetwork
+working_path = joinpath(pwd(), "docs", "figures")
+```
 
 The network representations have been taken from @McG12. They are not meant to
 offer a full network visualisation suite, but they allow to create pictures to
@@ -32,14 +35,10 @@ networks.
 This page will illustrate the currently implemented layouts using a bipartite
 and a unipartite network:
 
-````julia
+```julia
 N = fonseca_ganade_1996()
 U = thompson_townsend_catlins()
-````
-
-
-
-
+```
 
 ## Circular layout
 
@@ -56,23 +55,15 @@ the "best" layout.
 
 In the circular layout, self-interactions are currently *not* represented.
 
-````julia
+```julia
 circular_network_plot(N; filename=joinpath(working_path, "circular_fg96.png"));
-````
-
-
-
-
+```
 
 ![Circular layout](/figures/circular_fg96.png)
 
-````julia
+```julia
 circular_network_plot(U; filename=joinpath(working_path, "circular_ttc.png"));
-````
-
-
-
-
+```
 
 ![Circular layout](/figures/circular_ttc.png)
 
@@ -103,14 +94,10 @@ ratio `R`, which determines the coefficient of attraction *relative* to the
 coefficient of repulsion [@McG12]. The defaults values of `L=50` and `R=0.05`
 give generally sensible results (but `R=0.1` works well too):
 
-````julia
+```julia
 graph_network_plot(trojelsgaard_et_al_2014()[2];
   filename=joinpath(working_path, "graph_tr2.png"), steps=5000, R=0.1, names=false);
-````
-
-
-
-
+```
 
 ![Circular layout](/figures/graph_tr2.png)
 
@@ -128,20 +115,14 @@ position of the first networks, but we want the layout to reflect our knowledge
 of both networks. This can be done by calculating the layout on the union of
 both networks, but only plotting the first:
 
-````julia
+```julia
 X, Y = trojelsgaard_et_al_2014()[1:2]
 M = reduce(union, convert.(BinaryNetwork, [X, Y]))
 m_layout = circular_layout(M)
 circular_network_plot(X, m_layout[2]; filename=joinpath(working_path, "graph_m1.png"), names=false)
 circular_network_plot(m_layout...; filename=joinpath(working_path, "graph_m2.png"), names=false)
 circular_network_plot(Y, m_layout[2]; filename=joinpath(working_path, "graph_m3.png"), names=false)
-````
-
-
-
-true
-
-
+```
 
 | Network 1  | Both networks | Network 2  |
 |:----------:|:-------------:|:----------:|

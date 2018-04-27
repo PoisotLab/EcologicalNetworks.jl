@@ -2,7 +2,75 @@
 # front matter
 ---
 
-code, pre {
-  font-family: "Hack", monospace;
-  font-size: 100%;
+body {
+  background-color: #fbfbfb;
+}
+
+h1, h2, h3 {
+  position: sticky;
+  display: block;
+  background-color: #fbfbfb;
+  height: 70px;
+  line-height: 70px;
+  top: 0;
+}
+
+h1 {
+  z-index: 3;
+}
+h2 {
+  z-index: 4;
+}
+h3 {
+  z-index: 5;
+}
+
+.maintoc {
+  position: fixed;
+}
+
+.toc {
+  background-color: #fff;
+  border-right: 1px solid #f2f2f2;
+  h4 {
+    position: sticky;
+    top: 0;
+    display: block;
+    margin: 0px auto;
+    line-height: 70px;
+  }
+}
+
+.btntip {
+  background-color: #E1F5FE;
+  color: #0277BD;
+  border-radius: 2px;
+}
+
+code {
+  background-color: #EFEBE9;
+  color: #4E342E;
+  border-radius: 2px;
+}
+
+pre {
+  background-color: #ffffff;
+  border: 1px solid #f2f2f2;
+  border-radius: 2px;
+  padding: 10px;
+  code {
+    color: #232323 !important;
+    background: none !important;
+  }
+}
+
+.maincontent {
+  h1 {
+    &:first-child {
+      margin-bottom: 200px;
+    }
+  }
+  img {
+    max-width: 100%;
+  }
 }

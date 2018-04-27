@@ -15,5 +15,5 @@ test: src/*jl test/*jl
 CONTRIBUTING.md:
 	wget -O $@ https://raw.githubusercontent.com/PoisotLab/PLCG/master/README.md
 
-docs: docs/manual/*.Jmd docs/casestudies/*.Jmd
+docs: docs/pages/_manual/*.Jmd docs/pages/_usecases/*.Jmd
 	julia docs/build.jl

@@ -1,20 +1,19 @@
+<h4>EcologicalNetwork.jl</h4>
 
-<h3 class="text-right">
-  EcologicalNetwork.jl<br />
-  <small class="text-muted">Documentation & examples</small>
-</h3>
-
-<nav id="navbar-example3" class="navbar navbar-light sticky-top justify-content-end">
-  <nav class="nav nav-pills flex-column">
-    <nav class="nav nav-pills flex-column">
-      <a class="nav-link text-muted">Use cases</a>
-      <a class="nav-link ml-3 my-1" href="#item-1-1">Item 1-1</a>
-      <a class="nav-link ml-3 my-1" href="#item-1-2">Item 1-2</a>
-    </nav>
-    <nav class="nav nav-pills flex-column">
-      <a class="nav-link text-muted">Manual</a>
-      <a class="nav-link ml-3 my-1" href="#item-1-1">Item 1-1</a>
-      <a class="nav-link ml-3 my-1" href="#item-1-2">Item 1-2</a>
-    </nav>
-  </nav>
-</nav>
+<ul class="nav maintoc">
+  {% for collection in site.collections %}
+  {% assign name = collection.label %}
+  {% if name != "posts" %}
+  <li class="nav-item active">
+    <a href="#">{{collection.name}}</a>
+    <ul class="nav">
+    {% for page in site.[name] %}
+    <li class="nav-item">
+        <a href="{{page.url}}">{{page.title}}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  </li>
+  {% endif %}
+  {% endfor %}
+</ul>

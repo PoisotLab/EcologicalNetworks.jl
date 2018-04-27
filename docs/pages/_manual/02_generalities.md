@@ -3,6 +3,7 @@ title : Accessing species and interactions
 author : Timothée Poisot
 date : 11th April 2018
 layout: default
+slug: accessing
 ---
 
 

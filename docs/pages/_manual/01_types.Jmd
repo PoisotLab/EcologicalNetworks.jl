@@ -3,6 +3,7 @@ title : Understanding the type system
 author : Timothée Poisot
 date : 11th April 2018
 layout: default
+slug: typesystem
 ---
 
 ```julia; echo=false

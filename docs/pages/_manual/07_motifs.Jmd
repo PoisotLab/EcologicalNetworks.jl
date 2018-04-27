@@ -3,6 +3,7 @@ title : Motif enumeration
 author : Timothée Poisot
 date : 18th April 2018
 layout: default
+slug: motifs
 ---
 
 ```julia; echo=false

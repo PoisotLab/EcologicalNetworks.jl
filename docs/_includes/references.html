@@ -59,8 +59,7 @@ while (match != null) {
   }
 
   reflink = "<a href='" + GOTO + "' title='" + ref['title'] + "' target='_blank' >Go to the paper</a>";
-  btn = '<a tabindex="0" class="biblio-ref" role="button" data-toggle="popover" data-trigger="focus" title="' + inline + ' (' + pubyear + ')" data-content="' + ref['title'] + '<hr />' + reflink + '"><i class="far fa-file-alt"></i></a>';
-  btn = '<span data-tooltip tabindex="1" title="' + reflink + '" data-allow-html="true">'+citation+'</span>';
+  btn = '<span class="btntip" title="' + ref['title'] + ' - ' + reflink + '">' + citation + '</span>';
 
   var new_html = $('.maincontent').html().replace(match[0], btn);
   $('.maincontent').html(function() {return new_html});

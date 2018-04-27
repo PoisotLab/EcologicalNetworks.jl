@@ -6,28 +6,30 @@
 
 <body>
 
-  <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12 col-md-8 maincontent">
+<div class="container">
+  <div class="columns">
+    <div class="column col-2 toc">
+      {% include navbar.html %}
+    </div>
+    <div class="column col-6 col-mx-auto maincontent">
       <h1>{{page.title}}</h1>
       {{ content }}
     </div>
-    <div class="col-md-4">
-      {% include navbar.html %}
-    </div>
   </div>
+
 </div>
 
-
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-
-<script>
-$('body').scrollspy({ target: '#navbar-example3' })
-</script>
+<script src="https://unpkg.com/tippy.js@2.5.2/dist/tippy.all.min.js"></script>
 
 {% include references.html %}
 
+<script>
+tippy('.btntip', {
+  arrow: true,
+  animation: 'scale',
+  interactive: true
+});
+</script>
 </body>
 </html>
