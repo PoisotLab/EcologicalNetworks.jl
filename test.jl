@@ -2,7 +2,7 @@ include("./src/EcologicalNetwork.jl")
 using EcologicalNetwork
 
 using Plots
-plotly()
+plotlyjs()
 
 A = zeros(Bool, (12,12))
 A[1:4,1:4] = rand(Bool, (4,4))
@@ -14,21 +14,24 @@ B = simplify(BipartiteNetwork(A))
 N = convert(BinaryNetwork, fonseca_ganade_1996())
 
 lpbrim = (n) -> n |> lp |> x -> brim(x...)
+eabrim = (n) -> n |> each_species_its_module |> x -> brim(x...)
+rndbrim = (n,c) -> n |> n_random_modules(c) |> x -> brim(x...)
 
-@elapsed trials = [Q(lpbrim(N)...) for i in 1:1000]
+lpruns = [lpbrim(N) for i in 1:500]
+lp_c = lpruns .|> x -> collect(values(x[2])) |> unique |> length
+lp_q = lpruns .|> x -> Q(x...)
 
-Threads.nthreads()
+c = rand(1:maximum(size(N)), 500)
+e_runs = [rndbrim(N,i) for i in c]
+e_c = e_runs .|> x -> collect(values(x[2])) |> unique |> length
+e_q = e_runs .|> x -> Q(x...)
 
-a = zeros(3000)
-chunks = 1000
-length(a)/chunks
-@elapsed Threads.@threads for i in 1:convert(Int64, length(a)/chunks)
-    i_start = (i-1)*chunks+1
-    i_end = i_start + chunks - 1
-    a[i_start:i_end] = [Q(lpbrim(N)...) for j in 1:chunks]
-end
+earuns = [eabrim(N) for i in 1:500]
+lp_c = lpruns .|> x -> collect(values(x[2])) |> unique |> length
+lp_q = lpruns .|> x -> Q(x...)
 
-Threads.@threads for i in 1:200
-    rand()*rand()
-    println(i)
-end
+scatter(e_c, e_q, ms=4, c=:grey, msc=:grey)
+scatter!(lp_c, lp_q, ms=2, c=:black)
+
+maximum(e_q)
+maximum(lp_q)

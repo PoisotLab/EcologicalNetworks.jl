@@ -13,9 +13,9 @@ to all species in the network. Second, we optimize this partition using
 heuristics. We will illustrate how these functions work by simulating a reasonably modular network:
 
 ````julia
-A = zeros(Bool, (8,8))
-A[1:4,1:4] = rand(Float64, (4,4)).<0.8
-A[5:8,5:8] = rand(Float64, (4,4)).<0.8
+A = zeros(Bool, (12,12))
+A[1:6,1:6] = rand(Float64, (6,6)).<0.8
+A[7:12,7:12] = rand(Float64, (6,6)).<0.8
 B = simplify(BipartiteNetwork(A))
 ````
 
@@ -36,23 +36,27 @@ L
 
 
 ````
-Dict{String,Int64} with 16 entries:
-  "t3" => 3
-  "t7" => 7
-  "b2" => 10
-  "t5" => 5
-  "b8" => 16
-  "t4" => 4
-  "b7" => 15
-  "b3" => 11
-  "t2" => 2
-  "t1" => 1
-  "t8" => 8
-  "b5" => 13
-  "t6" => 6
-  "b4" => 12
-  "b6" => 14
-  "b1" => 9
+Dict{String,Int64} with 24 entries:
+  "t3"  => 3
+  "t7"  => 7
+  "b12" => 24
+  "b2"  => 14
+  "t10" => 10
+  "t5"  => 5
+  "b8"  => 20
+  "b11" => 23
+  "t4"  => 4
+  "b7"  => 19
+  "b9"  => 21
+  "t12" => 12
+  "b3"  => 15
+  "t2"  => 2
+  "t11" => 11
+  "t1"  => 1
+  "t8"  => 8
+  "b5"  => 17
+  "b10" => 22
+  ⋮     => ⋮
 ````
 
 
@@ -61,42 +65,40 @@ Dict{String,Int64} with 16 entries:
 
 The functions to perform the initial modules assignation must return a tuple
 with the network in the first position, and the dictionary of modules in the
-second position. For example, we can create a function to assign the species to
-5 random modules with:
+second position.
+
+### Random modules
+
+One current way to proceed is to guesstimate the number of modules, and assign
+species to them at random. This can be done with the `n_random_modules`
+function:
 
 ````julia
-function random_modules(;n::Int64=5)
-  return (N::BinaryNetwork) -> (N, Dict([species(N)[i] => rand(1:n) for i in 1:richness(N)]))
-end
+five_rand = n_random_modules(5)
+````
 
-five_rand = random_modules(n=5)
+
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
+
+
+````julia
 five_rand(B)[2]
 ````
 
 
-````
-Dict{String,Int64} with 16 entries:
-  "t3" => 5
-  "t7" => 1
-  "b2" => 2
-  "t5" => 2
-  "b8" => 3
-  "t4" => 5
-  "b7" => 5
-  "b3" => 3
-  "t2" => 5
-  "t1" => 5
-  "t8" => 4
-  "b5" => 5
-  "t6" => 5
-  "b4" => 5
-  "b6" => 5
-  "b1" => 5
-````
+<pre class="julia-error">
+ERROR: UndefVarError: five_rand not defined
+</pre>
 
 
 
 
+Note that `n_random_modules` *returns* a function which will create `n` modules
+at random.
+
+### Label propagation
 
 `EcologicalNetwork` offers a `lp` function for label propagation @TODO -- while
 most adapted for large graphs, we found that LP usually gives a robust starting
@@ -109,23 +111,27 @@ initial_p[2]
 
 
 ````
-Dict{String,Int64} with 16 entries:
-  "t3" => 2
-  "t7" => 3
-  "b2" => 2
-  "t5" => 5
-  "b8" => 5
-  "t4" => 2
-  "b7" => 3
-  "b3" => 2
-  "t2" => 2
-  "t1" => 1
-  "t8" => 4
-  "b5" => 3
-  "t6" => 3
-  "b4" => 2
-  "b6" => 3
-  "b1" => 1
+Dict{String,Int64} with 24 entries:
+  "t3"  => 5
+  "t7"  => 10
+  "b12" => 10
+  "b2"  => 1
+  "t10" => 6
+  "t5"  => 2
+  "b8"  => 7
+  "b11" => 9
+  "t4"  => 5
+  "b7"  => 10
+  "b9"  => 10
+  "t12" => 10
+  "b3"  => 1
+  "t2"  => 3
+  "t11" => 8
+  "t1"  => 4
+  "t8"  => 7
+  "b5"  => 4
+  "b10" => 6
+  ⋮     => ⋮
 ````
 
 
@@ -133,5 +139,25 @@ Dict{String,Int64} with 16 entries:
 
 
 ## Modularity optimization
+
+Functions to optimize the modularity accept two arguments: a network, and a
+dictionary with modules identity. You may recognize this as the output of the
+functions to initially assign modules, and you would be right. This allows
+unpacking the output of the initial module assignation function into the
+modularity function, following the template of
+
+```
+modularity(initial(network)...)
+```
+
+### BRIM
+
+````julia
+b_brim = brim(lp(B)...)
+````
+
+
+
+
 
 ## Modularity functions

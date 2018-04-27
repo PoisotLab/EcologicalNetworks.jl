@@ -23,17 +23,9 @@ B = simplify(BipartiteNetwork(A))
 ## Initial modules assignation
 
 Modules are stored as a dictionary with one integer value for each species in
-the network. One way to have each species start in its own module is, for
-example, to do
-
-```julia
-L = Dict([species(B)[i] => i for i in 1:richness(B)])
-L
-```
-
-The functions to perform the initial modules assignation must return a tuple
-with the network in the first position, and the dictionary of modules in the
-second position.
+the network. The functions to perform the initial modules assignation must
+return a tuple with the network in the first position, and the dictionary of
+modules in the second position.
 
 ### Random modules
 
@@ -48,6 +40,12 @@ five_rand(B)[2]
 
 Note that `n_random_modules` *returns* a function which will create `n` modules
 at random.
+
+### One module for every species
+
+```julia
+each_species_its_module(N)[2]
+```
 
 ### Label propagation
 
@@ -76,6 +74,7 @@ modularity(initial(network)...)
 
 ```julia
 b_brim = brim(lp(B)...)
+b_brim
 ```
 
 ## Modularity functions
