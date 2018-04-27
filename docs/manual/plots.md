@@ -105,7 +105,7 @@ give generally sensible results (but `R=0.1` works well too):
 
 ````julia
 graph_network_plot(trojelsgaard_et_al_2014()[2];
-  filename=joinpath(working_path, "graph_tr2.png"), steps=3500, R=0.1, names=false);
+  filename=joinpath(working_path, "graph_tr2.png"), steps=5000, R=0.1, names=false);
 ````
 
 

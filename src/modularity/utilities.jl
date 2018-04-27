@@ -48,3 +48,9 @@ function tidy_modules!{E<:AllowedSpeciesTypes}(L::Dict{E,Int64})
     end
   end
 end
+
+function n_random_modules(n::Int64)
+  @assert n > 0
+  @assert n <= richness(N)
+  return (N::AbstractBipartiteNetwork) -> (N, Dict([species(N)[i] => rand(1:n) for i in 1:richness(N)]))
+end

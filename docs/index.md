@@ -12,9 +12,10 @@ networks. It is compatible with Julia v0.6.
 
 This package is *very* opinionated about the right way to analyze ecological
 networks - fortunately, we have documented (and justified) these opinions in an
-extensive review by @DelBes17. We recommend reading this manuscript, as it
-lists the measures implemented here, details their interpretation, and justifies
-some best practices.
+extensive review by @DelBes17 (all the references in this documentation can be
+clicked to see the article title and a link). We recommend reading this
+manuscript, as it lists the measures implemented here, details their
+interpretation, and justifies some best practices.
 
 Almost all of the measures for probabilistic networks can be found in the
 original paper by @PoiCir16. Some measures are in the package only, as they have

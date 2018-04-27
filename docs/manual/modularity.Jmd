@@ -1,0 +1,81 @@
+---
+title : Modularity
+author : Timothée Poisot
+date : 11th April 2018
+layout: default
+---
+
+```julia; echo=false
+using EcologicalNetwork
+```
+
+There are two steps to modularity analysis. First, we assign a module *a priori*
+to all species in the network. Second, we optimize this partition using
+heuristics. We will illustrate how these functions work by simulating a reasonably modular network:
+
+```julia
+A = zeros(Bool, (12,12))
+A[1:6,1:6] = rand(Float64, (6,6)).<0.8
+A[7:12,7:12] = rand(Float64, (6,6)).<0.8
+B = simplify(BipartiteNetwork(A))
+```
+
+## Initial modules assignation
+
+Modules are stored as a dictionary with one integer value for each species in
+the network. One way to have each species start in its own module is, for
+example, to do
+
+```julia
+L = Dict([species(B)[i] => i for i in 1:richness(B)])
+L
+```
+
+The functions to perform the initial modules assignation must return a tuple
+with the network in the first position, and the dictionary of modules in the
+second position.
+
+### Random modules
+
+One current way to proceed is to guesstimate the number of modules, and assign
+species to them at random. This can be done with the `n_random_modules`
+function:
+
+```julia
+five_rand = n_random_modules(5)
+five_rand(B)[2]
+```
+
+Note that `n_random_modules` *returns* a function which will create `n` modules
+at random.
+
+### Label propagation
+
+`EcologicalNetwork` offers a `lp` function for label propagation @TODO -- while
+most adapted for large graphs, we found that LP usually gives a robust starting
+partition regardless of the size.
+
+```julia
+initial_p = lp(B)
+initial_p[2]
+```
+
+## Modularity optimization
+
+Functions to optimize the modularity accept two arguments: a network, and a
+dictionary with modules identity. You may recognize this as the output of the
+functions to initially assign modules, and you would be right. This allows
+unpacking the output of the initial module assignation function into the
+modularity function, following the template of
+
+```
+modularity(initial(network)...)
+```
+
+### BRIM
+
+```julia
+b_brim = brim(lp(B)...)
+```
+
+## Modularity functions

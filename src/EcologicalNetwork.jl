@@ -71,7 +71,7 @@ export find_motif, expected_motif_count, unipartitemotifs
 
 # Modularity
 include(joinpath(".", "modularity/utilities.jl"))
-export Q, Qr
+export Q, Qr, n_random_modules
 
 include(joinpath(".", "modularity/labelpropagation.jl"))
 export lp

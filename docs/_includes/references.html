@@ -50,17 +50,19 @@ while (match != null) {
   }
 
   var pubyear = ref['issued']['date-parts'][0][0];
-  reflink = "<a href='" + GOTO + "' title='" + ref['title'] + "' target='_blank' >Read it!</a>";
-  btn = '<a tabindex="0" class="biblio-ref" role="button" data-toggle="popover" data-trigger="focus" title="' + inline + ' (' + pubyear + ')" data-content="' + ref['title'] + '<hr />' + reflink + '"><i class="far fa-file-alt"></i></a>';
-  pubyear = btn;
+
+  var citation = inline;
   if (brackets) {
-    inline = pubyear;
+    citation = "(" + inline + " " + pubyear + ")";
   } else {
-    inline = inline + " " + pubyear;
+    citation = inline + " (" + pubyear + ")";
   }
 
+  reflink = "<a href='" + GOTO + "' title='" + ref['title'] + "' target='_blank' >Go to the paper</a>";
+  btn = '<a tabindex="0" class="biblio-ref" role="button" data-toggle="popover" data-trigger="focus" title="' + inline + ' (' + pubyear + ')" data-content="' + ref['title'] + '<hr />' + reflink + '"><i class="far fa-file-alt"></i></a>';
+  btn = '<span data-tooltip tabindex="1" title="' + reflink + '" data-allow-html="true">'+citation+'</span>';
 
-  var new_html = $('.maincontent').html().replace(match[0], inline);
+  var new_html = $('.maincontent').html().replace(match[0], btn);
   $('.maincontent').html(function() {return new_html});
 
   match = regexp.exec($('.maincontent').text());

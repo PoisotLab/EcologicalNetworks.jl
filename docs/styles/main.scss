@@ -2,50 +2,26 @@
 # front matter
 ---
 
-@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i|Roboto+Mono:400,400i|Roboto:400,400i,500,500i&subset=greek,greek-ext');
-
-body {
-  padding-top: 205px;
-  padding-bottom: 105px;
-  border-bottom: 20px solid #CFD8DC;
-  font-family: "Noto Sans UI", "Helvetica", sans-serif !important;
-  h1:first-child {
-    padding-bottom: 50px;
-    font-weight: 700 !important;
-  }
-  b, strong {
-    font-weight: 500 !important;
-  }
-}
-
 code, pre {
   font-family: "Hack", monospace;
   font-size: 100%;
 }
 
-h1 {
-  color: #607D8B;
-}
-h2 {
-  color: #78909C;
-}
-h3 {
-  color: #90A4AE;
-}
-
 code {
-  border-left: 0px solid white !important;
-  color: #00796B;
+  border: 0px !important;
+  background: none !important;
 }
 
-.navbar {
-  background-color: #546E7A;
-  padding: 0.2em;
-  box-shadow: 0px 0px 2px 0px #546E7A;
-  a.nav-link, a.navbar-brand {
-    color: #ffffff !important;
-  }
+.toc {
+  padding-top: 200px;
 }
+
+.maincontent {
+  padding-top: 50px;
+  padding-bottom: 30px;
+}
+
+
 
 .highlight {
   margin: 0 0;
@@ -77,31 +53,4 @@ code {
   z-index: 2;
   padding: 8px;
   padding-top: 20px;
-}
-
-img {
-  max-width: 66%;
-  text-align: center;
-  margin: 0px auto;
-  display: block;
-}
-
-.js-plotly-plot {
-  margin: 50px auto;
-}
-
-table {
-  width: 100%;
-  margin-bottom: 20px;
-  tr {
-    line-height: 35px;
-    border-bottom: 1px solid #dBdBdB;
-  }
-  thead {
-    background-color: #FBFBFB;
-    border-top: 1px solid #dBdBdB;
-    tr {
-      line-height: 40px;
-    }
-  }
 }
