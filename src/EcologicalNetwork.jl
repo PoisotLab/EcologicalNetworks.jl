@@ -106,7 +106,7 @@ export whittaker, sorensen, jaccard, gaston, williams, lande, ruggiero,
 
 # Food webs
 include(joinpath(".", "foodwebs/trophiclevels.jl"))
-export fractional_trophic_level
+export fractional_trophic_level, trophic_level
 
 #=
 

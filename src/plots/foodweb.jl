@@ -1,8 +1,9 @@
 function foodweb_layout(N; steps=15000, L=50.0, R=0.05)
 
-    tl = fractional_trophic_level(N)
+    ftl = fractional_trophic_level(N)
+    tl = trophic_level(N)
 
-    nodes = Dict([species(N)[i] => Dict(:x => rand()-0.5, :y => tl[species(N)[i]], :fx => 0.0, :fy => 0.0, :n => eltype(species(N))[]) for i in 1:richness(N)])
+    nodes = Dict([species(N)[i] => Dict(:x => rand()-0.5, :y => tl[species(N)[i]], :tl => ftl[species(N)[i]], :fx => 0.0, :n => eltype(species(N))[]) for i in 1:richness(N)])
     for s in species(N)
         neighbors = eltype(species(N))[]
         if s in species(N,2)
@@ -33,11 +34,11 @@ function foodweb_layout(N, nodes; steps=15000, L=50.0, R=0.05)
     max_squared_displacement = Δt*5.5
 
     for step in 1:steps
-        # Repulsion between all pairs
+        # Repulsion between all pairs within each level
         for s1_i in eachindex(species(N)[1:(end-1)])
             for s2_i in (s1_i+1):richness(N)
                 s1, s2 = species(N)[[s1_i,s2_i]]
-                if nodes[s1][:y] == nodes[s2][:y]
+                if nodes[s1][:tl] == nodes[s2][:tl]
                     dx = nodes[s1][:x] - nodes[s2][:x]
                     if (dx != 0.0)
                         squared_distance = dx*dx
@@ -67,16 +68,6 @@ function foodweb_layout(N, nodes; steps=15000, L=50.0, R=0.05)
                         end
                     end
                 end
-            end
-        end
-        # Attraction to the center
-        for s1 in species(N)
-            dx = nodes[s1][:x] - 0.0
-            if (dx != 0.0)
-                distance = sqrt(dx*dx)
-                force = Ks * (distance - L) * 0.1
-                fx = force * dx / distance
-                nodes[s1][:fx] -= fx
             end
         end
         # Movement

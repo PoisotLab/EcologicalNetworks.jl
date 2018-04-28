@@ -28,3 +28,20 @@ function fractional_trophic_level{T<:UnipartiteNetwork}(N::T)
 
   return tl
 end
+
+function trophic_level(N::UnipartiteNetwork)
+  TL = fractional_trophic_level(N)
+  Y = nodiagonal(N)
+  D = zeros(Float64, size(Y.A))
+  ko = degree_out(Y)
+
+  # inner loop to avoid dealing with primary producers
+  for i in 1:richness(Y)
+    if ko[species(Y)[i]] > 0.0
+      D[i,:] = Y[i,:]./ko[species(Y)[i]]
+    end
+  end
+
+  # return
+  return Dict(zip(species(N), 1 .+ D * [TL[s] for s in species(Y)]))
+end
