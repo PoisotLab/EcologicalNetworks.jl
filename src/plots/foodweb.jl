@@ -1,10 +1,3 @@
-include("./src/EcologicalNetwork.jl")
-using EcologicalNetwork
-
-N = nz_stream_foodweb()[1]
-
-fractional_trophic_level(N)
-
 function foodweb_layout(N; steps=15000, L=50.0, R=0.05)
 
     tl = fractional_trophic_level(N)
@@ -100,8 +93,3 @@ function foodweb_layout(N, nodes; steps=15000, L=50.0, R=0.05)
     end
     return (N, nodes)
 end
-
-graph_network_plot(N, nodes, names=false)
-
-l = foodweb_layout(N)
-graph_network_plot(l...)

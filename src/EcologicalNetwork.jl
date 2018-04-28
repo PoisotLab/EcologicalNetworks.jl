@@ -26,7 +26,7 @@ export AbstractEcologicalNetwork, AllowedSpeciesTypes,
 
 # Datasets
 include(joinpath(".", "misc/data.jl"))
-export web_of_life
+export web_of_life, nz_stream_foodweb
 
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))
@@ -82,12 +82,15 @@ export n_random_modules, each_species_its_module
 include(joinpath(".", "modularity/brim.jl"))
 export brim
 
-include(joinpath(".", "modularity/louvain.jl"))
-export louvain
+#include(joinpath(".", "modularity/louvain.jl"))
+#export louvain
 
 # Plots
 include(joinpath(".", "plots/circular.jl"))
 export circular_layout, circular_network_plot
+
+include(joinpath(".", "plots/foodweb.jl"))
+export foodweb_layout
 
 include(joinpath(".", "plots/graph.jl"))
 export graph_layout, graph_network_plot
@@ -101,6 +104,10 @@ include(joinpath(".", "betadiversity/measures.jl"))
 export whittaker, sorensen, jaccard, gaston, williams, lande, ruggiero,
     hartekinzig, harrison
 
+# Food webs
+include(joinpath(".", "foodwebs/trophiclevels.jl"))
+export fractional_trophic_level
+
 #=
 
 include(joinpath(".", "modularity/louvain.jl"))
@@ -109,8 +116,7 @@ export modularity, networkroles
 =#
 
 #=
-# Beta-diversity
-fractional_trophic_level, trophic_level, foodweb_position
+trophic_level, foodweb_position
 
 # Food webs measures
 =#
