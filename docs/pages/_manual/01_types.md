@@ -144,5 +144,3 @@ typeof(M)
 ````
 EcologicalNetwork.UnipartiteNetwork{String}
 ````
-
-
