@@ -29,34 +29,17 @@ given motifs. Depending on the size of the network, and the frequency of the
 motif, this array can get quite big.
 
 ````julia
-N = fonseca_ganade_1996()
-````
-
-
-<pre class="julia-error">
-ERROR: UndefVarError: fonseca_ganade_1996 not defined
-</pre>
-
-
-````julia
+N = web_of_life("M_PA_003")
 m = BipartiteNetwork([true true false; false true true])
 motif = find_motif(N,m)
-````
-
-
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
-
-
-````julia
 println("This motif is found $(length(motif)) times")
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: motif not defined
-</pre>
+````
+This motif is found 139 times
+````
+
 
 
 
@@ -70,9 +53,12 @@ N[first(motif)...].A
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: motif not defined
-</pre>
+````
+2×3 Array{Int64,2}:
+ 93   0  7
+  0  70  1
+````
+
 
 
 
@@ -93,44 +79,19 @@ the motif, and a variance. The output of this function will therefore be an
 array with elements of the shape `((species,),(mean,variance))`.
 
 ````julia
-U = thompson_townsend_catlins()
-````
-
-
-<pre class="julia-error">
-ERROR: UndefVarError: thompson_townsend_catlins not defined
-</pre>
-
-
-````julia
+U = nz_stream_foodweb()[4]
 m = unipartitemotifs()[:S1]
 N = null2(U)
-````
-
-
-<pre class="julia-error">
-ERROR: UndefVarError: U not defined
-</pre>
-
-
-````julia
 motif = find_motif(N, m)
-````
-
-
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
-
-
-````julia
 first(motif)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: motif not defined
-</pre>
+````
+((String["Unidentified detritus", "Terrestrial Invertebrates", "Macrophyte"
+],), (0.029528795926838467, 0.029306482736651363))
+````
+
 
 
 
@@ -147,7 +108,8 @@ expected_motif_count(motif)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: motif not defined
-</pre>
+````
+(986.1674247555279, 980.4824811808437)
+````
+
 

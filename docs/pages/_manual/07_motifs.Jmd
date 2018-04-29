@@ -30,7 +30,7 @@ given motifs. Depending on the size of the network, and the frequency of the
 motif, this array can get quite big.
 
 ```julia
-N = fonseca_ganade_1996()
+N = web_of_life("M_PA_003")
 m = BipartiteNetwork([true true false; false true true])
 motif = find_motif(N,m)
 println("This motif is found $(length(motif)) times")
@@ -60,7 +60,7 @@ the motif, and a variance. The output of this function will therefore be an
 array with elements of the shape `((species,),(mean,variance))`.
 
 ```julia
-U = thompson_townsend_catlins()
+U = nz_stream_foodweb()[4]
 m = unipartitemotifs()[:S1]
 N = null2(U)
 motif = find_motif(N, m)

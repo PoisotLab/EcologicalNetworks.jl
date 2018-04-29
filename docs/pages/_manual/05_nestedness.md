@@ -26,23 +26,18 @@ the nestedness of the columns, and the nestedness of the entire network.
 ## Quantitative networks
 
 ````julia
-N = fonseca_ganade_1996()
-````
-
-
-<pre class="julia-error">
-ERROR: UndefVarError: fonseca_ganade_1996 not defined
-</pre>
-
-
-````julia
+N = web_of_life("M_PA_003")
 nodf(N)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
+````
+Dict{Symbol,Float64} with 3 entries:
+  :rows    => 0.0857143
+  :network => 0.114392
+  :columns => 0.125302
+````
+
 
 
 
@@ -51,22 +46,17 @@ ERROR: UndefVarError: N not defined
 
 ````julia
 M = convert(BinaryNetwork, N)
-````
-
-
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
-
-
-````julia
 nodf(N)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
+````
+Dict{Symbol,Float64} with 3 entries:
+  :rows    => 0.0857143
+  :network => 0.114392
+  :columns => 0.125302
+````
+
 
 
 ````julia
@@ -74,9 +64,13 @@ ERROR: UndefVarError: N not defined
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: M not defined
-</pre>
+````
+Dict{Symbol,Float64} with 3 entries:
+  :rows    => 0.15544
+  :network => 0.176927
+  :columns => 0.198413
+````
+
 
 
 
@@ -85,20 +79,15 @@ ERROR: UndefVarError: M not defined
 
 ````julia
 T = null2(M)
-````
-
-
-<pre class="julia-error">
-ERROR: UndefVarError: M not defined
-</pre>
-
-
-````julia
 η(T)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: T not defined
-</pre>
+````
+Dict{Symbol,Float64} with 3 entries:
+  :rows    => 0.163263
+  :network => 0.161702
+  :columns => 0.160141
+````
+
 

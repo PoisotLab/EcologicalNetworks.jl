@@ -15,13 +15,9 @@ network objects. We start by loading a network, in this case the one by Fonseca 
 Ganade (1996). This is a bipartite network.
 
 ````julia
-N = fonseca_ganade_1996()
+N = web_of_life("M_PA_003")
 ````
 
-
-<pre class="julia-error">
-ERROR: UndefVarError: fonseca_ganade_1996 not defined
-</pre>
 
 
 
@@ -33,9 +29,10 @@ typeof(N)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
+````
+EcologicalNetwork.BipartiteQuantitativeNetwork{Int64,String}
+````
+
 
 
 
@@ -53,10 +50,8 @@ richness(N)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
 
+39
 
 
 
@@ -68,10 +63,8 @@ richness(N,1)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
 
+15
 
 
 
@@ -85,9 +78,30 @@ species(N)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
+````
+39-element Array{String,1}:
+ "Maieta guianensis"         
+ "Hirtella physophora"       
+ "Tachigali myrmecophila"    
+ "Cordia nodosa"             
+ "Maieta poeppiggi"          
+ "Duroia saccifera"          
+ "Tachigali polyphylla"      
+ "Tococa bullifera"          
+ "Pourouma heterophylla"     
+ "Cecropia purpurascens"     
+ ⋮                           
+ "Azteca sp1 M_PA_001"       
+ "Azteca sp6 M_PA_001"       
+ "Crematogaster sp1 M_PA_001"
+ "Azteca polymorpha"         
+ "Crematogaster sp5 M_PA_001"
+ "Azteca alfari"             
+ "Azteca sp3 M_PA_001"       
+ "Azteca sp4 M_PA_001"       
+ "Azteca sp5 M_PA_001"
+````
+
 
 
 
@@ -99,9 +113,30 @@ species(N,2)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
+````
+24-element Array{String,1}:
+ "Pheidole minutula"         
+ "Allomerus octoarticulatus "
+ "Azteca sp2 M_PA_001"       
+ "Pseudomyrmex concolor"     
+ "Allomerus sp1 M_PA_001"    
+ "Pseudomyrmex nigrescens"   
+ "Crematogaster sp3 M_PA_001"
+ "Camponotus balzanii"       
+ "Azteca isthmica"           
+ "Crematogaster sp4 M_PA_001"
+ ⋮                           
+ "Azteca sp1 M_PA_001"       
+ "Azteca sp6 M_PA_001"       
+ "Crematogaster sp1 M_PA_001"
+ "Azteca polymorpha"         
+ "Crematogaster sp5 M_PA_001"
+ "Azteca alfari"             
+ "Azteca sp3 M_PA_001"       
+ "Azteca sp4 M_PA_001"       
+ "Azteca sp5 M_PA_001"
+````
+
 
 
 
@@ -114,10 +149,8 @@ N[3,4]
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
 
+18
 
 
 
@@ -125,32 +158,15 @@ But it's probably more intuitive to look at the species by names:
 
 ````julia
 t3 = species(N,1)[3]
-````
-
-
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
-
-
-````julia
 b4 = species(N,2)[4]
-````
-
-
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
-
-
-````julia
 t3, b4
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: t3 not defined
-</pre>
+````
+("Tachigali myrmecophila", "Pseudomyrmex concolor")
+````
+
 
 
 
@@ -162,10 +178,8 @@ N[t3,b4]
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
 
+18
 
 
 
@@ -177,10 +191,8 @@ has_interaction(N, t3,b4)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
 
+true
 
 
 
@@ -190,22 +202,9 @@ collections of species. We will extract the species belonging to the genus
 
 ````julia
 all_azteca = filter(x -> contains(x, "Azteca "), species(N,1))
-````
-
-
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
-
-
-````julia
 all_cecropia = filter(x -> contains(x, "Cecropia "), species(N,2))
 ````
 
-
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
 
 
 
@@ -216,10 +215,6 @@ Now, we can get a sub-network (the induced subgraph on these nodes):
 M = N[all_azteca, all_cecropia]
 ````
 
-
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
 
 
 
@@ -232,9 +227,17 @@ N[all_azteca,:]
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
+````
+EcologicalNetwork.BipartiteQuantitativeNetwork{Int64,String}(Array{Int64}(0
+,24), String[], String["Pheidole minutula", "Allomerus octoarticulatus ", "
+Azteca sp2 M_PA_001", "Pseudomyrmex concolor", "Allomerus sp1 M_PA_001", "P
+seudomyrmex nigrescens", "Crematogaster sp3 M_PA_001", "Camponotus balzanii
+", "Azteca isthmica", "Crematogaster sp4 M_PA_001"  …  "Azteca schummani"
+, "Azteca sp1 M_PA_001", "Azteca sp6 M_PA_001", "Crematogaster sp1 M_PA_001
+", "Azteca polymorpha", "Crematogaster sp5 M_PA_001", "Azteca alfari", "Azt
+eca sp3 M_PA_001", "Azteca sp4 M_PA_001", "Azteca sp5 M_PA_001"])
+````
+
 
 
 
@@ -247,9 +250,10 @@ typeof(M)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: M not defined
-</pre>
+````
+EcologicalNetwork.BipartiteQuantitativeNetwork{Int64,String}
+````
+
 
 
 
@@ -261,9 +265,30 @@ degree(N)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
+````
+Dict{String,Int64} with 39 entries:
+  "Pseudomyrmex concolor"      => 2
+  "Allomerus octoarticulatus " => 3
+  "Allomerus prancei"          => 1
+  "Azteca isthmica"            => 4
+  "Cecropia purpurascens"      => 3
+  "Hirtella myrmecophila"      => 1
+  "Cordia nodosa"              => 7
+  "Tococa bullifera"           => 6
+  "Azteca schummani"           => 2
+  "Azteca sp4 M_PA_001"        => 1
+  "Crematogaster sp2 M_PA_001" => 2
+  "Pseudomyrmex nigrescens"    => 2
+  "Azteca sp1 M_PA_001"        => 1
+  "Pourouma heterophylla"      => 1
+  "Cecropia distachya"         => 1
+  "Tachigali polyphylla"       => 3
+  "Maieta guianensis"          => 3
+  "Azteca sp5 M_PA_001"        => 1
+  "Duroia saccifera"           => 4
+  ⋮                            => ⋮
+````
+
 
 
 
@@ -276,7 +301,28 @@ degree(N,2)
 ````
 
 
-<pre class="julia-error">
-ERROR: UndefVarError: N not defined
-</pre>
+````
+Dict{String,Int64} with 24 entries:
+  "Pseudomyrmex concolor"      => 2
+  "Allomerus octoarticulatus " => 3
+  "Crematogaster sp3 M_PA_001" => 4
+  "Azteca isthmica"            => 4
+  "Azteca schummani"           => 2
+  "Azteca sp4 M_PA_001"        => 1
+  "Crematogaster sp2 M_PA_001" => 2
+  "Pseudomyrmex nigrescens"    => 2
+  "Azteca sp1 M_PA_001"        => 1
+  "Azteca sp5 M_PA_001"        => 1
+  "Azteca sp6 M_PA_001"        => 1
+  "Solenops sp1 M_PA_001"      => 2
+  "Azteca sp3 M_PA_001"        => 1
+  "Pheidole minutula"          => 3
+  "Crematogaster sp4 M_PA_001" => 2
+  "Azteca polymorpha"          => 1
+  "Camponotus balzanii"        => 1
+  "Crematogaster sp1 M_PA_001" => 2
+  "Azteca sp2 M_PA_001"        => 3
+  ⋮                            => ⋮
+````
+
 

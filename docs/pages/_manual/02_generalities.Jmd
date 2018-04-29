@@ -16,7 +16,7 @@ network objects. We start by loading a network, in this case the one by Fonseca 
 Ganade (1996). This is a bipartite network.
 
 ```julia
-N = fonseca_ganade_1996()
+N = web_of_life("M_PA_003")
 ```
 
 Let's look at the type of this network:

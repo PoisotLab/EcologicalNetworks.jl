@@ -27,7 +27,7 @@ the nestedness of the columns, and the nestedness of the entire network.
 ## Quantitative networks
 
 ```julia
-N = fonseca_ganade_1996()
+N = web_of_life("M_PA_003")
 nodf(N)
 ```
 

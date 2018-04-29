@@ -45,7 +45,7 @@ at random.
 ### One module for every species
 
 ```julia
-each_species_its_module(N)[2]
+each_species_its_module(B)[2]
 ```
 
 ### Label propagation
@@ -74,8 +74,9 @@ modularity(initial(network)...)
 ### BRIM
 
 ```julia
-#b_brim = brim(lp(B)...)
-#b_brim
+initial_p = lp(B)
+b_brim = brim(initial_p...)
+b_brim[2]
 ```
 
 ## Modularity functions

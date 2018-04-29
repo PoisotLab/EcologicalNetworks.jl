@@ -24,10 +24,9 @@ $(foreach source,$(pages_compiled), $(eval $(call MAKEPAGE,$(source))))
 %.md: %.Jmd
 	julia -e 'using Weave;\
 		include("src/EcologicalNetwork.jl");\
-		weave("$<", out_path="$@", doctype="github")'
+		weave("$<", out_path="$@", doctype="github", fig_path="docs/figures")'
 
 docs: $(pages_compiled)
 
 clean:
-	rm $(md_man)
-	rm $(md_use)
+	rm $(pages_compiled)

@@ -1,4 +1,4 @@
-"ID","Species","Interactions","Connectance","Type of interactions","Type of data","Reference","Locality of Studi","Latitude","Longitude"
+"ID","Species","Interactions","Connectance","Type of interactions","Type of data","Reference","Locality of Study","Latitude","Longitude"
 "A_HP_001","28","61","0.339","Host-Parasite","1","Hadfield JD, Krasnov BR, Poulin R, Shinichi N (2013) A tale of two phylogenies: comparative analyses of ecological interactions. The American Naturalist 183(2): 174-187","Adzharia","42","42.65"
 "A_HP_002","42","96","0.222","Host-Parasite","1","Hadfield JD, Krasnov BR, Poulin R, Shinichi N (2013) A tale of two phylogenies: comparative analyses of ecological interactions. The American Naturalist 183(2): 174-187","Akmolinsk","51.166667","71.416667"
 "A_HP_003","32","108","0.522","Host-Parasite","1","Hadfield JD, Krasnov BR, Poulin R, Shinichi N (2013) A tale of two phylogenies: comparative analyses of ecological interactions. The American Naturalist 183(2): 174-187","Altai","49","89"

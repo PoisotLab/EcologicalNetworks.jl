@@ -36,8 +36,8 @@ This page will illustrate the currently implemented layouts using a bipartite
 and a unipartite network:
 
 ```julia
-N = fonseca_ganade_1996()
-U = thompson_townsend_catlins()
+N = web_of_life("M_PA_003")
+U = nz_stream_foodweb()[1]
 ```
 
 ## Circular layout

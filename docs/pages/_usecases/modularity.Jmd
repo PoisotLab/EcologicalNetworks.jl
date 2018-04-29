@@ -12,7 +12,7 @@ In this case study, we will use various techniques to detect the best modules in
 a bipartite network. We will use the @TODO network to do so.
 
 ```julia
-N = convert(BinaryNetwork, fonseca_ganade_1996())
+N = convert(BinaryNetwork, web_of_life("M_PA_003"))
 ```
 
 Specifically, we will try to find the *best* number of modules in a network.

@@ -1,146 +1,204 @@
 ---
-title : Understanding the type system
+title : Drawing networks
 author : Timothée Poisot
 date : 11th April 2018
 layout: default
-slug: typesystem
+slug: plots
 ---
 
 
 
 
-`EcologicalNetwork` uses a series of types to represent networks. Before we
-dig in, it is important to get a sense of what the types can do for you. The
-type of a network is used to define the types of things you can do to it. For
-example, the correct way to measure nestedness changes depending on if the
-network is quantitative or binary. Picking the correct network is important,
-and this page will walk you through the different types available.
+The network representations have been taken from @McG12. They are not meant to
+offer a full network visualisation suite, but they allow to create pictures to
+explore network structure. All data visualisation relies on the `Luxor` package --
+this means that networks can be produced as `.png`, `.svg`, and `.pdf` files.
 
-## Network types
+All layouts have a number of common options, passed as *keyword* arguments:
 
-There are three types of networks: binary (where interactions are either
-present or absent), quantitative (interactions have a strength), and
-probabilistic (interactions have a probability of happening). All of these
-networks share the same underlying structure: a matrix that can store
-elements of different types, and species names. This matrix is stored in the
-field `A` of the network object.
+1. `filename` -- the name/path of the figure (defaults to `network.png`)
+2. `fontname` -- the name of the font for labels (defaults to `Noto Sans Condensed`)
+3. `fontsize` -- the size of the font for labels (defaults to `16`)
+4. `steps` -- the number of layout positioning steps to do (defaults to `500` for circular, `15000` for graph)
+5. `names` -- whether to display the species names (default to `true`) or not
 
-Species names are stored differently depending on whether the network is
-bipartite or unipartite. In unipartite networks (*e.g.* food webs), there is
-a single field `S` for species. In bipartite networks, there are two fields
-`T` and `B`, for the top and bottom level of the network. The names of
-species are either `AbstractString` or `Symbol` values (and they cannot be
-mixed with a single network).
+Additionally, all functions share similarities in their output. In bipartite
+networks, nodes from the top level are orange, and the bottom level nodes are
+blue. In unipartite networks, all nodes are green. The colors come from @Won11 --
+and have been picked to ensure maximum dissimilarity under normal vision,
+deuteranopia, tritanopia, and protanopia. The interaction strength changes the
+line width in quantitative networks, and the line opacity in probabilistic
+networks.
 
-The interactions go from the rows, to the columns, of the matrix in `A`. In
-practice, there is no need to call the fields directly: we can access the
-species names using the `species` functions.
-
-Types are named using the `{Partiteness}{Type}Network`, where `{Partiteness}`
-is either `Unipartite` or `Bipartite`, and  `{Type}` is either
-`Probabilistic` or `Quantitative` -- the `Binary` type, being considered the
-default, is omitted. The six basic types available are therefore
-`BipartiteNetwork`, `UnipartiteNetwork`, `BipartiteQuantitativeNetwork`,
-`UnipartiteQuantitativeNetwork`, `BipartiteProbabilisticNetwork`, and
-`UnipartiteProbabilisticNetwork`.
-
-The table below summarizes the different types, and the "collections" (type
-unions) to which they belong:
-
-| Partiteness | Interaction   | Name                             | Values          | Unions                                 |
-|:------------|:--------------|:---------------------------------|:----------------|:---------------------------------------|
-| Unipartite  | binary        | `UnipartiteNetwork`              | `Bool`          | `BinaryNetwork`;`DeterministicNetwork` |
-|             | quantitative  | `UnipartiteQuantitativeNetwork`  | `Number`        | `DeterministicNetwork`                 |
-|             | probabilistic | `UnipartiteProbabilisticNetwork` | `AbstractFloat` | `ProbabilisticNetwork`                 |
-| Bipartite   | binary        | `BipartiteNetwork`               | `Bool`          | `BinaryNetwork`;`DeterministicNetwork` |
-|             | quantitative  | `BipartiteQuantitativeNetwork`   | `Number`        | `DeterministicNetwork`                 |
-|             | probabilistic | `BipartiteProbabilisticNetwork`  | `AbstractFloat` | `ProbabilisticNetwork`                 |
-
-Although not specified in the table, *all* networks belong to
-`AbstractUnipartiteNetwork`; all bipartite networks belong to
-`AbstractBipartiteNetwork`; all unipartite networks belong to
-`AbstractUnipartiteNetwork`. This type hierarchy is used extensively to make
-sure that the correct function is applied to the correct network, and can be
-used by users when writing their own functions.
-
-## Network conversions
-
-Network objects can be converted into objects of another type. For example,
-the information about interaction strength can be removed by converting a
-`BipartiteQuantitativeNetwork` into a `BipartiteNetwork`. Let us start by
-loading a network:
+This page will illustrate the currently implemented layouts using a bipartite
+and a unipartite network:
 
 ````julia
-N = web_of_life("M_PL_017")
-typeof(N)
-````
-
-
-````
-EcologicalNetwork.BipartiteQuantitativeNetwork{Int64,String}
+N = web_of_life("M_PA_003")
+U = nz_stream_foodweb()[1]
 ````
 
 
 
 
 
-The conversion itself is performed with:
+## Circular layout
+
+In the circular layout, all nodes are laid out on the diameter of a circle.
+Nodes that are densely connected are moved together (as much as possible).
+Interactions are represented by arcs of constant angle -- larger angles mean
+that the interactions are essentially lines, and smaller angles have a more
+pronounced bend. The parameter regulating the angle is `Θ`, which defaults to
+`π/3`.
+
+Circular layouts have a default number of steps of 500 -- this is much more than
+needed, in many cases, but this will ensure that larger networks are close to
+the "best" layout.
+
+In the circular layout, self-interactions are currently *not* represented.
 
 ````julia
-M = convert(BipartiteNetwork, N);
-typeof(M)
-````
-
-
-````
-EcologicalNetwork.BipartiteNetwork{String}
+circular_network_plot(N; filename=joinpath(working_path, "circular_fg96.png"));
 ````
 
 
 
 
 
-The conversion system also uses abstract types to make your life easier: we
-can convert to an abstract type, which makes the code more general. To change
-the partiteness of a network, we can use the `AbstractUnipartiteNetwork`
-conversion.
+![Circular layout](/figures/circular_fg96.png)
 
 ````julia
-typeof(convert(AbstractUnipartiteNetwork, N))
+circular_network_plot(U; filename=joinpath(working_path, "circular_ttc.png"));
 ````
 
 
-````
-EcologicalNetwork.UnipartiteQuantitativeNetwork{Int64,String}
+
+
+
+![Circular layout](/figures/circular_ttc.png)
+
+## Graph layout
+
+Compared to circular layouts, graph layouts are a whole other beast. You know
+how in some recipes, the only way to have it turn out great is to accept that it
+will cook for a long time over low heat? Well, graph layouts are like this. We
+have hard-coded a very small maximum allowed displacement (the "heat") per step,
+which means that the overall behaviour is much more stable, *but* we need a lot
+of steps to reach an equilibrium.
+
+The graph layout implemented here has three main ingredients: all nodes want to
+move away from every other node, connected nodes are brought closer together by
+their interactions. and the center is pulling all nodes to itself (with a
+strength of one-tenth of an interaction). All of this means that all points will
+end up in a circle, and the connected components or modules will be well
+isolated from one another. Bipartite networks, in particular, tend to be very
+pretty when represented this way.
+
+But it takes time... Specifically, the default number of steps is `15000` (this
+is often not enough, and we recommend using `60000` if you need to make a very
+nice figure).
+
+The final product is determined by two parameters: the spring constant `L`,
+which acts as a sort of *scale* of the network, and the repulsion/attraction
+ratio `R`, which determines the coefficient of attraction *relative* to the
+coefficient of repulsion [@McG12]. The defaults values of `L=50` and `R=0.05`
+give generally sensible results (but `R=0.1` works well too):
+
+````julia
+graph_network_plot(trojelsgaard_et_al_2014()[2];
+  filename=joinpath(working_path, "graph_tr2.png"), steps=5000, R=0.1, names=false);
 ````
 
+
+<pre class="julia-error">
+ERROR: UndefVarError: trojelsgaard_et_al_2014 not defined
+</pre>
+
+
+
+
+![Circular layout](/figures/graph_tr2.png)
+
+## Advanced uses for layouts
+
+### Multiple networks
+
+Plotting a network is a two step process: calculating a layout (*i.e.* deciding
+where the points should be), and the drawing the relevant information. These two
+steps are separate, and done by functions called `x_layout` and
+`x_network_plot`. Calling `x_network_plot` will use the default parameters, but
+one can have a finer control by calling the layout step separately from the
+plotting step. Let's consider the example of two networks -- we want to show the
+position of the first networks, but we want the layout to reflect our knowledge
+of both networks. This can be done by calculating the layout on the union of
+both networks, but only plotting the first:
+
+````julia
+X, Y = trojelsgaard_et_al_2014()[1:2]
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: trojelsgaard_et_al_2014 not defined
+</pre>
 
 
 ````julia
-typeof(convert(BinaryNetwork, N))
+M = reduce(union, convert.(BinaryNetwork, [X, Y]))
 ````
 
 
-````
-EcologicalNetwork.BipartiteNetwork{String}
-````
+<pre class="julia-error">
+ERROR: UndefVarError: X not defined
+</pre>
 
-
-
-
-
-These transformations can be chained together: to project the network into a
-unipartite shape *and* remove quantitative information, we can use the
-following:
 
 ````julia
-M = N |>
-  x -> convert(AbstractUnipartiteNetwork, x) |>
-  x -> convert(BinaryNetwork, x);
-typeof(M)
+m_layout = circular_layout(M)
 ````
 
 
+<pre class="julia-error">
+ERROR: UndefVarError: M not defined
+</pre>
+
+
+````julia
+circular_network_plot(X, m_layout[2]; filename=joinpath(working_path, "graph_m1.png"), names=false)
 ````
-EcologicalNetwork.UnipartiteNetwork{String}
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: X not defined
+</pre>
+
+
+````julia
+circular_network_plot(m_layout...; filename=joinpath(working_path, "graph_m2.png"), names=false)
 ````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: m_layout not defined
+</pre>
+
+
+````julia
+circular_network_plot(Y, m_layout[2]; filename=joinpath(working_path, "graph_m3.png"), names=false)
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: Y not defined
+</pre>
+
+
+
+
+| Network 1  | Both networks | Network 2  |
+|:----------:|:-------------:|:----------:|
+| ![n1][fn1] |  ![n2][fn2]   | ![n3][fn3] |
+
+[fn1]: /figures/graph_m1.png
+[fn2]: /figures/graph_m2.png
+[fn3]: /figures/graph_m3.png
