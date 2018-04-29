@@ -7,10 +7,48 @@ layout: default
 
 ```julia; echo=false; results="hidden"
 using EcologicalNetwork
-using StatPlots
-pyplot()
+using Plots
+gr()
+```
+
+In this use case, we will enumerate unipartite motifs in `j
+length(nz_stream_foodweb())` food webs.
+
+```julia
+NZ = nz_stream_foodweb();
 ```
 
 ```julia
-NZ = nz_stream_foodweb()
+z = (x,μ,σ) -> (x-μ)/σ
+logistic = (x) -> 1/(1+exp(-x))
+```
+
+```julia
+function motif_correction(N,M)
+  mc = find_motif(N,M)
+  pc = find_motif(null2(N),M)
+  ec = expected_motif_count(pc)
+  x = length(mc)
+  μ, mvar = ec
+  return logistic(z(x, μ, sqrt(mvar)))*2.0-1.0
+end
+```
+
+
+```julia
+pl = plot([0],[0], leg=false, framestyle=:zerolines);
+xaxis!(pl, (0.5, 5.5))
+yaxis!(pl, (-1.1, 1.1))
+hline!(pl, [0.0], lab="", c=:black, ls=:dot)
+hline!(pl, [-0.5,0.5], lab="", c=:black, ls=:dash)
+for i in eachindex(NZ)
+  println(i)
+  x = collect(1:5)
+  mo = [:S1, :S2, :S3, :S4, :S5]
+  xmo = [unipartitemotifs()[m] for m in mo]
+  y = motif_correction.(NZ[i], xmo)
+  plot!(pl, x, y, lab="", m=:circle, c=:black, msc=:black)
+  display(pl)
+end
+pl
 ```

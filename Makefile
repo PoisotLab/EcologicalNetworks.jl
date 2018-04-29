@@ -11,8 +11,6 @@ mangroups = _manual _usecases
 pagedirs = $(mangroups:%=docs/pages/%)
 pages_sources = $(wildcard $(addsuffix /*.Jmd,$(pagedirs)))
 pages_compiled = $(patsubst %.Jmd,%.md,$(pages_sources))
-#$(info $(pages_sources))
-#$(info $(pages_compiled))
 
 define MAKEPAGE
 
@@ -24,7 +22,9 @@ endef
 $(foreach source,$(pages_compiled), $(eval $(call MAKEPAGE,$(source))))
 
 %.md: %.Jmd
-	julia -e 'using Weave; include("src/EcologicalNetwork.jl"); weave("$<", out_path="$@", doctype="github")'
+	julia -e 'using Weave;\
+		include("src/EcologicalNetwork.jl");\
+		weave("$<", out_path="$@", doctype="github")'
 
 docs: $(pages_compiled)
 
