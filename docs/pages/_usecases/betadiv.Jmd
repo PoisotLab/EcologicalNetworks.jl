@@ -61,6 +61,8 @@ locally.
 ## Measuring pairwise differences
 
 ```julia
-cS = [βs(N[i],N[j]) for i in 1:(length(N)-1), j in 2:length(N)]
-sorensen.(cS)
+Ds = [βs(N[i], N[j]) for i in eachindex(N), j in eachindex(N)]
+Di = [βos(N[i], N[j]) for i in eachindex(N), j in eachindex(N)]
+Dn = [βwn(N[i], N[j]) for i in eachindex(N), j in eachindex(N)]
+scatter(sorensen.(Ds), sorensen.(Di), leg=false)
 ```
