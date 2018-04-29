@@ -64,5 +64,6 @@ locally.
 Ds = [βs(N[i], N[j]) for i in eachindex(N), j in eachindex(N)]
 Di = [βos(N[i], N[j]) for i in eachindex(N), j in eachindex(N)]
 Dn = [βwn(N[i], N[j]) for i in eachindex(N), j in eachindex(N)]
-scatter(sorensen.(Ds), sorensen.(Di), leg=false)
+bs = sorensen.(vec(Ds))
+bi = sorensen.(vec(Di))
 ```

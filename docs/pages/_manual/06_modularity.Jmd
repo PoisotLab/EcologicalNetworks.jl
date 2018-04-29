@@ -39,10 +39,13 @@ five_rand = n_random_modules(5)
 five_rand(B)[2]
 ```
 
-Note that `n_random_modules` *returns* a function which will create `n` modules
-at random.
+Note that `n_random_modules` returns *a function* which will create `n` modules
+at random. This lets you decide how many modules you want to start with.
 
 ### One module for every species
+
+This is a solid default when nothing is known (and it is in fact used by `lp`
+internally): every species in the network is given its own module.
 
 ```julia
 each_species_its_module(B)[2]
@@ -78,5 +81,3 @@ initial_p = lp(B)
 b_brim = brim(initial_p...)
 b_brim[2]
 ```
-
-## Modularity functions

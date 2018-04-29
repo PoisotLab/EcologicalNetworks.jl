@@ -45,25 +45,25 @@ five_rand(B)[2]
 
 ````
 Dict{String,Int64} with 24 entries:
-  "t3"  => 5
-  "t7"  => 2
+  "t3"  => 3
+  "t7"  => 3
   "b12" => 2
-  "b2"  => 3
-  "t10" => 1
-  "t5"  => 5
-  "b8"  => 1
-  "b11" => 1
-  "t4"  => 3
+  "b2"  => 1
+  "t10" => 2
+  "t5"  => 4
+  "b8"  => 5
+  "b11" => 3
+  "t4"  => 5
   "b7"  => 2
-  "b9"  => 2
-  "t12" => 5
-  "b3"  => 4
-  "t2"  => 4
-  "t11" => 5
-  "t1"  => 2
-  "t8"  => 5
-  "b5"  => 4
-  "b10" => 1
+  "b9"  => 3
+  "t12" => 4
+  "b3"  => 2
+  "t2"  => 3
+  "t11" => 3
+  "t1"  => 1
+  "t8"  => 1
+  "b5"  => 3
+  "b10" => 4
   ⋮     => ⋮
 ````
 
@@ -71,10 +71,13 @@ Dict{String,Int64} with 24 entries:
 
 
 
-Note that `n_random_modules` *returns* a function which will create `n` modules
-at random.
+Note that `n_random_modules` returns *a function* which will create `n` modules
+at random. This lets you decide how many modules you want to start with.
 
 ### One module for every species
+
+This is a solid default when nothing is known (and it is in fact used by `lp`
+internally): every species in the network is given its own module.
 
 ````julia
 each_species_its_module(B)[2]
@@ -123,25 +126,25 @@ initial_p[2]
 
 ````
 Dict{String,Int64} with 24 entries:
-  "t3"  => 1
-  "t7"  => 2
-  "b12" => 3
-  "b2"  => 1
-  "t10" => 3
-  "t5"  => 1
-  "b8"  => 3
-  "b11" => 2
+  "t3"  => 3
+  "t7"  => 5
+  "b12" => 8
+  "b2"  => 4
+  "t10" => 8
+  "t5"  => 2
+  "b8"  => 6
+  "b11" => 8
   "t4"  => 1
-  "b7"  => 2
-  "b9"  => 2
-  "t12" => 2
-  "b3"  => 1
+  "b7"  => 6
+  "b9"  => 6
+  "t12" => 6
+  "b3"  => 4
   "t2"  => 1
-  "t11" => 2
-  "t1"  => 1
-  "t8"  => 2
-  "b5"  => 1
-  "b10" => 3
+  "t11" => 7
+  "t1"  => 4
+  "t8"  => 8
+  "b5"  => 4
+  "b10" => 8
   ⋮     => ⋮
 ````
 
@@ -172,30 +175,26 @@ b_brim[2]
 
 ````
 Dict{String,Int64} with 24 entries:
-  "t3"  => 1
-  "t7"  => 2
-  "b12" => 2
+  "t3"  => 2
+  "t7"  => 3
+  "b12" => 4
   "b2"  => 1
-  "t10" => 2
+  "t10" => 4
   "t5"  => 1
-  "b8"  => 2
-  "b11" => 2
-  "t4"  => 1
-  "b7"  => 2
-  "b9"  => 2
-  "t12" => 2
+  "b8"  => 3
+  "b11" => 4
+  "t4"  => 2
+  "b7"  => 3
+  "b9"  => 3
+  "t12" => 3
   "b3"  => 1
-  "t2"  => 1
-  "t11" => 2
+  "t2"  => 2
+  "t11" => 4
   "t1"  => 1
-  "t8"  => 2
-  "b5"  => 1
-  "b10" => 2
+  "t8"  => 4
+  "b5"  => 2
+  "b10" => 4
   ⋮     => ⋮
 ````
 
 
-
-
-
-## Modularity functions
