@@ -71,7 +71,7 @@ the information about interaction strength can be removed by converting a
 loading a network:
 
 ````julia
-N = fonseca_ganade_1996();
+N = web_of_life("M_PL_017")
 typeof(N)
 ````
 
@@ -144,3 +144,5 @@ typeof(M)
 ````
 EcologicalNetwork.UnipartiteNetwork{String}
 ````
+
+

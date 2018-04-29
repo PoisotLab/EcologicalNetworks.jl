@@ -19,6 +19,10 @@ N = fonseca_ganade_1996()
 ````
 
 
+<pre class="julia-error">
+ERROR: UndefVarError: fonseca_ganade_1996 not defined
+</pre>
+
 
 
 
@@ -29,10 +33,9 @@ typeof(N)
 ````
 
 
-````
-EcologicalNetwork.BipartiteQuantitativeNetwork{Int64,String}
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
 
 
@@ -50,8 +53,10 @@ richness(N)
 ````
 
 
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
-41
 
 
 
@@ -63,8 +68,10 @@ richness(N,1)
 ````
 
 
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
-25
 
 
 
@@ -78,30 +85,9 @@ species(N)
 ````
 
 
-````
-41-element Array{String,1}:
- "Camponotus balzanii"          
- "Azteca alfari"                
- "Azteca isthmica"              
- "Azteca aff. Isthmica"         
- "Allomerus D"                  
- "Allomerus prancei"            
- "Allomerus aff. Octoarticulata"
- "Solenops A"                   
- "Allomerus auripunctata"       
- "Crematogaster B"              
- ⋮                              
- "Duroia saccifera"             
- "Cordia nodosa"                
- "Cordia aff. Nodosa"           
- "Tococa bullifera"             
- "Maieta guianensis"            
- "Maieta poeppiggi"             
- "Tachigali polyphylla"         
- "Tachigali myrmecophila"       
- "Amaioua aff. Guianensis"
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
 
 
@@ -113,26 +99,9 @@ species(N,2)
 ````
 
 
-````
-16-element Array{String,1}:
- "Cecropia purpuracens"   
- "Cecropia concolor"      
- "Cecropia distachya"     
- "Cecropia ficifolia"     
- "Pouruma heterophylla"   
- "Hirtella myrmecophila"  
- "Hirtella physophora"    
- "Duroia saccifera"       
- "Cordia nodosa"          
- "Cordia aff. Nodosa"     
- "Tococa bullifera"       
- "Maieta guianensis"      
- "Maieta poeppiggi"       
- "Tachigali polyphylla"   
- "Tachigali myrmecophila" 
- "Amaioua aff. Guianensis"
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
 
 
@@ -145,8 +114,10 @@ N[3,4]
 ````
 
 
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
-1
 
 
 
@@ -154,15 +125,32 @@ But it's probably more intuitive to look at the species by names:
 
 ````julia
 t3 = species(N,1)[3]
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
+
+
+````julia
 b4 = species(N,2)[4]
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
+
+
+````julia
 t3, b4
 ````
 
 
-````
-("Azteca isthmica", "Cecropia ficifolia")
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: t3 not defined
+</pre>
 
 
 
@@ -174,8 +162,10 @@ N[t3,b4]
 ````
 
 
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
-1
 
 
 
@@ -187,8 +177,10 @@ has_interaction(N, t3,b4)
 ````
 
 
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
-true
 
 
 
@@ -198,9 +190,22 @@ collections of species. We will extract the species belonging to the genus
 
 ````julia
 all_azteca = filter(x -> contains(x, "Azteca "), species(N,1))
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
+
+
+````julia
 all_cecropia = filter(x -> contains(x, "Cecropia "), species(N,2))
 ````
 
+
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
 
 
@@ -211,6 +216,10 @@ Now, we can get a sub-network (the induced subgraph on these nodes):
 M = N[all_azteca, all_cecropia]
 ````
 
+
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
 
 
@@ -223,18 +232,9 @@ N[all_azteca,:]
 ````
 
 
-````
-EcologicalNetwork.BipartiteQuantitativeNetwork{Int64,String}([1 0 … 0 0; 
-1 1 … 0 0; … ; 0 0 … 2 0; 0 0 … 0 3], String["Azteca alfari", "Azte
-ca isthmica", "Azteca aff. Isthmica", "Azteca HC", "Azteca G", "Azteca CO",
- "Azteca TO", "Azteca schummani", "Azteca D", "Azteca polymorpha", "Azteca 
-Q"], String["Cecropia purpuracens", "Cecropia concolor", "Cecropia distachy
-a", "Cecropia ficifolia", "Pouruma heterophylla", "Hirtella myrmecophila", 
-"Hirtella physophora", "Duroia saccifera", "Cordia nodosa", "Cordia aff. No
-dosa", "Tococa bullifera", "Maieta guianensis", "Maieta poeppiggi", "Tachig
-ali polyphylla", "Tachigali myrmecophila", "Amaioua aff. Guianensis"])
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
 
 
@@ -247,10 +247,9 @@ typeof(M)
 ````
 
 
-````
-EcologicalNetwork.BipartiteQuantitativeNetwork{Int64,String}
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: M not defined
+</pre>
 
 
 
@@ -262,30 +261,9 @@ degree(N)
 ````
 
 
-````
-Dict{String,Int64} with 41 entries:
-  "Pseudomyrmex concolor"         => 2
-  "Hirtella myrmecophila"         => 1
-  "Azteca isthmica"               => 4
-  "Cordia nodosa"                 => 1
-  "Cordia aff. Nodosa"            => 7
-  "Tococa bullifera"              => 6
-  "Cecropia purpuracens"          => 4
-  "Azteca schummani"              => 2
-  "Solenops A"                    => 2
-  "Pseudomyrmex nigrescens"       => 2
-  "Crematogaster B"               => 3
-  "Crematogaster C"               => 2
-  "Azteca D"                      => 1
-  "Cecropia distachya"            => 1
-  "Tachigali polyphylla"          => 3
-  "Maieta guianensis"             => 3
-  "Allomerus aff. Octoarticulata" => 3
-  "Azteca G"                      => 3
-  "Amaioua aff. Guianensis"       => 1
-  ⋮                               => ⋮
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
 
 
@@ -298,24 +276,7 @@ degree(N,2)
 ````
 
 
-````
-Dict{String,Int64} with 16 entries:
-  "Hirtella myrmecophila"   => 1
-  "Cordia nodosa"           => 1
-  "Cordia aff. Nodosa"      => 7
-  "Tococa bullifera"        => 6
-  "Cecropia purpuracens"    => 4
-  "Cecropia distachya"      => 1
-  "Tachigali polyphylla"    => 3
-  "Maieta guianensis"       => 3
-  "Duroia saccifera"        => 4
-  "Amaioua aff. Guianensis" => 1
-  "Cecropia concolor"       => 1
-  "Hirtella physophora"     => 4
-  "Pouruma heterophylla"    => 1
-  "Cecropia ficifolia"      => 2
-  "Maieta poeppiggi"        => 3
-  "Tachigali myrmecophila"  => 6
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 

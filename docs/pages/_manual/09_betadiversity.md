@@ -11,11 +11,15 @@ slug: betadiversity
 
 Measuring network dissimilarity (β-diversity) relies on a small number of
 operations, as detailed in **TODO**. These functions currently work *only* on
-binary networks. We will use the Canaria islands data to illustrate how they
-work.
+binary networks. We will use the host-parasite data from @HADFIELD to illustrate
+them.
 
 ````julia
-Tr = map(n -> convert(BinaryNetwork, n), trojelsgaard_et_al_2014())
+all_of_wol = web_of_life()
+eurasia_rodents = filter(x -> contains(x[:Reference], "Hadfield"), all_of_wol)
+rodents_id = getfield.(eurasia_rodents, :ID)
+rodents_networks = web_of_life.(rodents_id)
+N = map(n -> convert(BinaryNetwork, n), rodents_networks)
 ````
 
 
@@ -32,13 +36,13 @@ The `union` function will return the *superposition* of two networks, *i.e.* the
 union of both their species and interactions.
 
 ````julia
-first_two = union(Tr[1], Tr[2])
-println("N₁: $(richness(Tr[1]))\tN₂: $(richness(Tr[2]))\tN₁₊₂: $(richness(first_two))")
+first_two = union(N[1], N[2])
+println("N₁: $(richness(N[1]))\tN₂: $(richness(N[2]))\tN₁₊₂: $(richness(first_two))")
 ````
 
 
 ````
-N₁: 63	N₂: 54	N₁₊₂: 108
+N₁: 28	N₂: 42	N₁₊₂: 63
 ````
 
 
@@ -49,13 +53,13 @@ It is possible to get the *sum* of a collection of networks through a `reduce`
 operation:
 
 ````julia
-metaweb = reduce(union, Tr)
-println("̂N: $(mean(richness.(Tr)))\t∑N: $(richness(metaweb))")
+metaweb = reduce(union, N)
+println("̂N: $(mean(richness.(N)))\t∑N: $(richness(metaweb))")
 ````
 
 
 ````
-̂N: 51.0	∑N: 274
+̂N: 32.705882352941174	∑N: 327
 ````
 
 
@@ -69,13 +73,13 @@ between *shared species*. This introduces an important point: shared species
 that have no shared interactions will be present in this output:
 
 ````julia
-i1 = intersect(Tr[1], Tr[2])
+i1 = intersect(N[1], N[2])
 println(richness(i1))
 ````
 
 
 ````
-9
+7
 ````
 
 
@@ -91,7 +95,7 @@ println(richness(simplify(i1)))
 
 
 ````
-4
+2
 ````
 
 
@@ -109,16 +113,16 @@ in the second. For this reason, `setdiff(X,Y)` and `setdiff(Y,X)` *will* have
 different outputs.
 
 ````julia
-u1 = setdiff(Tr[1], Tr[2])
-u2 = setdiff(Tr[2], Tr[1])
+u1 = setdiff(N[1], N[2])
+u2 = setdiff(N[2], N[1])
 links.([u1,u2])
 ````
 
 
 ````
 2-element Array{Int64,1}:
- 61
- 18
+ 36
+ 72
 ````
 
 
@@ -164,13 +168,13 @@ the first and second networks using the Jaccard and Sorensen measures can be
 done with:
 
 ````julia
-components = βos(Tr[1], Tr[2])
+components = βos(N[1], N[2])
 println("Jaccard: $(round(jaccard(components), 2))\tSorensen: $(round(sorensen(components), 2))")
 ````
 
 
 ````
-Jaccard: 0.33	Sorensen: 0.5
+Jaccard: 0.17	Sorensen: 0.29
 ````
 
 

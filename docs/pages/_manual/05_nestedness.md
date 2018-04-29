@@ -27,17 +27,22 @@ the nestedness of the columns, and the nestedness of the entire network.
 
 ````julia
 N = fonseca_ganade_1996()
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: fonseca_ganade_1996 not defined
+</pre>
+
+
+````julia
 nodf(N)
 ````
 
 
-````
-Dict{Symbol,Float64} with 3 entries:
-  :rows    => 0.1075
-  :network => 0.0880952
-  :columns => 0.0395833
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
 
 
@@ -46,17 +51,22 @@ Dict{Symbol,Float64} with 3 entries:
 
 ````julia
 M = convert(BinaryNetwork, N)
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
+
+
+````julia
 nodf(N)
 ````
 
 
-````
-Dict{Symbol,Float64} with 3 entries:
-  :rows    => 0.1075
-  :network => 0.0880952
-  :columns => 0.0395833
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
 
 
 ````julia
@@ -64,13 +74,9 @@ Dict{Symbol,Float64} with 3 entries:
 ````
 
 
-````
-Dict{Symbol,Float64} with 3 entries:
-  :rows    => 0.187648
-  :network => 0.168149
-  :columns => 0.148649
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: M not defined
+</pre>
 
 
 
@@ -79,15 +85,20 @@ Dict{Symbol,Float64} with 3 entries:
 
 ````julia
 T = null2(M)
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: M not defined
+</pre>
+
+
+````julia
 η(T)
 ````
 
 
-````
-Dict{Symbol,Float64} with 3 entries:
-  :rows    => 0.174305
-  :network => 0.178413
-  :columns => 0.182521
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: T not defined
+</pre>
 

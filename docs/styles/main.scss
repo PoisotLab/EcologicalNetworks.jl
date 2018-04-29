@@ -2,7 +2,7 @@
 # front matter
 ---
 
-$bg-color: #fafafa;
+$bg-color: #ffffff;
 
 // Fonts
 
@@ -47,24 +47,27 @@ code {
   }
 
   h1, h2, h3 {
-    position: sticky;
-    top: 0;
     background-color: $bg-color;
-    line-height: 80px;
+    line-height: 60px;
   }
   h1 {
+    position: sticky;
+    top: 0;
     font-size: 40px;
     font-weight: bold;
     color: #212121;
     margin-bottom: 120px;
   }
   h2 {
+    position: sticky;
+    top: 60px;
     font-size: 30px;
     color: #424242;
   }
   h3 {
     font-size: 20px;
     color: #616161;
+    background-color: none;
   }
 }
 

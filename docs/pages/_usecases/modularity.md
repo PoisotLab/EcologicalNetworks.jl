@@ -15,6 +15,10 @@ N = convert(BinaryNetwork, fonseca_ganade_1996())
 ````
 
 
+<pre class="julia-error">
+ERROR: UndefVarError: fonseca_ganade_1996 not defined
+</pre>
+
 
 
 
@@ -27,7 +31,9 @@ LP-BRIM (**REF**), and BRIM with a random number of initial modules.
 
 ## Brim with different numbers of modules
 
-The network has at most 
-25 species (on either
+The network has at most <pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
+ species (on either
 levels), so we will use this as an upper bound for networks. We will also say
 that in the worse case scenario, the network is made of a single module

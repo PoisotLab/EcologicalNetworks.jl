@@ -8,14 +8,18 @@ layout: default
 ```julia; echo=false; results="hidden"
 using EcologicalNetwork
 using StatPlots
-plotly()
+pyplot()
 ```
 
 In this case study, we will compare the species composition and interaction
 composition of a collection of networks:
 
 ```julia
-Tr = map(n -> convert(BinaryNetwork, n), trojelsgaard_et_al_2014())
+all_of_wol = web_of_life()
+eurasia_rodents = filter(x -> contains(x[:Reference], "Hadfield"), all_of_wol)
+rodents_id = getfield.(eurasia_rodents, :ID)
+rodents_networks = web_of_life.(rodents_id)
+N = map(n -> convert(BinaryNetwork, n), rodents_networks)
 ```
 
 ## Is there strong global β-diversity?
@@ -25,7 +29,7 @@ the metaweb -- this offers a way to measure how different each *measured*
 network is compared to what we would expect knowing all regional interactions.
 
 ```julia
-metaweb = reduce(union, Tr)
+metaweb = reduce(union, N)
 ```
 
 The function to measure the difference between interactions between shared
@@ -34,8 +38,8 @@ species is `βos`: we can apply it to an array of network using the `.` syntax.
 We can pipe the output all the way to a plot:
 
 ```julia
-os_prime = βos.(Tr, metaweb) .|> whittaker
-scatter(sort(os_prime), xlab="Sites", ylab="Dissimilarity", c=:black, leg=false)
+os_prime = βos.(N, metaweb) .|> whittaker
+histogram(os_prime)
 ```
 
 This analysis reveals that most networks are reasonably close to what we expect
@@ -43,7 +47,7 @@ at the regional scale. We can identify the *most* dissimilar network:
 
 ```julia
 most_dissimilar = first(find(os_prime .== maximum(os_prime)))
-Tr[most_dissimilar]
+N[most_dissimilar]
 ```
 
 ## Pairwise comparison between networks
@@ -52,14 +56,14 @@ In the next step, we will compare the dissimilarity of interactions with the
 dissimilarity of species compositions:
 
 ```julia
-Ds = zeros(Float64, (length(Tr), length(Tr)))
-Di = zeros(Float64, (length(Tr), length(Tr)))
-Dw = zeros(Float64, (length(Tr), length(Tr)))
-for i in eachindex(Tr[1:(end-1)])
-  for j in (i+1):length(Tr)
-    Ds[i,j] = sorensen(βs(Tr[i], Tr[j]))
-    Di[i,j] = sorensen(βos(Tr[i], Tr[j]))
-    Dw[i,j] = sorensen(βwn(Tr[i], Tr[j]))
+Ds = zeros(Float64, (length(N), length(N)))
+Di = zeros(Float64, (length(N), length(N)))
+Dw = zeros(Float64, (length(N), length(N)))
+for i in eachindex(N[1:(end-1)])
+  for j in (i+1):length(N)
+    Ds[i,j] = sorensen(βs(N[i], N[j]))
+    Di[i,j] = sorensen(βos(N[i], N[j]))
+    Dw[i,j] = sorensen(βwn(N[i], N[j]))
   end
 end
 ```

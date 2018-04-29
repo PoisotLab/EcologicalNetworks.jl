@@ -3,17 +3,31 @@ ARCHIVENAME=EcologicalNetwork.tar.gz
 
 .PHONY: clean
 
-ALL: $(ARCHIVENAME)
-
-$(ARCHIVENAME): test clean
-	rm -f $(ARCHIVENAME)
-	cd ..; tar -zcvf EcologicalNetwork/$(ARCHIVENAME) EcologicalNetwork
-
 test: src/*jl test/*jl
 	$(JEXEC) -e 'include("src/EcologicalNetwork.jl"); include("test/runtests.jl")'
 
-CONTRIBUTING.md:
-	wget -O $@ https://raw.githubusercontent.com/PoisotLab/PLCG/master/README.md
 
-docs: docs/pages/_manual/*.Jmd docs/pages/_usecases/*.Jmd
-	julia docs/build.jl
+mangroups = _manual _usecases
+pagedirs = $(mangroups:%=docs/pages/%)
+pages_sources = $(wildcard $(addsuffix /*.Jmd,$(pagedirs)))
+pages_compiled = $(patsubst %.Jmd,%.md,$(pages_sources))
+#$(info $(pages_sources))
+#$(info $(pages_compiled))
+
+define MAKEPAGE
+
+$(patsubst, %.Jmd,%.md,$(1)) : $(1).Jmd
+	$(ECHO)     $$< from $$@
+
+endef
+
+$(foreach source,$(pages_compiled), $(eval $(call MAKEPAGE,$(source))))
+
+%.md: %.Jmd
+	julia -e 'using Weave; include("src/EcologicalNetwork.jl"); weave("$<", out_path="$@", doctype="github")'
+
+docs: $(pages_compiled)
+
+clean:
+	rm $(md_man)
+	rm $(md_use)

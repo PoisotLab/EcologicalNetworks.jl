@@ -6,20 +6,23 @@ layout: default
 slug: modularity
 ---
 
-```julia; echo=false
-using EcologicalNetwork
-```
+
+
 
 There are two steps to modularity analysis. First, we assign a module *a priori*
 to all species in the network. Second, we optimize this partition using
 heuristics. We will illustrate how these functions work by simulating a reasonably modular network:
 
-```julia
+````julia
 A = zeros(Bool, (12,12))
 A[1:6,1:6] = rand(Float64, (6,6)).<0.8
 A[7:12,7:12] = rand(Float64, (6,6)).<0.8
 B = simplify(BipartiteNetwork(A))
-```
+````
+
+
+
+
 
 ## Initial modules assignation
 
@@ -34,19 +37,56 @@ One current way to proceed is to guesstimate the number of modules, and assign
 species to them at random. This can be done with the `n_random_modules`
 function:
 
-```julia
+````julia
 five_rand = n_random_modules(5)
 five_rand(B)[2]
-```
+````
+
+
+````
+Dict{String,Int64} with 24 entries:
+  "t3"  => 1
+  "t7"  => 2
+  "b12" => 4
+  "b2"  => 1
+  "t10" => 2
+  "t5"  => 3
+  "b8"  => 2
+  "b11" => 3
+  "t4"  => 5
+  "b7"  => 3
+  "b9"  => 5
+  "t12" => 4
+  "b3"  => 1
+  "t2"  => 1
+  "t11" => 2
+  "t1"  => 3
+  "t8"  => 3
+  "b5"  => 2
+  "b10" => 4
+  ⋮     => ⋮
+````
+
+
+
+
 
 Note that `n_random_modules` *returns* a function which will create `n` modules
 at random.
 
 ### One module for every species
 
-```julia
+````julia
 each_species_its_module(N)[2]
-```
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
+
+
+
 
 ### Label propagation
 
@@ -54,10 +94,39 @@ each_species_its_module(N)[2]
 most adapted for large graphs, we found that LP usually gives a robust starting
 partition regardless of the size.
 
-```julia
+````julia
 initial_p = lp(B)
 initial_p[2]
-```
+````
+
+
+````
+Dict{String,Int64} with 24 entries:
+  "t3"  => 1
+  "t7"  => 2
+  "b12" => 2
+  "b2"  => 1
+  "t10" => 3
+  "t5"  => 1
+  "b8"  => 2
+  "b11" => 2
+  "t4"  => 1
+  "b7"  => 2
+  "b9"  => 2
+  "t12" => 2
+  "b3"  => 1
+  "t2"  => 1
+  "t11" => 2
+  "t1"  => 1
+  "t8"  => 2
+  "b5"  => 1
+  "b10" => 3
+  ⋮     => ⋮
+````
+
+
+
+
 
 ## Modularity optimization
 
@@ -73,9 +142,13 @@ modularity(initial(network)...)
 
 ### BRIM
 
-```julia
+````julia
 #b_brim = brim(lp(B)...)
 #b_brim
-```
+````
+
+
+
+
 
 ## Modularity functions

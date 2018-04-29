@@ -4,7 +4,6 @@ function nz_stream_foodweb()
   documents = filter(f -> endswith(f, ".csv"), files)
   Ns = UnipartiteNetwork{String}[]
   for doc in documents
-    println(doc)
     content = readdlm(joinpath(@__DIR__, "../..", "data", "nz_stream", doc), ',')
     species_names = convert(Array{String}, content[:,1][2:end])
     interaction_matrix = map(Int64, content[2:end,2:end]).>0
@@ -19,15 +18,21 @@ function web_of_life(name)
   files = readdir(data_path)
   @assert fullname in files
   content = readdlm(joinpath(@__DIR__, "../..", "data", "weboflife", fullname), ',')
-  top_species_names = convert(Array{String}, vec(content[:,1][2:end]))
-  bottom_species_names = convert(Array{String}, vec(content[1,:][2:end]))
-  interaction_matrix = map(Int64, content[2:end,2:end])
+  bottom_species_names = convert(Array{String}, vec(content[:,1][2:end]))
+  top_species_names = convert(Array{String}, vec(content[1,:][2:end]))
+  interaction_matrix = map(Int64, content[2:end,2:end])'
   ntype = BipartiteQuantitativeNetwork
   if maximum(interaction_matrix) == 1
     interaction_matrix = interaction_matrix .> 0
     ntype = BipartiteNetwork
   end
-  ntype(interaction_matrix, top_species_names, bottom_species_names)
+  this_net = ntype(interaction_matrix, top_species_names, bottom_species_names)
+  if "Num. of hosts sampled" ∈ species(this_net, 1)
+    sp_1 = filter(x -> x != "Num. of hosts sampled", species(this_net,1))
+    return this_net[sp_1,species(this_net, 2)]
+  else
+    return this_net
+  end
 end
 
 function web_of_life()

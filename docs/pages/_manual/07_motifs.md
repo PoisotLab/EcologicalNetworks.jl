@@ -30,16 +30,33 @@ motif, this array can get quite big.
 
 ````julia
 N = fonseca_ganade_1996()
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: fonseca_ganade_1996 not defined
+</pre>
+
+
+````julia
 m = BipartiteNetwork([true true false; false true true])
 motif = find_motif(N,m)
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
+
+
+````julia
 println("This motif is found $(length(motif)) times")
 ````
 
 
-````
-This motif is found 50 times
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: motif not defined
+</pre>
 
 
 
@@ -53,12 +70,9 @@ N[first(motif)...].A
 ````
 
 
-````
-2×3 Array{Int64,2}:
- 3  27  0
- 0   2  2
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: motif not defined
+</pre>
 
 
 
@@ -80,18 +94,43 @@ array with elements of the shape `((species,),(mean,variance))`.
 
 ````julia
 U = thompson_townsend_catlins()
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: thompson_townsend_catlins not defined
+</pre>
+
+
+````julia
 m = unipartitemotifs()[:S1]
 N = null2(U)
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: U not defined
+</pre>
+
+
+````julia
 motif = find_motif(N, m)
+````
+
+
+<pre class="julia-error">
+ERROR: UndefVarError: N not defined
+</pre>
+
+
+````julia
 first(motif)
 ````
 
 
-````
-((String["Unidentified detritus", "Plant material", "Terrestrial invertebra
-tes"],), (0.07724994680572411, 0.07486477493756385))
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: motif not defined
+</pre>
 
 
 
@@ -108,8 +147,7 @@ expected_motif_count(motif)
 ````
 
 
-````
-(139.85368472556303, 139.0496346810643)
-````
-
+<pre class="julia-error">
+ERROR: UndefVarError: motif not defined
+</pre>
 
