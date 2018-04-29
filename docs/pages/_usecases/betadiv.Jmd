@@ -51,7 +51,16 @@ network differ from what we know at the regional scale:
 
 ```julia
 os_prime = βos.(N, M) .|> sorensen
-histogram(os_prime)
+histogram(os_prime, xlims=(0.0,1.0))
 ```
 
+Values close to `1` indicate that the network is very dissimilar from what we
+expect at the regional scale -- this can indicate strong sorting of interactions
+locally.
+
 ## Measuring pairwise differences
+
+```julia
+cS = [βs(N[i],N[j]) for i in 1:(length(N)-1), j in 2:length(N)]
+sorensen.(cS)
+```
