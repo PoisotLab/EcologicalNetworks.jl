@@ -36,18 +36,20 @@ end
 
 
 ```julia
-pl = plot([0],[0], leg=false, framestyle=:zerolines);
-xaxis!(pl, (0.5, 5.5))
+pl = plot([0],[0], leg=false, framestyle=:origin);
+xaxis!(pl, (0.5, 13.5))
 yaxis!(pl, (-1.1, 1.1))
 hline!(pl, [0.0], lab="", c=:black, ls=:dot)
 hline!(pl, [-0.5,0.5], lab="", c=:black, ls=:dash)
+cols = Colors.distinguishable_colors(length(NZ))
 for i in eachindex(NZ)
   println(i)
-  x = collect(1:5)
-  mo = [:S1, :S2, :S3, :S4, :S5]
+  mo = sort(collect(keys(unipartitemotifs())))
+  x = collect(1:length(mo))
   xmo = [unipartitemotifs()[m] for m in mo]
   y = motif_correction.(NZ[i], xmo)
-  plot!(pl, x, y, lab="", m=:circle, c=:black, msc=:black)
+  tco = cols[i]
+  plot!(pl, x, y, lab="", m=:circle, c=cols[i], msc=:black)
   display(pl)
 end
 pl
