@@ -2,7 +2,7 @@ module TestModularityBrim
 using Base.Test
 using EcologicalNetwork
 
-    N = mccullen_1993()
+    N = web_of_life("M_PL_026")
     L = lp(N)[2]
     m = brim(N, L)
 
