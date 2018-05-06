@@ -53,7 +53,7 @@ julia> specificity(N)[1]
 """
 function specificity(N::BinaryNetwork)
     A = map(Int64, N.A)
-    return vec(mapslices(pdi, A, 2))
+    return Dict(zip(species(N,1), vec(mapslices(pdi, A, 2))))
 end
 
 """
@@ -77,5 +77,5 @@ julia> specificity(N)[1]
 
 """
 function specificity(N::QuantitativeNetwork)
-    return vec(mapslices(pdi, N.A, 2))
+    return Dict(zip(species(N,1), vec(mapslices(pdi, N.A, 2))))
 end

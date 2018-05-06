@@ -1,5 +1,19 @@
 title: "EcologicalNetwork.jl"
-permalink: /:title/
+permalink: /:slug/
 markdown: kramdown
 sass:
   style: :compressed
+exclude: ["*.Jmd", "build.jl"]
+
+
+collections_dir: pages
+
+collections:
+  manual:
+    name: "Manual"
+    output: true
+    permalink: /man/:slug
+  usecases:
+    name: "Use cases"
+    output: true
+    permalink: /use/:slug

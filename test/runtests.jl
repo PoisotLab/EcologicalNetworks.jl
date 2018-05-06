@@ -4,24 +4,6 @@ using Base.Test
 anyerrors = false
 
 my_tests = [
-   "matrix_utils.jl",
-   "free_species.jl",
-   "connectance.jl",
-   "paths.jl",
-   "nestedness.jl",
-   "nullmodels.jl",
-   "nullmodelswrapper.jl",
-   "swaps.jl",
-   "foodwebs.jl",
-   "centrality.jl",
-   "tests.jl",
-   "motifs.jl",
-   "betadiversity.jl",
-   "modularity.jl",
-   "draw.jl"
-  ]
-
-my_tests = [
    "types/declaration.jl",
    "types/utilities.jl",
    "types/conversions.jl",
@@ -37,11 +19,10 @@ my_tests = [
    "community/paths.jl",
    "community/centrality.jl",
    "community/motifs.jl",
+   "betadiversity/operations.jl",
    "modularity/utilities.jl",
    "modularity/labelpropagation.jl",
-   "casestudies/generalities.jl",
-   "casestudies/permutations.jl",
-   "manual/types.jl"
+   "modularity/brim.jl"
 ]
 
 test_n = 1

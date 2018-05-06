@@ -2,21 +2,21 @@ module TestModularityLabelPropagation
 using Base.Test
 using EcologicalNetwork
 
-# Perfectly modular bipartite network
 A = [
   true true true false false false; true true true false false false;
   false false false true true true; false false false true true true
   ]
 B = BipartiteNetwork(A)
-U = make_unipartite(B)
-mb = label_propagation(B, collect(1:richness(B)))
-mu = label_propagation(U, collect(1:richness(U)))
+U = convert(AbstractUnipartiteNetwork, B)
+mb = lp(B)
+mu = lp(U)
 
-@test mb.Q == 0.5
-@test length(unique(mb.L)) == 2
-@test mb.Q == mu.Q
-@test Qr(mb) == 1.0
-@test Qr(mu) == 1.0
-@test Qr(mb.N, ones(Int64, richness(mb.N))) == 0.0
+@test Q(mb...) == 0.5
+@test Q(mu...) == 0.5
+@test Qr(mb...) == 1.0
+@test Qr(mu...) == 1.0
+
+@test length(unique(collect(values(mb[2])))) == 2
+@test length(unique(collect(values(mu[2])))) == 2
 
 end

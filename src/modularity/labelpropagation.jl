@@ -1,74 +1,49 @@
-"""
-**Label propagation**
-
-    label_propagation(N::AbstractEcologicalNetwork, L::Array{Int64, 1})
-
-This function will optimize modularity by propagating labels along interactions.
-A node receives the label that is most frequent in its neighborhood. For
-quantitative networks, the interaction weight is taken into account. For
-probabilistic network, probabilities are used to draw the label.
-"""
-function label_propagation(N::AbstractEcologicalNetwork, L::Array{Int64, 1})
-
-  # There must be one label per species
-  @assert length(L) == richness(N)
+function lp{T<:AbstractEcologicalNetwork}(N::T)
+  L = Dict([species(N)[i]=>i for i in 1:richness(N)])
 
   # Initial modularity
   imod = Q(N, L)
   amod = imod
   improved = true
 
-  # Update
   while improved
+    update_t = shuffle(species(N,1))
+    update_b = shuffle(species(N,2))
 
-    # Random update order -- identity of possible species varies between
-    # bipartite and unipartite networks
-
-    # The naming in this part of the code is a bit weird, so here goes: the
-    # labels are updated column-wise, because the interactions are from the
-    # species in the row, to the species in the column. So when we want to
-    # know which row to update, the relevant information is actually in the
-    # column id.
-    update_order_col = shuffle(1:nrows(N))
-    update_order_row = shuffle(1:ncols(N))
-
-    # Update the rows
-    for ur in update_order_row
-
-      # The real position of the updated column must be corrected if we
-      # are talking about a bipartite network. Column 1 is, in fact, the
-      # nrows(N)+1th element of the community vector L.
-      pos = typeof(N) <: Bipartite ? nrows(N) + ur : ur
-
-      # When this is done, we can get the most common label. If this is
-      # a bipartite network, since R and C are views instead of duplicate
-      # arrays, everything will be kept up to date.
-      L[pos] = most_common_label(N, L, ur)
-
+    for s1 in update_t
+      linked = filter(s2 -> has_interaction(N,s1,s2), species(N,2))
+      labels = [L[s2] for s2 in linked]
+      if length(labels) > 0
+        counts = StatsBase.counts(labels)
+        cmax = maximum(counts)
+        merged = Dict(zip(labels, counts))
+        ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
+        if length(ok_keys) > 0
+          newlab = StatsBase.sample(collect(ok_keys))
+          L[s1] = newlab
+        end
+      end
     end
 
-    # Update the columns
-    for uc in update_order_col
-
-      # If the network is bipartite, we need to move things around in the
-      # L array. Specifically, since we transpose the matrix, the columns
-      # need to come first.
-      if typeof(N) <: Bipartite
-        R = 1:nrows(N)
-        C = nrows(N).+(1:ncols(N))
-        vec_to_use = vcat(L[C], L[R])
-      else
-        vec_to_use = L
+    for s2 in update_b
+      linked = filter(s1 -> has_interaction(N,s1,s2), species(N,1))
+      labels = [L[s1] for s1 in linked]
+      if length(labels) > 0
+        counts = StatsBase.counts(labels)
+        cmax = maximum(counts)
+        merged = Dict(zip(labels, counts))
+        ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
+        if length(ok_keys) > 0
+          newlab = StatsBase.sample(collect(ok_keys))
+          L[s2] = newlab
+        end
       end
-
-      # Update
-      L[uc] = most_common_label(N', vec_to_use, uc)
     end
 
     # Modularity improved?
     amod = Q(N, L)
     imod, improved = amod > imod ? (amod, true) : (amod, false)
-
   end
-  return Partition(N, L)
+  tidy_modules!(L)
+  return (N, L)
 end

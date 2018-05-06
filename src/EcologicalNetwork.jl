@@ -3,6 +3,8 @@ module EcologicalNetwork
 # Dependencies
 using StatsBase
 using Combinatorics
+using Luxor
+using NamedTuples
 
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
@@ -24,7 +26,7 @@ export AbstractEcologicalNetwork, AllowedSpeciesTypes,
 
 # Datasets
 include(joinpath(".", "misc/data.jl"))
-export thompson_townsend_catlins, fonseca_ganade_1996
+export web_of_life, nz_stream_foodweb
 
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))
@@ -42,7 +44,7 @@ export links, links_var, connectance, connectance_var,
     linkage_density, link_number
 
 include(joinpath(".", "links/degenerate.jl"))
-export isdegenerate#, species_has_no_successors, species_has_no_predecessors,
+export isdegenerate, simplify#, species_has_no_successors, species_has_no_predecessors,
     #species_is_free, free_species
 
 # Random networks and permutations
@@ -65,35 +67,56 @@ export centrality_katz, centrality_closeness, centrality_degree
 
 # Motifs
 include(joinpath(".", "community/motifs.jl"))
-export motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs
+export find_motif, expected_motif_count, unipartitemotifs
 
 # Modularity
 include(joinpath(".", "modularity/utilities.jl"))
-export Q, Qr
+export Q, Qr, n_random_modules
 
 include(joinpath(".", "modularity/labelpropagation.jl"))
-export label_propagation
+export lp
+
+include(joinpath(".", "modularity/starters.jl"))
+export n_random_modules, each_species_its_module
+
+include(joinpath(".", "modularity/brim.jl"))
+export brim
+
+#include(joinpath(".", "modularity/louvain.jl"))
+#export louvain
+
+# Plots
+include(joinpath(".", "plots/circular.jl"))
+export circular_layout, circular_network_plot
+
+include(joinpath(".", "plots/foodweb.jl"))
+export foodweb_layout
+
+include(joinpath(".", "plots/graph.jl"))
+export graph_layout, graph_network_plot
+
+# Beta-diversity
+include(joinpath(".", "betadiversity/operations.jl"))
+include(joinpath(".", "betadiversity/partitions.jl"))
+export βs, βos, βwn
+
+include(joinpath(".", "betadiversity/measures.jl"))
+export whittaker, sorensen, jaccard, gaston, williams, lande, ruggiero,
+    hartekinzig, harrison
+
+# Food webs
+include(joinpath(".", "foodwebs/trophiclevels.jl"))
+export fractional_trophic_level, trophic_level
 
 #=
-include(joinpath(".", "modularity/brim.jl"))
-include(joinpath(".", "modularity/labelpropagation.jl"))
+
 include(joinpath(".", "modularity/louvain.jl"))
-include(joinpath(".", "modularity/lpbrim.jl"))
 include(joinpath(".", "modularity/modularity.jl"))
 export modularity, networkroles
-export louvain, brim
 =#
 
 #=
-# Beta-diversity
-betadiversity,
-whittaker, sorensen, jaccard, gaston,
-williams, lande, ruggiero, hartekinzig,
-fractional_trophic_level, trophic_level, foodweb_position
-harrison,
-
-# Motifs
-motif_p, motif_v, count_motifs, motif, motif_var, unipartitemotifs,
+trophic_level, foodweb_position
 
 # Food webs measures
 =#

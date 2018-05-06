@@ -1,126 +1,80 @@
 module TestMotifs
-    using Base.Test
-    using EcologicalNetwork
+using Base.Test
+#include("../../src/EcologicalNetwork.jl")
+using EcologicalNetwork
 
-@testset "Motif functions" begin
+@test unipartitemotifs()[:S1].A == [false true false; false false true; false false false];
 
-  @testset "Usual motifs" begin
-    @test unipartitemotifs()[:S1].A == [false true false; false false true; false false false];
-  end
+n = UnipartiteNetwork(zeros(Bool, (2, 2)))
+m = unipartitemotifs()[:S1]
+@test length(find_motif(n, m)) ≈ 0.0
 
-    @testset "Small network (unipartite)" begin
-      n = UnipartiteNetwork(zeros(Bool, (2, 2)))
-      m = unipartitemotifs()[:S1]
-      @test motif(n, m) ≈ 0.0
-    end
+# Test with a single link
+N = UnipartiteProbabilisticNetwork([0.2 0.8; 0.2 0.1])
+m = UnipartiteNetwork([false true; false false])
+@test expected_motif_count(find_motif(N,m))[1] ≈ 0.680
 
-    @testset "Single link, probabilistic" begin
-        # Test with a single link
-        N = UnipartiteProbaNetwork([0.2 0.8; 0.2 0.1])
-        m = UnipartiteNetwork([false true; false false])
-        b = zeros(Float64, size(m))
-        o = zeros(Float64, prod(size(m)))
-        EcologicalNetwork.motif_internal!(N, m, b, o)
-        @test o == vec([0.8 0.8 0.8 0.9])
-    end
+# Test with a perfect match
+N = UnipartiteProbabilisticNetwork([0.0 1.0; 0.0 0.0])
+m = UnipartiteNetwork([false true; false false])
+@test expected_motif_count(find_motif(N,m)) == (1.0, 0.0)
 
-    @testset "Perfect match, probabilistic" begin
-        # Test with a perfect match
-        N = UnipartiteProbaNetwork([0.0 1.0; 0.0 0.0])
-        m = UnipartiteNetwork([false true; false false])
-        b = zeros(Float64, size(m))
-        o = zeros(Float64, prod(size(m)))
-        EcologicalNetwork.motif_internal!(N, m, b, o)
-        @test o == vec([1.0 1.0 1.0 1.0])
-        @test motif_p(N, m, b, o) == 1.0
-        @test motif_v(N, m, b, o) == 0.0
-    end
+# Test with a fork-like thing
+diam = UnipartiteNetwork([0 1 0 0; 0 0 1 1; 0 0 0 0; 0 0 0 0].>0)
+clin = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0)
+capp = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0].>0)
+cdir = UnipartiteNetwork([0 0 1; 0 0 1; 0 0 0].>0)
 
-    @testset "Fork food web" begin
-        # Test with a fork-like thing
-        diam = UnipartiteNetwork([0 1 0 0; 0 0 1 1; 0 0 0 0; 0 0 0 0].>0)
-        clin = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0)
-        capp = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0].>0)
-        cdir = UnipartiteNetwork([0 0 1; 0 0 1; 0 0 0].>0)
+@test length(find_motif(diam, clin)) == 2
+@test length(find_motif(diam, capp)) == 1
+@test length(find_motif(diam, cdir)) == 0
 
-        @test motif(diam, clin) ≈ 2.0
-        @test motif(diam, capp) ≈ 1.0
-        @test motif(diam, cdir) ≈ 0.0
-    end
+# Test with a diamond food web
+diam = UnipartiteNetwork([0 1 1 0; 0 0 0 1; 0 0 0 1; 0 0 0 0].>0)
+clin = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0)
+capp = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0].>0)
+cdir = UnipartiteNetwork([0 0 1; 0 0 1; 0 0 0].>0)
 
-    @testset "Diamond food web" begin
-        # Test with a diamond food web
-        diam = UnipartiteNetwork([0 1 1 0; 0 0 0 1; 0 0 0 1; 0 0 0 0].>0)
-        clin = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0)
-        capp = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0].>0)
-        cdir = UnipartiteNetwork([0 0 1; 0 0 1; 0 0 0].>0)
+@test length(find_motif(diam, clin)) == 2
+@test length(find_motif(diam, capp)) == 1
+@test length(find_motif(diam, cdir)) == 1
 
-        @test motif(diam, clin) ≈ 2.0
-        @test motif(diam, capp) ≈ 1.0
-        @test motif(diam, cdir) ≈ 1.0
-    end
+lfc = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0)
+wsl = UnipartiteNetwork([1 1 0; 0 0 1; 0 0 0].>0)
 
-    @testset "Linear food chain with a loop" begin
-      lfc = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0)
-      wsl = UnipartiteNetwork([1 1 0; 0 0 1; 0 0 0].>0)
+# This tests for the removal of the diagonal
+@test length(find_motif(wsl, lfc)) == 1
 
-      @test motif(wsl, lfc) ≈ 1.0
-    end
+lfc = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0)
+wsl = UnipartiteQuantitativeNetwork([1 0.5 0; 0 0 1.6; 0 0 0])
 
-    @testset "Linear quantitative food chain with a loop" begin
-      lfc = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0)
-      wsl = UnipartiteQuantiNetwork([1 0.5 0; 0 0 1.6; 0 0 0])
+@test length(find_motif(wsl, lfc)) == 1
 
-      @test motif(wsl, lfc) ≈ 1.0
-    end
+# Test with a diamond food web
+diam = BipartiteNetwork([1 1 0; 1 1 1].>0)
+tthr = BipartiteNetwork([1 0; 1 1].>0)
+tfou = BipartiteNetwork([1 1; 1 1].>0)
 
-    @testset "Bipartite test" begin
-      # Test with a diamond food web
-      diam = BipartiteNetwork([1 1 0; 1 1 1].>0)
-      tthr = BipartiteNetwork([1 0; 1 1].>0)
-      tfou = BipartiteNetwork([1 1; 1 1].>0)
+@test length(find_motif(diam, tthr)) == 2
+@test length(find_motif(diam, tfou)) == 1
 
-      @test motif(diam, tthr) ≈ 2.0
-      @test motif(diam, tfou) ≈ 1.0
-    end
+# Test on a three-species network
+B = UnipartiteNetwork([false true true; false false true; false false false])
+@test length(find_motif(B, B)) == 1
 
-    @testset "Three species" begin
-      # Test on a three-species network
-      B = UnipartiteNetwork([false true true; false false true; false false false])
-      @test motif(B, B) == 1.0
-    end
+BDN = BipartiteNetwork([false true true; false false true; false false false])
+@test length(find_motif(BDN, BDN)) == 1.0
 
-    BDN = BipartiteNetwork([false true true; false false true; false false false])
-    @test motif(BDN, BDN) == 1.0
+# Test on the same network, this time with a proba one
+P = UnipartiteProbabilisticNetwork([0.0 1.0 1.0; 0.0 0.0 1.0; 0.0 0.0 0.0])
+B = UnipartiteNetwork([false true true; false false true; false false false])
+@test expected_motif_count(find_motif(P, B)) == (1.0, 0.0)
 
-    # Test on the same network, this time with a proba one
-    P = UnipartiteProbaNetwork([0.0 1.0 1.0; 0.0 0.0 1.0; 0.0 0.0 0.0])
-    B = UnipartiteNetwork([false true true; false false true; false false false])
-    @test motif_var(P, B) == 0.0
+# Test with some variation
+ovl = UnipartiteNetwork([false true true; false false true; false false false])
+N = UnipartiteProbabilisticNetwork([0.0 1.0 0.8; 0.0 0.0 1.0; 0.0 0.0 0.0])
+@test first(expected_motif_count(find_motif(N, ovl))) ≈ 0.8
+fchain = UnipartiteNetwork([false true false; false false true; false false false])
+@test first(expected_motif_count(find_motif(N, fchain))) ≈ 0.2
 
-    # Test with some variation
-    ovl = UnipartiteNetwork([false true true; false false true; false false false])
-    N = UnipartiteProbaNetwork([0.0 1.0 0.8; 0.0 0.0 1.0; 0.0 0.0 0.0])
-    @test motif(N, ovl) ≈ 0.8
-    fchain = UnipartiteNetwork([false true false; false false true; false false false])
-    @test motif(N, fchain) ≈ 0.2
-
-    # Test of the simplest situation: two nodes, ten random matrices
-    for i in 1:10
-      N = BipartiteProbaNetwork(rand((2, 2)))
-      possible_motifs = (
-        [0 1; 0 0], [1 0; 0 0], [0 0; 1 0], [0 0; 0 1],
-        [1 1; 0 0], [1 0; 0 1], [1 0; 1 0],
-        [0 1; 1 0], [0 1; 0 1],
-        [0 0; 1 1],
-        [0 1; 1 1], [1 0; 1 1], [1 1; 1 0], [1 1; 0 1],
-        [0 0; 0 0], [1 1; 1 1]
-      )
-      b = zeros(Float64, size(N))
-      o = zeros(Float64, prod(size(N)))
-      all_probas = map((x) -> motif_p(N, BipartiteNetwork(map(Bool, x)), b, o), possible_motifs)
-      @test sum(all_probas) ≈ 1.0
-    end
-
-end
 end
