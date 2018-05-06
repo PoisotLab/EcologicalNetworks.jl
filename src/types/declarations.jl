@@ -36,23 +36,35 @@ struct UnipartiteNetwork{NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
   S::Array{NT,1}
 end
 
+"""
+TODO
+"""
 struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
   A::Array{IT,2}
   T::Array{NT,1}
   B::Array{NT,1}
 end
 
+"""
+TODO
+"""
 struct BipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
   A::Array{IT,2}
   T::Array{NT,1}
   B::Array{NT,1}
 end
 
+"""
+TODO
+"""
 struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
   A::Array{IT,2}
   S::Array{NT,1}
 end
 
+"""
+TODO
+"""
 struct UnipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
   A::Array{IT,2}
   S::Array{NT,1}

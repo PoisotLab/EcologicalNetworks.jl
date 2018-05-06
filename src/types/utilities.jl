@@ -1,21 +1,52 @@
 using Base
 
+
+"""
+    species(N::AbstractUnipartiteNetwork)
+
+Returns an array of all species in a unipartite network. The order of the
+species corresponds to the order of rows/columns in the adjacency matrix.
+"""
 function species(N::AbstractUnipartiteNetwork)
   return N.S
 end
 
+
+"""
+    species(N::AbstractBipartiteNetwork)
+
+Returns an array of all species in a bipartite network. The order of the species
+corresponds to the order of rows (top level) and columns (bottom level) of the
+adjacency matrix, in this order.
+"""
 function species(N::AbstractBipartiteNetwork)
   return vcat(N.T, N.B)
 end
 
+
+"""
+    species(N::AbstractBipartiteNetwork, i::Int64)
+
+Returns an array of species in either side of a bipartite network. The `i`
+parameter is the "margin" of the network, where `1` is species from the top, and
+`2` is species from the bottom layer.
+"""
 function species(N::AbstractBipartiteNetwork, i::Int64)
   @assert i ∈ [1,2]
   return i == 1 ? N.T : N.B
 end
 
+"""
+    species(N::AbstractUnipartiteNetwork, i::Int64)
+
+Returns an array of species on either side of a unipartite network. In a
+unipartite network, species are the same on either size, so this essentially
+calls `species(N)`. This function is nevertheless useful when you want to write
+code that takes either side of the network in a general way.
+"""
 function species(N::AbstractUnipartiteNetwork, i::Int64)
   @assert i ∈ [1,2]
-  return N.S
+  return species(N)
 end
 
 function species_objects(N::AbstractUnipartiteNetwork)
@@ -26,14 +57,14 @@ function species_objects(N::AbstractBipartiteNetwork)
   return (N.T, N.B)
 end
 
-"""
-**Interaction between two species**
 
+"""
     has_interaction(N::AbstractEcologicalNetwork, i::Int64, j::Int64)
 
 This function returns `true` if the interaction between `i` and `j` is not 0.
-This is used internally by a few function, but is exported because it may be of
-general use.
+This refers to species by their position instead of their name, and is not
+recommended as the main solution. This is used internally by a few functions,
+but is exported because it may be of general use.
 """
 function has_interaction(N::AbstractEcologicalNetwork, i::Int64, j::Int64)
   # We need to make sure that the interaction is somewhere within the network
@@ -43,6 +74,16 @@ function has_interaction(N::AbstractEcologicalNetwork, i::Int64, j::Int64)
   return N[i,j] > zero(typeof(N[i,j]))
 end
 
+
+"""
+    has_interaction{NT<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, i::NT, j::NT)
+
+This function returns `true` if the interaction between `i` and `j` is not 0.
+This refers to species by their names/values, and is the recommended way to test
+for the presence of an interaction.
+
+Use `N[i,j]` if you need to get the value of the interaction.
+"""
 function has_interaction{NT<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, i::NT, j::NT)
   @assert i ∈ species(N, 1)
   @assert j ∈ species(N, 2)
@@ -51,6 +92,12 @@ function has_interaction{NT<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, 
   return has_interaction(N, i_pos, j_pos)
 end
 
+
+"""
+    nodiagonal(N::AbstractUnipartiteNetwork)
+
+Returns a *copy* of the network with its diagonal set the appropriate zero.
+"""
 function nodiagonal(N::AbstractUnipartiteNetwork)
   x = N.A
   for i in 1:size(x,1)
@@ -59,12 +106,22 @@ function nodiagonal(N::AbstractUnipartiteNetwork)
   return typeof(N)(x, N.S)
 end
 
+"""
+    nodiagonal(N::AbstractBipartiteNetwork)
+
+Returns a *copy* of the network (because the diagonal of a bipartite network is
+never a meaningful notion). This function is clearly useless, but allows to
+write general code for all networks types when a step requires removing the
+diagonal.
+"""
 function nodiagonal(N::AbstractBipartiteNetwork)
   return copy(N)
 end
 
 """
-Return the size of the adjacency matrix of an AbstractEcologicalNetwork object.
+    size(N::AbstractEcologicalNetwork)
+
+Return the size of the adjacency matrix of an `AbstractEcologicalNetwork` object.
 """
 function Base.size(N::AbstractEcologicalNetwork)
   Base.size(N.A)
