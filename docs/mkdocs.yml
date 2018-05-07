@@ -28,3 +28,5 @@ pages:
     - Types: interface/types.md
     - "Type conversions": interface/conversions.md
     - "Core functions": interface/highlevel.md
+  - Network measures:
+    - Links: properties/links.md

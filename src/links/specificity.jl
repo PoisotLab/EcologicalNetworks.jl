@@ -7,17 +7,6 @@
 This function will range the values of each row, so that the strongest link has
 a value of one. This works for deterministic and quantitative networks.
 
-```jldoctest
-julia> EcologicalNetwork.pdi(vec([1.0 0.0 0.0]))
-1.0
-
-julia> EcologicalNetwork.pdi(vec([0.0 0.0 1.0]))
-1.0
-
-julia> EcologicalNetwork.pdi(vec([1.0 1.0 1.0]))
-0.0
-```
-
 > Poisot, T., Canard, E., Mouquet, N., Hochberg, M.E., 2012. A comparative study
 > of ecological specialization estimators. Methods in Ecology and Evolution 3,
 > 537–544. doi:10.1111/j.2041-210X.2011.00174.x
@@ -39,13 +28,6 @@ end
 Measure of specificity in a deterministic network. This returns a value between
 0 and 1, where 1 indicates maximal specificity.
 
-```jldoctest
-julia> N = BipartiteNetwork(eye(Bool, 10));
-
-julia> specificity(N)[1]
-1.0
-```
-
 > Poisot, T., Canard, E., Mouquet, N., Hochberg, M.E., 2012. A comparative study
 > of ecological specialization estimators. Methods in Ecology and Evolution 3,
 > 537–544. doi:10.1111/j.2041-210X.2011.00174.x
@@ -65,12 +47,6 @@ Measure of specificity in a quantitative network. This returns a value between 0
 and 1, where 1 indicates maximal specificity. Note that the PDI is measured
 species-wise, and the maximal interaction strength of every species is set to 1.
 
-```jldoctest
-julia> N = BipartiteNetwork(eye(Int64, 10));
-
-julia> specificity(N)[1]
-1.0
-```
 > Poisot, T., Canard, E., Mouquet, N., Hochberg, M.E., 2012. A comparative study
 > of ecological specialization estimators. Methods in Ecology and Evolution 3,
 > 537–544. doi:10.1111/j.2041-210X.2011.00174.x

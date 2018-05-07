@@ -17,7 +17,7 @@ abstract type AbstractBipartiteNetwork <: AbstractEcologicalNetwork end
 """
 The species names can be strings or symbols -- for now.
 """
-AllowedSpeciesTypes = Union{String,Symbol,Any}
+AllowedSpeciesTypes = Union{String,Symbol}
 
 """
 A bipartite deterministic network is a two-dimensional array of boolean values.

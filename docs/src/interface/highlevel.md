@@ -27,8 +27,20 @@ has_interaction(N::AbstractEcologicalNetwork, i::Int64, j::Int64)
 ### Value of an interaction
 
 ```@docs
-Base.getindex(N::AbstractEcologicalNetwork, i...)
 Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, s1::T, s2::T)
+Base.getindex(N::AbstractEcologicalNetwork, i...)
+```
+
+### Neighbors
+
+```@docs
+Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, ::Colon, sp::T)
+getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, sp::T, ::Colon)
+```
+
+### Induced sub-graph
+
+```@docs
 Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp::Array{T})
 Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::Array{T})
 Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::Array{T}, ::Colon)

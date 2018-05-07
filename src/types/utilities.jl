@@ -138,12 +138,22 @@ function Base.copy(N::AbstractEcologicalNetwork)
 end
 
 """
-Getindex custom to get interaction value from an AbstractEcologicalNetwork
+    getindex(N::AbstractEcologicalNetwork, i...)
+
+Uses positions to get an index from a network position. It is recommended *not*
+to use this function, and instead use the variants of `getindex` working with
+species names directly.
 """
 function Base.getindex(N::AbstractEcologicalNetwork, i...)
   return getindex(N.A, i...)
 end
 
+"""
+    getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, s1::T, s2::T)
+
+Get the value of an interaction based on the *name* of the species. This is the
+recommended way to look for things in a network.
+"""
 function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, s1::T, s2::T)
   @assert s1  ∈ species(N, 1)
   @assert s2  ∈ species(N, 2)
@@ -152,6 +162,38 @@ function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, s1:
   return N[s1_pos, s2_pos]
 end
 
+"""
+    getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::T)
+
+Gets the predecessors (*i.e.* species that interacts with / consume) of a focal
+species. This returns the list of species as a `Set` object, in which ordering
+is unimportant.
+"""
+function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, ::Colon, sp::T)
+  @assert sp ∈ species(N,2)
+  return Set(filter(x -> has_interaction(N, x, sp), species(N,1)))
+end
+
+"""
+    getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, sp::T, ::Colon)
+
+Gets the successors (*i.e.* species that are interacted with / consumed) of a
+focal species. This returns the list of species as a `Set` object, in which
+ordering is unimportant.
+"""
+function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, sp::T, ::Colon)
+  @assert sp ∈ species(N,1)
+  return Set(filter(x -> has_interaction(N, sp, x), species(N,2)))
+end
+
+"""
+    getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp::Array{T})
+
+Induce a unipartite network based on a list of species, all of which must be in
+the original network. This function takes a single argument (as opposed to two
+arrays, or an array and a colon) to ensure that the returned network is
+unipartite.
+"""
 function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp::Array{T})
   @assert all(map(x -> x ∈ species(N), sp))
   sp_pos = map(s -> first(find(s.==species(N))), sp)
@@ -160,6 +202,11 @@ function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp:
   return typeof(N)(n_int, n_sp)
 end
 
+"""
+    getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::Array{T})
+
+TODO
+"""
 function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::Array{T})
   @assert all(map(x -> x ∈ species(N,2), sp))
   sp_pos = map(s -> first(find(s.==species(N,2))), sp)
@@ -169,6 +216,11 @@ function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Co
   return typeof(N)(n_int, n_t, n_b)
 end
 
+"""
+    getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::Array{T}, ::Colon)
+
+TODO
+"""
 function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::Array{T}, ::Colon)
   @assert all(map(x -> x ∈ species(N,1), sp))
   sp_pos = map(s -> first(find(s.==species(N,1))), sp)
@@ -178,6 +230,11 @@ function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::
   return typeof(N)(n_int, n_t, n_b)
 end
 
+"""
+    getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Array{T}, sp2::Array{T})
+
+TODO
+"""
 function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Array{T}, sp2::Array{T})
   @assert all(map(x -> x ∈ species(N,1), sp1))
   @assert all(map(x -> x ∈ species(N,2), sp2))
