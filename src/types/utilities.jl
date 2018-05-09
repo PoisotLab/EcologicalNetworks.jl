@@ -2,10 +2,7 @@ import Base.getindex
 import Base.transpose
 import Base.size
 import Base.copy
-import Base.<
-import Base.<=
-import Base.>
-import Base.>=
+import Base.isless
 
 """
     species(N::AbstractUnipartiteNetwork)
@@ -282,24 +279,9 @@ function richness(N::AbstractEcologicalNetwork, i::Int64)
   return length(species(N,i))
 end
 
-function <{T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
+function isless{T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
   newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
   return newtype(N.A.<n, species_objects(N)...)
-end
-
-function <={T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
-  newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
-  return newtype(N.A.<=n, species_objects(N)...)
-end
-
-function >{T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
-  newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
-  return newtype(N.A.>n, species_objects(N)...)
-end
-
-function >={T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
-  newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
-  return newtype(N.A.>=n, species_objects(N)...)
 end
 
 """
