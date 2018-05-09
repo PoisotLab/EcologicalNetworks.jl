@@ -6,7 +6,7 @@
 #' ---
 
 #+ echo=false
-using Base.Test
+using Test
 using Plots
 using StatPlots
 plotly()

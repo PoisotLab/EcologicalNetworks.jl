@@ -7,7 +7,7 @@
 
 #+ echo=false; results="hidden"
 using EcologicalNetwork
-using Base.Test
+using Test
 
 #' `EcologicalNetwork` offers functions to count motifs in multiple sorts of
 #' networks. The most important function to know about is `find_motif`, which

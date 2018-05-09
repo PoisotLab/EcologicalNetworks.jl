@@ -1,5 +1,5 @@
 module TestTypeUtilities
-using Base.Test
+using Test
 using EcologicalNetwork
 
 B = BipartiteProbabilisticNetwork(rand(3, 5))

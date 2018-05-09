@@ -1,5 +1,5 @@
 module TestData
-  using Base.Test
+  using Test
   using EcologicalNetwork
 
   # Catlins

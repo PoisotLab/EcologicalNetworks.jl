@@ -11,7 +11,7 @@
 using EcologicalNetwork
 
 #+ echo=false
-using Base.Test
+using Test
 
 
 #' We start by loading a network, in this case the one by Fonseca & Ganade

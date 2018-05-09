@@ -1,4 +1,12 @@
-using Base
+import Base.getindex
+import Base.transpose
+import Base.size
+import Base.copy
+import Base.:<
+import Base.:<=
+import Base.:>
+import Base.:>=
+
 
 
 """
@@ -123,15 +131,15 @@ end
 
 Return the size of the adjacency matrix of an `AbstractEcologicalNetwork` object.
 """
-function Base.size(N::AbstractEcologicalNetwork)
-  Base.size(N.A)
+function size(N::AbstractEcologicalNetwork)
+  size(N.A)
 end
 
 """
 Creates a copy of a network -- this returns an object with the same type, and
 the same content.
 """
-function Base.copy(N::AbstractEcologicalNetwork)
+function copy(N::AbstractEcologicalNetwork)
   a = copy(N.A)
   sp = copy.(species_objects(N))
   return typeof(N)(a, sp...)
@@ -144,7 +152,7 @@ Uses positions to get an index from a network position. It is recommended *not*
 to use this function, and instead use the variants of `getindex` working with
 species names directly.
 """
-function Base.getindex(N::AbstractEcologicalNetwork, i...)
+function getindex(N::AbstractEcologicalNetwork, i...)
   return getindex(N.A, i...)
 end
 
@@ -154,7 +162,7 @@ end
 Get the value of an interaction based on the *name* of the species. This is the
 recommended way to look for things in a network.
 """
-function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, s1::T, s2::T)
+function getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, s1::T, s2::T)
   @assert s1  ∈ species(N, 1)
   @assert s2  ∈ species(N, 2)
   s1_pos = first(find(s1.==species(N,1)))
@@ -169,7 +177,7 @@ Gets the predecessors (*i.e.* species that interacts with / consume) of a focal
 species. This returns the list of species as a `Set` object, in which ordering
 is unimportant.
 """
-function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, ::Colon, sp::T)
+function getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, ::Colon, sp::T)
   @assert sp ∈ species(N,2)
   return Set(filter(x -> has_interaction(N, x, sp), species(N,1)))
 end
@@ -181,7 +189,7 @@ Gets the successors (*i.e.* species that are interacted with / consumed) of a
 focal species. This returns the list of species as a `Set` object, in which
 ordering is unimportant.
 """
-function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, sp::T, ::Colon)
+function getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, sp::T, ::Colon)
   @assert sp ∈ species(N,1)
   return Set(filter(x -> has_interaction(N, sp, x), species(N,2)))
 end
@@ -194,7 +202,7 @@ the original network. This function takes a single argument (as opposed to two
 arrays, or an array and a colon) to ensure that the returned network is
 unipartite.
 """
-function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp::Array{T})
+function getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp::Array{T})
   @assert all(map(x -> x ∈ species(N), sp))
   sp_pos = map(s -> first(find(s.==species(N))), sp)
   n_sp = species(N)[sp_pos]
@@ -207,7 +215,7 @@ end
 
 TODO
 """
-function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::Array{T})
+function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::Array{T})
   @assert all(map(x -> x ∈ species(N,2), sp))
   sp_pos = map(s -> first(find(s.==species(N,2))), sp)
   n_t = N.T
@@ -221,7 +229,7 @@ end
 
 TODO
 """
-function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::Array{T}, ::Colon)
+function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::Array{T}, ::Colon)
   @assert all(map(x -> x ∈ species(N,1), sp))
   sp_pos = map(s -> first(find(s.==species(N,1))), sp)
   n_t = N.T[sp_pos]
@@ -235,7 +243,7 @@ end
 
 TODO
 """
-function Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Array{T}, sp2::Array{T})
+function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Array{T}, sp2::Array{T})
   @assert all(map(x -> x ∈ species(N,1), sp1))
   @assert all(map(x -> x ∈ species(N,2), sp2))
   sp1_pos = map(s -> first(find(s.==species(N,1))), sp1)
@@ -276,22 +284,22 @@ function richness(N::AbstractEcologicalNetwork, i::Int64)
   return length(species(N,i))
 end
 
-function Base.:<{T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
+function :<{T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
   newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
   return newtype(N.A.<n, species_objects(N)...)
 end
 
-function Base.:<={T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
+function :<={T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
   newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
   return newtype(N.A.<=n, species_objects(N)...)
 end
 
-function Base.:>{T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
+function :>{T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
   newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
   return newtype(N.A.>n, species_objects(N)...)
 end
 
-function Base.:>={T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
+function :>={T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(N::NT, n::T)
   newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
   return newtype(N.A.>=n, species_objects(N)...)
 end
@@ -301,7 +309,7 @@ end
 
 Returns a transposed copy of the network.
 """
-function Base.transpose(N::AbstractEcologicalNetwork)
+function transpose(N::AbstractEcologicalNetwork)
   A = copy(N.A)'
   return typeof(N)(A, species_objects(N)...)
 end

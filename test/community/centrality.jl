@@ -1,5 +1,5 @@
 module TestCentrality
-  using Base.Test
+  using Test
   using EcologicalNetwork
 
   A = UnipartiteNetwork(map(Bool, [0.0 1.0 0.0 0.0; 0.0 0.0 0.0 1.0; 0.0 1.0 0.0 0.0; 0.0 0.0 0.0 0.0]))

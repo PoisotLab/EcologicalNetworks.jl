@@ -1,4 +1,4 @@
-using Base
+import Base.shuffle
 
 """
 This function will take two matrices and one constraint, and return whether the
@@ -43,7 +43,7 @@ end
 """
 Swaps a unipartite network while enforcing a constraint on degree distribution.
 """
-function Base.shuffle(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
+function shuffle(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
   # we want to have the same number of species as the required swap size
   @assert minimum(size(N)) > swapsize
 
@@ -74,7 +74,7 @@ end
 Swaps a bipartite network while enforcing a constraint on degree distribution.
 See the documentation for `swaps` for the complete explanation of arguments.
 """
-function Base.shuffle(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
+function shuffle(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
   # we want to have the same number of species as the required swap size
   @assert minimum(size(N)) > swapsize
 

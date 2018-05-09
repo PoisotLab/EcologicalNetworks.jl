@@ -1,5 +1,5 @@
 module TestBetaDivOperations
-  using Base.Test
+  using Test
   using EcologicalNetwork
 
   A = UnipartiteNetwork(rand(Bool, (10, 10)))

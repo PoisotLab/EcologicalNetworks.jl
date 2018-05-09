@@ -1,5 +1,5 @@
 module TestBetaDiv
-  using Base.Test
+  using Test
   using EcologicalNetwork
 
   # Matrices of unequal sizes

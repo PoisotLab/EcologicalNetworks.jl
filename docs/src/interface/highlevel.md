@@ -27,24 +27,24 @@ has_interaction(N::AbstractEcologicalNetwork, i::Int64, j::Int64)
 ### Value of an interaction
 
 ```@docs
-Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, s1::T, s2::T)
-Base.getindex(N::AbstractEcologicalNetwork, i...)
+getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, s1::T, s2::T)
+getindex(N::AbstractEcologicalNetwork, i...)
 ```
 
 ### Neighbors
 
 ```@docs
-Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, ::Colon, sp::T)
+getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, ::Colon, sp::T)
 getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, sp::T, ::Colon)
 ```
 
 ### Induced sub-graph
 
 ```@docs
-Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp::Array{T})
-Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::Array{T})
-Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::Array{T}, ::Colon)
-Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Array{T}, sp2::Array{T})
+getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp::Array{T})
+getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::Array{T})
+getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::Array{T}, ::Colon)
+getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Array{T}, sp2::Array{T})
 ```
 
 ## Network utilities
@@ -52,7 +52,7 @@ Base.getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Array{T}
 ### Network size
 
 ```@docs
-Base.size(N::AbstractEcologicalNetwork)
+size(N::AbstractEcologicalNetwork)
 ```
 
 ### Species richness
@@ -65,7 +65,7 @@ richness(N::AbstractEcologicalNetwork, i::Int64)
 ### Changing network shape
 
 ```@docs
-Base.transpose(N::AbstractEcologicalNetwork)
+transpose(N::AbstractEcologicalNetwork)
 nodiagonal(N::AbstractUnipartiteNetwork)
 nodiagonal(N::AbstractBipartiteNetwork)
 ```

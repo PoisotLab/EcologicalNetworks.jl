@@ -1,5 +1,5 @@
 module TestTypes
-using Base.Test
+using Test
 using EcologicalNetwork
 
 @test typeof(UnipartiteNetwork(rand(Bool, (5, 5)))) <: UnipartiteNetwork

@@ -1,5 +1,5 @@
 module TestDegreeFunctions
-  using Base.Test
+  using Test
   using EcologicalNetwork
 
   # Generate some data

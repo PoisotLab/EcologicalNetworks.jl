@@ -1,5 +1,5 @@
 module TestModularityUtilities
-using Base.Test
+using Test
 using EcologicalNetwork
 
 # Perfectly modular bipartite network
