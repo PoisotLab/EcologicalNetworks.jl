@@ -1,3 +1,5 @@
+import Base.sum
+
 """
     sum(N::AbstractEcologicalNetwork)
 
@@ -36,7 +38,7 @@ Number of links divided by the number of possible interactions. In unipartite
 networks, this is ``L/S^2``. In bipartite networks, this is ``L/(T × B)``.
 """
 function connectance(N::AbstractEcologicalNetwork)
-    return links(N) / prod(size(N))
+    return L(N) / (richness(N,1)*richness(N,2))
 end
 
 """

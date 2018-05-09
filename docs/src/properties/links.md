@@ -3,7 +3,7 @@
 ## Connectance and number of links
 
 ```@docs
-links(N::AbstractEcologicalNetwork)
+sum(N::AbstractEcologicalNetwork)
 L(N::AbstractEcologicalNetwork)
 links_var(N::ProbabilisticNetwork)
 connectance(N::AbstractEcologicalNetwork)
