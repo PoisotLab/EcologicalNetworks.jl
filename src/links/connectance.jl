@@ -14,8 +14,16 @@ end
 
 Number of non-zero interactions.
 """
-function L(N::AbstractEcologicalNetwork)
-    return sum(N.A>0.0)
+function L(N::BinaryNetwork)
+    return sum(N)
+end
+
+function L(N::QuantitativeNetwork)
+    return sum(N.A.>zero(eltype(N.A)))
+end
+
+function L(N::ProbabilisticNetwork)
+    return sum(N)
 end
 
 """
