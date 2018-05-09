@@ -12,7 +12,7 @@ end
 
 Number of non-zero interactions.
 """
-function L(N::AsbtractEcologicalNetwork)
+function L(N::AbstractEcologicalNetwork)
     return sum(N.A>0.0)
 end
 
