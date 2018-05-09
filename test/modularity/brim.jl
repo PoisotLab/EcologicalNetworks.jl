@@ -1,5 +1,5 @@
 module TestModularityBrim
-using Test
+using Base.Test
 using EcologicalNetwork
 
     N = web_of_life("M_PL_026")

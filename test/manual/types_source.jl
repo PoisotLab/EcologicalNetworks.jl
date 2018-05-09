@@ -7,7 +7,7 @@
 
 #+ echo=false; results="hidden"
 using EcologicalNetwork
-using Test
+using Base.Test
 
 #' `EcologicalNetwork` uses a series of types to represent networks. Before we
 #' dig in, it is important to get a sense of what the types can do for you. The

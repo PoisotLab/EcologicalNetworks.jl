@@ -1,5 +1,5 @@
 module TestRandomDraws
-using Test
+using Base.Test
 using EcologicalNetwork
 
 B = UnipartiteProbabilisticNetwork(eye(Float64, 10))

@@ -1,5 +1,5 @@
 module TestModularityLouvain
-using Test
+using Base.Test
 using EcologicalNetwork
 
 

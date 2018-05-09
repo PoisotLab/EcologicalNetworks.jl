@@ -1,5 +1,5 @@
 module TestModularityLabelPropagation
-using Test
+using Base.Test
 using EcologicalNetwork
 
 A = [

@@ -1,5 +1,5 @@
 module TestConnectance
-    using Test
+    using Base.Test
     using EcologicalNetwork
 
     # Generate some data

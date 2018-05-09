@@ -8,7 +8,7 @@ function sum(N::AbstractEcologicalNetwork)
 end
 
 """
-    L(N::AsbtractEcologicalNetwork)
+    L(N::AbstractEcologicalNetwork)
 
 Number of non-zero interactions.
 """

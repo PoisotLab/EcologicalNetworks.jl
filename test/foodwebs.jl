@@ -1,5 +1,5 @@
 module TestFoodWebs
-  using Test
+  using Base.Test
   using EcologicalNetwork
 
   # test the positions function with bool and bit arrays

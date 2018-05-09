@@ -1,5 +1,5 @@
 module TestSwaps
-  using Test
+  using Base.Test
   using EcologicalNetwork
 
   # test the validity of a series of swaps
