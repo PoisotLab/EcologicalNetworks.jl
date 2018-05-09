@@ -1,14 +1,18 @@
 # Links, degree, connectance
 
+## Connectance and number of links
+
 ```@docs
 links(N::AbstractEcologicalNetwork)
-L(N::QuantitativeNetwork)
+L(N::AbstractEcologicalNetwork)
 links_var(N::ProbabilisticNetwork)
 connectance(N::AbstractEcologicalNetwork)
 connectance(N::QuantitativeNetwork)
 connectance_var(N::ProbabilisticNetwork)
 linkage_density(N::DeterministicNetwork)
 ```
+
+## Degree
 
 ```@docs
 degree(N::AbstractUnipartiteNetwork)
@@ -25,11 +29,15 @@ degree_out_var(N::ProbabilisticNetwork)
 degree_in_var(N::ProbabilisticNetwork)
 ```
 
+## Species without interactions
+
 ```@docs
 isdegenerate(N::AbstractEcologicalNetwork)
 simplify{T<:AbstractBipartiteNetwork}(N::T)
 simplify{T<:AbstractUnipartiteNetwork}(N::T)
 ```
+
+## Species-level specificity
 
 ```@docs
 specificity(N::BinaryNetwork)

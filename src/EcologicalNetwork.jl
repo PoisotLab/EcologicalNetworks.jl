@@ -40,7 +40,7 @@ include(joinpath(".", "links/specificity.jl"))
 export specificity
 
 include(joinpath(".", "links/connectance.jl"))
-export links, links_var, connectance, connectance_var,
+export links, L, links_var, connectance, connectance_var,
     linkage_density, link_number
 
 include(joinpath(".", "links/degenerate.jl"))

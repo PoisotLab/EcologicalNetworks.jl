@@ -256,10 +256,22 @@ function ncols(N::AbstractEcologicalNetwork)
   return size(N.A, 2)
 end
 
+"""
+    richness(N::AbstractEcologicalNetwork)
+
+Returns the number of species in a network.
+"""
 function richness(N::AbstractEcologicalNetwork)
   return length(species(N))
 end
 
+"""
+    richness(N::AbstractEcologicalNetwork, i::Int64)
+
+Returns the number of species on either side of the network. The value of `i`
+can be `1` (top-level species) or `2` (bottom-level species), as in the
+`species` function.
+"""
 function richness(N::AbstractEcologicalNetwork, i::Int64)
   return length(species(N,i))
 end
@@ -284,12 +296,12 @@ function Base.:>={T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}
   return newtype(N.A.>=n, species_objects(N)...)
 end
 
-function Base.transpose(N::AbstractBipartiteNetwork)
-  A = copy(N.A)'
-  return typeof(N)(A, N.B, N.T)
-end
+"""
+    transpose(N::AbstractBipartiteNetwork)
 
-function Base.transpose(N::AbstractUnipartiteNetwork)
+Returns a transposed copy of the network.
+"""
+function Base.transpose(N::AbstractEcologicalNetwork)
   A = copy(N.A)'
-  return typeof(N)(A, N.S)
+  return typeof(N)(A, species_objects(N)...)
 end

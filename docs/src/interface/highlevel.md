@@ -65,8 +65,7 @@ richness(N::AbstractEcologicalNetwork, i::Int64)
 ### Changing network shape
 
 ```@docs
-Base.transpose(N::AbstractBipartiteNetwork)
-Base.transpose(N::AbstractUnipartiteNetwork)
+Base.transpose(N::AbstractEcologicalNetwork)
 nodiagonal(N::AbstractUnipartiteNetwork)
 nodiagonal(N::AbstractBipartiteNetwork)
 ```
