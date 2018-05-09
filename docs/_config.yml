@@ -1,6 +1,0 @@
-title: "EcologicalNetwork.jl"
-permalink: /:title/
-markdown: kramdown
-sass:
-  style: :compressed
-exclude: ["*.Jmd"]

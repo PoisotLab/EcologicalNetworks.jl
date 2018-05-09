@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+  <link href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" rel="stylesheet">
+
+  <script src="//code.jquery.com/jquery-latest.min.js"></script>
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css'>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>EcologicalNetwork.jl - Accessing species and interactions</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <!-- <a class="navbar-brand" href="#">
+        <img src="/logo.png" alt="">
+      </a> -->
+      <a class="navbar-brand" href="/">EcologicalNetwork.jl</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Case studies
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/casestudies/specificity/">Measuring specificity</a>
+              <a class="dropdown-item" href="/casestudies/nestedness/">Nestedness significance</a>
+              <a class="dropdown-item" href="/casestudies/betadiv/">Network comparison</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Manual
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/manual/types/">Types</a>
+              <a class="dropdown-item" href="/manual/generalities">Generalities</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/manual/nestedness/">Measuring nestedness</a>
+              <a class="dropdown-item" href="/manual/motifs/">Counting motifs</a>
+              <a class="dropdown-item" href="/manual/betadiversity/">Network dissimilarity</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/manual/data/">Datasets</a>
+              <a class="dropdown-item" href="/manual/plots/">Network plots</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">API reference</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container maincontent">
+    <h1>Accessing species and interactions</h1>
+    <p>The purpose of this case study is to illustrate the ways to manipulate the
+network objects. We start by loading a network, in this case the one by Fonseca &amp;
+Ganade (1996). This is a bipartite network.</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="n">fonseca_ganade_1996</span><span class="x">()</span>
+</code></pre></div></div>
+
+<p>Let’s look at the type of this network:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">typeof</span><span class="x">(</span><span class="n">N</span><span class="x">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>EcologicalNetwork.BipartiteQuantitativeNetwork{Int64,String}
+</code></pre></div></div>
+
+<p>This is a bipartite network, which contains quantitative information about
+species interactions, stored as <code class="highlighter-rouge">Int64</code>. The species are identified by
+<code class="highlighter-rouge">String</code> objects. More information about the types is found in the
+<a href="/manual/types/">types</a> page of the manual.</p>
+
+<p>This is a network with 25 insects and 16 plants. We can check that this
+richness is indeed 41::</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">richness</span><span class="x">(</span><span class="n">N</span><span class="x">)</span>
+</code></pre></div></div>
+
+<p>41</p>
+
+<p>We can check the number of species on either side, using another method for
+<code class="highlighter-rouge">richness</code>:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">richness</span><span class="x">(</span><span class="n">N</span><span class="x">,</span><span class="mi">1</span><span class="x">)</span>
+</code></pre></div></div>
+
+<p>25</p>
+
+<p>The side <code class="highlighter-rouge">1</code> is the top-level species, and the side <code class="highlighter-rouge">2</code> is the bottom-level
+species. Interactions go from species on side <code class="highlighter-rouge">1</code> to species on side <code class="highlighter-rouge">2</code>.</p>
+
+<p>We can look at the species that make up all sides:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">species</span><span class="x">(</span><span class="n">N</span><span class="x">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>41-element Array{String,1}:
+ "Camponotus balzanii"          
+ "Azteca alfari"                
+ "Azteca isthmica"              
+ "Azteca aff. Isthmica"         
+ "Allomerus D"                  
+ "Allomerus prancei"            
+ "Allomerus aff. Octoarticulata"
+ "Solenops A"                   
+ "Allomerus auripunctata"       
+ "Crematogaster B"              
+ ⋮                              
+ "Duroia saccifera"             
+ "Cordia nodosa"                
+ "Cordia aff. Nodosa"           
+ "Tococa bullifera"             
+ "Maieta guianensis"            
+ "Maieta poeppiggi"             
+ "Tachigali polyphylla"         
+ "Tachigali myrmecophila"       
+ "Amaioua aff. Guianensis"
+</code></pre></div></div>
+
+<p>Note that this also works for either side:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">species</span><span class="x">(</span><span class="n">N</span><span class="x">,</span><span class="mi">2</span><span class="x">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>16-element Array{String,1}:
+ "Cecropia purpuracens"   
+ "Cecropia concolor"      
+ "Cecropia distachya"     
+ "Cecropia ficifolia"     
+ "Pouruma heterophylla"   
+ "Hirtella myrmecophila"  
+ "Hirtella physophora"    
+ "Duroia saccifera"       
+ "Cordia nodosa"          
+ "Cordia aff. Nodosa"     
+ "Tococa bullifera"       
+ "Maieta guianensis"      
+ "Maieta poeppiggi"       
+ "Tachigali polyphylla"   
+ "Tachigali myrmecophila" 
+ "Amaioua aff. Guianensis"
+</code></pre></div></div>
+
+<p>We can look for the presence of interactions between species in a few
+different ways. First, we can use their <em>position</em> in the network:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span><span class="x">[</span><span class="mi">3</span><span class="x">,</span><span class="mi">4</span><span class="x">]</span>
+</code></pre></div></div>
+
+<p>1</p>
+
+<p>But it’s probably more intuitive to look at the species by names:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t3</span> <span class="o">=</span> <span class="n">species</span><span class="x">(</span><span class="n">N</span><span class="x">,</span><span class="mi">1</span><span class="x">)[</span><span class="mi">3</span><span class="x">]</span>
+<span class="n">b4</span> <span class="o">=</span> <span class="n">species</span><span class="x">(</span><span class="n">N</span><span class="x">,</span><span class="mi">2</span><span class="x">)[</span><span class="mi">4</span><span class="x">]</span>
+<span class="n">t3</span><span class="x">,</span> <span class="n">b4</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>("Azteca isthmica", "Cecropia ficifolia")
+</code></pre></div></div>
+
+<p>We can access the interaction between these species:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span><span class="x">[</span><span class="n">t3</span><span class="x">,</span><span class="n">b4</span><span class="x">]</span>
+</code></pre></div></div>
+
+<p>1</p>
+
+<p>The package also offers a way to test the <em>existence</em> of an interaction,
+regardless of the network type:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">has_interaction</span><span class="x">(</span><span class="n">N</span><span class="x">,</span> <span class="n">t3</span><span class="x">,</span><span class="n">b4</span><span class="x">)</span>
+</code></pre></div></div>
+
+<p>true</p>
+
+<p>An interesting thing we can do is extract a subset of the network using
+collections of species. We will extract the species belonging to the genus
+<em>Azteca</em>, and to the genus <em>Cecropia</em>:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">all_azteca</span> <span class="o">=</span> <span class="n">filter</span><span class="x">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">contains</span><span class="x">(</span><span class="n">x</span><span class="x">,</span> <span class="s">"Azteca "</span><span class="x">),</span> <span class="n">species</span><span class="x">(</span><span class="n">N</span><span class="x">,</span><span class="mi">1</span><span class="x">))</span>
+<span class="n">all_cecropia</span> <span class="o">=</span> <span class="n">filter</span><span class="x">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">contains</span><span class="x">(</span><span class="n">x</span><span class="x">,</span> <span class="s">"Cecropia "</span><span class="x">),</span> <span class="n">species</span><span class="x">(</span><span class="n">N</span><span class="x">,</span><span class="mi">2</span><span class="x">))</span>
+</code></pre></div></div>
+
+<p>Now, we can get a sub-network (the induced subgraph on these nodes):</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">M</span> <span class="o">=</span> <span class="n">N</span><span class="x">[</span><span class="n">all_azteca</span><span class="x">,</span> <span class="n">all_cecropia</span><span class="x">]</span>
+</code></pre></div></div>
+
+<p>We can also use slices in a more general way, for example to have all
+interactions from the <em>Azteca</em> genus:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span><span class="x">[</span><span class="n">all_azteca</span><span class="x">,:]</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>EcologicalNetwork.BipartiteQuantitativeNetwork{Int64,String}([1 0 … 0 0; 
+1 1 … 0 0; … ; 0 0 … 2 0; 0 0 … 0 3], String["Azteca alfari", "Azte
+ca isthmica", "Azteca aff. Isthmica", "Azteca HC", "Azteca G", "Azteca CO",
+ "Azteca TO", "Azteca schummani", "Azteca D", "Azteca polymorpha", "Azteca 
+Q"], String["Cecropia purpuracens", "Cecropia concolor", "Cecropia distachy
+a", "Cecropia ficifolia", "Pouruma heterophylla", "Hirtella myrmecophila", 
+"Hirtella physophora", "Duroia saccifera", "Cordia nodosa", "Cordia aff. No
+dosa", "Tococa bullifera", "Maieta guianensis", "Maieta poeppiggi", "Tachig
+ali polyphylla", "Tachigali myrmecophila", "Amaioua aff. Guianensis"])
+</code></pre></div></div>
+
+<p>Note how extracting by collections of species names returns another network,
+of the same type as the parent!</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">typeof</span><span class="x">(</span><span class="n">M</span><span class="x">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>EcologicalNetwork.BipartiteQuantitativeNetwork{Int64,String}
+</code></pre></div></div>
+
+<p>We can ask a few questions about the degree of this induced network:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">degree</span><span class="x">(</span><span class="n">N</span><span class="x">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dict{String,Int64} with 41 entries:
+  "Pseudomyrmex concolor"         =&gt; 2
+  "Hirtella myrmecophila"         =&gt; 1
+  "Azteca isthmica"               =&gt; 4
+  "Cordia nodosa"                 =&gt; 1
+  "Cordia aff. Nodosa"            =&gt; 7
+  "Tococa bullifera"              =&gt; 6
+  "Cecropia purpuracens"          =&gt; 4
+  "Azteca schummani"              =&gt; 2
+  "Solenops A"                    =&gt; 2
+  "Pseudomyrmex nigrescens"       =&gt; 2
+  "Crematogaster B"               =&gt; 3
+  "Crematogaster C"               =&gt; 2
+  "Azteca D"                      =&gt; 1
+  "Cecropia distachya"            =&gt; 1
+  "Tachigali polyphylla"          =&gt; 3
+  "Maieta guianensis"             =&gt; 3
+  "Allomerus aff. Octoarticulata" =&gt; 3
+  "Azteca G"                      =&gt; 3
+  "Amaioua aff. Guianensis"       =&gt; 1
+  ⋮                               =&gt; ⋮
+</code></pre></div></div>
+
+<p>We can also look at the degree on either sides, for example the degree of
+plants (<em>i.e.</em> number of insects interacting with them):</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">degree</span><span class="x">(</span><span class="n">N</span><span class="x">,</span><span class="mi">2</span><span class="x">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dict{String,Int64} with 16 entries:
+  "Hirtella myrmecophila"   =&gt; 1
+  "Cordia nodosa"           =&gt; 1
+  "Cordia aff. Nodosa"      =&gt; 7
+  "Tococa bullifera"        =&gt; 6
+  "Cecropia purpuracens"    =&gt; 4
+  "Cecropia distachya"      =&gt; 1
+  "Tachigali polyphylla"    =&gt; 3
+  "Maieta guianensis"       =&gt; 3
+  "Duroia saccifera"        =&gt; 4
+  "Amaioua aff. Guianensis" =&gt; 1
+  "Cecropia concolor"       =&gt; 1
+  "Hirtella physophora"     =&gt; 4
+  "Pouruma heterophylla"    =&gt; 1
+  "Cecropia ficifolia"      =&gt; 2
+  "Maieta poeppiggi"        =&gt; 3
+  "Tachigali myrmecophila"  =&gt; 6
+</code></pre></div></div>
+
+
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  $(function () {
+    $('[data-toggle="popover"]').popover({html:true})
+  })
+  $('.popover-dismiss').popover({
+    trigger: 'focus'
+  })
+  </script>
+  <script type="text/javascript">
+
+Array.prototype.uav = function()
+{
+  var n = {},r=[];
+  for(var i = 0; i < this.length; i++)
+  {
+    if (!n[this[i]])
+    {
+      n[this[i]] = true;
+      r.push(this[i]);
+    }
+  }
+  return r;
+}
+
+var regexp = /(\[?)(@)(\w+\d{2}\w?)(\]?)/g;
+
+var refs;
+jQuery.ajaxSetup({async:false});
+gref = function(d) {refs = d; return refs;}
+$.getJSON("/references.json", gref);
+jQuery.ajaxSetup({async:true});
+
+match = regexp.exec($('.maincontent').text());
+while (match != null) {
+  var matchedref = match[3];
+  var brackets = match[1] == "[";
+  var ref = refs.filter(function(a){return a['id'] == matchedref})[0];
+
+  var inline = "";
+  inline += ref['author'][0]['family'];
+  if (ref['author'].length == 2) {
+    inline += " & ";
+    inline += ref['author'][1]['family'];
+  }
+  if (ref['author'].length > 2) {
+    inline += " et al.";
+  }
+
+  var GOTO = '';
+  if (ref['DOI']) {
+    var GOTO = "http://dx.doi.org/"+ref['DOI'];
+  } else {
+    if (ref['URL']) {
+      var GOTO = ref['URL'];
+    } else {
+      var GOTO = "#";
+    }
+  }
+
+  var pubyear = ref['issued']['date-parts'][0][0];
+  reflink = "<a href='" + GOTO + "' title='" + ref['title'] + "' target='_blank' >Read it!</a>";
+  btn = '<a tabindex="0" class="biblio-ref" role="button" data-toggle="popover" data-trigger="focus" title="' + inline + ' (' + pubyear + ')" data-content="' + ref['title'] + '<hr />' + reflink + '"><i class="far fa-file-alt"></i></a>';
+  pubyear = btn;
+  if (brackets) {
+    inline = pubyear;
+  } else {
+    inline = inline + " " + pubyear;
+  }
+
+
+  var new_html = $('.maincontent').html().replace(match[0], inline);
+  $('.maincontent').html(function() {return new_html});
+
+  match = regexp.exec($('.maincontent').text());
+}
+
+</script>
+
+</body>
+</html>

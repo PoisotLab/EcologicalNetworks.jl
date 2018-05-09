@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+  <link href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" rel="stylesheet">
+
+  <script src="//code.jquery.com/jquery-latest.min.js"></script>
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css'>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>EcologicalNetwork.jl - Beta-diversity</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <!-- <a class="navbar-brand" href="#">
+        <img src="/logo.png" alt="">
+      </a> -->
+      <a class="navbar-brand" href="/">EcologicalNetwork.jl</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Case studies
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/casestudies/specificity/">Measuring specificity</a>
+              <a class="dropdown-item" href="/casestudies/nestedness/">Nestedness significance</a>
+              <a class="dropdown-item" href="/casestudies/betadiv/">Network comparison</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Manual
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/manual/types/">Types</a>
+              <a class="dropdown-item" href="/manual/generalities">Generalities</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/manual/nestedness/">Measuring nestedness</a>
+              <a class="dropdown-item" href="/manual/motifs/">Counting motifs</a>
+              <a class="dropdown-item" href="/manual/betadiversity/">Network dissimilarity</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/manual/data/">Datasets</a>
+              <a class="dropdown-item" href="/manual/plots/">Network plots</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">API reference</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container maincontent">
+    <h1>Beta-diversity</h1>
+    <p>Measuring network dissimilarity (β-diversity) relies on a small number of
+operations, as detailed in <strong>TODO</strong>. These functions currently work <em>only</em> on
+binary networks. We will use the Canaria islands data to illustrate how they
+work.</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Tr</span> <span class="o">=</span> <span class="n">map</span><span class="x">(</span><span class="n">n</span> <span class="o">-&gt;</span> <span class="nb">convert</span><span class="x">(</span><span class="n">BinaryNetwork</span><span class="x">,</span> <span class="n">n</span><span class="x">),</span> <span class="n">trojelsgaard_et_al_2014</span><span class="x">())</span>
+</code></pre></div></div>
+
+<p>Most of the underlying operations re-use the <code class="highlighter-rouge">julia</code> functions to operate on
+sets: <code class="highlighter-rouge">union</code>, <code class="highlighter-rouge">intersect</code>, and <code class="highlighter-rouge">setdiff</code>. The output of these functions is
+relatively similar to the decisions made by <code class="highlighter-rouge">igraph</code>.</p>
+
+<h2 id="addition-of-networks">Addition of networks</h2>
+
+<p>The <code class="highlighter-rouge">union</code> function will return the <em>superposition</em> of two networks, <em>i.e.</em> the
+union of both their species and interactions.</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">first_two</span> <span class="o">=</span> <span class="n">union</span><span class="x">(</span><span class="n">Tr</span><span class="x">[</span><span class="mi">1</span><span class="x">],</span> <span class="n">Tr</span><span class="x">[</span><span class="mi">2</span><span class="x">])</span>
+<span class="n">println</span><span class="x">(</span><span class="s">"N₁: </span><span class="si">$</span><span class="s">(richness(Tr[1]))</span><span class="se">\t</span><span class="s">N₂: </span><span class="si">$</span><span class="s">(richness(Tr[2]))</span><span class="se">\t</span><span class="s">N₁₊₂: </span><span class="si">$</span><span class="s">(richness(first_two))"</span><span class="x">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>N₁: 63	N₂: 54	N₁₊₂: 108
+</code></pre></div></div>
+
+<p>It is possible to get the <em>sum</em> of a collection of networks through a <code class="highlighter-rouge">reduce</code>
+operation:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">metaweb</span> <span class="o">=</span> <span class="n">reduce</span><span class="x">(</span><span class="n">union</span><span class="x">,</span> <span class="n">Tr</span><span class="x">)</span>
+<span class="n">println</span><span class="x">(</span><span class="s">"̂N: </span><span class="si">$</span><span class="s">(mean(richness.(Tr)))</span><span class="se">\t</span><span class="s">∑N: </span><span class="si">$</span><span class="s">(richness(metaweb))"</span><span class="x">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>̂N: 51.0	∑N: 274
+</code></pre></div></div>
+
+<h2 id="common-elements-in-networks">Common elements in networks</h2>
+
+<p>The <code class="highlighter-rouge">intersect</code> function will return a network made of <em>shared interactions</em>
+between <em>shared species</em>. This introduces an important point: shared species
+that have no shared interactions will be present in this output:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">i1</span> <span class="o">=</span> <span class="n">intersect</span><span class="x">(</span><span class="n">Tr</span><span class="x">[</span><span class="mi">1</span><span class="x">],</span> <span class="n">Tr</span><span class="x">[</span><span class="mi">2</span><span class="x">])</span>
+<span class="n">println</span><span class="x">(</span><span class="n">richness</span><span class="x">(</span><span class="n">i1</span><span class="x">))</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>9
+</code></pre></div></div>
+
+<p>For this reason, it is possible to pass this output through the <code class="highlighter-rouge">simplify</code>
+function to remove species with a degree of 0:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">println</span><span class="x">(</span><span class="n">richness</span><span class="x">(</span><span class="n">simplify</span><span class="x">(</span><span class="n">i1</span><span class="x">)))</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">simplify</code> function will change the richness, but not the number of
+interactions.</p>
+
+<h2 id="differences-between-networks">Differences between networks</h2>
+
+<p>The <code class="highlighter-rouge">setdiff</code> operation measures the <em>difference</em> between two networks – this
+returns the interactions between species that are in the first network but <em>not</em>
+in the second. For this reason, <code class="highlighter-rouge">setdiff(X,Y)</code> and <code class="highlighter-rouge">setdiff(Y,X)</code> <em>will</em> have
+different outputs.</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">u1</span> <span class="o">=</span> <span class="n">setdiff</span><span class="x">(</span><span class="n">Tr</span><span class="x">[</span><span class="mi">1</span><span class="x">],</span> <span class="n">Tr</span><span class="x">[</span><span class="mi">2</span><span class="x">])</span>
+<span class="n">u2</span> <span class="o">=</span> <span class="n">setdiff</span><span class="x">(</span><span class="n">Tr</span><span class="x">[</span><span class="mi">2</span><span class="x">],</span> <span class="n">Tr</span><span class="x">[</span><span class="mi">1</span><span class="x">])</span>
+<span class="n">links</span><span class="o">.</span><span class="x">([</span><span class="n">u1</span><span class="x">,</span><span class="n">u2</span><span class="x">])</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2-element Array{Int64,1}:
+ 61
+ 18
+</code></pre></div></div>
+
+<h2 id="beta-diversity">Beta-diversity</h2>
+
+<p>As explained in <strong>@todo</strong> (following the methodology of @XXXX), dissimilarity is
+measured by comparing the size of three sets: interactions unique to either
+network, and interactions shared between both networks. With two networks <code class="highlighter-rouge">A</code>
+and <code class="highlighter-rouge">B</code>, the sets are defined by:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Set name</th>
+      <th style="text-align: left">Contains</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">c</code></td>
+      <td style="text-align: left">elements of <code class="highlighter-rouge">A</code> not in <code class="highlighter-rouge">B</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">b</code></td>
+      <td style="text-align: left">elements of <code class="highlighter-rouge">B</code> not in <code class="highlighter-rouge">A</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">a</code></td>
+      <td style="text-align: left">elements both in <code class="highlighter-rouge">A</code> and <code class="highlighter-rouge">B</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>There are different components of β-diversity, summarized in the table below:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Function</th>
+      <th style="text-align: left">works on…</th>
+      <th style="text-align: left">measures…</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">βs</code></td>
+      <td style="text-align: left">species</td>
+      <td style="text-align: left">the two networks have different species</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">βwn</code></td>
+      <td style="text-align: left">all interactions</td>
+      <td style="text-align: left">the two networks have different interactions</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">βos</code></td>
+      <td style="text-align: left">interactions of shared species</td>
+      <td style="text-align: left">shared species have the same interactions</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>All of these functions return a <code class="highlighter-rouge">NamedTuple</code> with three elements: <code class="highlighter-rouge">a</code>, <code class="highlighter-rouge">b</code>, and
+<code class="highlighter-rouge">c</code>. These tuples are then accepted as arguments by the β-diversity estimators:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">whittaker</code></li>
+  <li><code class="highlighter-rouge">sorensen</code></li>
+  <li><code class="highlighter-rouge">jaccard</code></li>
+  <li><code class="highlighter-rouge">gaston</code></li>
+  <li><code class="highlighter-rouge">williams</code></li>
+  <li><code class="highlighter-rouge">lande</code></li>
+  <li><code class="highlighter-rouge">ruggiero</code></li>
+  <li><code class="highlighter-rouge">hartekinzig</code></li>
+  <li><code class="highlighter-rouge">harrison</code></li>
+</ul>
+
+<p>For example, measuring the β-diversity of interactions between shared species of
+the first and second networks using the Jaccard and Sorensen measures can be
+done with:</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">components</span> <span class="o">=</span> <span class="n">βos</span><span class="x">(</span><span class="n">Tr</span><span class="x">[</span><span class="mi">1</span><span class="x">],</span> <span class="n">Tr</span><span class="x">[</span><span class="mi">2</span><span class="x">])</span>
+<span class="n">println</span><span class="x">(</span><span class="s">"Jaccard: </span><span class="si">$</span><span class="s">(round(jaccard(components), 2))</span><span class="se">\t</span><span class="s">Sorensen: </span><span class="si">$</span><span class="s">(round(sorensen(components), 2))"</span><span class="x">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Jaccard: 0.33	Sorensen: 0.5
+</code></pre></div></div>
+
+<p>Note that there is no function to measure <code class="highlighter-rouge">βst</code>, which in the original
+publication is defined as <code class="highlighter-rouge">βwn-βos</code> – this can be done <em>a posteriori</em> (and
+feedback from colleagues has revealed that the interpretation of this value is
+not always clear).</p>
+
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  $(function () {
+    $('[data-toggle="popover"]').popover({html:true})
+  })
+  $('.popover-dismiss').popover({
+    trigger: 'focus'
+  })
+  </script>
+  <script type="text/javascript">
+
+Array.prototype.uav = function()
+{
+  var n = {},r=[];
+  for(var i = 0; i < this.length; i++)
+  {
+    if (!n[this[i]])
+    {
+      n[this[i]] = true;
+      r.push(this[i]);
+    }
+  }
+  return r;
+}
+
+var regexp = /(\[?)(@)(\w+\d{2}\w?)(\]?)/g;
+
+var refs;
+jQuery.ajaxSetup({async:false});
+gref = function(d) {refs = d; return refs;}
+$.getJSON("/references.json", gref);
+jQuery.ajaxSetup({async:true});
+
+match = regexp.exec($('.maincontent').text());
+while (match != null) {
+  var matchedref = match[3];
+  var brackets = match[1] == "[";
+  var ref = refs.filter(function(a){return a['id'] == matchedref})[0];
+
+  var inline = "";
+  inline += ref['author'][0]['family'];
+  if (ref['author'].length == 2) {
+    inline += " & ";
+    inline += ref['author'][1]['family'];
+  }
+  if (ref['author'].length > 2) {
+    inline += " et al.";
+  }
+
+  var GOTO = '';
+  if (ref['DOI']) {
+    var GOTO = "http://dx.doi.org/"+ref['DOI'];
+  } else {
+    if (ref['URL']) {
+      var GOTO = ref['URL'];
+    } else {
+      var GOTO = "#";
+    }
+  }
+
+  var pubyear = ref['issued']['date-parts'][0][0];
+  reflink = "<a href='" + GOTO + "' title='" + ref['title'] + "' target='_blank' >Read it!</a>";
+  btn = '<a tabindex="0" class="biblio-ref" role="button" data-toggle="popover" data-trigger="focus" title="' + inline + ' (' + pubyear + ')" data-content="' + ref['title'] + '<hr />' + reflink + '"><i class="far fa-file-alt"></i></a>';
+  pubyear = btn;
+  if (brackets) {
+    inline = pubyear;
+  } else {
+    inline = inline + " " + pubyear;
+  }
+
+
+  var new_html = $('.maincontent').html().replace(match[0], inline);
+  $('.maincontent').html(function() {return new_html});
+
+  match = regexp.exec($('.maincontent').text());
+}
+
+</script>
+
+</body>
+</html>

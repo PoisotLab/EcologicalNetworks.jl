@@ -1,0 +1,32 @@
+site_name: EcologicalNetwork.jl
+repo_url: https://github.com/PoisotLab/EcologicalNetwork.jl
+site_description: Analysis of ecological network data
+site_author: Timothée Poisot
+
+theme: cinder
+extra:
+  collapse_toc: true
+
+extra_css:
+  - assets/Documenter.css
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML
+  - assets/mathjaxhelper.js
+
+markdown_extensions:
+  - extra
+  - tables
+  - fenced_code
+  - mdx_math
+
+docs_dir: 'build'
+
+pages:
+  - Home: index.md
+  - Interface:
+    - Types: interface/types.md
+    - "Type conversions": interface/conversions.md
+    - "Core functions": interface/highlevel.md
+  - Network measures:
+    - Links: properties/links.md

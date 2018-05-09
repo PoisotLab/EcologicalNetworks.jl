@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+  <link href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" rel="stylesheet">
+
+  <script src="//code.jquery.com/jquery-latest.min.js"></script>
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css'>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>EcologicalNetwork.jl - EcologicalNetwork.jl</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <!-- <a class="navbar-brand" href="#">
+        <img src="/logo.png" alt="">
+      </a> -->
+      <a class="navbar-brand" href="/">EcologicalNetwork.jl</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Case studies
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/casestudies/specificity/">Measuring specificity</a>
+              <a class="dropdown-item" href="/casestudies/nestedness/">Nestedness significance</a>
+              <a class="dropdown-item" href="/casestudies/betadiv/">Network comparison</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Manual
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/manual/types/">Types</a>
+              <a class="dropdown-item" href="/manual/generalities">Generalities</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/manual/nestedness/">Measuring nestedness</a>
+              <a class="dropdown-item" href="/manual/motifs/">Counting motifs</a>
+              <a class="dropdown-item" href="/manual/betadiversity/">Network dissimilarity</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/manual/data/">Datasets</a>
+              <a class="dropdown-item" href="/manual/plots/">Network plots</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">API reference</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container maincontent">
+    <h1>EcologicalNetwork.jl</h1>
+    <p>This <code class="highlighter-rouge">julia</code> package provides a common interface to analyze all types of data on
+ecological networks. It is designed to be general, easy to expand, and work on
+bipartite/unipartite as well as deterministic/quantitative/probabilistic
+networks. It is compatible with Julia v0.6.</p>
+
+<p><a href="https://gitter.im/PoisotLab/EcologicalNetwork.jl?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/PoisotLab/EcologicalNetwork.jl.svg" alt="Join the chat at https://gitter.im/PoisotLab/EcologicalNetwork.jl" /></a></p>
+
+<p>This package is <em>very</em> opinionated about the right way to analyze ecological
+networks - fortunately, we have documented (and justified) these opinions in an
+extensive review by @DelBes17. We recommend reading this manuscript, as it
+lists the measures implemented here, details their interpretation, and justifies
+some best practices.</p>
+
+<p>Almost all of the measures for probabilistic networks can be found in the
+original paper by @PoiCir16. Some measures are in the package only, as they have
+been derived after we published the original paper.</p>
+
+<p>The functions in this package are robustly tested (and we also run entire case
+studies as part of our testing strategy to make sure it all fits snugly
+together). We do not guarantee that there are no bugs or edge-cases in the code,
+but our aim is to provide a robust, user-friendly, and general platform to
+analyze ecological networks following the very best standards possible.</p>
+
+<h2 id="how-to-read-this-documentation">How to read this documentation</h2>
+
+<p>It is advised you start reading some of the “Case studies”: they will give you a
+feel about the syntax of the package, and showcase some of the nice syntax you
+can use. The “Manual” pages give a more in-depth presentation of specific
+applications and families of measures. Throughout the documentation, we have
+linked the relevant papers, and discuss what we believe are the best practices.
+We do not suggest you read this documentation as an analysis to the introduction
+of ecological network, but be prepared to find some discussion of the measures
+(and not only of the code).</p>
+
+<p>Every page of this documentation is automatically generated. This ensures that
+you can copy the code blocks with <code class="highlighter-rouge">INPUT</code> at the top, and get the same result
+(with the exception of results that involved some stochasticity).</p>
+
+<h2 id="getting-started">Getting started</h2>
+
+<p>Install the package with</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="x">(</span><span class="s">"EcologicalNetwork"</span><span class="x">)</span>
+</code></pre></div></div>
+
+<h2 id="how-to-cite-the-code">How to cite the code</h2>
+
+<p>Please refer to this DOI: <a href="https://zenodo.org/badge/latestdoi/25148478"><img src="https://zenodo.org/badge/25148478.svg" alt="DOI" /></a></p>
+
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  $(function () {
+    $('[data-toggle="popover"]').popover({html:true})
+  })
+  $('.popover-dismiss').popover({
+    trigger: 'focus'
+  })
+  </script>
+  <script type="text/javascript">
+
+Array.prototype.uav = function()
+{
+  var n = {},r=[];
+  for(var i = 0; i < this.length; i++)
+  {
+    if (!n[this[i]])
+    {
+      n[this[i]] = true;
+      r.push(this[i]);
+    }
+  }
+  return r;
+}
+
+var regexp = /(\[?)(@)(\w+\d{2}\w?)(\]?)/g;
+
+var refs;
+jQuery.ajaxSetup({async:false});
+gref = function(d) {refs = d; return refs;}
+$.getJSON("/references.json", gref);
+jQuery.ajaxSetup({async:true});
+
+match = regexp.exec($('.maincontent').text());
+while (match != null) {
+  var matchedref = match[3];
+  var brackets = match[1] == "[";
+  var ref = refs.filter(function(a){return a['id'] == matchedref})[0];
+
+  var inline = "";
+  inline += ref['author'][0]['family'];
+  if (ref['author'].length == 2) {
+    inline += " & ";
+    inline += ref['author'][1]['family'];
+  }
+  if (ref['author'].length > 2) {
+    inline += " et al.";
+  }
+
+  var GOTO = '';
+  if (ref['DOI']) {
+    var GOTO = "http://dx.doi.org/"+ref['DOI'];
+  } else {
+    if (ref['URL']) {
+      var GOTO = ref['URL'];
+    } else {
+      var GOTO = "#";
+    }
+  }
+
+  var pubyear = ref['issued']['date-parts'][0][0];
+  reflink = "<a href='" + GOTO + "' title='" + ref['title'] + "' target='_blank' >Read it!</a>";
+  btn = '<a tabindex="0" class="biblio-ref" role="button" data-toggle="popover" data-trigger="focus" title="' + inline + ' (' + pubyear + ')" data-content="' + ref['title'] + '<hr />' + reflink + '"><i class="far fa-file-alt"></i></a>';
+  pubyear = btn;
+  if (brackets) {
+    inline = pubyear;
+  } else {
+    inline = inline + " " + pubyear;
+  }
+
+
+  var new_html = $('.maincontent').html().replace(match[0], inline);
+  $('.maincontent').html(function() {return new_html});
+
+  match = regexp.exec($('.maincontent').text());
+}
+
+</script>
+
+</body>
+</html>

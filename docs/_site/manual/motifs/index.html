@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+  </script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+  <link href="https://use.fontawesome.com/releases/v5.0.2/css/all.css" rel="stylesheet">
+
+  <script src="//code.jquery.com/jquery-latest.min.js"></script>
+
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css'>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>EcologicalNetwork.jl - Motif enumeration</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <!-- <a class="navbar-brand" href="#">
+        <img src="/logo.png" alt="">
+      </a> -->
+      <a class="navbar-brand" href="/">EcologicalNetwork.jl</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Case studies
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/casestudies/specificity/">Measuring specificity</a>
+              <a class="dropdown-item" href="/casestudies/nestedness/">Nestedness significance</a>
+              <a class="dropdown-item" href="/casestudies/betadiv/">Network comparison</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Manual
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/manual/types/">Types</a>
+              <a class="dropdown-item" href="/manual/generalities">Generalities</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/manual/nestedness/">Measuring nestedness</a>
+              <a class="dropdown-item" href="/manual/motifs/">Counting motifs</a>
+              <a class="dropdown-item" href="/manual/betadiversity/">Network dissimilarity</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/manual/data/">Datasets</a>
+              <a class="dropdown-item" href="/manual/plots/">Network plots</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">API reference</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container maincontent">
+    <h1>Motif enumeration</h1>
+    <p><code class="highlighter-rouge">EcologicalNetwork</code> offers functions to count motifs in multiple sorts of
+networks [@MilShe02]. The most important function to know about is <code class="highlighter-rouge">find_motif</code>,
+which requires two arguments: a network, and a motif. The motif <em>must</em> be a
+<code class="highlighter-rouge">BinaryNetwork</code>, but the network can be of any type.</p>
+
+<p>Internally, the package will take the adjacency matrix of the motif, and return
+all unique permutations of it. Then the code will take all combinations of
+species, and induce the corresponding subgraph in the network – if the
+adjacency matrix of the induced subgraph is found in the permutations of the
+motif adjacency matrix, the species combination is returned. For unipartite
+networks, the package comes with a <code class="highlighter-rouge">unipartitemotifs</code> function, which has all
+the unipartite motifs between three species as defined by @StoCam07.</p>
+
+<h2 id="generalities">Generalities</h2>
+
+<p>The <code class="highlighter-rouge">find_motif</code> function will return an array with species that form the
+given motifs. Depending on the size of the network, and the frequency of the
+motif, this array can get quite big.</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span> <span class="o">=</span> <span class="n">fonseca_ganade_1996</span><span class="x">()</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">BipartiteNetwork</span><span class="x">([</span><span class="n">true</span> <span class="n">true</span> <span class="n">false</span><span class="x">;</span> <span class="n">false</span> <span class="n">true</span> <span class="n">true</span><span class="x">])</span>
+<span class="n">motif</span> <span class="o">=</span> <span class="n">find_motif</span><span class="x">(</span><span class="n">N</span><span class="x">,</span><span class="n">m</span><span class="x">)</span>
+</code></pre></div></div>
+
+<pre class="julia-error">
+ERROR: InterruptException:
+</pre>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">println</span><span class="x">(</span><span class="s">"This motif is found </span><span class="si">$</span><span class="s">(length(motif)) times"</span><span class="x">)</span>
+</code></pre></div></div>
+
+<pre class="julia-error">
+ERROR: UndefVarError: motif not defined
+</pre>
+
+<p>Because the identity of species is returned, we can extract a sub-network to
+check that it is indeed in the correct conformation. Note that we use <code class="highlighter-rouge">...</code>
+to <em>unpack</em> the species name in order to access the correct sub-network.</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">N</span><span class="x">[</span><span class="n">first</span><span class="x">(</span><span class="n">motif</span><span class="x">)</span><span class="o">...</span><span class="x">]</span><span class="o">.</span><span class="n">A</span>
+</code></pre></div></div>
+
+<pre class="julia-error">
+ERROR: UndefVarError: motif not defined
+</pre>
+
+<p>You may also notice that the network is quantitative, but the motif is not.
+By default, the function <em>requires</em> motifs to be of the <code class="highlighter-rouge">BinaryNetwork</code> type
+(and their partiteness must match the one of the network). The network in
+which you want to count motifs can be either binary (no operation applied),
+probabilistic (no operation applied), or quantitative (converted to binary).
+Unipartite networks have their diagonal removed.</p>
+
+<h2 id="probabilistic-networks">Probabilistic networks</h2>
+
+<p>The <code class="highlighter-rouge">find_motif</code> function also works for probabilistic networks, using the logic
+outlined in @PoiCir16 – the only difference is that it will return <em>all</em>
+species combinations, with an associated probability of the combination forming
+the motif, and a variance. The output of this function will therefore be an
+array with elements of the shape <code class="highlighter-rouge">((species,),(mean,variance))</code>.</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">U</span> <span class="o">=</span> <span class="n">thompson_townsend_catlins</span><span class="x">()</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">unipartitemotifs</span><span class="x">()[:</span><span class="n">S1</span><span class="x">]</span>
+<span class="n">N</span> <span class="o">=</span> <span class="n">null2</span><span class="x">(</span><span class="n">U</span><span class="x">)</span>
+<span class="n">motif</span> <span class="o">=</span> <span class="n">find_motif</span><span class="x">(</span><span class="n">N</span><span class="x">,</span> <span class="n">m</span><span class="x">)</span>
+<span class="n">first</span><span class="x">(</span><span class="n">motif</span><span class="x">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>((String["Unidentified detritus", "Plant material", "Terrestrial invertebra
+tes"],), (0.07724994680572411, 0.07486477493756385))
+</code></pre></div></div>
+
+<p>Because <em>all</em> species combinations are returned, this object <em>will</em> get big.
+There is no anticipated workaround at this time.</p>
+
+<p>There is a convenience function to measure the expected count of any motif
+measured on a probabilistic network, and its variance:
+<code class="highlighter-rouge">expected_motif_count</code>.</p>
+
+<div class="language-julia highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">expected_motif_count</span><span class="x">(</span><span class="n">motif</span><span class="x">)</span>
+</code></pre></div></div>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(139.85368472556303, 139.0496346810643)
+</code></pre></div></div>
+
+
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  $(function () {
+    $('[data-toggle="popover"]').popover({html:true})
+  })
+  $('.popover-dismiss').popover({
+    trigger: 'focus'
+  })
+  </script>
+  <script type="text/javascript">
+
+Array.prototype.uav = function()
+{
+  var n = {},r=[];
+  for(var i = 0; i < this.length; i++)
+  {
+    if (!n[this[i]])
+    {
+      n[this[i]] = true;
+      r.push(this[i]);
+    }
+  }
+  return r;
+}
+
+var regexp = /(\[?)(@)(\w+\d{2}\w?)(\]?)/g;
+
+var refs;
+jQuery.ajaxSetup({async:false});
+gref = function(d) {refs = d; return refs;}
+$.getJSON("/references.json", gref);
+jQuery.ajaxSetup({async:true});
+
+match = regexp.exec($('.maincontent').text());
+while (match != null) {
+  var matchedref = match[3];
+  var brackets = match[1] == "[";
+  var ref = refs.filter(function(a){return a['id'] == matchedref})[0];
+
+  var inline = "";
+  inline += ref['author'][0]['family'];
+  if (ref['author'].length == 2) {
+    inline += " & ";
+    inline += ref['author'][1]['family'];
+  }
+  if (ref['author'].length > 2) {
+    inline += " et al.";
+  }
+
+  var GOTO = '';
+  if (ref['DOI']) {
+    var GOTO = "http://dx.doi.org/"+ref['DOI'];
+  } else {
+    if (ref['URL']) {
+      var GOTO = ref['URL'];
+    } else {
+      var GOTO = "#";
+    }
+  }
+
+  var pubyear = ref['issued']['date-parts'][0][0];
+  reflink = "<a href='" + GOTO + "' title='" + ref['title'] + "' target='_blank' >Read it!</a>";
+  btn = '<a tabindex="0" class="biblio-ref" role="button" data-toggle="popover" data-trigger="focus" title="' + inline + ' (' + pubyear + ')" data-content="' + ref['title'] + '<hr />' + reflink + '"><i class="far fa-file-alt"></i></a>';
+  pubyear = btn;
+  if (brackets) {
+    inline = pubyear;
+  } else {
+    inline = inline + " " + pubyear;
+  }
+
+
+  var new_html = $('.maincontent').html().replace(match[0], inline);
+  $('.maincontent').html(function() {return new_html});
+
+  match = regexp.exec($('.maincontent').text());
+}
+
+</script>
+
+</body>
+</html>

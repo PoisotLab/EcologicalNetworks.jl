@@ -1,24 +1,19 @@
 """
-**Number of links in a network**
+    sum(N::AbstractEcologicalNetwork)
 
-    links(N::AbstractEcologicalNetwork)
-
-For all type of networks, this is the sum of the adjacency matrix. Note that
-for quantitative networks, this is the cumulative sum of link weights.
+This function will return the sum of all interactions in the network.
 """
-function links(N::AbstractEcologicalNetwork)
+function sum(N::AbstractEcologicalNetwork)
    return sum(N.A)
 end
 
 """
-**Number of links in a quantitative network**
+    L(N::AsbtractEcologicalNetwork)
 
-    link_number(N::QuantitativeNetwork)
-
-In quantitative networks only, returns the number of non-zero interactions.
+Number of non-zero interactions.
 """
-function L(N::QuantitativeNetwork)
-    return sum(N.A .> 0.0)
+function L(N::AsbtractEcologicalNetwork)
+    return sum(N.A>0.0)
 end
 
 """

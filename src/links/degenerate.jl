@@ -1,6 +1,4 @@
 """
-**Test for degenerate networks**
-
     isdegenerate(N::AbstractEcologicalNetwork)
 
 Networks are called degenerate if some species have no interactions, either at
@@ -11,6 +9,11 @@ function isdegenerate(N::AbstractEcologicalNetwork)
     return minimum(values(degree(nodiagonal(N)))) == 0.0
 end
 
+"""
+    simplify{T<:AbstractBipartiteNetwork}(N::T)
+
+Returns a new network in which species with no interactions have been removed.
+"""
 function simplify{T<:AbstractBipartiteNetwork}(N::T)
     d = degree(N)
     new_t = filter(s -> d[s]>0, species(N,1))
@@ -18,6 +21,11 @@ function simplify{T<:AbstractBipartiteNetwork}(N::T)
     return N[new_t, new_b]
 end
 
+"""
+    simplify{T<:AbstractUnipartiteNetwork}(N::T)
+
+Returns a new network in which species with no interactions have been removed.
+"""
 function simplify{T<:AbstractUnipartiteNetwork}(N::T)
     d = degree(N)
     new_s = filter(s -> d[s]>0, species(N))

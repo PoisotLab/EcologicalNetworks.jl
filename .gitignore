@@ -1,2 +1,3 @@
 EcologicalNetwork.tar.gz
-docs/_site/
+docs/build/
+docs/site/
