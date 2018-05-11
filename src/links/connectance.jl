@@ -50,8 +50,6 @@ function connectance(N::AbstractEcologicalNetwork)
 end
 
 """
-**Connectance of a quantitative network**
-
     connectance(N::QuantitativeNetwork)
 
 Connectance of a quantitative network -- the information on link weight is
@@ -63,19 +61,15 @@ function connectance(N::QuantitativeNetwork)
 end
 
 """
-**Linkage density**
-
-    linkage_density(N::DeterministicNetwork)
+    linkage_density(N::AbstractEcologicalNetwork)
 
 Number of links divided by species richness.
 """
-function linkage_density(N::DeterministicNetwork)
-    return links(N) / richness(N)
+function linkage_density(N::AbstractEcologicalNetwork)
+    return L(N) / richness(N)
 end
 
 """
-**Variance in the expected connectance**
-
     connectance_var(N::ProbabilisticNetwork)
 
 Expected variance of the connectance for a probabilistic matrix, measured as the
