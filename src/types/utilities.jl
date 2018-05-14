@@ -1,4 +1,4 @@
-import Base: getindex, transpose, size, copy, !
+import Base: getindex, transpose, size, copy, !, isless
 
 """
     species(N::AbstractUnipartiteNetwork)
@@ -34,6 +34,7 @@ function species(N::AbstractBipartiteNetwork, i::Int64)
   @assert i ∈ [1,2]
   return i == 1 ? N.T : N.B
 end
+
 
 """
     species(N::AbstractUnipartiteNetwork, i::Int64)
@@ -105,6 +106,7 @@ function nodiagonal(N::AbstractUnipartiteNetwork)
   return typeof(N)(x, N.S)
 end
 
+
 """
     nodiagonal(N::AbstractBipartiteNetwork)
 
@@ -117,6 +119,7 @@ function nodiagonal(N::AbstractBipartiteNetwork)
   return copy(N)
 end
 
+
 """
     size(N::AbstractEcologicalNetwork)
 
@@ -125,6 +128,7 @@ Return the size of the adjacency matrix of an `AbstractEcologicalNetwork` object
 function size(N::AbstractEcologicalNetwork)
   size(N.A)
 end
+
 
 """
 Creates a copy of a network -- this returns an object with the same type, and
@@ -136,6 +140,7 @@ function copy(N::AbstractEcologicalNetwork)
   return typeof(N)(a, sp...)
 end
 
+
 """
     getindex(N::AbstractEcologicalNetwork, i...)
 
@@ -146,6 +151,7 @@ species names directly.
 function getindex(N::AbstractEcologicalNetwork, i...)
   return getindex(N.A, i...)
 end
+
 
 """
     getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, s1::T, s2::T)
@@ -161,6 +167,7 @@ function getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, s1::T, s
   return N[s1_pos, s2_pos]
 end
 
+
 """
     getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::T)
 
@@ -173,6 +180,7 @@ function getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, ::Colon,
   return Set(filter(x -> has_interaction(N, x, sp), species(N,1)))
 end
 
+
 """
     getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, sp::T, ::Colon)
 
@@ -184,6 +192,7 @@ function getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, sp::T, :
   @assert sp ∈ species(N,1)
   return Set(filter(x -> has_interaction(N, sp, x), species(N,2)))
 end
+
 
 """
     getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp::Array{T})
@@ -201,6 +210,7 @@ function getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp::Arra
   return typeof(N)(n_int, n_sp)
 end
 
+
 """
     getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::Array{T})
 
@@ -215,6 +225,7 @@ function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, 
   return typeof(N)(n_int, n_t, n_b)
 end
 
+
 """
     getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::Array{T}, ::Colon)
 
@@ -228,6 +239,7 @@ function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::Array
   n_int = N.A[sp_pos,:]
   return typeof(N)(n_int, n_t, n_b)
 end
+
 
 """
     getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Array{T}, sp2::Array{T})
@@ -245,15 +257,18 @@ function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Arra
   return typeof(N)(n_int, n_t, n_b)
 end
 
+
 function nrows(N::AbstractEcologicalNetwork)
   warn("nrows is deprecated, use richness(N,1) instead")
   return size(N.A, 1)
 end
 
+
 function ncols(N::AbstractEcologicalNetwork)
   warn("ncols is deprecated, use richness(N,2) instead")
   return size(N.A, 2)
 end
+
 
 """
     richness(N::AbstractEcologicalNetwork)
@@ -263,6 +278,7 @@ Returns the number of species in a network.
 function richness(N::AbstractEcologicalNetwork)
   return length(species(N))
 end
+
 
 """
     richness(N::AbstractEcologicalNetwork, i::Int64)
@@ -275,19 +291,57 @@ function richness(N::AbstractEcologicalNetwork, i::Int64)
   return length(species(N,i))
 end
 
-function isless{NT<:Union{QuantitativeNetwork,ProbabilisticNetwork},T<:Number,}(N::NT, n::T)
-  newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
-  return newtype(N.A.<n, species_objects(N)...)
+
+function isless(N::NT, n::T) where {T, S<:AllowedSpeciesTypes, NT<:BipartiteProbabilisticNetwork{T,S}}
+  @assert 0.0 <= n <= 1.0
+  return BipartiteNetwork(N.A .< n, species_objects(N)...)
 end
 
-function isless{T<:Number,NT<:Union{QuantitativeNetwork,ProbabilisticNetwork}}(n::T, N::NT)
-  newtype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
-  return newtype(N.A.>n, species_objects(N)...)
+
+function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:BipartiteProbabilisticNetwork{T,S}}
+  @assert 0.0 <= n <= 1.0
+  return BipartiteNetwork(n .< N.A, species_objects(N)...)
 end
+
+
+function isless(N::NT, n::T) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteProbabilisticNetwork{T,S}}
+  @assert 0.0 <= n <= 1.0
+  return UnipartiteNetwork(N.A .< n, species_objects(N)...)
+end
+
+
+function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteProbabilisticNetwork{T,S}}
+  @assert 0.0 <= n <= 1.0
+  return UnipartiteNetwork(n .< N.A, species_objects(N)...)
+end
+
+
+function isless(N::NT, n::T) where {T, S<:AllowedSpeciesTypes, NT<:BipartiteQuantitativeNetwork{T,S}}
+  return BipartiteNetwork(N.A .< n, species_objects(N)...)
+end
+
+
+function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:BipartiteQuantitativeNetwork{T,S}}
+  return BipartiteNetwork(n .< N.A, species_objects(N)...)
+end
+
+
+function isless(N::NT, n::T) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteQuantitativeNetwork{T,S}}
+  return UnipartiteNetwork(N.A .< n, species_objects(N)...)
+end
+
+
+function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteQuantitativeNetwork{T,S}}
+  return UnipartiteNetwork(n .< N.A, species_objects(N)...)
+end
+
+
+
 
 function Base.:!{T<:DeterministicNetwork}(N::T)
   return typeof(N)(.!N.A, species_objects(N)...)
 end
+
 
 """
     transpose(N::AbstractBipartiteNetwork)
