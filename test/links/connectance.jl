@@ -24,6 +24,9 @@ module TestConnectance
     @test connectance(N) ≈ 5/9
     @test linkage_density(N) ≈ 5/3
 
+    # Links with quantitative networks
+    K = BipartiteQuantitativeNetwork(rand(Float64, (3,3)))
+    @test links(K) == 9
 
     # Convert to adjacency
     @test connectance(UnipartiteNetwork(eye(Bool, 10))) ≈ connectance(UnipartiteQuantitativeNetwork(eye(Int64, 10).*2))

@@ -258,18 +258,6 @@ function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Arra
 end
 
 
-function nrows(N::AbstractEcologicalNetwork)
-  warn("nrows is deprecated, use richness(N,1) instead")
-  return size(N.A, 1)
-end
-
-
-function ncols(N::AbstractEcologicalNetwork)
-  warn("ncols is deprecated, use richness(N,2) instead")
-  return size(N.A, 2)
-end
-
-
 """
     richness(N::AbstractEcologicalNetwork)
 
@@ -336,9 +324,13 @@ function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteQua
 end
 
 
+"""
+    Base.:!{T<:DeterministicNetwork}(N::T)
 
-
-function Base.:!{T<:DeterministicNetwork}(N::T)
+Returns the inverse of a binary network -- interactions that were `false` become
+`true`, and conversely.
+"""
+function Base.:!{T<:BinaryNetwork}(N::T)
   return typeof(N)(.!N.A, species_objects(N)...)
 end
 

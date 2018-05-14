@@ -66,4 +66,12 @@ B3 = A[[:A, :B], [:a, :c]]
 @test typeof(B3) == typeof(A)
 @test richness(B3) == 4
 
+S1 = A[:A, :]
+@test typeof(S1) <: Set
+@test eltype(S1) <: Symbol
+
+S2 = A[:, :a]
+@test typeof(S2) <: Set
+@test eltype(S2) <: Symbol
+
 end

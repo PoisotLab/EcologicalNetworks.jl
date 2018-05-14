@@ -16,26 +16,12 @@ module TestFreeSpecies
   D = UnipartiteNetwork(eye(Bool, 4))
   @test isdegenerate(D)
 
-  #=
+  K = simplify(UnipartiteNetwork([false false false; false true true; false true true]))
+  @test !isdegenerate(K)
 
-  # Unipartite case
-  @test free_species(A) ≈ 3.0
-
-  # Make bipartite unipartite case
-  @test free_species(B) ≈ 0.9
-
-  # No predecessors and successors
-  A = make_unipartite(BipartiteProbabilisticNetwork([1.0 0.4 0.3 0.8; 0.0 0.2 0.3 0.6; 0.1 0.2 0.4 0.2]))
-
-  no_succ = species_has_no_successors(A)
-  no_pred = species_has_no_predecessors(A)
-
-  @test no_succ[1] == 0.0
-  @test no_succ[4] == 1.0
-
-  @test no_pred[1] == 1.0
-  @test no_pred[4] == 0.0
-
-  =#
+  N = BipartiteNetwork([false false false; true false true; true true false])
+  M = simplify(N)
+  @test isdegenerate(N)
+  @test !isdegenerate(M)
 
 end
