@@ -14,6 +14,15 @@ module TestDegreeFunctions
   Dout = degree_out(N)
   Dtot = degree(N)
 
+  @test degree_in(N) == degree(N, 2)
+  @test degree_out(N) == degree(N, 1)
+
+  Q = BipartiteQuantitativeNetwork(rand(Float64, (3, 5)))
+  D = convert(BinaryNetwork, Q)
+  @test degree(Q) == degree(D)
+  @test degree(Q,1) == degree(D,1)
+  @test degree(Q,2) == degree(D,2)
+
   Dov = degree_out_var(N)
   @test Dov[:b] ≈ 0.3
 

@@ -77,4 +77,10 @@ N = UnipartiteProbabilisticNetwork([0.0 1.0 0.8; 0.0 0.0 1.0; 0.0 0.0 0.0])
 fchain = UnipartiteNetwork([false true false; false false true; false false false])
 @test first(expected_motif_count(find_motif(N, fchain))) ≈ 0.2
 
+# Bipartite proba network
+B = BipartiteProbabilisticNetwork(eye(Float64, 3))
+m = BipartiteNetwork(eye(Bool,3))
+@test first(expected_motif_count(find_motif(B, m))) ≈ 1.0
+@test last(expected_motif_count(find_motif(B, m))) ≈ 0.0
+
 end
