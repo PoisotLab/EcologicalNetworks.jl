@@ -14,15 +14,15 @@ end
 
 Number of non-zero interactions.
 """
-function L(N::BinaryNetwork)
+function links(N::BinaryNetwork)
     return sum(N)
 end
 
-function L(N::QuantitativeNetwork)
+function links(N::QuantitativeNetwork)
     return sum(N.A.>zero(eltype(N.A)))
 end
 
-function L(N::ProbabilisticNetwork)
+function links(N::ProbabilisticNetwork)
     return sum(N)
 end
 
