@@ -12,3 +12,7 @@ filter(x -> has_interaction(N, sp, x), species(N,2))
 x = first(species(N,2))
 
 has_interaction(N, sp, x)
+
+N.A
+
+import Base: isless, !

@@ -10,7 +10,7 @@ function sum(N::AbstractEcologicalNetwork)
 end
 
 """
-    L(N::AbstractEcologicalNetwork)
+    links(N::AbstractEcologicalNetwork)
 
 Number of non-zero interactions.
 """
@@ -46,7 +46,7 @@ Number of links divided by the number of possible interactions. In unipartite
 networks, this is ``L/S^2``. In bipartite networks, this is ``L/(T × B)``.
 """
 function connectance(N::AbstractEcologicalNetwork)
-    return L(N) / (richness(N,1)*richness(N,2))
+    return links(N) / (richness(N,1)*richness(N,2))
 end
 
 """
@@ -66,7 +66,7 @@ end
 Number of links divided by species richness.
 """
 function linkage_density(N::AbstractEcologicalNetwork)
-    return L(N) / richness(N)
+    return links(N) / richness(N)
 end
 
 """
