@@ -3,8 +3,8 @@ import Base.intersect
 import Base.setdiff
 
 function union{T<:BipartiteNetwork}(X::T, Y::T)
-    new_t = union(species(X,1), species(Y, 1))
-    new_b = union(species(X,2), species(Y, 2))
+    new_t = union(species(X,1), species(Y,1))
+    new_b = union(species(X,2), species(Y,2))
     new_a = zeros(eltype(X.A), (length(new_t), length(new_b)))
     for ti in eachindex(new_t), bi in eachindex(new_b)
         st, sb = new_t[ti], new_b[bi]
