@@ -23,4 +23,10 @@ module TestBetaDiv
   @test βwn(A, A).b == 0
   @test βwn(A, A).c == 0
 
+  X = first(nz_stream_foodweb())
+
+  @test βos(X, X).a == links(X)
+  @test βos(X, X).b == 0
+  @test βos(X, X).c == 0
+
 end
