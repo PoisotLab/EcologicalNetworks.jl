@@ -4,7 +4,7 @@
     louvain_s1_inner(Y::NonProbabilisticNetwork, L::Array{Int64, 1})
 
 """
-function louvain_s1_inner(Y::NonProbabilisticNetwork, L::Array{Int64, 1})
+function louvain_s1_inner(Y::DeterministicNetwork, L::Array{Int64, 1})
   Q0 = Q(Y, L)
   Lnew = copy(L)
   for i in eachindex(L)
@@ -28,7 +28,7 @@ end
 """
 **Inner loop for the Louvain modularity, step 2**
 """
-function louvain_s2_inner(Y::NonProbabilisticNetwork, L::Array{Int64, 1})
+function louvain_s2_inner(Y::DeterministicNetwork, L::Array{Int64, 1})
 
   # Aggregate the network
   c_id = unique(L)
@@ -52,7 +52,7 @@ end
     louvain_one_step(Y::NonProbabilisticNetwork, L::Array{Int64, 1})
 
 """
-function louvain_one_step(Y::NonProbabilisticNetwork, L::Array{Int64, 1})
+function louvain_one_step(Y::DeterministicNetwork, L::Array{Int64, 1})
 
   # Phase 1
   Q0 = Q(Y, L)
@@ -77,8 +77,8 @@ end
 
 TODO
 """
-function louvain(N::NonProbabilisticNetwork, L::Array{Int64, 1})
-  Y = typeof(N) <: Unipartite ? copy(N) : make_unipartite(N)
+function louvain(N::DeterministicNetwork, L::Array{Int64, 1})
+  Y = typeof(N) <: AbstractUnipartiteNetwork ? copy(N) : convert(AbstractUnipartiteNetwork, N)
 
   m_collector = hcat(copy(L))
 

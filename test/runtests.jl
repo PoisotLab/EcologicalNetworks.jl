@@ -4,38 +4,42 @@ using Base.Test
 anyerrors = false
 
 my_tests = [
-   "types.jl",
+   "types/declaration.jl",
+   "types/utilities.jl",
+   "types/conversions.jl",
    "data.jl",
-   "proba_utils.jl",
-   "matrix_utils.jl",
-   "make_unipartite.jl",
-   "degree.jl",
-   "free_species.jl",
-   "connectance.jl",
-   "paths.jl",
-   "nestedness.jl",
-   "nullmodels.jl",
-   "nullmodelswrapper.jl",
-   "swaps.jl",
-   "foodwebs.jl",
-   "centrality.jl",
-   "tests.jl",
-   "motifs.jl",
-   "betadiversity.jl",
-   "modularity.jl",
-   "draw.jl"
-  ]
+   "plots.jl",
+   "links/degree.jl",
+   "links/specificity.jl",
+   "links/connectance.jl",
+   "links/degenerate.jl",
+   "rand/draws.jl",
+   "rand/swaps.jl",
+   "rand/null.jl",
+   "community/nestedness.jl",
+   "community/paths.jl",
+   "community/centrality.jl",
+   "community/motifs.jl",
+   "betadiversity/operations.jl",
+   "betadiversity/partitions.jl",
+   "modularity/utilities.jl",
+   "modularity/starters.jl",
+   "modularity/labelpropagation.jl",
+   "modularity/brim.jl"
+]
 
+test_n = 1
 for my_test in my_tests
   try
     include(my_test)
-    println(">> \033[1m\033[32m++\033[0m $(my_test)")
+    println("[TEST $(lpad(test_n,2))] \033[1m\033[32mPASS\033[0m $(my_test)")
   catch e
     anyerrors = true
-    println(">> \033[1m\033[31m!!\033[0m $(my_test)")
+    println("[TEST $(lpad(test_n,2))] \033[1m\033[31mFAIL\033[0m $(my_test)")
     showerror(STDOUT, e, backtrace())
     println()
   end
+  test_n += 1
 end
 
 if anyerrors
