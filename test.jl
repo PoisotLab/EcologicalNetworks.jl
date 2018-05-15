@@ -11,3 +11,13 @@ B = convert(BinaryNetwork, web_of_life("A_HP_002"))
 @test βs(B, B).a == richness(B)
 @test βs(B, B).b == 0
 @test βs(B, B).c == 0
+
+
+
+richness(B)
+
+X = first(nz_stream_foodweb())
+
+@test βos(X, X).a == links(X)
+@test βos(X, X).b == 0
+@test βos(X, X).c == 0
