@@ -49,7 +49,7 @@ function union{T<:UnipartiteNetwork}(X::T, Y::T)
                 in_x = has_interaction(X, s1, s2)
             end
         end
-        if s2 ∈ species(Y)
+        if s1 ∈ species(Y)
             if s2 ∈ species(Y)
                 in_y = has_interaction(Y, s1, s2)
             end
