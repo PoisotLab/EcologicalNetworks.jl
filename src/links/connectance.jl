@@ -3,25 +3,40 @@ import Base.sum
 """
     sum(N::AbstractEcologicalNetwork)
 
-This function will return the sum of all interactions in the network.
+This function will return the sum of all interactions in the network. For
+quantitative networks, this is the sum of interaction strengths. For binary
+networks, this is the number of interactions. For probabilistic networks, this
+is the expected number of realized interactions.
 """
 function sum(N::AbstractEcologicalNetwork)
    return sum(N.A)
 end
 
 """
-    links(N::AbstractEcologicalNetwork)
+    links(N::BinaryNetwork)
 
-Number of non-zero interactions.
+Number of non-zero interactions in a deterministic network.
 """
 function links(N::BinaryNetwork)
     return sum(N)
 end
 
+"""
+    links(N::QuantitativeNetwork)
+
+Number of non-zero interactions in a quantitative network (use `sum` to get the
+sum of interaction strengths).
+"""
 function links(N::QuantitativeNetwork)
     return sum(N.A.>zero(eltype(N.A)))
 end
 
+"""
+    links(N::ProbabilisticNetwork)
+
+Expected number of interactions in a probabilistic network. To get the number of
+interactions that have a non-zero probability, use *e.g.* `links(N>0.0)`.
+"""
 function links(N::ProbabilisticNetwork)
     return sum(N)
 end

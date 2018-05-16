@@ -1,3 +1,5 @@
+import Base: eltype
+
 """
 This is an abstract type that allows to generate functions for all sorts of
 networks. All other types are derived from this one.
@@ -95,3 +97,13 @@ QuantitativeNetwork = Union{BipartiteQuantitativeNetwork, UnipartiteQuantitative
 All non-probabilistic networks
 """
 DeterministicNetwork = Union{BinaryNetwork, QuantitativeNetwork}
+
+"""
+    eltype(N::T) where T<:AbstractEcologicalNetwork
+
+Returns a tuple with two types: the type of the interactions, and the type of
+the species objects.
+"""
+function eltype(N::T) where T<:AbstractEcologicalNetwork
+    return (eltype(N.A),eltype(species(N)))
+end

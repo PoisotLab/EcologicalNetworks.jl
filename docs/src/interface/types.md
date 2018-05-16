@@ -11,6 +11,14 @@ Network types are designed to be immutable -- no operations done by the package
 will modify the original network. When needed, copies or new objects will be
 returned.
 
+**TODO**
+
+At all points, you can have a look at the types of the interactions and the species objects:
+
+```@docs
+eltype
+```
+
 ### Partiteness
 
 ### Type of information
