@@ -7,8 +7,8 @@ module TestPlots
   BQ = BipartiteQuantitativeNetwork(rand(Float64, (3,3)))
   UQ = UnipartiteQuantitativeNetwork(rand(Float64, (3,3)))
   B = BipartiteNetwork(rand(Bool, (3,3)))
-  U = UnipartiteNetwork(rand(Bool, (3,3)))
-
+  U = nz_stream_foodweb()[1]
+  
   for N in [BP, BQ, B]
     cl = circular_layout(N, steps=5);
     @test_nowarn circular_network_plot(cl...);

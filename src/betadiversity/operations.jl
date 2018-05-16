@@ -2,7 +2,7 @@ import Base.union
 import Base.intersect
 import Base.setdiff
 
-function union{T<:BipartiteNetwork}(X::T, Y::T)
+function union(X::T, Y::T) where {T<:BipartiteNetwork}
     new_t = union(species(X,1), species(Y,1))
     new_b = union(species(X,2), species(Y,2))
     new_a = zeros(eltype(X.A), (length(new_t), length(new_b)))
@@ -24,7 +24,7 @@ function union{T<:BipartiteNetwork}(X::T, Y::T)
     return BipartiteNetwork(new_a, new_t, new_b)
 end
 
-function intersect{T<:BipartiteNetwork}(X::T, Y::T)
+function intersect(X::T, Y::T) where {T<:BipartiteNetwork}
     new_t = intersect(species(X,1), species(Y,1))
     new_b = intersect(species(X,2), species(Y,2))
     new_a = zeros(eltype(X.A), (length(new_t), length(new_b)))
@@ -38,7 +38,7 @@ function intersect{T<:BipartiteNetwork}(X::T, Y::T)
     return BipartiteNetwork(new_a, new_t, new_b)
 end
 
-function union{T<:UnipartiteNetwork}(X::T, Y::T)
+function union(X::T, Y::T) where {T<:UnipartiteNetwork}
     new_s = union(species(X), species(Y))
     new_a = zeros(eltype(X.A), (length(new_s), length(new_s)))
     for si in eachindex(new_s), sj in eachindex(new_s)
@@ -59,7 +59,7 @@ function union{T<:UnipartiteNetwork}(X::T, Y::T)
     return UnipartiteNetwork(new_a, new_s)
 end
 
-function intersect{T<:UnipartiteNetwork}(X::T, Y::T)
+function intersect(X::T, Y::T) where {T<:UnipartiteNetwork}
     new_s = intersect(species(X), species(Y))
     new_a = zeros(eltype(X.A), (length(new_s), length(new_s)))
     for si in eachindex(new_s), sj in eachindex(new_s)
@@ -72,13 +72,13 @@ function intersect{T<:UnipartiteNetwork}(X::T, Y::T)
     return UnipartiteNetwork(new_a, new_s)
 end
 
-function setdiff{T<:BipartiteNetwork}(X::T, Y::T)
+function setdiff(X::T, Y::T) where {T<:BipartiteNetwork}
     new_t = setdiff(species(X,1), species(Y,1))
     new_b = setdiff(species(X,2), species(Y,2))
     return X[new_t, new_b]
 end
 
-function setdiff{T<:UnipartiteNetwork}(X::T, Y::T)
+function setdiff(X::T, Y::T) where {T<:UnipartiteNetwork}
     new_s = setdiff(species(X,1), species(Y,1))
     return X[new_s]
 end

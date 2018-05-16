@@ -1,4 +1,4 @@
-function fractional_trophic_level{T<:UnipartiteNetwork}(N::T)
+function fractional_trophic_level(N::T) where {T<:UnipartiteNetwork}
   Y = nodiagonal(N)
   tl = Dict(zip(species(Y), zeros(Int64, richness(Y))))
   d_in, d_out = degree_in(Y), degree_out(Y)
@@ -29,7 +29,7 @@ function fractional_trophic_level{T<:UnipartiteNetwork}(N::T)
   return tl
 end
 
-function trophic_level(N::UnipartiteNetwork)
+function trophic_level(N::T) where {T<:UnipartiteNetwork}
   TL = fractional_trophic_level(N)
   Y = nodiagonal(N)
   D = zeros(Float64, size(Y.A))
