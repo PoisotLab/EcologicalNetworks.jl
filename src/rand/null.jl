@@ -1,6 +1,4 @@
 """
-**Type I null model**
-
     null1(N::BinaryNetwork)
 
 Given a matrix `A`, `null1(A)` returns a matrix with the same dimensions,
@@ -13,8 +11,6 @@ function null1(N::BinaryNetwork)
 end
 
 """
-**Type IIIout null model**
-
     null3out(N::BinaryNetwork)
 
 Given a matrix `A`, `null3out(A)` returns a matrix with the same dimensions,
@@ -31,8 +27,6 @@ function null3out(N::BinaryNetwork)
 end
 
 """
-**Type IIIin null model**
-
     null3in(N::BinaryNetwork)
 
 Given a matrix `A`, `null3in(A)` returns a matrix with the same dimensions,
@@ -49,8 +43,6 @@ function null3in(N::BinaryNetwork)
 end
 
 """
-**Type II null model**
-
     null2(N::BinaryNetwork)
 
 Given a matrix `A`, `null2(A)` returns a matrix with the same dimensions, where

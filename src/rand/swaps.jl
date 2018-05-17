@@ -67,12 +67,7 @@ function shuffle(N::UnipartiteNetwork; constraint::Symbol=:degree, swapsize::Int
 end
 
 """
-**Generate a single permutation of a network**
-
-    swap(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
-
-Swaps a bipartite network while enforcing a constraint on degree distribution.
-See the documentation for `swaps` for the complete explanation of arguments.
+    shuffle(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
 """
 function shuffle(N::BipartiteNetwork; constraint::Symbol=:degree, swapsize::Int64=3, n::Int64=3000)
   # we want to have the same number of species as the required swap size

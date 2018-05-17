@@ -3,9 +3,7 @@ repo_url: https://github.com/PoisotLab/EcologicalNetwork.jl
 site_description: Analysis of ecological network data
 site_author: Timothée Poisot
 
-theme: cinder
-extra:
-  collapse_toc: true
+theme: yeti
 
 extra_css:
   - assets/Documenter.css
@@ -31,3 +29,6 @@ pages:
   - Network measures:
     - Links: properties/links.md
     - Motifs: properties/motifs.md
+  - Network comparisons:
+    - Randomization: comparison/randomization.md
+    - β-diversity: comparison/betadiversity.md

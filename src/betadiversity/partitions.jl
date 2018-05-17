@@ -1,3 +1,8 @@
+"""
+    βs(X::T, Y::T) where {T<:BinaryNetwork}
+
+Components of β-diversity as measured on species.
+"""
 function βs(X::T, Y::T) where {T<:BinaryNetwork}
     a = richness(intersect(X,Y))
     b = richness(Y)-a
@@ -16,6 +21,7 @@ function βos(X::T, Y::T) where {T<:BipartiteNetwork}
     return @NT(a=a, b=b, c=c)
 end
 
+
 function βos(X::T, Y::T) where {T<:UnipartiteNetwork}
     core = intersect(X,Y)
     Xi = X[species(core)]
@@ -25,6 +31,7 @@ function βos(X::T, Y::T) where {T<:UnipartiteNetwork}
     c = links(Yi)-a
     return @NT(a=a, b=b, c=c)
 end
+
 
 function βwn(X::T, Y::T) where {T<:BinaryNetwork}
     a = links(intersect(X,Y))

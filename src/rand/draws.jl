@@ -1,8 +1,12 @@
 import Base.rand
 
 """
-Returns a matrix B of the same size as A, in which each element B(i,j)
-is 1 with probability A(i,j).
+    rand(N::ProbabilisticNetwork)
+
+Converts a probabilistic network into a deterministic one by performing random
+draws. All interactions are treated as independent Bernoulli events. Note that
+this network is *not* check for degeneracy, *i.e.* species can end up with no
+interactions.
 """
 function rand(N::ProbabilisticNetwork)
     # Get the correct network type
@@ -10,6 +14,13 @@ function rand(N::ProbabilisticNetwork)
     return newtype(rand(size(N)).<=N.A, species_objects(N)...)
 end
 
-function rand{T<:Integer}(N::ProbabilisticNetwork, n::T)
+"""
+    rand(N::ProbabilisticNetwork, n::T) where {T<:Integer}
+
+Generates a number of random deterministic networks based on a probabilistic
+network.
+"""
+function rand(N::ProbabilisticNetwork, n::T) where {T<:Integer}
+    @assert n > 0
     return map(x -> rand(N), 1:n)
 end

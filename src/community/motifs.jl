@@ -1,11 +1,11 @@
 """
-**Unipartite motifs**
-
     unipartitemotifs()
 
 The names of the motifs come from Stouffer et al. (2007) -- especially Fig. 1,
 available online at
 <http://rspb.royalsocietypublishing.org/content/274/1621/1931.figures-only>
+
+The motifs are returned as a dictionary, with each motif identified by its name.
 """
 function unipartitemotifs()
 
@@ -34,6 +34,11 @@ function unipartitemotifs()
   return motifs
 end
 
+"""
+Internal function
+
+Returns all permutations of the adjacency matrix of a motif.
+"""
 function permute_motif(m::T) where {T<:AbstractUnipartiteNetwork}
     perm = []
     for s in permutations(species(m))
@@ -43,6 +48,11 @@ function permute_motif(m::T) where {T<:AbstractUnipartiteNetwork}
     return unique_perm
 end
 
+"""
+Internal function
+
+Returns all permutations of the adjacency matrix of a motif.
+"""
 function permute_motif(m::T) where {T<:AbstractBipartiteNetwork}
     perm = []
     for ts in permutations(species(m,1)), bs in permutations(species(m,2))
@@ -118,6 +128,15 @@ function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteProbabilisticNetwork
     return all_combinations
 end
 
+"""
+    find_motif(N::T1, m::T2) where {T1<:AbstractEcologicalNetwork, T2<:BinaryNetwork}
+
+Returns an array of tuples, in which each tuple contains the species that are
+part of the motif. The length of the array gives the number of times the motif
+was found. For probabilistic networks, the tuple also contains the probability
+of observing the species in the correct conformation for the motif, as well as
+the variance.
+"""
 function find_motif(N::T1, m::T2) where {T1<:AbstractEcologicalNetwork, T2<:BinaryNetwork}
     M = copy(N)
     if typeof(N) <: AbstractUnipartiteNetwork
@@ -129,6 +148,12 @@ function find_motif(N::T1, m::T2) where {T1<:AbstractEcologicalNetwork, T2<:Bina
     return inner_find_motif(M, m)
 end
 
+"""
+    expected_motif_count(s)
+
+Get the expected number of motifs (and variance) from the output of `find_motif`
+on a probabilistic network.
+"""
 function expected_motif_count(s)
     m = [x[2][1] for x in s]
     v = [x[2][2] for x in s]
