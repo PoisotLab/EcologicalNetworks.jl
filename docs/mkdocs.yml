@@ -11,7 +11,7 @@ theme:
   logo:
     icon: timeline
   feature:
-    tabs: true
+    tabs: false
 
 extra_css:
   - assets/Documenter.css
