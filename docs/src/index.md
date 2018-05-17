@@ -52,10 +52,15 @@ you want to take the square root of a quantitative network, you can overload the
 method from base this way:
 
 ~~~ julia
-using Base: √
+import Base: √
 
 function √(N::T) where {T <: QuantitativeNetwork}
-  return T(√.N.A, species_objects(N)...)
+  # Get the new type for the output
+  NewType = T <: AbstractBipartiteNetwork ? BipartiteQuantitativeNetwork : UnipartiteQuantitativeNetwork
+  # Take the square root of the interaction strength
+  sqrt_matrix = sqrt.(N.A)
+  # Return a new network with the correct types
+  return NewType{typeof(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetwork.species_objects(N)...)
 end
 ~~~
 

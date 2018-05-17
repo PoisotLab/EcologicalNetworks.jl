@@ -342,5 +342,6 @@ Returns a transposed copy of the network.
 """
 function transpose(N::AbstractEcologicalNetwork)
   A = copy(N.A)'
-  return typeof(N)(A, species_objects(N)...)
+  new_sp = typeof(N) <: AbstractBipartiteNetwork ? (N.B, N.T) : (N.S,)
+  return typeof(N)(A, new_sp...)
 end

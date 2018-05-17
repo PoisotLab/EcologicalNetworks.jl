@@ -11,6 +11,9 @@ function βs(X::T, Y::T) where {T<:BinaryNetwork}
 end
 
 
+"""
+Overlapping species (bipartite)
+"""
 function βos(X::T, Y::T) where {T<:BipartiteNetwork}
     core = intersect(X,Y)
     Xi = X[species(core,1),species(core,2)]
@@ -22,6 +25,9 @@ function βos(X::T, Y::T) where {T<:BipartiteNetwork}
 end
 
 
+"""
+Overlapping species (unipartite)
+"""
 function βos(X::T, Y::T) where {T<:UnipartiteNetwork}
     core = intersect(X,Y)
     Xi = X[species(core)]
@@ -33,6 +39,9 @@ function βos(X::T, Y::T) where {T<:UnipartiteNetwork}
 end
 
 
+"""
+Whole network
+"""
 function βwn(X::T, Y::T) where {T<:BinaryNetwork}
     a = links(intersect(X,Y))
     c = links(X)-a

@@ -1,26 +1,18 @@
 include("./src/EcologicalNetwork.jl")
 using EcologicalNetwork
 using Base.Test
-
-using Distributions
-
-d_host = LogNormal(2.0, 2.0)
-d_parasite = LogNormal(2.2, 1.4)
-
-N_host = sort(rand(d_host, 20))
-N_parasite = sort(rand(d_parasite, 10))
-
-N_host = N_host ./ sum(N_host)
-N_parasite = N_parasite ./ sum(N_parasite)
-
-NP = N_parasite.*N_host'
-
-
 using StatsBase
-n_int = sample(collect(eachindex(NP)), weights(vec(NP)), 2000)
-A = zeros(Int64, NP)
-for i in n_int
-    A[i] += 1
-end
+using Distributions
+using Plots, StatPlots
 
-N = BipartiteQuantitativeNetwork(A)
+N = convert(BinaryNetwork, web_of_life("A_HP_001"))
+
+all_n = simplify.(rand(null2(N), 200))
+same_ric = filter(x -> richness(x) == richness(N), all_n)
+same_lnk = filter(x -> links(x) == links(N), same_ric)
+
+nest = (x) -> η(x)[:network]
+
+nest(N).-nest.(all_n) |> density
+nest(N).-nest.(same_ric) |> density!
+nest(N).-nest.(same_lnk) |> density!
