@@ -96,7 +96,7 @@ end
 """
     nodiagonal(N::AbstractUnipartiteNetwork)
 
-Returns a *copy* of the network with its diagonal set the appropriate zero.
+Returns a *copy* of the network with its diagonal set to the appropriate zero.
 """
 function nodiagonal(N::AbstractUnipartiteNetwork)
   x = N.A
