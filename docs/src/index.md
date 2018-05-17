@@ -2,7 +2,33 @@
 
 This package provides a common interface for the analysis of ecological
 networks, using `julia`. It is *very* opinionated about the "right" way to do
-things, but we have documented our opinions in several publications.
+things, but we have documented our opinions in several publications (see the
+references at the bottom of this page).
+
+## Package philosophy
+
+The package is built around a typesystem for networks, which is intended to
+capture the different types of data and communities ecologists need to handle.
+This makes the package extensible, both by writing additional methods with a
+very fine-tuned dispatch, or by adding additional types that should work out of
+the box (or be very close to).
+
+This package is a *library* for the analysis of ecological networks. On purpose,
+we do not provide "wrapper"-type functions that would perform an entire
+analysis. We experimented with this idea during development, and rapidly
+realized that even for the most simple research project, we needed to make small
+tweaks that made the wrappers a nuisance. We decided to give you lego blocks,
+and it's your job to build the kick-ass spaceship.
+
+We tried to avoid making the package into yet another Domain Specific Language.
+This means that when an operation should be expressed using the julian syntax,
+we made it this way. Transforming networks from a type to another is done with
+`convert`. Random networks are drawn with `rand`. Swapping of interactions is
+done with `shuffle`. There is support for slicing of networks, as well as the
+entire operations on sets. A lot of methods from `Base` have been overloaded,
+and this *should* make the code easy to write and read.
+
+## References
 
 About the analysis of ecological networks in general, the package covers (or
 will cover over time) most of the measures we identified as robust in the
