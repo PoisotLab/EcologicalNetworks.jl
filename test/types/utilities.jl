@@ -74,4 +74,10 @@ S2 = A[:, :a]
 @test typeof(S2) <: Set
 @test eltype(S2) <: Symbol
 
+# Transposition
+A = web_of_life("A_HP_001")
+s1, s2 = size(A)
+B = A'
+@test size(B) == (s2, s1)
+
 end
