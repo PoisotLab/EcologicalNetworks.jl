@@ -36,7 +36,11 @@ pages:
     - "Core functions": interface/highlevel.md
   - Network measures:
     - Links: properties/links.md
+    - Modularity: properties/modularity.md
     - Motifs: properties/motifs.md
   - Network comparisons:
     - Randomization: comparison/randomization.md
     - β-diversity: comparison/betadiversity.md
+  - Use cases:
+    - Null models: usecases/nestedness.md
+    - Beta-diversity: usecases/betadiversity.md

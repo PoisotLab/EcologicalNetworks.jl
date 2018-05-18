@@ -1,5 +1,5 @@
 push!(LOAD_PATH,"../src/")
-
+include("../src/EcologicalNetwork.jl")
 using Documenter, EcologicalNetwork
 
 makedocs(

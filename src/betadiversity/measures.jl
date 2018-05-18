@@ -8,7 +8,7 @@ function KGL01(S::T) where {T<:NamedTuple}
 end
 
 function KGL02(S::T) where {T<:NamedTuple}
-  return KGL01(S)
+  return KGL01(S).-1.0
 end
 
 function KGL03(S::T) where {T<:NamedTuple}

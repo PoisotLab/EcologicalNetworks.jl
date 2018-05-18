@@ -1,4 +1,12 @@
-function lp{T<:AbstractEcologicalNetwork}(N::T)
+"""
+    lp(N::T) where {T<:AbstractEcologicalNetwork}
+
+Uses label propagation to generate a first approximation of the modular
+structure of a network. This is usually followed by the BRIM (`brim`) method.
+This method supposedly performs better for large graphs, but we rarely observed
+any differences between it and variations of BRIM alone on smaller graphs.
+"""
+function lp(N::T) where {T<:AbstractEcologicalNetwork}
   L = Dict([species(N)[i]=>i for i in 1:richness(N)])
 
   # Initial modularity

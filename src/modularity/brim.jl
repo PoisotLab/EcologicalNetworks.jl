@@ -1,4 +1,11 @@
-function brim{NT<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}(N::NT, L::Dict{E,Int64})
+"""
+    brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}
+
+Uses BRIM to optimize the modularity of an ecological network. The `L` argument
+is a dictionary mapping every species in the network to its module. This
+function returns a tuple of the network and its module assignment.
+"""
+function brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}
   @assert all(species(N) .∈ keys(L))
   EcologicalNetwork.tidy_modules!(L)
 
