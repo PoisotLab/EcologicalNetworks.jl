@@ -44,3 +44,4 @@ pages:
   - Use cases:
     - Null models: usecases/nestedness.md
     - Beta-diversity: usecases/betadiversity.md
+    - Motif analysis: usecases/motifs.md
