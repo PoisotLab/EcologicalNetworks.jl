@@ -29,13 +29,13 @@ module TestSwaps
   @test links(b) == links(a)
 
   a = UnipartiteNetwork([true true false; false true false; true true true])
-  b = shuffle(a, constraint=:generality, size_of_swap=2)
-  @test links(b) == links(a)
-  @test degree(b,1) == degree(a,1)
-
-  a = UnipartiteNetwork([true true false; false true false; true true true])
   b = shuffle(a, constraint=:vulnerability, size_of_swap=2)
   @test links(b) == links(a)
   @test degree(b,2) == degree(a,2)
+
+  a = UnipartiteNetwork([true true false; false true false; true true true])
+  b = shuffle(a, constraint=:generality, size_of_swap=2)
+  @test links(b) == links(a)
+  @test degree(b,1) == degree(a,1)
 
 end

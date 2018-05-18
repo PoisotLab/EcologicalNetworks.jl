@@ -5,11 +5,11 @@ function same_degree(x, y)
 end
 
 function same_out_degree(x, y)
-  return (sum(x,1)==sum(y,1))
+  return (sum(x,2)==sum(y,2))
 end
 
 function same_in_degree(x, y)
-  return (sum(x,2)==sum(y,2))
+  return (sum(x,1)==sum(y,1))
 end
 
 function same_fill(x, y)
