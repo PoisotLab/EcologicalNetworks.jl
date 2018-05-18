@@ -2,33 +2,40 @@ module TestSwaps
   using Base.Test
   using EcologicalNetwork
 
-  # test the validity of a series of swaps
-  @test EcologicalNetwork.is_valid([0 0; 1 1], [0 0; 1 1], :fill)
-  @test EcologicalNetwork.is_valid([0 1; 0 1], [0 0; 1 1], :fill)
-  @test EcologicalNetwork.is_valid([1 1; 1 1], [1 1; 1 1], :fill)
-  @test !EcologicalNetwork.is_valid([1 1; 1 1], [1 1; 1 0], :fill)
-
-  @test EcologicalNetwork.is_valid([0 0; 1 1], [0 0; 1 1], :degree)
-  @test EcologicalNetwork.is_valid([1 0; 0 1], [0 1; 1 0], :degree)
-
-  @test EcologicalNetwork.is_valid([0 0; 1 1], [0 0; 1 1], :generality)
-  @test EcologicalNetwork.is_valid([0 0; 1 1], [0 0; 1 1], :vulnerability)
-
-  # test the ability to generate swaps
-  a = [true true; false true]
-  b = EcologicalNetwork.inner_swap(a, constraint=:fill)
-  @test EcologicalNetwork.is_valid(a, b, :fill)
-
   # test the swap function
   a = BipartiteNetwork([true true false; false true false; true true true])
-  b = shuffle(a, constraint=:degree, swapsize=2)
+  b = shuffle(a, constraint=:degree, size_of_swap=(2,2))
   @test links(b) == links(a)
-  @test EcologicalNetwork.is_valid(a.A, b.A, :degree)
+  @test degree(b) == degree(a)
 
   # test the swap function
   a = UnipartiteNetwork([true true false; false true false; true true true])
-  b = shuffle(a, constraint=:degree, swapsize=2)
+  b = shuffle(a, constraint=:degree, size_of_swap=2)
   @test links(b) == links(a)
-  @test EcologicalNetwork.is_valid(a.A, b.A, :degree)
+  @test degree(b) == degree(a)
+
+  a = UnipartiteNetwork([true true false; false true false; true true true])
+  b = shuffle(a, constraint=:degree, size_of_swap=(2,2))
+  @test links(b) == links(a)
+  @test degree(b) == degree(a)
+
+  a = UnipartiteNetwork([true true false; false true false; true true true])
+  b = shuffle(a, constraint=:degree, size_of_swap=2)
+  @test links(b) == links(a)
+  @test degree(b) == degree(a)
+
+  a = UnipartiteNetwork([true true false; false true false; true true true])#
+  b = shuffle(a, constraint=:fill, size_of_swap=2)
+  @test links(b) == links(a)
+
+  a = UnipartiteNetwork([true true false; false true false; true true true])
+  b = shuffle(a, constraint=:generality, size_of_swap=2)
+  @test links(b) == links(a)
+  @test degree(b,1) == degree(a,1)
+
+  a = UnipartiteNetwork([true true false; false true false; true true true])
+  b = shuffle(a, constraint=:vulnerability, size_of_swap=2)
+  @test links(b) == links(a)
+  @test degree(b,2) == degree(a,2)
 
 end

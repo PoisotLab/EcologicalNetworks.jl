@@ -23,6 +23,12 @@ has_interaction
 getindex
 ```
 
+### Random network samples
+
+```@docs
+sample
+```
+
 ## Network utilities
 
 ### Network size

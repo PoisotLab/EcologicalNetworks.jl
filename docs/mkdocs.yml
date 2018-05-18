@@ -6,8 +6,8 @@ site_author: Timothée Poisot
 theme:
   name: 'material'
   palette:
-    primary: teal
-    secondary: teal
+    primary: indigo
+    secondary: indigo
   logo:
     icon: timeline
   feature:

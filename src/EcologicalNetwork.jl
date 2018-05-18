@@ -49,6 +49,7 @@ export isdegenerate, simplify#, species_has_no_successors, species_has_no_predec
 
 # Random networks and permutations
 include(joinpath(".", "rand/draws.jl"))
+include(joinpath(".", "rand/sample.jl"))
 include(joinpath(".", "rand/swaps.jl"))
 include(joinpath(".", "rand/null.jl"))
 export null1, null2, null3out, null3in
