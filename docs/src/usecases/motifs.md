@@ -25,3 +25,13 @@ end
 
 density(n0.-nd, lab="Degree")
 density!(n0.-nf, lab="Fill")
+
+n_swaps = repeat(convert.(Int64, round.(10.^collect(0:0.1:6), 0)); inner=10)
+n_omni = zeros(Int64, length(n_swaps))
+for i in eachindex(n_swaps)
+    R = shuffle(N; number_of_swaps=n_swaps[i])
+    n_omni[i] = length(find_motif(R, omnivory))
+end
+
+scatter(n_swaps, n_omni, c=:grey, leg=false)
+xaxis!(:log10)
