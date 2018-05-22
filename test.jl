@@ -10,3 +10,5 @@ begin
 end
 
 N = simplify(first(nz_stream_foodweb()))
+
+interactions(N)
