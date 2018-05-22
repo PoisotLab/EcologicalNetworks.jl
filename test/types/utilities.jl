@@ -80,4 +80,23 @@ s1, s2 = size(A)
 B = A'
 @test size(B) == (s2, s1)
 
+# Get index
+
+A = UnipartiteQuantitativeNetwork([1 2 3; 4 5 6; 7 8 9], [:a, :b, :c])
+@test A[:a, :a] == 1
+@test A[:a, :b] == 2
+@test A[:a, :c] == 3
+@test A[:b, :a] == 4
+@test A[:b, :b] == 5
+@test A[:b, :c] == 6
+@test A[:c, :a] == 7
+@test A[:c, :b] == 8
+@test A[:c, :c] == 9
+
+@test A[[:a, :b]][:a,:b] == 2
+@test A[[:a, :b]][:a,:a] == 1
+@test A[[:a, :b]][:b,:a] == 4
+@test A[[:a, :b]][:b,:b] == 5
+
+
 end

@@ -33,5 +33,10 @@ for i in eachindex(n_swaps)
     n_omni[i] = length(find_motif(R, omnivory))
 end
 
-scatter(n_swaps, n_omni, c=:grey, leg=false)
-xaxis!(:log10)
+z(x,y) = (x.-y)./std(x)
+
+scatter(n_swaps, n_omni, c=:grey, leg=false, frame=:box, ms=0)
+plot!([minimum(n_swaps), maximum(n_swaps)], [n0,n0], c=:black)
+scatter!(n_swaps, n_omni, c=:lightgrey)
+xaxis!(:log10, "Number of permutations")
+yaxis!("Relative difference")

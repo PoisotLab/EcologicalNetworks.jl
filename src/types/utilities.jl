@@ -159,11 +159,11 @@ end
 Get the value of an interaction based on the *name* of the species. This is the
 recommended way to look for things in a network.
 """
-function getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, s1::T, s2::T)
-  @assert s1  ∈ species(N, 1)
-  @assert s2  ∈ species(N, 2)
-  s1_pos = first(find(s1.==species(N,1)))
-  s2_pos = first(find(s2.==species(N,2)))
+function getindex(N::AbstractEcologicalNetwork, s1::T, s2::T) where {T<:AllowedSpeciesTypes}
+  @assert s1 ∈ species(N,1)
+  @assert s2 ∈ species(N,2)
+  s1_pos = findfirst(species(N,1), s1)
+  s2_pos = findfirst(species(N,2), s2)
   return N[s1_pos, s2_pos]
 end
 
@@ -175,7 +175,7 @@ Gets the predecessors (*i.e.* species that interacts with / consume) of a focal
 species. This returns the list of species as a `Set` object, in which ordering
 is unimportant.
 """
-function getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, ::Colon, sp::T)
+function getindex(N::AbstractEcologicalNetwork, ::Colon, sp::T) where {T<:AllowedSpeciesTypes}
   @assert sp ∈ species(N,2)
   return Set(filter(x -> has_interaction(N, x, sp), species(N,1)))
 end
@@ -201,10 +201,13 @@ Induce a unipartite network based on a list of species, all of which must be in
 the original network. This function takes a single argument (as opposed to two
 arrays, or an array and a colon) to ensure that the returned network is
 unipartite.
+
+The network which is returned by this function may not have the species in the
+order specified by the user for performance reasons.
 """
 function getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp::Array{T})
   @assert all(map(x -> x ∈ species(N), sp))
-  sp_pos = map(s -> first(find(s.==species(N))), sp)
+  sp_pos = findin(species(N), sp)
   n_sp = species(N)[sp_pos]
   n_int = N.A[sp_pos, sp_pos]
   return typeof(N)(n_int, n_sp)
@@ -218,7 +221,7 @@ TODO
 """
 function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::Array{T})
   @assert all(map(x -> x ∈ species(N,2), sp))
-  sp_pos = map(s -> first(find(s.==species(N,2))), sp)
+  sp_pos = findin(species(N,2), sp)
   n_t = N.T
   n_b = N.B[sp_pos]
   n_int = N.A[:, sp_pos]
@@ -233,7 +236,7 @@ TODO
 """
 function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::Array{T}, ::Colon)
   @assert all(map(x -> x ∈ species(N,1), sp))
-  sp_pos = map(s -> first(find(s.==species(N,1))), sp)
+  sp_pos = findin(species(N,1), sp)
   n_t = N.T[sp_pos]
   n_b = N.B
   n_int = N.A[sp_pos,:]
@@ -249,8 +252,8 @@ TODO
 function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Array{T}, sp2::Array{T})
   @assert all(map(x -> x ∈ species(N,1), sp1))
   @assert all(map(x -> x ∈ species(N,2), sp2))
-  sp1_pos = map(s -> first(find(s.==species(N,1))), sp1)
-  sp2_pos = map(s -> first(find(s.==species(N,2))), sp2)
+  sp1_pos = findin(species(N,1), sp1)
+  sp2_pos = findin(species(N,2), sp2)
   n_t = N.T[sp1_pos]
   n_b = N.B[sp2_pos]
   n_int = N.A[sp1_pos,sp2_pos]

@@ -83,4 +83,30 @@ m = BipartiteNetwork(eye(Bool,3))
 @test first(expected_motif_count(find_motif(B, m))) ≈ 1.0
 @test last(expected_motif_count(find_motif(B, m))) ≈ 0.0
 
+# Unipartite multiple motifs
+X = [false true true true false; false false false true true; false false false false true;
+    false false false false false; false false false false false]
+N = UnipartiteNetwork(X, [:a, :b, :c, :d, :e])
+
+@test length(find_motif(N, unipartitemotifs()[:S1])) == 2
+@test length(find_motif(N, unipartitemotifs()[:S2])) == 1
+@test length(find_motif(N, unipartitemotifs()[:S3])) == 0
+@test length(find_motif(N, unipartitemotifs()[:S4])) == 1
+@test length(find_motif(N, unipartitemotifs()[:S5])) == 3
+
+# Diamond
+N = UnipartiteNetwork([false true true false; false false false true;
+    false false false true; false false false false], [:a, :b, :c, :d])
+
+@test length(find_motif(N, unipartitemotifs()[:S1])) == 2
+@test length(find_motif(N, unipartitemotifs()[:S2])) == 0
+@test length(find_motif(N, unipartitemotifs()[:S3])) == 0
+@test length(find_motif(N, unipartitemotifs()[:S4])) == 1
+@test length(find_motif(N, unipartitemotifs()[:S5])) == 1
+
+# Self motifs
+for (k,v) in unipartitemotifs()
+    @test length(find_motif(v,v)) == 1
+end
+
 end
