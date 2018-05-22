@@ -57,7 +57,6 @@ function species_objects(N::AbstractBipartiteNetwork)
   return (N.T, N.B)
 end
 
-
 """
     has_interaction(N::AbstractEcologicalNetwork, i::Int64, j::Int64)
 
@@ -347,4 +346,37 @@ function transpose(N::AbstractEcologicalNetwork)
   A = copy(N.A)'
   new_sp = typeof(N) <: AbstractBipartiteNetwork ? (N.B, N.T) : (N.S,)
   return typeof(N)(A, new_sp...)
+end
+
+
+"""
+    edges(N::AbstractEcologicalNetwork)
+
+Returns the interactions in the ecological network. Interactions are returned as
+an array of named tuples. *A minima*, these have fields `from` and `to`. For
+networks that are probabilistic, there is a `probability` field. For networks
+that are quantitative, there is a `strength` field. This functions allows to
+iterate over interactions in a network in a convenient way.
+"""
+function interactions(N::AbstractEcologicalNetwork)
+  edges_accumulator = NamedTuple[]
+  for s1 in species(N,1)
+    for s2 in species(N,2)
+      if has_interaction(N, s1, s2)
+        fields = [:from, :to]
+        values = Any[s1, s2]
+        if typeof(N) <: ProbabilisticNetwork
+          push!(fields, :probability)
+          push!(values, N[s1,s2])
+        end
+        if typeof(N) <: QuantitativeNetwork
+          push!(fields, :strength)
+          push!(values, N[s1,s2])
+        end
+        int_nt = NamedTuples.make_tuple(fields)(tuple(values...)...)
+        push!(edges_accumulator, int_nt)
+      end
+    end
+  end
+  return unique(edges_accumulator)
 end
