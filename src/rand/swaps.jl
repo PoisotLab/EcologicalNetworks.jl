@@ -48,23 +48,28 @@ function shuffle(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::
 
     Y = copy(N)
 
+    # We pre-declare these two to avoid scoping tomfoolery later
+    seed = sample(Y, size_of_swap)
+    shuffled_submatrix = seed.A
+
     validity = Dict([:degree => same_degree, :vulnerability => same_in_degree, :generality => same_out_degree, :fill => same_fill])[constraint]
 
     for swap_number in 1:number_of_swaps
 
-        seed = sample(Y, size_of_swap)
-        while links(seed) == 0
+        invalid_seed = true
+        while invalid_seed
             seed = sample(Y, size_of_swap)
+            ok_link = links(seed) > 0
+            if !ok_link
+                next
+            end
+            attempts = EcologicalNetwork.permute_motif(seed)
+            attempts = filter(x -> validity(x, seed.A), attempts)
+            if length(attempts) > 0
+                shuffled_submatrix = rand(attempts)
+                invalid_seed = false
+            end
         end
-
-        attempts = [reshape(shuffle(vec(seed.A)), size(seed)) for i in 1:number_of_candidates]
-        kept = filter(attempt -> validity(attempt, seed.A), attempts)
-        while length(kept) == 0
-            attempts = [reshape(shuffle(vec(seed.A)), size(seed)) for i in 1:number_of_candidates]
-            kept = filter(attempt -> validity(attempt, seed.A), attempts)
-        end
-
-        shuffled_submatrix = first(kept)
 
         p1 = indexin(species(seed,1), species(N,1))
         p2 = indexin(species(seed,2), species(N,2))
