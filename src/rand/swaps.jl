@@ -40,7 +40,7 @@ The size and connectance of the network, as well as the performance of the
 computer used, should be considered when modifying the values of these
 parameters.
 """
-function shuffle(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000, size_of_swap=(3,3), number_of_candidates::Int64=100)
+function shuffle(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000, size_of_swap=(5,5), number_of_candidates::Int64=100)
     @assert constraint ∈ [:degree, :generality, :vulnerability, :fill]
     @assert number_of_swaps > 0
     @assert minimum(size_of_swap) >= 2
@@ -48,33 +48,33 @@ function shuffle(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::
 
     Y = copy(N)
 
-    # We pre-declare these two to avoid scoping tomfoolery later
-    seed = sample(Y, size_of_swap)
-    shuffled_submatrix = seed.A
-
     validity = Dict([:degree => same_degree, :vulnerability => same_in_degree, :generality => same_out_degree, :fill => same_fill])[constraint]
 
     for swap_number in 1:number_of_swaps
 
-        invalid_seed = true
-        while invalid_seed
-            seed = sample(Y, size_of_swap)
-            ok_link = links(seed) > 0
-            if !ok_link
-                next
-            end
-            attempts = EcologicalNetwork.permute_motif(seed)
-            attempts = filter(x -> validity(x, seed.A), attempts)
-            if length(attempts) > 0
-                shuffled_submatrix = rand(attempts)
-                invalid_seed = false
+        success = false
+        while !success
+            original_pool = [sample(Y, (4,4)) for i in 1:1000]
+            connected = filter(x -> !isdegenerate(x) > 0, original_pool)
+            if length(connected) > 0
+                swap_done = false
+                for tentative in shuffle(connected)
+                    attempts = EcologicalNetwork.permute_motif(tentative)
+                    attempts = filter(x -> x != tentative.A, attempts)
+                    attempts = filter(x -> validity(x, tentative.A), attempts)
+                    if length(attempts)>0
+                        p1 = indexin(species(tentative,1), species(Y,1))
+                        p2 = indexin(species(tentative,2), species(Y,2))
+                        Y.A[p1,p2] = rand(attempts)
+                        swap_done = true
+                    end
+                    if swap_done
+                        success = true
+                        break
+                    end
+                end
             end
         end
-
-        p1 = indexin(species(seed,1), species(N,1))
-        p2 = indexin(species(seed,2), species(N,2))
-
-        Y.A[p1,p2] = shuffled_submatrix
 
     end
 
