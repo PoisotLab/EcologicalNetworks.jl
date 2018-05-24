@@ -1,3 +1,4 @@
+using Revise # To avoid reloading the session while we test things
 include("./src/EcologicalNetwork.jl")
 using EcologicalNetwork
 using StatsBase
@@ -11,31 +12,30 @@ begin
 end
 
 N = simplify(first(nz_stream_foodweb()))
-
-function internal_shuffle(S::BinaryNetwork, f)
-    collection = [typeof(S)(reshape(shuffle(vec(S.A)), size(S)), species(S)) for i in 1:1000]
-    for c in collection
-        if (f(c) == f(S))&(c.A != S.A)&(links(c)==links(nodiagonal(c)))
-            return c
-        end
-    end
-    info("hyuck")
-    return S
-end
+N = convert(BinaryNetwork, web_of_life("A_HP_015"))
 
 Y = copy(N)
+m = BipartiteNetwork([true true; false true])
 
-@time begin
-    S = sample(Y, 3)
-    while isdegenerate(S)
-        S = sample(Y, 3)
-    end
-    repl = internal_shuffle(S, degree_in)
-    p1 = indexin(species(repl,1), species(Y,1))
-    p2 = indexin(species(repl,2), species(Y,2))
-    Y.A[p1,p2] = repl.A
-end
+m0 = length(find_motif(Y, m))
+P = null2(Y)
+p0, v0 = expected_motif_count(find_motif(P, m))
+Rs = rand(P, 20000)
+filter!(R -> links(R) == links(Y), Rs)
+filter!(R -> richness(R) == richness(Y), Rs)
+filter!(R -> !isdegenerate(R), Rs)
+r0 = length.(find_motif.(Rs, m))
 
-heatmap(N.A .- Y.A, aspectratio=1)
 
-degree_in(Y) == degree_in(N)
+
+# Track - Co, % degenerate, % same size, etc
+
+Ss = [shuffle(Y, size_of_swap=(2,2)) for i in 1:500]
+s0 = length.(find_motif.(Ss, m))
+
+col = ["#e69600", "#56b4df", "#009e73"]
+
+density(m0.-r0, fill=(0, 0.2), frame=:origin, lw=0.5, lab="Random draws", c=col[1], legend=:topright)
+density!(m0.-s0, fill=(0, 0.2), lw=0.5, lab="Sub-matrix permutations", c=col[2])
+density!(m0.-rand(Normal(p0, sqrt(v0)), 10000), lab="Probabilistic estimation", fill=(0, 0.2), lw=0.5, c=col[3])
+xaxis!("Difference from measurement")
