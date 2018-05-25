@@ -6,36 +6,86 @@ using NamedTuples
 using Combinatorics
 
 begin
+    using JuliaDB
     using Base.Test
     using Distributions
     using Plots, StatPlots
 end
 
-N = simplify(first(nz_stream_foodweb()))
-N = convert(BinaryNetwork, web_of_life("A_HP_015"))
+# Important for benchmark
+srand(2000)
 
-Y = copy(N)
-m = BipartiteNetwork([true true; false true])
-
-m0 = length(find_motif(Y, m))
-P = null2(Y)
-p0, v0 = expected_motif_count(find_motif(P, m))
-Rs = rand(P, 20000)
-filter!(R -> links(R) == links(Y), Rs)
-filter!(R -> richness(R) == richness(Y), Rs)
-filter!(R -> !isdegenerate(R), Rs)
-r0 = length.(find_motif.(Rs, m))
+ref_net = simplify(BipartiteNetwork(rand(Bool, (20,15))))
+while richness(ref_net) != 35
+    ref_net = simplify(BipartiteNetwork(rand(Bool, (20,15))))
+end
 
 
+fm(x) = find_motif(x, BipartiteNetwork([true true; true false]))
+bench(N, f, i) = (@elapsed [f(N) for rep in 1:i])/i
 
-# Track - Co, % degenerate, % same size, etc
+function mkbench(n, i)
+    return @NT(
+        richness = richness(n),
+        links = links(n),
+        size = size(n),
+        unipartite = typoef(n) <: AbstractUnipartiteNetwork,
+        eta = bench(n, η, i),
+        nodf = bench(n, nodf, i),
+        spe = bench(n, specificity, i),
+        lnk = bench(n, links, i),
+        lp = bench(n, lp, i),
+        int = bench(n, interactions, i),
+        mot = bench(n, fm, i),
+        nl2 = bench(n, null2, i),
+        deg = bench(n, degree, i),
+        con = bench(n, connectance, i)
+    )
+end
 
-Ss = [shuffle(Y, size_of_swap=(2,2)) for i in 1:500]
-s0 = length.(find_motif.(Ss, m))
+ref_measure = mkbench(ref_net, 2)
 
-col = ["#e69600", "#56b4df", "#009e73"]
+bench_test = web_of_life.(getfield.(filter(x -> x.Species <= 120, web_of_life()), :ID))
+bench_test = convert.(BinaryNetwork, bench_test)
 
-density(m0.-r0, fill=(0, 0.2), frame=:origin, lw=0.5, lab="Random draws", c=col[1], legend=:topright)
-density!(m0.-s0, fill=(0, 0.2), lw=0.5, lab="Sub-matrix permutations", c=col[2])
-density!(m0.-rand(Normal(p0, sqrt(v0)), 10000), lab="Probabilistic estimation", fill=(0, 0.2), lw=0.5, c=col[3])
-xaxis!("Difference from measurement")
+bench_results = NamedTuple[]
+@progress for test_net in bench_test
+    bench_measure = mkbench(test_net, 3)
+    push!(bench_results, bench_measure)
+end
+
+bv = table(bench_results)
+bv = pushcol(bv, :ld, select(bv, :links) ./ select(bv, :richness))
+bv = pushcol(bv, :co, select(bv, :links) ./ prod.(select(bv, :size)))
+
+fields = Dict(
+    :eta => "eta",
+    :nodf => "nodf",
+    :mot => "motif enum",
+    :nl2 => "null model II",
+    :deg => "degree",
+    :con => "connectance",
+    :lnk => "links",
+    :spe => "specificity",
+    :lp => "label propagation",
+    :int => "interactions enum"
+    )
+
+for (field, field_name) in fields
+    p1 = @df bv scatter(:links, select(bv, field), zcolor=:richness, c=:viridis, legend=:bottomright, leg=false)
+    p2 = @df bv scatter(:richness, select(bv, field), zcolor=:links, c=:viridis, legend=:bottomright, leg=false)
+    p3 = @df bv scatter(:ld, select(bv, field), zcolor=:richness, c=:viridis, legend=:bottomright, leg=false)
+    p4 = @df bv scatter(:co, select(bv, field), zcolor=:richness, c=:viridis, legend=:bottomright, leg=false)
+    yaxis!(p1, "Time (s)", :log10)
+    xaxis!(p1, "Links")
+    yaxis!(p2, "Time (s)", :log10)
+    xaxis!(p2, "Richness")
+    yaxis!(p3, "Time (s)", :log10)
+    xaxis!(p3, "Link density")
+    yaxis!(p4, "Time (s)", :log10)
+    xaxis!(p4, "Connectance")
+    title!(p1, field_name)
+    plot((p1,p2,p3,p4)..., size=(900,600))
+    savefig("benchmark/pdf_"*string(field)*".pdf")
+    savefig("benchmark/png_"*string(field)*".png")
+end
