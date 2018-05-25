@@ -78,7 +78,9 @@ function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteNetwork,T2<:Bipartit
     bottom_combinations = combinations(species(N,2), richness(m,2))
     for top_species in top_combinations, bottom_species in bottom_combinations
         # TODO check if it's faster to slice the adjacency matrix directly
-        if N[top_species, bottom_species].A ∈ motif_permutations
+        sp1_pos = findin(species(N,1), top_species)
+        sp2_pos = findin(species(N,2), bottom_species)
+        if N.A[sp1_pos, sp2_pos] ∈ motif_permutations
             push!(matching_species, (top_species, bottom_species))
         end
     end

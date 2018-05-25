@@ -29,7 +29,7 @@ function mkbench(n, i)
         richness = richness(n),
         links = links(n),
         size = size(n),
-        unipartite = typoef(n) <: AbstractUnipartiteNetwork,
+        unipartite = typeof(n) <: AbstractUnipartiteNetwork,
         eta = bench(n, η, i),
         nodf = bench(n, nodf, i),
         spe = bench(n, specificity, i),
@@ -45,7 +45,7 @@ end
 
 ref_measure = mkbench(ref_net, 2)
 
-bench_test = web_of_life.(getfield.(filter(x -> x.Species <= 300, web_of_life()), :ID))
+bench_test = web_of_life.(getfield.(filter(x -> x.Species <= 500, web_of_life()), :ID))
 bench_test = convert.(BinaryNetwork, bench_test)
 
 bench_results = NamedTuple[]
