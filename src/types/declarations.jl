@@ -50,9 +50,14 @@ end
 TODO
 """
 struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
-  A::Array{IT,2}
-  T::Array{NT,1}
-  B::Array{NT,1}
+  A::Matrix{IT}
+  T::Vector{NT}
+  B::Vector{NT}
+  function BipartiteProbabilisticNetwork{IT, NT}(A::Matrix{IT}, T::Vector{NT}, B::Vector{NT}) where {IT<:AbstractFloat, NT<:AllowedSpeciesTypes}
+    check_bipartiteness(A, T, B)
+    check_probability_values(A)
+    new{IT,NT}(A, T, B)
+  end
 end
 
 """

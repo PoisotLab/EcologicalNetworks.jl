@@ -22,6 +22,19 @@ function BipartiteNetwork(A::M, T::Vector{NT}, B::Vector{NT}) where {M<:Abstract
   BipartiteNetwork{eltype(T)}(A, T, B)
 end
 
+function BipartiteProbabilisticNetwork(A::Matrix{IT}) where {IT<:AbstractFloat}
+  check_bipartiteness(A)
+  check_probability_values(A)
+  T = "t".*string.(1:size(A,1))
+  B = "b".*string.(1:size(A,2))
+  BipartiteProbabilisticNetwork{IT,eltype(T)}(A, T, B)
+end
+
+function BipartiteProbabilisticNetwork(A::Matrix{IT}, T::Vector{NT}, B::Vector{NT}) where {IT<:AbstractFloat, NT<:AllowedSpeciesTypes}
+  check_bipartiteness(A, T, B)
+  check_probability_values(A)
+  BipartiteProbabilisticNetwork{IT,NT}(A, T, B)
+end
 
 
 
@@ -60,18 +73,4 @@ end
 function BipartiteQuantitativeNetwork{IT<:Number,NT<:AllowedSpeciesTypes}(A::Array{IT,2}, T::Array{NT,1}, B::Array{NT,1})
   check_bipartiteness(A, T, B)
   BipartiteQuantitativeNetwork{eltype(A),eltype(T)}(A, T, B)
-end
-
-function BipartiteProbabilisticNetwork{IT<:AbstractFloat}(A::Array{IT,2})
-  check_bipartiteness(A)
-  check_probability_values(A)
-  T = "t".*string.(1:size(A,1))
-  B = "b".*string.(1:size(A,2))
-  BipartiteProbabilisticNetwork{eltype(A),eltype(T)}(A, T, B)
-end
-
-function BipartiteProbabilisticNetwork{IT<:AbstractFloat,NT<:AllowedSpeciesTypes}(A::Array{IT,2}, T::Array{NT,1}, B::Array{NT,1})
-  check_bipartiteness(A, T, B)
-  check_probability_values(A)
-  BipartiteProbabilisticNetwork{eltype(A),eltype(T)}(A, T, B)
 end
