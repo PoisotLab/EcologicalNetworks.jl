@@ -11,10 +11,10 @@ using EcologicalNetwork
 
     N = BipartiteProbabilisticNetwork(eye(Float64, 50))
     modules = brim(lp(N)...)
-    @test Q(modules...) ≈ 0.5
+    @test Q(modules...) > 0.95
 
     N = BipartiteNetwork(eye(Bool, 50))
     modules = brim(lp(N)...)
-    @test Q(modules...) ≈ 0.5
+    @test Q(modules...) > 0.95
 
 end
