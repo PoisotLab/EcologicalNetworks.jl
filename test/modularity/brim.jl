@@ -9,8 +9,12 @@ using EcologicalNetwork
     @test Q(m...) ≈ 0.5 atol = 0.3
     @test Qr(m...) ≈ 0.5 atol = 0.3
 
-    N = BipartiteProbabilisticNetwork(eye(Float64, (10, 10)))
+    N = BipartiteProbabilisticNetwork(eye(Float64, 50))
     modules = brim(lp(N)...)
-    @test Q(modules) ≈ 0.5
+    @test Q(modules...) ≈ 0.5
+
+    N = BipartiteNetwork(eye(Bool, 50))
+    modules = brim(lp(N)...)
+    @test Q(modules...) ≈ 0.5
 
 end
