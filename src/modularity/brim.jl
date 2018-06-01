@@ -26,7 +26,11 @@ function brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E<:A
     T[sj,L[species(N,2)[sj]]] = 1
   end
 
-  B = N.A .- null2(N).A
+  d_in, d_out = degree(N, 2), degree(N, 1)
+  s_d_in = [d_in[s] for s in species(N, 2)]
+  s_d_out = [d_out[s] for s in species(N, 1)]
+  P = kron(s_d_out, s_d_in')./m
+  B = N.A .- P
 
   while old_Q < new_Q
 
