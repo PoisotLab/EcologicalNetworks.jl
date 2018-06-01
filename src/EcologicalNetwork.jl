@@ -9,6 +9,9 @@ using NamedTuples
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
 
+# Tests to define what can be used in base types
+include(joinpath(".", "misc/init_tests.jl"))
+
 # Types
 include(joinpath(".", "types/declarations.jl"))
 include(joinpath(".", "types/constructors.jl"))

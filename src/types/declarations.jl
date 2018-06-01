@@ -24,18 +24,26 @@ AllowedSpeciesTypes = Union{String,Symbol}
 """
 A bipartite deterministic network is a two-dimensional array of boolean values.
 """
-struct BipartiteNetwork{ST<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
-  A::AbstractMatrix{Bool}
-  T::Array{ST,1}
-  B::Array{ST,1}
+struct BipartiteNetwork{T<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
+  A::Matrix{Bool}
+  T::Vector{T}
+  B::Vector{T}
+  function BipartiteNetwork{NT}(A::M, T::Vector{NT}, B::Vector{NT}) where {M<:AbstractMatrix{Bool}, NT<:AllowedSpeciesTypes}
+    check_bipartiteness(A, T, B)
+    new{NT}(A, T, B)
+  end
 end
 
 """
 An unipartite deterministic network.
 """
-struct UnipartiteNetwork{NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
-  A::AbstractMatrix{Bool}
-  S::Array{NT,1}
+struct UnipartiteNetwork{T<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
+  A::Matrix{Bool}
+  S::Vector{T}
+  function UnipartiteNetwork{NT}(A::M, S::Vector{NT}) where {M<:AbstractMatrix{Bool}, NT<:AllowedSpeciesTypes}
+    check_unipartiteness(A, S)
+    new{NT}(A, S)
+  end
 end
 
 """
