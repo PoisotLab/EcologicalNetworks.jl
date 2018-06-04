@@ -64,25 +64,38 @@ end
 TODO
 """
 struct BipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
-  A::Array{IT,2}
-  T::Array{NT,1}
-  B::Array{NT,1}
+  A::Matrix{IT}
+  T::Vector{NT}
+  B::Vector{NT}
+  function BipartiteQuantitativeNetwork{IT, NT}(A::Matrix{IT}, T::Vector{NT}, B::Vector{NT}) where {IT<:Number, NT<:AllowedSpeciesTypes}
+    check_bipartiteness(A, T, B)
+    new{IT,NT}(A, T, B)
+  end
 end
 
 """
 TODO
 """
 struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
-  A::Array{IT,2}
-  S::Array{NT,1}
+  A::Matrix{IT}
+  S::Vector{NT}
+  function UnipartiteProbabilisticNetwork{IT, NT}(A::Matrix{IT}, S::Vector{NT}) where {IT<:AbstractFloat,NT<:AllowedSpeciesTypes}
+    check_unipartiteness(A, S)
+    check_probability_values(A)
+    new{IT,NT}(A, S)
+  end
 end
 
 """
 TODO
 """
 struct UnipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
-  A::Array{IT,2}
-  S::Array{NT,1}
+  A::Matrix{IT}
+  S::Vector{NT}
+  function UnipartiteQuantitativeNetwork{IT, NT}(A::Matrix{IT}, S::Vector{NT}) where {IT<:Number,NT<:AllowedSpeciesTypes}
+    check_unipartiteness(A, S)
+    new{IT,NT}(A, S)
+  end
 end
 
 """
