@@ -83,7 +83,7 @@ selected constraint) *of every species*.
 This function will take `number_of_swaps` (`1000`) interactions, swap them, and
 return a copy of the network.
 """
-function shuffle(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000, size_of_swap=(3,3))
+function shuffle(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000)
     @assert constraint ∈ [:degree, :generality, :vulnerability, :fill]
     @assert number_of_swaps > 0
 

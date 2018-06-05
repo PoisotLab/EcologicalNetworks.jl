@@ -2,40 +2,38 @@ module TestSwaps
   using Base.Test
   using EcologicalNetwork
 
-  # test the swap function
-  a = BipartiteNetwork([true true false; false true false; true true true])
-  b = shuffle(a, constraint=:degree)
-  @test links(b) == links(a)
-  @test degree(b) == degree(a)
+  N = convert(BinaryNetwork, web_of_life("A_HP_001"))
+  Ud = shuffle(N; number_of_swaps=10, constraint=:degree)
+  Uf = shuffle(N; number_of_swaps=10, constraint=:fill)
+  Ui = shuffle(N; number_of_swaps=10, constraint=:vulnerability)
+  Uo = shuffle(N; number_of_swaps=10, constraint=:generality)
 
-  # test the swap function
-  a = UnipartiteNetwork([true true false; false true false; true true true])
-  b = shuffle(a, constraint=:degree)
-  @test links(b) == links(a)
-  @test degree(b) == degree(a)
+  @test links(N) == links(Ud)
+  @test links(N) == links(Uf)
+  @test links(N) == links(Ui)
+  @test links(N) == links(Uo)
 
-  a = UnipartiteNetwork([true true false; false true false; true true true])
-  b = shuffle(a, constraint=:degree)
-  @test links(b) == links(a)
-  @test degree(b) == degree(a)
+  @test degree(N) == degree(Ud)
+  @test degree(N,1) == degree(Ud,1)
+  @test degree(N,2) == degree(Ud,2)
+  @test degree(N,1) == degree(Uo,1)
+  @test degree(N,2) == degree(Ui,2)
 
-  a = UnipartiteNetwork([true true false; false true false; true true true])
-  b = shuffle(a, constraint=:degree)
-  @test links(b) == links(a)
-  @test degree(b) == degree(a)
+  N = convert(BinaryNetwork, nz_stream_foodweb()[1])
+  Ud = shuffle(N; number_of_swaps=10, constraint=:degree)
+  Uf = shuffle(N; number_of_swaps=10, constraint=:fill)
+  Ui = shuffle(N; number_of_swaps=10, constraint=:vulnerability)
+  Uo = shuffle(N; number_of_swaps=10, constraint=:generality)
 
-  a = UnipartiteNetwork([true true false; false true false; true true true])#
-  b = shuffle(a, constraint=:fill)
-  @test links(b) == links(a)
+  @test links(N) == links(Ud)
+  @test links(N) == links(Uf)
+  @test links(N) == links(Ui)
+  @test links(N) == links(Uo)
 
-  a = UnipartiteNetwork([true true false; false true false; true true true])
-  b = shuffle(a, constraint=:vulnerability)
-  @test links(b) == links(a)
-  @test degree(b,2) == degree(a,2)
-
-  a = UnipartiteNetwork([true true false; false true false; true true true])
-  b = shuffle(a, constraint=:generality)
-  @test links(b) == links(a)
-  @test degree(b,1) == degree(a,1)
+  @test degree(N) == degree(Ud)
+  @test degree(N,1) == degree(Ud,1)
+  @test degree(N,2) == degree(Ud,2)
+  @test degree(N,1) == degree(Uo,1)
+  @test degree(N,2) == degree(Ui,2)
 
 end
