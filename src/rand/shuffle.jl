@@ -1,14 +1,4 @@
-using Revise # To avoid reloading the session while we test things
-include("./src/EcologicalNetwork.jl")
-using EcologicalNetwork
-using StatsBase
-using NamedTuples
-using Combinatorics
-using Base.Test
-
-N = web_of_life("A_HP_002")
-#N = nz_stream_foodweb()[1]
-N = convert(BinaryNetwork, N)
+import Base.shuffle
 
 function swap_degree!(Y::BinaryNetwork)
     iy = interactions(Y)
@@ -43,7 +33,7 @@ function swap_fill!(Y::BinaryNetwork)
     end
 end
 
-function swap_indegree!(Y::BinaryNetwork)
+function swap_vulnerability!(Y::BinaryNetwork)
     iy = interactions(Y)
     i1 = sample(iy)
     n1 = @NT(from=sample(species(Y,1)), to=i1.to)
@@ -59,7 +49,7 @@ function swap_indegree!(Y::BinaryNetwork)
     end
 end
 
-function swap_outdegree!(Y::BinaryNetwork)
+function swap_generality!(Y::BinaryNetwork)
     iy = interactions(Y)
     i1 = sample(iy)
     n1 = @NT(from=i1.from, to=sample(species(Y,2)))
@@ -75,43 +65,46 @@ function swap_outdegree!(Y::BinaryNetwork)
     end
 end
 
-m = BipartiteNetwork([true false; true true])
-f(n) = length(find_motif(n, m))
 
-Yd = copy(N)
-Yf = copy(N)
-Yi = copy(N)
-Yo = copy(N)
-ts, st = 50, 10
-nd = zeros(ts)
-nf = zeros(ts)
-ni = zeros(ts)
-no = zeros(ts)
-nd[1] = f(Yd)
-nf[1] = f(Yf)
-ni[1] = f(Yi)
-no[1] = f(Yo)
-@progress for i in 2:ts
-    for re in 1:st
-        swap_degree!(Yd)
-        swap_fill!(Yf)
-        swap_indegree!(Yi)
-        swap_outdegree!(Yo)
+"""
+    shuffle(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000)
+
+Returns a new network with its interactions shuffled under a given constraint.
+The possible constraints are:
+
+- `:degree`, which keeps the degree distribution intact
+- `:generality`, which keeps the out-degree distribution intact
+- `:vulnerability`, which keeps the in-degree distribution intact
+- `:fill`, which moves interactions around freely
+
+Note that this function will conserve the degree (when appropriate under the
+selected constraint) *of every species*.
+
+This function will take `number_of_swaps` (`1000`) interactions, swap them, and
+return a copy of the network.
+"""
+function shuffle(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000, size_of_swap=(3,3))
+    @assert constraint ∈ [:degree, :generality, :vulnerability, :fill]
+    @assert number_of_swaps > 0
+
+    Y = copy(N)
+
+    f = EcologicalNetwork.swap_degree!
+    if constraint == :generality
+        f = EcologicalNetwork.swap_generality!
     end
-    nd[i] = f(Yd)
-    nf[i] = f(Yf)
-    ni[i] = f(Yi)
-    no[i] = f(Yo)
+    if constraint == :vulnerability
+        f = EcologicalNetwork.swap_vulnerability!
+    end
+    if constraint == :fill
+        f = EcologicalNetwork.swap_fill!
+    end
+
+    # Test a matrix
+    for swap_number in 1:number_of_swaps
+        f(Y)
+    end
+
+    return Y
+
 end
-
-z(x) = (x .- x[i])./std(x)
-
-using Plots
-x = collect(1:ts).*st
-p1 = plot(x, z(nd), lab="Degree", c=:blue, alpha=0.4)
-p2 = plot(x, z(nf), lab="Fill", c=:green, alpha=0.4)
-p3 = plot(x, z(ni), lab="In-degree", c=:purple, alpha=0.4)
-p4 = plot(x, z(no), lab="Out-degree", c=:orange, alpha=0.4)
-
-plot((p1,p2,p3,p4)..., frame=:origin, leg=false)
-yaxis!((-4,4))

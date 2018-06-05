@@ -14,7 +14,7 @@ my_tests = [
    "links/connectance.jl",
    "links/degenerate.jl",
    "rand/draws.jl",
-   "rand/swaps.jl",
+   "rand/shuffle.jl",
    "rand/null.jl",
    "community/nestedness.jl",
    "community/paths.jl",
