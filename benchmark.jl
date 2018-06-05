@@ -43,10 +43,11 @@ function mkbench(n, i)
     )
 end
 
-ref_measure = mkbench(ref_net, 2)
+@time ref_measure = mkbench(ref_net, 2)
 
 bench_test = web_of_life.(getfield.(filter(x -> x.Species <= 500, web_of_life()), :ID))
 bench_test = convert.(BinaryNetwork, bench_test)
+bench_test = sample(bench_test, 50, replace=false)
 
 bench_results = NamedTuple[]
 @progress for test_net in bench_test

@@ -79,12 +79,13 @@ function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteNetwork,T2<:Bipartit
     # Positions of species (they don't change!)
     p1 = Dict(zip(species(N, 1), 1:richness(N, 1)))
     p2 = Dict(zip(species(N, 2), 1:richness(N, 2)))
-    for top_species in top_combinations, bottom_species in bottom_combinations
-        # Get the positions from the dictionaries
+    for top_species in top_combinations
         sp1_pos = [p1[s] for s in top_species]
-        sp2_pos = [p2[s] for s in bottom_species]
-        if N.A[sp1_pos, sp2_pos] ∈ motif_permutations
-            push!(matching_species, (top_species, bottom_species))
+        for bottom_species in bottom_combinations
+            sp2_pos = [p2[s] for s in bottom_species]
+            if N.A[sp1_pos, sp2_pos] ∈ motif_permutations
+                push!(matching_species, (top_species, bottom_species))
+            end
         end
     end
     return matching_species
