@@ -45,9 +45,8 @@ end
 
 @time ref_measure = mkbench(ref_net, 2)
 
-bench_test = web_of_life.(getfield.(filter(x -> x.Species <= 500, web_of_life()), :ID))
+bench_test = web_of_life.(getfield.(filter(x -> x.Species <= 210, web_of_life()), :ID))
 bench_test = convert.(BinaryNetwork, bench_test)
-bench_test = sample(bench_test, 50, replace=false)
 
 bench_results = NamedTuple[]
 @progress for test_net in bench_test
@@ -78,9 +77,9 @@ for (field, field_name) in fields
     p3 = @df bv scatter(:ld, select(bv, field), zcolor=:richness, c=:viridis, legend=:bottomright, leg=false)
     p4 = @df bv scatter(:co, select(bv, field), zcolor=:richness, c=:viridis, legend=:bottomright, leg=false)
     yaxis!(p1, "Time (s)", :log10)
-    xaxis!(p1, "Links")
+    xaxis!(p1, "Links", :log10)
     yaxis!(p2, "Time (s)", :log10)
-    xaxis!(p2, "Richness")
+    xaxis!(p2, "Richness", :log10)
     yaxis!(p3, "Time (s)", :log10)
     xaxis!(p3, "Link density")
     yaxis!(p4, "Time (s)", :log10)
