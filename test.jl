@@ -16,7 +16,16 @@ m_bicl = BipartiteNetwork([true true; true true])
 
 f(n,m) = length(find_motif(n,m))
 
+a = BipartiteNetwork(rand(Bool, (50,60)))
 Profile.clear()
-@time f(N, m_null)
-@profile f(N, m_null)
+@time f(a, m_null)
+@profile f(a, m_null)
+Juno.profiler()
+
+
+N = nz_stream_foodweb()[1]
+Profile.clear()
+@time foodweb_layout(N, steps=300)
+@time foodweb_layout(N, steps=300)
+@profile foodweb_layout(N, steps=300)
 Juno.profiler()
