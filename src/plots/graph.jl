@@ -120,7 +120,6 @@ function graph_network_plot{T<:AbstractEcologicalNetwork}(N::T, nodes; filename=
         s => Point(((nodes[s][:x] - mx)/(Mx-mx) * 2.0 - 1.0) * r, ((nodes[s][:y] - my)/(My-my) * 2.0 - 1.0) * r) for s in species(N)
     ])
 
-
     Drawing(1360, 1360, filename)
     setfont(fontname, fontsize)
     origin()

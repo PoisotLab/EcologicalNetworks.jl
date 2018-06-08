@@ -29,5 +29,3 @@ Profile.clear()
 @time graph_layout(N, steps=300)
 @profile graph_layout(N, steps=300)
 Juno.profiler()
-
-graph_network_plot(simplify(web_of_life("A_HP_001")), steps=5000)
