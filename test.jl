@@ -25,7 +25,9 @@ Juno.profiler()
 
 N = nz_stream_foodweb()[1]
 Profile.clear()
-@time foodweb_layout(N, steps=300)
-@time foodweb_layout(N, steps=300)
-@profile foodweb_layout(N, steps=300)
+@time graph_layout(N, steps=300)
+@time graph_layout(N, steps=300)
+@profile graph_layout(N, steps=300)
 Juno.profiler()
+
+graph_network_plot(simplify(web_of_life("A_HP_001")), steps=5000)

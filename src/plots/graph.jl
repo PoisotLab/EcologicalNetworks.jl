@@ -30,11 +30,14 @@ function graph_layout(N, nodes; steps=15000, L=50.0, R=0.05)
     Ks = Kr/(R*L^3)
     max_squared_displacement = Δt*5.5
 
+    species_positions = Dict(zip(species(N), 1:richness(N)))
+
     for step in 1:steps
         # Repulsion between all pairs
         for s1_i in eachindex(species(N)[1:(end-1)])
+            s1 = species(N)[s1_i]
             for s2_i in (s1_i+1):richness(N)
-                s1, s2 = species(N)[[s1_i,s2_i]]
+                s2 = species(N)[s2_i]
                 dx = nodes[s1][:x] - nodes[s2][:x]
                 dy = nodes[s1][:y] - nodes[s2][:y]
                 if ((dx != 0.0) | (dy != 0.0))
@@ -52,10 +55,10 @@ function graph_layout(N, nodes; steps=15000, L=50.0, R=0.05)
         end
         # Attraction between connected pairs
         for s1 in species(N)
+            spos = species_positions[s1]
             if length(nodes[s1][:n]) > 0
                 for s2 in nodes[s1][:n]
-                    spos = first(find(species(N).==s1))
-                    s2pos = first(find(species(N).==s2))
+                    s2pos = species_positions[s2]
                     if spos < s2pos
                         dx = nodes[s1][:x] - nodes[s2][:x]
                         dy = nodes[s1][:y] - nodes[s2][:y]
