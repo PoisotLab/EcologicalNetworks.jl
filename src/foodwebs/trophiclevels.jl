@@ -15,10 +15,12 @@ function fractional_trophic_level(N::T) where {T<:UnipartiteNetwork}
     preys_of_current_rank = filter(s -> tl[s].==current_tl, species(Y))
     if length(preys_of_current_rank) > 0
       updated = true
-      for s in species(N,1)
+      for s in species(Y,1)
         for p in preys_of_current_rank
           if has_interaction(Y, s, p)
-            tl[s] = current_tl+1
+            if tl[s] < tl[p]
+              tl[s] = current_tl+1
+            end
           end
         end
       end
