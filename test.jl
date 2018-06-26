@@ -5,37 +5,31 @@ using StatsBase
 using NamedTuples
 using Combinatorics
 using Base.Test
+using StatPlots
 
 N = convert(BinaryNetwork, web_of_life("A_HP_001"))
 
-Profile.clear()
-@time shuffle(N, number_of_swaps=5)
-@profile shuffle(N, number_of_swaps=50)
-Juno.profiler()
-
-function interactions2(N::AbstractEcologicalNetwork)
-  edges_accumulator = NamedTuple[]
-  for s1 in species(N,1)
-    for s2 in species(N,2)
-      if has_interaction(N, s1, s2)
-        fields = [:from, :to]
-        values = Any[s1, s2]
-        if typeof(N) <: ProbabilisticNetwork
-          push!(fields, :probability)
-          push!(values, N[s1,s2])
-        end
-        if typeof(N) <: QuantitativeNetwork
-          push!(fields, :strength)
-          push!(values, N[s1,s2])
-        end
-        int_nt = NamedTuples.make_tuple(fields)(tuple(values...)...)
-        push!(edges_accumulator, int_nt)
-      end
-    end
-  end
-  return unique(edges_accumulator)
+n0 = nodf(N)
+stepsize = 5
+no = zeros(Float64, 8000)
+Y = copy(N)
+@progress for i in eachindex(no)
+  Y = shuffle(Y, number_of_swaps=stepsize)
+  no[i] = nodf(Y)
 end
 
-Profile.clear()
-@profile [interactions2(N) for i in 1:1000]
-Juno.profiler()
+nets = N |> null2 |> x -> rand(x, 100_000) .|> simplify
+filter!(x -> richness(x) == richness(N), nets)
+filter!(x -> links(x) == links(N), nets)
+np = nodf.(nets)
+ns = no[(end-500):end]
+
+density(ns, bins=30, lab="Swaps", frame=:ticks, c="#9a3a9f", lw=2, fill=("#9a3a9f", 0, 0.5), legend=:topleft)
+density!(np, bins=30, lab="Draws", c="#356637", lw=2, fill=("#356637", 0, 0.5))
+vline!([n0], lab="Observed", c="#333", ls=:dash, lw=3)
+yaxis!((0,30))
+
+
+scatter(no[2:end], no[1:(end-1)])
+xaxis!((0,1))
+yaxis!((0,1))
