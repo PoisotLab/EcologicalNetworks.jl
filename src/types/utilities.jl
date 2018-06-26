@@ -360,17 +360,21 @@ iterate over interactions in a network in a convenient way.
 """
 function interactions(N::AbstractEcologicalNetwork)
   edges_accumulator = NamedTuple[]
+  fields = [:from, :to]
+  if typeof(N) <: ProbabilisticNetwork
+    push!(fields, :probability)
+  end
+  if typeof(N) <: QuantitativeNetwork
+    push!(fields, :strength)
+  end
   for s1 in species(N,1)
     for s2 in species(N,2)
       if has_interaction(N, s1, s2)
-        fields = [:from, :to]
         values = Any[s1, s2]
         if typeof(N) <: ProbabilisticNetwork
-          push!(fields, :probability)
           push!(values, N[s1,s2])
         end
         if typeof(N) <: QuantitativeNetwork
-          push!(fields, :strength)
           push!(values, N[s1,s2])
         end
         int_nt = NamedTuples.make_tuple(fields)(tuple(values...)...)
