@@ -9,10 +9,10 @@ module TestNestedness
     C = BipartiteProbabilisticNetwork([1.0 1.0 1.0; 1.0 0.1 0.3; 0.4 0.2 0.0])
     D = BipartiteProbabilisticNetwork([1.0 1.0 1.0; 0.0 0.1 1.0; 0.0 0.0 1.0])
 
-    @test η(A)[:network] ≈ 0.0
-    @test η(B)[:network] ≈ 1.0
-    @test η(C)[:network] ≈ 0.9153846153846155
-    @test η(D)[:network] ≈ 1.0
+    @test η(A) ≈ 0.0
+    @test η(B) ≈ 1.0
+    @test η(C) ≈ 0.9153846153846155
+    @test η(D) ≈ 1.0
 
     # Almeida-Neto original example
     AN = BipartiteNetwork([1 0 1 1 1; 1 1 1 0 0; 0 1 1 1 0; 1 1 0 0 0; 1 1 0 0 0].==1)

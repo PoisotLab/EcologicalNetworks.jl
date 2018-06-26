@@ -2,33 +2,41 @@
 Nestedness of a single axis (called internally by `η`)
 """
 function η_axis(N::AbstractBipartiteNetwork)
-  S = size(N)[1]
+  S = richness(N,1)
   n = vec(sum(N.A, 2))
   num = 0.0
   den = 0.0
   @simd for j in 2:S
     @simd for i in 1:(j-1)
       @inbounds num += sum(N[i,:].*N[j,:])
-      @inbounds den += minimum([n[i], n[j]])
+      @inbounds den += min(n[i], n[j])
     end
   end
   return sum(num ./ den)
 end
 
 """
-**Nestedness η of a matrix**
+    η(N::T) where {T <: Union{BipartiteNetwork, BipartiteProbaNetwork}}
 
-    η(N::Union{BipartiteNetwork, BipartiteProbaNetwork})
-
-This returns the nestedness of the entire matrix, of the columns, and of the
-rows.
+This returns the nestedness of the entire matrix.
 """
-function η(N::Union{BipartiteNetwork, BipartiteProbabilisticNetwork})
-  n_1 = η_axis(N')
-  n_2 = η_axis(N)
-  n = (n_1 + n_2)/2.0
-  return Dict(:network => n, :columns => n_1, :rows => n_2)
+function η(N::T) where {T <: Union{BipartiteNetwork, BipartiteProbabilisticNetwork}}
+  return (η(N,1) + η(N,2))/2.0
 end
+
+"""
+    η(N::T, i::Int64) where {T <: Union{BipartiteNetwork, BipartiteProbaNetwork}}
+
+Returns the nestedness of a margin of the network. The second argument can be
+`1` (for nestedness of rows/top level) or `2` (for nestedness of columns/bottom
+level).
+"""
+function η(N::T, i::Int64) where {T <: Union{BipartiteNetwork, BipartiteProbabilisticNetwork}}
+  @assert i ∈ [1,2]
+  return i == 1  ? η_axis(N) : η_axis(N')
+end
+
+
 
 """
 WNODF of a single axis
