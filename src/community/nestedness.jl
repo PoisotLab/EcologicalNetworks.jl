@@ -79,13 +79,14 @@ function nodf_axis(N::BipartiteNetwork)
   # Extract the ordered matrix as floating point values, so that all other
   # measures will work for both the quanti and deterministic networks
   A = N.A[row_order,:]
+  d = float(vec(sum(A,2)))
 
   # Initialize the value
   NODFr = 0.0
   for i in 1:(size(A, 1)-1)
     for j in (i+1):size(A, 1)
-      DFpaired = sum(A[j,:]) < sum(A[i,:]) ? 1.0 : 0.0
-      Npaired = sum(A[i,:] .& A[j,:]) / sum(A[j,:])
+      DFpaired = d[j] < d[i] ? 1.0 : 0.0
+      Npaired = sum(A[i,:] .& A[j,:]) / d[j]
       NODFr += (DFpaired * Npaired)
     end
   end
@@ -96,28 +97,33 @@ function nodf_axis(N::BipartiteNetwork)
 end
 
 """
-**Nestedness based on Overlap and Decreasing Fill**
-
     nodf(N::Union{BipartiteNetwork,BipartiteQuantiNetwork})
 
 If the network is quantitative, then *WNODF* is measured instead of *NODF*. Note
 that in *all* situations, the value goes between 0 (not nested) to 1 (perfectly
 nested). This is a change with regard to the original papers, in which the
-maximal value is 100. The values returned are the nestedness of the network, of
-the columns, and of the rows.
+maximal value is 100. The nestedness for the entire network is returned.
 """
-function nodf(N::Union{BipartiteNetwork,BipartiteQuantitativeNetwork})
+function nodf(N::T) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
 
-  NODFr = nodf_axis(N)
-  NODFc = nodf_axis(N')
+  return (nodf(N,1)+nodf(N,2))/2.0
+end
 
-  row_pair = (richness(N,1) * (richness(N,1) - 1))
-  col_pair = (richness(N,2) * (richness(N,2) - 1))
+"""
+    nodf(N::T, i::Int64)
 
-  return Dict(
-    :network => 2 * (NODFc + NODFr) / (row_pair + col_pair),
-    :columns => 2 * NODFc / col_pair,
-    :rows    => 2 * NODFr / row_pair
-    )
+If the network is quantitative, then *WNODF* is measured instead of *NODF*. Note
+that in *all* situations, the value goes between 0 (not nested) to 1 (perfectly
+nested). This is a change with regard to the original papers, in which the
+maximal value is 100. The second argument can be `1` (for nestedness of rows/top
+level) or `2` (for nestedness of columns/bottom level).
+"""
+function nodf(N::T, i::Int64) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
+
+  @assert i ∈ [1,2]
+  NODFval = i == 1 ? nodf_axis(N) : nodf_axis(N')
+  correction = i == 1 ? (richness(N,1) * (richness(N,1) - 1)) : (richness(N,2) * (richness(N,2) - 1))
+
+  return 2.0 * NODFval / float(correction)
 
 end
