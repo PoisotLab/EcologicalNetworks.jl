@@ -371,7 +371,7 @@ function interactions(N::AbstractEcologicalNetwork)
   sp2 = species(N,2)
   for i in eachindex(sp1)
     s1 = sp1[i]
-    for j in sp2
+    for j in eachindex(sp2)
       if has_interaction(N, i, j)
         values = Any[s1, sp2[j]]
         if typeof(N) <: ProbabilisticNetwork
