@@ -367,15 +367,18 @@ function interactions(N::AbstractEcologicalNetwork)
   if typeof(N) <: QuantitativeNetwork
     push!(fields, :strength)
   end
-  for s1 in species(N,1)
-    for s2 in species(N,2)
-      if has_interaction(N, s1, s2)
-        values = Any[s1, s2]
+  sp1 = species(N,1)
+  sp2 = species(N,2)
+  for i in eachindex(sp1)
+    s1 = sp1[i]
+    for j in sp2
+      if has_interaction(N, i, j)
+        values = Any[s1, sp2[j]]
         if typeof(N) <: ProbabilisticNetwork
-          push!(values, N[s1,s2])
+          push!(values, N[i,j])
         end
         if typeof(N) <: QuantitativeNetwork
-          push!(values, N[s1,s2])
+          push!(values, N[i,j])
         end
         int_nt = NamedTuples.make_tuple(fields)(tuple(values...)...)
         push!(edges_accumulator, int_nt)
