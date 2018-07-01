@@ -4,13 +4,8 @@ using EcologicalNetwork
 using StatsBase
 using NamedTuples
 using Combinatorics
-
-begin
-    using JuliaDB
-    using Base.Test
-    using Distributions
-    using Plots, StatPlots
-end
+using JuliaDB
+using StatPlots
 
 # Important for benchmark
 srand(2000)
@@ -22,6 +17,7 @@ end
 
 
 fm(x) = find_motif(x, BipartiteNetwork([true true; true false]))
+shuf(x) = shuffle(x, number_of_swaps=20)
 bench(N, f, i) = (@elapsed [f(N) for rep in 1:i])/i
 
 function mkbench(n, i)
@@ -39,13 +35,14 @@ function mkbench(n, i)
         mot = bench(n, fm, i),
         nl2 = bench(n, null2, i),
         deg = bench(n, degree, i),
-        con = bench(n, connectance, i)
+        con = bench(n, connectance, i),
+        shu = bench(n, shuf, i)
     )
 end
 
-@time ref_measure = mkbench(ref_net, 2)
+@time ref_measure = mkbench(ref_net, 10)
 
-bench_test = web_of_life.(getfield.(filter(x -> x.Species <= 210, web_of_life()), :ID))
+bench_test = web_of_life.(getfield.(filter(x -> x.Species <= 50, web_of_life()), :ID))
 bench_test = convert.(BinaryNetwork, bench_test)
 
 bench_results = NamedTuple[]
@@ -68,7 +65,8 @@ fields = Dict(
     :lnk => "links",
     :spe => "specificity",
     :lp => "label propagation",
-    :int => "interactions enum"
+    :int => "interactions enum",
+    :shu => "shuffle",
     )
 
 for (field, field_name) in fields
