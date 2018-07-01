@@ -3,7 +3,6 @@ module EcologicalNetwork
 # Dependencies
 using StatsBase
 using Combinatorics
-using Luxor
 using NamedTuples
 
 # Various utilities for probabilities
@@ -86,19 +85,6 @@ export n_random_modules, each_species_its_module
 include(joinpath(".", "modularity/brim.jl"))
 export brim
 
-#include(joinpath(".", "modularity/louvain.jl"))
-#export louvain
-
-# Plots
-include(joinpath(".", "plots/circular.jl"))
-export circular_layout, circular_network_plot
-
-include(joinpath(".", "plots/foodweb.jl"))
-export foodweb_layout
-
-include(joinpath(".", "plots/graph.jl"))
-export graph_layout, graph_network_plot
-
 # Beta-diversity
 include(joinpath(".", "betadiversity/operations.jl"))
 include(joinpath(".", "betadiversity/partitions.jl"))
@@ -114,16 +100,9 @@ include(joinpath(".", "foodwebs/trophiclevels.jl"))
 export fractional_trophic_level, trophic_level
 
 #=
-
 include(joinpath(".", "modularity/louvain.jl"))
 include(joinpath(".", "modularity/modularity.jl"))
 export modularity, networkroles
-=#
-
-#=
-trophic_level, foodweb_position
-
-# Food webs measures
 =#
 
 end
