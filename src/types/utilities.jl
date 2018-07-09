@@ -1,4 +1,17 @@
-import Base: getindex, transpose, size, copy, !, isless
+import Base: getindex, transpose, size, copy, !, isless, show
+
+"""
+    show(io::IO, N::AbstractEcologicalNetwork)
+"""
+function show(io::IO, N::AbstractEcologicalNetwork)
+  p = "unipartite"
+  p = typeof(N) <: AbstractBipartiteNetwork ? "bipartite" : p
+  t = ""
+  t = typeof(N) <: ProbabilisticNetwork ? "probabilistic" : t
+  t = typeof(N) <: QuantitativeNetwork ? "quantitative" : t
+  print(io, "$(richness(N,1))×$(richness(N,2)) $(p) $(t) ecological network $(eltype(N)) (L: $(links(N)))")
+end
+
 
 """
     species(N::AbstractUnipartiteNetwork)
