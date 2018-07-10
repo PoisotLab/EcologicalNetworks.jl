@@ -77,7 +77,7 @@ include(joinpath(".", "modularity/utilities.jl"))
 export Q, Qr, n_random_modules
 
 include(joinpath(".", "modularity/labelpropagation.jl"))
-export lp
+export lp, salp
 
 include(joinpath(".", "modularity/starters.jl"))
 export n_random_modules, each_species_its_module

@@ -40,4 +40,5 @@ lp
 
 ```@docs
 brim
+salp
 ```
