@@ -20,23 +20,13 @@ function centrality_katz(N::Union{UnipartiteNetwork, UnipartiteProbabilisticNetw
 end
 
 """
-**Closeness centrality**
-
     centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
-
-Closeness centrality is defined as:
-
-``C_{c}(i) = \\sum_j \\left( \\frac{n-1}{d_{ji}} \\right)``
-
-where ``\mathbf{d}`` is a matrix containing the lengths of the shortest paths
-between all pairs of species, and ``n`` is the number of species.
 
 The function calls `shortest_path` internally -- the `nmax` argument is the
 maximal path length that wil be tried.
 
 > Bavelas, A., 1950. Communication Patterns in Task‐Oriented Groups. The Journal
 > of the Acoustical Society of America 22, 725–730. doi:10.1121/1.1906679
-
 """
 function centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
   d = shortest_path(N, nmax=nmax)
@@ -58,9 +48,6 @@ end
 
 Degree centrality, corrected by the maximum degree (the most central species has
 a degree of 1).
-
-``C_{d}(i) = k_i / \\text{max}(\\mathbf{k})``
-
 """
 function centrality_degree(N::UnipartiteNetwork)
   d = degree(N)
