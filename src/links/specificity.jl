@@ -12,7 +12,7 @@ a value of one. This works for deterministic and quantitative networks.
 > 537–544. doi:10.1111/j.2041-210X.2011.00174.x
 
 """
-function pdi{T<:Number}(x::Array{T, 1})
+function pdi(x::Vector{T}) where {T<:Number}
     s = reverse(sort(x))
     s = s ./ maximum(s)
     p = s[1] .- s

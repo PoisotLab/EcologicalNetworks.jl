@@ -14,7 +14,7 @@ end
 
 Returns a new network in which species with no interactions have been removed.
 """
-function simplify{T<:AbstractBipartiteNetwork}(N::T)
+function simplify(N::T) where {T<:AbstractBipartiteNetwork}
     d = degree(N)
     new_t = filter(s -> d[s]>0, species(N,1))
     new_b = filter(s -> d[s]>0, species(N,2))
@@ -26,7 +26,7 @@ end
 
 Returns a new network in which species with no interactions have been removed.
 """
-function simplify{T<:AbstractUnipartiteNetwork}(N::T)
+function simplify(N::T) where {T<:AbstractUnipartiteNetwork}
     d = degree(N)
     new_s = filter(s -> d[s]>0, species(N))
     return N[new_s]

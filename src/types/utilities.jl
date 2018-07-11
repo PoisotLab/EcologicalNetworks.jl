@@ -96,7 +96,7 @@ for the presence of an interaction.
 
 Use `N[i,j]` if you need to get the value of the interaction.
 """
-function has_interaction{NT<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, i::NT, j::NT)
+function has_interaction(N::AbstractEcologicalNetwork, i::NT, j::NT) where {NT<:AllowedSpeciesTypes}
   @assert i ∈ species(N, 1)
   @assert j ∈ species(N, 2)
   i_pos = findin(species(N,1),[i])[1]
@@ -106,16 +106,25 @@ end
 
 
 """
+    nodiagonal!(N::AbstractUnipartiteNetwork)
+
+Modifies the network so that its diagonal is set to the appropriate zero.
+"""
+function nodiagonal!(N::AbstractUnipartiteNetwork)
+  for i in 1:size(x,1)
+    N.A[i,i] = zero(eltype(x))
+  end
+end
+
+"""
     nodiagonal(N::AbstractUnipartiteNetwork)
 
-Returns a *copy* of the network with its diagonal set to the appropriate zero.
+Returns a copy of the network with its diagonal set to zero.
 """
 function nodiagonal(N::AbstractUnipartiteNetwork)
-  x = N.A
-  for i in 1:size(x,1)
-    x[i,i] = zero(eltype(x))
-  end
-  return typeof(N)(x, N.S)
+  Y = copy(N)
+  nodiagonal!(Y)
+  return Y
 end
 
 
@@ -217,7 +226,7 @@ unipartite.
 The network which is returned by this function may not have the species in the
 order specified by the user for performance reasons.
 """
-function getindex{T<:AllowedSpeciesTypes}(N::AbstractUnipartiteNetwork, sp::Array{T})
+function getindex(N::AbstractUnipartiteNetwork, sp::Vector{T}) where {T<:AllowedSpeciesTypes}
   @assert all(map(x -> x ∈ species(N), sp))
   sp_pos = findin(species(N), sp)
   n_sp = species(N)[sp_pos]
@@ -231,7 +240,7 @@ end
 
 TODO
 """
-function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, ::Colon, sp::Array{T})
+function getindex(N::AbstractBipartiteNetwork, ::Colon, sp::Vector{T}) where {T<:AllowedSpeciesTypes}
   @assert all(map(x -> x ∈ species(N,2), sp))
   sp_pos = findin(species(N,2), sp)
   n_t = N.T
