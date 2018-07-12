@@ -83,7 +83,7 @@ function KGL19(S::T) where {T<:NamedTuple}
 end
 
 function KGL20(S::T) where {T<:NamedTuple}
-  return 1 - (2*S.a)/(2*Sa.+S.b+S.c)
+  return 1 - (2*S.a)/(2*S.a.+S.b+S.c)
 end
 
 function KGL21(S::T) where {T<:NamedTuple}
