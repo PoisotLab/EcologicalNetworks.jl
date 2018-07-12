@@ -8,8 +8,6 @@ A = [
   ]
 B = BipartiteNetwork(A)
 U = convert(AbstractUnipartiteNetwork, B)
-mb = lp(B)
-mu = lp(U)
 
 @test maximum([Q(lp(B)...) for i in 1:10]) ≤ 0.5
 @test maximum([Q(lp(U)...) for i in 1:10]) ≤ 0.5
@@ -18,5 +16,8 @@ mu = lp(U)
 
 @test length(unique(collect(values(mb[2])))) ∈ [2, 3]
 @test length(unique(collect(values(mu[2])))) ∈ [2, 3]
+
+n, m = salp(U; steps=2_000)
+@test Q(n, m) > 0.0
 
 end
