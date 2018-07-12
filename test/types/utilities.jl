@@ -112,6 +112,11 @@ N[1,1] = true
 @test links(N) == 1
 N["t1", "b2"] = true
 @test links(N) == 2
+nodiagonal!(N)
+@test links(N) == 2
 
+# Interactions
+interactions(BipartiteQuantitativeNetwork(rand((3,5))))
+interactions(BipartiteProbabilisticNetwork(rand((3,5))))
 
 end
