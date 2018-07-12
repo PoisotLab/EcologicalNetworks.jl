@@ -111,8 +111,8 @@ end
 Modifies the network so that its diagonal is set to the appropriate zero.
 """
 function nodiagonal!(N::AbstractUnipartiteNetwork)
-  for i in 1:size(x,1)
-    N.A[i,i] = zero(eltype(x))
+  for i in 1:richness(N)
+    N.A[i,i] = zero(eltype(N.A))
   end
 end
 
@@ -138,6 +138,14 @@ diagonal.
 """
 function nodiagonal(N::AbstractBipartiteNetwork)
   return copy(N)
+end
+
+"""
+    nodiagonal!(N::AbstractBipartiteNetwork)
+
+Does nothing.
+"""
+function nodiagonal!(N::AbstractBipartiteNetwork)
 end
 
 
