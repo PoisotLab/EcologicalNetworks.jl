@@ -34,4 +34,10 @@ module TestBetaDivOperations
   @test richness(intersect(A, B)) == 0
   @test links(intersect(A, B)) == 0
 
+  for m in [KGL01, KGL02, KGL03, KGL04, KGL05, KGL06, KGL07, KGL08, KGL09, KGL10,
+      KGL11, KGL12, KGL13, KGL14, KGL15, KGL16, KGL17, KGL18, KGL19, KGL20, KGL21,
+      KGL22, KGL23, KGL24]
+      m(βos(A, B))
+  end
+
 end
