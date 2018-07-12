@@ -16,7 +16,7 @@ mu = lp(U)
 @test maximum([Qr(lp(B)...) for i in 1:10]) ≤ 1.0
 @test maximum([Qr(lp(U)...) for i in 1:10]) ≤ 1.0
 
-@test length(unique(collect(values(mb[2])))) == 2
-@test length(unique(collect(values(mu[2])))) == 2
+@test length(unique(collect(values(mb[2])))) ∈ [2, 3]
+@test length(unique(collect(values(mu[2])))) ∈ [2, 3]
 
 end
