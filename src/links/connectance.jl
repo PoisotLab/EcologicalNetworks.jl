@@ -65,17 +65,6 @@ function connectance(N::AbstractEcologicalNetwork)
 end
 
 """
-    connectance(N::QuantitativeNetwork)
-
-Connectance of a quantitative network -- the information on link weight is
-ignored.
-"""
-function connectance(N::QuantitativeNetwork)
-    A = typeof(N) <: AbstractUnipartiteNetwork ? convert(UnipartiteNetwork, N) : convert(BipartiteNetwork, N)
-    return connectance(A)
-end
-
-"""
     linkage_density(N::AbstractEcologicalNetwork)
 
 Number of links divided by species richness.

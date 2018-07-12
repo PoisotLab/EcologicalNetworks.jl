@@ -44,7 +44,7 @@ parameter is the "margin" of the network, where `1` is species from the top, and
 `2` is species from the bottom layer.
 """
 function species(N::AbstractBipartiteNetwork, i::Int64)
-  @assert i ∈ [1,2]
+  @assert (i == 1) || (i == 2)
   return i == 1 ? N.T : N.B
 end
 

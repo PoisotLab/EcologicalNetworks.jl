@@ -29,9 +29,9 @@ function degree(N::AbstractUnipartiteNetwork)
 end
 
 function degree(N::AbstractEcologicalNetwork, i::Integer)
-  @assert i ∈ [1,2]
-  f = i == 1 ? degree_out : degree_in
-  return f(N)
+  i == 1 && return degree_out(N)
+  i == 2 && return degree_in(N)
+  throw(ArgumentError("i can only be 1 (out-degre) or 2 (in-degree), you used $(i)"))
 end
 
 function degree(N::QuantitativeNetwork, i::Integer)
