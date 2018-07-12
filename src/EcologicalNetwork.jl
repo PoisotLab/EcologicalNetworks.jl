@@ -53,6 +53,7 @@ export isdegenerate, simplify, simplify!
 # Random networks and permutations
 include(joinpath(".", "rand/draws.jl"))
 include(joinpath(".", "rand/sample.jl"))
+export sample
 include(joinpath(".", "rand/shuffle.jl"))
 include(joinpath(".", "rand/null.jl"))
 export null1, null2, null3out, null3in

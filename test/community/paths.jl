@@ -13,7 +13,7 @@ module TestPaths
   @test P[2,2] ≈ 0.66
 
   m = rand([0,1], (4,5))
-  U = UnipartiteNetwork(m)
+  U = UnipartiteQuantitativeNetwork(m)
   @test number_of_paths(U) == number_of_paths(UnipartiteNetwork(m.>0))
 
 end
