@@ -20,6 +20,7 @@ my_tests = [
    "community/paths.jl",
    "community/centrality.jl",
    "community/motifs.jl",
+   "community/foodwebs.jl",
    "betadiversity/operations.jl",
    "betadiversity/partitions.jl",
    "modularity/utilities.jl",
