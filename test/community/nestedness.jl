@@ -13,6 +13,7 @@ module TestNestedness
     @test η(B) ≈ 1.0
     @test η(C) ≈ 0.9153846153846155
     @test η(D) ≈ 1.0
+    @test_throws ArgumentError η(D, 3)
 
     # Almeida-Neto original example
     AN = BipartiteNetwork([1 0 1 1 1; 1 1 1 0 0; 0 1 1 1 0; 1 1 0 0 0; 1 1 0 0 0].==1)

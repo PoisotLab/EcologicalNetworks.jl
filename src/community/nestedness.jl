@@ -32,8 +32,9 @@ Returns the nestedness of a margin of the network. The second argument can be
 level).
 """
 function η(N::T, i::Int64) where {T <: Union{BipartiteNetwork, BipartiteProbabilisticNetwork}}
-  @assert i ∈ [1,2]
-  return i == 1  ? η_axis(N) : η_axis(N')
+  i == 1 && return η_axis(N)
+  i == 2 && return η_axis(N')
+  throw(ArgumentError("i can only be 1 (nestedness of rows) or 2 (nestedness of columns), you used $(i)"))
 end
 
 
@@ -113,7 +114,6 @@ nested). This is a change with regard to the original papers, in which the
 maximal value is 100. The nestedness for the entire network is returned.
 """
 function nodf(N::T) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
-
   return (nodf(N,1)+nodf(N,2))/2.0
 end
 
