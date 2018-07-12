@@ -1,4 +1,4 @@
-import Base: getindex, transpose, size, copy, !, isless, show
+import Base: getindex, setindex!, transpose, size, copy, !, isless, show
 
 """
     show(io::IO, N::AbstractEcologicalNetwork)
@@ -287,6 +287,34 @@ function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Arra
   n_b = N.B[sp2_pos]
   n_int = N.A[sp1_pos,sp2_pos]
   return typeof(N)(n_int, n_t, n_b)
+end
+
+"""
+    setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E <: AllowedSpeciesTypes}
+
+Changes the value of the interaction at the specificied position, where `i` and
+`j` are species *names*. Note that this operation **changes the network**.
+"""
+function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E <: AllowedSpeciesTypes}
+  @assert typeof(A) <: first(eltype(N))
+  @assert i ∈ species(N, 1)
+  @assert j ∈ species(N, 2)
+  i_pos = findin(species(N,1),[i])[1]
+  j_pos = findin(species(N,2),[j])[1]
+  N.A[i_pos, j_pos] = A
+end
+
+"""
+    setindex!(N::T, A::K, i::E, j::E) where {T <: AbstractEcologicalNetwork, K <: first(eltype(N)), E <: Int}
+
+Changes the value of the interaction at the specificied position, where `i` and
+`j` are species *positions*. Note that this operation **changes the network**.
+"""
+function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E <: Int}
+  @assert typeof(A) <: first(eltype(N))
+  @assert i ≤ richness(N,1)
+  @assert j ≤ richness(N,2)
+  N.A[i, j] = A
 end
 
 
