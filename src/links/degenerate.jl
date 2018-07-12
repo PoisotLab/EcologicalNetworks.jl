@@ -15,30 +15,45 @@ end
 Returns a new network in which species with no interactions have been removed.
 """
 function simplify(N::T) where {T<:AbstractBipartiteNetwork}
-    d = degree(N)
-    new_t = filter(s -> d[s]>0, species(N,1))
-    new_b = filter(s -> d[s]>0, species(N,2))
-    return N[new_t, new_b]
-end
-
-"""
-    simplify{T<:AbstractBipartiteNetwork}(N::T)
-
-Returns a new network in which species with no interactions have been removed.
-"""
-function simplify(N::T) where {T<:AbstractBipartiteNetwork}
     Y = copy(N)
     simplify!(Y)
     return Y
 end
 
 """
-    simplify{T<:AbstractUnipartiteNetwork}(N::T)
+    simplify!{T<:AbstractBipartiteNetwork}(N::T)
 
 Returns a new network in which species with no interactions have been removed.
 """
-function simplify(N::T) where {T<:AbstractUnipartiteNetwork}
+function simplify!(N::T) where {T<:AbstractBipartiteNetwork}
+    d1 = degree(N,1)
+    d2 = degree(N,2)
+    p1 = filter(i -> d1[species(N,1)[i]] > zero(eltype(N)[1]), 1:richness(N,1))
+    p2 = filter(i -> d2[species(N,2)[i]] > zero(eltype(N)[1]), 1:richness(N,2))
+    N.T = N.T[p1]
+    N.B = N.B[p2]
+    N.A = N.A[p1,p2]
+end
+
+"""
+    simplify(N::AbstractUnipartiteNetwork)
+
+Returns a new network in which species with no interactions have been removed.
+"""
+function simplify(N::T) where {T <: AbstractUnipartiteNetwork}
+    Y = copy(N)
+    simplify!(Y)
+    return Y
+end
+
+"""
+    simplify!(N::AbstractUnipartiteNetwork)
+
+Modifies the network to drop all species without an interaction.
+"""
+function simplify!(N::T) where {T <: AbstractUnipartiteNetwork}
     d = degree(N)
-    new_s = filter(s -> d[s]>0, species(N))
-    return N[new_s]
+    positions = filter(i -> d[species(N)[i]] > zero(eltype(N)[1]), 1:richness(N))
+    N.S = N.S[positions]
+    N.A = N.A[positions, positions]
 end
