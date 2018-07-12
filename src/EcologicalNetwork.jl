@@ -46,7 +46,8 @@ export links, L, links_var, connectance, connectance_var,
     linkage_density, link_number
 
 include(joinpath(".", "links/degenerate.jl"))
-export isdegenerate, simplify#, species_has_no_successors, species_has_no_predecessors,
+export isdegenerate, simplify, simplify!
+    #, species_has_no_successors, species_has_no_predecessors,
     #species_is_free, free_species
 
 # Random networks and permutations
