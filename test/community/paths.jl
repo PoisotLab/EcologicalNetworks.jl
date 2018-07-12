@@ -15,5 +15,6 @@ module TestPaths
   m = rand([0,1], (5,5))
   U = UnipartiteQuantitativeNetwork(m)
   @test number_of_paths(U) == number_of_paths(UnipartiteNetwork(m.>0))
+  @test shortest_path(U) == shortest_path(UnipartiteNetwork(m.>0))
 
 end
