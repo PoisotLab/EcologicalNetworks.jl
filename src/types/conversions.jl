@@ -5,7 +5,7 @@ import Base.convert
 
 Projects a bipartite network in its unipartite representation.
 """
-function convert{IT}(::Type{UnipartiteNetwork}, N::BipartiteNetwork{IT})
+function convert(::Type{UnipartiteNetwork}, N::T) where {T <: BipartiteNetwork}
     itype = eltype(N.A)
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
@@ -18,7 +18,7 @@ end
 
 TODO
 """
-function convert{NT,IT}(::Type{UnipartiteProbabilisticNetwork}, N::BipartiteProbabilisticNetwork{NT,IT})
+function convert(::Type{UnipartiteProbabilisticNetwork}, N::T) where {T <: BipartiteProbabilisticNetwork}
     itype = eltype(N.A)
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
@@ -31,7 +31,7 @@ end
 
 TODO
 """
-function convert{NT,IT}(::Type{UnipartiteQuantitativeNetwork}, N::BipartiteQuantitativeNetwork{NT,IT})
+function convert(::Type{UnipartiteQuantitativeNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
     itype = eltype(N.A)
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
@@ -44,7 +44,7 @@ end
 
 TODO
 """
-function convert{NT,IT}(::Type{UnipartiteNetwork}, N::UnipartiteQuantitativeNetwork{NT,IT})
+function convert(::Type{UnipartiteNetwork}, N::T) where {T <: UnipartiteQuantitativeNetwork}
     S = copy(species(N))
     B = N.A.>zero(eltype(N.A))
     return UnipartiteNetwork(convert(Array{Bool,2}, B), S)
@@ -55,7 +55,7 @@ end
 
 TODO
 """
-function convert{NT,IT}(::Type{BipartiteNetwork}, N::BipartiteQuantitativeNetwork{NT,IT})
+function convert(::Type{BipartiteNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
     T = copy(species(N, 1))
     B = copy(species(N, 2))
     C = N.A.>zero(eltype(N.A))

@@ -217,7 +217,7 @@ Gets the successors (*i.e.* species that are interacted with / consumed) of a
 focal species. This returns the list of species as a `Set` object, in which
 ordering is unimportant.
 """
-function getindex{T<:AllowedSpeciesTypes}(N::AbstractEcologicalNetwork, sp::T, ::Colon)
+function getindex(N::AbstractEcologicalNetwork, sp::T, ::Colon) where {T <: AllowedSpeciesTypes}
   @assert sp ∈ species(N,1)
   return Set(filter(x -> has_interaction(N, sp, x), species(N,2)))
 end
@@ -263,7 +263,7 @@ end
 
 TODO
 """
-function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp::Array{T}, ::Colon)
+function getindex(N::AbstractBipartiteNetwork, sp::Vector{T}, ::Colon) where {T <: AllowedSpeciesTypes}
   @assert all(map(x -> x ∈ species(N,1), sp))
   sp_pos = findin(species(N,1), sp)
   n_t = N.T[sp_pos]
@@ -278,7 +278,7 @@ end
 
 TODO
 """
-function getindex{T<:AllowedSpeciesTypes}(N::AbstractBipartiteNetwork, sp1::Array{T}, sp2::Array{T})
+function getindex(N::AbstractBipartiteNetwork, sp1::Vector{T}, sp2::Vector{T}) where {T <: AllowedSpeciesTypes}
   @assert all(map(x -> x ∈ species(N,1), sp1))
   @assert all(map(x -> x ∈ species(N,2), sp2))
   sp1_pos = findin(species(N,1), sp1)
@@ -390,7 +390,7 @@ end
 Returns the inverse of a binary network -- interactions that were `false` become
 `true`, and conversely.
 """
-function Base.:!{T<:BinaryNetwork}(N::T)
+function Base.:!(N::T) where {T <: BinaryNetwork}
   return typeof(N)(.!N.A, species_objects(N)...)
 end
 
