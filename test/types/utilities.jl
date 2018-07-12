@@ -98,5 +98,20 @@ A = UnipartiteQuantitativeNetwork([1 2 3; 4 5 6; 7 8 9], [:a, :b, :c])
 @test A[[:a, :b]][:b,:a] == 4
 @test A[[:a, :b]][:b,:b] == 5
 
+# Modify elements
+N = UnipartiteNetwork(zeros(Bool, (4,4)))
+@test links(N) == 0
+N[1,1] = true
+@test links(N) = 1
+N["s2", "s5"] = true
+@test links(N) = 2
+
+N = BipartiteNetwork(zeros(Bool, (4,4)))
+@test links(N) == 0
+N[1,1] = true
+@test links(N) = 1
+N["t1", "b2"] = true
+@test links(N) = 2
+
 
 end
