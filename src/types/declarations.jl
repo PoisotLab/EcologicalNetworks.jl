@@ -24,7 +24,7 @@ AllowedSpeciesTypes = Union{String,Symbol}
 """
 A bipartite deterministic network is a two-dimensional array of boolean values.
 """
-struct BipartiteNetwork{T<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
+mutable struct BipartiteNetwork{T<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
   A::Matrix{Bool}
   T::Vector{T}
   B::Vector{T}
@@ -37,7 +37,7 @@ end
 """
 An unipartite deterministic network.
 """
-struct UnipartiteNetwork{T<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
+mutable struct UnipartiteNetwork{T<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
   A::Matrix{Bool}
   S::Vector{T}
   function UnipartiteNetwork{NT}(A::M, S::Vector{NT}) where {M<:AbstractMatrix{Bool}, NT<:AllowedSpeciesTypes}
@@ -49,7 +49,7 @@ end
 """
 TODO
 """
-struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
+mutable struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
   A::Matrix{IT}
   T::Vector{NT}
   B::Vector{NT}
@@ -63,7 +63,7 @@ end
 """
 TODO
 """
-struct BipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
+mutable struct BipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
   A::Matrix{IT}
   T::Vector{NT}
   B::Vector{NT}
@@ -76,7 +76,7 @@ end
 """
 TODO
 """
-struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
+mutable struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
   A::Matrix{IT}
   S::Vector{NT}
   function UnipartiteProbabilisticNetwork{IT, NT}(A::Matrix{IT}, S::Vector{NT}) where {IT<:AbstractFloat,NT<:AllowedSpeciesTypes}
@@ -89,7 +89,7 @@ end
 """
 TODO
 """
-struct UnipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
+mutable struct UnipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
   A::Matrix{IT}
   S::Vector{NT}
   function UnipartiteQuantitativeNetwork{IT, NT}(A::Matrix{IT}, S::Vector{NT}) where {IT<:Number,NT<:AllowedSpeciesTypes}

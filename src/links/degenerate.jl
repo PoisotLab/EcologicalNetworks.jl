@@ -22,6 +22,17 @@ function simplify(N::T) where {T<:AbstractBipartiteNetwork}
 end
 
 """
+    simplify{T<:AbstractBipartiteNetwork}(N::T)
+
+Returns a new network in which species with no interactions have been removed.
+"""
+function simplify(N::T) where {T<:AbstractBipartiteNetwork}
+    Y = copy(N)
+    simplify!(Y)
+    return Y
+end
+
+"""
     simplify{T<:AbstractUnipartiteNetwork}(N::T)
 
 Returns a new network in which species with no interactions have been removed.
