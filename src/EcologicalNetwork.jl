@@ -36,7 +36,7 @@ export species, interactions, has_interaction, richness, nodiagonal, nodiagonal!
 
 # Degree
 include(joinpath(".", "links/degree.jl"))
-export degree_out, degree_in, degree_out_var, degree_in_var, degree, degree_var
+export degree, degree_var
 
 include(joinpath(".", "links/specificity.jl"))
 export specificity
