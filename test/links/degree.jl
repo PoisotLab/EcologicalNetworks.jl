@@ -38,4 +38,7 @@ module TestDegreeFunctions
     @test d_tot[i] ≈ Dtot[species(N)[i]]
   end
 
+  @test_throws ArgumentError degree(N, 3)
+  @test_throws ArgumentError degree(N, 0)
+
 end

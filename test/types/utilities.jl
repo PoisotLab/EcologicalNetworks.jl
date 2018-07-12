@@ -119,4 +119,8 @@ nodiagonal!(N)
 interactions(BipartiteQuantitativeNetwork(rand((3,5))))
 interactions(BipartiteProbabilisticNetwork(rand((3,5))))
 
+# Test throws
+
+@test_throws ArgumentError species(BipartiteQuantitativeNetwork(rand((3,5))), 5)
+
 end

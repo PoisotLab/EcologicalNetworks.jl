@@ -44,8 +44,9 @@ parameter is the "margin" of the network, where `1` is species from the top, and
 `2` is species from the bottom layer.
 """
 function species(N::AbstractBipartiteNetwork, i::Int64)
-  @assert (i == 1) || (i == 2)
-  return i == 1 ? N.T : N.B
+  i == 1 && return N.T
+  i == 2 && return N.B
+  throw(ArgumentError("i can only be 1 (top species) or 2 (bottom species), you used $(i)"))
 end
 
 
@@ -58,7 +59,6 @@ calls `species(N)`. This function is nevertheless useful when you want to write
 code that takes either side of the network in a general way.
 """
 function species(N::AbstractUnipartiteNetwork, i::Int64)
-  @assert i ∈ [1,2]
   return species(N)
 end
 
