@@ -56,10 +56,10 @@ end
 TODO
 """
 function convert(::Type{BipartiteNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
-    T = copy(species(N, 1))
+    R = copy(species(N, 1))
     B = copy(species(N, 2))
     C = N.A.>zero(eltype(N.A))
-    return BipartiteNetwork(convert(Array{Bool,2}, C), T, B)
+    return BipartiteNetwork(convert(Array{Bool,2}, C), R, B)
 end
 
 """
