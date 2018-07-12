@@ -51,7 +51,7 @@ function KGL11(S::T) where {T<:NamedTuple}
 end
 
 function KGL12(S::T) where {T<:NamedTuple}
-  return (2*S.a+S.b+S.c) * ( 1 - (S.a/(S.a+S.b+Sc)))
+  return (2*S.a+S.b+S.c) * ( 1 - (S.a/(S.a+S.b+S.c)))
 end
 
 function KGL13(S::T) where {T<:NamedTuple}
