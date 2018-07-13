@@ -32,6 +32,7 @@ docs_dir: 'build'
 
 pages:
   - Home: index.md
+  - "Table of contents": toc.md
   - Interface:
     - Types: interface/types.md
     - "Type conversions": interface/conversions.md
@@ -44,3 +45,6 @@ pages:
     - "Centrality and paths": properties/paths.md
     - Randomization: properties/randomization.md
     - β-diversity: properties/betadiversity.md
+  - Library:
+    - "Public methods": lib/public.md
+    - "Internals": lib/internals.md

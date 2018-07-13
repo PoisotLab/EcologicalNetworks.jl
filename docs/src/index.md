@@ -30,14 +30,25 @@ and this *should* make the code easy to write and read.
 
 ## Why should I use this package?
 
+It offers a single interface to analyse almost all type of networks for ecology.
 It's somewhat fast. It's built around the very best practices in network
 analysis. We think the type system is very cool. It's very well tested and
-documented. We used it for research and teaching for months before releasing it.
-It's actively maintained.
+adequately documented. We used it for research and teaching for months before
+releasing it. It's actively maintained and we will keep adding functionalities.
 
-## You forgot my favorite method!
+You don't have to use it if you don't want to.
 
-We probably didn't.
+### But it doesn't even make figures!
+
+This will be coming soon.
+
+### And it doesn't even generate random networks!
+
+This will be coming sooner.
+
+### And worse, you forgot my favorite method!
+
+Yeah, about that. We probably didn't.
 
 A lot of methods were considered for inclusion in the package, but ultimately
 discarded because we were not 100% confident in their robustness, reliability,
