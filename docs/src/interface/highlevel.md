@@ -15,6 +15,7 @@ species
 
 ```@docs
 has_interaction
+interactions
 ```
 
 ### Network slices
@@ -48,4 +49,17 @@ richness
 ```@docs
 transpose
 nodiagonal
+nodiagonal!
+```
+
+### Invert interactions
+
+```@docs
+Base.:!
+```
+
+### Modify interactions
+
+```@docs
+setindex!
 ```

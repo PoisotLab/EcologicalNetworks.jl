@@ -27,9 +27,10 @@ end
 """
     η(N::T, i::Int64) where {T <: Union{BipartiteNetwork, BipartiteProbaNetwork}}
 
-Returns the nestedness of a margin of the network. The second argument can be
-`1` (for nestedness of rows/top level) or `2` (for nestedness of columns/bottom
-level).
+Returns the nestedness of a margin of the network, using η. The second argument
+can be `1` (for nestedness of rows/top level) or `2` (for nestedness of
+columns/bottom level). This function will throw an `ArgumentError` if you use an
+invalid value for `i`.
 """
 function η(N::T, i::Int64) where {T <: Union{BipartiteNetwork, BipartiteProbabilisticNetwork}}
   i == 1 && return η_axis(N)
@@ -102,11 +103,10 @@ function nodf_axis(N::BipartiteNetwork)
 
   # Return the value
   return NODFr
-
 end
 
 """
-    nodf(N::Union{BipartiteNetwork,BipartiteQuantiNetwork})
+    nodf(N::T) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
 
 If the network is quantitative, then *WNODF* is measured instead of *NODF*. Note
 that in *all* situations, the value goes between 0 (not nested) to 1 (perfectly
@@ -118,13 +118,11 @@ function nodf(N::T) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetw
 end
 
 """
-    nodf(N::T, i::Int64)
+    nodf(N::T, i::Int64) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
 
-If the network is quantitative, then *WNODF* is measured instead of *NODF*. Note
-that in *all* situations, the value goes between 0 (not nested) to 1 (perfectly
-nested). This is a change with regard to the original papers, in which the
-maximal value is 100. The second argument can be `1` (for nestedness of rows/top
-level) or `2` (for nestedness of columns/bottom level).
+Returns `nodf` for a margin of the network. The `i` argument can be 1 for
+top-level, 2 for bottom level, and the function will throw an `ArgumentError` if
+an invalid value is used. For quantitative networks, *WNODF* is used.
 """
 function nodf(N::T, i::Int64) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
 

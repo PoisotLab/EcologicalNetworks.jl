@@ -1,28 +1,41 @@
 import Base: eltype
 
 """
-This is an abstract type that allows to generate functions for all sorts of
-networks. All other types are derived from this one.
+
+All networks in the package belong to the `AbstractEcologicalNetwork` type. They
+all have a field `A` to represent interactions as a *matrix*, and a number of
+fields for species. See the documentation for `AbstractBipartiteNetwork` and
+`AbstractUnipartiteNetwork`.
 """
 abstract type AbstractEcologicalNetwork end
 
 """
-All unipartite networks
+This abstract type groups all unipartite networks, regardless of the type of
+information. Unipartite networks have *a single* field for species, named `S`,
+which has the same number of elements as the size of the matrix.
 """
 abstract type AbstractUnipartiteNetwork <: AbstractEcologicalNetwork end
 
 """
-All bipartite networks
+This abstract type groups all bipartite networks, regardless of the type of
+information. Bipartite networks have *two* fields for species, named `T` (for
+top, corresponding to matrix *rows*), and `B` (for bottom, matrix *columns*).
 """
 abstract type AbstractBipartiteNetwork <: AbstractEcologicalNetwork end
 
 """
-The species names can be strings or symbols -- for now.
+
+The `AllowedSpeciesTypes` union is used to restrict the type of objects that can
+be used to identify the species in a network. Currently, this is limited to
+`Symbol` and `String`. Numeric types (esp. integers) will *never* be allowed,
+because they are used for positional access of species and interactions. As the
+ecosystem of packages for ecology matures, more types will be added to this
+union.
 """
 AllowedSpeciesTypes = Union{String,Symbol}
 
 """
-A bipartite deterministic network is a two-dimensional array of boolean values.
+A bipartite deterministic network is a matrix of boolean values.
 """
 mutable struct BipartiteNetwork{T<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
   A::Matrix{Bool}
@@ -35,7 +48,7 @@ mutable struct BipartiteNetwork{T<:AllowedSpeciesTypes} <: AbstractBipartiteNetw
 end
 
 """
-An unipartite deterministic network.
+An unipartite deterministic network is a matrix of boolean values.
 """
 mutable struct UnipartiteNetwork{T<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
   A::Matrix{Bool}

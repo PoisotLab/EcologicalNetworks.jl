@@ -393,7 +393,7 @@ function Base.:!(N::T) where {T <: BinaryNetwork}
   return typeof(N)(.!N.A, species_objects(N)...)
 end
 
-
+!
 """
     transpose(N::AbstractBipartiteNetwork)
 
@@ -407,7 +407,7 @@ end
 
 
 """
-    edges(N::AbstractEcologicalNetwork)
+    interactions(N::AbstractEcologicalNetwork)
 
 Returns the interactions in the ecological network. Interactions are returned as
 an array of named tuples. *A minima*, these have fields `from` and `to`. For

@@ -28,5 +28,6 @@ null3out
 ## Shuffle interactions
 
 ```@docs
+shuffle!
 shuffle
 ```

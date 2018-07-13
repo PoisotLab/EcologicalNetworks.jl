@@ -30,14 +30,25 @@ and this *should* make the code easy to write and read.
 
 ## Why should I use this package?
 
+It offers a single interface to analyse almost all type of networks for ecology.
 It's somewhat fast. It's built around the very best practices in network
 analysis. We think the type system is very cool. It's very well tested and
-documented. We used it for research and teaching for months before releasing it.
-It's actively maintained.
+adequately documented. We used it for research and teaching for months before
+releasing it. It's actively maintained and we will keep adding functionalities.
 
-## You forgot my favorite method!
+You don't have to use it if you don't want to.
 
-We probably didn't.
+### But it doesn't even make figures!
+
+This will be coming soon.
+
+### And it doesn't even generate random networks!
+
+This will be coming sooner.
+
+### And worse, you forgot my favorite method!
+
+Yeah, about that. We probably didn't.
 
 A lot of methods were considered for inclusion in the package, but ultimately
 discarded because we were not 100% confident in their robustness, reliability,
@@ -77,42 +88,44 @@ About the analysis of ecological networks in general, the package covers (or
 will cover over time) most of the measures we identified as robust in the
 following publication:
 
-> Delmas, Eva, Mathilde Besson, Marie-Helene Brice, Laura Burkle, Giulio V.
-> Dalla Riva, Marie-Josée Fortin, Dominique Gravel, et al. “Analyzing Ecological
-> Networks of Species Interactions.” BioRxiv, (2017), 112540.
-> https://doi.org/10.1101/112540.
+Delmas, Eva, Mathilde Besson, Marie-Helene Brice, Laura Burkle, Giulio V.
+Dalla Riva, Marie-Josée Fortin, Dominique Gravel, et al. “Analyzing Ecological
+Networks of Species Interactions.” BioRxiv, (2017), 112540.
+https://doi.org/10.1101/112540.
 
 We highly recommend we keep it nearby when using the package. A lot of decisions
 taken during development are grounded in the analysis of the literature we
 conducted over a few years.
 
+### Network β-diversity
+
 The analysis of network dissimilarity is done exactly as described in:
 
-> Poisot, Timothée, Elsa Canard, David Mouillot, Nicolas Mouquet, and Dominique
-> Gravel. “The Dissimilarity of Species Interaction Networks.” Ecology Letters
-> 15, no. 12 (2012): 1353–1361. https://doi.org/10.1111/ele.12002.
+Poisot, Timothée, Elsa Canard, David Mouillot, Nicolas Mouquet, and Dominique
+Gravel. “The Dissimilarity of Species Interaction Networks.” Ecology Letters 15,
+no. 12 (2012): 1353–1361. https://doi.org/10.1111/ele.12002.
 
 The measures for β-diversity (and the approach of partitioning variation in
 sets) is done exactly as described in:
 
-> Koleff, Patricia, Kevin J. Gaston, and Jack J. Lennon. “Measuring Beta
-> Diversity for Presence–absence Data.” Journal of Animal Ecology 72, no. 3
-> (2003): 367–82. https://doi.org/10.1046/j.1365-2656.2003.00710.x.
+Koleff, Patricia, Kevin J. Gaston, and Jack J. Lennon. “Measuring Beta
+Diversity for Presence–absence Data.” Journal of Animal Ecology 72, no. 3
+(2003): 367–82. https://doi.org/10.1046/j.1365-2656.2003.00710.x.
 
 The functions presented in their table are implemented as `KGLXX`, where `XX` is
 the number of the function on two digits (*i.e.* the second measure of
 β-diversity is `KGL02`).
 
-The choice of measures for ecological specialisation is done according to:
+### Specificity
 
-> Poisot, Timothee, Elsa Canard, Nicolas Mouquet, and Michael E Hochberg. “A
-> Comparative Study of Ecological Specialization Estimators.” Methods in Ecology
-> and Evolution 3, no. 3 (2012): 537–44.
-> https://doi.org/10.1111/j.2041-210X.2011.00174.x.
+Poisot, Timothee, Elsa Canard, Nicolas Mouquet, and Michael E Hochberg. “A
+Comparative Study of Ecological Specialization Estimators.” Methods in Ecology
+and Evolution 3, no. 3 (2012): 537–44.
+https://doi.org/10.1111/j.2041-210X.2011.00174.x.
 
-Finally, all of the measures for probabilistic networks are described in:
+### Probabilistic networks
 
-> Poisot, Timothée, Alyssa R. Cirtwill, Kévin Cazelles, Dominique Gravel,
-> Marie-Josée Fortin, and Daniel B. Stouffer. “The Structure of Probabilistic
-> Networks.” Methods in Ecology and Evolution 7, no. 3 (2016): 303–12.
-> https://doi.org/10.1111/2041-210X.12468.
+Poisot, Timothée, Alyssa R. Cirtwill, Kévin Cazelles, Dominique Gravel,
+Marie-Josée Fortin, and Daniel B. Stouffer. “The Structure of Probabilistic
+Networks.” Methods in Ecology and Evolution 7, no. 3 (2016): 303–12.
+https://doi.org/10.1111/2041-210X.12468.

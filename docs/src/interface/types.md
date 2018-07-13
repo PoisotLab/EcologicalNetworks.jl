@@ -10,11 +10,9 @@ when to use them.
 All networks types have a field `A` to store the adjacency matrix, and fields
 `S`, or `T` and `B`, for species in unipartite and bipartite networks
 respectively. `A` is always a two-dimensional array (see below for more
-information), where interactions go *from the rows*, *to the columns*.
-
-Network types are designed to be immutable -- no operations done by the package
-will modify the original network. When needed, copies or new objects will be
-returned.
+information), where interactions go *from the rows*, *to the columns*. Network
+types are **mutable**. Operations that will modify the network end with a `!`,
+as is the julian convention.
 
 Fields `S`, `T`, and `B` are one-dimensional arrays of `AllowedSpeciesTypes` --
 they currently can be `String` or `Symbol`, and represent the species/nodes
