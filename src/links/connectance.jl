@@ -53,12 +53,20 @@ function links_var(N::ProbabilisticNetwork)
 end
 
 """
-**Connectance**
-
     connectance(N::AbstractEcologicalNetwork)
 
 Number of links divided by the number of possible interactions. In unipartite
-networks, this is ``L/S^2``. In bipartite networks, this is ``L/(T × B)``.
+networks, this is ``L/S^2``. In bipartite networks, this is ``L/(T × B)``. It is
+worth noting that while the maximal connectance is always 1 (i.e. the graph is
+complete), the minimum value (assuming that the network is not degenerate) is
+*not* 0. Instead, the minimum number of interactions in a unipartite network is
+`S-1`, and in a bipartite network it is `max(T,B)`.
+
+Connectance can therefore be transformed between 0 and 1, using the following
+approach: let `m` be the minimum number of interactions, and Co be the measured
+connectance, then the corrected value is `(Co-m)/(1-m)`. To our best knowledge,
+this is not standard practice, and therefore is not suggested as a function in
+the package.
 """
 function connectance(N::AbstractEcologicalNetwork)
     return links(N) / (richness(N,1)*richness(N,2))
