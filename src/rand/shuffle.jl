@@ -1,4 +1,5 @@
 import Base.shuffle
+import Base.shuffle!
 
 function swap_degree!(Y::BinaryNetwork)
     iy = interactions(Y)
@@ -69,42 +70,43 @@ end
 """
     shuffle(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000)
 
-Returns a new network with its interactions shuffled under a given constraint.
-The possible constraints are:
-
-- `:degree`, which keeps the degree distribution intact
-- `:generality`, which keeps the out-degree distribution intact
-- `:vulnerability`, which keeps the in-degree distribution intact
-- `:fill`, which moves interactions around freely
-
-Note that this function will conserve the degree (when appropriate under the
-selected constraint) *of every species*.
-
-This function will take `number_of_swaps` (`1000`) interactions, swap them, and
-return a copy of the network.
+Return a shuffled copy of the network. See `shuffle!` for a documentation of the keyword arguments.
 """
 function shuffle(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000)
-    @assert constraint ∈ [:degree, :generality, :vulnerability, :fill]
-    @assert number_of_swaps > 0
-
     Y = copy(N)
+    shuffle!(Y; constraint=constraint, number_of_swaps=number_of_swaps)
+    return Y
+end
+
+"""
+    shuffle!(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000)
+
+Shuffles interactions inside a network (the network is *modified*), under the
+following `constraint`:
+
+- :degree, which keeps the degree distribution intact
+- :generality, which keeps the out-degree distribution intact
+- :vulnerability, which keeps the in-degree distribution intact
+- :fill, which moves interactions around freely
+
+Note that this function will conserve the degree (when appropriate under the
+selected constraint) of *every* species. This function will take number_of_swaps
+(1000) interactions, swap them, and return a copy of the network.
+
+If the keyword arguments are invalid, the function will throw an
+`ArgumentError`.
+"""
+function shuffle!(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000)
+    constraint ∈ [:degree, :generality, :vulnerability, :fill] || throw(ArgumentError("The constraint argument you specificied ($(constraint)) is invalid -- see ?shuffle! for a list."))
+    number_of_swaps > 0 || throw(ArgumentError("The number of swaps *must* be positive, you used $(number_of_swaps)"))
 
     f = EcologicalNetwork.swap_degree!
-    if constraint == :generality
-        f = EcologicalNetwork.swap_generality!
-    end
-    if constraint == :vulnerability
-        f = EcologicalNetwork.swap_vulnerability!
-    end
-    if constraint == :fill
-        f = EcologicalNetwork.swap_fill!
-    end
+    constraint == :generality && (f = EcologicalNetwork.swap_generality!)
+    constraint == :vulnerability && (f = EcologicalNetwork.swap_vulnerability!)
+    constraint == :fill && (f = EcologicalNetwork.swap_fill!)
 
-    # Test a matrix
     for swap_number in 1:number_of_swaps
-        f(Y)
+        f(N)
     end
-
-    return Y
 
 end

@@ -6,27 +6,24 @@
 sum
 links
 connectance
-linkage_density(N::DeterministicNetwork)
+linkage_density
 ```
 
 ## Degree
 
 ```@docs
 degree
-degree_out
-degree_in
 ```
 
 ```@docs
 degree_var
-degree_out_var
-degree_in_var
 ```
 
 ## Species without interactions
 
 ```@docs
 isdegenerate
+simplify!
 simplify
 ```
 

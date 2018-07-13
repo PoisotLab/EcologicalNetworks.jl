@@ -9,7 +9,6 @@ function UnipartiteNetwork(A::M, S::Vector{NT}) where {M<:AbstractMatrix{Bool}, 
   UnipartiteNetwork{NT}(A, S)
 end
 
-
 function BipartiteNetwork(A::M) where {M<:AbstractMatrix{Bool}}
   check_bipartiteness(A)
   T = "t".*string.(1:size(A,1))
