@@ -31,20 +31,21 @@ and this *should* make the code easy to write and read.
 ## Why should I use this package?
 
 It offers a single interface to analyse almost all type of networks for ecology.
-It's somewhat fast. It's built around the very best practices in network
-analysis. We think the type system is very cool. It's very well tested and
-adequately documented. We used it for research and teaching for months before
-releasing it. It's actively maintained and we will keep adding functionalities.
+It's somewhat fast (very specialized packages are likely to be faster). It's
+built around the very best practices in network analysis. We think the type
+system is very cool. It's very well tested and adequately documented. We used it
+for research and teaching for months before releasing it. It's actively
+maintained and we will keep adding functionalities.
 
 You don't have to use it if you don't want to.
 
 ### But it doesn't even make figures!
 
-This will be coming soon.
+This is coming soon.
 
 ### And it doesn't even generate random networks!
 
-This will be coming sooner.
+This is coming sooner.
 
 ### And worse, you forgot my favorite method!
 
@@ -81,6 +82,16 @@ your new methods available in the next release. Currently, we will be very
 selective about which methods are added. In the future (presumably shortly after
 the release of *Julia* `v1.0`), we will start a companion package to provide
 additional methods.
+
+## How can I contribute?
+
+Good question!
+
+The easiest way to contribute is to use the package, and [open an issue][issue]
+whenever you can't manage to do something, think the syntax is not clear, or the
+documentation is confusing. This is seriously one of the best ways to help.
+
+[issue]: https://github.com/PoisotLab/EcologicalNetwork.jl/issues
 
 ## References
 
