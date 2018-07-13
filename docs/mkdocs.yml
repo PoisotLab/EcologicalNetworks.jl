@@ -3,17 +3,18 @@ repo_url: https://github.com/PoisotLab/EcologicalNetwork.jl
 site_description: Analysis of ecological network data
 site_author: Timothée Poisot
 
-theme: yeti
-
-# theme:
-#   name: 'material'
-#   palette:
-#     primary: indigo
-#     secondary: indigo
-#   logo:
-#     icon: timeline
-#   feature:
-#     tabs: false
+theme:
+  name: 'material'
+  palette:
+    primary: teal
+    accent: amber
+  font:
+    text: Arimo
+    code: Cousine
+  logo:
+    icon: timeline
+  feature:
+    tabs: false
 
 extra_css:
   - assets/Documenter.css
@@ -45,6 +46,3 @@ pages:
     - "Centrality and paths": properties/paths.md
     - Randomization: properties/randomization.md
     - β-diversity: properties/betadiversity.md
-  - Library:
-    - "Public methods": lib/public.md
-    - "Internals": lib/internals.md

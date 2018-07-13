@@ -51,17 +51,6 @@ information about the types allowed.
 eltype
 ```
 
-## List of available types
-
-```@docs
-UnipartiteNetwork
-BipartiteNetwork
-UnipartiteQuantitativeNetwork
-BipartiteQuantitativeNetwork
-UnipartiteProbabilisticNetwork
-BipartiteProbabilisticNetwork
-```
-
 ## Union types
 
 All networks are grouped upon the `AbstractEcologicalNetwork` type:
@@ -90,4 +79,20 @@ BinaryNetwork
 QuantitativeNetwork
 ProbabilisticNetwork
 DeterministicNetwork
+```
+
+
+## List of available types
+
+These are the types that you *actually* declare and use. They are presented last
+because it is easier to understand what they are when you get a sense for the
+different union types.
+
+```@docs
+UnipartiteNetwork
+BipartiteNetwork
+UnipartiteQuantitativeNetwork
+BipartiteQuantitativeNetwork
+UnipartiteProbabilisticNetwork
+BipartiteProbabilisticNetwork
 ```

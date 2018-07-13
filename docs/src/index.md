@@ -31,20 +31,21 @@ and this *should* make the code easy to write and read.
 ## Why should I use this package?
 
 It offers a single interface to analyse almost all type of networks for ecology.
-It's somewhat fast. It's built around the very best practices in network
-analysis. We think the type system is very cool. It's very well tested and
-adequately documented. We used it for research and teaching for months before
-releasing it. It's actively maintained and we will keep adding functionalities.
+It's somewhat fast (very specialized packages are likely to be faster). It's
+built around the very best practices in network analysis. We think the type
+system is very cool. It's very well tested and adequately documented. We used it
+for research and teaching for months before releasing it. It's actively
+maintained and we will keep adding functionalities.
 
 You don't have to use it if you don't want to.
 
 ### But it doesn't even make figures!
 
-This will be coming soon.
+This is coming soon.
 
 ### And it doesn't even generate random networks!
 
-This will be coming sooner.
+This is coming sooner.
 
 ### And worse, you forgot my favorite method!
 
@@ -129,3 +130,20 @@ Poisot, Timothée, Alyssa R. Cirtwill, Kévin Cazelles, Dominique Gravel,
 Marie-Josée Fortin, and Daniel B. Stouffer. “The Structure of Probabilistic
 Networks.” Methods in Ecology and Evolution 7, no. 3 (2016): 303–12.
 https://doi.org/10.1111/2041-210X.12468.
+
+## How can I contribute?
+
+Good question!
+
+The easiest way to contribute is to use the package, and [open an issue][issue]
+whenever you can't manage to do something, think the syntax is not clear, or the
+documentation is confusing. This is seriously one of the best ways to help.
+
+[issue]: https://github.com/PoisotLab/EcologicalNetwork.jl/issues
+
+If you want to contribute code, you can fork this repository, and start adding
+the functions you want, or changing the code. Please work from the `develop`
+branch (`master` does not accept pull requests except from maintainers, and
+cannot be pushed to unless a series of conditions are met). It's better if all
+of your code is tested and documented, but we will work with you when receiving
+the pull request anyways.
