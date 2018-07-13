@@ -1,11 +1,15 @@
 import Base: eltype
 
 """
-
 All networks in the package belong to the `AbstractEcologicalNetwork` type. They
 all have a field `A` to represent interactions as a *matrix*, and a number of
 fields for species. See the documentation for `AbstractBipartiteNetwork` and
-`AbstractUnipartiteNetwork`.
+`AbstractUnipartiteNetwork`, as well as `AllowedSpeciesTypes` for the allowed
+types for species.
+
+Note that *all* species in a network (including both levels of a bipartite
+network) *must* have the same type. For example, `["a", :b, "c"]` is not a valid
+array of species, as not all its elements have the same type.
 """
 abstract type AbstractEcologicalNetwork end
 
@@ -13,6 +17,11 @@ abstract type AbstractEcologicalNetwork end
 This abstract type groups all unipartite networks, regardless of the type of
 information. Unipartite networks have *a single* field for species, named `S`,
 which has the same number of elements as the size of the matrix.
+
+Any unipartite network can be declared (we'll use the example of a binary
+network) either using `UnipartiteNetwork(A, S)` (assuming `A` is a matrix of
+interactions and `S` is a vector of species names), or `UnipartiteNetwork(A)`,
+in which case the species will be named automatically.
 """
 abstract type AbstractUnipartiteNetwork <: AbstractEcologicalNetwork end
 
@@ -20,11 +29,16 @@ abstract type AbstractUnipartiteNetwork <: AbstractEcologicalNetwork end
 This abstract type groups all bipartite networks, regardless of the type of
 information. Bipartite networks have *two* fields for species, named `T` (for
 top, corresponding to matrix *rows*), and `B` (for bottom, matrix *columns*).
+
+Any bipartite network can be declared (we'll use the example of a binary
+network) either using `BipartiteNetwork(A, T, B)` (assuming `A` is a matrix of
+interactions and `T` and `B` are vectors of species names for the top and bottom
+level), or `BipartiteNetwork(A)`, in which case the species will be named
+automatically.
 """
 abstract type AbstractBipartiteNetwork <: AbstractEcologicalNetwork end
 
 """
-
 The `AllowedSpeciesTypes` union is used to restrict the type of objects that can
 be used to identify the species in a network. Currently, this is limited to
 `Symbol` and `String`. Numeric types (esp. integers) will *never* be allowed,
@@ -60,7 +74,8 @@ mutable struct UnipartiteNetwork{T<:AllowedSpeciesTypes} <: AbstractUnipartiteNe
 end
 
 """
-TODO
+A bipartite probabilistic network is a matrix of floating point numbers, all of
+which must be between 0 and 1.
 """
 mutable struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
   A::Matrix{IT}
@@ -74,7 +89,8 @@ mutable struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeci
 end
 
 """
-TODO
+A bipartite quantitative network is matrix of numbers. It is assumed that the
+interaction strength are *positive*.
 """
 mutable struct BipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
   A::Matrix{IT}
@@ -87,7 +103,8 @@ mutable struct BipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes}
 end
 
 """
-TODO
+A unipartite probabilistic network is a square matrix of floating point numbers,
+all of which must be between 0 and 1.
 """
 mutable struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
   A::Matrix{IT}
@@ -100,7 +117,7 @@ mutable struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpec
 end
 
 """
-TODO
+A unipartite quantitative network is a square matrix of numbers.
 """
 mutable struct UnipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
   A::Matrix{IT}

@@ -45,6 +45,3 @@ pages:
     - "Centrality and paths": properties/paths.md
     - Randomization: properties/randomization.md
     - β-diversity: properties/betadiversity.md
-  - Library:
-    - "Public methods": lib/public.md
-    - "Internals": lib/internals.md

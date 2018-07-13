@@ -83,16 +83,6 @@ selective about which methods are added. In the future (presumably shortly after
 the release of *Julia* `v1.0`), we will start a companion package to provide
 additional methods.
 
-## How can I contribute?
-
-Good question!
-
-The easiest way to contribute is to use the package, and [open an issue][issue]
-whenever you can't manage to do something, think the syntax is not clear, or the
-documentation is confusing. This is seriously one of the best ways to help.
-
-[issue]: https://github.com/PoisotLab/EcologicalNetwork.jl/issues
-
 ## References
 
 About the analysis of ecological networks in general, the package covers (or
@@ -140,3 +130,20 @@ Poisot, Timothée, Alyssa R. Cirtwill, Kévin Cazelles, Dominique Gravel,
 Marie-Josée Fortin, and Daniel B. Stouffer. “The Structure of Probabilistic
 Networks.” Methods in Ecology and Evolution 7, no. 3 (2016): 303–12.
 https://doi.org/10.1111/2041-210X.12468.
+
+## How can I contribute?
+
+Good question!
+
+The easiest way to contribute is to use the package, and [open an issue][issue]
+whenever you can't manage to do something, think the syntax is not clear, or the
+documentation is confusing. This is seriously one of the best ways to help.
+
+[issue]: https://github.com/PoisotLab/EcologicalNetwork.jl/issues
+
+If you want to contribute code, you can fork this repository, and start adding
+the functions you want, or changing the code. Please work from the `develop`
+branch (`master` does not accept pull requests except from maintainers, and
+cannot be pushed to unless a series of conditions are met). It's better if all
+of your code is tested and documented, but we will work with you when receiving
+the pull request anyways.

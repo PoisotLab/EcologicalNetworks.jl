@@ -1,12 +1,12 @@
 import Base.convert
 
 """
-    convert{IT}(::Type{UnipartiteNetwork}, N::BipartiteNetwork{IT})
+    convert(::Type{UnipartiteNetwork}, N::T) where {T <: BipartiteNetwork}
 
-Projects a bipartite network in its unipartite representation.
+Projects a deterministic bipartite network in its unipartite representation.
 """
 function convert(::Type{UnipartiteNetwork}, N::T) where {T <: BipartiteNetwork}
-    itype = eltype(N.A)
+    itype = last(eltype(N))
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
     B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.A
@@ -14,9 +14,9 @@ function convert(::Type{UnipartiteNetwork}, N::T) where {T <: BipartiteNetwork}
 end
 
 """
-    convert{NT,IT}(::Type{UnipartiteProbabilisticNetwork}, N::BipartiteProbabilisticNetwork{NT,IT})
+    convert(::Type{UnipartiteProbabilisticNetwork}, N::T) where {T <: BipartiteProbabilisticNetwork}
 
-TODO
+Projects a probabilistic bipartite network in its unipartite representation.
 """
 function convert(::Type{UnipartiteProbabilisticNetwork}, N::T) where {T <: BipartiteProbabilisticNetwork}
     itype = eltype(N.A)
@@ -27,9 +27,9 @@ function convert(::Type{UnipartiteProbabilisticNetwork}, N::T) where {T <: Bipar
 end
 
 """
-    convert{NT,IT}(::Type{UnipartiteQuantitativeNetwork}, N::BipartiteQuantitativeNetwork{NT,IT})
+    convert(::Type{UnipartiteQuantitativeNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
 
-TODO
+Projects a quantitative bipartite network in its unipartite representation.
 """
 function convert(::Type{UnipartiteQuantitativeNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
     itype = eltype(N.A)
@@ -40,9 +40,10 @@ function convert(::Type{UnipartiteQuantitativeNetwork}, N::T) where {T <: Bipart
 end
 
 """
-    convert{NT,IT}(::Type{UnipartiteNetwork}, N::UnipartiteQuantitativeNetwork{NT,IT})
+    convert(::Type{UnipartiteNetwork}, N::T) where {T <: UnipartiteQuantitativeNetwork}
 
-TODO
+Convert a unipartite quantitative network to a unipartite binary network. This
+amounts to *removing* the quantitative information.
 """
 function convert(::Type{UnipartiteNetwork}, N::T) where {T <: UnipartiteQuantitativeNetwork}
     S = copy(species(N))
@@ -51,9 +52,10 @@ function convert(::Type{UnipartiteNetwork}, N::T) where {T <: UnipartiteQuantita
 end
 
 """
-    convert{NT,IT}(::Type{BipartiteNetwork}, N::BipartiteQuantitativeNetwork{NT,IT})
+    convert(::Type{BipartiteNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
 
-TODO
+Convert a bipartite quantitative network to a bipartite binary network. This
+amounts to *removing* the quantitative information.
 """
 function convert(::Type{BipartiteNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
     R = copy(species(N, 1))
@@ -95,7 +97,7 @@ the input network.
 This function does *not* work for probabilistic networks. The operation of
 generating a deterministic network from a probabilistic one is different from a
 simple conversion: it can be done either through random draws, or by selecting
-only interactions with a probability greater than 0.
+only interactions with a probability greater than 0 (`N>0.0` will do this).
 """
 function convert(::Type{BinaryNetwork}, N::QuantitativeNetwork)
     if typeof(N) <: BipartiteQuantitativeNetwork
