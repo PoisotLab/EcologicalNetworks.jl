@@ -102,11 +102,8 @@ function salp(N::T; θ::Float64=0.002, steps::Int64=10_000, λ::Float64=0.999, p
     else
       m[updated_species] = original_module
     end
-    if progress
-      if step % 100 == 0
-        info_string = "t: $(lpad(step, 9)) \t θ: $(round(temperature, 2)) \t Q: $(round(Q0, 3)) \t m: $(length(unique(values(m))))"
-        info(info_string)
-      end
+    if progress && (step % 100 == 0)
+      info("t: $(lpad(step, 9)) \t θ: $(round(temperature, 2)) \t Q: $(round(Q0, 3)) \t m: $(length(unique(values(m))))")
     end
   end
   EcologicalNetwork.tidy_modules!(m)

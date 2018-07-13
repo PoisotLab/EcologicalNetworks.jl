@@ -4,8 +4,7 @@ import Base: getindex, setindex!, transpose, size, copy, !, isless, show
     show(io::IO, N::AbstractEcologicalNetwork)
 """
 function show(io::IO, N::AbstractEcologicalNetwork)
-  p = "unipartite"
-  p = typeof(N) <: AbstractBipartiteNetwork ? "bipartite" : p
+  p = typeof(N) <: AbstractBipartiteNetwork ? "bipartite" : "unipartite"
   t = ""
   t = typeof(N) <: ProbabilisticNetwork ? "probabilistic" : t
   t = typeof(N) <: QuantitativeNetwork ? "quantitative" : t
