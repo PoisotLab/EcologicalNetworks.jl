@@ -6,8 +6,11 @@ site_author: Timothée Poisot
 theme:
   name: 'material'
   palette:
-    primary: indigo
-    secondary: indigo
+    primary: teal
+    accent: amber
+  font:
+    text: Arimo
+    code: Cousine
   logo:
     icon: timeline
   feature:
