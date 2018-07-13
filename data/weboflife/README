@@ -1,0 +1,53 @@
+Web of Life - April, 28 (2018)
+
+GENERAL NOTES
+-------------
+
+The Web of Life project is developed at Jordi Bascompte's lab (www.bascompte.net), a research group focused on the structure and dynamics of ecological networks. It is supported by an European Research Council's Advanced Grant.
+
+
+ABOUT YOUR DOWNLOAD
+-------------------
+
+- You have downloaded 236 networks matching the following criteria:
+
+        Type of interaction: All
+        Type of data: All
+        Number of species: from 0 to 999999
+        Number of interactions: from 0 to 999999
+        Search filter: undefined
+        File format: csv
+
+- The zip file contains:
+
+        . This README text file.
+
+        . One file for each network, including species names if you specified them.
+
+        . The file references.csv, where you can find the references pointing to the original publications and some extra information.
+
+- You can use this dataset freely and share it with your collaborators.
+
+- The data have been compiled either from the literature or our own fieldwork or that from our collaborators. In some cases we requested data to the authors, while in others data were incorporated from the original publications.
+
+- Web of Life (www.web-of-life.es) is not the author/owner of the data. It is only a way of sharing them with the scientific community. If you decide to use this dataset in your projects, you must mention this web service: "This work has used the Web of Life database (www.web-of-life.es)". This does not preclude citing the author of individual networks when needed. You will find the references located in the references.csv file.
+
+- Use this dataset under your own risk. We are not responsible for the accuracy of the results derived from your research.
+
+- If you have any problems downloading the data, please let us know.
+
+HOW TO CONTRIBUTE
+-----------------
+
+- If you have a network that you think could be included in the database, please send us an e-mail, and we'll send you the necessary information. Also we would be happy to know about potential mistakes you spot.
+
+CONTACT INFORMATION
+-------------------
+
+        Integrative Ecology Group - Bascompte's Lab
+        Estaciónn Biológica de Doñana (EBD-CSIC)
+        C/ Américo Vespucio s/n
+        41092 Sevilla, Spain
+        Phone: +34 954 46 67 00
+        Fax: +34 954 62 11 25
+        e-mail: bascompte_lab[at]ebd.csic.es
