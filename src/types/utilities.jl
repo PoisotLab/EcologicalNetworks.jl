@@ -393,7 +393,7 @@ function Base.:!(N::T) where {T <: BinaryNetwork}
   return typeof(N)(.!N.A, species_objects(N)...)
 end
 
-!
+
 """
     transpose(N::AbstractBipartiteNetwork)
 

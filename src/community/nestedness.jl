@@ -126,7 +126,7 @@ an invalid value is used. For quantitative networks, *WNODF* is used.
 """
 function nodf(N::T, i::Int64) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
 
-  @assert i ∈ [1,2]
+  i ∈ [1,2] || throw(ArgumentError("i can only be 1 (nestedness of rows) or 2 (nestedness of columns), you used $(i)"))
   NODFval = i == 1 ? nodf_axis(N) : nodf_axis(N')
   correction = i == 1 ? (richness(N,1) * (richness(N,1) - 1)) : (richness(N,2) * (richness(N,2) - 1))
 

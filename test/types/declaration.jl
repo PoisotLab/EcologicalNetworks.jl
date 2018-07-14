@@ -32,14 +32,14 @@ using EcologicalNetwork
 @test typeof(BipartiteQuantitativeNetwork(rand(Int64, (5, 2)))) <: QuantitativeNetwork
 @test typeof(BipartiteQuantitativeNetwork(rand(Float64, (3, 2)), ["a", "b", "c"], ["A", "B"])) <: BipartiteQuantitativeNetwork
 
-@test_throws AssertionError UnipartiteNetwork(rand(Bool, (5, 3)))
-@test_throws AssertionError UnipartiteNetwork(rand(Bool, (5, 5)), ["a", "b", "c"])
-@test_throws AssertionError UnipartiteNetwork(rand(Bool, (2, 2)), ["a", "b", "c"])
-@test_throws AssertionError BipartiteNetwork(rand(Bool, (3, 2)), ["a", "b", "c"], ["c", "d", "e"])
-@test_throws AssertionError BipartiteNetwork(rand(Bool, (3, 2)), ["a", "b", "c"], ["c", "e"])
+@test_throws ArgumentError UnipartiteNetwork(rand(Bool, (5, 3)))
+@test_throws ArgumentError UnipartiteNetwork(rand(Bool, (5, 5)), ["a", "b", "c"])
+@test_throws ArgumentError UnipartiteNetwork(rand(Bool, (2, 2)), ["a", "b", "c"])
+@test_throws ArgumentError BipartiteNetwork(rand(Bool, (3, 2)), ["a", "b", "c"], ["c", "d", "e"])
+@test_throws ArgumentError BipartiteNetwork(rand(Bool, (3, 2)), ["a", "b", "c"], ["c", "e"])
 @test_throws MethodError BipartiteNetwork(rand(Bool, (3, 2)), ["a", "b", "c"], [:e, :f])
 
 @test typeof(UnipartiteProbabilisticNetwork(rand(3, 3), [:a, :b, :c])) <: UnipartiteProbabilisticNetwork
-@test_throws AssertionError UnipartiteProbabilisticNetwork(rand(3, 3).*2.0, [:a, :b, :c])
+@test_throws ArgumentError UnipartiteProbabilisticNetwork(rand(3, 3).*2.0, [:a, :b, :c])
 
 end
