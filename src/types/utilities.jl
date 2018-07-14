@@ -98,8 +98,8 @@ Use `N[i,j]` if you need to get the value of the interaction.
 function has_interaction(N::AbstractEcologicalNetwork, i::NT, j::NT) where {NT<:AllowedSpeciesTypes}
   @assert i ∈ species(N, 1)
   @assert j ∈ species(N, 2)
-  i_pos = first(findall((in)(i), species(N,1)))
-  j_pos = first(findall((in)(j), species(N,2)))
+  i_pos = something(findfirst(isequal(i), species(N,1)),0)
+  j_pos = something(findfirst(isequal(j), species(N,2)),0)
   return has_interaction(N, i_pos, j_pos)
 end
 
