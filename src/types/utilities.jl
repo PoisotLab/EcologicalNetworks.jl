@@ -98,8 +98,8 @@ Use `N[i,j]` if you need to get the value of the interaction.
 function has_interaction(N::AbstractEcologicalNetwork, i::NT, j::NT) where {NT<:AllowedSpeciesTypes}
   @assert i ∈ species(N, 1)
   @assert j ∈ species(N, 2)
-  i_pos = findin(species(N,1),[i])[1]
-  j_pos = findin(species(N,2),[j])[1]
+  i_pos = first(findall((in)(i), species(N,1)))
+  j_pos = first(findall((in)(j), species(N,2)))
   return has_interaction(N, i_pos, j_pos)
 end
 
@@ -235,7 +235,7 @@ order specified by the user for performance reasons.
 """
 function getindex(N::AbstractUnipartiteNetwork, sp::Vector{T}) where {T<:AllowedSpeciesTypes}
   @assert all(map(x -> x ∈ species(N), sp))
-  sp_pos = findin(species(N), sp)
+  sp_pos = findall((in)(sp), species(N))
   n_sp = species(N)[sp_pos]
   n_int = N.A[sp_pos, sp_pos]
   return typeof(N)(n_int, n_sp)
@@ -249,7 +249,7 @@ TODO
 """
 function getindex(N::AbstractBipartiteNetwork, ::Colon, sp::Vector{T}) where {T<:AllowedSpeciesTypes}
   @assert all(map(x -> x ∈ species(N,2), sp))
-  sp_pos = findin(species(N,2), sp)
+  sp_pos = findall((in)(sp), species(N,2))
   n_t = N.T
   n_b = N.B[sp_pos]
   n_int = N.A[:, sp_pos]
@@ -264,7 +264,7 @@ TODO
 """
 function getindex(N::AbstractBipartiteNetwork, sp::Vector{T}, ::Colon) where {T <: AllowedSpeciesTypes}
   @assert all(map(x -> x ∈ species(N,1), sp))
-  sp_pos = findin(species(N,1), sp)
+  sp_pos = findall((in)(sp), species(N,1))
   n_t = N.T[sp_pos]
   n_b = N.B
   n_int = N.A[sp_pos,:]

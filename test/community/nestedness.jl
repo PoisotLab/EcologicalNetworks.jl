@@ -1,5 +1,5 @@
 module TestNestedness
-    using Base.Test
+    using Test
     using EcologicalNetwork
 
     # Generate some data

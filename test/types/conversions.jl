@@ -1,5 +1,5 @@
 module TestTypesConversions
-using Base.Test
+using Test
 using EcologicalNetwork
 
 N = BipartiteNetwork([true false; true true], [:a, :b], [:A, :B])

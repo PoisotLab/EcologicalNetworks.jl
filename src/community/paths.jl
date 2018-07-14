@@ -92,7 +92,7 @@ Currently, the Bellman-Ford algorithm is *slower* than the `shortest_path`
 function, but the arguments are returned in a more usable way. Note that the
 speed penalty is only valid when measuring the shortest paths in the entire
 network (and will be fixed relatively soon), and does not apply as much for the
-shortest paths from a single source node. 
+shortest paths from a single source node.
 """
 function bellman_ford(N::T) where {T <: DeterministicNetwork}
     global paths

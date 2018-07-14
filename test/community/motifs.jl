@@ -1,5 +1,5 @@
 module TestMotifs
-using Base.Test
+using Test
 #include("../../src/EcologicalNetwork.jl")
 using EcologicalNetwork
 

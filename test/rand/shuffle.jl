@@ -1,5 +1,5 @@
 module TestSwaps
-  using Base.Test
+  using Test
   using EcologicalNetwork
 
   N = convert(BinaryNetwork, web_of_life("A_HP_001"))

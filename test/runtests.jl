@@ -1,5 +1,5 @@
 using EcologicalNetwork
-using Base.Test
+using Test
 
 anyerrors = false
 

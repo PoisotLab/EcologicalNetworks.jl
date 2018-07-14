@@ -1,5 +1,5 @@
 module TestData
-  using Base.Test
+  using Test
   using EcologicalNetwork
 
   all_wol = web_of_life()

@@ -1,5 +1,5 @@
 module TestSpecificityFunctions
-  using Base.Test
+  using Test
   using EcologicalNetwork
 
   # specificity
