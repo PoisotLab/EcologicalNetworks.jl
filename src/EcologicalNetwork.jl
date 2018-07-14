@@ -64,7 +64,7 @@ export η, nodf
 
 # Paths
 include(joinpath(".", "community/paths.jl"))
-export number_of_paths, shortest_path
+export number_of_paths, shortest_path, bellman_ford
 
 # Centrality
 include(joinpath(".", "community/centrality.jl"))
