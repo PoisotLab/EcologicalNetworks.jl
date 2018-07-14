@@ -5,8 +5,7 @@ using StatsBase
 using NamedTuples
 using StatPlots
 
-N = web_of_life("A_HP_002")
-Traceur.@trace connectance(N)
-Traceur.@trace degree(N, 1)
+N = nz_stream_foodweb()[5]
 
-Traceur.@trace each_species_its_module(N)
+
+bellman_ford(N)

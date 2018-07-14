@@ -17,4 +17,9 @@ module TestPaths
   @test number_of_paths(U) == number_of_paths(UnipartiteNetwork(m.>0))
   @test shortest_path(U) == shortest_path(UnipartiteNetwork(m.>0))
 
+  N = unipartitemotifs()[:S1]
+  b = bellman_ford(N)
+  @test length(b) == 3
+  @test length(filter(x -> x.to == :c, b)) == 2
+
 end
