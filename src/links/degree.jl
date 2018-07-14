@@ -90,7 +90,7 @@ function degree_var(N::BipartiteProbabilisticNetwork)
 end
 
 function degree_var(N::ProbabilisticNetwork, i::Integer)
-  @assert i ∈ [1,2]
+  i ∈ [1,2] || throw(ArgumentError("i can only be 1 (out-degre) or 2 (in-degree), you used $(i)"))
   f = i == 1 ? degree_out_var : degree_in_var
   return f(N)
 end
