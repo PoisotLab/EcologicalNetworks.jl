@@ -74,7 +74,7 @@ function bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: Al
     end
 
     filter!((k,v) -> v != "", p)
-    return [@NT(from=source, to=k, weight=d[k]) for (k,v) in p]
+    return [(from=source, to=k, weight=d[k]) for (k,v) in p]
 
 end
 

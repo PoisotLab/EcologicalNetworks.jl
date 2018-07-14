@@ -3,7 +3,7 @@ module EcologicalNetwork
 # Dependencies
 using StatsBase
 using Combinatorics
-using NamedTuples
+using Random
 
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
