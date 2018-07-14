@@ -102,10 +102,4 @@ export KGL01, KGL02, KGL03, KGL04, KGL05, KGL06, KGL07, KGL08, KGL09, KGL10,
 include(joinpath(".", "foodwebs/trophiclevels.jl"))
 export fractional_trophic_level, trophic_level
 
-#=
-include(joinpath(".", "modularity/louvain.jl"))
-include(joinpath(".", "modularity/modularity.jl"))
-export modularity, networkroles
-=#
-
 end
