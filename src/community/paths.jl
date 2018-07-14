@@ -41,8 +41,6 @@ function shortest_path(N::UnipartiteNetwork; nmax::Int64=50)
 end
 
 """
-**Shortest paths**
-
     shortest_path(N::UnipartiteQuantiNetwork; nmax::Int64=50)
 
 This function will remove quantitative information, then measure the shortest
@@ -50,4 +48,55 @@ path length.
 """
 function shortest_path(N::UnipartiteQuantitativeNetwork; nmax::Int64=50)
   shortest_path(convert(UnipartiteNetwork, N); nmax=nmax)
+end
+
+"""
+    bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
+
+Bellman-ford algorithm to return the shortest / easiest paths from a source
+species. Refer to the `bellman_ford` global documentation for the output format.
+"""
+function bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
+
+    source ∈ species(N) || throw(ArgumentError("Species $(source) is not part of the network"))
+
+    d = Dict([s => Inf64 for s in species(N)])
+    p = Dict([s => "" for s in species(N)])
+
+    d[source] = 0.0
+
+    all_edges = interactions(N)
+
+    for i in 1:(richness(N)-1)
+        for interaction in all_edges
+            w = get(interaction, :strength, 1.0)
+            if d[interaction.to] > (d[interaction.from] + w)
+                d[interaction.to] = d[interaction.from] + w
+                p[interaction.to] = interaction.from
+            end
+        end
+    end
+
+    filter!((k,v) -> v != "", p)
+    return [@NT(from=source, to=k, weight=d[k]) for (k,v) in p]
+
+end
+
+
+"""
+    bellman_ford(N::T) where {T <: DeterministicNetwork}
+
+Bellman-ford algorithm to return the shortest / easiest paths between all pairs
+of species in the networks, as long as paths exists. This function will return a
+tuple, with fields `from`, `to` and `weight`. The number of elements in the
+tuple is the number of paths. This function works with quantitative and binary
+networks, and assumes that no interactions are negative.
+"""
+function bellman_ford(N::T) where {T <: DeterministicNetwork}
+    global paths
+    for i in 1:richness(N)
+        i == 1 && (paths = bellman_ford(N, species(N)[i]))
+        i == 1 || append!(paths, bellman_ford(N, species(N)[i]))
+    end
+    return paths
 end

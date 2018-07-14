@@ -6,7 +6,7 @@ import Base.convert
 Projects a deterministic bipartite network in its unipartite representation.
 """
 function convert(::Type{UnipartiteNetwork}, N::T) where {T <: BipartiteNetwork}
-    itype = first(eltype(N))
+    itype = last(eltype(N))
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
     B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.A
