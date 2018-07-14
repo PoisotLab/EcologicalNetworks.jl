@@ -13,17 +13,17 @@ function nz_stream_foodweb()
 end
 
 function web_of_life(name)
-  fullname = name * ".csv"
+  file_pathname = name * ".csv"
   data_path = joinpath(@__DIR__, "../..", "data", "weboflife")
   files = readdir(data_path)
-  @assert fullname in files
-  content = readdlm(joinpath(@__DIR__, "../..", "data", "weboflife", fullname), ',')
+  @assert file_pathname in files
+  content = readdlm(joinpath(@__DIR__, "../..", "data", "weboflife", file_pathname), ',')
   bottom_species_names = convert(Array{String}, vec(content[:,1][2:end]))
   top_species_names = convert(Array{String}, vec(content[1,:][2:end]))
   int_mat = content[2:end,2:end]
-  repl = find(int_mat .== "#")
-  int_mat[repl] = 0.0
-  interaction_matrix = map(Int64, round.(int_mat, 0))'
+  repl = findall(int_mat .== "#")
+  int_mat[repl] .= 0.0
+  interaction_matrix = map(Int64, round.(permutedims(int_mat)))
   ntype = BipartiteQuantitativeNetwork
   if maximum(interaction_matrix) == 1
     interaction_matrix = interaction_matrix .> 0

@@ -47,7 +47,7 @@ richness
 ### Changing network shape
 
 ```@docs
-transpose
+permutedims
 nodiagonal
 nodiagonal!
 ```

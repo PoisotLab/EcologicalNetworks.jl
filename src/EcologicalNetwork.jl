@@ -4,6 +4,7 @@ module EcologicalNetwork
 using StatsBase
 using Combinatorics
 using Random
+using DelimitedFiles
 
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))

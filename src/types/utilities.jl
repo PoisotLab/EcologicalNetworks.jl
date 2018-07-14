@@ -1,4 +1,4 @@
-import Base: getindex, setindex!, transpose, size, copy, !, isless, show
+import Base: getindex, setindex!, permutedims, permutedims!, size, copy, !, isless, show
 
 """
     show(io::IO, N::AbstractEcologicalNetwork)
@@ -190,8 +190,8 @@ recommended way to look for things in a network.
 function getindex(N::AbstractEcologicalNetwork, s1::T, s2::T) where {T<:AllowedSpeciesTypes}
   @assert s1 ∈ species(N,1)
   @assert s2 ∈ species(N,2)
-  s1_pos = findfirst(species(N,1), s1)
-  s2_pos = findfirst(species(N,2), s2)
+  s1_pos = something(findfirst(isequal(s1), species(N,1)), 0)
+  s2_pos = something(findfirst(isequal(s2), species(N,2)), 0)
   return N[s1_pos, s2_pos]
 end
 
@@ -280,8 +280,8 @@ TODO
 function getindex(N::AbstractBipartiteNetwork, sp1::Vector{T}, sp2::Vector{T}) where {T <: AllowedSpeciesTypes}
   @assert all(map(x -> x ∈ species(N,1), sp1))
   @assert all(map(x -> x ∈ species(N,2), sp2))
-  sp1_pos = findin(species(N,1), sp1)
-  sp2_pos = findin(species(N,2), sp2)
+  sp1_pos = findall((in)(sp1), species(N,1))
+  sp2_pos = findall((in)(sp2), species(N,2))
   n_t = N.T[sp1_pos]
   n_b = N.B[sp2_pos]
   n_int = N.A[sp1_pos,sp2_pos]
@@ -395,16 +395,15 @@ end
 
 
 """
-    transpose(N::AbstractBipartiteNetwork)
+    permutedims(N::AbstractBipartiteNetwork)
 
-Returns a transposed copy of the network.
+Tranposes the network and returns a copy
 """
-function transpose(N::AbstractEcologicalNetwork)
-  A = copy(N.A)'
+function permutedims(N::AbstractEcologicalNetwork)
+  NA = permutedims(N.A)
   new_sp = typeof(N) <: AbstractBipartiteNetwork ? (N.B, N.T) : (N.S,)
-  return typeof(N)(A, new_sp...)
+  return typeof(N)(NA, new_sp...)
 end
-
 
 """
     interactions(N::AbstractEcologicalNetwork)
@@ -437,7 +436,7 @@ function interactions(N::AbstractEcologicalNetwork)
         if typeof(N) <: QuantitativeNetwork
           push!(values, N[i,j])
         end
-        int_nt = NamedTuples.make_tuple(fields)(tuple(values...)...)
+        int_nt = NamedTuple{tuple(fields...)}(tuple(values...))
         push!(edges_accumulator, int_nt)
       end
     end
