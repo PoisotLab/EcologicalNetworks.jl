@@ -26,16 +26,16 @@ module TestBetaDivOperations
   @test richness(I) == richness(A)
 
   # No common species
-  A = UnipartiteNetwork(eye(Bool, 3), [:a, :b, :c])
-  B = UnipartiteNetwork(eye(Bool, 3), [:d, :e, :f])
+  A = UnipartiteNetwork(Matrix(I, (3,3)), [:a, :b, :c])
+  B = UnipartiteNetwork(Matrix(I, (3,3)), [:d, :e, :f])
 
   @test species(setdiff(B, A)) == species(B)
   @test species(setdiff(A, B)) == species(A)
   @test richness(intersect(A, B)) == 0
   @test links(intersect(A, B)) == 0
 
-  A = BipartiteNetwork(eye(Bool, 3), [:a, :b, :c], [:r, :t, :u])
-  B = BipartiteNetwork(eye(Bool, 3), [:d, :e, :f], [:j, :k, :l])
+  A = BipartiteNetwork(Matrix(I, (3,3)), [:a, :b, :c], [:r, :t, :u])
+  B = BipartiteNetwork(Matrix(I, (3,3)), [:d, :e, :f], [:j, :k, :l])
 
   @test species(setdiff(B, A)) == species(B)
   @test species(setdiff(A, B)) == species(A)
