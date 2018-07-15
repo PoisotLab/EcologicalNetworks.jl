@@ -31,8 +31,8 @@ function web_of_life(name)
   end
   this_net = ntype(interaction_matrix, top_species_names, bottom_species_names)
   forbidden_names = ["Numbers of flowers", "Num. of hosts sampled", "#", "Frequency of occurrences", "Number of flowers", "Number of droppings analysed"]
-  sp_1 = filter(x -> !(x ∈ forbidden_names), species(this_net,1))
-  sp_2 = filter(x -> !(x ∈ forbidden_names), species(this_net,2))
+  sp_1 = filter(x -> !(x ∈ forbidden_names), species(this_net; dims=1))
+  sp_2 = filter(x -> !(x ∈ forbidden_names), species(this_net; dims=2))
   return this_net[sp_1, sp_2]
 end
 
