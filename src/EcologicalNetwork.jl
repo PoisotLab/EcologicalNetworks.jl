@@ -19,15 +19,15 @@ include(joinpath(".", "types/declarations.jl"))
 include(joinpath(".", "types/constructors.jl"))
 include(joinpath(".", "types/conversions.jl"))
 export AbstractEcologicalNetwork, AllowedSpeciesTypes,
-    # General types for all bipartite / unipartite
-    AbstractBipartiteNetwork, AbstractUnipartiteNetwork,
-    # Types
-    BipartiteNetwork, UnipartiteNetwork,
-    BipartiteProbabilisticNetwork, UnipartiteProbabilisticNetwork,
-    BipartiteQuantitativeNetwork, UnipartiteQuantitativeNetwork,
-    # Union types for all proba or deterministic
-    ProbabilisticNetwork, DeterministicNetwork, QuantitativeNetwork,
-    BinaryNetwork
+   # General types for all bipartite / unipartite
+   AbstractBipartiteNetwork, AbstractUnipartiteNetwork,
+   # Types
+   BipartiteNetwork, UnipartiteNetwork,
+   BipartiteProbabilisticNetwork, UnipartiteProbabilisticNetwork,
+   BipartiteQuantitativeNetwork, UnipartiteQuantitativeNetwork,
+   # Union types for all proba or deterministic
+   ProbabilisticNetwork, DeterministicNetwork, QuantitativeNetwork,
+   BinaryNetwork
 
 # Datasets
 include(joinpath(".", "misc/data.jl"))
@@ -47,12 +47,12 @@ export specificity
 
 include(joinpath(".", "links/connectance.jl"))
 export links, L, links_var, connectance, connectance_var,
-    linkage_density, link_number
+   linkage_density, link_number
 
 include(joinpath(".", "links/degenerate.jl"))
 export isdegenerate, simplify, simplify!
-    #, species_has_no_successors, species_has_no_predecessors,
-    #species_is_free, free_species
+   #, species_has_no_successors, species_has_no_predecessors,
+   #species_is_free, free_species
 
 # Random networks and permutations
 include(joinpath(".", "rand/draws.jl"))
@@ -98,8 +98,8 @@ export βs, βos, βwn
 
 include(joinpath(".", "betadiversity/measures.jl"))
 export KGL01, KGL02, KGL03, KGL04, KGL05, KGL06, KGL07, KGL08, KGL09, KGL10,
-    KGL11, KGL12, KGL13, KGL14, KGL15, KGL16, KGL17, KGL18, KGL19, KGL20, KGL21,
-    KGL22, KGL23, KGL24
+   KGL11, KGL12, KGL13, KGL14, KGL15, KGL16, KGL17, KGL18, KGL19, KGL20, KGL21,
+   KGL22, KGL23, KGL24
 
 # Food webs
 include(joinpath(".", "foodwebs/trophiclevels.jl"))
