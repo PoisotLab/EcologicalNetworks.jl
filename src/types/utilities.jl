@@ -42,10 +42,10 @@ Returns an array of species in either side of a bipartite network. The `i`
 parameter is the "margin" of the network, where `1` is species from the top, and
 `2` is species from the bottom layer.
 """
-function species(N::AbstractBipartiteNetwork, i::Int64)
-  i == 1 && return N.T
-  i == 2 && return N.B
-  throw(ArgumentError("i can only be 1 (top species) or 2 (bottom species), you used $(i)"))
+function species(N::AbstractBipartiteNetwork; dims::Integer=1)
+  dims == 1 && return N.T
+  dims == 2 && return N.B
+  throw(ArgumentError("dims can only be 1 (top species) or 2 (bottom species), you used $(dims)"))
 end
 
 
@@ -57,7 +57,7 @@ unipartite network, species are the same on either size, so this essentially
 calls `species(N)`. This function is nevertheless useful when you want to write
 code that takes either side of the network in a general way.
 """
-function species(N::AbstractUnipartiteNetwork, i::Int64)
+function species(N::AbstractUnipartiteNetwork; dims::Integer=1)
   return species(N)
 end
 
@@ -334,8 +334,8 @@ Returns the number of species on either side of the network. The value of `i`
 can be `1` (top-level species) or `2` (bottom-level species), as in the
 `species` function.
 """
-function richness(N::AbstractEcologicalNetwork, i::Int64)
-  return length(species(N,i))
+function richness(N::AbstractEcologicalNetwork; dims::Integer=1)
+  return length(species(N, dims=dims))
 end
 
 """
