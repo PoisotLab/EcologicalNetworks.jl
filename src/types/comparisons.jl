@@ -1,4 +1,4 @@
-import Base:  <, ≤
+import Base: <, ≤
 
 function ≤(N::NT, n::T) where {T <: AbstractFloat, NT <: BipartiteProbabilisticNetwork{T,S}}
   @assert 0.0 ≤= n ≤= 1.0
