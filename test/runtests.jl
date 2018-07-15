@@ -1,7 +1,8 @@
 using EcologicalNetwork
 using Test
+using LinearAlgebra
 
-anyerrors = false
+global anyerrors = false
 
 my_tests = [
    "types/declaration.jl",
