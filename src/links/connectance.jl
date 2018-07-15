@@ -69,7 +69,7 @@ this is not standard practice, and therefore is not suggested as a function in
 the package.
 """
 function connectance(N::AbstractEcologicalNetwork)
-    return links(N) / (richness(N,1)*richness(N,2))
+    return links(N) / (richness(N; dims=1)*richness(N; dims=2))
 end
 
 """

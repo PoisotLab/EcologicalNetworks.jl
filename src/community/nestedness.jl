@@ -2,7 +2,7 @@
 Nestedness of a single axis (called internally by `η`)
 """
 function η_axis(N::AbstractBipartiteNetwork)
-  S = richness(N,1)
+  S = richness(N; dims=1)
   n = vec(sum(N.A, 2))
   num = 0.0
   den = 0.0

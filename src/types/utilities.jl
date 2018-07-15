@@ -8,7 +8,7 @@ function show(io::IO, N::AbstractEcologicalNetwork)
   t = ""
   t = typeof(N) <: ProbabilisticNetwork ? "probabilistic" : t
   t = typeof(N) <: QuantitativeNetwork ? "quantitative" : t
-  print(io, "$(richness(N,1))×$(richness(N,2)) $(p) $(t) ecological network $(eltype(N)) (L: $(links(N)))")
+  print(io, "$(richness(N; dims=1))×$(richness(N; dims=2)) $(p) $(t) ecological network $(eltype(N)) (L: $(links(N)))")
 end
 
 
@@ -96,10 +96,10 @@ for the presence of an interaction.
 Use `N[i,j]` if you need to get the value of the interaction.
 """
 function has_interaction(N::AbstractEcologicalNetwork, i::NT, j::NT) where {NT<:AllowedSpeciesTypes}
-  @assert i ∈ species(N, 1)
-  @assert j ∈ species(N, 2)
-  i_pos = something(findfirst(isequal(i), species(N,1)),0)
-  j_pos = something(findfirst(isequal(j), species(N,2)),0)
+  @assert i ∈ species(N; dims=1)
+  @assert j ∈ species(N; dims=2)
+  i_pos = something(findfirst(isequal(i), species(N; dims=1)),0)
+  j_pos = something(findfirst(isequal(j), species(N; dims=2)),0)
   return has_interaction(N, i_pos, j_pos)
 end
 
@@ -335,7 +335,7 @@ can be `1` (top-level species) or `2` (bottom-level species), as in the
 `species` function.
 """
 function richness(N::AbstractEcologicalNetwork; dims::Integer=1)
-  return length(species(N, dims=dims))
+  return length(species(N; dims=dims))
 end
 
 """
@@ -378,8 +378,8 @@ function interactions(N::AbstractEcologicalNetwork)
   if typeof(N) <: QuantitativeNetwork
     push!(fields, :strength)
   end
-  sp1 = species(N, dims=1)
-  sp2 = species(N, dims=2)
+  sp1 = species(N; dims=1)
+  sp2 = species(N; dims=2)
   for i in eachindex(sp1)
     s1 = sp1[i]
     for j in eachindex(sp2)
