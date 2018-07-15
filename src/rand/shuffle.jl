@@ -12,8 +12,8 @@ function swap_degree!(Y::BinaryNetwork)
     end
 
     for old_i in [i1, i2, n1, n2]
-        i = findfirst(species(Y; dims=1), old_i.from)
-        j = findfirst(species(Y; dims=2), old_i.to)
+        i = something(findfirst(isequal(old_i.from), species(Y; dims=1)), 0)
+        j = something(findfirst(isequal(old_i.to), species(Y; dims=2)), 0)
         Y.A[i,j] = !Y.A[i,j]
     end
 end
@@ -28,8 +28,8 @@ function swap_fill!(Y::BinaryNetwork)
     end
 
     for old_i in [i1, n1]
-        i = findfirst(species(Y; dims=1), old_i.from)
-        j = findfirst(species(Y; dims=2), old_i.to)
+        i = something(findfirst(isequal(old_i.from), species(Y; dims=1)), 0)
+        j = something(findfirst(isequal(old_i.to), species(Y; dims=2)), 0)
         Y.A[i,j] = !Y.A[i,j]
     end
 end
@@ -44,8 +44,8 @@ function swap_vulnerability!(Y::BinaryNetwork)
     end
 
     for old_i in [i1, n1]
-        i = findfirst(species(Y; dims=1), old_i.from)
-        j = findfirst(species(Y; dims=2), old_i.to)
+        i = something(findfirst(isequal(old_i.from), species(Y; dims=1)), 0)
+        j = something(findfirst(isequal(old_i.to), species(Y; dims=2)), 0)
         Y.A[i,j] = !Y.A[i,j]
     end
 end
@@ -60,8 +60,8 @@ function swap_generality!(Y::BinaryNetwork)
     end
 
     for old_i in [i1, n1]
-        i = findfirst(species(Y; dims=1), old_i.from)
-        j = findfirst(species(Y; dims=2), old_i.to)
+        i = something(findfirst(isequal(old_i.from), species(Y; dims=1)), 0)
+        j = something(findfirst(isequal(old_i.to), species(Y; dims=2)), 0)
         Y.A[i,j] = !Y.A[i,j]
     end
 end

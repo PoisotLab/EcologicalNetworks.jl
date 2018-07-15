@@ -1,6 +1,7 @@
 module TestSwaps
   using Test
   using EcologicalNetwork
+  using Random
 
   N = convert(BinaryNetwork, web_of_life("A_HP_001"))
   Ud = shuffle(N; number_of_swaps=10, constraint=:degree)
