@@ -3,7 +3,7 @@ Nestedness of a single axis (called internally by `η`)
 """
 function η_axis(N::AbstractBipartiteNetwork)
   S = richness(N; dims=1)
-  n = vec(sum(N.A, 2))
+  n = vec(sum(N.A; dims=2))
   num = 0.0
   den = 0.0
   @simd for j in 2:S
@@ -16,15 +16,6 @@ function η_axis(N::AbstractBipartiteNetwork)
 end
 
 """
-    η(N::T) where {T <: Union{BipartiteNetwork, BipartiteProbaNetwork}}
-
-This returns the nestedness of the entire matrix.
-"""
-function η(N::T) where {T <: Union{BipartiteNetwork, BipartiteProbabilisticNetwork}}
-  return (η(N,1) + η(N,2))/2.0
-end
-
-"""
     η(N::T, i::Int64) where {T <: Union{BipartiteNetwork, BipartiteProbaNetwork}}
 
 Returns the nestedness of a margin of the network, using η. The second argument
@@ -32,13 +23,14 @@ can be `1` (for nestedness of rows/top level) or `2` (for nestedness of
 columns/bottom level). This function will throw an `ArgumentError` if you use an
 invalid value for `i`.
 """
-function η(N::T, i::Int64) where {T <: Union{BipartiteNetwork, BipartiteProbabilisticNetwork}}
-  i == 1 && return η_axis(N)
-  i == 2 && return η_axis(N')
+function η(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{BipartiteNetwork, BipartiteProbabilisticNetwork}}
+  dims == 1 && return η_axis(N)
+  dims == 2 && return η_axis(permutedims(N))
+  if dims === nothing
+    return (η_axis(N; dims=1) + η_axis(N; dims=2))/2.0
+  end
   throw(ArgumentError("i can only be 1 (nestedness of rows) or 2 (nestedness of columns), you used $(i)"))
 end
-
-
 
 """
 WNODF of a single axis
