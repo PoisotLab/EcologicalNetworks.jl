@@ -1,6 +1,7 @@
 module TestTypeUtilities
 using Test
 using EcologicalNetwork
+using LinearAlgebra
 
 B = BipartiteProbabilisticNetwork(rand(3, 5))
 @test typeof(copy(B)) == typeof(B)
