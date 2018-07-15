@@ -12,30 +12,29 @@ function show(io::IO, N::AbstractEcologicalNetwork)
 end
 
 """
+    richness(N::AbstractEcologicalNetwork, i::Int64)
+
+Returns the number of species on either side of the network. The value of `i`
+can be `1` (top-level species) or `2` (bottom-level species), as in the
+`species` function.
+"""
+function richness(N::AbstractEcologicalNetwork; dims::Union{Nothing,Integer}=nothing)
+  return length(species(N; dims=dims))
+end
+
+"""
     species(N::AbstractBipartiteNetwork)
 
 Returns an array of all species in a bipartite network. The order of the species
 corresponds to the order of rows (top level) and columns (bottom level) of the
 adjacency matrix, in this order.
 """
-function species(N::AbstractBipartiteNetwork)
-  return vcat(N.T, N.B)
-end
-
-
-"""
-    species(N::AbstractBipartiteNetwork, i::Int64)
-
-Returns an array of species in either side of a bipartite network. The `i`
-parameter is the "margin" of the network, where `1` is species from the top, and
-`2` is species from the bottom layer.
-"""
-function species(N::AbstractBipartiteNetwork; dims::Integer=1)
+function species(N::AbstractBipartiteNetwork; dims::Union{Nothing,Integer}=nothing)
+  dims === nothing && return vcat(N.T, N.B)
   dims == 1 && return N.T
   dims == 2 && return N.B
-  throw(ArgumentError("dims can only be 1 (top species) or 2 (bottom species), you used $(dims)"))
+  throw(ArgumentError("dims can only be 1 (top species) or 2 (bottom species), or `nothing` (all species), you used $(dims)"))
 end
-
 
 """
     species(N::AbstractUnipartiteNetwork; dims::Int64=1)
@@ -45,7 +44,7 @@ unipartite network, species are the same on either size. This function is
 nevertheless useful when you want to write code that takes either side of the
 network in a general way.
 """
-function species(N::AbstractUnipartiteNetwork; dims::Integer=1)
+function species(N::AbstractUnipartiteNetwork; dims::Union{Nothing,Integer}=nothing)
   return N.S
 end
 
@@ -302,28 +301,6 @@ function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwo
   @assert i ≤ richness(N; dims=1)
   @assert j ≤ richness(N; dims=2)
   N.A[i, j] = A
-end
-
-
-"""
-    richness(N::AbstractEcologicalNetwork)
-
-Returns the number of species in a network.
-"""
-function richness(N::AbstractEcologicalNetwork)
-  return length(species(N))
-end
-
-
-"""
-    richness(N::AbstractEcologicalNetwork, i::Int64)
-
-Returns the number of species on either side of the network. The value of `i`
-can be `1` (top-level species) or `2` (bottom-level species), as in the
-`species` function.
-"""
-function richness(N::AbstractEcologicalNetwork; dims::Integer=1)
-  return length(species(N; dims=dims))
 end
 
 """
