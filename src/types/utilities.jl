@@ -11,18 +11,6 @@ function show(io::IO, N::AbstractEcologicalNetwork)
   print(io, "$(richness(N; dims=1))×$(richness(N; dims=2)) $(p) $(t) ecological network $(eltype(N)) (L: $(links(N)))")
 end
 
-
-"""
-    species(N::AbstractUnipartiteNetwork)
-
-Returns an array of all species in a unipartite network. The order of the
-species corresponds to the order of rows/columns in the adjacency matrix.
-"""
-function species(N::AbstractUnipartiteNetwork)
-  return N.S
-end
-
-
 """
     species(N::AbstractBipartiteNetwork)
 
@@ -50,15 +38,15 @@ end
 
 
 """
-    species(N::AbstractUnipartiteNetwork, i::Int64)
+    species(N::AbstractUnipartiteNetwork; dims::Int64=1)
 
 Returns an array of species on either side of a unipartite network. In a
-unipartite network, species are the same on either size, so this essentially
-calls `species(N)`. This function is nevertheless useful when you want to write
-code that takes either side of the network in a general way.
+unipartite network, species are the same on either size. This function is
+nevertheless useful when you want to write code that takes either side of the
+network in a general way.
 """
 function species(N::AbstractUnipartiteNetwork; dims::Integer=1)
-  return species(N)
+  return N.S
 end
 
 function species_objects(N::AbstractUnipartiteNetwork)
