@@ -29,7 +29,7 @@ my_tests = [
    "modularity/brim.jl"
 ]
 
-test_n = 1
+global test_n = 1
 for my_test in my_tests
   try
     include(my_test)
@@ -39,6 +39,7 @@ for my_test in my_tests
     println("[TEST $(lpad(test_n,2))] \033[1m\033[31mFAIL\033[0m $(my_test)")
     showerror(STDOUT, e, backtrace())
     println()
+    throw("TEST FAILED")
   end
   test_n += 1
 end
