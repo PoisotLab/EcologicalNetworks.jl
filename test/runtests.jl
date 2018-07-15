@@ -31,6 +31,7 @@ my_tests = [
 ]
 
 global test_n = 1
+
 for my_test in my_tests
   try
     include(my_test)
