@@ -29,7 +29,7 @@ function η(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{Bipart
   if dims === nothing
     return (η_axis(N; dims=1) + η_axis(N; dims=2))/2.0
   end
-  throw(ArgumentError("i can only be 1 (nestedness of rows) or 2 (nestedness of columns), you used $(i)"))
+  throw(ArgumentError("dims can only be 1 (nestedness of rows) or 2 (nestedness of columns), you used $(dims)"))
 end
 
 """
@@ -38,7 +38,7 @@ WNODF of a single axis
 function nodf_axis(N::BipartiteQuantitativeNetwork)
 
   # Get the row order
-  row_order = sortperm(vec(sum(N.A, 2)), rev=true)
+  row_order = sortperm(vec(sum(N.A; dims=2)), rev=true)
 
   # Extract the ordered matrix as floating point values, so that all other
   # measures will work for both the quanti and deterministic networks
@@ -76,12 +76,12 @@ NODF of a single axis
 function nodf_axis(N::BipartiteNetwork)
 
   # Get the row order
-  row_order = sortperm(vec(sum(N.A, 2)), rev=true)
+  row_order = sortperm(vec(sum(N.A; dims=2)), rev=true)
 
   # Extract the ordered matrix as floating point values, so that all other
   # measures will work for both the quanti and deterministic networks
   A = N.A[row_order,:]
-  d = float(vec(sum(A,2)))
+  d = float(vec(sum(A; dims=2)))
 
   # Initialize the value
   NODFr = 0.0
@@ -116,12 +116,19 @@ Returns `nodf` for a margin of the network. The `i` argument can be 1 for
 top-level, 2 for bottom level, and the function will throw an `ArgumentError` if
 an invalid value is used. For quantitative networks, *WNODF* is used.
 """
-function nodf(N::T, i::Int64) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
-
-  i ∈ [1,2] || throw(ArgumentError("i can only be 1 (nestedness of rows) or 2 (nestedness of columns), you used $(i)"))
-  NODFval = i == 1 ? nodf_axis(N) : nodf_axis(N')
-  correction = i == 1 ? (richness(N; dims=1) * (richness(N; dims=1) - 1)) : (richness(N; dims=2) * (richness(N; dims=2) - 1))
-
-  return 2.0 * NODFval / float(correction)
-
+function nodf(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
+  if dims == 1
+    val = nodf_axis(N)
+    correction = (richness(N; dims=1) * (richness(N; dims=1) - 1))
+    return (val+val)/correction
+  end
+  if dims == 2
+    val = nodf_axis(permutedims(N))
+    correction = (richness(N; dims=2) * (richness(N; dims=2) - 1))
+    return (val+val)/correction
+  end
+  if dims === nothing
+    return (nodf(N; dims=1)+nodf(N; dims=2))/2.0
+  end
+  throw(ArgumentError("dims can only be 1 (nestedness of rows) or 2 (nestedness of columns), you used $(dims)"))
 end
