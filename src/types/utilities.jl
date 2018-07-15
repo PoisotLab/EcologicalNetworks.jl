@@ -192,7 +192,7 @@ is unimportant.
 """
 function getindex(N::AbstractEcologicalNetwork, ::Colon, sp::T) where {T<:AllowedSpeciesTypes}
   @assert sp ∈ species(N; dims=2)
-  return Set(filter(x -> has_interaction(N, x, sp), species(N,1)))
+  return Set(filter(x -> has_interaction(N, x, sp), species(N; dims=1)))
 end
 
 

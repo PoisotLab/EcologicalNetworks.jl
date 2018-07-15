@@ -28,8 +28,10 @@ my_tests = [
    "modularity/brim.jl"
 ]
 
-global test_n = 1
+global test_n
 global anyerrors
+
+test_n = 1
 
 for my_test in my_tests
   try
