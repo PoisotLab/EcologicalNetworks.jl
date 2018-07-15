@@ -39,7 +39,7 @@ end
 function web_of_life()
   wol_ref = joinpath(@__DIR__, "../..", "data", "weboflife", "references.csv")
   wol_infos = readdlm(wol_ref, ',')
-  names = Symbol.(replace.(wol_infos[1,:], " ", "_"))
+  names = Symbol.(replace.(wol_infos[1,:], " " => "_"))
   infos = [NamedTuple{tuple(names...)}(tuple(wol_infos[i,:]...)) for i in 2:size(wol_infos,1)]
   return infos
 end
