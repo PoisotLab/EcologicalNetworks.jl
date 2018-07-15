@@ -1,4 +1,4 @@
-import Base: getindex, setindex!, permutedims, permutedims!, size, copy, !, isless, show
+import Base: getindex, setindex!, permutedims, permutedims!, size, copy, !, show
 
 """
     show(io::IO, N::AbstractEcologicalNetwork)
@@ -298,8 +298,8 @@ function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwo
   @assert typeof(A) <: first(eltype(N))
   @assert i ∈ species(N, 1)
   @assert j ∈ species(N, 2)
-  i_pos = findin(species(N,1),[i])[1]
-  j_pos = findin(species(N,2),[j])[1]
+  i_pos = something(findfirst(isequal(i), species(N,1)),0)
+  j_pos = something(findfirst(isequal(j), species(N,2)),0)
   N.A[i_pos, j_pos] = A
 end
 
@@ -337,51 +337,6 @@ can be `1` (top-level species) or `2` (bottom-level species), as in the
 function richness(N::AbstractEcologicalNetwork, i::Int64)
   return length(species(N,i))
 end
-
-
-function isless(N::NT, n::T) where {T, S<:AllowedSpeciesTypes, NT<:BipartiteProbabilisticNetwork{T,S}}
-  @assert 0.0 <= n <= 1.0
-  return BipartiteNetwork(N.A .< n, species_objects(N)...)
-end
-
-
-function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:BipartiteProbabilisticNetwork{T,S}}
-  @assert 0.0 <= n <= 1.0
-  return BipartiteNetwork(n .< N.A, species_objects(N)...)
-end
-
-
-function isless(N::NT, n::T) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteProbabilisticNetwork{T,S}}
-  @assert 0.0 <= n <= 1.0
-  return UnipartiteNetwork(N.A .< n, species_objects(N)...)
-end
-
-
-function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteProbabilisticNetwork{T,S}}
-  @assert 0.0 <= n <= 1.0
-  return UnipartiteNetwork(n .< N.A, species_objects(N)...)
-end
-
-
-function isless(N::NT, n::T) where {T, S<:AllowedSpeciesTypes, NT<:BipartiteQuantitativeNetwork{T,S}}
-  return BipartiteNetwork(N.A .< n, species_objects(N)...)
-end
-
-
-function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:BipartiteQuantitativeNetwork{T,S}}
-  return BipartiteNetwork(n .< N.A, species_objects(N)...)
-end
-
-
-function isless(N::NT, n::T) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteQuantitativeNetwork{T,S}}
-  return UnipartiteNetwork(N.A .< n, species_objects(N)...)
-end
-
-
-function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteQuantitativeNetwork{T,S}}
-  return UnipartiteNetwork(n .< N.A, species_objects(N)...)
-end
-
 
 """
     Base.:!{T<:DeterministicNetwork}(N::T)
