@@ -19,11 +19,7 @@ where every interaction happens with a probability equal to the out-degree
 successors.
 """
 function null3out(N::BinaryNetwork)
-  itype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
-  A = N.A
-  proba = sum(A; dims=2)./size(A,2)
-  imat = repmat(proba', size(A,2))'
-  return itype(imat, species_objects(N)...)
+  return permutedims(null3in(permutedims(N)))
 end
 
 """
@@ -38,7 +34,7 @@ function null3in(N::BinaryNetwork)
   itype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
   A = N.A
   proba = sum(A; dims=1)./size(A,1)
-  imat = repmat(proba, size(A,1))
+  imat = repeat(proba, size(A,1))
   return itype(imat, species_objects(N)...)
 end
 
