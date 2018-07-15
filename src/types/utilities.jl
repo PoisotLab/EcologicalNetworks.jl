@@ -176,10 +176,10 @@ Get the value of an interaction based on the *name* of the species. This is the
 recommended way to look for things in a network.
 """
 function getindex(N::AbstractEcologicalNetwork, s1::T, s2::T) where {T<:AllowedSpeciesTypes}
-  @assert s1 ∈ species(N,1)
-  @assert s2 ∈ species(N,2)
-  s1_pos = something(findfirst(isequal(s1), species(N,1)), 0)
-  s2_pos = something(findfirst(isequal(s2), species(N,2)), 0)
+  @assert s1 ∈ species(N; dims=1)
+  @assert s2 ∈ species(N; dims=2)
+  s1_pos = something(findfirst(isequal(s1), species(N; dims=1)), 0)
+  s2_pos = something(findfirst(isequal(s2), species(N; dims=2)), 0)
   return N[s1_pos, s2_pos]
 end
 
@@ -192,7 +192,7 @@ species. This returns the list of species as a `Set` object, in which ordering
 is unimportant.
 """
 function getindex(N::AbstractEcologicalNetwork, ::Colon, sp::T) where {T<:AllowedSpeciesTypes}
-  @assert sp ∈ species(N,2)
+  @assert sp ∈ species(N; dims=2)
   return Set(filter(x -> has_interaction(N, x, sp), species(N,1)))
 end
 
@@ -205,8 +205,8 @@ focal species. This returns the list of species as a `Set` object, in which
 ordering is unimportant.
 """
 function getindex(N::AbstractEcologicalNetwork, sp::T, ::Colon) where {T <: AllowedSpeciesTypes}
-  @assert sp ∈ species(N,1)
-  return Set(filter(x -> has_interaction(N, sp, x), species(N,2)))
+  @assert sp ∈ species(N; dims=1)
+  return Set(filter(x -> has_interaction(N, sp, x), species(N; dims=2)))
 end
 
 
@@ -236,8 +236,8 @@ end
 TODO
 """
 function getindex(N::AbstractBipartiteNetwork, ::Colon, sp::Vector{T}) where {T<:AllowedSpeciesTypes}
-  @assert all(map(x -> x ∈ species(N,2), sp))
-  sp_pos = findall((in)(sp), species(N,2))
+  @assert all(map(x -> x ∈ species(N; dims=2), sp))
+  sp_pos = findall((in)(sp), species(N; dims=2))
   n_t = N.T
   n_b = N.B[sp_pos]
   n_int = N.A[:, sp_pos]
@@ -251,8 +251,8 @@ end
 TODO
 """
 function getindex(N::AbstractBipartiteNetwork, sp::Vector{T}, ::Colon) where {T <: AllowedSpeciesTypes}
-  @assert all(map(x -> x ∈ species(N,1), sp))
-  sp_pos = findall((in)(sp), species(N,1))
+  @assert all(map(x -> x ∈ species(N; dims=1), sp))
+  sp_pos = findall((in)(sp), species(N; dims=1))
   n_t = N.T[sp_pos]
   n_b = N.B
   n_int = N.A[sp_pos,:]
@@ -266,10 +266,10 @@ end
 TODO
 """
 function getindex(N::AbstractBipartiteNetwork, sp1::Vector{T}, sp2::Vector{T}) where {T <: AllowedSpeciesTypes}
-  @assert all(map(x -> x ∈ species(N,1), sp1))
-  @assert all(map(x -> x ∈ species(N,2), sp2))
-  sp1_pos = findall((in)(sp1), species(N,1))
-  sp2_pos = findall((in)(sp2), species(N,2))
+  @assert all(map(x -> x ∈ species(N; dims=1), sp1))
+  @assert all(map(x -> x ∈ species(N; dims=2), sp2))
+  sp1_pos = findall((in)(sp1), species(N; dims=1))
+  sp2_pos = findall((in)(sp2), species(N; dims=2))
   n_t = N.T[sp1_pos]
   n_b = N.B[sp2_pos]
   n_int = N.A[sp1_pos,sp2_pos]
@@ -284,10 +284,10 @@ Changes the value of the interaction at the specificied position, where `i` and
 """
 function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E <: AllowedSpeciesTypes}
   @assert typeof(A) <: first(eltype(N))
-  @assert i ∈ species(N, 1)
-  @assert j ∈ species(N, 2)
-  i_pos = something(findfirst(isequal(i), species(N,1)),0)
-  j_pos = something(findfirst(isequal(j), species(N,2)),0)
+  @assert i ∈ species(N; dims=1)
+  @assert j ∈ species(N; dims=2)
+  i_pos = something(findfirst(isequal(i), species(N; dims=1)),0)
+  j_pos = something(findfirst(isequal(j), species(N; dims=2)),0)
   N.A[i_pos, j_pos] = A
 end
 
@@ -299,8 +299,8 @@ Changes the value of the interaction at the specificied position, where `i` and
 """
 function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E <: Int}
   @assert typeof(A) <: first(eltype(N))
-  @assert i ≤ richness(N,1)
-  @assert j ≤ richness(N,2)
+  @assert i ≤ richness(N; dims=1)
+  @assert j ≤ richness(N; dims=2)
   N.A[i, j] = A
 end
 
