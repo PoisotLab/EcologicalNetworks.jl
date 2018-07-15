@@ -2,8 +2,6 @@ using EcologicalNetwork
 using Test
 using LinearAlgebra
 
-global anyerrors = false
-
 my_tests = [
    "types/declaration.jl",
    "types/utilities.jl",
@@ -31,6 +29,7 @@ my_tests = [
 ]
 
 global test_n = 1
+global anyerrors
 
 for my_test in my_tests
   try
