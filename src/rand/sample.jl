@@ -44,8 +44,8 @@ bipartite network of equal richness on both sides. This is not a very good way
 to sample a bipartite network.
 """
 function sample(N::T, n::Tuple{Int64}) where {T<:AbstractBipartiteNetwork}
-    @assert n[1] <= richness(N,1)
-    @assert n[1] <= richness(N,2)
+    @assert n[1] <= richness(N; dims=1)
+    @assert n[1] <= richness(N; dims=2)
     return sample(N, (n[1],n[1]))
 end
 
@@ -57,8 +57,8 @@ network of equal richness on both sides. This is not a very good way to sample a
 bipartite network.
 """
 function sample(N::T, n::Int64) where {T<:AbstractBipartiteNetwork}
-    @assert n <= richness(N,1)
-    @assert n <= richness(N,2)
+    @assert n <= richness(N; dims=1)
+    @assert n <= richness(N; dims=2)
     return sample(N, (n,n))
 end
 
@@ -73,9 +73,9 @@ interaction.
 This is the recommended way to sample a bipartite network.
 """
 function sample(N::T, n::Tuple{Int64,Int64}) where {T<:AbstractBipartiteNetwork}
-    @assert n[1] <= richness(N,1)
-    @assert n[2] <= richness(N,2)
-    ns1 = sample(species(N,1), n[1], replace=false)
-    ns2 = sample(species(N,2), n[2], replace=false)
+    @assert n[1] <= richness(N; dims=1)
+    @assert n[2] <= richness(N; dims=2)
+    ns1 = sample(species(N; dims=1), n[1], replace=false)
+    ns2 = sample(species(N; dims=2), n[2], replace=false)
     return N[ns1,ns2]
 end

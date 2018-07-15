@@ -54,7 +54,7 @@ Returns all permutations of the adjacency matrix of a motif.
 """
 function permute_motif(m::T) where {T<:BipartiteNetwork}
     perm = Array{Bool,2}[]
-    for ts in permutations(1:richness(m,1)), bs in permutations(1:richness(m,2))
+    for ts in permutations(1:richness(m; dims=1)), bs in permutations(1:richness(m; dims=2))
         push!(perm, m.A[ts,bs])
     end
     return unique(perm)
@@ -74,14 +74,14 @@ end
 function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteNetwork,T2<:BipartiteNetwork}
     motif_permutations = permute_motif(m)
     matching_species = []
-    top_combinations = combinations(species(N,1), richness(m,1))
-    bottom_combinations = combinations(species(N,2), richness(m,2))
+    top_combinations = combinations(species(N; dims=1), richness(m; dims=1))
+    bottom_combinations = combinations(species(N; dims=2), richness(m; dims=2))
     # Pre-allocate the species positions
-    top_sp_pos = zeros(Int64, richness(m,1))
-    bot_sp_pos = zeros(Int64, richness(m,2))
+    top_sp_pos = zeros(Int64, richness(m; dims=1))
+    bot_sp_pos = zeros(Int64, richness(m; dims=2))
     # Positions of species (they don't change!)
-    p1 = Dict(zip(species(N, 1), 1:richness(N, 1)))
-    p2 = Dict(zip(species(N, 2), 1:richness(N, 2)))
+    p1 = Dict(zip(species(N; dims=1), 1:richness(N; dims=1)))
+    p2 = Dict(zip(species(N; dims=2), 1:richness(N; dims=2)))
     for top_species in top_combinations
         for i in 1:length(top_species)
             top_sp_pos[i] = p1[top_species[i]]
@@ -121,8 +121,8 @@ end
 function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteProbabilisticNetwork, T2<:BipartiteNetwork}
     motif_permutations = permute_motif(m)
     all_combinations = []
-    top_combinations = combinations(species(N,1), richness(m,1))
-    bottom_combinations = combinations(species(N,2), richness(m,2))
+    top_combinations = combinations(species(N; dims=1), richness(m; dims=1))
+    bottom_combinations = combinations(species(N; dims=2), richness(m; dims=2))
     for top_species in top_combinations, bottom_species in bottom_combinations
         isg = N[top_species, bottom_species]
         motif_mean, motif_var = 0.0, 0.0

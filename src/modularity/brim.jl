@@ -16,19 +16,19 @@ function brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E<:A
 
   c = length(unique(collect(values(L))))
 
-  R = zeros(Int64, (richness(N,1),c))
-  for si in eachindex(species(N,1))
-    R[si,L[species(N,1)[si]]] = 1
+  R = zeros(Int64, (richness(N; dims=1),c))
+  for si in eachindex(species(N; dims=1))
+    R[si,L[species(N; dims=1)[si]]] = 1
   end
 
-  T = zeros(Int64, (richness(N,2),c))
-  for sj in eachindex(species(N,2))
-    T[sj,L[species(N,2)[sj]]] = 1
+  T = zeros(Int64, (richness(N; dims=2),c))
+  for sj in eachindex(species(N; dims=2))
+    T[sj,L[species(N; dims=2)[sj]]] = 1
   end
 
   d_in, d_out = degree(N, 2), degree(N, 1)
-  s_d_in = [d_in[s] for s in species(N, 2)]
-  s_d_out = [d_out[s] for s in species(N, 1)]
+  s_d_in = [d_in[s] for s in species(N; dims=2)]
+  s_d_out = [d_out[s] for s in species(N; dims=1)]
   P = kron(s_d_out, s_d_in')./m
   B = N.A .- P
 

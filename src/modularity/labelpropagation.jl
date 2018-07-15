@@ -15,11 +15,11 @@ function lp(N::T) where {T<:AbstractEcologicalNetwork}
   improved = true
 
   while improved
-    update_t = shuffle(species(N,1))
-    update_b = shuffle(species(N,2))
+    update_t = shuffle(species(N; dims=1))
+    update_b = shuffle(species(N; dims=2))
 
     for s1 in update_t
-      linked = filter(s2 -> has_interaction(N,s1,s2), species(N,2))
+      linked = filter(s2 -> has_interaction(N,s1,s2), species(N; dims=2))
       labels = [L[s2] for s2 in linked]
       if length(labels) > 0
         counts = StatsBase.counts(labels)
@@ -34,7 +34,7 @@ function lp(N::T) where {T<:AbstractEcologicalNetwork}
     end
 
     for s2 in update_b
-      linked = filter(s1 -> has_interaction(N,s1,s2), species(N,1))
+      linked = filter(s1 -> has_interaction(N,s1,s2), species(N; dims=1))
       labels = [L[s1] for s1 in linked]
       if length(labels) > 0
         counts = StatsBase.counts(labels)

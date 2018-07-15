@@ -12,8 +12,8 @@ function swap_degree!(Y::BinaryNetwork)
     end
 
     for old_i in [i1, i2, n1, n2]
-        i = findfirst(species(Y,1), old_i.from)
-        j = findfirst(species(Y,2), old_i.to)
+        i = findfirst(species(Y; dims=1), old_i.from)
+        j = findfirst(species(Y; dims=2), old_i.to)
         Y.A[i,j] = !Y.A[i,j]
     end
 end
@@ -21,15 +21,15 @@ end
 function swap_fill!(Y::BinaryNetwork)
     iy = interactions(Y)
     i1 = sample(iy)
-    n1 = (from=sample(species(Y,1)), to=sample(species(Y,2)))
+    n1 = (from=sample(species(Y; dims=1)), to=sample(species(Y; dims=2)))
 
     while (n1 ∈ iy)
-        n1 = (from=sample(species(Y,1)), to=sample(species(Y,2)))
+        n1 = (from=sample(species(Y; dims=1)), to=sample(species(Y; dims=2)))
     end
 
     for old_i in [i1, n1]
-        i = findfirst(species(Y,1), old_i.from)
-        j = findfirst(species(Y,2), old_i.to)
+        i = findfirst(species(Y; dims=1), old_i.from)
+        j = findfirst(species(Y; dims=2), old_i.to)
         Y.A[i,j] = !Y.A[i,j]
     end
 end
@@ -37,15 +37,15 @@ end
 function swap_vulnerability!(Y::BinaryNetwork)
     iy = interactions(Y)
     i1 = sample(iy)
-    n1 = (from=sample(species(Y,1)), to=i1.to)
+    n1 = (from=sample(species(Y; dims=1)), to=i1.to)
 
     while (n1 ∈ iy)
-        n1 = (from=sample(species(Y,1)), to=i1.to)
+        n1 = (from=sample(species(Y; dims=1)), to=i1.to)
     end
 
     for old_i in [i1, n1]
-        i = findfirst(species(Y,1), old_i.from)
-        j = findfirst(species(Y,2), old_i.to)
+        i = findfirst(species(Y; dims=1), old_i.from)
+        j = findfirst(species(Y; dims=2), old_i.to)
         Y.A[i,j] = !Y.A[i,j]
     end
 end
@@ -53,15 +53,15 @@ end
 function swap_generality!(Y::BinaryNetwork)
     iy = interactions(Y)
     i1 = sample(iy)
-    n1 = (from=i1.from, to=sample(species(Y,2)))
+    n1 = (from=i1.from, to=sample(species(Y; dims=2)))
 
     while (n1 ∈ iy)
-        n1 = (from=i1.from, to=sample(species(Y,2)))
+        n1 = (from=i1.from, to=sample(species(Y; dims=2)))
     end
 
     for old_i in [i1, n1]
-        i = findfirst(species(Y,1), old_i.from)
-        j = findfirst(species(Y,2), old_i.to)
+        i = findfirst(species(Y; dims=1), old_i.from)
+        j = findfirst(species(Y; dims=2), old_i.to)
         Y.A[i,j] = !Y.A[i,j]
     end
 end

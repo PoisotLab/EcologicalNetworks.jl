@@ -47,7 +47,7 @@ end
 """
 function degree_out_var(N::ProbabilisticNetwork)
   d_o_v = mapslices(a_var, N.A, 2)
-  return Dict(zip(species(N,1), d_o_v))
+  return Dict(zip(species(N; dims=1), d_o_v))
 end
 
 """
@@ -57,7 +57,7 @@ end
 """
 function degree_in_var(N::ProbabilisticNetwork)
   d_i_v = mapslices(a_var, N.A, 1)'
-  return Dict(zip(species(N,2), d_i_v))
+  return Dict(zip(species(N; dims=2), d_i_v))
 end
 
 """

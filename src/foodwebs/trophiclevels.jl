@@ -3,7 +3,7 @@ function fractional_trophic_level(N::T) where {T<:UnipartiteNetwork}
   producers = keys(filter((sp,de) -> de == 0, degree(Y,1)))
   sp = shortest_path(Y)
   prod_id = find(sum(sp,2).==0)
-  tl = Dict(zip(species(Y,1), maximum(sp[:,prod_id],2).+1))
+  tl = Dict(zip(species(Y; dims=1), maximum(sp[:,prod_id],2).+1))
   return tl
 end
 
