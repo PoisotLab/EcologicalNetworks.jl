@@ -27,7 +27,7 @@ function η(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{Bipart
   dims == 1 && return η_axis(N)
   dims == 2 && return η_axis(permutedims(N))
   if dims === nothing
-    return (η_axis(N; dims=1) + η_axis(N; dims=2))/2.0
+    return (η(N; dims=1) + η(N; dims=2))/2.0
   end
   throw(ArgumentError("dims can only be 1 (nestedness of rows) or 2 (nestedness of columns), you used $(dims)"))
 end
