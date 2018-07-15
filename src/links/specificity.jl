@@ -35,7 +35,7 @@ Measure of specificity in a deterministic network. This returns a value between
 """
 function specificity(N::BinaryNetwork)
     A = map(Int64, N.A)
-    return Dict(zip(species(N; dims=1), vec(mapslices(pdi, A, 2))))
+    return Dict(zip(species(N; dims=1), vec(mapslices(pdi, A; dims=2))))
 end
 
 """
@@ -53,5 +53,5 @@ species-wise, and the maximal interaction strength of every species is set to 1.
 
 """
 function specificity(N::QuantitativeNetwork)
-    return Dict(zip(species(N; dims=1), vec(mapslices(pdi, N.A, 2))))
+    return Dict(zip(species(N; dims=1), vec(mapslices(pdi, N.A; dims=2))))
 end
