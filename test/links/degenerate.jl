@@ -1,6 +1,7 @@
-module TestFreeSpecies
+module TestDegenerate
   using Test
   using EcologicalNetwork
+  using LinearAlgebra
 
   # Generate some data
 
@@ -13,7 +14,7 @@ module TestFreeSpecies
   C = UnipartiteNetwork(zeros(Bool, (4,4)))
   @test isdegenerate(C)
 
-  D = UnipartiteNetwork(eye(Bool, 4))
+  D = UnipartiteNetwork(Matrix(I, (4,4)))
   @test isdegenerate(D)
 
   K = simplify(UnipartiteNetwork([false false false; false true true; false true true]))
