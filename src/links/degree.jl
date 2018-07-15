@@ -40,10 +40,6 @@ function degree(N::QuantitativeNetwork; dims::Union{Nothing,Integer}=nothing)
   degree(convert(BinaryNetwork, N), dims=dims)
 end
 
-function degree(N::QuantitativeNetwork)
-  degree(convert(BinaryNetwork, N))
-end
-
 """
 **Variance in the outgoing degree**
 
