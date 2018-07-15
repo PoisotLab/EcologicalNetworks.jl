@@ -122,6 +122,6 @@ interactions(BipartiteProbabilisticNetwork(rand(Float64, (3,5))))
 
 # Test throws
 
-@test_throws ArgumentError species(BipartiteQuantitativeNetwork(rand(Float64, (3,5))), 5)
+@test_throws ArgumentError species(BipartiteQuantitativeNetwork(rand(Float64, (3,5))); dims=5)
 
 end
