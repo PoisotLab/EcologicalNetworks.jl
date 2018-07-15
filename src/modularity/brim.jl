@@ -26,7 +26,7 @@ function brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E<:A
     T[sj,L[species(N; dims=2)[sj]]] = 1
   end
 
-  d_in, d_out = degree(N, 2), degree(N, 1)
+  d_in, d_out = degree(N; dims=2), degree(N; dims=1)
   s_d_in = [d_in[s] for s in species(N; dims=2)]
   s_d_out = [d_out[s] for s in species(N; dims=1)]
   P = kron(s_d_out, s_d_in')./m

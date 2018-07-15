@@ -14,10 +14,10 @@ module TestSwaps
   @test links(N) == links(Uo)
 
   @test degree(N) == degree(Ud)
-  @test degree(N,1) == degree(Ud,1)
-  @test degree(N,2) == degree(Ud,2)
-  @test degree(N,1) == degree(Uo,1)
-  @test degree(N,2) == degree(Ui,2)
+  @test degree(N; dims=1) == degree(Ud; dims=1)
+  @test degree(N; dims=2) == degree(Ud; dims=2)
+  @test degree(N; dims=1) == degree(Uo; dims=1)
+  @test degree(N; dims=2) == degree(Ui; dims=2)
 
   N = convert(BinaryNetwork, nz_stream_foodweb()[1])
   Ud = shuffle(N; number_of_swaps=10, constraint=:degree)
@@ -31,9 +31,9 @@ module TestSwaps
   @test links(N) == links(Uo)
 
   @test degree(N) == degree(Ud)
-  @test degree(N,1) == degree(Ud,1)
-  @test degree(N,2) == degree(Ud,2)
-  @test degree(N,1) == degree(Uo,1)
-  @test degree(N,2) == degree(Ui,2)
+  @test degree(N; dims=1) == degree(Ud; dims=1)
+  @test degree(N; dims=2) == degree(Ud; dims=2)
+  @test degree(N; dims=1) == degree(Uo; dims=1)
+  @test degree(N; dims=2) == degree(Ui; dims=2)
 
 end

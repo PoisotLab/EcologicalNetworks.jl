@@ -29,8 +29,8 @@ module TestDegreeFunctions
 
   N = UnipartiteProbabilisticNetwork([0.22 0.4; 0.3 0.1])
 
-  Din = degree(N, 2)
-  Dout = degree(N, 1)
+  Din = degree(N; dims=2)
+  Dout = degree(N; dims=1)
   Dtot = degree(N)
 
   Dov = degree_var(N, 1)
