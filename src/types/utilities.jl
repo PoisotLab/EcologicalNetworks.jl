@@ -378,8 +378,8 @@ function interactions(N::AbstractEcologicalNetwork)
   if typeof(N) <: QuantitativeNetwork
     push!(fields, :strength)
   end
-  sp1 = species(N,1)
-  sp2 = species(N,2)
+  sp1 = species(N, dims=1)
+  sp2 = species(N, dims=2)
   for i in eachindex(sp1)
     s1 = sp1[i]
     for j in eachindex(sp2)
