@@ -22,7 +22,7 @@ function degree(N::AbstractEcologicalNetwork; dims::Union{Nothing,Integer}=nothi
   dims == 1 && return degree_out(N)
   dims == 2 && return degree_in(N)
   if dims === nothing
-    if typeof(N) <: AbstractUnipartiteNetwork
+    if typeof(N) <: AbstractBipartiteNetwork
       return merge(degree_out(N), degree_in(N))
     else
       din = degree_in(N)
