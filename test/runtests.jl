@@ -32,6 +32,7 @@ global test_n
 global anyerrors
 
 test_n = 1
+anyerrors = false
 
 for my_test in my_tests
   try
