@@ -1,8 +1,8 @@
 function fractional_trophic_level(N::T) where {T<:UnipartiteNetwork}
   Y = nodiagonal(N)
-  producers = keys(filter((sp,de) -> de == 0, degree(Y; dims=1)))
+  producers = keys(filter(spdeg -> spedeg.second == 0, degree(Y; dims=1)))
   sp = shortest_path(Y)
-  prod_id = find(sum(sp,2).==0)
+  prod_id = find(sum(sp; dims=2).==0)
   return Dict(zip(species(Y; dims=1), maximum(sp[:,prod_id]; dims=2).+1))
 end
 

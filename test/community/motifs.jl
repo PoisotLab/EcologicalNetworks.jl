@@ -106,8 +106,8 @@ N = UnipartiteNetwork([false true true false; false false false true;
 @test length(find_motif(N, unipartitemotifs().S5)) == 1
 
 # Self motifs
-for m in unipartitemotifs()
-    @test length(find_motif(m, m)) == 1
+for this_motif in unipartitemotifs()
+    @test length(find_motif(this_motif, this_motif)) == 1
 end
 
 end

@@ -1,29 +1,30 @@
 module TestBetaDivOperations
   using Test
   using EcologicalNetwork
+  using LinearAlgebra
 
   A = UnipartiteNetwork(rand(Bool, (10, 10)))
   B = UnipartiteNetwork(rand(Bool, (10, 10)))
   U = union(A,B)
-  I = intersect(A,B)
+  NI = intersect(A,B)
   @test typeof(U) == typeof(B)
   @test links(U) >= links(A)
   @test links(U) >= links(B)
-  @test links(I) <= links(B)
-  @test links(I) <= links(A)
-  @test richness(I) == richness(B)
+  @test links(NI) <= links(B)
+  @test links(NI) <= links(A)
+  @test richness(NI) == richness(B)
 
   A = BipartiteNetwork(rand(Bool, (10, 10)))
   B = BipartiteNetwork(rand(Bool, (20, 20)))
   U = union(A,B)
-  I = intersect(A,B)
+  NI = intersect(A,B)
   @test typeof(U) == typeof(B)
   @test links(U) >= links(A)
   @test links(U) >= links(B)
   @test richness(U) == richness(B)
-  @test links(I) <= links(B)
-  @test links(I) <= links(A)
-  @test richness(I) == richness(A)
+  @test links(NI) <= links(B)
+  @test links(NI) <= links(A)
+  @test richness(NI) == richness(A)
 
   # No common species
   A = UnipartiteNetwork(Matrix(I, (3,3)), [:a, :b, :c])
