@@ -1,5 +1,5 @@
 {
-   "title": "Ecological network analyzes in Julia",
+   "title": "Ecological network analyses in Julia",
    "description": "This packages provides a common platform to perform analyzes of the structure of ecological networks, using the Julia language.",
    "grants": [
       {}

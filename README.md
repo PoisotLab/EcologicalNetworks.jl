@@ -1,9 +1,11 @@
 # EcologicalNetwork.jl
 
-This `julia` package provides a common interface to analyze all types of data
-on ecological networks. It is designed to be general, easy to expand, and work
-on bipartite/unipartite as well as deterministic/quantitative/probabilistic
-networks. The development version is compatible with `julia` 0.6.
+This `julia` package provides a common interface to analyze all types of data on
+ecological networks. It is designed to be general, easy to expand, and work on
+bipartite/unipartite as well as deterministic/quantitative/probabilistic
+networks. The current version is compatible with `julia` v0.7 -- the latest
+version compatible with `julia` v0.6 is
+[1.2.0](https://zenodo.org/record/1312294).
 
 [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://PoisotLab.github.io/EcologicalNetwork.jl/stable)
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://PoisotLab.github.io/EcologicalNetwork.jl/latest)
@@ -21,18 +23,14 @@ and about probabilistic networks in:
 
 ## Getting started
 
-To get the `stable` version:
+Install:
 
 ~~~ julia
 Pkg.add("EcologicalNetwork")
 ~~~
 
-To stay up to date on more recent features, you may want to use the `latest`
-version -- it will always be stable:
-
-~~~ julia
-Pkg.clone("https://github.com/PoisotLab/EcologicalNetwork.jl")
-~~~
+That's it. Now head over to the
+[documentation](http://poisotlab.io/EcologicalNetwork.jl/stable/).
 
 ## How's the code doing?
 
@@ -48,6 +46,7 @@ Pkg.clone("https://github.com/PoisotLab/EcologicalNetwork.jl")
 [![EcologicalNetwork](http://pkg.julialang.org/badges/EcologicalNetwork_0.4.svg)](http://pkg.julialang.org/?pkg=EcologicalNetwork)
 [![EcologicalNetwork](http://pkg.julialang.org/badges/EcologicalNetwork_0.5.svg)](http://pkg.julialang.org/?pkg=EcologicalNetwork)
 [![EcologicalNetwork](http://pkg.julialang.org/badges/EcologicalNetwork_0.6.svg)](http://pkg.julialang.org/?pkg=EcologicalNetwork)
+[![EcologicalNetwork](http://pkg.julialang.org/badges/EcologicalNetwork_0.7.svg)](http://pkg.julialang.org/?pkg=EcologicalNetwork)
 
 ### On `master`
 
