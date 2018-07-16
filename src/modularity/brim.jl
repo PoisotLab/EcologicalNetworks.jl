@@ -7,7 +7,7 @@ function returns a tuple of the network and its module assignment.
 """
 function brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}
   @assert all(species(N) .∈ keys(L))
-  EcologicalNetwork.tidy_modules!(L)
+  EcologicalNetworks.tidy_modules!(L)
 
   old_Q = Q(N, L)
   new_Q = old_Q+0.00001
@@ -40,13 +40,13 @@ function brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E<:A
     T = map(Int64, r_tilde .== maximum(r_tilde; dims=2))
     S = vcat(R, T)
     L = Dict(zip(species(N), vec(mapslices(r -> StatsBase.sample(findall(r)), S, 2))))
-    EcologicalNetwork.tidy_modules!(L)
+    EcologicalNetworks.tidy_modules!(L)
     old_Q = new_Q
     new_Q = Q(N,L)
 
   end
 
-  EcologicalNetwork.tidy_modules!(L)
+  EcologicalNetworks.tidy_modules!(L)
   return (N, L)
 
 end

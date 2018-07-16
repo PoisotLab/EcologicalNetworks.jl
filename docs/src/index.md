@@ -72,7 +72,7 @@ function √(N::T) where {T <: QuantitativeNetwork}
   # Take the square root of the interaction strength
   sqrt_matrix = sqrt.(N.A)
   # Return a new network with the correct types
-  return NewType{typeof(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetwork.species_objects(N)...)
+  return NewType{typeof(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
 end
 ~~~
 

@@ -100,10 +100,10 @@ function shuffle!(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps:
    constraint ∈ [:degree, :generality, :vulnerability, :fill] || throw(ArgumentError("The constraint argument you specificied ($(constraint)) is invalid -- see ?shuffle! for a list."))
    number_of_swaps > 0 || throw(ArgumentError("The number of swaps *must* be positive, you used $(number_of_swaps)"))
 
-   f = EcologicalNetwork.swap_degree!
-   constraint == :generality && (f = EcologicalNetwork.swap_generality!)
-   constraint == :vulnerability && (f = EcologicalNetwork.swap_vulnerability!)
-   constraint == :fill && (f = EcologicalNetwork.swap_fill!)
+   f = EcologicalNetworks.swap_degree!
+   constraint == :generality && (f = EcologicalNetworks.swap_generality!)
+   constraint == :vulnerability && (f = EcologicalNetworks.swap_vulnerability!)
+   constraint == :fill && (f = EcologicalNetworks.swap_fill!)
 
    for swap_number in 1:number_of_swaps
       f(N)

@@ -106,6 +106,6 @@ function salp(N::T; θ::Float64=0.002, steps::Int64=10_000, λ::Float64=0.999, p
       info("t: $(lpad(step, 9)) \t θ: $(round(temperature, 2)) \t Q: $(round(Q0, 3)) \t m: $(length(unique(values(m))))")
     end
   end
-  EcologicalNetwork.tidy_modules!(m)
+  EcologicalNetworks.tidy_modules!(m)
   return Y, m
 end
