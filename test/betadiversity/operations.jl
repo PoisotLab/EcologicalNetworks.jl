@@ -1,6 +1,6 @@
 module TestBetaDivOperations
   using Test
-  using EcologicalNetwork
+  using EcologicalNetworks
   using LinearAlgebra
 
   A = UnipartiteNetwork(rand(Bool, (10, 10)))

@@ -1,6 +1,6 @@
 module TestSample
   using Test
-  using EcologicalNetwork
+  using EcologicalNetworks
 
   # Generate some data
 

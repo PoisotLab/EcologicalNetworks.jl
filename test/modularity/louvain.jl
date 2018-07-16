@@ -1,6 +1,6 @@
 module TestModularityLouvain
 using Test
-using EcologicalNetwork
+using EcologicalNetworks
 
 
 # Louvain modularity

@@ -1,6 +1,6 @@
 module TestTypesConversions
 using Test
-using EcologicalNetwork
+using EcologicalNetworks
 
 N = BipartiteNetwork([true false; true true], [:a, :b], [:A, :B])
 @test_throws AssertionError has_interaction(N, :A, :B)

@@ -1,6 +1,6 @@
 include("./src/EcologicalNetwork.jl")
 Pkg.add(pwd())
-using EcologicalNetwork
+using EcologicalNetworks
 using Traceur
 using StatsBase
 using NamedTuples

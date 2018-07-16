@@ -1,6 +1,6 @@
 module TestModularityStarters
 using Test
-using EcologicalNetwork
+using EcologicalNetworks
 
     A = [
       true true true false false false; true true true false false false;

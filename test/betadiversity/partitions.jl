@@ -1,6 +1,6 @@
 module TestBetaDiv
   using Test
-  using EcologicalNetwork
+  using EcologicalNetworks
 
   A = convert(BinaryNetwork, web_of_life("A_HP_001"))
   B = convert(BinaryNetwork, web_of_life("A_HP_002"))

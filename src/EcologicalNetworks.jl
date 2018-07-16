@@ -1,4 +1,4 @@
-module EcologicalNetwork
+module EcologicalNetworks
 
 # Dependencies
 using StatsBase

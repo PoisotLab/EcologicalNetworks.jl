@@ -1,6 +1,6 @@
 module TestModularityUtilities
 using Test
-using EcologicalNetwork
+using EcologicalNetworks
 
 # Perfectly modular bipartite network
 A = [

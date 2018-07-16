@@ -1,6 +1,6 @@
 module TestData
   using Test
-  using EcologicalNetwork
+  using EcologicalNetworks
 
   all_wol = web_of_life()
   for wol in all_wol

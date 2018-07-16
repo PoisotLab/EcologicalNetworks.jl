@@ -1,6 +1,6 @@
 module TestModularityBrim
 using Test
-using EcologicalNetwork
+using EcologicalNetworks
 using LinearAlgebra
 
     N = web_of_life("M_PL_026")

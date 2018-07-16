@@ -1,6 +1,6 @@
 module TestSpecificityFunctions
   using Test
-  using EcologicalNetwork
+  using EcologicalNetworks
   using LinearAlgebra
 
   # specificity

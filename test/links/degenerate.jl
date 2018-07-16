@@ -1,6 +1,6 @@
 module TestDegenerate
   using Test
-  using EcologicalNetwork
+  using EcologicalNetworks
   using LinearAlgebra
 
   # Generate some data

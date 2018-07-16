@@ -1,6 +1,6 @@
 module TestTypeUtilities
 using Test
-using EcologicalNetwork
+using EcologicalNetworks
 using LinearAlgebra
 
 B = BipartiteProbabilisticNetwork(rand(3, 5))

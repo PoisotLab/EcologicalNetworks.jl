@@ -1,6 +1,6 @@
 module TestTypes
 using Test
-using EcologicalNetwork
+using EcologicalNetworks
 
 @test typeof(UnipartiteNetwork(rand(Bool, (5, 5)))) <: UnipartiteNetwork
 @test typeof(UnipartiteNetwork(rand(Bool, (5, 5)))) <: AbstractUnipartiteNetwork

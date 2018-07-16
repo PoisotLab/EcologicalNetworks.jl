@@ -1,7 +1,7 @@
 module TestMotifs
 using Test
 #include("../../src/EcologicalNetwork.jl")
-using EcologicalNetwork
+using EcologicalNetworks
 using LinearAlgebra
 
 @test unipartitemotifs().S1.A == [false true false; false false true; false false false];

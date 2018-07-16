@@ -1,6 +1,6 @@
 module TestSwaps
   using Test
-  using EcologicalNetwork
+  using EcologicalNetworks
   using Random
 
   N = convert(BinaryNetwork, web_of_life("A_HP_001"))

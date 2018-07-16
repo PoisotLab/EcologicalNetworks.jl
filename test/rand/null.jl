@@ -1,6 +1,6 @@
 module TestNullModels
   using Test
-  using EcologicalNetwork
+  using EcologicalNetworks
 
   # Generate some data
 

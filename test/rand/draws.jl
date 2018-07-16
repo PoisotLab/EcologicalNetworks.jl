@@ -1,6 +1,6 @@
 module TestRandomDraws
 using Test
-using EcologicalNetwork
+using EcologicalNetworks
 using LinearAlgebra
 
 B = UnipartiteProbabilisticNetwork(Matrix{Float64}(I, (10,10)))

@@ -1,7 +1,7 @@
 # Modularity
 
 ```@setup econet
-using EcologicalNetwork
+using EcologicalNetworks
 ```
 
 The analysis of network modularity is done in three steps:

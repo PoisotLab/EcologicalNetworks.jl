@@ -3,7 +3,7 @@
 ## Example
 
 ```@setup econet
-using EcologicalNetwork
+using EcologicalNetworks
 ```
 
 ```@example econet

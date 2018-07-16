@@ -1,4 +1,4 @@
-using EcologicalNetwork
+using EcologicalNetworks
 using Test
 using LinearAlgebra
 
