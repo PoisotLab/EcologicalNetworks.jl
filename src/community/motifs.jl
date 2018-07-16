@@ -5,30 +5,28 @@ The names of the motifs come from Stouffer et al. (2007) -- especially Fig. 1,
 available online at
 <http://rspb.royalsocietypublishing.org/content/274/1621/1931.figures-only>
 
-The motifs are returned as a dictionary, with each motif identified by its name.
+The motifs are returned as a named tuple, with every motif identified by its
+name in the original publication. The species are named :a. :b, and :c.
 """
 function unipartitemotifs()
 
   # Everything is stored in a Dict, and the keys are symbols with the names of
   # the motifs.
-  motifs = Dict{Symbol, UnipartiteNetwork}()
-
-  # Single-linked motifs
-  motifs[:S1] = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0, [:a, :b, :c])
-  motifs[:S2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 0 0].>0, [:a, :b, :c])
-  motifs[:S3] = UnipartiteNetwork([0 1 0; 0 0 1; 1 0 0].>0, [:a, :b, :c])
-  motifs[:S4] = UnipartiteNetwork([0 0 1; 0 0 1; 0 0 0].>0, [:a, :b, :c])
-  motifs[:S5] = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0].>0, [:a, :b, :c])
-
-  # Double-linked motifs
-  motifs[:D1] = UnipartiteNetwork([0 1 1; 0 0 0; 1 1 0].>0, [:a, :b, :c])
-  motifs[:D2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 1 0].>0, [:a, :b, :c])
-  motifs[:D3] = UnipartiteNetwork([0 0 1; 0 0 0; 1 1 0].>0, [:a, :b, :c])
-  motifs[:D4] = UnipartiteNetwork([0 1 0; 0 0 1; 0 1 0].>0, [:a, :b, :c])
-  motifs[:D5] = UnipartiteNetwork([0 1 0; 0 0 1; 1 1 0].>0, [:a, :b, :c])
-  motifs[:D6] = UnipartiteNetwork([0 1 1; 1 0 1; 1 1 0].>0, [:a, :b, :c])
-  motifs[:D7] = UnipartiteNetwork([0 1 1; 1 0 0; 1 1 0].>0, [:a, :b, :c])
-  motifs[:D8] = UnipartiteNetwork([0 1 1; 1 0 0; 1 0 0].>0, [:a, :b, :c])
+  motifs = (
+    S1 = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0, [:a, :b, :c]),
+    S2 = UnipartiteNetwork([0 1 1; 0 0 1; 0 0 0].>0, [:a, :b, :c]),
+    S3 = UnipartiteNetwork([0 1 0; 0 0 1; 1 0 0].>0, [:a, :b, :c]),
+    S4 = UnipartiteNetwork([0 0 1; 0 0 1; 0 0 0].>0, [:a, :b, :c]),
+    S5 = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0].>0, [:a, :b, :c]),
+    D1 = UnipartiteNetwork([0 1 1; 0 0 0; 1 1 0].>0, [:a, :b, :c]),
+    D2 = UnipartiteNetwork([0 1 1; 0 0 1; 0 1 0].>0, [:a, :b, :c]),
+    D3 = UnipartiteNetwork([0 0 1; 0 0 0; 1 1 0].>0, [:a, :b, :c]),
+    D4 = UnipartiteNetwork([0 1 0; 0 0 1; 0 1 0].>0, [:a, :b, :c]),
+    D5 = UnipartiteNetwork([0 1 0; 0 0 1; 1 1 0].>0, [:a, :b, :c]),
+    D6 = UnipartiteNetwork([0 1 1; 1 0 1; 1 1 0].>0, [:a, :b, :c]),
+    D7 = UnipartiteNetwork([0 1 1; 1 0 0; 1 1 0].>0, [:a, :b, :c]),
+    D8 = UnipartiteNetwork([0 1 1; 1 0 0; 1 0 0].>0, [:a, :b, :c])
+    )
 
   # Return
   return motifs
