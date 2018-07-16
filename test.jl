@@ -8,4 +8,7 @@ using StatPlots
 
 N = nz_stream_foodweb()[5]
 
-bellman_ford(N)
+Profile.clear()
+@time shuffle(N, number_of_swaps=5)
+@profile shuffle(N, number_of_swaps=500)
+Juno.profiler()
