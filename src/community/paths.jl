@@ -57,8 +57,11 @@ function bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: Al
     source ∈ species(N) || throw(ArgumentError("Species $(source) is not part of the network"))
 
     d = Dict([s => Inf64 for s in species(N)])
-    # TODO This should be #undefined since the species type can be whatever
-    p = Dict([s => "" for s in species(N)])
+    # The dictionary for the predecessor start as empty, and this saves some
+    # issues with the species types being multiple possible types
+    p = Dict{K,K}()
+    # We will sizehint! it for good measure, but it may not be entirely filled
+    sizehint!(p, richness(N))
 
     d[source] = 0.0
 
@@ -74,7 +77,6 @@ function bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: Al
         end
     end
 
-    filter!(x -> x.second != "", p)
     return [(from=source, to=k, weight=d[k]) for (k,v) in p]
 
 end
