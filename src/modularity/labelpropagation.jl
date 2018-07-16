@@ -25,7 +25,7 @@ function lp(N::T) where {T<:AbstractEcologicalNetwork}
         counts = StatsBase.counts(labels)
         cmax = maximum(counts)
         merged = Dict(zip(labels, counts))
-        ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
+        ok_keys = keys(Dict(collect(filter(k -> k.second==cmax, merged))))
         if length(ok_keys) > 0
           newlab = StatsBase.sample(collect(ok_keys))
           L[s1] = newlab
@@ -40,7 +40,7 @@ function lp(N::T) where {T<:AbstractEcologicalNetwork}
         counts = StatsBase.counts(labels)
         cmax = maximum(counts)
         merged = Dict(zip(labels, counts))
-        ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
+        ok_keys = keys(Dict(collect(filter(k -> k.second==cmax, merged))))
         if length(ok_keys) > 0
           newlab = StatsBase.sample(collect(ok_keys))
           L[s2] = newlab
@@ -90,7 +90,7 @@ function salp(N::T; θ::Float64=0.002, steps::Int64=10_000, λ::Float64=0.999, p
   for step in 1:steps
     temperature = θ*λ^(step-1)
     update_side = rand() < 0.5 ? 1 : 2
-    updated_species = sample(species(Y, update_side))
+    updated_species = sample(species(Y; dims=update_side))
     original_module = m[updated_species]
     neighbors = update_side == 1 ? N[updated_species,:] : N[:,updated_species]
     modules = get.(m, collect(neighbors), 0)
