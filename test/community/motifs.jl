@@ -2,11 +2,12 @@ module TestMotifs
 using Test
 #include("../../src/EcologicalNetwork.jl")
 using EcologicalNetwork
+using LinearAlgebra
 
-@test unipartitemotifs()[:S1].A == [false true false; false false true; false false false];
+@test unipartitemotifs().S1.A == [false true false; false false true; false false false];
 
 n = UnipartiteNetwork(zeros(Bool, (2, 2)))
-m = unipartitemotifs()[:S1]
+m = unipartitemotifs().S1
 @test length(find_motif(n, m)) ≈ 0.0
 
 # Test with a single link
@@ -78,8 +79,8 @@ fchain = UnipartiteNetwork([false true false; false false true; false false fals
 @test first(expected_motif_count(find_motif(N, fchain))) ≈ 0.2
 
 # Bipartite proba network
-B = BipartiteProbabilisticNetwork(eye(Float64, 3))
-m = BipartiteNetwork(eye(Bool,3))
+B = BipartiteProbabilisticNetwork(Matrix{Float64}(I, (3, 3)))
+m = BipartiteNetwork(Matrix{Bool}(I, (3, 3)))
 @test first(expected_motif_count(find_motif(B, m))) ≈ 1.0
 @test last(expected_motif_count(find_motif(B, m))) ≈ 0.0
 
@@ -88,21 +89,21 @@ X = [false true true true false; false false false true true; false false false 
     false false false false false; false false false false false]
 N = UnipartiteNetwork(X, [:a, :b, :c, :d, :e])
 
-@test length(find_motif(N, unipartitemotifs()[:S1])) == 2
-@test length(find_motif(N, unipartitemotifs()[:S2])) == 1
-@test length(find_motif(N, unipartitemotifs()[:S3])) == 0
-@test length(find_motif(N, unipartitemotifs()[:S4])) == 1
-@test length(find_motif(N, unipartitemotifs()[:S5])) == 3
+@test length(find_motif(N, unipartitemotifs().S1)) == 2
+@test length(find_motif(N, unipartitemotifs().S2)) == 1
+@test length(find_motif(N, unipartitemotifs().S3)) == 0
+@test length(find_motif(N, unipartitemotifs().S4)) == 1
+@test length(find_motif(N, unipartitemotifs().S5)) == 3
 
 # Diamond
 N = UnipartiteNetwork([false true true false; false false false true;
     false false false true; false false false false], [:a, :b, :c, :d])
 
-@test length(find_motif(N, unipartitemotifs()[:S1])) == 2
-@test length(find_motif(N, unipartitemotifs()[:S2])) == 0
-@test length(find_motif(N, unipartitemotifs()[:S3])) == 0
-@test length(find_motif(N, unipartitemotifs()[:S4])) == 1
-@test length(find_motif(N, unipartitemotifs()[:S5])) == 1
+@test length(find_motif(N, unipartitemotifs().S1)) == 2
+@test length(find_motif(N, unipartitemotifs().S2)) == 0
+@test length(find_motif(N, unipartitemotifs().S3)) == 0
+@test length(find_motif(N, unipartitemotifs().S4)) == 1
+@test length(find_motif(N, unipartitemotifs().S5)) == 1
 
 # Self motifs
 for (k,v) in unipartitemotifs()

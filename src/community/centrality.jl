@@ -13,7 +13,7 @@ function centrality_katz(N::Union{UnipartiteNetwork, UnipartiteProbabilisticNetw
 	@assert a <= 1.0
 	@assert a >= 0.0
 	@assert k >= 1
-	centr = sum(hcat(map((x) -> vec(sum((a^x).*(N.A^x); dims=1)), [1:k;])...),2)
+	centr = sum(hcat(map((x) -> vec(sum((a^x).*(N.A^x); dims=1)), [1:k;])...); dims=2)
 	return Dict(zip(species(N), centr ./ sum(centr)))
 end
 
