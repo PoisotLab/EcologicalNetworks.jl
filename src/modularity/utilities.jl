@@ -1,6 +1,6 @@
 function δ(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}
     @assert all(species(N) .∈ keys(L))
-    this_l = filter((k,v) -> k in species(N), L)
+    this_l = filter(p -> p.first in species(N), L)
     tl = [this_l[s] for s in species(N; dims=1)]
     bl = [this_l[s] for s in species(N; dims=2)]
     D = tl .== bl'
