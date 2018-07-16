@@ -6,12 +6,12 @@ This returns an array, not a network.
 - `n` (def. 2), the path length
 """
 function number_of_paths(N::AbstractUnipartiteNetwork; n::Int64=2)
-  @assert n >= 2
-  return N.A^n
+    @assert n >= 2
+    return N.A^n
 end
 
 function number_of_paths(N::UnipartiteQuantitativeNetwork; n::Int64=2)
-  number_of_paths(convert(UnipartiteNetwork, N); n=n)
+    number_of_paths(convert(UnipartiteNetwork, N); n=n)
 end
 
 """
