@@ -49,7 +49,7 @@ end
 """
     bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
 
-Bellman-ford algorithm to return the shortest / easiest paths from a source
+Bellman-Ford algorithm to return the shortest / easiest paths from a source
 species. Refer to the `bellman_ford` global documentation for the output format.
 """
 function bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
@@ -57,6 +57,7 @@ function bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: Al
     source ∈ species(N) || throw(ArgumentError("Species $(source) is not part of the network"))
 
     d = Dict([s => Inf64 for s in species(N)])
+
     # The dictionary for the predecessor start as empty, and this saves some
     # issues with the species types being multiple possible types
     p = Dict{K,K}()
@@ -78,7 +79,6 @@ function bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: Al
     end
 
     return [(from=source, to=k, weight=d[k]) for (k,v) in p]
-
 end
 
 
