@@ -99,7 +99,7 @@ shortest paths from a single source node.
 """
 function bellman_ford(N::T) where {T <: DeterministicNetwork}
     global paths
-    for i in 1:richness(N)
+    @inbounds for i in 1:richness(N)
         i == 1 && (paths = bellman_ford(N, species(N)[i]))
         i == 1 || append!(paths, bellman_ford(N, species(N)[i]))
     end
