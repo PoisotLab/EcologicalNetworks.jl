@@ -1,4 +1,5 @@
 name = "EcologicalNetworks"
+uuid = "d9d5b7f7-3496-4506-b2fa-c0cf39995558"
 version = "1.0.0"
 author = ["Timothée Poisot <timothee.poisot@umontreal.ca>"]
 
