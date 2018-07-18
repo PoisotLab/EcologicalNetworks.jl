@@ -1,0 +1,7 @@
+name = "EcologicalNetworks"
+version = "1.0.0"
+author = ["Timothée Poisot <timothee.poisot@umontreal.ca>"]
+
+[deps]
+Combinatorics = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
