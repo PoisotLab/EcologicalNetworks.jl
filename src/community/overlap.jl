@@ -21,11 +21,13 @@ names), and `overlap` (the number of shared interactors). The ordering within
 the pair of species is unimportant, since overlap graphs are symetrical.
 """
 function overlap(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteNetwork}
-    # Check the arguments for dims
+
     if dims !== nothing
         dims== 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
+
     overlaps = Vector{NamedTuple}()
+
     for i in 1:(richness(N; dims=dims)-1)
         s1 = species(N; dims=dims)[i]
         s1suc = N[s1,:]
@@ -46,5 +48,6 @@ function overlap(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipart
             end
         end
     end
+    
     return overlaps
 end
