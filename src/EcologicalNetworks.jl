@@ -78,6 +78,10 @@ export centrality_katz, centrality_closeness, centrality_degree
 include(joinpath(".", "community/motifs.jl"))
 export find_motif, expected_motif_count, unipartitemotifs
 
+# Overlap
+include(joinpath(".", "community/overlap.jl"))
+export overlap
+
 # Modularity
 include(joinpath(".", "modularity/utilities.jl"))
 export Q, Qr
