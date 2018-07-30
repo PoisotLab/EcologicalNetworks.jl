@@ -81,6 +81,7 @@ export find_motif, expected_motif_count, unipartitemotifs
 # Overlap
 include(joinpath(".", "community/overlap.jl"))
 export overlap
+export AJS, EAJS
 
 # Modularity
 include(joinpath(".", "modularity/utilities.jl"))

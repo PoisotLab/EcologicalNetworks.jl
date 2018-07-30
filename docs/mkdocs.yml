@@ -44,5 +44,6 @@ pages:
     - Nestedness: properties/nestedness.md
     - Motifs: properties/motifs.md
     - "Centrality and paths": properties/paths.md
+    - "Overlap and complementarity": properties/overlap.md
     - Randomization: properties/randomization.md
     - β-diversity: properties/betadiversity.md
