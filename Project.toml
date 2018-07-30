@@ -1,0 +1,7 @@
+name = "EcologicalNetworks"
+uuid = "26cd3c7c-942f-11e8-1e85-357945f36438"
+repo = "https://github.com/PoisotLab/EcologicalNetworks.jl"
+
+[deps]
+Combinatorics = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
