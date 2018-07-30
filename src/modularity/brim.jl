@@ -39,7 +39,7 @@ function brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E<:A
     r_tilde = B'*R
     T = map(Int64, r_tilde .== maximum(r_tilde; dims=2))
     S = vcat(R, T)
-    L = Dict(zip(species(N), vec(mapslices(r -> StatsBase.sample(findall(r)), S, 2))))
+    L = Dict(zip(species(N), vec(mapslices(r -> StatsBase.sample(findall(x->x!=0, r)), S, 2))))
     EcologicalNetworks.tidy_modules!(L)
     old_Q = new_Q
     new_Q = Q(N,L)
