@@ -51,14 +51,6 @@ uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 [[Distributed]]
 uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
-[[EcologicalNetworks]]
-deps = ["Combinatorics", "DelimitedFiles", "LinearAlgebra", "Random", "StatsBase", "Test"]
-git-tree-sha1 = "109b8299777f97c6ee6509dc425af7cee35eb1c9"
-repo-rev = ""
-repo-url = "/home/tpoisot/projects/code/EcologicalNetworks.jl"
-uuid = "ddee0774-942f-11e8-266d-494e0a857df5"
-version = "0.0.0"
-
 [[InteractiveUtils]]
 uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
