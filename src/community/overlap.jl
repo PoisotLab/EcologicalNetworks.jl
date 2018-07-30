@@ -44,7 +44,7 @@ function overlap(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipart
             dims == 2 && (s2set = s2pre)
             this_overlap = length(intersect(s1set, s2set))
             if this_overlap > 0
-                push!(overlaps, (pair = (s1, s2), overlap = this_overlap))
+                push!(overlaps, (pair = Set((s1, s2)), overlap = this_overlap))
             end
         end
     end
@@ -94,7 +94,7 @@ function AJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteN
             c = length(setdiff(s2set, s1set))
             this_overlap = a/(a+b+c)
             if this_overlap > 0.0
-                push!(overlaps, (pair = (s1, s2), overlap = this_overlap))
+                push!(overlaps, (pair = Set((s1, s2)), overlap = this_overlap))
             end
         end
     end
@@ -149,7 +149,7 @@ function EAJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipartite
             c = length(setdiff(s2set, s1set))
             this_overlap = a/(a+b+c)
             if this_overlap > 0.0
-                push!(overlaps, (pair = (s1, s2), overlap = this_overlap))
+                push!(overlaps, (pair = Set((s1, s2)), overlap = this_overlap))
             end
         end
     end

@@ -17,6 +17,7 @@ my_tests = [
    "rand/sample.jl",
    "community/nestedness.jl",
    "community/paths.jl",
+   "community/overlap.jl",
    "community/centrality.jl",
    "community/motifs.jl",
    "community/foodwebs.jl",
