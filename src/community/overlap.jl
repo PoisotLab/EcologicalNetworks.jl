@@ -26,7 +26,8 @@ function overlap(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipart
         dims== 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
 
-    overlaps = Vector{NamedTuple}()
+    itype = Pair{Set{last(eltype(N))},Int64}
+    overlaps = Vector{itype}()
 
     for i in 1:(richness(N; dims=dims)-1)
         s1 = species(N; dims=dims)[i]
@@ -44,7 +45,7 @@ function overlap(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipart
             dims == 2 && (s2set = s2pre)
             this_overlap = length(intersect(s1set, s2set))
             if this_overlap > 0
-                push!(overlaps, (pair = Set((s1, s2)), overlap = this_overlap))
+                push!(overlaps, Pair(Set((s1, s2)), this_overlap))
             end
         end
     end
@@ -70,10 +71,11 @@ similarity (and so does not go beyond the immediate neighbors).
 function AJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteNetwork}
 
     if dims !== nothing
-        dims== 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
+        dims == 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
 
-    overlaps = Vector{NamedTuple}()
+    itype = Pair{Set{last(eltype(N))},Float64}
+    overlaps = Vector{itype}()
 
     for i in 1:(richness(N; dims=dims)-1)
         s1 = species(N; dims=dims)[i]
@@ -94,7 +96,7 @@ function AJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteN
             c = length(setdiff(s2set, s1set))
             this_overlap = a/(a+b+c)
             if this_overlap > 0.0
-                push!(overlaps, (pair = Set((s1, s2)), overlap = this_overlap))
+                push!(overlaps, Pair(Set((s1, s2)), this_overlap))
             end
         end
     end
@@ -125,10 +127,11 @@ function EAJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipartite
     Y = UnipartiteNetwork(sp.>0, species_objects(N)...)
 
     if dims !== nothing
-        dims== 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
+        dims == 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
 
-    overlaps = Vector{NamedTuple}()
+    itype = Pair{Set{last(eltype(N))},Float64}
+    overlaps = Vector{itype}()
 
     for i in 1:(richness(Y; dims=dims)-1)
         s1 = species(Y; dims=dims)[i]
@@ -149,7 +152,7 @@ function EAJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipartite
             c = length(setdiff(s2set, s1set))
             this_overlap = a/(a+b+c)
             if this_overlap > 0.0
-                push!(overlaps, (pair = Set((s1, s2)), overlap = this_overlap))
+                push!(overlaps, Pair(Set((s1, s2)), this_overlap))
             end
         end
     end
