@@ -16,6 +16,6 @@ module TestOverlap
   @test AJS(B) == EAJS(B)
   @test length(AJS(B)) == 3
   @test length(overlap(B)) == 3
-  @test filter(x -> x.first == Set((:a, :b)), overlap(B))[1].overlap == 2
+  @test filter(x -> x.first == Set((:a, :b)), overlap(B))[1].second == 2
 
 end
