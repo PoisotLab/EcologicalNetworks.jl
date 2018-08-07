@@ -9,15 +9,10 @@ networks. The current version is compatible with `julia` v0.7.
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://PoisotLab.github.io/EcologicalNetworks.jl/latest)
 [![Join the chat at https://gitter.im/PoisotLab/EcologicalNetworks.jl](https://badges.gitter.im/PoisotLab/EcologicalNetworks.jl.svg)](https://gitter.im/PoisotLab/EcologicalNetworks.jl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-You can read more about the selection of measures in:
+There is a short bibliography of the methods in the [package
+documentation][pdocref].
 
-> Delmas, E. et al. Analyzing ecological networks of species interactions.
-> bioRxiv 112540 (2017). doi:10.1101/112540
-
-and about probabilistic networks in:
-
-> Poisot, T. et al. The structure of probabilistic networks. Methods in Ecology
-> and Evolution 7, 303–312 (2016). doi: 10.1111/2041-210X.12468
+[pdocref]: http://poisotlab.io/EcologicalNetworks.jl/latest/#references
 
 ## Getting started
 
@@ -40,8 +35,6 @@ That's it. Now head over to the
 [![GitHub tag](https://img.shields.io/github/tag/PoisotLab/EcologicalNetworks.jl.svg)]()
 [![GitHub issues](https://img.shields.io/github/issues/PoisotLab/EcologicalNetworks.jl.svg)]()
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/PoisotLab/EcologicalNetworks.jl.svg)]()
-
-[![EcologicalNetworks](http://pkg.julialang.org/badges/EcologicalNetworks_0.7.svg)](http://pkg.julialang.org/?pkg=EcologicalNetworks)
 
 ### On `master`
 
