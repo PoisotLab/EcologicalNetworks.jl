@@ -1,7 +1,7 @@
 # Public methods
 
 ```@autodocs
-Modules = [EcologicalNetwork]
+Modules = [EcologicalNetworks]
 Private = false
 Public = true
 Order = [:function]

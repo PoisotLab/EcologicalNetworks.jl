@@ -22,15 +22,6 @@ exclude it form the available functions.
 βwn
 ```
 
-One measure which is possibly missing is a function to build the metaweb, *i.e.*
-aggregate all species and interactions in a collection of networks. This can be
-done using `union`, *e.g.*
-
-~~~julia
-N = nz_stream_foodweb() # Or any collection of networks
-metaweb = reduce(union, N)
-~~~
-
 ## β-diversity measures
 
 ```@docs

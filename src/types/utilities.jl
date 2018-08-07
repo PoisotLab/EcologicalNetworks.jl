@@ -1,4 +1,4 @@
-import Base: getindex, setindex!, transpose, size, copy, !, isless, show
+import Base: getindex, setindex!, permutedims, permutedims!, size, copy, !, show
 
 """
     show(io::IO, N::AbstractEcologicalNetwork)
@@ -8,20 +8,19 @@ function show(io::IO, N::AbstractEcologicalNetwork)
   t = ""
   t = typeof(N) <: ProbabilisticNetwork ? "probabilistic" : t
   t = typeof(N) <: QuantitativeNetwork ? "quantitative" : t
-  print(io, "$(richness(N,1))×$(richness(N,2)) $(p) $(t) ecological network $(eltype(N)) (L: $(links(N)))")
+  print(io, "$(richness(N; dims=1))×$(richness(N; dims=2)) $(p) $(t) ecological network $(eltype(N)) (L: $(links(N)))")
 end
 
-
 """
-    species(N::AbstractUnipartiteNetwork)
+    richness(N::AbstractEcologicalNetwork, i::Int64)
 
-Returns an array of all species in a unipartite network. The order of the
-species corresponds to the order of rows/columns in the adjacency matrix.
+Returns the number of species on either side of the network. The value of `i`
+can be `1` (top-level species) or `2` (bottom-level species), as in the
+`species` function.
 """
-function species(N::AbstractUnipartiteNetwork)
-  return N.S
+function richness(N::AbstractEcologicalNetwork; dims::Union{Nothing,Integer}=nothing)
+  return length(species(N; dims=dims))
 end
-
 
 """
     species(N::AbstractBipartiteNetwork)
@@ -30,35 +29,23 @@ Returns an array of all species in a bipartite network. The order of the species
 corresponds to the order of rows (top level) and columns (bottom level) of the
 adjacency matrix, in this order.
 """
-function species(N::AbstractBipartiteNetwork)
-  return vcat(N.T, N.B)
+function species(N::AbstractBipartiteNetwork; dims::Union{Nothing,Integer}=nothing)
+  dims === nothing && return vcat(N.T, N.B)
+  dims == 1 && return N.T
+  dims == 2 && return N.B
+  throw(ArgumentError("dims can only be 1 (top species) or 2 (bottom species), or `nothing` (all species), you used $(dims)"))
 end
 
-
 """
-    species(N::AbstractBipartiteNetwork, i::Int64)
-
-Returns an array of species in either side of a bipartite network. The `i`
-parameter is the "margin" of the network, where `1` is species from the top, and
-`2` is species from the bottom layer.
-"""
-function species(N::AbstractBipartiteNetwork, i::Int64)
-  i == 1 && return N.T
-  i == 2 && return N.B
-  throw(ArgumentError("i can only be 1 (top species) or 2 (bottom species), you used $(i)"))
-end
-
-
-"""
-    species(N::AbstractUnipartiteNetwork, i::Int64)
+    species(N::AbstractUnipartiteNetwork; dims::Int64=1)
 
 Returns an array of species on either side of a unipartite network. In a
-unipartite network, species are the same on either size, so this essentially
-calls `species(N)`. This function is nevertheless useful when you want to write
-code that takes either side of the network in a general way.
+unipartite network, species are the same on either size. This function is
+nevertheless useful when you want to write code that takes either side of the
+network in a general way.
 """
-function species(N::AbstractUnipartiteNetwork, i::Int64)
-  return species(N)
+function species(N::AbstractUnipartiteNetwork; dims::Union{Nothing,Integer}=nothing)
+  return N.S
 end
 
 function species_objects(N::AbstractUnipartiteNetwork)
@@ -96,10 +83,10 @@ for the presence of an interaction.
 Use `N[i,j]` if you need to get the value of the interaction.
 """
 function has_interaction(N::AbstractEcologicalNetwork, i::NT, j::NT) where {NT<:AllowedSpeciesTypes}
-  @assert i ∈ species(N, 1)
-  @assert j ∈ species(N, 2)
-  i_pos = findin(species(N,1),[i])[1]
-  j_pos = findin(species(N,2),[j])[1]
+  @assert i ∈ species(N; dims=1)
+  @assert j ∈ species(N; dims=2)
+  i_pos = something(findfirst(isequal(i), species(N; dims=1)),0)
+  j_pos = something(findfirst(isequal(j), species(N; dims=2)),0)
   return has_interaction(N, i_pos, j_pos)
 end
 
@@ -188,10 +175,10 @@ Get the value of an interaction based on the *name* of the species. This is the
 recommended way to look for things in a network.
 """
 function getindex(N::AbstractEcologicalNetwork, s1::T, s2::T) where {T<:AllowedSpeciesTypes}
-  @assert s1 ∈ species(N,1)
-  @assert s2 ∈ species(N,2)
-  s1_pos = findfirst(species(N,1), s1)
-  s2_pos = findfirst(species(N,2), s2)
+  @assert s1 ∈ species(N; dims=1)
+  @assert s2 ∈ species(N; dims=2)
+  s1_pos = something(findfirst(isequal(s1), species(N; dims=1)), 0)
+  s2_pos = something(findfirst(isequal(s2), species(N; dims=2)), 0)
   return N[s1_pos, s2_pos]
 end
 
@@ -204,8 +191,8 @@ species. This returns the list of species as a `Set` object, in which ordering
 is unimportant.
 """
 function getindex(N::AbstractEcologicalNetwork, ::Colon, sp::T) where {T<:AllowedSpeciesTypes}
-  @assert sp ∈ species(N,2)
-  return Set(filter(x -> has_interaction(N, x, sp), species(N,1)))
+  @assert sp ∈ species(N; dims=2)
+  return Set(filter(x -> has_interaction(N, x, sp), species(N; dims=1)))
 end
 
 
@@ -217,8 +204,8 @@ focal species. This returns the list of species as a `Set` object, in which
 ordering is unimportant.
 """
 function getindex(N::AbstractEcologicalNetwork, sp::T, ::Colon) where {T <: AllowedSpeciesTypes}
-  @assert sp ∈ species(N,1)
-  return Set(filter(x -> has_interaction(N, sp, x), species(N,2)))
+  @assert sp ∈ species(N; dims=1)
+  return Set(filter(x -> has_interaction(N, sp, x), species(N; dims=2)))
 end
 
 
@@ -235,7 +222,7 @@ order specified by the user for performance reasons.
 """
 function getindex(N::AbstractUnipartiteNetwork, sp::Vector{T}) where {T<:AllowedSpeciesTypes}
   @assert all(map(x -> x ∈ species(N), sp))
-  sp_pos = findin(species(N), sp)
+  sp_pos = findall((in)(sp), species(N))
   n_sp = species(N)[sp_pos]
   n_int = N.A[sp_pos, sp_pos]
   return typeof(N)(n_int, n_sp)
@@ -248,8 +235,8 @@ end
 TODO
 """
 function getindex(N::AbstractBipartiteNetwork, ::Colon, sp::Vector{T}) where {T<:AllowedSpeciesTypes}
-  @assert all(map(x -> x ∈ species(N,2), sp))
-  sp_pos = findin(species(N,2), sp)
+  @assert all(map(x -> x ∈ species(N; dims=2), sp))
+  sp_pos = findall((in)(sp), species(N; dims=2))
   n_t = N.T
   n_b = N.B[sp_pos]
   n_int = N.A[:, sp_pos]
@@ -263,8 +250,8 @@ end
 TODO
 """
 function getindex(N::AbstractBipartiteNetwork, sp::Vector{T}, ::Colon) where {T <: AllowedSpeciesTypes}
-  @assert all(map(x -> x ∈ species(N,1), sp))
-  sp_pos = findin(species(N,1), sp)
+  @assert all(map(x -> x ∈ species(N; dims=1), sp))
+  sp_pos = findall((in)(sp), species(N; dims=1))
   n_t = N.T[sp_pos]
   n_b = N.B
   n_int = N.A[sp_pos,:]
@@ -278,10 +265,10 @@ end
 TODO
 """
 function getindex(N::AbstractBipartiteNetwork, sp1::Vector{T}, sp2::Vector{T}) where {T <: AllowedSpeciesTypes}
-  @assert all(map(x -> x ∈ species(N,1), sp1))
-  @assert all(map(x -> x ∈ species(N,2), sp2))
-  sp1_pos = findin(species(N,1), sp1)
-  sp2_pos = findin(species(N,2), sp2)
+  @assert all(map(x -> x ∈ species(N; dims=1), sp1))
+  @assert all(map(x -> x ∈ species(N; dims=2), sp2))
+  sp1_pos = findall((in)(sp1), species(N; dims=1))
+  sp2_pos = findall((in)(sp2), species(N; dims=2))
   n_t = N.T[sp1_pos]
   n_b = N.B[sp2_pos]
   n_int = N.A[sp1_pos,sp2_pos]
@@ -296,10 +283,10 @@ Changes the value of the interaction at the specificied position, where `i` and
 """
 function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E <: AllowedSpeciesTypes}
   @assert typeof(A) <: first(eltype(N))
-  @assert i ∈ species(N, 1)
-  @assert j ∈ species(N, 2)
-  i_pos = findin(species(N,1),[i])[1]
-  j_pos = findin(species(N,2),[j])[1]
+  @assert i ∈ species(N; dims=1)
+  @assert j ∈ species(N; dims=2)
+  i_pos = something(findfirst(isequal(i), species(N; dims=1)),0)
+  j_pos = something(findfirst(isequal(j), species(N; dims=2)),0)
   N.A[i_pos, j_pos] = A
 end
 
@@ -311,77 +298,10 @@ Changes the value of the interaction at the specificied position, where `i` and
 """
 function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E <: Int}
   @assert typeof(A) <: first(eltype(N))
-  @assert i ≤ richness(N,1)
-  @assert j ≤ richness(N,2)
+  @assert i ≤ richness(N; dims=1)
+  @assert j ≤ richness(N; dims=2)
   N.A[i, j] = A
 end
-
-
-"""
-    richness(N::AbstractEcologicalNetwork)
-
-Returns the number of species in a network.
-"""
-function richness(N::AbstractEcologicalNetwork)
-  return length(species(N))
-end
-
-
-"""
-    richness(N::AbstractEcologicalNetwork, i::Int64)
-
-Returns the number of species on either side of the network. The value of `i`
-can be `1` (top-level species) or `2` (bottom-level species), as in the
-`species` function.
-"""
-function richness(N::AbstractEcologicalNetwork, i::Int64)
-  return length(species(N,i))
-end
-
-
-function isless(N::NT, n::T) where {T, S<:AllowedSpeciesTypes, NT<:BipartiteProbabilisticNetwork{T,S}}
-  @assert 0.0 <= n <= 1.0
-  return BipartiteNetwork(N.A .< n, species_objects(N)...)
-end
-
-
-function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:BipartiteProbabilisticNetwork{T,S}}
-  @assert 0.0 <= n <= 1.0
-  return BipartiteNetwork(n .< N.A, species_objects(N)...)
-end
-
-
-function isless(N::NT, n::T) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteProbabilisticNetwork{T,S}}
-  @assert 0.0 <= n <= 1.0
-  return UnipartiteNetwork(N.A .< n, species_objects(N)...)
-end
-
-
-function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteProbabilisticNetwork{T,S}}
-  @assert 0.0 <= n <= 1.0
-  return UnipartiteNetwork(n .< N.A, species_objects(N)...)
-end
-
-
-function isless(N::NT, n::T) where {T, S<:AllowedSpeciesTypes, NT<:BipartiteQuantitativeNetwork{T,S}}
-  return BipartiteNetwork(N.A .< n, species_objects(N)...)
-end
-
-
-function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:BipartiteQuantitativeNetwork{T,S}}
-  return BipartiteNetwork(n .< N.A, species_objects(N)...)
-end
-
-
-function isless(N::NT, n::T) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteQuantitativeNetwork{T,S}}
-  return UnipartiteNetwork(N.A .< n, species_objects(N)...)
-end
-
-
-function isless(n::T, N::NT) where {T, S<:AllowedSpeciesTypes, NT<:UnipartiteQuantitativeNetwork{T,S}}
-  return UnipartiteNetwork(n .< N.A, species_objects(N)...)
-end
-
 
 """
     Base.:!{T<:DeterministicNetwork}(N::T)
@@ -395,16 +315,15 @@ end
 
 
 """
-    transpose(N::AbstractBipartiteNetwork)
+    permutedims(N::AbstractBipartiteNetwork)
 
-Returns a transposed copy of the network.
+Tranposes the network and returns a copy
 """
-function transpose(N::AbstractEcologicalNetwork)
-  A = copy(N.A)'
+function permutedims(N::AbstractEcologicalNetwork)
+  NA = permutedims(N.A)
   new_sp = typeof(N) <: AbstractBipartiteNetwork ? (N.B, N.T) : (N.S,)
-  return typeof(N)(A, new_sp...)
+  return typeof(N)(NA, new_sp...)
 end
-
 
 """
     interactions(N::AbstractEcologicalNetwork)
@@ -424,8 +343,8 @@ function interactions(N::AbstractEcologicalNetwork)
   if typeof(N) <: QuantitativeNetwork
     push!(fields, :strength)
   end
-  sp1 = species(N,1)
-  sp2 = species(N,2)
+  sp1 = species(N; dims=1)
+  sp2 = species(N; dims=2)
   for i in eachindex(sp1)
     s1 = sp1[i]
     for j in eachindex(sp2)
@@ -437,7 +356,7 @@ function interactions(N::AbstractEcologicalNetwork)
         if typeof(N) <: QuantitativeNetwork
           push!(values, N[i,j])
         end
-        int_nt = NamedTuples.make_tuple(fields)(tuple(values...)...)
+        int_nt = NamedTuple{tuple(fields...)}(tuple(values...))
         push!(edges_accumulator, int_nt)
       end
     end

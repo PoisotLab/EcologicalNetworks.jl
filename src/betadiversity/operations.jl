@@ -9,19 +9,19 @@ Union of two bipartite networks -- interactions *and* species which are present
 in either networks are also present in the final network.
 """
 function union(X::T, Y::T) where {T<:BipartiteNetwork}
-    new_t = union(species(X,1), species(Y,1))
-    new_b = union(species(X,2), species(Y,2))
+    new_t = union(species(X; dims=1), species(Y; dims=1))
+    new_b = union(species(X; dims=2), species(Y; dims=2))
     new_a = zeros(eltype(X.A), (length(new_t), length(new_b)))
     for ti in eachindex(new_t), bi in eachindex(new_b)
         st, sb = new_t[ti], new_b[bi]
         in_x, in_y = false, false
-        if st ∈ species(X,1)
-            if sb ∈ species(X, 2)
+        if st ∈ species(X; dims=1)
+            if sb ∈ species(X; dims=2)
                 in_x = has_interaction(X, st, sb)
             end
         end
-        if st ∈ species(Y,1)
-            if sb ∈ species(Y, 2)
+        if st ∈ species(Y; dims=1)
+            if sb ∈ species(Y; dims=2)
                 in_y = has_interaction(Y, st, sb)
             end
         end
@@ -39,8 +39,8 @@ disconnected, if they are found in both networks but with no operations in
 common.
 """
 function intersect(X::T, Y::T) where {T<:BipartiteNetwork}
-    new_t = intersect(species(X,1), species(Y,1))
-    new_b = intersect(species(X,2), species(Y,2))
+    new_t = intersect(species(X; dims=1), species(Y; dims=1))
+    new_b = intersect(species(X; dims=2), species(Y; dims=2))
     new_a = zeros(eltype(X.A), (length(new_t), length(new_b)))
     for ti in eachindex(new_t), bi in eachindex(new_b)
         st, sb = new_t[ti], new_b[bi]
@@ -108,8 +108,8 @@ order of arguments, as the resulting network will have the species present in
 the first network (and their interactions) only.
 """
 function setdiff(X::T, Y::T) where {T<:BipartiteNetwork}
-    new_t = setdiff(species(X,1), species(Y,1))
-    new_b = setdiff(species(X,2), species(Y,2))
+    new_t = setdiff(species(X; dims=1), species(Y; dims=1))
+    new_b = setdiff(species(X; dims=2), species(Y; dims=2))
     return X[new_t, new_b]
 end
 
@@ -121,6 +121,6 @@ order of arguments, as the resulting network will have the species present in
 the first network (and their interactions) only.
 """
 function setdiff(X::T, Y::T) where {T<:UnipartiteNetwork}
-    new_s = setdiff(species(X,1), species(Y,1))
+    new_s = setdiff(species(X; dims=1), species(Y; dims=1))
     return X[new_s]
 end

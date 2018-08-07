@@ -1,6 +1,6 @@
 module TestModularityLouvain
-using Base.Test
-using EcologicalNetwork
+using Test
+using EcologicalNetworks
 
 
 # Louvain modularity

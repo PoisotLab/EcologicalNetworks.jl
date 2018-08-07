@@ -1,6 +1,6 @@
 module TestModularityUtilities
-using Base.Test
-using EcologicalNetwork
+using Test
+using EcologicalNetworks
 
 # Perfectly modular bipartite network
 A = [

@@ -1,6 +1,7 @@
 module TestConnectance
-    using Base.Test
-    using EcologicalNetwork
+    using Test
+    using EcologicalNetworks
+    using LinearAlgebra
 
     # Generate some data
     N = BipartiteProbabilisticNetwork([0.0 0.1 0.0; 0.2 0.0 0.2; 0.4 0.5 0.0])
@@ -29,6 +30,6 @@ module TestConnectance
     @test links(K) == 9
 
     # Convert to adjacency
-    @test connectance(UnipartiteNetwork(eye(Bool, 10))) ≈ connectance(UnipartiteQuantitativeNetwork(eye(Int64, 10).*2))
+    @test connectance(UnipartiteNetwork(Matrix(I, (10,10)))) ≈ connectance(UnipartiteQuantitativeNetwork(Matrix{Int64}(I, (10,10)).*2))
 
 end

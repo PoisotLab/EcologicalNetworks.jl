@@ -1,6 +1,7 @@
 module TestTypeUtilities
-using Base.Test
-using EcologicalNetwork
+using Test
+using EcologicalNetworks
+using LinearAlgebra
 
 B = BipartiteProbabilisticNetwork(rand(3, 5))
 @test typeof(copy(B)) == typeof(B)
@@ -33,7 +34,7 @@ A = BipartiteNetwork([false true; true false], [:a, :b], [:c, :d])
 @test has_interaction(A, :b, :c)
 @test !has_interaction(A, :b, :d)
 
-A = UnipartiteNetwork(eye(Bool, 5))
+A = UnipartiteNetwork(Matrix(I, (5,5)))
 X = nodiagonal(A)
 @test !has_interaction(X, 1, 1)
 @test !has_interaction(X, 2, 2)
@@ -46,7 +47,7 @@ A = UnipartiteNetwork([true false; true true], [:a, :b])
 @test A[:b, :b]
 
 # Accessing a range of interactions
-A = UnipartiteNetwork(eye(Bool, 4), [:a, :b, :c, :d])
+A = UnipartiteNetwork(Matrix(I, (4,4)), [:a, :b, :c, :d])
 B = A[[:a, :b]]
 @test typeof(B) <: UnipartiteNetwork
 @test richness(B) == 2
@@ -77,7 +78,7 @@ S2 = A[:, :a]
 # Transposition
 A = web_of_life("A_HP_001")
 s1, s2 = size(A)
-B = A'
+B = permutedims(A)
 @test size(B) == (s2, s1)
 
 # Get index
@@ -116,11 +117,11 @@ nodiagonal!(N)
 @test links(N) == 2
 
 # Interactions
-interactions(BipartiteQuantitativeNetwork(rand((3,5))))
-interactions(BipartiteProbabilisticNetwork(rand((3,5))))
+interactions(BipartiteQuantitativeNetwork(rand(Float64, (3,5))))
+interactions(BipartiteProbabilisticNetwork(rand(Float64, (3,5))))
 
 # Test throws
 
-@test_throws ArgumentError species(BipartiteQuantitativeNetwork(rand((3,5))), 5)
+@test_throws ArgumentError species(BipartiteQuantitativeNetwork(rand(Float64, (3,5))); dims=5)
 
 end

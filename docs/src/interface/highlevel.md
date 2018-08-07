@@ -1,7 +1,7 @@
 # Core functions
 
 This page presents the core functions to manipulate networks. Whenever possible,
-the approach of `EcologicalNetwork` is to overload functions from `Base`.
+the approach of `EcologicalNetworks` is to overload functions from `Base`.
 
 ## Accessing species
 
@@ -47,7 +47,7 @@ richness
 ### Changing network shape
 
 ```@docs
-transpose
+permutedims
 nodiagonal
 nodiagonal!
 ```

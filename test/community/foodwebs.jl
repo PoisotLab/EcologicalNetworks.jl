@@ -1,6 +1,6 @@
 module TestFoodWebs
-  using Base.Test
-  using EcologicalNetwork
+  using Test
+  using EcologicalNetworks
 
   # test trophic levels on motifs
   s1 = unipartitemotifs()[:S1]

@@ -28,7 +28,7 @@ Number of non-zero interactions in a quantitative network (use `sum` to get the
 sum of interaction strengths).
 """
 function links(N::QuantitativeNetwork)
-    return sum(N.A.>zero(eltype(N.A)))
+    return sum(N.A .> zero(eltype(N.A)))
 end
 
 """
@@ -49,7 +49,7 @@ end
 Expected variance of the number of links for a probabilistic network.
 """
 function links_var(N::ProbabilisticNetwork)
-   return sum(N.A.*(1.-N.A))
+   return sum(N.A .* (1 .- N.A))
 end
 
 """
@@ -69,7 +69,7 @@ this is not standard practice, and therefore is not suggested as a function in
 the package.
 """
 function connectance(N::AbstractEcologicalNetwork)
-    return links(N) / (richness(N,1)*richness(N,2))
+    return links(N) / (richness(N; dims=1)*richness(N; dims=2))
 end
 
 """

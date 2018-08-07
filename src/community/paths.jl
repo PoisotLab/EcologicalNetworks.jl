@@ -6,12 +6,12 @@ This returns an array, not a network.
 - `n` (def. 2), the path length
 """
 function number_of_paths(N::AbstractUnipartiteNetwork; n::Int64=2)
-  @assert n >= 2
-  return N.A^n
+    @assert n >= 2
+    return N.A^n
 end
 
 function number_of_paths(N::UnipartiteQuantitativeNetwork; n::Int64=2)
-  number_of_paths(convert(UnipartiteNetwork, N); n=n)
+    number_of_paths(convert(UnipartiteNetwork, N); n=n)
 end
 
 """
@@ -28,10 +28,10 @@ which is above 10.
 function shortest_path(N::UnipartiteNetwork; nmax::Int64=50)
   # We will have a matrix of the same size at the adjacency matrix
   D = zeros(Int64, size(N))
-  D[N.A] = 1
+  D[N.A] .= 1
   for i in 2:nmax
     P = number_of_paths(N, n=i)
-    D[(P .> 0).*(D .== 0)] = i
+    D[(P .> 0).*(D .== 0)] .= i
   end
   return D
 end
@@ -49,7 +49,7 @@ end
 """
     bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
 
-Bellman-ford algorithm to return the shortest / easiest paths from a source
+Bellman-Ford algorithm to return the shortest / easiest paths from a source
 species. Refer to the `bellman_ford` global documentation for the output format.
 """
 function bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
@@ -57,7 +57,12 @@ function bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: Al
     source ∈ species(N) || throw(ArgumentError("Species $(source) is not part of the network"))
 
     d = Dict([s => Inf64 for s in species(N)])
-    p = Dict([s => "" for s in species(N)])
+
+    # The dictionary for the predecessor start as empty, and this saves some
+    # issues with the species types being multiple possible types
+    p = Dict{K,K}()
+    # We will sizehint! it for good measure, but it may not be entirely filled
+    sizehint!(p, richness(N))
 
     d[source] = 0.0
 
@@ -73,9 +78,7 @@ function bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: Al
         end
     end
 
-    filter!((k,v) -> v != "", p)
-    return [@NT(from=source, to=k, weight=d[k]) for (k,v) in p]
-
+    return [(from=source, to=k, weight=d[k]) for (k,v) in p]
 end
 
 
@@ -92,11 +95,11 @@ Currently, the Bellman-Ford algorithm is *slower* than the `shortest_path`
 function, but the arguments are returned in a more usable way. Note that the
 speed penalty is only valid when measuring the shortest paths in the entire
 network (and will be fixed relatively soon), and does not apply as much for the
-shortest paths from a single source node. 
+shortest paths from a single source node.
 """
 function bellman_ford(N::T) where {T <: DeterministicNetwork}
     global paths
-    for i in 1:richness(N)
+    @inbounds for i in 1:richness(N)
         i == 1 && (paths = bellman_ford(N, species(N)[i]))
         i == 1 || append!(paths, bellman_ford(N, species(N)[i]))
     end

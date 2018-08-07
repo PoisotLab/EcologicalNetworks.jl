@@ -1,13 +1,17 @@
+using Pkg
+using Documenter
+
 push!(LOAD_PATH,"../src/")
-include("../src/EcologicalNetwork.jl")
-using Documenter, EcologicalNetwork
+
+Pkg.activate(".")
+using EcologicalNetworks
 
 makedocs(
-    modules = [EcologicalNetwork]
+    modules = [EcologicalNetworks]
 )
 
 deploydocs(
     deps   = Deps.pip("pygments", "mkdocs", "mkdocs-material", "python-markdown-math"),
-    repo   = "github.com/PoisotLab/EcologicalNetwork.jl.git",
-    julia  = "0.6"
+    repo   = "github.com/PoisotLab/EcologicalNetworks.jl.git",
+    julia  = "0.7"
 )

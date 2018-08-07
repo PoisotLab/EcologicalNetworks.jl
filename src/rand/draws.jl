@@ -11,7 +11,7 @@ interactions.
 function rand(N::ProbabilisticNetwork)
     # Get the correct network type
     newtype = typeof(N) <: AbstractUnipartiteNetwork ? UnipartiteNetwork : BipartiteNetwork
-    return newtype(rand(size(N)).<=N.A, species_objects(N)...)
+    return newtype(rand(Float64, size(N)).<=N.A, species_objects(N)...)
 end
 
 """

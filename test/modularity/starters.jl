@@ -1,6 +1,6 @@
 module TestModularityStarters
-using Base.Test
-using EcologicalNetwork
+using Test
+using EcologicalNetworks
 
     A = [
       true true true false false false; true true true false false false;

@@ -58,8 +58,8 @@ Convert a bipartite quantitative network to a bipartite binary network. This
 amounts to *removing* the quantitative information.
 """
 function convert(::Type{BipartiteNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
-    R = copy(species(N, 1))
-    B = copy(species(N, 2))
+    R = copy(species(N; dims=1))
+    B = copy(species(N; dims=2))
     C = N.A.>zero(eltype(N.A))
     return BipartiteNetwork(convert(Array{Bool,2}, C), R, B)
 end

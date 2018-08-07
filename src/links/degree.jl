@@ -4,8 +4,8 @@
     degree_out(N::AbstractEcologicalNetwork)
 """
 function degree_out(N::AbstractEcologicalNetwork)
-  d_o = vec(sum(N.A, 2))
-  return Dict(zip(species(N,1), d_o))
+  d_o = vec(sum(N.A, dims=2))
+  return Dict(zip(species(N; dims=1), d_o))
 end
 
 """
@@ -14,45 +14,30 @@ end
     degree_in(N::AbstractEcologicalNetwork)
 """
 function degree_in(N::AbstractEcologicalNetwork)
-  d_i = vec(sum(N.A, 1))
-  return Dict(zip(species(N,2), d_i))
+  d_i = vec(sum(N.A, dims=1))
+  return Dict(zip(species(N; dims=2), d_i))
 end
 
-"""
-**Degree of species in a unipartite network**
-
-    degree(N::Unipartite)
-"""
-function degree(N::AbstractUnipartiteNetwork)
-  d_t = vec(sum(N.A, 2)) .+ vec(sum(N.A, 1))
-  return Dict(zip(species(N), d_t))
+function degree(N::AbstractEcologicalNetwork; dims::Union{Nothing,Integer}=nothing)
+  dims == 1 && return degree_out(N)
+  dims == 2 && return degree_in(N)
+  if dims === nothing
+    if typeof(N) <: AbstractBipartiteNetwork
+      return merge(degree_out(N), degree_in(N))
+    else
+      din = degree_in(N)
+      dout = degree_out(N)
+      for k in keys(din)
+        din[k] += dout[k]
+      end
+      return din
+    end
+  end
+  throw(ArgumentError("dims can only be 1 (out-degre) or 2 (in-degree) or `nothing` (both), you used $(dims)"))
 end
 
-function degree(N::AbstractEcologicalNetwork, i::Integer)
-  i == 1 && return degree_out(N)
-  i == 2 && return degree_in(N)
-  throw(ArgumentError("i can only be 1 (out-degre) or 2 (in-degree), you used $(i)"))
-end
-
-function degree(N::QuantitativeNetwork, i::Integer)
-  degree(convert(BinaryNetwork, N), i)
-end
-
-function degree(N::QuantitativeNetwork)
-  degree(convert(BinaryNetwork, N))
-end
-
-"""
-**Degree of species in a bipartite network**
-
-    degree(N::Bipartite)
-
-This is a concatenation of the out degree and the in degrees of nodes on both
-sizes, as measured by making the graph unipartite first. Rows are first, columns
-second.
-"""
-function degree(N::AbstractBipartiteNetwork)
-    return merge(degree_in(N), degree_out(N))
+function degree(N::QuantitativeNetwork; dims::Union{Nothing,Integer}=nothing)
+  degree(convert(BinaryNetwork, N), dims=dims)
 end
 
 """
@@ -61,8 +46,8 @@ end
     degree_out_var(N::ProbabilisticNetwork)
 """
 function degree_out_var(N::ProbabilisticNetwork)
-  d_o_v = mapslices(a_var, N.A, 2)
-  return Dict(zip(species(N,1), d_o_v))
+  d_o_v = mapslices(a_var, N.A; dims=2)
+  return Dict(zip(species(N; dims=1), d_o_v))
 end
 
 """
@@ -71,26 +56,29 @@ end
     degree_in_var(N::ProbabilisticNetwork)
 """
 function degree_in_var(N::ProbabilisticNetwork)
-  d_i_v = mapslices(a_var, N.A, 1)'
-  return Dict(zip(species(N,2), d_i_v))
+  d_i_v = mapslices(a_var, N.A; dims=1)'
+  return Dict(zip(species(N; dims=2), d_i_v))
 end
 
 """
-**Variance in the degree**
+    degree_var(N::ProbabilisticNetwork; dims::Union{Nothing,Integer}=nothing)
 
-    degree_var(N::UnipartiteProbaNetwork)
+Variance in the degree of species in a probabilistic network.
 """
-function degree_var(N::UnipartiteProbabilisticNetwork)
-  d_t_v = mapslices(a_var, N.A, 1)' .+ mapslices(a_var, N.A, 2)
-  return Dict(zip(species(N), d_t_v))
-end
-
-function degree_var(N::BipartiteProbabilisticNetwork)
-  return merge(degree_in(N), degree_out(N))
-end
-
-function degree_var(N::ProbabilisticNetwork, i::Integer)
-  i ∈ [1,2] || throw(ArgumentError("i can only be 1 (out-degre) or 2 (in-degree), you used $(i)"))
-  f = i == 1 ? degree_out_var : degree_in_var
-  return f(N)
+function degree_var(N::ProbabilisticNetwork; dims::Union{Nothing,Integer}=nothing)
+  dims == 1 && return degree_out_var(N)
+  dims == 2 && return degree_in_var(N)
+  if dims === nothing
+    if typeof(N) <: AbstractBipartiteNetwork
+      return merge(degree_out_var(N), degree_in_var(N))
+    else
+      din = degree_in_var(N)
+      dout = degree_out_var(N)
+      for k in keys(din)
+        din[k] += dout[k]
+      end
+      return din
+    end
+  end
+  throw(ArgumentError("dims can only be 1 (out-degre) or 2 (in-degree) or `nothing` (both), you used $(dims)"))
 end

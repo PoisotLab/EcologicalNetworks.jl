@@ -1,16 +1,17 @@
 module TestSpecificityFunctions
-  using Base.Test
-  using EcologicalNetwork
+  using Test
+  using EcologicalNetworks
+  using LinearAlgebra
 
   # specificity
 
-  @test EcologicalNetwork.pdi(vec([1.0 0.0 0.0])) ≈ 1.0
-  @test EcologicalNetwork.pdi(vec([0.0 1.0 0.0])) ≈ 1.0
-  @test EcologicalNetwork.pdi(vec([0.0 0.2 0.0])) ≈ 1.0
+  @test EcologicalNetworks.pdi(vec([1.0 0.0 0.0])) ≈ 1.0
+  @test EcologicalNetworks.pdi(vec([0.0 1.0 0.0])) ≈ 1.0
+  @test EcologicalNetworks.pdi(vec([0.0 0.2 0.0])) ≈ 1.0
 
-  N = BipartiteNetwork(eye(Bool, 10))
-  @test specificity(N)[species(N,1)[1]] ≈ 1.0
-  N = BipartiteQuantitativeNetwork(eye(Float64, 10))
-  @test specificity(N)[species(N,1)[1]] ≈ 1.0
+  N = BipartiteNetwork(Matrix(I, (10,10)))
+  @test specificity(N)[species(N; dims=1)[1]] ≈ 1.0
+  N = BipartiteQuantitativeNetwork(Matrix{Float64}(I, (10,10)))
+  @test specificity(N)[species(N; dims=1)[1]] ≈ 1.0
 
 end

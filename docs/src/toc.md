@@ -25,6 +25,7 @@ Pages = [
   "properties/nestedness.md",
   "properties/motifs.md",
   "properties/paths.md",
+  "properties/overlap.md",
   "properties/randomization.md",
   "properties/betadiversity.md"
   ]

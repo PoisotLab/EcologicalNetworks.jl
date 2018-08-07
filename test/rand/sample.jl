@@ -1,6 +1,6 @@
 module TestSample
-  using Base.Test
-  using EcologicalNetwork
+  using Test
+  using EcologicalNetworks
 
   # Generate some data
 

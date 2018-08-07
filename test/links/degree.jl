@@ -1,6 +1,6 @@
 module TestDegreeFunctions
-  using Base.Test
-  using EcologicalNetwork
+  using Test
+  using EcologicalNetworks
 
   # Generate some data
 
@@ -13,31 +13,31 @@ module TestDegreeFunctions
   Q = BipartiteQuantitativeNetwork(rand(Float64, (3, 5)))
   D = convert(BinaryNetwork, Q)
   @test degree(Q) == degree(D)
-  @test degree(Q,1) == degree(D,1)
-  @test degree(Q,2) == degree(D,2)
+  @test degree(Q; dims=1) == degree(D; dims=1)
+  @test degree(Q; dims=2) == degree(D; dims=2)
 
-  Dov = degree_var(N, 1)
+  Dov = degree_var(N; dims=1)
   @test Dov[:b] ≈ 0.3
 
-  Dv = degree_var(N, 2)
+  Dv = degree_var(N; dims=2)
   @test Dv[:b] ≈ 0.33
 
-  @test_throws ArgumentError degree(N, 3)
-  @test_throws ArgumentError degree(N, 0)
+  @test_throws ArgumentError degree(N; dims=3)
+  @test_throws ArgumentError degree(N; dims=0)
 
   # Variance
 
   N = UnipartiteProbabilisticNetwork([0.22 0.4; 0.3 0.1])
 
-  Din = degree(N, 2)
-  Dout = degree(N, 1)
+  Din = degree(N; dims=2)
+  Dout = degree(N; dims=1)
   Dtot = degree(N)
 
-  Dov = degree_var(N, 1)
+  Dov = degree_var(N; dims=1)
   @test Dov["s2"] ≈ 0.3 atol=0.001
   @test Dov["s1"] ≈ 0.41159 atol=0.001
 
-  Div = degree_var(N, 2)
+  Div = degree_var(N; dims=2)
   @test Div["s1"] ≈ 0.3816 atol=0.01
 
   Dv = degree_var(N)

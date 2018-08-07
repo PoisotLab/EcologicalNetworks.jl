@@ -1,4 +1,4 @@
-# EcologicalNetwork
+# EcologicalNetworks
 
 This package provides a common interface for the analysis of ecological
 networks, using `julia`. It is *very* opinionated about the "right" way to do
@@ -72,7 +72,7 @@ function √(N::T) where {T <: QuantitativeNetwork}
   # Take the square root of the interaction strength
   sqrt_matrix = sqrt.(N.A)
   # Return a new network with the correct types
-  return NewType{typeof(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetwork.species_objects(N)...)
+  return NewType{typeof(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
 end
 ~~~
 
@@ -139,7 +139,7 @@ The easiest way to contribute is to use the package, and [open an issue][issue]
 whenever you can't manage to do something, think the syntax is not clear, or the
 documentation is confusing. This is seriously one of the best ways to help.
 
-[issue]: https://github.com/PoisotLab/EcologicalNetwork.jl/issues
+[issue]: https://github.com/PoisotLab/EcologicalNetworks.jl/issues
 
 If you want to contribute code, you can fork this repository, and start adding
 the functions you want, or changing the code. Please work from the `develop`

@@ -5,30 +5,28 @@ The names of the motifs come from Stouffer et al. (2007) -- especially Fig. 1,
 available online at
 <http://rspb.royalsocietypublishing.org/content/274/1621/1931.figures-only>
 
-The motifs are returned as a dictionary, with each motif identified by its name.
+The motifs are returned as a named tuple, with every motif identified by its
+name in the original publication. The species are named :a. :b, and :c.
 """
 function unipartitemotifs()
 
   # Everything is stored in a Dict, and the keys are symbols with the names of
   # the motifs.
-  motifs = Dict{Symbol, UnipartiteNetwork}()
-
-  # Single-linked motifs
-  motifs[:S1] = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0, [:a, :b, :c])
-  motifs[:S2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 0 0].>0, [:a, :b, :c])
-  motifs[:S3] = UnipartiteNetwork([0 1 0; 0 0 1; 1 0 0].>0, [:a, :b, :c])
-  motifs[:S4] = UnipartiteNetwork([0 0 1; 0 0 1; 0 0 0].>0, [:a, :b, :c])
-  motifs[:S5] = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0].>0, [:a, :b, :c])
-
-  # Double-linked motifs
-  motifs[:D1] = UnipartiteNetwork([0 1 1; 0 0 0; 1 1 0].>0, [:a, :b, :c])
-  motifs[:D2] = UnipartiteNetwork([0 1 1; 0 0 1; 0 1 0].>0, [:a, :b, :c])
-  motifs[:D3] = UnipartiteNetwork([0 0 1; 0 0 0; 1 1 0].>0, [:a, :b, :c])
-  motifs[:D4] = UnipartiteNetwork([0 1 0; 0 0 1; 0 1 0].>0, [:a, :b, :c])
-  motifs[:D5] = UnipartiteNetwork([0 1 0; 0 0 1; 1 1 0].>0, [:a, :b, :c])
-  motifs[:D6] = UnipartiteNetwork([0 1 1; 1 0 1; 1 1 0].>0, [:a, :b, :c])
-  motifs[:D7] = UnipartiteNetwork([0 1 1; 1 0 0; 1 1 0].>0, [:a, :b, :c])
-  motifs[:D8] = UnipartiteNetwork([0 1 1; 1 0 0; 1 0 0].>0, [:a, :b, :c])
+  motifs = (
+    S1 = UnipartiteNetwork([0 1 0; 0 0 1; 0 0 0].>0, [:a, :b, :c]),
+    S2 = UnipartiteNetwork([0 1 1; 0 0 1; 0 0 0].>0, [:a, :b, :c]),
+    S3 = UnipartiteNetwork([0 1 0; 0 0 1; 1 0 0].>0, [:a, :b, :c]),
+    S4 = UnipartiteNetwork([0 0 1; 0 0 1; 0 0 0].>0, [:a, :b, :c]),
+    S5 = UnipartiteNetwork([0 1 1; 0 0 0; 0 0 0].>0, [:a, :b, :c]),
+    D1 = UnipartiteNetwork([0 1 1; 0 0 0; 1 1 0].>0, [:a, :b, :c]),
+    D2 = UnipartiteNetwork([0 1 1; 0 0 1; 0 1 0].>0, [:a, :b, :c]),
+    D3 = UnipartiteNetwork([0 0 1; 0 0 0; 1 1 0].>0, [:a, :b, :c]),
+    D4 = UnipartiteNetwork([0 1 0; 0 0 1; 0 1 0].>0, [:a, :b, :c]),
+    D5 = UnipartiteNetwork([0 1 0; 0 0 1; 1 1 0].>0, [:a, :b, :c]),
+    D6 = UnipartiteNetwork([0 1 1; 1 0 1; 1 1 0].>0, [:a, :b, :c]),
+    D7 = UnipartiteNetwork([0 1 1; 1 0 0; 1 1 0].>0, [:a, :b, :c]),
+    D8 = UnipartiteNetwork([0 1 1; 1 0 0; 1 0 0].>0, [:a, :b, :c])
+    )
 
   # Return
   return motifs
@@ -54,7 +52,7 @@ Returns all permutations of the adjacency matrix of a motif.
 """
 function permute_motif(m::T) where {T<:BipartiteNetwork}
     perm = Array{Bool,2}[]
-    for ts in permutations(1:richness(m,1)), bs in permutations(1:richness(m,2))
+    for ts in permutations(1:richness(m; dims=1)), bs in permutations(1:richness(m; dims=2))
         push!(perm, m.A[ts,bs])
     end
     return unique(perm)
@@ -74,14 +72,14 @@ end
 function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteNetwork,T2<:BipartiteNetwork}
     motif_permutations = permute_motif(m)
     matching_species = []
-    top_combinations = combinations(species(N,1), richness(m,1))
-    bottom_combinations = combinations(species(N,2), richness(m,2))
+    top_combinations = combinations(species(N; dims=1), richness(m; dims=1))
+    bottom_combinations = combinations(species(N; dims=2), richness(m; dims=2))
     # Pre-allocate the species positions
-    top_sp_pos = zeros(Int64, richness(m,1))
-    bot_sp_pos = zeros(Int64, richness(m,2))
+    top_sp_pos = zeros(Int64, richness(m; dims=1))
+    bot_sp_pos = zeros(Int64, richness(m; dims=2))
     # Positions of species (they don't change!)
-    p1 = Dict(zip(species(N, 1), 1:richness(N, 1)))
-    p2 = Dict(zip(species(N, 2), 1:richness(N, 2)))
+    p1 = Dict(zip(species(N; dims=1), 1:richness(N; dims=1)))
+    p2 = Dict(zip(species(N; dims=2), 1:richness(N; dims=2)))
     for top_species in top_combinations
         for i in 1:length(top_species)
             top_sp_pos[i] = p1[top_species[i]]
@@ -109,7 +107,7 @@ function inner_find_motif(N::T1, m::T2) where {T1<:UnipartiteProbabilisticNetwor
             for i in eachindex(imat)
                 imat[i] = (perm[i] ? 2.0*isg[i] : 1.0)-isg[i]
             end
-            pmm, pmv = prod(imat), EcologicalNetwork.m_var(imat)
+            pmm, pmv = prod(imat), EcologicalNetworks.m_var(imat)
             motif_mean += pmm
             motif_var += pmv
         end
@@ -121,8 +119,8 @@ end
 function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteProbabilisticNetwork, T2<:BipartiteNetwork}
     motif_permutations = permute_motif(m)
     all_combinations = []
-    top_combinations = combinations(species(N,1), richness(m,1))
-    bottom_combinations = combinations(species(N,2), richness(m,2))
+    top_combinations = combinations(species(N; dims=1), richness(m; dims=1))
+    bottom_combinations = combinations(species(N; dims=2), richness(m; dims=2))
     for top_species in top_combinations, bottom_species in bottom_combinations
         isg = N[top_species, bottom_species]
         motif_mean, motif_var = 0.0, 0.0
@@ -131,7 +129,7 @@ function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteProbabilisticNetwork
             for i in eachindex(imat)
                 imat[i] = (perm[i] ? 2.0*isg[i] : 1.0)-isg[i]
             end
-            pmm, pmv = prod(imat), EcologicalNetwork.m_var(imat)
+            pmm, pmv = prod(imat), EcologicalNetworks.m_var(imat)
             motif_mean += pmm
             motif_var += pmv
         end

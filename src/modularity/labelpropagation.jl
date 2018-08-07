@@ -15,17 +15,17 @@ function lp(N::T) where {T<:AbstractEcologicalNetwork}
   improved = true
 
   while improved
-    update_t = shuffle(species(N,1))
-    update_b = shuffle(species(N,2))
+    update_t = shuffle(species(N; dims=1))
+    update_b = shuffle(species(N; dims=2))
 
     for s1 in update_t
-      linked = filter(s2 -> has_interaction(N,s1,s2), species(N,2))
+      linked = filter(s2 -> has_interaction(N,s1,s2), species(N; dims=2))
       labels = [L[s2] for s2 in linked]
       if length(labels) > 0
         counts = StatsBase.counts(labels)
         cmax = maximum(counts)
         merged = Dict(zip(labels, counts))
-        ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
+        ok_keys = keys(Dict(collect(filter(k -> k.second==cmax, merged))))
         if length(ok_keys) > 0
           newlab = StatsBase.sample(collect(ok_keys))
           L[s1] = newlab
@@ -34,13 +34,13 @@ function lp(N::T) where {T<:AbstractEcologicalNetwork}
     end
 
     for s2 in update_b
-      linked = filter(s1 -> has_interaction(N,s1,s2), species(N,1))
+      linked = filter(s1 -> has_interaction(N,s1,s2), species(N; dims=1))
       labels = [L[s1] for s1 in linked]
       if length(labels) > 0
         counts = StatsBase.counts(labels)
         cmax = maximum(counts)
         merged = Dict(zip(labels, counts))
-        ok_keys = keys(Dict(collect(filter((k,v) -> v==cmax, merged))))
+        ok_keys = keys(Dict(collect(filter(k -> k.second==cmax, merged))))
         if length(ok_keys) > 0
           newlab = StatsBase.sample(collect(ok_keys))
           L[s2] = newlab
@@ -90,7 +90,7 @@ function salp(N::T; θ::Float64=0.002, steps::Int64=10_000, λ::Float64=0.999, p
   for step in 1:steps
     temperature = θ*λ^(step-1)
     update_side = rand() < 0.5 ? 1 : 2
-    updated_species = sample(species(Y, update_side))
+    updated_species = sample(species(Y; dims=update_side))
     original_module = m[updated_species]
     neighbors = update_side == 1 ? N[updated_species,:] : N[:,updated_species]
     modules = get.(m, collect(neighbors), 0)
@@ -106,6 +106,6 @@ function salp(N::T; θ::Float64=0.002, steps::Int64=10_000, λ::Float64=0.999, p
       info("t: $(lpad(step, 9)) \t θ: $(round(temperature, 2)) \t Q: $(round(Q0, 3)) \t m: $(length(unique(values(m))))")
     end
   end
-  EcologicalNetwork.tidy_modules!(m)
+  EcologicalNetworks.tidy_modules!(m)
   return Y, m
 end

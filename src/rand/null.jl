@@ -7,7 +7,7 @@ where every interaction happens with a probability equal to the connectance of
 """
 function null1(N::BinaryNetwork)
     itype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
-    return itype(ones(N.A) .* connectance(N), species_objects(N)...)
+    return itype(fill(connectance(N), size(N)), species_objects(N)...)
 end
 
 """
@@ -19,11 +19,7 @@ where every interaction happens with a probability equal to the out-degree
 successors.
 """
 function null3out(N::BinaryNetwork)
-  itype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
-  A = N.A
-  proba = sum(A,2)./size(A,2)
-  imat = repmat(proba', size(A,2))'
-  return itype(imat, species_objects(N)...)
+  return permutedims(null3in(permutedims(N)))
 end
 
 """
@@ -37,8 +33,8 @@ possible predecessors.
 function null3in(N::BinaryNetwork)
   itype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
   A = N.A
-  proba = sum(A,1)./size(A,1)
-  imat = repmat(proba, size(A,1))
+  proba = sum(A; dims=1)./size(A,1)
+  imat = repeat(proba, size(A,1))
   return itype(imat, species_objects(N)...)
 end
 
@@ -52,8 +48,8 @@ species.
 function null2(N::BinaryNetwork)
   itype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
   A = N.A
-  pr1 = sum(A,2)./size(A,2)
-  pr2 = sum(A,1)./size(A,1)
+  pr1 = sum(A; dims=2)./size(A,2)
+  pr2 = sum(A; dims=1)./size(A,1)
   imat = (pr1.+pr2)./2.0
   return itype(imat, species_objects(N)...)
 end
