@@ -11,7 +11,7 @@ makedocs(
 )
 
 deploydocs(
-    deps   = Deps.pip("pygments", "mkdocs", "mkdocs-material", "python-markdown-math"),
+    deps   = Deps.pip("pygments", "mkdocs", "python-markdown-math"),
     repo   = "github.com/PoisotLab/EcologicalNetworks.jl.git",
     julia  = "0.7",
 	latest = "develop"
