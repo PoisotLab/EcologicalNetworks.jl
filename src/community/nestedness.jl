@@ -98,18 +98,6 @@ function nodf_axis(N::BipartiteNetwork)
 end
 
 """
-    nodf(N::T) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
-
-If the network is quantitative, then *WNODF* is measured instead of *NODF*. Note
-that in *all* situations, the value goes between 0 (not nested) to 1 (perfectly
-nested). This is a change with regard to the original papers, in which the
-maximal value is 100. The nestedness for the entire network is returned.
-"""
-function nodf(N::T) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
-  return (nodf(N,1)+nodf(N,2))/2.0
-end
-
-"""
     nodf(N::T, i::Int64) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
 
 Returns `nodf` for a margin of the network. The `i` argument can be 1 for
