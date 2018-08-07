@@ -131,6 +131,10 @@ Marie-Josée Fortin, and Daniel B. Stouffer. “The Structure of Probabilistic
 Networks.” Methods in Ecology and Evolution 7, no. 3 (2016): 303–12.
 https://doi.org/10.1111/2041-210X.12468.
 
+### Overlap and complementarity
+
+Gao, Peng, et John A. Kupfer. « Uncovering food web structure using a novel trophic similarity measure ». Ecological Informatics 30 (2015): 110‑18. https://doi.org/10.1016/j.ecoinf.2015.09.013.
+
 ## How can I contribute?
 
 Good question!
