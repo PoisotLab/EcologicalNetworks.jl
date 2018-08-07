@@ -3,9 +3,7 @@
 This `julia` package provides a common interface to analyze all types of data on
 ecological networks. It is designed to be general, easy to expand, and work on
 bipartite/unipartite as well as deterministic/quantitative/probabilistic
-networks. The current version is compatible with `julia` v0.7 -- the latest
-version compatible with `julia` v0.6 is
-[1.2.0](https://zenodo.org/record/1312294).
+networks. The current version is compatible with `julia` v0.7.
 
 [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://PoisotLab.github.io/EcologicalNetworks.jl/stable)
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://PoisotLab.github.io/EcologicalNetworks.jl/latest)

@@ -41,11 +41,11 @@ You don't have to use it if you don't want to.
 
 ### But it doesn't even make figures!
 
-This is coming soon.
+This is coming soon (in `EcologicalNetworksPlots`)
 
 ### And it doesn't even generate random networks!
 
-This is coming sooner.
+This is coming sooner (in `RandomEcologicalNetworks`).
 
 ### And worse, you forgot my favorite method!
 
@@ -66,22 +66,27 @@ method from base this way:
 ~~~ julia
 import Base: √
 
-function √(N::T) where {T <: QuantitativeNetwork}
-  # Get the new type for the output
-  NewType = T <: AbstractBipartiteNetwork ? BipartiteQuantitativeNetwork : UnipartiteQuantitativeNetwork
+function √(N::T) where {T <: BipartiteQuantitativeNetwork}
   # Take the square root of the interaction strength
   sqrt_matrix = sqrt.(N.A)
   # Return a new network with the correct types
-  return NewType{typeof(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
+  return BipartiteQuantitativeNetwork{eltype(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
+end
+
+function √(N::T) where {T <: UnipartiteQuantitativeNetwork}
+  # Take the square root of the interaction strength
+  sqrt_matrix = sqrt.(N.A)
+  # Return a new network with the correct types
+  return UnipartiteQuantitativeNetwork{eltype(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
 end
 ~~~
 
 The second solution (which is actually a second *step* after you have been
 writing your own method), is to submit a pull request to the package, to have
 your new methods available in the next release. Currently, we will be very
-selective about which methods are added. In the future (presumably shortly after
-the release of *Julia* `v1.0`), we will start a companion package to provide
-additional methods.
+selective about which methods are added (because every line of code needs to be
+maintained). In the future (presumably shortly after the release of *Julia*
+`v1.0`), we will start a companion package to provide additional methods.
 
 ## References
 
