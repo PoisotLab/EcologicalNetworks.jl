@@ -1,16 +1,5 @@
 # Motif enumeration
 
-## Example
-
-```@setup econet
-using EcologicalNetworks
-```
-
-```@example econet
-N = last(nz_stream_foodweb())
-length(find_motif(N, unipartitemotifs()[:S1]))
-```
-
 ## List of canonical motifs
 
 ```@docs
