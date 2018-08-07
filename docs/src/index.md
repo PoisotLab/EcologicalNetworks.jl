@@ -94,10 +94,11 @@ About the analysis of ecological networks in general, the package covers (or
 will cover over time) most of the measures we identified as robust in the
 following publication:
 
-Delmas, Eva, Mathilde Besson, Marie-Helene Brice, Laura Burkle, Giulio V.
-Dalla Riva, Marie-Josée Fortin, Dominique Gravel, et al. “Analyzing Ecological
-Networks of Species Interactions.” BioRxiv, (2017), 112540.
-https://doi.org/10.1101/112540.
+Delmas, Eva, Mathilde Besson, Marie-Hélène Brice, Laura A. Burkle, Giulio V.
+Dalla Riva, Marie-Josée Fortin, Dominique Gravel, et al. « Analysing Ecological
+Networks of Species Interactions ». Biological Reviews (2018), 112540.
+https://doi.org/10.1111/brv.12433.
+
 
 We highly recommend we keep it nearby when using the package. A lot of decisions
 taken during development are grounded in the analysis of the literature we
