@@ -85,7 +85,9 @@ the development of the package, we found that `brim` was rarely (if ever) able
 to optmize the output further. It can therefore be used on its own.
 """
 function salp(N::T; θ::Float64=0.002, steps::Int64=10_000, λ::Float64=0.999, progress::Bool=false) where {T <: BipartiteNetwork}
-  Y, m = copy.(each_species_its_module(N))
+  Y = copy(N)
+  m = last(each_species_its_module(N))
+
   Q0 = Q(Y, m)
   for step in 1:steps
     temperature = θ*λ^(step-1)
@@ -93,7 +95,7 @@ function salp(N::T; θ::Float64=0.002, steps::Int64=10_000, λ::Float64=0.999, p
     updated_species = sample(species(Y; dims=update_side))
     original_module = m[updated_species]
     neighbors = update_side == 1 ? N[updated_species,:] : N[:,updated_species]
-    modules = get.(m, collect(neighbors), 0)
+    modules = [get(m, n, 0) for n in collect(neighbors)]
     m[updated_species] = sample(modules)
     QR = Q(Y, m)
     Δ = Q0 - QR

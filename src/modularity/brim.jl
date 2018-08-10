@@ -6,7 +6,9 @@ is a dictionary mapping every species in the network to its module. This
 function returns a tuple of the network and its module assignment.
 """
 function brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}
-  @assert all(species(N) .∈ keys(L))
+  for s in species(N)
+    @assert haskey(L, s)
+  end
   EcologicalNetworks.tidy_modules!(L)
 
   old_Q = Q(N, L)
