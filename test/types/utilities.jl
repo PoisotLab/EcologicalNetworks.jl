@@ -136,11 +136,16 @@ for (i, int) in enumerate(unipartitemotifs().S1)
     end
 end
 
-for (i, int) in enumerate(null2(N))
+for (i, int) in enumerate(null2(unipartitemotifs().S1))
+    if i == 1
+        @test int.from == :a
+        @test int.to == :a
+        @test int.probability ≈ 1/6
+    end
     if i == 3
         @test int.from == :a
         @test int.to == :b
-        @test int.probability ≈ 0.5
+        @test int.probability ≈ 1/3
     end
 end
 
