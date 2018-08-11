@@ -9,19 +9,16 @@ function linearfilter(N::T; α::Vector{Float64}=fill(0.25, 4)) where {T <: Binar
   # Get the in and out degree, as well as the total number of interactions
   k_out = degree(N; dims=1)
   k_in = degree(N; dims=2)
-  A = sum(N)
+  A = links(N)
 
-  # This line is not optimal because it prevents type stability in the output,
-  # but this is sufficient for the illustration
+  # Prepare a return object
   return_type = T <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
   F = return_type(
     zeros(Float64, size(N)),
     EcologicalNetworks.species_objects(N)...
   )
 
-  # This loop is made possible by the fact that network objects can be modified.
-  # Rather than looping on species positions, we can loop directly on species
-  # names, and get the informations from the dictionaries with the degrees.
+  # Get probabilities
   for s1 in species(N; dims=1)
     for s2 in species(N; dims=2)
       F[s1,s2] = α[1]*N[s1,s2] + (α[2]/m)*k_out[s1] + (α[3]/n)*k_in[s2] + α[4]/(n*m)*A
@@ -39,8 +36,7 @@ where every interaction happens with a probability equal to the connectance of
 `A`.
 """
 function null1(N::BinaryNetwork)
-    itype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
-    return itype(fill(connectance(N), size(N)), species_objects(N)...)
+    return linearfilter(N; α=[0.0, 0.0, 0.0, 1.0])
 end
 
 """
@@ -52,7 +48,7 @@ where every interaction happens with a probability equal to the out-degree
 successors.
 """
 function null3out(N::BinaryNetwork)
-  return permutedims(null3in(permutedims(N)))
+  return linearfilter(N; α=[0.0, 1.0, 0.0, 0.0])
 end
 
 """
@@ -64,11 +60,7 @@ where every interaction happens with a probability equal to the in-degree
 possible predecessors.
 """
 function null3in(N::BinaryNetwork)
-  itype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
-  A = N.A
-  proba = sum(A; dims=1)./size(A,1)
-  imat = repeat(proba, size(A,1))
-  return itype(imat, species_objects(N)...)
+  return linearfilter(N; α=[0.0, 0.0, 1.0, 0.0])
 end
 
 """
@@ -79,10 +71,5 @@ every interaction happens with a probability equal to the degree of each
 species.
 """
 function null2(N::BinaryNetwork)
-  itype = typeof(N) <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
-  A = N.A
-  pr1 = sum(A; dims=2)./size(A,2)
-  pr2 = sum(A; dims=1)./size(A,1)
-  imat = (pr1.+pr2)./2.0
-  return itype(imat, species_objects(N)...)
+  return linearfilter(N; α=[0.0, 0.5, 0.5, 0.0])
 end
