@@ -143,8 +143,8 @@ for (i, int) in enumerate(null2(unipartitemotifs().S1))
         @test int.probability ≈ 1/6
     end
     if i == 2
-        @test int.from == :a
-        @test int.to == :b
+        @test int.from == :b
+        @test int.to == :a
         @test int.probability ≈ 1/3
     end
 end
