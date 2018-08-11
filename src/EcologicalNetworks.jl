@@ -36,6 +36,7 @@ export web_of_life, nz_stream_foodweb
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))
 include(joinpath(".", "types/comparisons.jl"))
+include(joinpath(".", "types/iteration.jl"))
 export species, interactions, has_interaction, richness, nodiagonal, nodiagonal!
 
 # Degree
