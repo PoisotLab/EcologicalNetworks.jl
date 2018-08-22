@@ -61,7 +61,7 @@ include(joinpath(".", "rand/sample.jl"))
 export sample
 include(joinpath(".", "rand/shuffle.jl"))
 include(joinpath(".", "rand/null.jl"))
-export linearfilter
+export linearfilter, linearfilterzoo
 export null1, null2, null3out, null3in
 
 # Nestedness
