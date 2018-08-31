@@ -8,7 +8,7 @@ score do not necessary convey a probabilistic interpretation.
 """
 function linearfilter(N::T; α::Vector{Float64}=fill(0.25, 4)) where {T <: BinaryNetwork}
   @assert length(α) == 4
-  @assert all(α .> 0.0)
+  #@assert all(α .> 0.0)
   @assert α[2] > 0.0 && α[3] > 0.0
   α = α./sum(α) # This ensures that α sums to 1.0
 
