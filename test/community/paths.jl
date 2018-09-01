@@ -22,4 +22,8 @@ module TestPaths
   @test length(b) == 3
   @test length(filter(x -> x.to == :c, b)) == 2
 
+  d = dijkstra(N, :a)
+  @test length(d) == 2
+  @test length(filter(x -> x.from == :a, d)) == 2
+
 end

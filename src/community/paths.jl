@@ -1,3 +1,5 @@
+import DataStructures: heapify, heappop!, heappush!
+
 """
     number_of_paths(N::Unipartite; n::Int64=2)
 
@@ -104,4 +106,58 @@ function bellman_ford(N::T) where {T <: DeterministicNetwork}
         i == 1 || append!(paths, bellman_ford(N, species(N)[i]))
     end
     return paths
+end
+
+function get_adj_list(N::T) where {T <: DeterministicNetwork}
+    adj_list = Dict()
+    for interaction in interactions(N)
+        w = get(interaction, :strength, 1.0)
+        if haskey(adj_list, interaction.from)
+            push!(adj_list[interaction.from], (w, interaction.to))
+        else
+            adj_list[interaction.from] = [(w, interaction.to)]
+        end
+    end
+    return adj_list
+end
+
+"""
+    dijkstra(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
+
+Dijkstra's algorithm to return the shortest / easiest paths from a source
+species. Refer to the `bellman_ford` global documentation for the output format.
+"""
+function dijkstra(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
+
+    source ∈ species(N) || throw(ArgumentError("Species $(source) is not part of the network"))
+
+    d = Dict([s => Inf64 for s in species(N)])
+
+    # The dictionary for the predecessor start as empty, and this saves some
+    # issues with the species types being multiple possible types
+    p = Dict{K,K}()
+    # We will sizehint! it for good measure, but it may not be entirely filled
+    sizehint!(p, richness(N))
+
+    d[source] = 0.0
+
+    adj_list = get_adj_list(N)
+
+    to_check = [(0.0, source)]
+
+    while length(to_check) > 0
+        dist_source_current, current = heappop!(to_check)
+        for (w, neighbor) in adj_list[current]  # scan neighbors
+            dist_via_neighbor = dist_source_current + w
+            if d[neighbor] > dist_via_neighbor
+                d[neighbor] = dist_via_neighbor
+                p[neighbor] = current
+                if haskey(adj_list, neighbor)
+                    heappush!(to_check, (dist_via_neighbor, neighbor))
+                end
+            end
+        end
+    end
+
+    return [(from=source, to=k, weight=d[k]) for (k,v) in p]
 end
