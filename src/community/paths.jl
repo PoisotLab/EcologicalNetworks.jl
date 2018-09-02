@@ -1,5 +1,3 @@
-import DataStructures: heapify, heappop!, heappush!
-
 """
     number_of_paths(N::Unipartite; n::Int64=2)
 
@@ -108,8 +106,8 @@ function bellman_ford(N::T) where {T <: DeterministicNetwork}
     return paths
 end
 
-function get_adj_list(N::T) where {T <: DeterministicNetwork}
-    adj_list = Dict()
+function get_adj_list(N::T, species::Array{K,1}) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
+    adj_list = Dict{K,Array{Tuple{Float64,K}}}()
     for interaction in interactions(N)
         w = get(interaction, :strength, 1.0)
         if haskey(adj_list, interaction.from)
@@ -119,6 +117,10 @@ function get_adj_list(N::T) where {T <: DeterministicNetwork}
         end
     end
     return adj_list
+end
+
+function dijkstra(N::T) where {T <: DeterministicNetwork}
+    nothing   # TODO: implement the dijkstra for all to all
 end
 
 """
@@ -141,7 +143,7 @@ function dijkstra(N::T, source::K) where {T <: DeterministicNetwork, K <: Allowe
 
     d[source] = 0.0
 
-    adj_list = get_adj_list(N)
+    adj_list = get_adj_list(N, species(N))
 
     to_check = [(0.0, source)]
 

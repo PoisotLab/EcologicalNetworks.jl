@@ -7,6 +7,7 @@ using Combinatorics
 using Random
 using DelimitedFiles
 using LinearAlgebra
+using DataStructures
 
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
