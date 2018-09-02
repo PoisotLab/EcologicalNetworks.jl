@@ -120,7 +120,33 @@ function get_adj_list(N::T, species::Array{K,1}) where {T <: DeterministicNetwor
 end
 
 function dijkstra(N::T) where {T <: DeterministicNetwork}
-    nothing   # TODO: implement the dijkstra for all to all
+    #TODO dealing with bipartite networks
+
+    species_of_N = species(N)
+    d = Dict([(s1, s2) => Inf64 for s1 in species_of_N for s2 in species_of_N])
+
+    adj_list = get_adj_list(N, species_of_N)
+
+    to_check = Set{K}()
+    for s in species_of_N
+        d[(s,s)] = 0.0
+        push!(to_check, s)
+    end
+
+    while length(to_check) > 0
+        current = pop!(to_check)
+        for (w, neighbor) in adj_list[current]
+            # check if there is a shorter path from current to neighbor
+            for s in species_of_N
+                if d[(current, neighbor)] < d[(current, s)] + w
+                    # path from cur to neighbor via species
+                    d[(current, neighbor)] = d[(current, s)] + w
+                    push!(to_check, neighbor)
+                end
+            end
+        end
+    end
+    return d  #TODO right output cfr Dijkstra
 end
 
 """
@@ -144,6 +170,9 @@ function dijkstra(N::T, source::K) where {T <: DeterministicNetwork, K <: Allowe
     d[source] = 0.0
 
     adj_list = get_adj_list(N, species(N))
+
+    #to_check = PriorityQueue{K,Float64}()
+    #append!(to_check, (0.0, source))
 
     to_check = [(0.0, source)]
 
