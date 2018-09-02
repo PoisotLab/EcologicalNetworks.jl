@@ -118,7 +118,15 @@ function get_adj_list(N::T, species::Array{K,1}) where {T <: DeterministicNetwor
     return adj_list
 end
 
+"""
+    dijstra(N::T) where {T <: DeterministicNetwork}
 
+Dijkstra algorithm to return the shortest / easiest paths between all pairs
+of species in the networks, as long as paths exists. This function will return a
+tuple, with fields `from`, `to` and `weight`. The number of elements in the
+tuple is the number of paths. This function works with quantitative and binary
+networks, and assumes that no interactions are negative.
+"""
 function dijkstra(N::T) where {T <: DeterministicNetwork}
     #QUESTION dealing with bipartite networks?
 
@@ -199,14 +207,3 @@ function dijkstra(N::T, source::K) where {T <: DeterministicNetwork, K <: Allowe
 
     return [(from=source, to=k, weight=d[k]) for (k,v) in p]
 end
-
-"""
-function dijkstra(N::T) where {T <: DeterministicNetwork}
-    global paths
-    @inbounds for i in 1:richness(N)
-        i == 1 && (paths = dijkstra(N, species(N)[i]))
-        i == 1 || append!(paths, dijkstra(N, species(N)[i]))
-    end
-    return paths
-end
-"""
