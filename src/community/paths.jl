@@ -108,13 +108,12 @@ end
 
 function get_adj_list(N::T, species::Array{K,1}) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
     adj_list = Dict{K,Array{Tuple{Float64,K}}}()
+    for s in species
+        adj_list[s] = []
+    end
     for interaction in interactions(N)
         w = get(interaction, :strength, 1.0)
-        if haskey(adj_list, interaction.from)
-            push!(adj_list[interaction.from], (w, interaction.to))
-        else
-            adj_list[interaction.from] = [(w, interaction.to)]
-        end
+        adj_list[interaction.from] = [(w, interaction.to)]
     end
     return adj_list
 end
