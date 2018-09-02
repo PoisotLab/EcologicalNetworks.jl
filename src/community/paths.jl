@@ -113,20 +113,27 @@ function get_adj_list(N::T, species::Array{K,1}) where {T <: DeterministicNetwor
     end
     for interaction in interactions(N)
         w = get(interaction, :strength, 1.0)
-        adj_list[interaction.from] = [(w, interaction.to)]
+        push!(adj_list[interaction.from], (w, interaction.to))
     end
     return adj_list
 end
 
+
 function dijkstra(N::T) where {T <: DeterministicNetwork}
-    #TODO dealing with bipartite networks
+    #QUESTION dealing with bipartite networks?
 
     species_of_N = species(N)
+    K = eltype(species_of_N)
+
     d = Dict([(s1, s2) => Inf64 for s1 in species_of_N for s2 in species_of_N])
+
+    p = Dict{Tuple{K,K},K}()
 
     adj_list = get_adj_list(N, species_of_N)
 
     to_check = Set{K}()
+    sizehint!(to_check, richness(N))
+
     for s in species_of_N
         d[(s,s)] = 0.0
         push!(to_check, s)
@@ -134,19 +141,20 @@ function dijkstra(N::T) where {T <: DeterministicNetwork}
 
     while length(to_check) > 0
         current = pop!(to_check)
-        for (w, neighbor) in adj_list[current]
-            # check if there is a shorter path from current to neighbor
+        for (w_cur2neig, neighbor) in adj_list[current]
+            # check if there is a shorter path from node to neighbor via current
             for s in species_of_N
-                if d[(current, neighbor)] < d[(current, s)] + w
-                    # path from cur to neighbor via species
-                    d[(current, neighbor)] = d[(current, s)] + w
+                if d[s, neighbor] > (d[s, current] + w_cur2neig)
+                    d[s, neighbor] = d[s, current] + w_cur2neig
+                    p[(s, neighbor)] = current
                     push!(to_check, neighbor)
                 end
             end
         end
     end
-    return d  #TODO right output cfr Dijkstra
+    return [(from=s, to=n, weight=d[(s,n)]) for ((s,n),c) in p]
 end
+
 
 """
     dijkstra(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
@@ -178,7 +186,7 @@ function dijkstra(N::T, source::K) where {T <: DeterministicNetwork, K <: Allowe
     while length(to_check) > 0
         dist_source_current, current = heappop!(to_check)
         for (w, neighbor) in adj_list[current]  # scan neighbors
-            dist_via_neighbor = dist_source_current + w
+            dist_via_neighbor = (dist_source_current + w)
             if d[neighbor] > dist_via_neighbor
                 d[neighbor] = dist_via_neighbor
                 p[neighbor] = current
@@ -191,3 +199,14 @@ function dijkstra(N::T, source::K) where {T <: DeterministicNetwork, K <: Allowe
 
     return [(from=source, to=k, weight=d[k]) for (k,v) in p]
 end
+
+"""
+function dijkstra(N::T) where {T <: DeterministicNetwork}
+    global paths
+    @inbounds for i in 1:richness(N)
+        i == 1 && (paths = dijkstra(N, species(N)[i]))
+        i == 1 || append!(paths, dijkstra(N, species(N)[i]))
+    end
+    return paths
+end
+"""

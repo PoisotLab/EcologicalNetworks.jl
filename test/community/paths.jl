@@ -22,6 +22,8 @@ module TestPaths
   @test length(b) == 3
   @test length(filter(x -> x.to == :c, b)) == 2
 
+  @test sort(dijkstra(N, :a)) == sort(bellman_ford(N, :a))
+  @test sort(dijkstra(N)) == sort(bellman_ford(N))
   d = dijkstra(N, :a)
   @test length(d) == 2
   @test length(filter(x -> x.from == :a, d)) == 2
