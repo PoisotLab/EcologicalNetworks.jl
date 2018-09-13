@@ -44,12 +44,12 @@ module TestNullModels
 
   # filter
 
-
+  C = copy(B)
+  C[1,1] = false  # remove one interaction
   # make version of the network with the first interaction removed
-  B = copy(A)
-  B[1,1] = false
-  Nchanged = UnipartiteNetwork(B)
-  # test if the zoo of A is the same as the result of the filter of B at (1,1)
-  @test linearfilter(B)[1,1] == linearfilterzoo(A)[1,1]
+
+  # test if the zoo of B is the same as the result of the filter of C at (1,1)
+  @test linearfilter(C)[1,1] ≈ linearfilterzoo(B)[1,1]
+  @test linearfilter(C)[1,1] != linearfilter(B)[1,1]
 
 end

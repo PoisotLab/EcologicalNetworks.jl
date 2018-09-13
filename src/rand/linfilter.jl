@@ -9,8 +9,6 @@ score do not necessary convey a probabilistic interpretation.
 function linearfilter(N::T; α::Vector{Float64}=fill(0.25, 4)) where {T <: BinaryNetwork}
   @assert length(α) == 4
   @assert all(α .≥ 0.0)
-  @assert α[2] > 0.0
-  @assert α[3] > 0.0
   α = α./sum(α) # This ensures that α sums to 1.0
 
   # Get the size of the network
@@ -50,14 +48,17 @@ did not occur. This function is useful for validating the filter whether it can
 detect false negative (missing) interactions.
 """
 function linearfilterzoo(N::T; α::Vector{Float64}=fill(0.25, 4)) where {T <: BinaryNetwork}
-  F = linearfilter(N, α)  # depart from scores of the filter
+  F = linearfilter(N, α=α)  # depart from scores of the filter
   Fzoo = F  # update the values to zero-one-out scores, reference is to keep
             # the code readable
 
+  # Get the size of the network
+  n = richness(N; dims=1)
+  m = richness(N; dims=2)
   # Get probabilities
   for s1 in species(N; dims=1)
     for s2 in species(N; dims=2)
-      Fzoo[s1,s2] = F[s1,s2] - (α[1] + (α[2]/m) + (α[3]/n) + α[4]/(n*m)) * N[s1,s2]
+      Fzoo[s1,s2] = F[s1,s2] - (α[1] + (α[2]/m) + (α[3]/n) + α[4]/(n * m)) * N[s1,s2]
     end
   end
 
