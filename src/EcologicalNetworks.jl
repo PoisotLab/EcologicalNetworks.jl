@@ -7,6 +7,7 @@ using Combinatorics
 using Random
 using DelimitedFiles
 using LinearAlgebra
+using DataStructures
 
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
@@ -71,7 +72,7 @@ export η, nodf
 
 # Paths
 include(joinpath(".", "community/paths.jl"))
-export number_of_paths, shortest_path, bellman_ford
+export number_of_paths, shortest_path, bellman_ford, dijkstra
 
 # Centrality
 include(joinpath(".", "community/centrality.jl"))
