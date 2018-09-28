@@ -42,4 +42,14 @@ module TestNullModels
   @test n3i[2,2] ≈ 1.0
   @test n3i[3,3] ≈ 1.0 / 3.0
 
+  # filter
+
+  C = copy(B)
+  C[1,1] = false  # remove one interaction
+  # make version of the network with the first interaction removed
+
+  # test if the zoo of B is the same as the result of the filter of C at (1,1)
+  @test linearfilter(C)[1,1] ≈ linearfilterzoo(B)[1,1]
+  @test linearfilter(C)[1,1] != linearfilter(B)[1,1]
+
 end
