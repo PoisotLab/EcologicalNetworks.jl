@@ -28,8 +28,10 @@ Returns a new network in which species with no interactions have been removed.
 function simplify!(N::T) where {T<:AbstractBipartiteNetwork}
     d1 = degree(N; dims=1)
     d2 = degree(N; dims=2)
-    p1 = filter(i -> d1[species(N; dims=1)[i]] > zero(eltype(N)[1]), 1:richness(N; dims=1))
-    p2 = filter(i -> d2[species(N; dims=2)[i]] > zero(eltype(N)[1]), 1:richness(N; dims=2))
+    s1 = species(N; dims=1)
+    s2 = species(N; dims=2)
+    p1 = filter(i -> d1[s1[i]] > zero(eltype(N)[1]), 1:richness(N; dims=1))
+    p2 = filter(i -> d2[s2[i]] > zero(eltype(N)[1]), 1:richness(N; dims=2))
     N.T = N.T[p1]
     N.B = N.B[p2]
     N.A = N.A[p1,p2]
@@ -53,7 +55,8 @@ Modifies the network to drop all species without an interaction.
 """
 function simplify!(N::T) where {T <: AbstractUnipartiteNetwork}
     d = degree(N)
-    positions = filter(i -> d[species(N)[i]] > zero(eltype(N)[1]), 1:richness(N))
+    s = species(N)
+    positions = filter(i -> d[s[i]] > zero(eltype(N)[1]), 1:richness(N))
     N.S = N.S[positions]
     N.A = N.A[positions, positions]
 end
