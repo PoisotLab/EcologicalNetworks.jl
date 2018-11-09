@@ -7,6 +7,7 @@ using Combinatorics
 using Random
 using DelimitedFiles
 using LinearAlgebra
+using DataStructures
 
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
@@ -61,7 +62,8 @@ include(joinpath(".", "rand/sample.jl"))
 export sample
 include(joinpath(".", "rand/shuffle.jl"))
 include(joinpath(".", "rand/null.jl"))
-export linearfilter
+include(joinpath(".", "rand/linfilter.jl"))
+export linearfilter, linearfilterzoo
 export null1, null2, null3out, null3in
 
 # Nestedness
@@ -70,7 +72,7 @@ export η, nodf
 
 # Paths
 include(joinpath(".", "community/paths.jl"))
-export number_of_paths, shortest_path, bellman_ford
+export number_of_paths, shortest_path, bellman_ford, dijkstra
 
 # Centrality
 include(joinpath(".", "community/centrality.jl"))
