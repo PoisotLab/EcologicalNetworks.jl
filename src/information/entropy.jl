@@ -12,7 +12,7 @@ Returns a double stochastic matrix from the adjacency or incidence matrix.
 Raises an error if the matrix contains negative values.
 """
 function make_joint_distribution(N::NT) where {NT<:AbstractEcologicalNetwork}
-    (typeof(N) <: QuantitativeNetwork) ⊻ any(N.A .≥ 0) || throw(DomainError("Information only for nonnegative interaction values"))
+    !(typeof(N) <: QuantitativeNetwork) || any(N.A .≥ 0) || throw(DomainError("Information only for nonnegative interaction values"))
     return N.A / sum(N.A)
 end
 
@@ -45,7 +45,7 @@ function conditional_entropy(N::NT, given::I) where {NT<:AbstractEcologicalNetwo
 end
 
 function mutual_information(P::AbstractArray)
-    I = entropy(P, 1) - conditionalentropy(P, 2)
+    I = entropy(P, 1) - conditional_entropy(P, 2)
     return max(I, zero(I))  # might give small negative value
 end
 
@@ -55,7 +55,7 @@ function mutual_information(N::NT) where {NT<:AbstractEcologicalNetwork}
 end
 
 function variation_information(P::AbstractArray)
-    return conditional_entropy(P, 1) + conditionalentropy(P, 2)
+    return conditional_entropy(P, 1) + conditional_entropy(P, 2)
 end
 
 function variation_information(N::NT) where {NT <: AbstractEcologicalNetwork}
@@ -64,11 +64,13 @@ function variation_information(N::NT) where {NT <: AbstractEcologicalNetwork}
 end
 
 function diff_entropy_uniform(P::AbstractArray)
-    return log2(length(P)) - entropy(P, 1) - entropy(P, 2)
+    D = log2(length(P)) - entropy(P, 1) - entropy(P, 2)
+    return max(zero(D), D)
 end
 
 function diff_entropy_uniform(P::AbstractArray, dims::I) where {I <: Int}
-    return log2(size(P, dims)) - entropy(P, dims)
+    D = log2(size(P, dims)) - entropy(P, dims)
+    return max(zero(D), D)
 end
 
 function diff_entropy_uniform(N::NT, dims=nothing) where {NT <: AbstractEcologicalNetwork}
@@ -106,6 +108,15 @@ function information_decomposition(N::NT; norm::Bool=false, dims::I=nothing) whe
     return decomposition
 end
 
-function convert2effective(indice::F) where F <: Float
+function convert2effective(indice::F) where F <: Real
     return 2.0^indice
-end 
+end
+
+function potential_information(N::NT) where NT <: AbstractEcologicalNetwork
+    m, n = size(N)
+    return log2(m) + log2(n)
+end
+
+function potential_information(N::NT, dims::I) where {NT <: AbstractEcologicalNetwork, I <: Int}
+    return log2(size(N)[dims])
+end

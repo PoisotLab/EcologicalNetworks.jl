@@ -26,7 +26,8 @@ my_tests = [
    "modularity/utilities.jl",
    "modularity/starters.jl",
    "modularity/labelpropagation.jl",
-   "modularity/brim.jl"
+   "modularity/brim.jl",
+   "information/entropy.jl"
 ]
 
 global test_n
