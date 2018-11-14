@@ -282,7 +282,6 @@ Changes the value of the interaction at the specificied position, where `i` and
 `j` are species *names*. Note that this operation **changes the network**.
 """
 function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E <: AllowedSpeciesTypes}
-  @assert typeof(A) <: first(eltype(N))
   @assert i ∈ species(N; dims=1)
   @assert j ∈ species(N; dims=2)
   i_pos = something(findfirst(isequal(i), species(N; dims=1)),0)
@@ -297,7 +296,6 @@ Changes the value of the interaction at the specificied position, where `i` and
 `j` are species *positions*. Note that this operation **changes the network**.
 """
 function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E <: Int}
-  @assert typeof(A) <: first(eltype(N))
   @assert i ≤ richness(N; dims=1)
   @assert j ≤ richness(N; dims=2)
   N.A[i, j] = A
