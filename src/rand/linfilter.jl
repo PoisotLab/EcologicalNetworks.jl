@@ -28,9 +28,11 @@ function linearfilter(N::T; α::Vector{Float64}=fill(0.25, 4)) where {T <: Binar
   )
 
   # Get probabilities
-  for s1 in species(N; dims=1)
-    for s2 in species(N; dims=2)
-      t_val = α[1]*N[s1,s2] + (α[2]/m)*k_out[s1] + (α[3]/n)*k_in[s2] + α[4]/(n*m)*A
+  for i in 1:richness(N; dims=1)
+    s1 = species(N; dims=1)[i]
+    for j in 1:richness(N; dims=2)
+      s2 = species(N; dims=2)[j]
+      t_val = α[1]*N[i,j] + (α[2]/m)*k_out[s1] + (α[3]/n)*k_in[s2] + α[4]/(n*m)*A
       F[s1,s2] = max(min(t_val, 1.0), 0.0)
     end
   end
