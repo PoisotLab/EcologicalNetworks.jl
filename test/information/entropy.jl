@@ -41,8 +41,8 @@ inf_decomp_unif = information_decomposition(Nunif)
 
 Nassym = BipartiteQuantitativeNetwork(ones(5, 1) * rand(1, 7))
 
-@test mutual_information(Nassym) < 1e-6  # no information between the two variables
-@test diff_entropy_uniform(Nassym, 1) ≈ 0.0
+@test mutual_information(Nassym) < 1e-10  # no information between the two variables
+@test diff_entropy_uniform(Nassym, 1) < 1e-10
 @test diff_entropy_uniform(Nassym, 2) > 0.0
 @test conditional_entropy(Nassym, 2) ≈ entropy(Nassym, 1)
 end
