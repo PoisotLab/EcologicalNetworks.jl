@@ -61,6 +61,14 @@ export sample
 include(joinpath(".", "rand/shuffle.jl"))
 include(joinpath(".", "rand/null.jl"))
 export null1, null2, null3out, null3in
+include(joinpath(".", "rand/cascademodel.jl"))
+export cascademodel
+include(joinpath(".", "rand/mpnmodel.jl"))
+export mpnmodel
+include(joinpath(".", "rand/nestedhierarchymodel.jl"))
+export nestedhierarchymodel
+include(joinpath(".", "rand/nichemodel.jl"))
+export nichemodel
 
 # Nestedness
 include(joinpath(".", "community/nestedness.jl"))
