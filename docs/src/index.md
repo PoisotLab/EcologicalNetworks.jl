@@ -43,9 +43,9 @@ You don't have to use it if you don't want to.
 
 This is coming soon.
 
-### And it doesn't even generate random networks!
+### Random structural networks
 
-This is coming sooner.
+Structural models are based on the concept of ecological niche. They trying to approximate links usually using single abstract trophic trait (or multiple traits). More realistic constraints on the link assigning process can also be imposed. This results in better model predictions for empirical food web structure. 
 
 ### And worse, you forgot my favorite method!
 
