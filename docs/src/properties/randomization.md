@@ -34,7 +34,11 @@ shuffle
 
 ## Generate structural network models
 
-Structure of ecological networks is non-random. Network architecture can have a strong effect on important ecosystem properties (Mougi and Kondoh 2012, Thebault and Fontaine 2010). Structural network models (phenomenological stochastic models) able to reproduce realistic structures of empirical networks are a useful tool. Many of the structural features of food-webs can be modelled with small number of simple rules. Despite that these models can reproduce well some of the second order characteristics of empirical food-webs (Stouffer et al. 2005). There are many applications for realistic network structures e.g. to simulate biomass dynamics using dynamical models or study extinction cascades.
+Structure of ecological networks is non-random. Network architecture can have a strong effect on important ecosystem properties (Mougi and Kondoh 2012, Thébault and Fontaine 2010). Structural network models (phenomenological stochastic models) able to reproduce realistic structures of empirical networks are a useful tool. Many of the structural features of food-webs can be modelled with small number of simple rules. Despite that these models can reproduce well some of the second order characteristics of empirical food-webs (Stouffer et al. 2005). There are many applications for realistic network structures e.g. to simulate biomass dynamics using dynamical models or study extinction cascades.
+
+> Mougi, A. and Kondoh, M. (2012) ‘Diversity of Interaction Types and Ecological Community Stability’, Science, 337(6092), pp. 349–351. doi: 10.1126/science.1220529.
+> Thébault, E. and Fontaine, C. (2010) ‘Stability of Ecological Communities and the Architecture of Mutualistic and Trophic Networks’, Science, 329(5993), pp. 853–856. doi: 10.1126/science.1188321.
+> Stouffer, D. B. et al. (2005) ‘Quantitative Patterns in the Structure of Model and Empirical Food Webs’, Ecology, 86(5), pp. 1301–1311. doi: 10.1890/04-0957.
 
 Many models able to simulate network structure have been proposed. `EcologicalNetworks` provides functions to generate random ecological networks of the `UnipartiteNetwork` type. Listed below are algorithms most often used in ecological studies.
 

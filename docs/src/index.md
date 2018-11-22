@@ -45,7 +45,9 @@ This is coming soon.
 
 ### Random structural networks
 
-We provide handful of functions which can be used to generate structural network models. Amongst many published algorithms we selected these which are most often used in network ecology studies.
+We provide handful of functions which can be used to generate structural network
+models. Amongst many published algorithms we selected these which are most often
+used in network ecology studies.
 
 ### And worse, you forgot my favorite method!
 
