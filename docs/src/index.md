@@ -45,7 +45,7 @@ This is coming soon.
 
 ### Random structural networks
 
-Structural models are based on the concept of ecological niche. They trying to approximate links usually using single abstract trophic trait (or multiple traits). More realistic constraints on the link assigning process can also be imposed. This results in better model predictions for empirical food web structure. 
+We provide handful of functions which can be used to generate structural network models. Amongst many published algorithms we selected these which are most often used in network ecology studies.
 
 ### And worse, you forgot my favorite method!
 
