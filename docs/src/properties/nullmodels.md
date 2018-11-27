@@ -1,4 +1,4 @@
-# Randomization of networks
+# Null models
 
 Randomization of networks is mostly used to perform null hypothesis significance
 testing, or to draw random realizations of a probabilistic network. There are
