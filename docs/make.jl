@@ -15,7 +15,7 @@ makedocs(
         "Contents" => "toc.md",
         "Interface" => [
             "Types" => "interface/types.md",
-            "Conversions" => "interface/conversions.md"
+            "Conversions" => "interface/conversions.md",
             "Core functions" => "interface/highlevel.md"
         ],
         "Network measures" => [
