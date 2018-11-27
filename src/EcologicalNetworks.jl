@@ -100,6 +100,9 @@ export n_random_modules, each_species_its_module
 include(joinpath(".", "modularity/brim.jl"))
 export brim
 
+include(joinpath(".", "modularity/roles.jl"))
+export functional_cartography
+
 # Beta-diversity
 include(joinpath(".", "betadiversity/operations.jl"))
 include(joinpath(".", "betadiversity/partitions.jl"))
