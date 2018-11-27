@@ -41,11 +41,18 @@ You don't have to use it if you don't want to.
 
 ### But it doesn't even make figures!
 
-This is coming soon (in `EcologicalNetworksPlots`)
+The code for network visualization is in a companion package named
+`EcologicalNetworksPlots`. There are two reasons for this decision.
 
-### And it doesn't even generate random networks!
+First, network visualization, although attractive, is not necessary for network
+analysis. It can help, but given the wrong network layout technique, it can also
+introduce biases. When the volume of networks increased, we found that
+visualization became less and less informative. Because it is not strictly
+speaking a tool for analysis, it is not part of this package.
 
-This is coming sooner (in `RandomEcologicalNetworks`).
+Second, it helps to keep software dependency small. Most of our work using this
+package is done on clusters of one sort of the other, and having fewer
+dependencies means that installation is easier.
 
 ### And worse, you forgot my favorite method!
 
@@ -58,10 +65,10 @@ the right way to do things, and new functions require more time for maintenance
 and testing; it makes sense for us to focus on things we trust.
 
 If your favorite measure or method is missing, there are two solutions. First,
-this package is essentialy a library of functions to build network analyses, so
+this package is essentially a library of functions to build network analyses, so
 you can use this to create a function that does what you want. For example, if
-you want to take the square root of a quantitative network, you can overload the `√`
-method from base this way:
+you want to take the square root of a quantitative network, you can overload the
+`√` method from base this way:
 
 ~~~ julia
 import Base: √
@@ -85,8 +92,7 @@ The second solution (which is actually a second *step* after you have been
 writing your own method), is to submit a pull request to the package, to have
 your new methods available in the next release. Currently, we will be very
 selective about which methods are added (because every line of code needs to be
-maintained). In the future (presumably shortly after the release of *Julia*
-`v1.0`), we will start a companion package to provide additional methods.
+maintained).
 
 ## References
 
