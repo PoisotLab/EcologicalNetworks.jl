@@ -1,7 +1,10 @@
 """
     functional_cartography(N::T, L::Dict{E,Int64}) where {T<:BinaryNetwork, E<:AllowedSpeciesTypes}
 
-
+This function will take the output of a modularity analysis (*i.e.* a network
+and a partition), and return a dictionary where every species is associated to
+its functional role, as defined in Olesen et al (2005). The first element is the
+within-module degree z-score, and the second is the participation coefficient.
 """
 function functional_cartography(N::T, L::Dict{E,Int64}) where {T<:BinaryNetwork, E<:AllowedSpeciesTypes}
     κ = Dict{last(eltype(N)), Int64}()

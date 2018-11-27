@@ -32,7 +32,7 @@ brim
 salp
 ```
 
-## Function roles
+## Functional roles
 
 ```@docs
 functional_cartography
