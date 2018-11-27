@@ -19,7 +19,7 @@ makedocs(
             "Core functions" => "interface/highlevel.md"
         ],
         "Network measures" => [
-            "Links" => "properties/.md",
+            "Links" => "properties/links.md",
             "Modularity" => "properties/modularity.md",
             "Nestedness" => "properties/nestedness.md",
             "Motifs" => "properties/motifs.md",
