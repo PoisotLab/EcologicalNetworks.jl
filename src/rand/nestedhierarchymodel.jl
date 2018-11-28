@@ -43,7 +43,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
     totallinks = sum(observedlinks)
 
     # User message: number of links to be assigned
-    println("Nested hierarchy model with ", totallinks, " links to assign")
+    # println("Nested hierarchy model with ", totallinks, " links to assign")
 
     # Links which may happen to exceed S are set to S-1
     for link in 1:S
