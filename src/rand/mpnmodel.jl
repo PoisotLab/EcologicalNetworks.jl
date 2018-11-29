@@ -120,3 +120,15 @@ function mpnmodel(N::T) where {T<: UnipartiteNetwork}
     return mpn(species(N), connectance(N), forbidden)
 
 end
+
+"""
+
+    mpnmodel(parameters::Tuple)
+
+Parameters tuple can also be provided in the form (Species::Int64, Co::Float64,
+forbidden::Float64).
+
+"""
+function mpnmodel(parameters::Tuple)
+    return mpnmodel(parameters[1], parameters[2],parameters[3])
+end

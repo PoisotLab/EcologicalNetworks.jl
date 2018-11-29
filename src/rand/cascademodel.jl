@@ -94,3 +94,15 @@ function cascademodel(Species::Int64, L::Int64)
     return cascademodel(Species, Co)
 
 end
+
+"""
+
+    cascademodel(parameters::Tuple)
+
+Parameters tuple can also be provided in the form (Species::Int64, Co::Float64)
+or (Species::Int64, Int::Int64).
+
+"""
+function cascademodel(parameters::Tuple)
+    return cascademodel(parameters[1], parameters[2])
+end

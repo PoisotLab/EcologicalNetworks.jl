@@ -93,3 +93,15 @@ function nichemodel(S::Int64, C::Float64)
     return A
 
 end
+
+"""
+
+    nichemodel(parameters::Tuple)
+
+Parameters tuple can also be provided in the form (Species::Int64, Co::Float64)
+or (Species::Int64, Int::Int64).
+
+"""
+function nichemodel(parameters::Tuple)
+    return nichemodel(parameters[1], parameters[2])
+end

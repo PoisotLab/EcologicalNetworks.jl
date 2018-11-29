@@ -238,3 +238,18 @@ function nestedhierarchymodel(N::T) where {T <: UnipartiteNetwork}
     return nestedhierarchymodel(richness(N), connectance(N))
 
 end
+
+"""
+
+    nestedhierarchymodel(parameters::Tuple)
+
+Parameters tuple can also be provided in the form (Species::Int64, Co::Float64)
+or (Species::Int64, Int::Int64).
+
+"""
+
+function nestedhierarchymodel(parameters::Tuple)
+
+    return nestedhierarchymodel(parameters[1], parameters[2])
+
+end
