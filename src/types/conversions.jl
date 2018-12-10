@@ -107,3 +107,44 @@ function convert(::Type{BinaryNetwork}, N::QuantitativeNetwork)
         return convert(UnipartiteNetwork, N)
     end
 end
+
+# Conversion to bipartite
+
+type_pairs = [
+    (:BipartiteNetwork, :UnipartiteNetwork),
+    (:BipartiteProbabilisticNetwork, :UnipartiteProbabilisticNetwork),
+    (:BipartiteQuantitativeNetwork, :UnipartiteQuantitativeNetwork)
+    ]
+
+for comb in type_pairs
+    t1, t2 = comb
+    eval(
+    quote
+        """
+            convert(::Type{$($t1)}, N::T) where {T <: $($t2)}
+
+        Projects a unipartite network (specifically, a `$($t1)`) to its bipartite
+        representation. The following checks are performed.
+
+        First, the network *cannot* be degenerate, since species with no interactions
+        cannot be assigned to a specific level. Second, the species cannot have both in
+        and out degree. If these conditions are met, the bipartite network will be
+        returned.
+        """
+        function convert(::Type{$t1}, N::T) where {T <: $t2}
+            isdegenerate(N) && throw(ArgumentError("Impossible to convert a degenerate unipartite network into a bipartite one"))
+            d1 = degree(N; dims=1)
+            d2 = degree(N; dims=2)
+            for s in species(N)
+                (d1[s]*d2[s] == 0) || throw(ArgumentError("Species $s has both in and out degree"))
+            end
+            top_species = collect(keys(filter(p -> p.second == zero(eltype(N.A)), d2)))
+            bot_species = collect(keys(filter(p -> p.second == zero(eltype(N.A)), d1)))
+            A = zeros(eltype(N)[1], (length(top_species), length(bot_species)))
+            B = $t1(A, top_species, bot_species)
+            # TODO actual conversion
+            return B
+        end
+    end
+    )
+end
