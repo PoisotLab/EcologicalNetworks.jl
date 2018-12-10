@@ -1,6 +1,5 @@
 module TestNHModel
   using Test
-  using RandomEcologicalNetworks
   using EcologicalNetworks
 
   @test typeof(nestedhierarchymodel(10, 20)) <: UnipartiteNetwork

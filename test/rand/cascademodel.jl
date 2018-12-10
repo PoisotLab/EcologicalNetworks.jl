@@ -1,6 +1,5 @@
 module TestCascadeModel
   using Test
-  using RandomEcologicalNetworks
   using EcologicalNetworks
 
   @test typeof(cascademodel(10, 0.1)) <: UnipartiteNetwork

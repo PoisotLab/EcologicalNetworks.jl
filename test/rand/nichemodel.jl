@@ -1,6 +1,5 @@
 module TestNicheModel
   using Test
-  using RandomEcologicalNetworks
   using EcologicalNetworks
 
   @test typeof(nichemodel(10, 20)) <: UnipartiteNetwork

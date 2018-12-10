@@ -1,6 +1,5 @@
 module TestMPNModel
   using Test
-  using RandomEcologicalNetworks
   using EcologicalNetworks
 
   @test typeof(mpnmodel(10, 0.3, 0.2)) <: UnipartiteNetwork
