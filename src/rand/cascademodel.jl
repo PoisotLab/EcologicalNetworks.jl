@@ -8,12 +8,7 @@ the cascade model for a given nuber of `Species` and connectivity `Co`.
 > food webs I. Models and aggregated data’, Proc. R. Soc. Lond. B, 224(1237),
 > pp. 421–448. doi: 10.1098/rspb.1985.0042.
 
-# Examples
-```jldoctest
-julia> A = cascademodel(50, 0.35)
-```
 See also: `nichemodel`, `mpnmodel`, `nestedhierarchymodel`
-
 """
 function cascademodel(Species::Int64, Co::Float64)
 
@@ -64,12 +59,6 @@ end
     cascademodel(N::T) where {T <: UnipartiteNetwork}
 
 Applied to a `UnipartiteNetwork` return its randomized version.
-
-# Examples
-```jldoctest
-julia> empirical_foodweb = EcologicalNetworks.nz_stream_foodweb()[1]
-julia> A = cascademodel(empirical_foodweb)
-```
 """
 function cascademodel(N::T) where {T <: UnipartiteNetwork}
 
@@ -80,12 +69,7 @@ end
 """
     cascademodel(Species::Int64, L::Int64)
 
-Number of links can be specified instead if connectance.
-
-# Examples
-```jldoctest
-julia> A = cascademodel(45, 543)
-```
+Number of links can be specified instead of connectance.
 """
 function cascademodel(Species::Int64, L::Int64)
 
@@ -101,7 +85,6 @@ end
 
 Parameters tuple can also be provided in the form (Species::Int64, Co::Float64)
 or (Species::Int64, Int::Int64).
-
 """
 function cascademodel(parameters::Tuple)
     return cascademodel(parameters[1], parameters[2])

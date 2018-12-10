@@ -9,13 +9,7 @@ probability of `forbidden` link occurence.
 > Allesina, S., Alonso, D. and Pascual, M. (2008) ‘A General Model for Food Web
 > Structure’, Science, 320(5876), pp. 658–661. doi: 10.1126/science.1156269.
 
-# Examples
-```jldoctest
-julia> A = mpnmodel(25, 0.45, 0.5)
-```
-
 See also: `nichemodel`, `cascademodel`, `nestedhierarchymodel`
-
 """
 function mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
 
@@ -98,13 +92,6 @@ end
     mpnmodel(N::T) where {T<: UnipartiteNetwork}
 
 Applied to `UnipartiteNetwork` return its randomized version.
-
-# Examples
-```jldoctest
-julia> empirical_foodweb = EcologicalNetworks.nz_stream_foodweb()[1]
-julia> A = mpnmodel(empirical_foodweb)
-```
-
 """
 function mpnmodel(N::T) where {T<: UnipartiteNetwork}
 
@@ -127,7 +114,6 @@ end
 
 Parameters tuple can also be provided in the form (Species::Int64, Co::Float64,
 forbidden::Float64).
-
 """
 function mpnmodel(parameters::Tuple)
     return mpnmodel(parameters[1], parameters[2],parameters[3])

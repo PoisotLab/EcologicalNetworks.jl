@@ -7,12 +7,7 @@ niche model for a network of `S` species and `L` links.
 > Williams, R. J. and Martinez, N. D. (2000) ‘Simple rules yield complex food
 > webs’, Nature, 404(6774), pp. 180–183. doi: 10.1038/35004572.
 
-# Examples
-```jldoctest
-julia> A = nichemodel(50, 220)
-```
 See also: `cascademodel`, `mpnmodel`, `nestedhierarchymodel`
-
 """
 function nichemodel(S::Int64, L::Int64)
 
@@ -30,13 +25,6 @@ end
     nichemodel(N::T) where {T <: UnipartiteNetwork}
 
 Applied to empirical `UnipartiteNetwork` return its randomized version.
-
-# Examples
-```jldoctest
-julia> empirical_foodweb = EcologicalNetworks.nz_stream_foodweb()[1]
-julia> A = nichemodel(empirical_foodweb)
-```
-
 """
 function nichemodel(N::T) where {T <: UnipartiteNetwork}
     return nichemodel(richness(N), connectance(N))
@@ -44,9 +32,6 @@ end
 
 """
     nichemodel(S::Int64, C::Float64)
-
-
-
 """
 function nichemodel(S::Int64, C::Float64)
 
@@ -100,7 +85,6 @@ end
 
 Parameters tuple can also be provided in the form (Species::Int64, Co::Float64)
 or (Species::Int64, Int::Int64).
-
 """
 function nichemodel(parameters::Tuple)
     return nichemodel(parameters[1], parameters[2])

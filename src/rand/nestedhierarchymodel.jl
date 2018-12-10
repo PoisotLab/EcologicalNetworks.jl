@@ -8,13 +8,7 @@ to the nested hierarchy model for `S` species and `L`.
 > Cattin, M.-F. et al. (2004) ‘Phylogenetic constraints and adaptation explain
 > food-web structure’, Nature, 427(6977), pp. 835–839. doi: 10.1038/nature02327.
 
-# Examples
-```jldoctest
-julia> A = nestedhierarchymodel(25, 700)
-```
-
 See also: `nichemodel`, `cascademodel`, `mpnmodel`
-
 """
 function nestedhierarchymodel(S::Int64, L::Int64)
 
@@ -204,13 +198,7 @@ end
 
 Connectance can be provided instead of number of links.
 
-# Examples
-```jldoctest
-julia> A = nestedhierarchymodel(25, 0.45)
-```
-
 See also: `nichemodel`, `cascademodel`, `mpnmodel`
-
 """
 function nestedhierarchymodel(S::Int64, Co::Float64)
 
@@ -226,12 +214,6 @@ end
     nestedhierarchymodel(N::T) {T <: UnipartiteNetwork}
 
 Applied to empirical `UnipartiteNetwork` return its randomized version.
-
-# Examples
-```jldoctest
-julia> empirical_foodweb = EcologicalNetworks.nz_stream_foodweb()[1]
-julia> A = nestedhierarchymodel(empirical_foodweb)
-```
 """
 function nestedhierarchymodel(N::T) where {T <: UnipartiteNetwork}
 
@@ -245,9 +227,7 @@ end
 
 Parameters tuple can also be provided in the form (Species::Int64, Co::Float64)
 or (Species::Int64, Int::Int64).
-
 """
-
 function nestedhierarchymodel(parameters::Tuple)
 
     return nestedhierarchymodel(parameters[1], parameters[2])
