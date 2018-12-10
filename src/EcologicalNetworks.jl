@@ -3,6 +3,7 @@ module EcologicalNetworks
 # Dependencies
 using StatsBase
 using Combinatorics
+using Distributions
 
 using Random
 using DelimitedFiles
