@@ -1,9 +1,9 @@
 """
 
-    mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
+    mpnmodel(spec::Int64, Co::Float64, forbidden::Float64)
 
 Return `UnipartiteNetwork` with links assigned according to minimum
-potential niche model for given number of `Species`, connectivity `Co` and
+potential niche model for given number of `spec`, connectivity `Co` and
 probability of `forbidden` link occurence.
 
 > Allesina, S., Alonso, D. and Pascual, M. (2008) ‘A General Model for Food Web
@@ -17,7 +17,7 @@ julia> A = mpnmodel(25, 0.45, 0.5)
 See also: `nichemodel`, `cascademodel`, `nestedhierarchymodel`
 
 """
-function mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
+function mpnmodel(spec::Int64, Co::Float64, forbidden::Float64)
 
     Co >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
 
@@ -25,19 +25,19 @@ function mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
     β = 1.0/(2.0*Co)-1.0
 
     # Pre-allocate the network
-    A = UnipartiteNetwork(zeros(Bool, (Species, Species)))
+    A = UnipartiteNetwork(zeros(Bool, (spec, spec)))
 
     # Generate body size
-    n = sort(rand(Uniform(0.0, 1.0), Species))
+    n = sort(rand(Uniform(0.0, 1.0), spec))
 
     # Pre-allocate centroids
-    c = zeros(Float64, Species)
+    c = zeros(Float64, spec)
 
     # Generate random ranges
-    r = n .* rand(Beta(1.0, β), Species)
+    r = n .* rand(Beta(1.0, β), spec)
 
     # Generate random centroids
-    for s in 1:Species
+    for s in 1:spec
         c[s] = rand(Uniform(r[s]/2, n[s]))
     end
 
@@ -52,7 +52,7 @@ function mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
     # ranges = Dict{Int64, Tuple}()
     # -------------------------------------------------------------------------
 
-    for consumer in 1:Species
+    for consumer in 1:spec
 
         # For testing
         # ---------------------------------------------------------------------
@@ -63,7 +63,7 @@ function mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
         # length(diet) != 0 && (ranges[consumer] = (diet[1], diet[end]))
         # ---------------------------------------------------------------------
 
-        for resource in 2:(Species-1)
+        for resource in 2:(spec-1)
 
             lower = (n[resource] > (c[consumer] - r[consumer]))
             lowerminus = (n[resource-1] > (c[consumer] - r[consumer]))
@@ -76,7 +76,7 @@ function mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
 
                 # Take care of first and last resource if they belong to the range
                 ((resource-1 == 1) & lowerminus) && (A[consumer, resource-1] = true)
-                ((resource+1 == Species) & upperplus) && (A[consumer, resource+1] = true)
+                ((resource+1 == spec) & upperplus) && (A[consumer, resource+1] = true)
 
                 # Edges of range
                 lowerminus || (A[consumer, resource] = true)
@@ -125,7 +125,7 @@ end
 
     mpnmodel(parameters::Tuple)
 
-Parameters tuple can also be provided in the form (Species::Int64, Co::Float64,
+Parameters tuple can also be provided in the form (spec::Int64, Co::Float64,
 forbidden::Float64).
 
 """
