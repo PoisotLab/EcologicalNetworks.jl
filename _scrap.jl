@@ -5,7 +5,7 @@ K = copy(N)
     global K
     s1 = sample(species(K; dims=1), 2; replace=false)
     s2 = sample(species(K; dims=2), 2; replace=false)
-    while links(K[s1,s2]) < 4
+    while (links(K[s1,s2]) < 4)&(minimum(K[s1,s2].A)<=1)
         s1 = sample(species(K; dims=1), 2; replace=false)
         s2 = sample(species(K; dims=2), 2; replace=false)
     end
@@ -14,7 +14,7 @@ K = copy(N)
 
     m = rand(1:(maximum(K[s1,s2].A)-1))
     y = sample([[-1 1; 1 -1], [1 -1; -1 1]]).*m
-    while minimum(K[s1,s2].A.+y) <= 0
+    while minimum(K[s1,s2].A.+y) <= 1
         @info K[s1,s2].A.+y
         m = rand(1:(maximum(K[s1,s2].A)-1))
         y = sample([[-1 1; 1 -1], [1 -1; -1 1]]).*m
