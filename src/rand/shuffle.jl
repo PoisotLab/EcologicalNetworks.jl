@@ -68,18 +68,19 @@ end
 
 
 """
-    shuffle(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000)
+    shuffle(N::BinaryNetwork; constraint::Symbol=:degree)
 
-Return a shuffled copy of the network. See `shuffle!` for a documentation of the keyword arguments.
+Return a shuffled copy of the network (the original network is not modified).
+See `shuffle!` for a documentation of the keyword arguments.
 """
-function shuffle(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000)
+function shuffle(N::BinaryNetwork; constraint::Symbol=:degree)
    Y = copy(N)
-   shuffle!(Y; constraint=constraint, number_of_swaps=number_of_swaps)
+   shuffle!(Y; constraint=constraint)
    return Y
 end
 
 """
-    shuffle!(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000)
+    shuffle!(N::BinaryNetwork; constraint::Symbol=:degree)
 
 Shuffles interactions inside a network (the network is *modified*), under the
 following `constraint`:
@@ -89,24 +90,25 @@ following `constraint`:
 - :vulnerability, which keeps the in-degree distribution intact
 - :fill, which moves interactions around freely
 
-Note that this function will conserve the degree (when appropriate under the
-selected constraint) of *every* species. This function will take number_of_swaps
-(1000) interactions, swap them, and return a copy of the network.
+The function will take two interactions, and swap the species establishing them.
+By repeating the process a large enough number of times, the resulting network
+should be relatively random. Note that this function will conserve the degree
+(when appropriate under the selected constraint) of *every* species. Calling the
+function will perform **a single** shuffle. If you want to repeat the shuffling
+a large enough number of times, you can use something like:
+
+    [shuffle!(n) for i in 1:10_000]
 
 If the keyword arguments are invalid, the function will throw an
 `ArgumentError`.
 """
-function shuffle!(N::BinaryNetwork; constraint::Symbol=:degree, number_of_swaps::Int64=1000)
+function shuffle!(N::BinaryNetwork; constraint::Symbol=:degree)
    constraint ∈ [:degree, :generality, :vulnerability, :fill] || throw(ArgumentError("The constraint argument you specificied ($(constraint)) is invalid -- see ?shuffle! for a list."))
-   number_of_swaps > 0 || throw(ArgumentError("The number of swaps *must* be positive, you used $(number_of_swaps)"))
 
    f = EcologicalNetworks.swap_degree!
    constraint == :generality && (f = EcologicalNetworks.swap_generality!)
    constraint == :vulnerability && (f = EcologicalNetworks.swap_vulnerability!)
    constraint == :fill && (f = EcologicalNetworks.swap_fill!)
 
-   for swap_number in 1:number_of_swaps
-      f(N)
-   end
-
+   f(N)
 end
