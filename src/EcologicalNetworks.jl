@@ -66,13 +66,15 @@ include(joinpath(".", "rand/null.jl"))
 include(joinpath(".", "rand/linfilter.jl"))
 export linearfilter, linearfilterzoo
 export null1, null2, null3out, null3in
-include(joinpath(".", "rand/cascademodel.jl"))
+
+# Random networks from structural models
+include(joinpath(".", "structuralmodels/cascademodel.jl"))
 export cascademodel
-include(joinpath(".", "rand/mpnmodel.jl"))
+include(joinpath(".", "structuralmodels/mpnmodel.jl"))
 export mpnmodel
-include(joinpath(".", "rand/nestedhierarchymodel.jl"))
+include(joinpath(".", "structuralmodels/nestedhierarchymodel.jl"))
 export nestedhierarchymodel
-include(joinpath(".", "rand/nichemodel.jl"))
+include(joinpath(".", "structuralmodels/nichemodel.jl"))
 export nichemodel
 
 # Nestedness
