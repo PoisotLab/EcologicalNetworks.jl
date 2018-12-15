@@ -89,10 +89,3 @@ function shuffle!(N::BipartiteQuantitativeNetwork{Float64,K}; ε::Float64=1e-2, 
         end
     end
 end
-
-K = BipartiteQuantitativeNetwork(N.A./maximum(N.A), EcologicalNetworks.species_objects(N)...)
-L = copy(K)
-@progress for i in 1:2000
-    shuffle!(K; constraint=:degree, ε=1e-4, lims=(0.0, 1.0))
-    @info "$(lpad(string(i), 4))\tΔ: $(nodf(K)-nodf(L))"
-end
