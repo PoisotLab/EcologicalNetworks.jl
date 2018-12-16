@@ -1,8 +1,8 @@
 """
-    cascademodel(spec::Int64, Co::Float64)
+    cascademodel(S::Int64, Co::Float64)
 
 Return matrix of the type `UnipartiteNetwork` randomly assembled according to
-the cascade model for a given nuber of `spec` and connectivity `Co`.
+the cascade model for a given nuber of `S` and connectivity `Co`.
 
 > Cohen, J. E. and Newman, C. M. (1985) ‘A stochastic theory of community
 > food webs I. Models and aggregated data’, Proc. R. Soc. Lond. B, 224(1237),
@@ -15,24 +15,24 @@ julia> A = cascademodel(50, 0.35)
 See also: `nichemodel`, `mpnmodel`, `nestedhierarchymodel`
 
 """
-function cascademodel(spec::Int64, Co::Float64)
+function cascademodel(S::Int64, Co::Float64)
 
     # Evaluate input
-    maxconnectance = ((spec^2-spec)/2)/(spec*spec)
-    Co >= maxconnectance && throw(ArgumentError("Connectance for $(spec) species cannot be larger than $(maxconnectance) "))
+    maxconnectance = ((S^2-S)/2)/(S*S)
+    Co >= maxconnectance && throw(ArgumentError("Connectance for $(S) species cannot be larger than $(maxconnectance) "))
     Co <= 0 && throw(ArgumentError("Connectance C must be positive"))
-    spec <= 0 && throw(ArgumentError("Number of species L must be positive"))
+    S <= 0 && throw(ArgumentError("Number of species L must be positive"))
 
     # Initiate matrix
-    A = UnipartiteNetwork(zeros(Bool, (spec, spec)))
+    A = UnipartiteNetwork(zeros(Bool, (S, S)))
 
     # For each species randomly asscribe rank e
-    e = sort(rand(spec), rev=false)
+    e = sort(rand(S), rev=false)
 
     # Probability for linking two species
-    p = 2*Co*spec/(spec - 1)
+    p = 2*Co*S/(S - 1)
 
-    for consumer in  1:spec
+    for consumer in  1:S
 
         # Rank for a consumer
         rank = e[consumer]
@@ -78,7 +78,7 @@ function cascademodel(N::T) where {T <: UnipartiteNetwork}
 end
 
 """
-    cascademodel(spec::Int64, L::Int64)
+    cascademodel(S::Int64, L::Int64)
 
 Number of links can be specified instead if connectance.
 
@@ -87,11 +87,11 @@ Number of links can be specified instead if connectance.
 julia> A = cascademodel(45, 543)
 ```
 """
-function cascademodel(spec::Int64, L::Int64)
+function cascademodel(S::Int64, L::Int64)
 
-    Co = (L/(spec*spec))
+    Co = (L/(S*S))
 
-    return cascademodel(spec, Co)
+    return cascademodel(S, Co)
 
 end
 
@@ -99,8 +99,8 @@ end
 
     cascademodel(parameters::Tuple)
 
-Parameters tuple can also be provided in the form (spec::Int64, Co::Float64)
-or (spec::Int64, Int::Int64).
+Parameters tuple can also be provided in the form (S::Int64, Co::Float64)
+or (S::Int64, Int::Int64).
 
 """
 function cascademodel(parameters::Tuple)

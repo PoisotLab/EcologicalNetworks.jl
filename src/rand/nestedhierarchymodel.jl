@@ -32,13 +32,13 @@ function nestedhierarchymodel(S::Int64, L::Int64)
 
     # Beta parameter (after Allesina et al. 2008)
     # Classic niche: β = 1.0/(2.0*C)-1.0
-    b = (S - 1.0)/(2.0*Co*S) - 1.0
+    β = (S - 1.0)/(2.0*Co*S) - 1.0
 
     # Evaluate input
-    b == 0 && throw(ArgumentError("β value is equal to zero! Try decreasing number of links"))
+    β == 0 && throw(ArgumentError("β value is equal to zero! Try decreasing number of links"))
 
     # Random variable from the Beta distribution
-    X = rand(Beta(1.0, b), 1)
+    X = rand(Beta(1.0, β), 1)
 
     # 'r' values are assigned to all species
     r = e .* X
