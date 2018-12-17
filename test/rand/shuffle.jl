@@ -4,10 +4,10 @@ module TestSwaps
   using Random
 
   N = convert(BinaryNetwork, web_of_life("A_HP_001"))
-  Ud = shuffle(N; number_of_swaps=10, constraint=:degree)
-  Uf = shuffle(N; number_of_swaps=10, constraint=:fill)
-  Ui = shuffle(N; number_of_swaps=10, constraint=:vulnerability)
-  Uo = shuffle(N; number_of_swaps=10, constraint=:generality)
+  Ud = shuffle(N; constraint=:degree)
+  Uf = shuffle(N; constraint=:fill)
+  Ui = shuffle(N; constraint=:vulnerability)
+  Uo = shuffle(N; constraint=:generality)
 
   @test links(N) == links(Ud)
   @test links(N) == links(Uf)
@@ -21,10 +21,10 @@ module TestSwaps
   @test degree(N; dims=2) == degree(Ui; dims=2)
 
   N = convert(BinaryNetwork, nz_stream_foodweb()[1])
-  Ud = shuffle(N; number_of_swaps=10, constraint=:degree)
-  Uf = shuffle(N; number_of_swaps=10, constraint=:fill)
-  Ui = shuffle(N; number_of_swaps=10, constraint=:vulnerability)
-  Uo = shuffle(N; number_of_swaps=10, constraint=:generality)
+  Ud = shuffle(N; constraint=:degree)
+  Uf = shuffle(N; constraint=:fill)
+  Ui = shuffle(N; constraint=:vulnerability)
+  Uo = shuffle(N; constraint=:generality)
 
   @test links(N) == links(Ud)
   @test links(N) == links(Uf)
