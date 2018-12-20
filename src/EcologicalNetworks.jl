@@ -3,6 +3,7 @@ module EcologicalNetworks
 # Dependencies
 using StatsBase
 using Combinatorics
+using Distributions
 
 using Random
 using DelimitedFiles
@@ -66,6 +67,16 @@ include(joinpath(".", "rand/linfilter.jl"))
 export linearfilter, linearfilterzoo
 export null1, null2, null3out, null3in
 
+# Random networks from structural models
+include(joinpath(".", "structuralmodels/cascademodel.jl"))
+export cascademodel
+include(joinpath(".", "structuralmodels/mpnmodel.jl"))
+export mpnmodel
+include(joinpath(".", "structuralmodels/nestedhierarchymodel.jl"))
+export nestedhierarchymodel
+include(joinpath(".", "structuralmodels/nichemodel.jl"))
+export nichemodel
+
 # Nestedness
 include(joinpath(".", "community/nestedness.jl"))
 export η, nodf
@@ -99,6 +110,9 @@ export n_random_modules, each_species_its_module
 
 include(joinpath(".", "modularity/brim.jl"))
 export brim
+
+include(joinpath(".", "modularity/roles.jl"))
+export functional_cartography
 
 # Beta-diversity
 include(joinpath(".", "betadiversity/operations.jl"))

@@ -31,3 +31,9 @@ lp
 brim
 salp
 ```
+
+## Functional roles
+
+```@docs
+functional_cartography
+```

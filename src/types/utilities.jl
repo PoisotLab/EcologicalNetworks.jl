@@ -1,4 +1,4 @@
-import Base: getindex, setindex!, permutedims, permutedims!, size, copy, !, show
+import Base: getindex, setindex!, permutedims, permutedims!, size, copy, !, show, +
 
 """
     show(io::IO, N::AbstractEcologicalNetwork)
@@ -69,7 +69,7 @@ function has_interaction(N::AbstractEcologicalNetwork, i::Int64, j::Int64)
   @assert i <= size(N.A, 1)
   @assert j <= size(N.A, 2)
   # This should be reasonably general...
-  return N[i,j] > zero(typeof(N[i,j]))
+  return N[i,j] != zero(typeof(N[i,j]))
 end
 
 
@@ -282,7 +282,6 @@ Changes the value of the interaction at the specificied position, where `i` and
 `j` are species *names*. Note that this operation **changes the network**.
 """
 function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E <: AllowedSpeciesTypes}
-  @assert typeof(A) <: first(eltype(N))
   @assert i ∈ species(N; dims=1)
   @assert j ∈ species(N; dims=2)
   i_pos = something(findfirst(isequal(i), species(N; dims=1)),0)
@@ -297,7 +296,6 @@ Changes the value of the interaction at the specificied position, where `i` and
 `j` are species *positions*. Note that this operation **changes the network**.
 """
 function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E <: Int}
-  @assert typeof(A) <: first(eltype(N))
   @assert i ≤ richness(N; dims=1)
   @assert j ≤ richness(N; dims=2)
   N.A[i, j] = A
@@ -362,4 +360,23 @@ function interactions(N::AbstractEcologicalNetwork)
     end
   end
   return unique(edges_accumulator)
+end
+
+"""
+    +(n1::T, n2::T) where {T <: BipartiteQuantitativeNetwork}
+
+Adds two quantitative bipartite networks. TODO
+"""
+function +(n1::T, n2::T) where {T <: BipartiteQuantitativeNetwork}
+  st = union(species(n1; dims=1), species(n2; dims=1))
+  sb = union(species(n1; dims=2), species(n2; dims=2))
+  A = zeros(first(eltype(n1)), (length(st), length(sb)))
+  N = T(A, st, sb)
+  for i1 in n1
+    N[i1.from,i1.to] = N[i1.from,i1.to] + i1.strength
+  end
+  for i2 in n2
+    N[i2.from,i2.to] = N[i2.from,i2.to] + i2.strength
+  end
+  return N
 end

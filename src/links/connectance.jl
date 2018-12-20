@@ -28,7 +28,7 @@ Number of non-zero interactions in a quantitative network (use `sum` to get the
 sum of interaction strengths).
 """
 function links(N::QuantitativeNetwork)
-    return sum(N.A .> zero(eltype(N.A)))
+    return sum(N.A .!= zero(eltype(N.A)))
 end
 
 """
