@@ -9,17 +9,20 @@ module TestNullModels
 
   n1 = null1(N)
   n2 = null2(N)
+  n2m = null2mult(N)
   n3o = null3out(N)
   n3i = null3in(N)
 
   @test typeof(n1) <: UnipartiteProbabilisticNetwork
   @test typeof(n2) <: UnipartiteProbabilisticNetwork
+  @test typeof(n2m) <: UnipartiteProbabilisticNetwork
   @test typeof(n3o) <: UnipartiteProbabilisticNetwork
   @test typeof(n3i) <: UnipartiteProbabilisticNetwork
 
   B = BipartiteNetwork(A)
   @test typeof(null1(B)) <: BipartiteProbabilisticNetwork
   @test typeof(null2(B)) <: BipartiteProbabilisticNetwork
+    @test typeof(null2mult(B)) <: BipartiteProbabilisticNetwork
   @test typeof(null3in(B)) <: BipartiteProbabilisticNetwork
   @test typeof(null3out(B)) <: BipartiteProbabilisticNetwork
 
@@ -32,6 +35,11 @@ module TestNullModels
   @test n2[1,3] ≈ 0.5
   @test n2[2,2] ≈ 1.0
   @test n2[1,1] ≈ 2.0 / 3.0
+
+  # Null model 2 (mult)
+  @test n2m[1,3] ≈ 2.0 * 1.0 / 36.0
+  @test n2m[2,2] ≈ 3.0 * 3.0 / 36.0
+  @test n2m[1,1] ≈ 2.0 * 2.0 / 36.0
 
   # Null model 3
   @test n3o[1,1] ≈ 2.0 / 3.0

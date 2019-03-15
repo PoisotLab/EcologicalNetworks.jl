@@ -43,3 +43,22 @@ species.
 function null2(N::BinaryNetwork)
   return linearfilter(N; α=[0.0, 0.5, 0.5, 0.0])
 end
+
+
+"""
+    null2mult(N::BinaryNetwork)
+
+Given a matrix `A`, `null2mult(A)` returns a matrix with the same dimensions, where
+every interaction happens with a probability equal to the product of the degree
+of each species.
+"""
+function null2mult(N::BinaryNetwork)
+  A = N.A
+  n, m = size(A)
+  Afiltered = sum(A, dims=1) .* sum(A, dims=2) ./ sum(A)^2
+  if typeof(N) <: AbstractBipartiteNetwork
+  return BipartiteProbabilisticNetwork(Afiltered)
+  else
+    return UnipartiteProbabilisticNetwork(Afiltered)
+  end
+end
