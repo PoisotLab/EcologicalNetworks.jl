@@ -39,20 +39,11 @@ automatically.
 abstract type AbstractBipartiteNetwork <: AbstractEcologicalNetwork end
 
 
-_allowed_species_types = [String, Symbol]
+_allowed_species_types = [String, Symbol, MangalNode, MangalReferenceTaxon]
 try
   using GBIF
   push!(_allowed_species_types, GBIF.GBIFTaxon)
   @info "Package GBIF found: GBIFTaxon added as a species type"
-catch
-  nothing
-end
-try
-  using Mangal
-  push!(_allowed_species_types, Mangal.MangalNode)
-  @info "Package Mangal found: MangalNode added as a species type"
-  push!(_allowed_species_types, Mangal.MangalReferenceTaxon)
-  @info "Package Mangal found: MangalReferenceTaxon added as a species type"
 catch
   nothing
 end
