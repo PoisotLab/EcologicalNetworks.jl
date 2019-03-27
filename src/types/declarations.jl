@@ -48,8 +48,6 @@ catch
   nothing
 end
 
-@info _allowed_species_types
-
 """
 The `AllowedSpeciesTypes` union is used to restrict the type of objects that can
 be used to identify the species in a network. Currently, this is limited to
