@@ -62,7 +62,7 @@ function linearfilterzoo(N::T; α::Vector{Float64}=fill(0.25, 4)) where {T <: Bi
   for s1 in species(N; dims=1)
     for s2 in species(N; dims=2)
       t_val = F[s1,s2] - (α[1] + (α[2]/m) + (α[3]/n) + α[4]/(n * m)) * N[s1,s2]
-      Fzoo[s1,s2] = max(min(t_val, 1.0), 0.0)
+      Fzoo[s1,s2] = max(min(t_val, one(t_val)), zero(t_val))
     end
   end
 
