@@ -59,7 +59,6 @@ function nichemodel(S::Int64, C::Float64)
 
     # The smallest species has a body size and range of 0
     for small_species_index in findall(x -> x == minimum(n), n)
-        n[small_species_index] = 0.0
         r[small_species_index] = 0.0
     end
 
