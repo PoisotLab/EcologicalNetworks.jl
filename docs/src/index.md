@@ -41,11 +41,18 @@ You don't have to use it if you don't want to.
 
 ### But it doesn't even make figures!
 
-This is coming soon.
+The code for network visualization is in a companion package named
+`EcologicalNetworksPlots`. There are two reasons for this decision.
 
-### And it doesn't even generate random networks!
+First, network visualization, although attractive, is not necessary for network
+analysis. It can help, but given the wrong network layout technique, it can also
+introduce biases. When the volume of networks increased, we found that
+visualization became less and less informative. Because it is not strictly
+speaking a tool for analysis, it is not part of this package.
 
-This is coming sooner.
+Second, it helps to keep software dependency small. Most of our work using this
+package is done on clusters of one sort of the other, and having fewer
+dependencies means that installation is easier.
 
 ### And worse, you forgot my favorite method!
 
@@ -58,30 +65,34 @@ the right way to do things, and new functions require more time for maintenance
 and testing; it makes sense for us to focus on things we trust.
 
 If your favorite measure or method is missing, there are two solutions. First,
-this package is essentialy a library of functions to build network analyses, so
+this package is essentially a library of functions to build network analyses, so
 you can use this to create a function that does what you want. For example, if
-you want to take the square root of a quantitative network, you can overload the `√`
-method from base this way:
+you want to take the square root of a quantitative network, you can overload the
+`√` method from base this way:
 
 ~~~ julia
 import Base: √
 
-function √(N::T) where {T <: QuantitativeNetwork}
-  # Get the new type for the output
-  NewType = T <: AbstractBipartiteNetwork ? BipartiteQuantitativeNetwork : UnipartiteQuantitativeNetwork
+function √(N::T) where {T <: BipartiteQuantitativeNetwork}
   # Take the square root of the interaction strength
   sqrt_matrix = sqrt.(N.A)
   # Return a new network with the correct types
-  return NewType{typeof(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
+  return BipartiteQuantitativeNetwork{eltype(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
+end
+
+function √(N::T) where {T <: UnipartiteQuantitativeNetwork}
+  # Take the square root of the interaction strength
+  sqrt_matrix = sqrt.(N.A)
+  # Return a new network with the correct types
+  return UnipartiteQuantitativeNetwork{eltype(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
 end
 ~~~
 
 The second solution (which is actually a second *step* after you have been
 writing your own method), is to submit a pull request to the package, to have
 your new methods available in the next release. Currently, we will be very
-selective about which methods are added. In the future (presumably shortly after
-the release of *Julia* `v1.0`), we will start a companion package to provide
-additional methods.
+selective about which methods are added (because every line of code needs to be
+maintained).
 
 ## References
 
@@ -89,10 +100,11 @@ About the analysis of ecological networks in general, the package covers (or
 will cover over time) most of the measures we identified as robust in the
 following publication:
 
-Delmas, Eva, Mathilde Besson, Marie-Helene Brice, Laura Burkle, Giulio V.
-Dalla Riva, Marie-Josée Fortin, Dominique Gravel, et al. “Analyzing Ecological
-Networks of Species Interactions.” BioRxiv, (2017), 112540.
-https://doi.org/10.1101/112540.
+Delmas, Eva, Mathilde Besson, Marie-Hélène Brice, Laura A. Burkle, Giulio V.
+Dalla Riva, Marie-Josée Fortin, Dominique Gravel, et al. « Analysing Ecological
+Networks of Species Interactions ». Biological Reviews (2018), 112540.
+https://doi.org/10.1111/brv.12433.
+
 
 We highly recommend we keep it nearby when using the package. A lot of decisions
 taken during development are grounded in the analysis of the literature we
@@ -130,6 +142,12 @@ Poisot, Timothée, Alyssa R. Cirtwill, Kévin Cazelles, Dominique Gravel,
 Marie-Josée Fortin, and Daniel B. Stouffer. “The Structure of Probabilistic
 Networks.” Methods in Ecology and Evolution 7, no. 3 (2016): 303–12.
 https://doi.org/10.1111/2041-210X.12468.
+
+### Overlap and complementarity
+
+Gao, Peng, et John A. Kupfer. « Uncovering food web structure using a novel
+trophic similarity measure ». Ecological Informatics 30 (2015): 110‑18.
+https://doi.org/10.1016/j.ecoinf.2015.09.013.
 
 ## How can I contribute?
 

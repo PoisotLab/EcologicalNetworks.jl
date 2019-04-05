@@ -3,10 +3,12 @@ module EcologicalNetworks
 # Dependencies
 using StatsBase
 using Combinatorics
+using Distributions
 
 using Random
 using DelimitedFiles
 using LinearAlgebra
+using DataStructures
 
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
@@ -33,9 +35,14 @@ export AbstractEcologicalNetwork, AllowedSpeciesTypes,
 include(joinpath(".", "misc/data.jl"))
 export web_of_life, nz_stream_foodweb
 
+# Mangal -- only exports `convert` methods
+#using Mangal
+#include(joinpath(".", "misc/mangal.jl"))
+
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))
 include(joinpath(".", "types/comparisons.jl"))
+include(joinpath(".", "types/iteration.jl"))
 export species, interactions, has_interaction, richness, nodiagonal, nodiagonal!
 
 # Degree
@@ -60,7 +67,19 @@ include(joinpath(".", "rand/sample.jl"))
 export sample
 include(joinpath(".", "rand/shuffle.jl"))
 include(joinpath(".", "rand/null.jl"))
+include(joinpath(".", "rand/linfilter.jl"))
+export linearfilter, linearfilterzoo
 export null1, null2, null3out, null3in
+
+# Random networks from structural models
+include(joinpath(".", "structuralmodels/cascademodel.jl"))
+export cascademodel
+include(joinpath(".", "structuralmodels/mpnmodel.jl"))
+export mpnmodel
+include(joinpath(".", "structuralmodels/nestedhierarchymodel.jl"))
+export nestedhierarchymodel
+include(joinpath(".", "structuralmodels/nichemodel.jl"))
+export nichemodel
 
 # Nestedness
 include(joinpath(".", "community/nestedness.jl"))
@@ -68,7 +87,7 @@ export η, nodf
 
 # Paths
 include(joinpath(".", "community/paths.jl"))
-export number_of_paths, shortest_path, bellman_ford
+export number_of_paths, shortest_path, bellman_ford, dijkstra
 
 # Centrality
 include(joinpath(".", "community/centrality.jl"))
@@ -96,6 +115,9 @@ export n_random_modules, each_species_its_module
 include(joinpath(".", "modularity/brim.jl"))
 export brim
 
+include(joinpath(".", "modularity/roles.jl"))
+export functional_cartography
+
 # Beta-diversity
 include(joinpath(".", "betadiversity/operations.jl"))
 include(joinpath(".", "betadiversity/partitions.jl"))
@@ -109,5 +131,10 @@ export KGL01, KGL02, KGL03, KGL04, KGL05, KGL06, KGL07, KGL08, KGL09, KGL10,
 # Food webs
 include(joinpath(".", "foodwebs/trophiclevels.jl"))
 export fractional_trophic_level, trophic_level
+
+include(joinpath(".", "information/entropy.jl"))
+export entropy, make_joint_distribution, mutual_information, conditional_entropy,
+   variation_information, diff_entropy_uniform, information_decomposition,
+   convert2effective, potential_information
 
 end

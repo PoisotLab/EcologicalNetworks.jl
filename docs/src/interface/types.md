@@ -23,8 +23,20 @@ directly. The `species` function will give you access to the species, and the
 network slicing operations (see later sections) will let you access subset of
 the network / individual interactions / set of neighbours.
 
-Network types are currently *not iterable*, but this may be built into a next
-release.
+Network types are iterable: this is equivalent to calling the `interactions`
+function on a network. On small networks, `interactions` is faster. On large
+networks, it can be less true, and using the iteration approach can save some
+time. The iteration protocol is the same as for all other Julia collections:
+
+~~~
+for (int_number, interaction) in N
+  @info "Interaction $(int_number) -- $(interaction)"
+end
+~~~
+
+The objects returned by the iteration protocol are named tuples with fields `to`
+and `from` (always), and can have additional fields `probability` and
+`strength`.
 
 ### Partiteness
 

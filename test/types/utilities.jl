@@ -124,4 +124,29 @@ interactions(BipartiteProbabilisticNetwork(rand(Float64, (3,5))))
 
 @test_throws ArgumentError species(BipartiteQuantitativeNetwork(rand(Float64, (3,5))); dims=5)
 
+# Iteration
+for (i, int) in enumerate(unipartitemotifs().S1)
+    if i == 1
+        @test int.from == :a
+        @test int.to == :b
+    end
+    if i == 2
+        @test int.from == :b
+        @test int.to == :c
+    end
+end
+
+for (i, int) in enumerate(null2(unipartitemotifs().S1))
+    if i == 1
+        @test int.from == :a
+        @test int.to == :a
+        @test int.probability ≈ 1/6
+    end
+    if i == 2
+        @test int.from == :b
+        @test int.to == :a
+        @test int.probability ≈ 1/6
+    end
+end
+
 end

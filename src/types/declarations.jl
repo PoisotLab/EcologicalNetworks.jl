@@ -38,15 +38,26 @@ automatically.
 """
 abstract type AbstractBipartiteNetwork <: AbstractEcologicalNetwork end
 
+
+_allowed_species_types = [String, Symbol]#, MangalNode, MangalReferenceTaxon]
+try
+  using GBIF
+  push!(_allowed_species_types, GBIF.GBIFTaxon)
+  @info "Package GBIF found: GBIFTaxon added as a species type"
+catch
+  nothing
+end
+
 """
 The `AllowedSpeciesTypes` union is used to restrict the type of objects that can
 be used to identify the species in a network. Currently, this is limited to
 `Symbol` and `String`. Numeric types (esp. integers) will *never* be allowed,
-because they are used for positional access of species and interactions. As the
-ecosystem of packages for ecology matures, more types will be added to this
-union.
+because they are used for positional access of species and interactions. This
+type is expanded if additional packages are found. Specifically, installing
+`GBIF.jl` adds support for `GBIFTaxon`, and installing `Mangal.jl` adds support
+for `MangalReferenceTaxon` and `MangalNode`.
 """
-AllowedSpeciesTypes = Union{String,Symbol}
+AllowedSpeciesTypes = Union{_allowed_species_types...}
 
 """
 A bipartite deterministic network is a matrix of boolean values.

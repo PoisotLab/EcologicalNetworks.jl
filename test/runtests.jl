@@ -15,6 +15,10 @@ my_tests = [
    "rand/shuffle.jl",
    "rand/null.jl",
    "rand/sample.jl",
+   "rand/cascademodel.jl",
+   "rand/nestedhierarchymodel.jl",
+   "rand/nichemodel.jl",
+   "rand/mpnmodel.jl",
    "community/nestedness.jl",
    "community/paths.jl",
    "community/overlap.jl",
@@ -26,8 +30,10 @@ my_tests = [
    "modularity/utilities.jl",
    "modularity/starters.jl",
    "modularity/labelpropagation.jl",
-   "modularity/brim.jl"
+   "modularity/brim.jl",
+   "information/entropy.jl"
 ]
+# "mangal.jl",
 
 global test_n
 global anyerrors
@@ -42,7 +48,7 @@ for my_test in my_tests
   catch e
     global anyerrors = true
     println("[TEST $(lpad(test_n,2))] \033[1m\033[31mFAIL\033[0m $(my_test)")
-    showerror(STDOUT, e, backtrace())
+    showerror(stdout, e, backtrace())
     println()
     throw("TEST FAILED")
   end
