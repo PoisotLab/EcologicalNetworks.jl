@@ -38,35 +38,14 @@ automatically.
 """
 abstract type AbstractBipartiteNetwork <: AbstractEcologicalNetwork end
 
-
-_allowed_species_types = [String, Symbol]#, MangalNode, MangalReferenceTaxon]
-try
-  using GBIF
-  push!(_allowed_species_types, GBIF.GBIFTaxon)
-  @info "Package GBIF found: GBIFTaxon added as a species type"
-catch
-  nothing
-end
-
-"""
-The `AllowedSpeciesTypes` union is used to restrict the type of objects that can
-be used to identify the species in a network. Currently, this is limited to
-`Symbol` and `String`. Numeric types (esp. integers) will *never* be allowed,
-because they are used for positional access of species and interactions. This
-type is expanded if additional packages are found. Specifically, installing
-`GBIF.jl` adds support for `GBIFTaxon`, and installing `Mangal.jl` adds support
-for `MangalReferenceTaxon` and `MangalNode`.
-"""
-AllowedSpeciesTypes = Union{_allowed_species_types...}
-
 """
 A bipartite deterministic network is a matrix of boolean values.
 """
-mutable struct BipartiteNetwork{T<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
+mutable struct BipartiteNetwork{T} <: AbstractBipartiteNetwork
   A::Matrix{Bool}
   T::Vector{T}
   B::Vector{T}
-  function BipartiteNetwork{NT}(A::M, T::Vector{NT}, B::Vector{NT}) where {M<:AbstractMatrix{Bool}, NT<:AllowedSpeciesTypes}
+  function BipartiteNetwork{NT}(A::M, T::Vector{NT}, B::Vector{NT}) where {M<:AbstractMatrix{Bool}, NT}
     check_bipartiteness(A, T, B)
     new{NT}(A, T, B)
   end
@@ -75,10 +54,10 @@ end
 """
 An unipartite deterministic network is a matrix of boolean values.
 """
-mutable struct UnipartiteNetwork{T<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
+mutable struct UnipartiteNetwork{T} <: AbstractUnipartiteNetwork
   A::Matrix{Bool}
   S::Vector{T}
-  function UnipartiteNetwork{NT}(A::M, S::Vector{NT}) where {M<:AbstractMatrix{Bool}, NT<:AllowedSpeciesTypes}
+  function UnipartiteNetwork{NT}(A::M, S::Vector{NT}) where {M<:AbstractMatrix{Bool}, NT}
     check_unipartiteness(A, S)
     new{NT}(A, S)
   end
@@ -88,11 +67,11 @@ end
 A bipartite probabilistic network is a matrix of floating point numbers, all of
 which must be between 0 and 1.
 """
-mutable struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
+mutable struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT} <: AbstractBipartiteNetwork
   A::Matrix{IT}
   T::Vector{NT}
   B::Vector{NT}
-  function BipartiteProbabilisticNetwork{IT, NT}(A::Matrix{IT}, T::Vector{NT}, B::Vector{NT}) where {IT<:AbstractFloat, NT<:AllowedSpeciesTypes}
+  function BipartiteProbabilisticNetwork{IT, NT}(A::Matrix{IT}, T::Vector{NT}, B::Vector{NT}) where {IT<:AbstractFloat, NT}
     check_bipartiteness(A, T, B)
     check_probability_values(A)
     new{IT,NT}(A, T, B)
@@ -103,11 +82,11 @@ end
 A bipartite quantitative network is matrix of numbers. It is assumed that the
 interaction strength are *positive*.
 """
-mutable struct BipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractBipartiteNetwork
+mutable struct BipartiteQuantitativeNetwork{IT<:Number, NT} <: AbstractBipartiteNetwork
   A::Matrix{IT}
   T::Vector{NT}
   B::Vector{NT}
-  function BipartiteQuantitativeNetwork{IT, NT}(A::Matrix{IT}, T::Vector{NT}, B::Vector{NT}) where {IT<:Number, NT<:AllowedSpeciesTypes}
+  function BipartiteQuantitativeNetwork{IT, NT}(A::Matrix{IT}, T::Vector{NT}, B::Vector{NT}) where {IT<:Number, NT}
     check_bipartiteness(A, T, B)
     new{IT,NT}(A, T, B)
   end
@@ -117,10 +96,10 @@ end
 A unipartite probabilistic network is a square matrix of floating point numbers,
 all of which must be between 0 and 1.
 """
-mutable struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
+mutable struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT} <: AbstractUnipartiteNetwork
   A::Matrix{IT}
   S::Vector{NT}
-  function UnipartiteProbabilisticNetwork{IT, NT}(A::Matrix{IT}, S::Vector{NT}) where {IT<:AbstractFloat,NT<:AllowedSpeciesTypes}
+  function UnipartiteProbabilisticNetwork{IT, NT}(A::Matrix{IT}, S::Vector{NT}) where {IT<:AbstractFloat,NT}
     check_unipartiteness(A, S)
     check_probability_values(A)
     new{IT,NT}(A, S)
@@ -130,10 +109,10 @@ end
 """
 A unipartite quantitative network is a square matrix of numbers.
 """
-mutable struct UnipartiteQuantitativeNetwork{IT<:Number, NT<:AllowedSpeciesTypes} <: AbstractUnipartiteNetwork
+mutable struct UnipartiteQuantitativeNetwork{IT<:Number, NT} <: AbstractUnipartiteNetwork
   A::Matrix{IT}
   S::Vector{NT}
-  function UnipartiteQuantitativeNetwork{IT, NT}(A::Matrix{IT}, S::Vector{NT}) where {IT<:Number,NT<:AllowedSpeciesTypes}
+  function UnipartiteQuantitativeNetwork{IT, NT}(A::Matrix{IT}, S::Vector{NT}) where {IT<:Number,NT}
     check_unipartiteness(A, S)
     new{IT,NT}(A, S)
   end

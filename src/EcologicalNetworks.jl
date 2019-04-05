@@ -10,6 +10,8 @@ using DelimitedFiles
 using LinearAlgebra
 using DataStructures
 
+using Requires
+
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
 
@@ -20,7 +22,7 @@ include(joinpath(".", "misc/init_tests.jl"))
 include(joinpath(".", "types/declarations.jl"))
 include(joinpath(".", "types/constructors.jl"))
 include(joinpath(".", "types/conversions.jl"))
-export AbstractEcologicalNetwork, AllowedSpeciesTypes,
+export AbstractEcologicalNetwork,
    # General types for all bipartite / unipartite
    AbstractBipartiteNetwork, AbstractUnipartiteNetwork,
    # Types
@@ -37,7 +39,12 @@ export web_of_life, nz_stream_foodweb
 
 # Mangal -- only exports `convert` methods
 #using Mangal
-#include(joinpath(".", "misc/mangal.jl"))
+function __init__()
+   @require Mangal="c98fa588-9b20-11e8-354a-7faf2daa810a" is_valid_species(::Mangal.MangalNode) = true
+   @require Mangal="c98fa588-9b20-11e8-354a-7faf2daa810a" is_valid_species(::Mangal.MangalReferenceTaxon) = true
+   @require Mangal="c98fa588-9b20-11e8-354a-7faf2daa810a" include(joinpath(".", "misc/mangal.jl"))
+   @require GBIF="ee291a33-5a6c-5552-a3c8-0f29a1181037" is_valid_species(::GBIF.GBIFTaxon) = true
+end
 
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))

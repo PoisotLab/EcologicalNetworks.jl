@@ -123,7 +123,7 @@ end
 """
 TODO
 """
-function shuffle!(N::BipartiteQuantitativeNetwork{Int64,K}; constraint::Symbol=:degree, lims=(0, Inf)) where {K <: AllowedSpeciesTypes}
+function shuffle!(N::BipartiteQuantitativeNetwork{Int64,K}; constraint::Symbol=:degree, lims=(0, Inf)) where {K}
     constraint ∈ [:degree, :generality, :vulnerability, :fill] || throw(ArgumentError("The constraint argument you specificied ($(constraint)) is invalid -- see ?shuffle! for a list."))
     first(lims) < last(lims) || throw(ArgumentError("The interval you used for limits, $(lims), is invalid"))
     all(first(lims) .<= N.A .<= last(lims)) || throw(ArgumentError("The interval you used for limits, $(lims), is smaller than the range of network values"))
@@ -163,7 +163,7 @@ end
 """
 TODO
 """
-function shuffle!(N::BipartiteQuantitativeNetwork{Float64,K}; ε::Float64=1e-2, constraint::Symbol=:degree, lims=(0.0, Inf)) where {K <: AllowedSpeciesTypes}
+function shuffle!(N::BipartiteQuantitativeNetwork{Float64,K}; ε::Float64=1e-2, constraint::Symbol=:degree, lims=(0.0, Inf)) where {K}
     constraint ∈ [:degree, :generality, :vulnerability, :fill] || throw(ArgumentError("The constraint argument you specificied ($(constraint)) is invalid -- see ?shuffle! for a list."))
     first(lims) < last(lims) || throw(ArgumentError("The interval you used for limits, $(lims), is invalid"))
     all(first(lims) .<= N.A .<= last(lims)) || throw(ArgumentError("The interval you used for limits, $(lims), is smaller than the range of network values"))
@@ -204,7 +204,7 @@ end
 """
 TODO
 """
-function shuffle!(N::UnipartiteQuantitativeNetwork{Int64,K}; constraint::Symbol=:degree, lims=(0, Inf)) where {K <: AllowedSpeciesTypes}
+function shuffle!(N::UnipartiteQuantitativeNetwork{Int64,K}; constraint::Symbol=:degree, lims=(0, Inf)) where {K}
     constraint ∈ [:degree, :generality, :vulnerability, :fill] || throw(ArgumentError("The constraint argument you specificied ($(constraint)) is invalid -- see ?shuffle! for a list."))
     first(lims) < last(lims) || throw(ArgumentError("The interval you used for limits, $(lims), is invalid"))
     all(first(lims) .<= N.A .<= last(lims)) || throw(ArgumentError("The interval you used for limits, $(lims), is smaller than the range of network values"))
@@ -242,7 +242,7 @@ end
 """
 TODO
 """
-function shuffle!(N::UnipartiteQuantitativeNetwork{Float64,K}; ε::Float64=1e-2, constraint::Symbol=:degree, lims=(0.0, Inf)) where {K <: AllowedSpeciesTypes}
+function shuffle!(N::UnipartiteQuantitativeNetwork{Float64,K}; ε::Float64=1e-2, constraint::Symbol=:degree, lims=(0.0, Inf)) where {K}
     constraint ∈ [:degree, :generality, :vulnerability, :fill] || throw(ArgumentError("The constraint argument you specificied ($(constraint)) is invalid -- see ?shuffle! for a list."))
     first(lims) < last(lims) || throw(ArgumentError("The interval you used for limits, $(lims), is invalid"))
     all(first(lims) .<= N.A .<= last(lims)) || throw(ArgumentError("The interval you used for limits, $(lims), is smaller than the range of network values"))

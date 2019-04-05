@@ -1,4 +1,4 @@
-function δ(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}
+function δ(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E}
     for s in species(N)
         @assert haskey(L, s)
     end
@@ -11,14 +11,14 @@ function δ(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E<:Allow
 end
 
 """
-    Q(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}
+    Q(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E}
 
 Modularity of a network and its partition. The second argument is a dictionary
 where every species of `N` is associated to an `Int64` value representing the
 identity of the module. This function returns the same value of bipartite
 networks and their unipartite projection.
 """
-function Q(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}
+function Q(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E}
     for s in species(N)
         @assert haskey(L, s)
     end
@@ -45,14 +45,14 @@ function Q(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E<:Allowe
 end
 
 """
-    Qr(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}
+    Qr(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E}
 
 Realized modularity -- this function returns a value giving the proportion of
 all links that are within the same module. Higher values reflect a more strongly
 modular partition (whereas `Q` represents the deviation of modularity from the
 random expectation).
 """
-function Qr(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}
+function Qr(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E}
     for s in species(N)
         @assert haskey(L, s)
     end
@@ -61,7 +61,7 @@ function Qr(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E<:Allow
     return 2.0 * (W/B) - 1.0
 end
 
-function tidy_modules!(L::Dict{E,Int64}) where {E<:AllowedSpeciesTypes}
+function tidy_modules!(L::Dict{E,Int64}) where {E}
   l_values = sort(unique(collect(values(L))))
   for i in 1:length(l_values)
     for (k,v) in L
