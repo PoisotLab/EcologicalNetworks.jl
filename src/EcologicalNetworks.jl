@@ -10,8 +10,6 @@ using DelimitedFiles
 using LinearAlgebra
 using DataStructures
 
-using Mangal
-
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
 
@@ -38,7 +36,8 @@ include(joinpath(".", "misc/data.jl"))
 export web_of_life, nz_stream_foodweb
 
 # Mangal -- only exports `convert` methods
-include(joinpath(".", "misc/mangal.jl"))
+#using Mangal
+#include(joinpath(".", "misc/mangal.jl"))
 
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))

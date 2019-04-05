@@ -7,7 +7,6 @@ my_tests = [
    "types/utilities.jl",
    "types/conversions.jl",
    "data.jl",
-   "mangal.jl",
    "links/degree.jl",
    "links/specificity.jl",
    "links/connectance.jl",
@@ -34,6 +33,7 @@ my_tests = [
    "modularity/brim.jl",
    "information/entropy.jl"
 ]
+# "mangal.jl",
 
 global test_n
 global anyerrors
