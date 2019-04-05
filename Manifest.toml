@@ -35,9 +35,9 @@ version = "2.1.0"
 
 [[DataStructures]]
 deps = ["InteractiveUtils", "OrderedCollections", "Random", "Serialization", "Test"]
-git-tree-sha1 = "8fc6e166e24fda04b2b648d4260cdad241788c54"
+git-tree-sha1 = "ca971f03e146cf144a9e2f2ce59674f5bf0e8038"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.14.0"
+version = "0.15.0"
 
 [[Dates]]
 deps = ["Printf"]
@@ -53,15 +53,15 @@ uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[Distributions]]
 deps = ["Distributed", "LinearAlgebra", "PDMats", "Printf", "QuadGK", "Random", "SpecialFunctions", "Statistics", "StatsBase", "StatsFuns", "Test"]
-git-tree-sha1 = "c24e9b6500c037673f0241a2783472b8c3d080c7"
+git-tree-sha1 = "dec0ebacfbc3a2126c614ab5e903c9ef063688d0"
 uuid = "31c24e10-a181-5473-b8eb-7969acd0382f"
-version = "0.16.4"
+version = "0.17.0"
 
 [[GeoInterface]]
-deps = ["RecipesBase"]
-git-tree-sha1 = "59d34b371abfeda6a876e7d5ad5a12ac45faf252"
+deps = ["RecipesBase", "Test"]
+git-tree-sha1 = "0c0c0bf9c79b10e48aa089e78ac504ebc43db3a0"
 uuid = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
-version = "0.4.0"
+version = "0.4.1"
 
 [[HTTP]]
 deps = ["Base64", "Dates", "Distributed", "IniFile", "MbedTLS", "Random", "Sockets", "Test"]
@@ -100,7 +100,7 @@ uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
 [[Mangal]]
 deps = ["Dates", "GeoInterface", "HTTP", "JSON", "Test"]
-git-tree-sha1 = "be148f6452ae0a76a6b7ef1189c5b9f206279a26"
+git-tree-sha1 = "5f34ff51046abe82b4bbf6bde838095189f7bd06"
 repo-rev = "master"
 repo-url = "https://github.com/PoisotLab/Mangal.jl"
 uuid = "c98fa588-9b20-11e8-354a-7faf2daa810a"
@@ -211,10 +211,10 @@ deps = ["LinearAlgebra", "SparseArrays"]
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [[StatsBase]]
-deps = ["DataStructures", "LinearAlgebra", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "Test"]
-git-tree-sha1 = "2722397d88f8ffef551948f6c20e1d74a743298c"
+deps = ["DataStructures", "DelimitedFiles", "LinearAlgebra", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "Test"]
+git-tree-sha1 = "435707791dc85a67d98d671c1c3fcf1b20b00f94"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-version = "0.26.0"
+version = "0.29.0"
 
 [[StatsFuns]]
 deps = ["Rmath", "SpecialFunctions", "Test"]
