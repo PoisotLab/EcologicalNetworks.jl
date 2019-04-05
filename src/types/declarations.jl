@@ -39,7 +39,7 @@ automatically.
 abstract type AbstractBipartiteNetwork <: AbstractEcologicalNetwork end
 
 
-_allowed_species_types = [String, Symbol, MangalNode, MangalReferenceTaxon]
+_allowed_species_types = [String, Symbol]#, MangalNode, MangalReferenceTaxon]
 try
   using GBIF
   push!(_allowed_species_types, GBIF.GBIFTaxon)
