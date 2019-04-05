@@ -12,6 +12,10 @@ See also: `nichemodel`, `cascademodel`, `mpnmodel`
 """
 function nestedhierarchymodel(S::Int64, L::Int64)
 
+    # Evaluate input
+    L >= S*S && throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
+    L <= 0 && throw(ArgumentError("Number of links L must be positive"))
+
     # Initiate matrix
     A = UnipartiteNetwork(zeros(Bool, (S, S)))
 
@@ -23,6 +27,9 @@ function nestedhierarchymodel(S::Int64, L::Int64)
     # Beta parameter (after Allesina et al. 2008)
     # Classic niche: β = 1.0/(2.0*C)-1.0
     β = (S - 1.0)/(2.0*Co*S) - 1.0
+
+    # Evaluate input
+    β == 0 && throw(ArgumentError("β value is equal to zero! Try decreasing number of links"))
 
     # Random variable from the Beta distribution
     X = rand(Beta(1.0, β), 1)
