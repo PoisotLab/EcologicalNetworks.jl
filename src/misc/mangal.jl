@@ -1,4 +1,4 @@
-function get_all_interactions(n::MangalNetwork)
+function get_all_interactions(n::Mangal.MangalNetwork)
     page_size = 200
     network_interactions = MangalInteraction[]
     interactions_to_get = count(MangalInteraction, "network_id" => n.id)
@@ -21,7 +21,7 @@ passed as its first argument. The optional keyword `resolution` (can be
 aggregation should be used. The default (`MangalNode`) is raw data, and
 `MangalReferenceTaxon` is the cleaned version.
 """
-function convert(::Type{UnipartiteNetwork}, n::MangalNetwork; resolution::Type=MangalNode)
+function convert(::Type{UnipartiteNetwork}, n::Mangal.MangalNetwork; resolution::Type=MangalNode)
     resolution ∈ [MangalNode, MangalReferenceTaxon] || throw(ArgumentError("The resolution argument can only be MangalNode or MangalReferenceTaxon - you used $(resolution)"))
 
     network_interactions = get_all_interactions(n)
