@@ -40,9 +40,8 @@ export web_of_life, nz_stream_foodweb
 # Mangal -- only exports `convert` methods
 #using Mangal
 function __init__()
-   @require Mangal="c98fa588-9b20-11e8-354a-7faf2daa810a" is_valid_species(::Mangal.MangalNode) = true
-   @require Mangal="c98fa588-9b20-11e8-354a-7faf2daa810a" is_valid_species(::Mangal.MangalReferenceTaxon) = true
-   @require Mangal="c98fa588-9b20-11e8-354a-7faf2daa810a" include(joinpath(".", "misc/mangal.jl"))
+   @require Mangal="b8b640a6-63d9-51e6-b784-5033db27bef2" is_valid_species(::Mangal.MangalNode) = true
+   @require Mangal="b8b640a6-63d9-51e6-b784-5033db27bef2" is_valid_species(::Mangal.MangalReferenceTaxon) = true
    @require GBIF="ee291a33-5a6c-5552-a3c8-0f29a1181037" is_valid_species(::GBIF.GBIFTaxon) = true
 end
 
