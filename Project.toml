@@ -1,5 +1,5 @@
 name = "EcologicalNetworks"
-uuid = "26cd3c7c-942f-11e8-1e85-357945f36438"
+uuid = "f03a62fe-f8ab-5b77-a061-bb599b765229"
 repo = "https://github.com/PoisotLab/EcologicalNetworks.jl"
 version = "1.0.0"
 
