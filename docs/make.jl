@@ -26,6 +26,7 @@ makedocs(
             "Centrality and paths" => "properties/paths.md",
             "Overlap and similarity" => "properties/overlap.md",
             "Null models" => "properties/nullmodels.md",
+            "Information theory" => "properties/information.md",
             "Beta-diversity" => "properties/betadiversity.md"
         ]
     ]
