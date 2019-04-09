@@ -67,6 +67,12 @@ argument.
 
 Note that this function uses all *direct* preys and predators to measure the
 similarity (and so does not go beyond the immediate neighbors).
+
+#### References
+
+Gao, P., Kupfer, J.A., 2015. Uncovering food web structure using a novel trophic
+similarity measure. Ecological Informatics 30, 110–118.
+https://doi.org/10.1016/j.ecoinf.2015.09.013
 """
 function AJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteNetwork}
 
@@ -120,6 +126,12 @@ argument.
 Note that this function counts all interactions up to a distance of 50 to define
 the neighbourhood of a species. This should be more than sufficient for most
 ecological networks.
+
+#### References
+
+Gao, P., Kupfer, J.A., 2015. Uncovering food web structure using a novel trophic
+similarity measure. Ecological Informatics 30, 110–118.
+https://doi.org/10.1016/j.ecoinf.2015.09.013
 """
 function EAJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteNetwork}
 

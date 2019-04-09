@@ -1,14 +1,14 @@
 """
-
     nestedhierarchymodel(S::Int64, L::Int64)
 
 Return `UnipartiteNetwork` where resources are assigned to consumers according
 to the nested hierarchy model for `S` species and `L`.
 
-> Cattin, M.-F. et al. (2004) ‘Phylogenetic constraints and adaptation explain
-> food-web structure’, Nature, 427(6977), pp. 835–839. doi: 10.1038/nature02327.
+#### References
 
-See also: `nichemodel`, `cascademodel`, `mpnmodel`
+Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
+J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
+Nature 427, 835–839. https://doi.org/10.1038/nature02327
 """
 function nestedhierarchymodel(S::Int64, L::Int64)
 
@@ -200,12 +200,15 @@ function nestedhierarchymodel(S::Int64, L::Int64)
 end
 
 """
-
     nestedhierarchymodel(S::Int64, Co::Float64)
 
 Connectance can be provided instead of number of links.
 
-See also: `nichemodel`, `cascademodel`, `mpnmodel`
+#### References
+
+Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
+J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
+Nature 427, 835–839. https://doi.org/10.1038/nature02327
 """
 function nestedhierarchymodel(S::Int64, Co::Float64)
 
@@ -217,10 +220,15 @@ function nestedhierarchymodel(S::Int64, Co::Float64)
 end
 
 """
-
     nestedhierarchymodel(N::T) {T <: UnipartiteNetwork}
 
 Applied to empirical `UnipartiteNetwork` return its randomized version.
+
+#### References
+
+Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
+J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
+Nature 427, 835–839. https://doi.org/10.1038/nature02327
 """
 function nestedhierarchymodel(N::T) where {T <: UnipartiteNetwork}
 
@@ -229,11 +237,16 @@ function nestedhierarchymodel(N::T) where {T <: UnipartiteNetwork}
 end
 
 """
-
     nestedhierarchymodel(parameters::Tuple)
 
 Parameters tuple can also be provided in the form (Species::Int64, Co::Float64)
 or (Species::Int64, Int::Int64).
+
+#### References
+
+Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
+J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
+Nature 427, 835–839. https://doi.org/10.1038/nature02327
 """
 function nestedhierarchymodel(parameters::Tuple)
 

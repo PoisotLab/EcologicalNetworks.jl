@@ -72,6 +72,13 @@ end
 
 Return a shuffled copy of the network (the original network is not modified).
 See `shuffle!` for a documentation of the keyword arguments.
+
+#### References
+
+Fortuna, M.A., Stouffer, D.B., Olesen, J.M., Jordano, P., Mouillot, D., Krasnov,
+B.R., Poulin, R., Bascompte, J., 2010. Nestedness versus modularity in
+ecological networks: two sides of the same coin? Journal of Animal Ecology 78,
+811–817. https://doi.org/10.1111/j.1365-2656.2010.01688.x
 """
 function shuffle(N::BinaryNetwork; constraint::Symbol=:degree)
    Y = copy(N)
@@ -101,6 +108,13 @@ a large enough number of times, you can use something like:
 
 If the keyword arguments are invalid, the function will throw an
 `ArgumentError`.
+
+#### References
+
+Fortuna, M.A., Stouffer, D.B., Olesen, J.M., Jordano, P., Mouillot, D., Krasnov,
+B.R., Poulin, R., Bascompte, J., 2010. Nestedness versus modularity in
+ecological networks: two sides of the same coin? Journal of Animal Ecology 78,
+811–817. https://doi.org/10.1111/j.1365-2656.2010.01688.x
 """
 function shuffle!(N::BinaryNetwork; constraint::Symbol=:degree)
    constraint ∈ [:degree, :generality, :vulnerability, :fill] || throw(ArgumentError("The constraint argument you specificied ($(constraint)) is invalid -- see ?shuffle! for a list."))
