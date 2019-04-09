@@ -16,12 +16,12 @@ function η_axis(N::AbstractBipartiteNetwork)
 end
 
 """
-    η(N::T, i::Int64) where {T <: Union{BipartiteNetwork, BipartiteProbaNetwork}}
+    η(N::T, dims::Union{Nothing,Integer}=nothing) where {T <: Union{BipartiteNetwork, BipartiteProbaNetwork}}
 
 Returns the nestedness of a margin of the network, using η. The second argument
 can be `1` (for nestedness of rows/top level) or `2` (for nestedness of
-columns/bottom level). This function will throw an `ArgumentError` if you use an
-invalid value for `i`.
+columns/bottom level). Leaving it at `nothing` will measure the nestedness of
+the entire network.
 """
 function η(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{BipartiteNetwork, BipartiteProbabilisticNetwork}}
   dims == 1 && return η_axis(N)
@@ -98,7 +98,7 @@ function nodf_axis(N::BipartiteNetwork)
 end
 
 """
-    nodf(N::T, i::Int64) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
+    nodf(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
 
 Returns `nodf` for a margin of the network. The `i` argument can be 1 for
 top-level, 2 for bottom level, and the function will throw an `ArgumentError` if
