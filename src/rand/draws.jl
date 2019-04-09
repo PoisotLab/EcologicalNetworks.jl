@@ -24,3 +24,14 @@ function rand(N::ProbabilisticNetwork, n::T) where {T<:Integer}
     @assert n > 0
     return map(x -> rand(N), 1:n)
 end
+
+"""
+    rand(N::ProbabilisticNetwork, S::Tuple{T,T}) where {T<:Integer}
+
+Generates a number of random deterministic networks based on a probabilistic
+network, and returns them as a matrix.
+"""
+function rand(N::ProbabilisticNetwork, S::Tuple{T,T}) where {T<:Integer}
+    @assert minimum(S) > 0
+    return reshape(map(x -> rand(N), 1:prod(S)), S)
+end
