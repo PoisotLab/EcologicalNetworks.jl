@@ -7,20 +7,20 @@ end
 function UnipartiteNetwork(A::M, S::Vector{NT}) where {M<:AbstractMatrix{Bool}, NT}
   is_valid_species(NT) || throw(ArgumentError("Not allowed"))
   check_unipartiteness(A, S)
-  UnipartiteNetwork{NT}(A, S)
+  UnipartiteNetwork{Bool,NT}(A, S)
 end
 
 function BipartiteNetwork(A::M) where {M<:AbstractMatrix{Bool}}
   check_bipartiteness(A)
   T = "t".*string.(1:size(A,1))
   B = "b".*string.(1:size(A,2))
-  BipartiteNetwork{eltype(T)}(A, T, B)
+  BipartiteNetwork{Bool,eltype(T)}(A, T, B)
 end
 
 function BipartiteNetwork(A::M, T::Vector{NT}, B::Vector{NT}) where {M<:AbstractMatrix{Bool}, NT}
   is_valid_species(NT) || throw(ArgumentError("Not allowed"))
   check_bipartiteness(A, T, B)
-  BipartiteNetwork{eltype(T)}(A, T, B)
+  BipartiteNetwork{Bool,eltype(T)}(A, T, B)
 end
 
 function BipartiteProbabilisticNetwork(A::Matrix{IT}) where {IT<:AbstractFloat}

@@ -2,7 +2,7 @@ function nz_stream_foodweb()
   data_path = joinpath(@__DIR__, "../..", "data", "nz_stream")
   files = readdir(data_path)
   documents = filter(f -> endswith(f, ".csv"), files)
-  Ns = UnipartiteNetwork{String}[]
+  Ns = UnipartiteNetwork{Bool,String}[]
   for doc in documents
     content = readdlm(joinpath(@__DIR__, "../..", "data", "nz_stream", doc), ',')
     species_names = convert(Array{String}, content[:,1][2:end])
