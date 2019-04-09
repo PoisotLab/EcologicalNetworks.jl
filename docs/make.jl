@@ -12,7 +12,6 @@ makedocs(
     modules = [EcologicalNetworks],
     pages = [
         "Index" => "index.md",
-        "Contents" => "toc.md",
         "Interface" => [
             "Types" => "interface/types.md",
             "Conversions" => "interface/conversions.md",
