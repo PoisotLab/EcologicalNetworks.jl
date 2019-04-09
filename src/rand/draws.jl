@@ -26,7 +26,7 @@ function rand(N::ProbabilisticNetwork, n::T) where {T<:Integer}
 end
 
 """
-    rand(N::ProbabilisticNetwork, S::Tuple{T,T}) where {T<:Integer}
+    rand(N::ProbabilisticNetwork, S::Tuple{Int64,Int64})
 
 Generates a number of random deterministic networks based on a probabilistic
 network, and returns them as a matrix.
