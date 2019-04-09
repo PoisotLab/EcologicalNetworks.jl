@@ -7,7 +7,7 @@ Pkg.activate(".")
 using EcologicalNetworks
 
 makedocs(
-    sitename = "EcologicalNetworks.jl",
+    sitename = "EcologicalNetworks",
     authors = "Timothée Poisot",
     modules = [EcologicalNetworks],
     pages = [
