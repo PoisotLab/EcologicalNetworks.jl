@@ -31,7 +31,7 @@ end
 Generates a number of random deterministic networks based on a probabilistic
 network, and returns them as a matrix.
 """
-function rand(N::ProbabilisticNetwork, S::Tuple{T,T}) where {T<:Integer}
+function rand(N::ProbabilisticNetwork, S::Tuple{Int64,Int64})
     @assert minimum(S) > 0
     return reshape(map(x -> rand(N), 1:prod(S)), S)
 end
