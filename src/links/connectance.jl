@@ -9,10 +9,11 @@ networks, this is the number of interactions. For probabilistic networks, this
 is the expected number of realized interactions.
 
 Optionally, one can give the argument dims, simular to the native `sum`, which
-computes the sum of the interactions for the lower (`sum=2`) or higher (`sum=1`)
+computes the sum of the interactions for the lower (`dims=2`) or higher (`dims=1`)
 trophic level.
 """
 function sum(N::AbstractEcologicalNetwork; dims::Union{Nothing,Int}=nothing)
+    @assert dims == nothing || dims == 1 || dims == 2
    (dims == nothing && return sum(N.A)) || return sum(N.A, dims=dims)
 
 end
