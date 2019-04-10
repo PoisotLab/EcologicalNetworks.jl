@@ -146,5 +146,6 @@ export entropy, make_joint_distribution, mutual_information, conditional_entropy
 
 # Quantitative descriptors of food web matrices
 include(joinpath(".", "quantitative", "bersier2002.jl"))
+export flow_diversity
 
 end
