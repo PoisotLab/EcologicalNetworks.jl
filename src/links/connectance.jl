@@ -1,15 +1,20 @@
 import Base.sum
 
 """
-    sum(N::AbstractEcologicalNetwork)
+    sum(N::AbstractEcologicalNetwork; dims=nothing)
 
 This function will return the sum of all interactions in the network. For
 quantitative networks, this is the sum of interaction strengths. For binary
 networks, this is the number of interactions. For probabilistic networks, this
 is the expected number of realized interactions.
+
+Optionally, one can give the argument dims, simular to the native `sum`, which
+computes the sum of the interactions for the lower (`sum=2`) or higher (`sum=1`)
+trophic level.
 """
-function sum(N::AbstractEcologicalNetwork)
-   return sum(N.A)
+function sum(N::AbstractEcologicalNetwork; dims::Union{Nothing,Int}=nothing)
+   (dims == nothing && return sum(N.A)) || return sum(N.A, dims=dims)
+
 end
 
 """
