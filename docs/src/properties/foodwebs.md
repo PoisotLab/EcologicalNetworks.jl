@@ -12,4 +12,5 @@ fractional_trophic_level
 ```@docs
 flow_diversity
 equivalent_degree
+positional_index
 ```
