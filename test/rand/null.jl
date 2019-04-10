@@ -9,13 +9,13 @@ module TestNullModels
 
   n1 = null1(N)
   n2 = null2(N)
-  n2m = null2mult(N)
+  n4 = null4(N)
   n3o = null3out(N)
   n3i = null3in(N)
 
   @test typeof(n1) <: UnipartiteProbabilisticNetwork
   @test typeof(n2) <: UnipartiteProbabilisticNetwork
-  @test typeof(n2m) <: UnipartiteProbabilisticNetwork
+  @test typeof(n4) <: UnipartiteProbabilisticNetwork
   @test typeof(n3o) <: UnipartiteProbabilisticNetwork
   @test typeof(n3i) <: UnipartiteProbabilisticNetwork
 
@@ -37,9 +37,9 @@ module TestNullModels
   @test n2[1,1] ≈ 2.0 / 3.0
 
   # Null model 2 (mult)
-  @test n2m[1,3] ≈ 2.0 * 1.0 / 36.0
-  @test n2m[2,2] ≈ 3.0 * 3.0 / 36.0
-  @test n2m[1,1] ≈ 2.0 * 2.0 / 36.0
+  @test n4[1,3] ≈ 2.0 * 1.0 / 36.0
+  @test n4[2,2] ≈ 3.0 * 3.0 / 36.0
+  @test n4[1,1] ≈ 2.0 * 2.0 / 36.0
 
   # Null model 3
   @test n3o[1,1] ≈ 2.0 / 3.0

@@ -46,13 +46,13 @@ end
 
 
 """
-    null2mult(N::BinaryNetwork)
+    null4(N::BinaryNetwork)
 
-Given a matrix `A`, `null2mult(A)` returns a matrix with the same dimensions, where
+Given a matrix `A`, `null4(A)` returns a matrix with the same dimensions, where
 every interaction happens with a probability equal to the product of the degree
 of each species.
 """
-function null2mult(N::BinaryNetwork)
+function null4(N::BinaryNetwork)
   A = N.A
   n, m = size(A)
   Afiltered = sum(A, dims=1) .* sum(A, dims=2) ./ sum(A)^2
