@@ -22,9 +22,9 @@ module TestNullModels
   B = BipartiteNetwork(A)
   @test typeof(null1(B)) <: BipartiteProbabilisticNetwork
   @test typeof(null2(B)) <: BipartiteProbabilisticNetwork
-    @test typeof(null2mult(B)) <: BipartiteProbabilisticNetwork
   @test typeof(null3in(B)) <: BipartiteProbabilisticNetwork
   @test typeof(null3out(B)) <: BipartiteProbabilisticNetwork
+  @test typeof(null4(B)) <: BipartiteProbabilisticNetwork
 
   # Null model 1
   @test n1[1,1] ≈ 6.0 / 9.0
