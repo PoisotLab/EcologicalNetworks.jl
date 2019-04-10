@@ -54,11 +54,7 @@ of each species.
 """
 function null4(N::BinaryNetwork)
   A = N.A
-  n, m = size(A)
   Afiltered = sum(A, dims=1) .* sum(A, dims=2) ./ sum(A)^2
-  if typeof(N) <: AbstractBipartiteNetwork
-  return BipartiteProbabilisticNetwork(Afiltered)
-  else
-    return UnipartiteProbabilisticNetwork(Afiltered)
-  end
+  ReturnType = typeof(N) <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
+  return ReturnType(Afiltered, species_objects(N)...)
 end
