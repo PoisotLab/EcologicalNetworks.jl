@@ -23,6 +23,7 @@ makedocs(
             "Nestedness" => "properties/nestedness.md",
             "Motifs" => "properties/motifs.md",
             "Centrality and paths" => "properties/paths.md",
+            "Food webs" => "properties/foodwebs.md",
             "Overlap and similarity" => "properties/overlap.md",
             "Null models" => "properties/nullmodels.md",
             "Information theory" => "properties/information.md",
