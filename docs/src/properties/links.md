@@ -7,6 +7,8 @@ sum
 links
 connectance
 linkage_density
+generality
+vulnerability
 ```
 
 ## Degree

@@ -100,3 +100,80 @@ function degree_var(N::ProbabilisticNetwork; dims::Union{Nothing,Integer}=nothin
   end
   throw(ArgumentError("dims can only be 1 (out-degre) or 2 (in-degree) or `nothing` (both), you used $(dims)"))
 end
+
+"""
+    basal_intermediate_top(N::T) where {T <: DeterministicNetwork}}
+
+Counts the number of basal, intermediate, and top species in a unipartite
+network.
+"""
+function basal_intermediate_top(N::T) where {T <: DeterministicNetwork}
+    @assert !isdegenerate(N)
+    b = 0
+    i = 0
+    t = 0
+    d_in = degree(N; dims=2)
+    d_out = degree(N; dims=1)
+    for s in species(N)
+        if d_in[s] == 0
+            t = t + 1
+        elseif d_out[s] == 0
+            b = b + 1
+        else
+            i = i + 1
+        end
+    end
+    return (b, i, t)
+end
+
+"""
+    generality(N::T) where {T <: DeterministicNetwork}
+
+Average number of consumees per species. By default, this measures the
+*unscaled* version of Schoener. Using the keyword `scaled` can alternatively
+measure the *scaled* version of Williams & Martinez, in which the values are
+between 0 and 1, thereby allowing comparison between networks of different
+sizes.
+
+#### References
+
+Schoener, T.W., 1989. Food webs from the small to the large. Ecology 70,
+1559–1589.
+
+Williams, R., Martinez, N., 2000. Simple rules yield complex food webs. Nature
+404, 180–183.
+"""
+function generality(N::T; scaled::Bool=false) where {T <: DeterministicNetwork}
+  if !scaled
+    b, i, t = basal_intermediate_top(N)
+    return links(N)/(t+i)
+  else
+    return 1.0/(links(N)/richness(N))*sum(collect(values(degree(N; dims=1))))
+  end
+end
+
+"""
+    vulnerability(N::T) where {T <: DeterministicNetwork}
+
+Average number of consumers per species. By default, this measures the
+*unscaled* version of Schoener. Using the keyword `scaled` can alternatively
+measure the *scaled* version of Williams & Martinez, in which the values are
+between 0 and 1, thereby allowing comparison between networks of different
+sizes.
+
+#### References
+
+Schoener, T.W., 1989. Food webs from the small to the large. Ecology 70,
+1559–1589.
+
+Williams, R., Martinez, N., 2000. Simple rules yield complex food webs. Nature
+404, 180–183.
+"""
+function vulnerability(N::T; scaled::Bool=false) where {T <: DeterministicNetwork}
+  if !scaled
+    b, i, t = basal_intermediate_top(N)
+    return links(N)/(b+t)
+  else
+    return 1.0/(links(N)/richness(N))*sum(collect(values(degree(N; dims=2))))
+  end
+end

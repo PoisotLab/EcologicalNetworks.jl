@@ -5,7 +5,7 @@ Given a network `N`, `null1(N)` returns a network with the same dimensions, wher
 every interaction happens with a probability equal to the connectance of `N`.
 
 Note that this does not guarantee that the network is not degenerate, so the
-output of this analysis *should* be filtered using `is_degenerate`, or passed to
+output of this analysis *should* be filtered using `isdegenerate`, or passed to
 `simplify`. The output of this approach is *always* a probabilistic network of
 the same partiteness as the original network.
 
@@ -29,7 +29,7 @@ where every interaction happens with a probability equal to the out-degree
 successors.
 
 Note that this does not guarantee that the network is not degenerate, so the
-output of this analysis *should* be filtered using `is_degenerate`, or passed to
+output of this analysis *should* be filtered using `isdegenerate`, or passed to
 `simplify`. The output of this approach is *always* a probabilistic network of
 the same partiteness as the original network.
 
@@ -52,7 +52,7 @@ where every interaction happens with a probability equal to the in-degree
 possible predecessors.
 
 Note that this does not guarantee that the network is not degenerate, so the
-output of this analysis *should* be filtered using `is_degenerate`, or passed to
+output of this analysis *should* be filtered using `isdegenerate`, or passed to
 `simplify`. The output of this approach is *always* a probabilistic network of
 the same partiteness as the original network.
 
@@ -74,7 +74,7 @@ every interaction happens with a probability equal to the degree of each
 species.
 
 Note that this does not guarantee that the network is not degenerate, so the
-output of this analysis *should* be filtered using `is_degenerate`, or passed to
+output of this analysis *should* be filtered using `isdegenerate`, or passed to
 `simplify`. The output of this approach is *always* a probabilistic network of
 the same partiteness as the original network.
 

@@ -46,101 +46,105 @@ function __init__()
 end
 
 # General useful manipulations
-include(joinpath(".", "types/utilities.jl"))
-include(joinpath(".", "types/comparisons.jl"))
-include(joinpath(".", "types/iteration.jl"))
+include(joinpath(".", "types", "utilities.jl"))
+include(joinpath(".", "types", "comparisons.jl"))
+include(joinpath(".", "types", "iteration.jl"))
 export species, interactions, has_interaction, richness, nodiagonal, nodiagonal!
 
 # Degree
-include(joinpath(".", "links/degree.jl"))
-export degree, degree_var
+include(joinpath(".", "links", "degree.jl"))
+export degree, degree_var, generality, vulnerability
 
-include(joinpath(".", "links/specificity.jl"))
+include(joinpath(".", "links", "specificity.jl"))
 export specificity
 
-include(joinpath(".", "links/connectance.jl"))
+include(joinpath(".", "links", "connectance.jl"))
 export links, L, links_var, connectance, connectance_var,
    linkage_density, link_number
 
-include(joinpath(".", "links/degenerate.jl"))
+include(joinpath(".", "links", "degenerate.jl"))
 export isdegenerate, simplify, simplify!
    #, species_has_no_successors, species_has_no_predecessors,
    #species_is_free, free_species
 
 # Random networks and permutations
-include(joinpath(".", "rand/draws.jl"))
-include(joinpath(".", "rand/sample.jl"))
+include(joinpath(".", "rand", "draws.jl"))
+include(joinpath(".", "rand", "sample.jl"))
 export sample
-include(joinpath(".", "rand/shuffle.jl"))
-include(joinpath(".", "rand/null.jl"))
-include(joinpath(".", "rand/linfilter.jl"))
+include(joinpath(".", "rand", "shuffle.jl"))
+include(joinpath(".", "rand", "null.jl"))
+include(joinpath(".", "rand", "linfilter.jl"))
 export linearfilter, linearfilterzoo
 export null1, null2, null3out, null3in
 
 # Random networks from structural models
-include(joinpath(".", "structuralmodels/cascademodel.jl"))
+include(joinpath(".", "structuralmodels", "cascademodel.jl"))
 export cascademodel
-include(joinpath(".", "structuralmodels/mpnmodel.jl"))
+include(joinpath(".", "structuralmodels", "mpnmodel.jl"))
 export mpnmodel
-include(joinpath(".", "structuralmodels/nestedhierarchymodel.jl"))
+include(joinpath(".", "structuralmodels", "nestedhierarchymodel.jl"))
 export nestedhierarchymodel
-include(joinpath(".", "structuralmodels/nichemodel.jl"))
+include(joinpath(".", "structuralmodels", "nichemodel.jl"))
 export nichemodel
 
 # Nestedness
-include(joinpath(".", "community/nestedness.jl"))
+include(joinpath(".", "community", "nestedness.jl"))
 export η, nodf
 
 # Paths
-include(joinpath(".", "community/paths.jl"))
+include(joinpath(".", "community", "paths.jl"))
 export number_of_paths, shortest_path, bellman_ford, dijkstra
 
 # Centrality
-include(joinpath(".", "community/centrality.jl"))
+include(joinpath(".", "community", "centrality.jl"))
 export centrality_katz, centrality_closeness, centrality_degree
 
 # Motifs
-include(joinpath(".", "community/motifs.jl"))
+include(joinpath(".", "community", "motifs.jl"))
 export find_motif, expected_motif_count, unipartitemotifs
 
 # Overlap
-include(joinpath(".", "community/overlap.jl"))
+include(joinpath(".", "community", "overlap.jl"))
 export overlap
 export AJS, EAJS
 
 # Modularity
-include(joinpath(".", "modularity/utilities.jl"))
+include(joinpath(".", "modularity", "utilities.jl"))
 export Q, Qr
 
-include(joinpath(".", "modularity/labelpropagation.jl"))
+include(joinpath(".", "modularity", "labelpropagation.jl"))
 export lp, salp
 
-include(joinpath(".", "modularity/starters.jl"))
+include(joinpath(".", "modularity", "starters.jl"))
 export n_random_modules, each_species_its_module
 
-include(joinpath(".", "modularity/brim.jl"))
+include(joinpath(".", "modularity", "brim.jl"))
 export brim
 
-include(joinpath(".", "modularity/roles.jl"))
+include(joinpath(".", "modularity", "roles.jl"))
 export functional_cartography
 
 # Beta-diversity
-include(joinpath(".", "betadiversity/operations.jl"))
-include(joinpath(".", "betadiversity/partitions.jl"))
+include(joinpath(".", "betadiversity", "operations.jl"))
+include(joinpath(".", "betadiversity", "partitions.jl"))
 export βs, βos, βwn
 
-include(joinpath(".", "betadiversity/measures.jl"))
+include(joinpath(".", "betadiversity", "measures.jl"))
 export KGL01, KGL02, KGL03, KGL04, KGL05, KGL06, KGL07, KGL08, KGL09, KGL10,
    KGL11, KGL12, KGL13, KGL14, KGL15, KGL16, KGL17, KGL18, KGL19, KGL20, KGL21,
    KGL22, KGL23, KGL24
 
 # Food webs
-include(joinpath(".", "foodwebs/trophiclevels.jl"))
+include(joinpath(".", "foodwebs", "trophiclevels.jl"))
 export fractional_trophic_level, trophic_level
 
-include(joinpath(".", "information/entropy.jl"))
+# Information theory and entropy
+include(joinpath(".", "information", "entropy.jl"))
 export entropy, make_joint_distribution, mutual_information, conditional_entropy,
    variation_information, diff_entropy_uniform, information_decomposition,
    convert2effective, potential_information
+
+# Quantitative descriptors of food web matrices
+include(joinpath(".", "quantitative", "bersier2002.jl"))
 
 end
