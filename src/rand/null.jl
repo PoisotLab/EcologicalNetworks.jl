@@ -87,3 +87,17 @@ https://doi.org/10.1073/pnas.1633576100
 function null2(N::BinaryNetwork)
   return linearfilter(N; α=[0.0, 0.5, 0.5, 0.0])
 end
+
+
+"""
+    null4(N::BinaryNetwork)
+
+Given a matrix `A`, `null4(A)` returns a matrix with the same dimensions, where
+every interaction happens with a probability equal to the product of the degree
+of each species.
+"""
+function null4(N::BinaryNetwork)
+  Afiltered = sum(N, dims=1) .* sum(N, dims=2) ./ sum(N)^2
+  ReturnType = typeof(N) <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
+  return ReturnType(Afiltered, species_objects(N)...)
+end
