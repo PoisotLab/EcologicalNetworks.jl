@@ -1,9 +1,10 @@
 using Pkg
-using Documenter
 
 push!(LOAD_PATH,"../src/")
 
 Pkg.activate(".")
+Pkg.add("Documenter")
+using Documenter
 using EcologicalNetworks
 
 makedocs(
@@ -36,3 +37,5 @@ deploydocs(
     repo   = "github.com/PoisotLab/EcologicalNetworks.jl.git",
     devbranch = "develop"
 )
+
+Pkg.rm("Documenter")
