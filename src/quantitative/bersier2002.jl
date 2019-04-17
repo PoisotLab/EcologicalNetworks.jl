@@ -10,7 +10,7 @@ descriptors of food-web matrices. Ecology 83, 2394–2407.
 """
 function flow_diversity(N::T; dims::Integer=1) where {T <: UnipartiteQuantitativeNetwork}
     @assert dims ∈ [1,2]
-    odims = dims == 2 ? 1 : o
+    odims = dims == 2 ? 1 : 2
     @warn "UNTESTED"
     b = N.A ./ sum(N; dims=odims)
     for i in eachindex(b)
