@@ -3,7 +3,7 @@ using Pkg
 push!(LOAD_PATH,"../src/")
 
 Pkg.activate(".")
-Pkg.add("Documenter")
+
 using Documenter
 using EcologicalNetworks
 
@@ -38,4 +38,3 @@ deploydocs(
     devbranch = "develop"
 )
 
-Pkg.rm("Documenter")
