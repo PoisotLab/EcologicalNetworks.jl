@@ -18,5 +18,4 @@ module TestData
   @test ches["Input", "phytoplankton"] ≈ 522650.0000000
   @test ches["suspended particulate org", "sediment particulate orga"] ≈ 288606.4000000
 
-
 end
