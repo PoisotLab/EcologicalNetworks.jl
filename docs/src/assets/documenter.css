@@ -226,3 +226,7 @@ header hr {
         margin: 0px auto;
     }
 }
+
+.footer {
+    display: none;
+}
