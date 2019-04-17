@@ -15,6 +15,9 @@ module TestData
   end
 
   ches = chesapeake_bay()
+  @test typeof(ches) <: AbstractUnipartiteNetwork
+  @test typeof(ches) <: UnipartiteQuantitativeNetwork
+  @test eltype(ches) == (Float64, String)
   @test ches["Input", "phytoplankton"] ≈ 522650.0000000
   @test ches["suspended particulate org", "sediment particulate orga"] ≈ 288606.4000000
 
