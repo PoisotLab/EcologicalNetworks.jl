@@ -10,10 +10,21 @@ descriptors of food-web matrices. Ecology 83, 2394–2407.
 """
 function flow_diversity(N::T; dims::Integer=1) where {T <: UnipartiteQuantitativeNetwork}
     @assert dims ∈ [1,2]
+    odims = dims == 2 ? 1 : o
     @warn "UNTESTED"
-    b = N.A / sum(N; dims=dims)
-    bsum = sum(b; dims=dims)
-    return -sum(bsum .* log.(2.0, bsum))
+    b = N.A ./ sum(N; dims=odims)
+    for i in eachindex(b)
+        if isnan(b[i])
+            b[i] = zero(eltype(b))
+        end
+    end
+    info = b .* log.(2.0, b)
+    for i in eachindex(info)
+        if isnan(info[i])
+            info[i] = zero(eltype(info))
+        end
+    end
+    return Dict(zip(species(N), vec(abs.(sum(info; dims=odims)))))
 end
 
 """
