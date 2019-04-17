@@ -7,6 +7,7 @@
 
     --color-bg: #fcfcfc;
     --color-fg: #303030;
+    --color-accent: #1C9696;
 
     --font-mono: "Fira Mono";
     --font-body: "Fira Sans";
@@ -35,7 +36,7 @@ h1, h2, h3, h4, h5, h6, .nav-anchor {
 
 a, a:hover, a:visited {
     text-decoration: none;
-    color: #1C9696;
+    color: var(--color-accent);
 }
 
 nav.toc, article {
@@ -48,7 +49,7 @@ nav.toc {
     position: fixed;
     height: 100vh;
     top: 0;
-    left: -15em;
+    left: 0;
     transition-property: left;
     transition-duration: 0.3s;
     transition-timing-function: ease-out;
@@ -107,7 +108,6 @@ nav.toc ul, nav.toc li {
 
 article {
     max-width: var(--max-width);
-    margin: 0 auto;
 }
 
 section.docstring {
@@ -134,19 +134,11 @@ pre, code, kbd {
 }
 
 header {
-    width: 100vw;
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #1C9696;
-    color: var(--color-bg);
     font-family: var(--font-meta);
 }
 
 header a, header a:hover, header a:visited{
     font-weight: 500;
-    color: white !important;
 }
 
 header ul, header li {
@@ -159,9 +151,19 @@ header li {
     display: inline-block;
 }
 
+header li::before {
+    content: "›";
+    color: #777;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 header li:first-of-type::before {
     content: var(--package-name);
-    color: red;
+    color: black;
+    font-weight: 500;
+    padding-right: 1em;
+    padding-left: 0px;
 }
 
 header hr {
@@ -176,9 +178,51 @@ header hr {
     header nav {
         display: none;
     }
+    nav.toc {
+        left: -15em;
+    }
+    article {
+        margin-left: 0em !important;
+    }
+    header #topbar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        background-color: var(--color-bg);
+        z-index: 10;
+        box-shadow: 0px 0px 2px 0px #777;
+        padding: var(--int-padding);
+        font-size: 1.2em;
+    }
+    header #topbar a {
+        padding-left: 2em;
+    }
+    article {
+        margin-top: 4em;
+    }
+    .logo {
+        display: none;
+    }
 }
 
-#topbar {
-    display: inline;
-    float: right;
+@media screen and (min-width: 768px) {
+    header #topbar {
+        display: none;
+    }
+    header nav {
+        margin-bottom: 3em;
+    }
+}
+
+@media screen and (max-width: 75em) {
+    article {
+        margin-left: var(--toc-width);
+    }
+}
+
+@media screen and (min-width: 75em) {
+    article {
+        margin: 0px auto;
+    }
 }
