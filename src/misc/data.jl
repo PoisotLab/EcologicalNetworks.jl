@@ -43,3 +43,26 @@ function web_of_life()
   infos = [NamedTuple{tuple(names...)}(tuple(wol_infos[i,:]...)) for i in 2:size(wol_infos,1)]
   return infos
 end
+
+function pajek()
+  paj_file = joinpath("data", "pajek", "Chesapeake.paj")
+  paj_lines = readlines(paj_file)
+  filter!(line -> !startswith(line, "% "), paj_lines)
+
+  nodes = Dict{Any,Any}()
+  FLAG_vertices = false
+  FLAG_arcs = false
+  for this_line in paj_lines
+      if startswith(this_line, "*vertices ")
+          FLAG_vertices = true
+      end
+      if startswith(this_line, "*arcs ")
+          FLAG_vertices = false
+          FLAG_arcs = true
+      end
+      # TODO add an end to the arcs
+      # TODO read vertices
+      # TODO read arcs
+      # TODO create graph
+  end
+end
