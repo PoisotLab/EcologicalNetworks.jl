@@ -20,9 +20,9 @@ function null1(N::BinaryNetwork)
 end
 
 """
-    null3(N::BinaryNetwork)
+    null3(N::BinaryNetwork; dims::Integer=1)
 
-Given a network `N`, `null3in(N)` returns a matrix with the same dimensions,
+Given a network `N`, `null3(N)` returns a matrix with the same dimensions,
 where every interaction happens with a probability equal to the out-degree
 (`dims=1`) or to the in-degree (`dims=2`, number of predecessors) of each
 species, divided by the total number of possible predecessors/successors.
