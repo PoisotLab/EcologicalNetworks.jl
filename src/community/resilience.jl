@@ -3,23 +3,21 @@ Some functions from *Universal resilience patterns in complex networks*
 by Gao et al. (2016)
 =#
 
-using Statistics: mean, std
+using StatsBase: mean, std
 
-# TODO : AbstractUnipartiteNetwork as type
+s_in(N::AbstractUnipartiteNetwork) = sum(N.A, dims=2)
+s_out(N::AbstractUnipartiteNetwork) = sum(N.A, dims=1)'
+s_mean(N::AbstractUnipartiteNetwork) = sum(N.A) / size(N.A, 1)
 
-s_in(N::UnipartiteNetwork) = mean(N.A, dims=2)
-s_out(N::UnipartiteNetwork) = mean(N.A, dims=1)'
-s_mean(N::UnipartiteNetwork) = mean(N.A)
-
-σ_in(N::UnipartiteNetwork) = std(s_in(N))
-σ_out(N::UnipartiteNetwork) = std(s_out(N))
+σ_in(N::AbstractUnipartiteNetwork) = std(s_in(N), corrected=false)
+σ_out(N::AbstractUnipartiteNetwork) = std(s_out(N), corrected=false)
 
 # symmetry computed wrongly in paper?
-symmetry(N::UnipartiteNetwork) = -(mean(s_in(N) .* s_in(N)) - mean(s_in(N)) * mean(s_out(N))) / (σ_in(N) * σ_out(N))
-heterogenity(N::UnipartiteNetwork) = (σ_in(N) * σ_out(N)) / s_mean(N)
+symmetry(N::AbstractUnipartiteNetwork) = (mean(s_in(N) .* s_out(N)) - mean(s_in(N)) * mean(s_out(N))) / (σ_in(N) * σ_out(N))
+heterogenity(N::AbstractUnipartiteNetwork) = (σ_in(N) * σ_out(N)) / s_mean(N)
 
-βeff(N::UnipartiteNetwork) = mean(s_in(N) .* s_out(N)) / s_mean(N)
-resilience(N) = βeff(N)
+βeff(N::AbstractUnipartiteNetwork) = dot(s_in(N), s_out(N)) / sum(N.A)
+resilience(N::AbstractUnipartiteNetwork) = βeff(N)
 
 # check if  βeff = sum(A *s_in) / sum(A)
 # and βeff = <s> + HS
