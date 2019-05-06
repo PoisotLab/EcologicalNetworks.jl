@@ -26,7 +26,8 @@ makedocs(
             "Centrality and paths" => "properties/paths.md",
             "Overlap and similarity" => "properties/overlap.md",
             "Null models" => "properties/nullmodels.md",
-            "Beta-diversity" => "properties/betadiversity.md"
+            "Beta-diversity" => "properties/betadiversity.md",
+            "Resilience" => "properties/resilience.md"
         ]
     ]
 )
