@@ -1,7 +1,6 @@
 # Resilience
 
-Species interaction networks provide the interactions of the individual species.
-We provide the metrics proposed by Gao et al (2016) that summarize the global
+We provide the metrics proposed by Gao et al (2016) which summarize the global
 behaviour of complex unipartite networks. The dynamics of a system of N components
 (nodes/species) can follow the coupled nonlinear differential equation
 

@@ -49,7 +49,7 @@ network.
 Computes the symmetry between s^in and s^out (the in- and outgoing weighted
 degree of an unipartite network). This is computed as the Pearson correlation
 between the s^in and s^out. It is hence a value between -1 and 1, where high
-positive values indicate that species with many outgoing degrees also tend to have
+positive values indicate that species with many outgoing degrees tend to have
 many ingoing degrees and negative values mean the opposite. An undirected network
 is perfectly symmetric but, for example, a food web where predators are less likely
 to be prey would have a negative symmetry.
@@ -92,4 +92,20 @@ dynamics of the 'effective state' xeff of the system.
 """
 βeff(N::AbstractUnipartiteNetwork) = dot(s_in(N), s_out(N)) / sum(N.A)
 
+"""
+    resilience(N::AbstractUnipartiteNetwork)
+
+A resilience parameters described by Gao et al. (2016). It is a global parameters
+describing the dynamics of an unipartite network as an effective 1D equation of
+the form
+
+f(xeff) = F(xeff) + βeff G(xeff, xeff)
+
+i.e. describing a second-order term representing the effect of the network on the
+dynamics of the 'effective state' xeff of the system.
+
+> Goa, J., Barzael, B. and Barabási 2016. Universal resilience patterns in complex networks.
+> Nature 530(7590), 307-312. doi:10.1038/nature16948
+
+"""
 resilience(N::AbstractUnipartiteNetwork) = βeff(N)
