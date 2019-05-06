@@ -5,8 +5,6 @@ networks, using `julia`. It is *very* opinionated about the "right" way to do
 things, but we have documented our opinions in several publications (see the
 references at the bottom of this page).
 
-## Package philosophy
-
 The package is built around a typesystem for networks, which is intended to
 capture the different types of data and communities ecologists need to handle.
 This makes the package extensible, both by writing additional methods with a
@@ -28,7 +26,7 @@ done with `shuffle`. There is support for slicing of networks, as well as the
 entire operations on sets. A lot of methods from `Base` have been overloaded,
 and this *should* make the code easy to write and read.
 
-## Why should I use this package?
+### Why should I use this package?
 
 It offers a single interface to analyse almost all type of networks for ecology.
 It's somewhat fast (very specialized packages are likely to be faster). It's
@@ -73,18 +71,11 @@ you want to take the square root of a quantitative network, you can overload the
 ~~~ julia
 import Base: √
 
-function √(N::T) where {T <: BipartiteQuantitativeNetwork}
+function √(N::T) where {T <: QuantitativeNetwork}
   # Take the square root of the interaction strength
   sqrt_matrix = sqrt.(N.A)
   # Return a new network with the correct types
-  return BipartiteQuantitativeNetwork{eltype(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
-end
-
-function √(N::T) where {T <: UnipartiteQuantitativeNetwork}
-  # Take the square root of the interaction strength
-  sqrt_matrix = sqrt.(N.A)
-  # Return a new network with the correct types
-  return UnipartiteQuantitativeNetwork{eltype(sqrt_matrix),eltype(N)[2]}(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
+  return T(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
 end
 ~~~
 

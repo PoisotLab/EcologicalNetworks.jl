@@ -6,6 +6,10 @@ module TestConnectance
     # Generate some data
     N = BipartiteProbabilisticNetwork([0.0 0.1 0.0; 0.2 0.0 0.2; 0.4 0.5 0.0])
 
+    @test sum(N) ≈ sum(sum(N, dims=1)) ≈ sum(sum(N, dims=2))
+    @test sum(N, dims=1)[2] ≈ 0.6
+    @test sum(N, dims=2)[1] ≈ 0.1 
+
     @test links(N) ≈ 1.4
     @test links_var(N) ≈ 0.9
     @test connectance(N) ≈ 1.4 / 9.0

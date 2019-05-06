@@ -6,10 +6,10 @@ Return `UnipartiteNetwork` with links assigned according to minimum
 potential niche model for given number of `S`, connectivity `Co` and
 probability of `forbidden` link occurence.
 
-> Allesina, S., Alonso, D. and Pascual, M. (2008) ‘A General Model for Food Web
-> Structure’, Science, 320(5876), pp. 658–661. doi: 10.1126/science.1156269.
+#### References
 
-See also: `nichemodel`, `cascademodel`, `nestedhierarchymodel`
+Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
+Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
 function mpnmodel(S::Int64, Co::Float64, forbidden::Float64)
 
@@ -92,6 +92,11 @@ end
     mpnmodel(N::T) where {T<: UnipartiteNetwork}
 
 Applied to `UnipartiteNetwork` return its randomized version.
+
+#### References
+
+Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
+Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
 function mpnmodel(N::T) where {T<: UnipartiteNetwork}
 
@@ -114,6 +119,11 @@ end
 
 Parameters tuple can also be provided in the form (S::Int64, Co::Float64,
 forbidden::Float64).
+
+#### References
+
+Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
+Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
 function mpnmodel(parameters::Tuple)
     return mpnmodel(parameters[1], parameters[2],parameters[3])
@@ -125,6 +135,10 @@ end
 
 Average number of links can be specified instead of connectance.
 
+#### References
+
+Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
+Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
 function mpnmodel(S::Int64, L::Int64, forbidden::Float64)
 

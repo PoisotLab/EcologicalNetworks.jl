@@ -1,18 +1,18 @@
 using Pkg
-using Documenter
 
 push!(LOAD_PATH,"../src/")
 
 Pkg.activate(".")
+
+using Documenter
 using EcologicalNetworks
 
 makedocs(
-    sitename = "EcologicalNetworks.jl",
+    sitename = "EcologicalNetworks",
     authors = "Timothée Poisot",
     modules = [EcologicalNetworks],
     pages = [
         "Index" => "index.md",
-        "Contents" => "toc.md",
         "Interface" => [
             "Types" => "interface/types.md",
             "Conversions" => "interface/conversions.md",
@@ -28,6 +28,7 @@ makedocs(
             "Null models" => "properties/nullmodels.md",
             "Beta-diversity" => "properties/betadiversity.md",
             "Resilience" => "properties/resilience.md"
+            "Information theory" => "properties/information.md",
         ]
     ]
 )
@@ -37,3 +38,4 @@ deploydocs(
     repo   = "github.com/PoisotLab/EcologicalNetworks.jl.git",
     devbranch = "develop"
 )
+

@@ -4,11 +4,13 @@
 Return matrix of the type `UnipartiteNetwork` randomly assembled according to
 the cascade model for a given nuber of `S` and connectivity `Co`.
 
-> Cohen, J. E. and Newman, C. M. (1985) ‘A stochastic theory of community
-> food webs I. Models and aggregated data’, Proc. R. Soc. Lond. B, 224(1237),
-> pp. 421–448. doi: 10.1098/rspb.1985.0042.
-
 See also: `nichemodel`, `mpnmodel`, `nestedhierarchymodel`
+
+#### References
+
+Cohen, J.E., Newman, C.M., 1985. A stochastic theory of community food webs I.
+Models and aggregated data. Proceedings of the Royal Society of London. Series
+B. Biological Sciences 224, 421–448. https://doi.org/10.1098/rspb.1985.0042
 """
 function cascademodel(S::Int64, Co::Float64)
 
@@ -59,6 +61,12 @@ end
     cascademodel(N::T) where {T <: UnipartiteNetwork}
 
 Applied to a `UnipartiteNetwork` return its randomized version.
+
+#### References
+
+Cohen, J.E., Newman, C.M., 1985. A stochastic theory of community food webs I.
+Models and aggregated data. Proceedings of the Royal Society of London. Series
+B. Biological Sciences 224, 421–448. https://doi.org/10.1098/rspb.1985.0042
 """
 function cascademodel(N::T) where {T <: UnipartiteNetwork}
 
@@ -70,6 +78,12 @@ end
     cascademodel(S::Int64, L::Int64)
 
 Number of links can be specified instead of connectance.
+
+#### References
+
+Cohen, J.E., Newman, C.M., 1985. A stochastic theory of community food webs I.
+Models and aggregated data. Proceedings of the Royal Society of London. Series
+B. Biological Sciences 224, 421–448. https://doi.org/10.1098/rspb.1985.0042
 """
 function cascademodel(S::Int64, L::Int64)
     Co = (L/(S*S))
@@ -84,6 +98,11 @@ end
 Parameters tuple can also be provided in the form (S::Int64, Co::Float64)
 or (S::Int64, L::Int64).
 
+#### References
+
+Cohen, J.E., Newman, C.M., 1985. A stochastic theory of community food webs I.
+Models and aggregated data. Proceedings of the Royal Society of London. Series
+B. Biological Sciences 224, 421–448. https://doi.org/10.1098/rspb.1985.0042
 """
 function cascademodel(parameters::Tuple)
     return cascademodel(parameters[1], parameters[2])

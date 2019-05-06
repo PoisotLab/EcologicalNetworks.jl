@@ -47,12 +47,12 @@ function shortest_path(N::UnipartiteQuantitativeNetwork; nmax::Int64=50)
 end
 
 """
-    bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
+    bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K}
 
 Bellman-Ford algorithm to return the shortest / easiest paths from a source
 species. Refer to the `bellman_ford` global documentation for the output format.
 """
-function bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
+function bellman_ford(N::T, source::K) where {T <: DeterministicNetwork, K}
 
     source ∈ species(N) || throw(ArgumentError("Species $(source) is not part of the network"))
 
@@ -106,7 +106,7 @@ function bellman_ford(N::T) where {T <: DeterministicNetwork}
     return paths
 end
 
-function get_adj_list(N::T, species::Array{K,1}) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
+function get_adj_list(N::T, species::Array{K,1}) where {T <: DeterministicNetwork, K}
     adj_list = Dict{K,Array{Tuple{Float64,K}}}()
     for s in species
         adj_list[s] = []
@@ -165,12 +165,12 @@ end
 
 
 """
-    dijkstra(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
+    dijkstra(N::T, source::K) where {T <: DeterministicNetwork, K}
 
 Dijkstra's algorithm to return the shortest / easiest paths from a source
 species. Refer to the `bellman_ford` global documentation for the output format.
 """
-function dijkstra(N::T, source::K) where {T <: DeterministicNetwork, K <: AllowedSpeciesTypes}
+function dijkstra(N::T, source::K) where {T <: DeterministicNetwork, K}
 
     source ∈ species(N) || throw(ArgumentError("Species $(source) is not part of the network"))
 

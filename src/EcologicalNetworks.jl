@@ -10,6 +10,8 @@ using DelimitedFiles
 using LinearAlgebra
 using DataStructures
 
+using Requires
+
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
 
@@ -20,7 +22,7 @@ include(joinpath(".", "misc/init_tests.jl"))
 include(joinpath(".", "types/declarations.jl"))
 include(joinpath(".", "types/constructors.jl"))
 include(joinpath(".", "types/conversions.jl"))
-export AbstractEcologicalNetwork, AllowedSpeciesTypes,
+export AbstractEcologicalNetwork,
    # General types for all bipartite / unipartite
    AbstractBipartiteNetwork, AbstractUnipartiteNetwork,
    # Types
@@ -37,7 +39,11 @@ export web_of_life, nz_stream_foodweb
 
 # Mangal -- only exports `convert` methods
 #using Mangal
-#include(joinpath(".", "misc/mangal.jl"))
+function __init__()
+   @require Mangal="b8b640a6-63d9-51e6-b784-5033db27bef2" is_valid_species(::Mangal.MangalNode) = true
+   @require Mangal="b8b640a6-63d9-51e6-b784-5033db27bef2" is_valid_species(::Mangal.MangalReferenceTaxon) = true
+   @require GBIF="ee291a33-5a6c-5552-a3c8-0f29a1181037" is_valid_species(::GBIF.GBIFTaxon) = true
+end
 
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))
@@ -69,7 +75,7 @@ include(joinpath(".", "rand/shuffle.jl"))
 include(joinpath(".", "rand/null.jl"))
 include(joinpath(".", "rand/linfilter.jl"))
 export linearfilter, linearfilterzoo
-export null1, null2, null3out, null3in
+export null1, null2, null3out, null3in, null4
 
 # Random networks from structural models
 include(joinpath(".", "structuralmodels/cascademodel.jl"))
