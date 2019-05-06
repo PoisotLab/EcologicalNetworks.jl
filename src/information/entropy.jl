@@ -17,7 +17,7 @@ function make_joint_distribution(N::NT) where {NT<:AbstractEcologicalNetwork}
 end
 
 """
-   entropy(P::AbstractArray)
+    entropy(P::AbstractArray)
 
 Computes the joint entropy of a double stochastic matrix. Does not perform any
 checks whether the matrix is normalized. Output in bits.
@@ -27,7 +27,7 @@ function entropy(P::AbstractArray)
 end
 
 """
-   entropy(P::AbstractArray, dims::I)
+    entropy(P::AbstractArray, dims::I)
 
 Computes the marginal entropy of a double stochastic matrix. `dims` indicates
 whether to compute the entropy for the rows (`dims`=1) or columns (`dims`=2).
@@ -38,7 +38,7 @@ function entropy(P::AbstractArray, dims::I) where I <: Int
 end
 
 """
-   entropy(N::AbstractEcologicalNetwork)
+    entropy(N::AbstractEcologicalNetwork)
 
 Computes the joint entropy of an ecological network. Output in bits.
 """
@@ -48,7 +48,7 @@ function entropy(N::NT) where {NT<:AbstractEcologicalNetwork}
 end
 
 """
-   entropy(N::AbstractEcologicalNetwork, dims::I)
+    entropy(N::AbstractEcologicalNetwork, dims::I)
 
 Computes the marginal entropy of an ecological network. `dims` indicates
 whether to compute the entropy for the rows (`dims`=1) or columns (`dims`=2).
@@ -60,7 +60,7 @@ function entropy(N::NT, dims::I) where {NT<:AbstractEcologicalNetwork, I <: Int}
 end
 
 """
-   conditional_entropy(P::AbstractArray, given::I)
+    conditional_entropy(P::AbstractArray, given::I)
 
 Computes the conditional entropy of double stochastic matrix. If `given = 1`,
 it is the entropy of the columns, and visa versa when `given = 2`. Output in bits.
@@ -71,7 +71,7 @@ function conditional_entropy(P::AbstractArray, given::I) where I <: Int
 end
 
 """
-   conditional_entropy(N::AbstractEcologicalNetwork, given::I)
+    conditional_entropy(N::AbstractEcologicalNetwork, given::I)
 
 Computes the conditional entropy of an ecological network. If `given = 1`,
 it is the entropy of the columns, and visa versa when `given = 2`.
@@ -92,7 +92,7 @@ function mutual_information(P::AbstractArray)
 end
 
 """
-    mutual_information(P::AbstractArray)
+    mutual_information(N::NT) where {NT<:AbstractEcologicalNetwork}
 
 Computes the mutual information of an ecological network. Output in bits.
 """

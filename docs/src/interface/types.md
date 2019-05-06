@@ -71,11 +71,23 @@ All networks are grouped upon the `AbstractEcologicalNetwork` type:
 AbstractEcologicalNetwork
 ```
 
-All allowed types for nodes are part of the `AllowedSpeciesTypes` type:
+The type of nodes that are allowed is determined by the *non-exported*
+`EcologicalNetworks.is_valid_species` function. To allow an additional type of
+node, you can write the following:
 
-```@docs
-AllowedSpeciesTypes
-```
+~~~ julia
+
+struct Foo
+  name::AbstractString
+  bar::AbstractFloat
+end
+
+import EcologicalNetworks
+EcologicalNetworks.is_valid_species(::Type{Foo}) = true
+~~~
+
+Note that **integers are never valid species identifiers**. By default, `String`
+and `Symbol` are used.
 
 ### By partiteness
 

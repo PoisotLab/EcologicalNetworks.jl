@@ -16,12 +16,23 @@ function η_axis(N::AbstractBipartiteNetwork)
 end
 
 """
-    η(N::T, i::Int64) where {T <: Union{BipartiteNetwork, BipartiteProbaNetwork}}
+    η(N::T, dims::Union{Nothing,Integer}=nothing) where {T <: Union{BipartiteNetwork, BipartiteProbaNetwork}}
 
 Returns the nestedness of a margin of the network, using η. The second argument
 can be `1` (for nestedness of rows/top level) or `2` (for nestedness of
-columns/bottom level). This function will throw an `ArgumentError` if you use an
-invalid value for `i`.
+columns/bottom level). Leaving it at `nothing` will measure the nestedness of
+the entire network.
+
+#### References
+
+Bastolla, U., Fortuna, M.A., Pascual-García, A., Ferrera, A., Luque, B.,
+Bascompte, J., 2009. The architecture of mutualistic networks minimizes
+competition and increases biodiversity. Nature 458, 1018–1020.
+https://doi.org/10.1038/nature07950
+
+Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
+D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
+Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
 """
 function η(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{BipartiteNetwork, BipartiteProbabilisticNetwork}}
   dims == 1 && return η_axis(N)
@@ -98,11 +109,22 @@ function nodf_axis(N::BipartiteNetwork)
 end
 
 """
-    nodf(N::T, i::Int64) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
+    nodf(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
 
 Returns `nodf` for a margin of the network. The `i` argument can be 1 for
 top-level, 2 for bottom level, and the function will throw an `ArgumentError` if
 an invalid value is used. For quantitative networks, *WNODF* is used.
+
+#### References
+
+Almeida-Neto, M., Guimarães, P.R., Loyola, R.D., Ulrich, W., 2008. A consistent
+metric for nestedness analysis in ecological systems: reconciling concept and
+measurement. Oikos 117, 1227–1239.
+https://doi.org/10.1111/j.0030-1299.2008.16644.x
+
+Almeida-Neto, M., Ulrich, W., 2011. A straightforward computational approach for
+measuring nestedness using quantitative matrices. Environmental Modelling &
+Software 26, 173–178. https://doi.org/10.1016/j.envsoft.2010.08.003
 """
 function nodf(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{BipartiteNetwork,BipartiteQuantitativeNetwork}}
   if dims == 1
