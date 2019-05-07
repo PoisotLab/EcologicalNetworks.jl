@@ -21,8 +21,7 @@ distribution (or connectance) of the network.
 ```@docs
 null1
 null2
-null3in
-null3out
+null3
 ```
 
 ## Shuffle interactions
