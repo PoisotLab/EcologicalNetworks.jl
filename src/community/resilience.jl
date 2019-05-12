@@ -14,10 +14,10 @@ density of interactions.
 If dims is provided, the incoming (`dims=1`) or outgoing (`dims=2`) is computed.
 """
 function s(N::AbstractUnipartiteNetwork; dims::Union{Nothing,Integer}=nothing)
-    dims == 1 && return sum(N, dims=2)
-    dims == 2 && return sum(N, dims=1)'
+    dims == 1 && return sum(N.A, dims=2)
+    dims == 2 && return sum(N.A, dims=1)'
     if dims == nothing
-        return sum(N) / size(N)[1]
+        return sum(N.A) / size(N)[1]
     end
 end
 #=
@@ -43,7 +43,7 @@ s_out(N::AbstractUnipartiteNetwork) = sum(N.A, dims=1)'
 Computes the standard deviation of the ingoing weighted degree of an unipartite
 network.
 """
-σ_in(N::AbstractUnipartiteNetwork) = std(s_in(N), corrected=false)
+σ_in(N::AbstractUnipartiteNetwork) = std(s(N, dims=1), corrected=false)
 
 """
     σ_out(N::AbstractUnipartiteNetwork)
@@ -51,7 +51,7 @@ network.
 Computes the standard deviation of the outgoing weighted degree of an unipartite
 network.
 """
-σ_out(N::AbstractUnipartiteNetwork) = std(s_out(N), corrected=false)
+σ_out(N::AbstractUnipartiteNetwork) = std(s(N, dims=2), corrected=false)
 
 """
     symmetry(N::AbstractUnipartiteNetwork)
@@ -68,7 +68,7 @@ to be prey would have a negative symmetry.
 > Nature 530(7590), 307-312. doi:10.1038/nature16948
 
 """
-symmetry(N::AbstractUnipartiteNetwork) = (mean(s_in(N) .* s_out(N)) - mean(s_in(N)) * mean(s_out(N))) / (σ_in(N) * σ_out(N))
+symmetry(N::AbstractUnipartiteNetwork) = (mean(s(N, dims=1) .* s(N, dims=2)) - mean(s(N, dims=1)) * mean(s(N, dims=2))) / (σ_in(N) * σ_out(N))
 
 """
     heterogeneity(N::AbstractUnipartiteNetwork)
@@ -82,25 +82,7 @@ have the same (weighted) in- and outdegrees.
 > Nature 530(7590), 307-312. doi:10.1038/nature16948
 
 """
-heterogeneity(N::AbstractUnipartiteNetwork) = (σ_in(N) * σ_out(N)) / s_mean(N)
-
-"""
-    βeff(N::AbstractUnipartiteNetwork)
-
-A resilience parameters described by Gao et al. (2016). It is a global parameters
-describing the dynamics of an unipartite network as an effective 1D equation of
-the form
-
-f(xeff) = F(xeff) + βeff G(xeff, xeff)
-
-i.e. describing a second-order term representing the effect of the network on the
-dynamics of the 'effective state' xeff of the system.
-
-> Goa, J., Barzael, B. and Barabási 2016. Universal resilience patterns in complex networks.
-> Nature 530(7590), 307-312. doi:10.1038/nature16948
-
-"""
-βeff(N::AbstractUnipartiteNetwork) = dot(s_in(N), s_out(N)) / sum(N.A)
+heterogeneity(N::AbstractUnipartiteNetwork) = (σ_in(N) * σ_out(N)) / s(N)
 
 """
     resilience(N::AbstractUnipartiteNetwork)
@@ -118,4 +100,4 @@ dynamics of the 'effective state' xeff of the system.
 > Nature 530(7590), 307-312. doi:10.1038/nature16948
 
 """
-resilience(N::AbstractUnipartiteNetwork) = βeff(N)
+resilience(N::AbstractUnipartiteNetwork) = dot(s(N, dims=1), s(N, dims=2)) / sum(N)

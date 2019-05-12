@@ -110,7 +110,7 @@ export AJS, EAJS
 
 # Overlap
 include(joinpath(".", "community/resilience.jl"))
-export βeff, resilience
+export resilience
 export symmetry, heterogeneity
 export s
 export σ_in, σ_out

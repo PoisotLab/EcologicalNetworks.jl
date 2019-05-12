@@ -4,11 +4,11 @@ module TestResilience
     A = rand([0, 1, 0.5], 10, 10)
     N = UnipartiteQuantitativeNetwork(A)
 
-    @assert s_mean(N) ≈ sum(A) / 10
-    @assert s_in(N) ≈ sum(A, dims=2)
-    @assert s_out(N) ≈ sum(A, dims=1)'
+    @assert s(N) ≈ sum(A) / 10
+    @assert s(N, dims=1) ≈ sum(A, dims=2)
+    @assert s(N, dims=2) ≈ sum(A, dims=1)'
 
-    @assert βeff(N) ≈ s_mean(N) + symmetry(N) * heterogeneity(N)
+    @assert resilience(N) ≈ s(N) + symmetry(N) * heterogeneity(N)
 
     # species only interact with themselves
     Nid = UnipartiteNetwork([true false false false;

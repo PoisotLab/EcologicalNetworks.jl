@@ -40,13 +40,10 @@ with
 ## Available functions
 
 ```@docs
-s_in
-s_out
-s_mean
+s
 σ_in
 σ_out
 symmetry
 heterogeneity
-βeff
 resilience
 ```
