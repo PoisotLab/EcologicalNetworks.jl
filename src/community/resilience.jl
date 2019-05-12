@@ -3,10 +3,26 @@ Some functions from *Universal resilience patterns in complex networks*
 by Gao et al. (2016)
 =#
 
-using StatsBase: mean, std
+using Statistics: mean, std
 
 """
-    s_in(N::AbstractUnipartiteNetwork)
+    s(N::AbstractUnipartiteNetwork; dims::Union{Nothing,Integer}=nothing)
+
+Computes the average weighted degree. This is proportional to the (weighted)
+density of interactions.
+
+If dims is provided, the incoming (`dims=1`) or outgoing (`dims=2`) is computed.
+"""
+function s(N::AbstractUnipartiteNetwork; dims::Union{Nothing,Integer}=nothing)
+    dims == 1 && return sum(N, dims=2)
+    dims == 2 && return sum(N, dims=1)'
+    if dims == nothing
+        return sum(N) / size(N)[1]
+    end
+end
+#=
+"""
+    s(N::AbstractUnipartiteNetwork; dims)
 
 Computes the vector of incoming weighted degrees of an unipartite network.
 """
@@ -19,13 +35,7 @@ Computes the vector of outgoing weighted degrees of an unipartite network.
 """
 s_out(N::AbstractUnipartiteNetwork) = sum(N.A, dims=1)'
 
-"""
-    s_mean(N::AbstractUnipartiteNetwork)
-
-Computes the average weighted degree. This is proportional to the (weighted)
-density of interactions.
-"""
-s_mean(N::AbstractUnipartiteNetwork) = sum(N.A) / size(N.A, 1)
+=#
 
 """
     σ_in(N::AbstractUnipartiteNetwork)
@@ -61,9 +71,9 @@ to be prey would have a negative symmetry.
 symmetry(N::AbstractUnipartiteNetwork) = (mean(s_in(N) .* s_out(N)) - mean(s_in(N)) * mean(s_out(N))) / (σ_in(N) * σ_out(N))
 
 """
-    heterogenity(N::AbstractUnipartiteNetwork)
+    heterogeneity(N::AbstractUnipartiteNetwork)
 
-Computes the heterogenity for an unipartite network, a topological characteristic
+Computes the heterogeneity for an unipartite network, a topological characteristic
 which quantifies the difference in in- and outgoing degrees between species. It
 is computed as σ_in * σ_out / s_mean. A value of 0 indicates that all species
 have the same (weighted) in- and outdegrees.
@@ -72,7 +82,7 @@ have the same (weighted) in- and outdegrees.
 > Nature 530(7590), 307-312. doi:10.1038/nature16948
 
 """
-heterogenity(N::AbstractUnipartiteNetwork) = (σ_in(N) * σ_out(N)) / s_mean(N)
+heterogeneity(N::AbstractUnipartiteNetwork) = (σ_in(N) * σ_out(N)) / s_mean(N)
 
 """
     βeff(N::AbstractUnipartiteNetwork)

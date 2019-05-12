@@ -31,7 +31,7 @@ with
 
 - $$\langle s \rangle$$ the average weighted degree (computed using `s_mean`),
 - $$\mathcal{S}$$ the symmetry(computed using `symmetry`),
-- $$\mathcal{H}$$ the heterogenity (computed using `heterogenity`).
+- $$\mathcal{H}$$ the heterogeneity (computed using `heterogeneity`).
 
 
 > Goa, J., Barzael, B. and Barabási 2016. Universal resilience patterns in complex networks.
@@ -46,7 +46,7 @@ s_mean
 σ_in
 σ_out
 symmetry
-heterogenity
+heterogeneity
 βeff
 resilience
 ```

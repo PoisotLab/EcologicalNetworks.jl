@@ -8,7 +8,7 @@ module TestResilience
     @assert s_in(N) ≈ sum(A, dims=2)
     @assert s_out(N) ≈ sum(A, dims=1)'
 
-    @assert βeff(N) ≈ s_mean(N) + symmetry(N) * heterogenity(N)
+    @assert βeff(N) ≈ s_mean(N) + symmetry(N) * heterogeneity(N)
 
     # species only interact with themselves
     Nid = UnipartiteNetwork([true false false false;
@@ -16,7 +16,7 @@ module TestResilience
                               false false true false;
                               false false false true])
 
-    @assert heterogenity(Nid) ≈ 0.0
+    @assert heterogeneity(Nid) ≈ 0.0
     # @assert symmetry(Nid)   NAN
 
     # symetric network
@@ -25,7 +25,7 @@ module TestResilience
                                true false false false;
                                true false false false])
     @assert symmetry(Nsym) ≈ 1.0  # in- and out degree is same
-    @assert heterogenity(Nsym) ≈ 0.5
+    @assert heterogeneity(Nsym) ≈ 0.5
 
 
     # asymetric network
@@ -34,9 +34,9 @@ module TestResilience
                                false false false false;
                                false false false false])
     @assert symmetry(Nasym) ≈ -1.0  # in- and out degree is same
-    @assert heterogenity(Nasym) ≈ 0.75
+    @assert heterogeneity(Nasym) ≈ 0.75
 
     v = ones(10) / 10
     Nhomo = UnipartiteProbabilisticNetwork(v * v')
-    @assert isapprox(heterogenity(Nhomo), 0.0, atol=1e-10)
+    @assert isapprox(heterogeneity(Nhomo), 0.0, atol=1e-10)
 end
