@@ -4,13 +4,16 @@ push!(LOAD_PATH,"../src/")
 
 Pkg.activate(".")
 
+Pkg.add("EcologicalNetworksPlots") # IMPORTANT
+
 using Documenter
 using EcologicalNetworks
+using EcologicalNetworksPlots
 
 makedocs(
     sitename = "EcologicalNetworks",
     authors = "Timothée Poisot",
-    modules = [EcologicalNetworks],
+    modules = [EcologicalNetworks, EcologicalNetworksPlots],
     pages = [
         "Index" => "index.md",
         "Interface" => [
@@ -28,7 +31,8 @@ makedocs(
             "Null models" => "properties/nullmodels.md",
             "Information theory" => "properties/information.md",
             "Beta-diversity" => "properties/betadiversity.md"
-        ]
+        ],
+        "Plots" => "plots.md"
     ]
 )
 
@@ -38,3 +42,4 @@ deploydocs(
     devbranch = "develop"
 )
 
+Pkg.rm("EcologicalNetworksPlots") # IMPORTANT
