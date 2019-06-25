@@ -35,7 +35,7 @@ export AbstractEcologicalNetwork,
 
 # Datasets
 include(joinpath(".", "misc/data.jl"))
-export web_of_life, nz_stream_foodweb, chesapeake_bay
+export web_of_life, nz_stream_foodweb, pajek
 
 # Mangal -- only exports `convert` methods
 #using Mangal
@@ -107,6 +107,13 @@ export find_motif, expected_motif_count, unipartitemotifs
 include(joinpath(".", "community", "overlap.jl"))
 export overlap
 export AJS, EAJS
+
+# Overlap
+include(joinpath(".", "community/resilience.jl"))
+export resilience
+export symmetry, heterogeneity
+export s
+export σ_in, σ_out
 
 # Modularity
 include(joinpath(".", "modularity", "utilities.jl"))

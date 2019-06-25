@@ -27,8 +27,9 @@ makedocs(
             "Food webs" => "properties/foodwebs.md",
             "Overlap and similarity" => "properties/overlap.md",
             "Null models" => "properties/nullmodels.md",
+            "Beta-diversity" => "properties/betadiversity.md",
+            "Resilience" => "properties/resilience.md"
             "Information theory" => "properties/information.md",
-            "Beta-diversity" => "properties/betadiversity.md"
         ]
     ]
 )

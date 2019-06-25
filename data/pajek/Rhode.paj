@@ -1,0 +1,129 @@
+% Web 32 Rhode River Watershed - Water Budget 3/81 - 2/82; D. Correll Et Al.
+% from datall.zip from http://www.cbl.cees.edu/~ulan/ntwk/network.html
+% Water exchanges in the Rhode River Watershed, Anne Arundel County, Maryland USA.
+% Correll, D. (Unpublished manuscript) Smithsonian Institute, Chesapeake
+% Bay Center for Environmental Research, Edgewater, Maryland 21037-0028 USA.
+% transformed from SCOR format by Scor2net 15.7.2003
+*partition ECO types / Rhode
+*vertices 20
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+2
+3
+4
+5
+
+*network Rhode
+*vertices 20
+   1 "crop land"
+   2 "pasture land"
+   3 "upland forest"
+   4 "riparian forest adj. crop"
+   5 "riparian forest adj. past"
+   6 "riparian forest adj. upla"
+   7 "flooded swamp forest"
+   8 "herbaceous wetland"
+   9 "floodplain forest"
+  10 "main fork"
+  11 "low marsh adj. north fork"
+  12 "low marsh adj. main fork"
+  13 "north fork"
+  14 "muddy creek"
+  15 "mud flat"
+  16 "high marsh"
+  17 "low marsh adj. muddy cree"
+  18 "Input"
+  19 "Output"
+  20 "Respiration"
+*arcs
+  18   1  83170.0
+  18   2  20040.0
+  18   3   6630.0
+  18   4   5170.0
+  18   5   2800.0
+  18   6   4850.0
+  18   7     67.0
+  18   8     67.0
+  18   9    660.0
+  18  11     44.5
+  18  12     12.1
+  18  14     30.0
+  18  15  43850.0
+  18  16    391.0
+  18  17    172.0
+   1  19  44900.0
+   2  19   9120.0
+  15  19  44500.0
+   1   4  20500.0
+   2   5    460.0
+   3   6    540.0
+   4   7   3520.0
+   4  10     33.7
+   4  13   1080.0
+   4  15    179.0
+   5   7    282.0
+   5  13    378.0
+   5  15      1.0
+   6   7    269.0
+   6  10     17.6
+   6  13    413.0
+   6  14     83.8
+   6  15    130.0
+   7   8    630.0
+   7   9    100.0
+   7  10   2880.0
+   8  10    700.0
+   9  10     30.0
+  10   8    317.0
+  10  12    609.0
+  10  14   4000.0
+  11  13   2200.0
+  12  10    601.0
+  13  11   2230.0
+  13  14   2500.0
+  14  10    650.0
+  14  13    600.0
+  14  15   8000.0
+  14  17   8670.0
+  15  14   2800.0
+  15  16   8760.0
+  16  15   9600.0
+  17  14   8550.0
+
+*vector bio-masses / Rhode
+*vertices 20
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     1.0
+     0.0
+     0.0
+     0.0
+
