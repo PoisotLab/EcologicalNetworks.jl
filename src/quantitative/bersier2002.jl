@@ -40,6 +40,7 @@ descriptors of food-web matrices. Ecology 83, 2394–2407.
 function equivalent_degree(N::T; dims::Integer=1) where {T <: UnipartiteQuantitativeNetwork}
     @assert dims ∈ [1,2]
     @warn "UNTESTED"
+    odims = dims == 2 ? 1 : 2
     d = degree(N; dims=dims)
     f = flow_diversity(N; dims=dims)
     nxk = Dict([s => d[s] == 0 ? 0.0 : 2.0^f[s] for s in species(N)])
