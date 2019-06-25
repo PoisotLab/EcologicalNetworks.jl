@@ -39,7 +39,7 @@ makedocs(
 deploydocs(
     deps   = Deps.pip("pygments", "python-markdown-math"),
     repo   = "github.com/PoisotLab/EcologicalNetworks.jl.git",
-    devbranch = "develop"
+    devbranch = "master"
 )
 
 Pkg.rm("EcologicalNetworksPlots") # IMPORTANT
