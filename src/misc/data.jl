@@ -106,7 +106,7 @@ function pajek(file)
     filter!(f -> endswith(f, ".paj"), files)
     networks = Dict{Symbol,UnipartiteQuantitativeNetwork}()
     for f in files
-       fname = symbol(first(split(f, ".paj")))
+       fname = Symbol(first(split(f, ".paj")))
        fpath = joinpath(data_path, f)
        networks[fname] = pajek(fpath)
     end
