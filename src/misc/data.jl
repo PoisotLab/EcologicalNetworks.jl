@@ -44,25 +44,71 @@ function web_of_life()
   return infos
 end
 
-function pajek()
-  paj_file = joinpath("data", "pajek", "Chesapeake.paj")
-  paj_lines = readlines(paj_file)
-  filter!(line -> !startswith(line, "% "), paj_lines)
+function pajek(file)
+    pajek_lines = readlines(file)
+    filter!(line -> !startswith(line, "% "), pajek_lines)
+    FLAG_vertices = false
+    FLAG_arcs = false
+    FLAG_read = false
+    nodes = Dict{Any,Any}()
+    arcs = Any[]
+    for line in pajek_lines
+        if startswith(line, "*network ")
+            FLAG_read = true
+        end
+        if FLAG_read
+            # What are we reading?
+            if startswith(line, "*vertices ")
+                FLAG_vertices = true
+                FLAG_arcs = false
+                continue
+            end
+            if startswith(line, "*arcs ")
+                FLAG_vertices = false
+                FLAG_arcs = true
+                continue
+            end
+            # Reading the line
+            if FLAG_vertices
+                nodematch = match(r"\s+(\d+)\s+\"(.+)\"", line)
+                if typeof(nodematch) <: Nothing
+                    FLAG_vertices = false
+                    FLAG_arcs = true
+                    continue
+                else
+                    nodeid, nodename = nodematch.captures
+                    nodes[nodeid] = nodename
+                end
+            end
+            if FLAG_arcs
+                arcmatch = match(r"\s+(\d+)\s+(\d+)\s+(.+)\s?", line)
+                if typeof(arcmatch) <: Nothing
+                    continue
+                else
+                    nodefrom, nodeto, nodestrength = arcmatch.captures
+                    push!(arcs, (nodefrom, nodeto, nodestrength))
+                end
+            end
+        end
+    end
+    S = length(nodes)
+    A = zeros(Float64, (S, S))
+    U = UnipartiteQuantitativeNetwork(A, String.(collect(values(nodes))))
+    for arc in arcs
+        U[string(nodes[string(arc[1])]), string(nodes[string(arc[2])])] = parse(Float64, arc[3])
+    end
+    return U
+ end
 
-  nodes = Dict{Any,Any}()
-  FLAG_vertices = false
-  FLAG_arcs = false
-  for this_line in paj_lines
-      if startswith(this_line, "*vertices ")
-          FLAG_vertices = true
-      end
-      if startswith(this_line, "*arcs ")
-          FLAG_vertices = false
-          FLAG_arcs = true
-      end
-      # TODO add an end to the arcs
-      # TODO read vertices
-      # TODO read arcs
-      # TODO create graph
-  end
-end
+ function pajek()
+    data_path = joinpath(@__DIR__, "../..", "data", "pajek")
+    files = readdir(data_path)
+    filter!(f -> endswith(f, ".paj"), files)
+    networks = Dict{Symbol,UnipartiteQuantitativeNetwork}()
+    for f in files
+       fname = symbol(first(split(f, ".paj")))
+       fpath = joinpath(data_path, f)
+       networks[fname] = pajek(fpath)
+    end
+    return networks
+ end
