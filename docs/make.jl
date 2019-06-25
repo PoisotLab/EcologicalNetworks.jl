@@ -5,6 +5,7 @@ push!(LOAD_PATH,"../src/")
 Pkg.activate(".")
 
 Pkg.add("EcologicalNetworksPlots") # IMPORTANT
+Pkg.add("Plots") # IMPORTANT
 
 using Documenter
 using EcologicalNetworks
@@ -43,3 +44,4 @@ deploydocs(
 )
 
 Pkg.rm("EcologicalNetworksPlots") # IMPORTANT
+Pkg.rm("Plots") # IMPORTANT
