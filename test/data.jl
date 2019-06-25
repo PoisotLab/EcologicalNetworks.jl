@@ -14,6 +14,7 @@ module TestData
     @test typeof(n) <: AbstractUnipartiteNetwork
   end
 
-
+   p = pajek()
+   @test typeof(p[:Chesapeake]) <: UnipartiteQuantitativeNetwork
 
 end

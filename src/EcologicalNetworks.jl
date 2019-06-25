@@ -35,7 +35,7 @@ export AbstractEcologicalNetwork,
 
 # Datasets
 include(joinpath(".", "misc/data.jl"))
-export web_of_life, nz_stream_foodweb
+export web_of_life, nz_stream_foodweb, pajek
 
 # Mangal -- only exports `convert` methods
 #using Mangal

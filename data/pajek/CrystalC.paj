@@ -1,0 +1,215 @@
+% Web 1 Crystal River Creek (Control); Homer & Kemp Unpubl. Ms.; Mg/M2/Day
+% from datall.zip from http://www.cbl.cees.edu/~ulan/ntwk/network.html
+% Tidal Marsh Gut, Vicinity of Crystal River Nuclear Power
+% Plant, Crystal River, Florida, USA
+% Homer, M. and W.M. Kemp. Unpublished Ms. See also Ulanowicz, R.E.
+% 1986. Growth and Development: Ecosystems Phenomenology. Springer, New
+% York. pp 69-79.
+% transformed from SCOR format by Scor2net 15.7.2003
+*partition ECO types / CrystalC
+*vertices 24
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+2
+3
+4
+5
+
+*network CrystalC
+*vertices 24
+   1 "microphytes"
+   2 "macrophytes"
+   3 "zooplankton"
+   4 "benthic invertebrates"
+   5 "blacktip shark"
+   6 "stingray"
+   7 "striped anchovy"
+   8 "bay anchovy"
+   9 "needlefish"
+  10 "sheepshead killifish"
+  11 "goldspotted killifish"
+  12 "gulf killifish"
+  13 "longnosed killifish"
+  14 "silverside"
+  15 "moharra"
+  16 "silver jenny"
+  17 "sheepshead"
+  18 "pinfish"
+  19 "mullet"
+  20 "gulf flounder"
+  21 "detritus"
+  22 "Input"
+  23 "Output"
+  24 "Respiration"
+*arcs
+  22   2   6704.00
+  22   8      1.57
+  22   9      0.02
+  22  12      0.16
+  22  18      0.07
+   3  23     39.94
+   4  23    427.91
+   5  23      1.21
+   6  23      0.09
+   7  23      0.01
+   8  23      0.74
+   9  23      0.32
+  10  23      0.14
+  11  23      0.09
+  12  23      1.50
+  13  23      1.27
+  14  23      0.43
+  15  23      1.49
+  16  23      0.04
+  17  23      0.09
+  18  23      0.38
+  19  23      2.41
+  20  23      0.04
+  21  23    567.79
+   2  24   2322.00
+   3  24     31.30
+   4  24    981.60
+   5  24      0.80
+   6  24      0.46
+   7  24      0.11
+   8  24      0.73
+   9  24      0.89
+  10  24      0.54
+  11  24      0.89
+  12  24      3.70
+  13  24      2.87
+  14  24      7.23
+  15  24      2.94
+  16  24      0.06
+  17  24      0.12
+  18  24      1.16
+  19  24     11.15
+  20  24      0.05
+  21  24   2530.10
+   1  10      0.44
+   1  11      0.32
+   1  17      0.16
+   1  19      8.15
+   1  21    404.00
+   2  21   4163.00
+   3   7      0.09
+   3   8      0.64
+   3  11      0.22
+   3  14      5.86
+   3  15      3.20
+   3  16      0.05
+   3  21     73.20
+   4   7      0.01
+   4   8      1.00
+   4   9      0.12
+   4  10      0.15
+   4  11      0.61
+   4  12      2.68
+   4  13      5.28
+   4  14      8.59
+   4  15      2.30
+   4  16      0.06
+   4  17      0.16
+   4  18      0.53
+   4  21    686.90
+   5  21      0.50
+   6  21      0.15
+   7  21      0.03
+   8   9      0.63
+   8  12      0.50
+   8  18      0.74
+   8  20      0.02
+   8  21      0.22
+   9  18      0.02
+   9  21      0.32
+  10   6      0.03
+  10  12      0.01
+  10  18      0.01
+  10  21      0.65
+  11   6      0.01
+  11  12      0.09
+  11  18      0.10
+  11  21      0.68
+  12   6      0.07
+  12  21      1.32
+  13   9      0.05
+  13  12      0.03
+  13  21      1.06
+  14   6      0.51
+  14   9      0.62
+  14  12      2.67
+  14  18      0.56
+  14  20      0.02
+  14  21      3.38
+  15   9      0.02
+  15  12      0.37
+  15  18      0.01
+  15  20      0.04
+  15  21      1.53
+  16  21      0.03
+  17  21      0.11
+  18   9      0.06
+  18  20      0.03
+  18  21      0.41
+  19   5      2.51
+  19   6      0.08
+  19   9      0.03
+  19  12      0.08
+  19  21     16.29
+  20  21      0.02
+  21   3    109.80
+  21   4   2117.90
+  21   7      0.05
+  21   8      0.37
+  21  10      0.79
+  21  11      0.71
+  21  14      0.97
+  21  15      0.90
+  21  16      0.02
+  21  19     24.40
+
+*vector bio-masses / CrystalC
+*vertices 24
+   332.0
+446000.0
+   261.0
+ 14148.0
+   107.0
+    40.0
+     4.0
+    15.0
+    46.0
+    16.0
+    27.0
+   156.0
+   121.0
+   246.0
+    82.0
+     2.0
+    13.0
+    54.0
+   864.0
+     2.0
+695000.0
+     0.0
+     0.0
+     0.0
+
