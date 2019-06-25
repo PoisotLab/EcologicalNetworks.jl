@@ -108,6 +108,13 @@ include(joinpath(".", "community/overlap.jl"))
 export overlap
 export AJS, EAJS
 
+# Overlap
+include(joinpath(".", "community/resilience.jl"))
+export resilience
+export symmetry, heterogeneity
+export s
+export σ_in, σ_out
+
 # Modularity
 include(joinpath(".", "modularity/utilities.jl"))
 export Q, Qr
