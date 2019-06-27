@@ -52,6 +52,9 @@ Second, it helps to keep software dependency small. Most of our work using this
 package is done on clusters of one sort of the other, and having fewer
 dependencies means that installation is easier.
 
+`EcologicalNetworksPlots` can be installed as with any other Julia package. It
+is documented on this website.
+
 ### And worse, you forgot my favorite method!
 
 Yeah, about that. We probably didn't.
