@@ -16,10 +16,10 @@ uuid = "9e28174c-4ba2-5203-b857-d8d62c4213ee"
 version = "0.8.10"
 
 [[BinaryProvider]]
-deps = ["Libdl", "SHA"]
-git-tree-sha1 = "c7361ce8a2129f20b0e05a89f7070820cfed6648"
+deps = ["Libdl", "Logging", "SHA"]
+git-tree-sha1 = "8153fd64131cd00a79544bb23788877741f627bb"
 uuid = "b99e7846-7c00-51b0-8f62-c81ae34c0232"
-version = "0.5.4"
+version = "0.5.5"
 
 [[Combinatorics]]
 deps = ["LinearAlgebra", "Polynomials", "Test"]
@@ -34,10 +34,10 @@ uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
 version = "2.1.0"
 
 [[DataStructures]]
-deps = ["InteractiveUtils", "OrderedCollections", "Random", "Serialization", "Test"]
-git-tree-sha1 = "ca971f03e146cf144a9e2f2ce59674f5bf0e8038"
+deps = ["InteractiveUtils", "OrderedCollections"]
+git-tree-sha1 = "0809951a1774dc724da22d26e4289bbaab77809a"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.15.0"
+version = "0.17.0"
 
 [[Dates]]
 deps = ["Printf"]
@@ -53,9 +53,9 @@ uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[Distributions]]
 deps = ["LinearAlgebra", "PDMats", "Printf", "QuadGK", "Random", "SpecialFunctions", "Statistics", "StatsBase", "StatsFuns"]
-git-tree-sha1 = "4ae0ff1a3a556383f7b1b004f5fb964b26ac96c9"
+git-tree-sha1 = "56a158bc0abe4af5d4027af2275fde484261ca6d"
 uuid = "31c24e10-a181-5473-b8eb-7969acd0382f"
-version = "0.20.0"
+version = "0.19.2"
 
 [[InteractiveUtils]]
 deps = ["Markdown"]
@@ -114,10 +114,10 @@ deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[QuadGK]]
-deps = ["DataStructures", "LinearAlgebra"]
-git-tree-sha1 = "389fd27b958a33df5234772cc464b663b208273d"
+deps = ["DataStructures", "LinearAlgebra", "Test"]
+git-tree-sha1 = "3ce467a8e76c6030d4c3786e7d3a73442017cdc0"
 uuid = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
-version = "2.0.4"
+version = "2.0.3"
 
 [[REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets"]
@@ -174,9 +174,9 @@ uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [[StatsBase]]
 deps = ["DataStructures", "LinearAlgebra", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics"]
-git-tree-sha1 = "8a0f4b09c7426478ab677245ab2b0b68552143c7"
+git-tree-sha1 = "2b6ca97be7ddfad5d9f16a13fe277d29f3d11c23"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-version = "0.30.0"
+version = "0.31.0"
 
 [[StatsFuns]]
 deps = ["Rmath", "SpecialFunctions", "Test"]

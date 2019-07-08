@@ -107,6 +107,13 @@ N[1,1] = true
 N["s2", "s4"] = true
 @test links(N) == 2
 
+# Test `similar`
+N = UnipartiteNetwork(ones(Bool, (4,4)))
+W = similar(N)
+@test !W[1,1,]
+@test !W["s2", "s4"]
+@test links(W) == 0
+
 N = BipartiteNetwork(zeros(Bool, (4,4)))
 @test links(N) == 0
 N[1,1] = true

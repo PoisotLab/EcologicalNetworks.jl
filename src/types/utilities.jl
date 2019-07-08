@@ -1,4 +1,4 @@
-import Base: getindex, setindex!, permutedims, permutedims!, size, copy, !, show, +, inv
+import Base: getindex, setindex!, permutedims, permutedims!, size, copy, !, show, +, inv, similar
 
 is_valid_species(::Type{T}) where {T <: Any} = false
 
@@ -458,4 +458,15 @@ function +(n1::T, n2::T) where {T <: BipartiteQuantitativeNetwork}
     N[i2.from,i2.to] = N[i2.from,i2.to] + i2.strength
   end
   return N
+end
+
+"""
+    similar(N::T) where {T <: AbstractEcologicalNetwork}
+
+Returns a network with the same species, but an empty interaction matrix. This
+is useful if you want to generate a "blank slate" for some analyses.
+"""
+function similar(N::T) where {T <: AbstractEcologicalNetwork}
+   Y = zeros(first(eltype(N)), size(N))
+   return T(Y, species_objects(N)...)
 end
