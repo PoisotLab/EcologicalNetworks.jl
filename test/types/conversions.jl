@@ -11,6 +11,11 @@ M = convert(UnipartiteNetwork, N)
 @test has_interaction(M, :b, :B)
 @test !has_interaction(M, :A, :B)
 
+# Convert back to bipartite
+K = convert(BipartiteNetwork, M)
+@test has_interaction(M, :b, :B)
+@test !has_interaction(M, :A, :B)
+
 N = BipartiteQuantitativeNetwork([4 0 ; 2 1], [:a, :b], [:A, :B])
 M = convert(UnipartiteQuantitativeNetwork, N)
 @test has_interaction(M, :a, :A)

@@ -1,3 +1,7 @@
+Plotting functions are part of the `EcologicalNetworksPlot`, which requires
+`Plot` to work.
+
+
 ## Initial layouts
 
 ```@docs
