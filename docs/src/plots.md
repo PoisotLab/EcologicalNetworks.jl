@@ -1,3 +1,7 @@
+Plotting functions are part of the `EcologicalNetworksPlot`, which requires
+`Plot` to work.
+
+
 ## Initial layouts
 
 ```@docs
@@ -143,4 +147,12 @@ N = convert(AbstractUnipartiteNetwork, convert(BinaryNetwork, Umod))
 core3 = collect(keys(filter(p -> p.second ≥ 3, degree(N))))
 plot!(I, N[core3], lc=:red)
 scatter!(I, N[core3], mc=:red)
+```
+
+### Heatmaps
+
+
+```@example default
+Umod = web_of_life("M_PA_003")
+heatmap(Umod)
 ```

@@ -7,6 +7,9 @@ module TestCascadeModel
   @test richness(cascademodel(10, 0.1)) == 10
   @test richness(cascademodel(10, 0.2)) == 10
   @test richness(cascademodel(20, 0.1)) == 20
+  
+  @test richness(cascademodel((10, 0.1))) == 10
+  @test richness(cascademodel((10, 10))) == 10
 
   @test_throws ArgumentError cascademodel(10, 0.9)
   @test_throws ArgumentError cascademodel(10, 0.7)

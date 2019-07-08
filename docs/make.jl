@@ -1,11 +1,12 @@
 using Pkg
 
+tmp_packages = ["EcologicalNetworksPlots", "Plots"]
+
 push!(LOAD_PATH,"../src/")
 
 Pkg.activate(".")
 
-Pkg.add("EcologicalNetworksPlots") # IMPORTANT
-Pkg.add("Plots") # IMPORTANT
+Pkg.add.(tmp_packages) # IMPORTANT
 
 using Documenter
 using EcologicalNetworks
@@ -30,8 +31,9 @@ makedocs(
             "Centrality and paths" => "properties/paths.md",
             "Overlap and similarity" => "properties/overlap.md",
             "Null models" => "properties/nullmodels.md",
-            "Information theory" => "properties/information.md",
-            "Beta-diversity" => "properties/betadiversity.md"
+            "Beta-diversity" => "properties/betadiversity.md",
+            "Resilience" => "properties/resilience.md",
+            "Information theory" => "properties/information.md"
         ],
         "Plots" => "plots.md"
     ]
@@ -43,5 +45,4 @@ deploydocs(
     devbranch = "master"
 )
 
-Pkg.rm("EcologicalNetworksPlots") # IMPORTANT
-Pkg.rm("Plots") # IMPORTANT
+Pkg.rm.(tmp_packages) # IMPORTANT
