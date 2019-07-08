@@ -257,39 +257,39 @@ end
 TODO
 """
 function shuffle!(N::UnipartiteQuantitativeNetwork{Float64,K}; ε::Float64=1e-2, constraint::Symbol=:degree, lims=(0.0, Inf)) where {K}
-    constraint ∈ [:degree, :generality, :vulnerability, :fill] || throw(ArgumentError("The constraint argument you specificied ($(constraint)) is invalid -- see ?shuffle! for a list."))
-    first(lims) < last(lims) || throw(ArgumentError("The interval you used for limits, $(lims), is invalid"))
-    all(first(lims) .<= N.A .<= last(lims)) || throw(ArgumentError("The interval you used for limits, $(lims), is smaller than the range of network values"))
+   constraint ∈ [:degree, :generality, :vulnerability, :fill] || throw(ArgumentError("The constraint argument you specificied ($(constraint)) is invalid -- see ?shuffle! for a list."))
+   first(lims) < last(lims) || throw(ArgumentError("The interval you used for limits, $(lims), is invalid"))
+   all(first(lims) .<= N.A .<= last(lims)) || throw(ArgumentError("The interval you used for limits, $(lims), is smaller than the range of network values"))
 
-    # List of compatible swap schemes under different constraints
-    same_row = [[-1 1; -1 1], [-1 1; 0 0], [-1 1; 1 -1], [0 0; -1 1], [0 0; 1 -1], [1 -1; -1 1], [1 -1; 0 0], [1 -1; 1 -1],]
-    same_col = [[-1 -1; 1 1], [-1 0; 1 0], [-1 1; 1 -1], [0 -1; 0 1], [0 1; 0 -1], [1 -1; -1 1], [1 0; -1 0], [1 1; -1 -1],]
-    same_all = filter(x -> x ∈ same_row, same_col)
-    same_lnk = unique(vcat(same_row, same_col))
+   # List of compatible swap schemes under different constraints
+   same_row = [[-1 1; -1 1], [-1 1; 0 0], [-1 1; 1 -1], [0 0; -1 1], [0 0; 1 -1], [1 -1; -1 1], [1 -1; 0 0], [1 -1; 1 -1],]
+   same_col = [[-1 -1; 1 1], [-1 0; 1 0], [-1 1; 1 -1], [0 -1; 0 1], [0 1; 0 -1], [1 -1; -1 1], [1 0; -1 0], [1 1; -1 -1],]
+   same_all = filter(x -> x ∈ same_row, same_col)
+   same_lnk = unique(vcat(same_row, same_col))
 
-    # Pick the correcty matrix series
-    m = same_lnk
-    constraint == :degree && (m = same_all)
-    constraint == :vulnerability && (m = same_col)
-    constraint == :generality && (m = same_row)
-    m = m.*ε
+   # Pick the correcty matrix series
+   m = same_lnk
+   constraint == :degree && (m = same_all)
+   constraint == :vulnerability && (m = same_col)
+   constraint == :generality && (m = same_row)
+   m = m.*ε
 
-    permuted = false
-    while !permuted
-        s1 = rand(1:richness(N; dims=1), 2)
-        while !quanti_shuffle_valid(N.A, s1, s1)
-            s1 = rand(1:richness(N; dims=1), 2)
-        end
-        st1 = filter(a -> all(first(lims).<=a.<=last(lims)), [N[s1,s1] .+ x for x in m])
-        st2 = filter(a -> all((N[s1,s1].!=0).==(a.!=0)), st1)
-        if length(st2) > 0
-            permuted = true
-            k = rand(st2)
-            for i in 1:2, j in 1:2
-                N[s1[i],s1[j]] = k[i,j]
-            end
-        end
-    end
+   permuted = false
+   while !permuted
+      s1 = rand(1:richness(N; dims=1), 2)
+      while !quanti_shuffle_valid(N.A, s1, s1)
+         s1 = rand(1:richness(N; dims=1), 2)
+      end
+      st1 = filter(a -> all(first(lims).<=a.<=last(lims)), [N[s1,s1] .+ x for x in m])
+      st2 = filter(a -> all((N[s1,s1].!=0).==(a.!=0)), st1)
+      if length(st2) > 0
+         permuted = true
+         k = rand(st2)
+         for i in 1:2, j in 1:2
+            N[s1[i],s1[j]] = k[i,j]
+         end
+      end
+   end
 end
 
 """
@@ -299,7 +299,6 @@ Shuffle a quantitative network -- see shuffle!
 """
 function shuffle(N::T; kwargs...) where {T <: QuantitativeNetwork}
     Y = copy(N)
-    @info kwargs
     shuffle!(Y; kwargs...)
     return Y
 end
