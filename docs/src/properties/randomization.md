@@ -20,14 +20,23 @@ distribution (or connectance) of the network.
 
 ```@docs
 null1
+```
+
+```@docs
 null2
+```
+
+```@docs
 null3
+```
+
+```@docs
 null4
 ```
 
 ## Shuffle interactions
 
 ```@docs
-shuffle!
-shuffle
+Random.shuffle!
+Random.shuffle
 ```

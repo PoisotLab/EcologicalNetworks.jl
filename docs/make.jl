@@ -11,6 +11,7 @@ Pkg.add.(tmp_packages) # IMPORTANT
 using Documenter
 using EcologicalNetworks
 using EcologicalNetworksPlots
+using Random
 
 makedocs(
     sitename = "EcologicalNetworks",
