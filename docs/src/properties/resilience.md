@@ -4,34 +4,27 @@ We provide the metrics proposed by Gao et al (2016) which summarize the global
 behaviour of complex unipartite networks. The dynamics of a system of N components
 (nodes/species) can follow the coupled nonlinear differential equation
 
-$$
-\frac{\text{d}x_i}{\text{d}t} = F(x_i) + \sum_{j=1}^N A_{ij}G(x_i, x_j)
-$$
+$$\frac{\text{d}x_i}{\text{d}t} = F(x_i) + \sum_{j=1}^N A_{ij}G(x_i, x_j)$$
 
-where the adjacency matrix $$A$$ captures the interaction between the components.
+where the adjacency matrix $A$ captures the interaction between the
+components. This system can be described in 1-D using an effective term
 
-This system can be descibed in 1-D using an effective term
+$$\frac{\text{d}x_\text{eff}}{\text{d}t} = F(x_\text{eff}) + \beta_\text{eff}G(x_\text{eff}, x_\text{eff})$$
 
-$$
-\frac{\text{d}x_\text{eff}}{\text{d}t} = F(x_\text{eff}) + \beta_\text{eff}G(x_\text{eff}, x_\text{eff})
-$$
-
-with $$\beta_\text{eff}$$ a single resilience parameter which can capture
-the effect of perturbating the system (node/link removal, weight change...).
-This resience parameter can be computed from an `AbstractUnipartiteNetwork`
+with $\beta_\text{eff}$ a single resilience parameter which can capture
+the effect of perturbing the system (node/link removal, weight change...).
+This resilience parameter can be computed from an `AbstractUnipartiteNetwork`
 using the functions `βeff` or `resilience`.
 
 It can be shown that
 
-$$
-\beta_\text{eff} = \langle s \rangle + \mathcal{S}  \mathcal{H}\,,
-$$
+$$\beta_\text{eff} = \langle s \rangle + \mathcal{S}  \mathcal{H}\,,$$
 
 with
 
-- $$\langle s \rangle$$ the average weighted degree (computed using `s_mean`),
-- $$\mathcal{S}$$ the symmetry(computed using `symmetry`),
-- $$\mathcal{H}$$ the heterogeneity (computed using `heterogeneity`).
+- $\langle s \rangle$ the average weighted degree (computed using `s_mean`),
+- $\mathcal{S}$ the symmetry(computed using `symmetry`),
+- $\mathcal{H}$ the heterogeneity (computed using `heterogeneity`).
 
 
 > Goa, J., Barzael, B. and Barabási 2016. Universal resilience patterns in complex networks.
