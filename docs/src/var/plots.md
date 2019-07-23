@@ -1,6 +1,6 @@
 Plotting functions are part of the `EcologicalNetworksPlot`, which requires
-`Plot` to work.
-
+`Plot` to work. `EcologicalNetworksPlot` can be installed from the central
+*Julia* package repository.
 
 ## Initial layouts
 
