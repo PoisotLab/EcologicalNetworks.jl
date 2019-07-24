@@ -6,3 +6,12 @@ computer labs. In addition to serving as a syllabus and lecture notes,
 the goal of these pages is to expand on the documentation by providing
 a broad perspective, steeped in practice, on how to analyse networks of
 species interactions.
+
+## Topics
+
+### The basics of ecological networks analysis
+
+1. LSSL
+2. TODO
+
+### Active research topics in ecological networks analysis
