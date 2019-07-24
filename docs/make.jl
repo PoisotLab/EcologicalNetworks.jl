@@ -39,7 +39,10 @@ makedocs(
                   "Random networks" => [
                                         "Null models" => "random/null.md",
                                         "Structural models" => "random/structure.md"
-                                       ]                 
+                                       ],
+                  "Analysing ecological networks" => [
+                                                      "Introduction" => "lectures/index.md"
+                                                     ]
                  ]
         )
 
