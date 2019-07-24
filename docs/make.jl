@@ -41,7 +41,8 @@ makedocs(
                                         "Structural models" => "random/structure.md"
                                        ],
                   "Analysing ecological networks" => [
-                                                      "Introduction" => "lectures/index.md"
+                                                      "Introduction" => "lectures/index.md",
+                                                      "Counting things and drawing lines" => "lectures/links-species.md"
                                                      ]
                  ]
         )
