@@ -39,7 +39,7 @@ https://doi.org/10.1016/j.ecocom.2011.07.004
 Staniczenko, P.P.A., Kopp, J.C., Allesina, S., 2013. The ghost of nestedness in
 ecological networks. Nat Commun 4, 1391. https://doi.org/10.1038/ncomms2422
 """
-function ρ(N::T; range=EcologicalNetworks.ska) where {T <: AbstractUnipartiteNetwork}
+function ρ(N::T; range=EcologicalNetworks.ρ_ska) where {T <: AbstractUnipartiteNetwork}
     @assert minimum(N.A) ≥ zero(eltype(N.A))
     absolute_real_part = abs.(real.(eigvals(N.A)))
     range && return maximum(absolute_real_part)/norm(N.A)
