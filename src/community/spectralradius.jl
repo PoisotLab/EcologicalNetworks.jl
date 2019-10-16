@@ -42,8 +42,7 @@ ecological networks. Nat Commun 4, 1391. https://doi.org/10.1038/ncomms2422
 function ρ(N::T; range=EcologicalNetworks.ρ_ska) where {T <: AbstractUnipartiteNetwork}
     @assert minimum(N.A) ≥ zero(eltype(N.A))
     absolute_real_part = abs.(real.(eigvals(N.A)))
-    range && return maximum(absolute_real_part)/norm(N.A)
-    return maximum(absolute_real_part)
+    return range(N, absolute_real_part)
 end
 
 """
