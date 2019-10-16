@@ -1,13 +1,30 @@
-ρ_phillips(N::T, v::Float64) where {T <: AbstractUnipartiteNetwork}  = v/((2*links(N)*(richness(N)-1))/richness(N))^0.5
-ρ_ska(N::T, v::Float64) where {T <: AbstractUnipartiteNetwork} = v/sqrt(links(N))
-ρ_raw(N::T, v::Float64) where {T <: AbstractUnipartiteNetwork} = v
+"""
+    mirror(N::T) where {T <: UnipartiteNetwork}
+
+Returns a mirrored version of the adjacency matrix, required for spectral
+radius.
+"""
+function mirror(N::T) where {T <: UnipartiteNetwork}
+    M = copy(N)
+    for i in N
+        M[i.to, i.from] = true
+    end
+    return M
+end
+
+
+ρ_phillips(N::T, v::Float64) where {T <: UnipartiteNetwork}  = v/((links(N)*(richness(N)-1))/richness(N))^0.5
+ρ_ska(N::T, v::Float64) where {T <: UnipartiteNetwork} = v/sqrt(links(N))
+ρ_raw(N::T, v::Float64) where {T <: UnipartiteNetwork} = v
 
 """
-    ρ(N::T; range::Bool=true) where {T <: AbstractUnipartiteNetwork}
+    ρ(N::T; range::Bool=true) where {T <: UnipartiteNetwork}
 
 Returns the spectral radius (the absolute value of the largest real part of the
 eigenvalues of the adjacency matrix) of any unipartite network whose
-interactions are positive or null.
+interactions are positive or null. The spectral radius is measured on the
+mirrored version of the matrix, so that an interaction from i to j also implies
+an interaction from j to i.
 
 Note that the spectral radius has been suggested as a measure of nestedness by
 Staniczenko *et al.* (2013). Phillips (2011) uses it as a measure of the ability
@@ -39,19 +56,20 @@ https://doi.org/10.1016/j.ecocom.2011.07.004
 Staniczenko, P.P.A., Kopp, J.C., Allesina, S., 2013. The ghost of nestedness in
 ecological networks. Nat Commun 4, 1391. https://doi.org/10.1038/ncomms2422
 """
-function ρ(N::T; range=EcologicalNetworks.ρ_ska) where {T <: AbstractUnipartiteNetwork}
-    @assert minimum(N.A) ≥ zero(eltype(N.A))
-    absolute_real_part = abs.(real.(eigvals(N.A)))
-    return range(N, maximum(absolute_real_part))
+function ρ(N::T; range=EcologicalNetworks.ρ_ska) where {T <: UnipartiteNetwork}
+    M = mirror(N)
+    @assert minimum(M.A) ≥ zero(eltype(M.A))
+    absolute_real_part = abs.(real.(eigvals(M.A)))
+    return range(M, maximum(absolute_real_part))
 end
 
 """
-    ρ(N::T; varargs...) where {T <: AbstractBipartiteNetwork}
+    ρ(N::T; varargs...) where {T <: BipartiteNetwork}
 
 Bipartite version of the spectral radius. In practice, this casts the network
 into its unipartite representation, since the spectral radius only makes sense
 for square matrices.
 """
-function ρ(N::T; varargs...) where {T <: AbstractBipartiteNetwork}
-    return ρ(convert(AbstractUnipartiteNetwork, N); varargs...)
+function ρ(N::T; varargs...) where {T <: BipartiteNetwork}
+    return ρ(convert(UnipartiteNetwork, N); varargs...)
 end
