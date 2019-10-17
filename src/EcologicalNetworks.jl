@@ -37,8 +37,6 @@ export AbstractEcologicalNetwork,
 include(joinpath(".", "misc/data.jl"))
 export web_of_life, nz_stream_foodweb, pajek
 
-# Mangal -- only exports `convert` methods
-#using Mangal
 function __init__()
    @require Mangal="b8b640a6-63d9-51e6-b784-5033db27bef2" is_valid_species(::Mangal.MangalNode) = true
    @require Mangal="b8b640a6-63d9-51e6-b784-5033db27bef2" is_valid_species(::Mangal.MangalReferenceTaxon) = true
@@ -90,6 +88,10 @@ export nichemodel
 # Nestedness
 include(joinpath(".", "community/nestedness.jl"))
 export η, nodf
+
+# Spectral radius
+include(joinpath(".", "community/spectralradius.jl"))
+export ρ
 
 # Paths
 include(joinpath(".", "community/paths.jl"))
