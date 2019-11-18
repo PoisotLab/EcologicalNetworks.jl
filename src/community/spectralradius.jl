@@ -18,7 +18,7 @@ end
 ρ_raw(N::T, v::Float64) where {T <: UnipartiteNetwork} = v
 
 """
-    ρ(N::T; range::Bool=true) where {T <: UnipartiteNetwork}
+    ρ(N::T; range=EcologicalNetworks.ρ_ska) where {T <: UnipartiteNetwork}
 
 Returns the spectral radius (the absolute value of the largest real part of the
 eigenvalues of the adjacency matrix) of any unipartite network whose
@@ -57,6 +57,7 @@ Staniczenko, P.P.A., Kopp, J.C., Allesina, S., 2013. The ghost of nestedness in
 ecological networks. Nat Commun 4, 1391. https://doi.org/10.1038/ncomms2422
 """
 function ρ(N::T; range=EcologicalNetworks.ρ_ska) where {T <: UnipartiteNetwork}
+    links(N) == 0 && return NaN
     M = mirror(N)
     @assert minimum(M.A) ≥ zero(eltype(M.A))
     absolute_real_part = abs.(real.(eigvals(M.A)))
