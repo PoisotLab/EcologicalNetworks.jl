@@ -24,11 +24,23 @@ null2
 null3
 ```
 
+### Random Dot Product Graph model
+
+The interaction probability in a Random Dot Product Graphs model are given by the dot product of species representations in two metric spaces of a given dimension (one describing species as consumers, one as producers -- or predators and preys).
+
+```@docs
+RDPG
+```
+
+The Random Dot Product Graph spaces are computed via a truncated Singular Value Decomposition of the food web adjacency matrix.
+
+```@docs
+svd_truncated
+```
+
 ## Shuffle interactions
 
 ```@docs
 shuffle!
 shuffle
 ```
-
-

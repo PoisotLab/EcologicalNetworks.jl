@@ -74,6 +74,9 @@ include(joinpath(".", "rand/null.jl"))
 include(joinpath(".", "rand/linfilter.jl"))
 export linearfilter, linearfilterzoo
 export null1, null2, null3, null4
+include(joinpath(".", "rand/RDPG.jl"))
+include(joinpath(".", "rand/svd_truncated.jl"))
+export svd_truncated, RDPG
 
 # Random networks from structural models
 include(joinpath(".", "structuralmodels/cascademodel.jl"))
