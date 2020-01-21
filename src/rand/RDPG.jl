@@ -1,9 +1,8 @@
 """
     RDPG(N::BinaryNetwork; rank::Integer=3)
-Given a matrix `A`, `RDPG(A)` returns a matrix with the same dimensions, where
-every interaction happens with a probability equal to the dot product of species representation in their RDPG space of dimension `rank`.
+Given a binary network `N`, `RDPG(N)` returns a probabilistic network with the same number of species, where every interaction happens with a probability equal to the dot product of species representation in the network `N`'s RDPG space of rank `rank`.
 
-Because the elements `Â = Left * Right` are not granted to be bounded between 0 and 1, we truncate the entries in the `[0,1]` range. 
+Because the pairwise dot product obtained by the matrix multiplication of the two spaces `Left * Right` are not granted to be bounded between 0 and 1 (for numerical and theoric reasons), we bound the entries to be in the `[0,1]` range. 
 
 #### References
 

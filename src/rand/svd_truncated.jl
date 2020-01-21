@@ -2,7 +2,7 @@ import LinearAlgebra: svd, mul!, diagm
 
 """
     svd_truncated(N::BinaryNetwork; rank::Integer=3)
-Given a matrix `A` of dimension `n × m`, `svd_truncated(A)` returns two matrices, `Left` and `Right`, with with dimensions respectively `n × rank` and `m × rank`, corresponding to the species representation in their RDPG space of dimension `rank`.
+Given a binary network `N` which adjacency matrix `A` is of dimension `n × m`, `svd_truncated(A)` returns two matrices, `Left` and `Right`, with dimensions respectively `n × rank` and `rank × m`, corresponding to the species representation in the network `N`'s RDPG space of rank `rank`.
 
 The singular value decomposition is computed using `LinearAlgebra`'s `svd`, obtaining
 
