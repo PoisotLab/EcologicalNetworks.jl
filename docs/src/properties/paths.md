@@ -6,6 +6,7 @@
 number_of_paths
 shortest_path
 bellman_ford
+dijkstra
 ```
 
 ## Centrality measures

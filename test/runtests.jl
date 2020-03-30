@@ -26,6 +26,7 @@ my_tests = [
    "community/motifs.jl",
    "community/foodwebs.jl",
    "community/resilience.jl",
+   "community/spectralradius.jl",
    "betadiversity/operations.jl",
    "betadiversity/partitions.jl",
    "modularity/utilities.jl",
