@@ -1,12 +1,7 @@
-using Pkg
-
-tmp_packages = ["EcologicalNetworksPlots", "Plots", "Documenter"]
-
-push!(LOAD_PATH,"../src/")
-
+import Pkg
 Pkg.activate(".")
 
-Pkg.add.(tmp_packages) # IMPORTANT
+push!(LOAD_PATH,"../src/")
 
 using Documenter
 using EcologicalNetworks
@@ -22,8 +17,7 @@ makedocs(
                   "Interface" => [
                                   "Types" => "interface/types.md",
                                   "Conversions" => "interface/conversions.md",
-                                  "Core functions" => "interface/highlevel.md",
-                                  "Plotting" => "var/plots.md"
+                                  "Core functions" => "interface/highlevel.md"
                                  ],
                   "Network measures" => [
                                          "Links" => "properties/links.md",
@@ -39,14 +33,13 @@ makedocs(
                   "Random networks" => [
                                         "Null models" => "random/null.md",
                                         "Structural models" => "random/structure.md"
-                                       ]                 
+                                       ]
                  ]
         )
 
 deploydocs(
            deps   = Deps.pip("pygments", "python-markdown-math"),
            repo   = "github.com/PoisotLab/EcologicalNetworks.jl.git",
-           devbranch = "master"
+           devbranch = "master",
+           push_preview = true
           )
-
-Pkg.rm.(tmp_packages) # IMPORTANT
