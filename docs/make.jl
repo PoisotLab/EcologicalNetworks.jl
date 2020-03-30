@@ -7,7 +7,7 @@ using Random
 makedocs(
          sitename = "EcologicalNetworks",
          authors = "Timothée Poisot",
-         modules = [EcologicalNetworks, EcologicalNetworksPlots],
+         modules = [EcologicalNetworks],
          pages = [
                   "Index" => "index.md",
                   "Interface" => [
