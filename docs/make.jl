@@ -5,7 +5,6 @@ push!(LOAD_PATH,"../src/")
 
 using Documenter
 using EcologicalNetworks
-using EcologicalNetworksPlots
 using Random
 
 makedocs(
