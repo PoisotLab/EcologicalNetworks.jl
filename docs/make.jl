@@ -1,29 +1,19 @@
-using Pkg
-
-tmp_packages = ["EcologicalNetworksPlots", "Plots", "Documenter"]
-
 push!(LOAD_PATH,"../src/")
-
-Pkg.activate(".")
-
-Pkg.add.(tmp_packages) # IMPORTANT
 
 using Documenter
 using EcologicalNetworks
-using EcologicalNetworksPlots
 using Random
 
 makedocs(
          sitename = "EcologicalNetworks",
          authors = "Timothée Poisot",
-         modules = [EcologicalNetworks, EcologicalNetworksPlots],
+         modules = [EcologicalNetworks],
          pages = [
                   "Index" => "index.md",
                   "Interface" => [
                                   "Types" => "interface/types.md",
                                   "Conversions" => "interface/conversions.md",
-                                  "Core functions" => "interface/highlevel.md",
-                                  "Plotting" => "var/plots.md"
+                                  "Core functions" => "interface/highlevel.md"
                                  ],
                   "Network measures" => [
                                          "Links" => "properties/links.md",
@@ -39,14 +29,13 @@ makedocs(
                   "Random networks" => [
                                         "Null models" => "random/null.md",
                                         "Structural models" => "random/structure.md"
-                                       ]                 
+                                       ]
                  ]
         )
 
 deploydocs(
            deps   = Deps.pip("pygments", "python-markdown-math"),
            repo   = "github.com/PoisotLab/EcologicalNetworks.jl.git",
-           devbranch = "master"
+           devbranch = "master",
+           push_preview = true
           )
-
-Pkg.rm.(tmp_packages) # IMPORTANT

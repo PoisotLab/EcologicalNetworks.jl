@@ -52,10 +52,11 @@ speaking a tool for analysis, it is not part of this package.
 
 Second, it helps to keep software dependency small. Most of our work using this
 package is done on clusters of one sort of the other, and having fewer
-dependencies means that installation is easier.
+dependencies means that installation is easier. `EcologicalNetworksPlots` can be
+installed like any other Julia package. It is also documented on [its own
+website][ENP].
 
-`EcologicalNetworksPlots` can be installed as with any other Julia package. It
-is also documented on this website.
+[ENP]: https://poisotlab.github.io/EcologicalNetworksPlots.jl/stable/
 
 ### And worse, you forgot my favorite method!
 

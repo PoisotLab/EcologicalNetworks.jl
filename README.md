@@ -39,12 +39,14 @@ That's it. Now head over to the
 
 ### On `master`
 
-[![Build Status](https://travis-ci.org/PoisotLab/EcologicalNetworks.jl.svg?branch=master)](https://travis-ci.org/PoisotLab/EcologicalNetworks.jl)
-[![Coverage Status](https://coveralls.io/repos/PoisotLab/EcologicalNetworks.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/PoisotLab/EcologicalNetworks.jl?branch=master)
+![CI](https://github.com/PoisotLab/EcologicalNetworks.jl/workflows/CI/badge.svg?branch=master)
+![CI](https://github.com/PoisotLab/EcologicalNetworks.jl/workflows/TagBot/badge.svg?branch=master)
+![CI](https://github.com/PoisotLab/EcologicalNetworks.jl/workflows/CompatHelper/badge.svg?branch=master)
 [![codecov.io](http://codecov.io/github/PoisotLab/EcologicalNetworks.jl/coverage.svg?branch=master)](http://codecov.io/github/PoisotLab/EcologicalNetworks.jl?branch=master)
 
 ### On `develop`
 
-[![Build Status](https://travis-ci.org/PoisotLab/EcologicalNetworks.jl.svg?branch=develop)](https://travis-ci.org/PoisotLab/EcologicalNetworks.jl)
-[![Coverage Status](https://coveralls.io/repos/github/PoisotLab/EcologicalNetworks.jl/badge.svg?branch=develop)](https://coveralls.io/github/PoisotLab/EcologicalNetworks.jl?branch=develop)
+![CI](https://github.com/PoisotLab/EcologicalNetworks.jl/workflows/CI/badge.svg?branch=develop)
+![CI](https://github.com/PoisotLab/EcologicalNetworks.jl/workflows/TagBot/badge.svg?branch=develop)
+![CI](https://github.com/PoisotLab/EcologicalNetworks.jl/workflows/CompatHelper/badge.svg?branch=develop)
 [![codecov.io](http://codecov.io/github/PoisotLab/EcologicalNetworks.jl/coverage.svg?branch=develop)](http://codecov.io/github/PoisotLab/EcologicalNetworks.jl?branch=develop)

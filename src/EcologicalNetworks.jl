@@ -38,9 +38,16 @@ include(joinpath(".", "misc/data.jl"))
 export web_of_life, nz_stream_foodweb, pajek
 
 function __init__()
-   @require Mangal="b8b640a6-63d9-51e6-b784-5033db27bef2" is_valid_species(::Mangal.MangalNode) = true
-   @require Mangal="b8b640a6-63d9-51e6-b784-5033db27bef2" is_valid_species(::Mangal.MangalReferenceTaxon) = true
-   @require GBIF="ee291a33-5a6c-5552-a3c8-0f29a1181037" is_valid_species(::GBIF.GBIFTaxon) = true
+   @require Mangal="b8b640a6-63d9-51e6-b784-5033db27bef2" begin
+      function check_species_validity(::Mangal.MangalReferenceTaxon)
+      end
+      function check_species_validity(::Mangal.MangalNode)
+      end
+   end
+   @require GBIF="ee291a33-5a6c-5552-a3c8-0f29a1181037" begin
+      function check_species_validity(::GBIF.GBIFTaxon)
+      end
+   end
 end
 
 # General useful manipulations
@@ -149,6 +156,9 @@ export KGL01, KGL02, KGL03, KGL04, KGL05, KGL06, KGL07, KGL08, KGL09, KGL10,
 # Food webs
 include(joinpath(".", "foodwebs/trophiclevels.jl"))
 export fractional_trophic_level, trophic_level
+
+include(joinpath(".", "foodwebs/omnivory.jl"))
+export omnivory
 
 include(joinpath(".", "information/entropy.jl"))
 export entropy, make_joint_distribution, mutual_information, conditional_entropy,
