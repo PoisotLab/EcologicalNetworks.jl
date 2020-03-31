@@ -1,15 +1,16 @@
 # EcologicalNetworks
 
 This package provides a common interface for the analysis of ecological
-networks, using `julia`. It is *very* opinionated about the "right" way to do
-things, but we have documented our opinions in several publications (see the
-references at the bottom of this page).
+networks, using `julia`. It is *very* opinionated about the "right" way
+to do things, but we have documented our opinions in several publications
+(see the references at the bottom of this page, and in the documentation of
+all functions).
 
-The package is built around a typesystem for networks, which is intended to
+The package is built around a type system for networks, which is intended to
 capture the different types of data and communities ecologists need to handle.
-This makes the package extensible, both by writing additional methods with a
-very fine-tuned dispatch, or by adding additional types that should work out of
-the box (or be very close to).
+This makes the package extensible, both by writing additional methods with
+a very fine-tuned dispatch, or by adding additional types that should work
+out of the box (or be very close to).
 
 This package is a *library* for the analysis of ecological networks. On purpose,
 we do not provide "wrapper"-type functions that would perform an entire
@@ -21,10 +22,11 @@ and it's your job to build the kick-ass spaceship.
 We tried to avoid making the package into yet another Domain Specific Language.
 This means that when an operation should be expressed using the julian syntax,
 we made it this way. Transforming networks from a type to another is done with
-`convert`. Random networks are drawn with `rand`. Swapping of interactions is
-done with `shuffle`. There is support for slicing of networks, as well as the
-entire operations on sets. A lot of methods from `Base` have been overloaded,
-and this *should* make the code easy to write and read.
+`convert`. Random networks are drawn with `rand`. Swapping of interactions
+is done with `shuffle`. There is support for slicing of networks, as well
+as the entire operations on sets. A lot of methods from `Base` have been
+overloaded, and this *should* make the code easy to write and read, since
+it looks almost exactly like any other *Julia* code on arrays.
 
 ### Why should I use this package?
 
@@ -50,7 +52,11 @@ speaking a tool for analysis, it is not part of this package.
 
 Second, it helps to keep software dependency small. Most of our work using this
 package is done on clusters of one sort of the other, and having fewer
-dependencies means that installation is easier.
+dependencies means that installation is easier. `EcologicalNetworksPlots` can be
+installed like any other Julia package. It is also documented on [its own
+website][ENP].
+
+[ENP]: https://poisotlab.github.io/EcologicalNetworksPlots.jl/stable/
 
 ### And worse, you forgot my favorite method!
 
@@ -72,10 +78,11 @@ you want to take the square root of a quantitative network, you can overload the
 import Base: √
 
 function √(N::T) where {T <: QuantitativeNetwork}
-  # Take the square root of the interaction strength
-  sqrt_matrix = sqrt.(N.A)
-  # Return a new network with the correct types
-  return T(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
+   @assert all(N.A .> zero(eltype(N.A)))
+   # Take the square root of the interaction strength
+   sqrt_matrix = sqrt.(N.A)
+   # Return a new network with the correct types
+   return T(sqrt_matrix, EcologicalNetworks.species_objects(N)...)
 end
 ~~~
 
@@ -97,56 +104,18 @@ Networks of Species Interactions ». Biological Reviews (2018), 112540.
 https://doi.org/10.1111/brv.12433.
 
 
-We highly recommend we keep it nearby when using the package. A lot of decisions
-taken during development are grounded in the analysis of the literature we
-conducted over a few years.
-
-### Network β-diversity
-
-The analysis of network dissimilarity is done exactly as described in:
-
-Poisot, Timothée, Elsa Canard, David Mouillot, Nicolas Mouquet, and Dominique
-Gravel. “The Dissimilarity of Species Interaction Networks.” Ecology Letters 15,
-no. 12 (2012): 1353–1361. https://doi.org/10.1111/ele.12002.
-
-The measures for β-diversity (and the approach of partitioning variation in
-sets) is done exactly as described in:
-
-Koleff, Patricia, Kevin J. Gaston, and Jack J. Lennon. “Measuring Beta
-Diversity for Presence–absence Data.” Journal of Animal Ecology 72, no. 3
-(2003): 367–82. https://doi.org/10.1046/j.1365-2656.2003.00710.x.
-
-The functions presented in their table are implemented as `KGLXX`, where `XX` is
-the number of the function on two digits (*i.e.* the second measure of
-β-diversity is `KGL02`).
-
-### Specificity
-
-Poisot, Timothee, Elsa Canard, Nicolas Mouquet, and Michael E Hochberg. “A
-Comparative Study of Ecological Specialization Estimators.” Methods in Ecology
-and Evolution 3, no. 3 (2012): 537–44.
-https://doi.org/10.1111/j.2041-210X.2011.00174.x.
-
-### Probabilistic networks
-
-Poisot, Timothée, Alyssa R. Cirtwill, Kévin Cazelles, Dominique Gravel,
-Marie-Josée Fortin, and Daniel B. Stouffer. “The Structure of Probabilistic
-Networks.” Methods in Ecology and Evolution 7, no. 3 (2016): 303–12.
-https://doi.org/10.1111/2041-210X.12468.
-
-### Overlap and complementarity
-
-Gao, Peng, et John A. Kupfer. « Uncovering food web structure using a novel
-trophic similarity measure ». Ecological Informatics 30 (2015): 110‑18.
-https://doi.org/10.1016/j.ecoinf.2015.09.013.
+We highly recommend we keep it nearby when using the package. A lot of
+decisions taken during development are grounded in the analysis of the
+literature we conducted over a few years. Anything else is now documented
+in the functions themselves.
 
 ## How can I contribute?
 
 Good question!
 
 The easiest way to contribute is to use the package, and [open an issue][issue]
-whenever you can't manage to do something, think the syntax is not clear, or the
-documentation is confusing. This is seriously one of the best ways to help.
+whenever you can't manage to do something, think the syntax is not clear, or
+the documentation is confusing. This is in fact one of the best ways to help.
 
 [issue]: https://github.com/PoisotLab/EcologicalNetworks.jl/issues
 

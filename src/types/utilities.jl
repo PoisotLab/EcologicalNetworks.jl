@@ -1,8 +1,11 @@
-import Base: getindex, setindex!, permutedims, permutedims!, size, copy, !, show, +
+import Base: getindex, setindex!, permutedims, permutedims!, size, copy, !, show, +, inv, similar
 
-is_valid_species(::Type{T}) where {T <: Any} = false
+function check_species_validity(::Type{T}) where {T <: Any}
+  throw(ArgumentError("The type $(T) is not an allowed species type"))
+end
 
-is_valid_species(::Type{T}) where {T <: Union{Symbol,String}} = true
+function check_species_validity(::Type{T}) where {T <: Union{Symbol,String}}
+end
 
 """
     show(io::IO, N::AbstractEcologicalNetwork)
@@ -70,7 +73,7 @@ for the presence of an interaction.
 Use `N[i,j]` if you need to get the value of the interaction.
 """
 function has_interaction(N::AbstractEcologicalNetwork, i::NT, j::NT) where {NT}
-  @assert is_valid_species(NT)
+  check_species_validity(NT)
   @assert i ∈ species(N; dims=1)
   @assert j ∈ species(N; dims=2)
   i_pos = something(findfirst(isequal(i), species(N; dims=1)),0)
@@ -299,16 +302,27 @@ end
 
 TODO
 """
+function getindex(N::AbstractBipartiteNetwork, sp1::Vector{T}, sp2::Vector{T}) where {T <: Integer}
+   @assert all(sp1 .<= richness(N; dims=1))
+   @assert all(sp2 .<= richness(N; dims=2))
+   n_t = N.T[sp1]
+   n_b = N.B[sp2]
+   n_int = N.A[sp1,sp2]
+   return typeof(N)(n_int, n_t, n_b)
+end
+
+"""
+    getindex{T}(N::AbstractBipartiteNetwork, sp1::Array{T}, sp2::Array{T})
+
+TODO
+"""
 function getindex(N::AbstractBipartiteNetwork, sp1::Vector{T}, sp2::Vector{T}) where {T}
   @assert T == last(eltype(N))
   @assert all(map(x -> x ∈ species(N; dims=1), sp1))
   @assert all(map(x -> x ∈ species(N; dims=2), sp2))
   sp1_pos = findall((in)(sp1), species(N; dims=1))
   sp2_pos = findall((in)(sp2), species(N; dims=2))
-  n_t = N.T[sp1_pos]
-  n_b = N.B[sp2_pos]
-  n_int = N.A[sp1_pos,sp2_pos]
-  return typeof(N)(n_int, n_t, n_b)
+  return N[sp1_pos, sp2_pos]
 end
 
 """
@@ -358,6 +372,37 @@ function permutedims(N::AbstractEcologicalNetwork)
   NA = permutedims(N.A)
   new_sp = typeof(N) <: AbstractBipartiteNetwork ? (N.B, N.T) : (N.S,)
   return typeof(N)(NA, new_sp...)
+end
+
+"""
+    inv(N::AbstractUnipartiteNetwork)
+
+Inverses interactions in a network. Note that this is *not* the same as
+changing the side of species (`permutedims`); this function is mostly useful
+when the fluxes of biomass are represented as going from the resource to
+the consumer, which is the opposite direction of the interaction.
+"""
+function inv(N::AbstractUnipartiteNetwork)
+   Y = copy(N)
+   inv!(Y)
+   return Y
+end
+
+"""
+    inv!(N::AbstractUnipartiteNetwork)
+
+Inverses interactions in a network. Note that this is *not* the same as
+changing the side of species (`permutedims`); this function is mostly useful
+when the fluxes of biomass are represented as going from the resource to the
+consumer, which is the opposite direction of the interaction. This functions
+modifies the network.
+"""
+function inv!(N::AbstractUnipartiteNetwork)
+   for i in 1:(richness(N)-1)
+      for j in (i+1):richness(N)
+         N.A[i,j] = N.A[j,i]
+      end
+   end
 end
 
 """
@@ -416,4 +461,15 @@ function +(n1::T, n2::T) where {T <: BipartiteQuantitativeNetwork}
     N[i2.from,i2.to] = N[i2.from,i2.to] + i2.strength
   end
   return N
+end
+
+"""
+    similar(N::T) where {T <: AbstractEcologicalNetwork}
+
+Returns a network with the same species, but an empty interaction matrix. This
+is useful if you want to generate a "blank slate" for some analyses.
+"""
+function similar(N::T) where {T <: AbstractEcologicalNetwork}
+   Y = zeros(first(eltype(N)), size(N))
+   return T(Y, species_objects(N)...)
 end
