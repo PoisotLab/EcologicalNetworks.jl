@@ -1,8 +1,11 @@
 import Base: getindex, setindex!, permutedims, permutedims!, size, copy, !, show, +, inv, similar
 
-is_valid_species(::Type{T}) where {T <: Any} = false
+function check_species_validity(::Type{T}) where {T <: Any}
+  throw(ArgumentError("The type $(T) is not an allowed species type"))
+end
 
-is_valid_species(::Type{T}) where {T <: Union{Symbol,String}} = true
+function check_species_validity(::Type{T}) where {T <: Union{Symbol,String}}
+end
 
 """
     show(io::IO, N::AbstractEcologicalNetwork)
@@ -70,7 +73,7 @@ for the presence of an interaction.
 Use `N[i,j]` if you need to get the value of the interaction.
 """
 function has_interaction(N::AbstractEcologicalNetwork, i::NT, j::NT) where {NT}
-  @assert is_valid_species(NT)
+  check_species_validity(NT)
   @assert i ∈ species(N; dims=1)
   @assert j ∈ species(N; dims=2)
   i_pos = something(findfirst(isequal(i), species(N; dims=1)),0)

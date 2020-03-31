@@ -72,7 +72,7 @@ AbstractEcologicalNetwork
 ```
 
 The type of nodes that are allowed is determined by the *non-exported*
-`EcologicalNetworks.is_valid_species` function. To allow an additional type of
+`EcologicalNetworks.check_species_validity` function. To allow an additional type of
 node, you can write the following:
 
 ~~~ julia
@@ -83,11 +83,13 @@ struct Foo
 end
 
 import EcologicalNetworks
-EcologicalNetworks.is_valid_species(::Type{Foo}) = true
+function EcologicalNetworks.check_species_validity(::Type{Foo})
+end
 ~~~
 
 Note that **integers are never valid species identifiers**. By default, `String`
-and `Symbol` are used.
+and `Symbol` are used. The function `check_species_validity` should do *nothing*
+for an accepted type (and it will throw an error for any other type).
 
 ### By partiteness
 
