@@ -1,5 +1,5 @@
 """
-    βs(X::T, Y::T) where {T<:BinaryNetwork}
+    βs(X::T, Y::T; dims::Union{Nothing,Integer}=nothing) where {T<:BinaryNetwork}
 
 Components of β-diversity as measured on species.
 
@@ -9,13 +9,12 @@ Koleff, P., Gaston, K.J., Lennon, J.J., 2003. Measuring beta diversity for
 presence–absence data. Journal of Animal Ecology 72, 367–382.
 https://doi.org/10.1046/j.1365-2656.2003.00710.x
 """
-function βs(X::T, Y::T) where {T<:BinaryNetwork}
-    a = richness(intersect(X,Y))
-    b = richness(Y)-a
-    c = richness(X)-a
+function βs(X::T, Y::T; dims::Union{Nothing,Integer}=nothing) where {T<:BinaryNetwork}
+    a = richness(intersect(X,Y); dims=dims)
+    b = richness(Y; dims=dims)-a
+    c = richness(X; dims=dims)-a
     return (a=a, b=b, c=c)
 end
-
 
 """
     βos(X::T, Y::T) where {T<:BipartiteNetwork}
