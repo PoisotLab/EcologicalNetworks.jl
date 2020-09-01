@@ -29,6 +29,21 @@ bibliography: paper.bib
 
 # Statement of need
 
+# Compilation tests
+$f(x) = e^{\pi/x}*2$
+
+$$\Theta(x) = \left\{\begin{array}{l}
+0\textrm{ if } x < 0\cr
+1\textrm{ else}
+\end{array}\right.$$
+
+[@PoisBeli19a]
+
+```python
+for n in range(10):
+    yield f(n)
+```
+
 # Acknowledgements
 
 We acknowledge contributions from Steve Vissault, Zachary Bélisle, Laura Hoebeke, Michiel Stock and Piotr Szefer.
