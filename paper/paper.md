@@ -1,11 +1,11 @@
 ---
-title: 'Mangal.jl / EcologicalNetworks.jl: A methodological framework for the analysis of species interaction networks in Julia'
+title: 'EcologicalNetworks.jl: A Julia package for analyzing networks of species interactions'
 tags:
   - Julia
   - ecological networks
   - food webs
   - species interactions
-  - graph
+  - graph theory
 
 authors:
   - name: Francis Banville^[corresponding author]
@@ -25,7 +25,7 @@ bibliography: paper.bib
 
 
 # Summary
-
+Network ecology is an emerging field of study describing species interactions (e.g. predation, pollination) in a biological community. Ecological networks, in which two species are connected if they can interact, are a mathematical representation of all interactions encountered in a given ecosystem. Anchored in graph theory, the methods developed in network ecology are remarkably rigorous and biologically insightful. Indeed, many ecological and evolutionary processes are driven by species interactions and network structure (i.e. the arrangement of links in ecological networks). The study of ecological networks, from data importation and simulation to data analysis and visualization, require a coherent and efficient set of numerical tools. With its powerful and dynamic type system, the Julia programming language provides a great computing environment in this regard.
 
 # Statement of need
 
@@ -38,6 +38,7 @@ $$\Theta(x) = \left\{\begin{array}{l}
 \end{array}\right.$$
 
 [@PoisBeli19a]
+
 
 ```python
 for n in range(10):
