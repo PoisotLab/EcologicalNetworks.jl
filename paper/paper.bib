@@ -1,4 +1,31 @@
 
+@article{DelmBess19,
+  title = {Analysing Ecological Networks of Species Interactions},
+  author = {Delmas, Eva and Besson, Mathilde and Brice, Marie Hélène and Burkle, Laura A. and Dalla Riva, Giulio V. and Fortin, Marie Josée and Gravel, Dominique and Guimarães, Paulo R. and Hembry, David H. and Newman, Erica A. and Olesen, Jens M. and Pires, Mathias M. and Yeakel, Justin D. and Poisot, Timothée},
+  date = {2019},
+  journaltitle = {Biological Reviews},
+  doi = {10.1111/brv.12433},
+  abstract = {Network approaches to ecological questions have been increasingly used, particularly in recent decades. The abstraction of ecological systems – such as communities – through networks of interactions between their components indeed provides a way to summarize this information with single objects. The methodological framework derived from graph theory also provides numerous approaches and measures to analyze these objects and can offer new perspectives on established ecological theories as well as tools to address new challenges. However, prior to using these methods to test ecological hypotheses, it is necessary that we understand, adapt, and use them in ways that both allow us to deliver their full potential and account for their limitations. Here, we attempt to increase the accessibility of network approaches by providing a review of the tools that have been developed so far, with – what we believe to be – their appropriate uses and potential limitations. This is not an exhaustive review of all methods and metrics, but rather, an overview of tools that are robust, informative, and ecologically sound. After providing a brief presentation of species interaction networks and how to build them in order to summarize ecological information of different types, we then classify methods and metrics by the types of ecological questions that they can be used to answer from global to local scales, including methods for hypothesis testing and future perspectives. Specifically, we show how the organization of species interactions in a community yields different network structures (e.g., more or less dense, modular or nested), how different measures can be used to describe and quantify these emerging structures, and how to compare communities based on these differences in structures. Within networks, we illustrate metrics that can be used to describe and compare the functional and dynamic roles of species based on their position in the network and the organization of their interactions as well as associated new methods to test the significance of these results. Lastly, we describe potential fruitful avenues for new methodological developments to address novel ecological questions.},
+  file = {C\:\\Users\\franc\\Zotero\\storage\\IVRZ5IP5\\DelmBess19-Analysing ecological networks of species interactions.pdf},
+  keywords = {biogeography,community ecology,ecological networks,graph theory,interactions}
+}
+
+@article{FortStou10,
+  title = {Nestedness versus Modularity in Ecological Networks: Two Sides of the Same Coin?},
+  shorttitle = {Nestedness versus Modularity in Ecological Networks},
+  author = {Fortuna, Miguel A. and Stouffer, Daniel B. and Olesen, Jens M. and Jordano, Pedro and Mouillot, David and Krasnov, Boris R. and Poulin, Robert and Bascompte, Jordi},
+  date = {2010},
+  journaltitle = {Journal of Animal Ecology},
+  volume = {79},
+  pages = {811--817},
+  publisher = {{[Wiley, British Ecological Society]}},
+  issn = {0021-8790},
+  abstract = {1. Understanding the structure of ecological networks is a crucial task for interpreting community and ecosystem responses to global change. 2. Despite the recent interest in this subject, almost all studies have focused exclusively on one specific network property. The question remains as to what extent different network properties are related and how understanding this relationship can advance our comprehension of the mechanisms behind these patterns. 3. Here, we analysed the relationship between nestedness and modularity, two frequently studied network properties, for a large data set of 95 ecological communities including both plant-animal mutualistic and host-parasite networks. 4. We found that the correlation between nestedness and modularity for a population of random matrices generated from the real communities decreases significantly in magnitude and sign with increasing connectance independent of the network type. At low connectivities, networks that are highly nested also tend to be highly modular; the reverse happens at high connectivities. 5. The above result is qualitatively robust when different null models are used to infer network structure, but, at a finer scale, quantitative differences exist. We observed an important interaction between the network structure pattern and the null model used to detect it. 6. A better understanding of the relationship between nestedness and modularity is important given their potential implications on the dynamics and stability of ecological communities.},
+  eprint = {40835468},
+  eprinttype = {jstor},
+  number = {4}
+}
+
 @article{PoisBeli19a,
   title = {{{EcologicalNetworks}}.Jl: Analysing Ecological Networks of Species Interactions},
   shorttitle = {{{EcologicalNetworks}}.Jl},
@@ -12,10 +39,22 @@
   url = {https://www.onlinelibrary.wiley.com/doi/abs/10.1111/ecog.04310},
   urldate = {2020-09-01},
   abstract = {Networks are a convenient way to represent many interactions among ecological entities. The analysis of ecological networks is challenging for two reasons. First, there is a plethora of measures that can be applied (and some of them measure the same property). Second, the implementation of these measures is sometimes difficult. We present ’EcologicalNetworks.jl’, a package for the ‘Julia’ programming language. Using a layered system of types to represent several types of ecological networks, this packages offers a solid library of basic functions which can be chained together to perform the most common analyses of ecological networks.},
+  annotation = {\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/ecog.04310},
   file = {C\:\\Users\\franc\\Zotero\\storage\\U7AK75LU\\Poisot et al. - 2019 - EcologicalNetworks.jl analysing ecological networ.pdf;C\:\\Users\\franc\\Zotero\\storage\\CU8DBDRY\\ecog.html},
   keywords = {ecological networks,graph theory,Julia},
   langid = {english},
   number = {11}
+}
+
+@article{PoisCirt16,
+  title = {The Structure of Probabilistic Networks},
+  author = {Poisot, Timothée and Cirtwill, Alyssa R. and Cazelles, Kévin and Gravel, Dominique and Fortin, Marie Josée and Stouffer, Daniel B.},
+  date = {2016},
+  journaltitle = {Methods in Ecology and Evolution},
+  doi = {10.1111/2041-210X.12468},
+  abstract = {There is a growing realization among community ecologists that interactions between species vary across space and time and that this variation needs to be quantified. Our current numerical framework to analyse the structure of species interactions, based on graph-theoretical approaches, usually do not consider the variability of interactions. As this variability has been show to hold valuable ecological information, there is a need to adapt the current measures of network structure so that they can exploit it. We present analytical expressions of key measures of network structured, adapted so that they account for the variability of ecological interactions. We do so by modelling each interaction as a Bernoulli event; using basic calculus allows expressing the expected value, and when mathematically tractable, its variance. When applied to non-probabilistic data, the measures we present give the same results as their non-probabilistic formulations, meaning that they can be generally applied. We present three case studies that highlight how these measures can be used, in re-analysing data that experimentally measured the variability of interactions, to alleviate the computational demands of permutation-based approaches, and to use the frequency at which interactions are observed over several locations to infer the structure of local networks. We provide a free and open-source implementation of these measures. We discuss how both sampling and data representation of ecological networks can be adapted to allow the application of a fully probabilistic numerical network approach.},
+  file = {C\:\\Users\\franc\\Zotero\\storage\\3IN2SR5Y\\PoisCirt16-The structure of probabilitic networks.pdf},
+  keywords = {Connectance,Degree distribution,Ecological networks,Modularity,Nestedness,Species interactions}
 }
 
 
