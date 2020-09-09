@@ -137,11 +137,11 @@ food_webs_richness = richness.(food_webs)
 food_webs_connectance = connectance.(food_webs)
 ```
 
-Nestedness can then be computed using the spectral radius of the matrix of interactions [i.e. its largest absolute eigenvalue, @StanKopp13].
+Nestedness can then be computed using the spectral radius $\rho$ of the matrix of interactions [i.e. its largest absolute eigenvalue, @StanKopp13].
 
 ```julia
 
-food_webs_nestedness = ρ.(food_webs)
+food_webs_nestedness = rho.(food_webs)
 ```
 
 To compute network modularity, we need a starting point, an optimizer and a measure of modularity [@Newm06; @Barb07; @Theb13]. We used 100 random assignments of the species in 3 to 15 groups as our starters. We chose the BRIM algorithm to optimize the modularity for each of these random starters. We then computed modularity following [@Newm06], and retained the maximum value for each of the food webs.
