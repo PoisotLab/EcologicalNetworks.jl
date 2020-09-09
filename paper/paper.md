@@ -166,9 +166,9 @@ for i in 1:length(food_webs)
 end
 ```
 
-The association between richness, connectance, nestedness and modularity in all food webs archived on `mangal.io` is plotted in +@fig:nestmod.
+The association between richness, connectance, nestedness and modularity in all food webs archived on `mangal.io` is plotted in \autoref{fig:nestmod}.
 
-![In food webs archived on `mangal.io`, nestedness is negatively associated with modularity, but both nestedness and modularity are strongly associated with connectance. Nestedness was calculated as the spectral radius of a network (i.e. the largest absolute eigenvalues of its adjacency matrix). We optimized network modularity using the BRIM algorithm (best partition out of 100 random runs for 3 to 15 groups). Marker size is proportional to the total number of species in a network, which varied between 5 and 90 species. All measures were computed using `EcologicalNetworks.jl`](nestmod.png){#fig:nestmod}
+![In food webs archived on `mangal.io`, nestedness is negatively associated with modularity, but both nestedness and modularity are strongly associated with connectance. Nestedness was calculated as the spectral radius of a network (i.e. the largest absolute eigenvalues of its adjacency matrix). We optimized network modularity using the BRIM algorithm (best partition out of 100 random runs for 3 to 15 groups). Marker size is proportional to the total number of species in a network, which varied between 5 and 90 species. All measures were computed using `EcologicalNetworks.jl`.\label{fig:nestmod}](nestmod.png)
 
 # Acknowledgements
 
