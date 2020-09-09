@@ -44,7 +44,7 @@ mangal_food_webs = network.(mangal_PH_nolarge.id)
 # convert MangalNetworks to UnipartiteNetworks when possible
 food_webs=[]
 
-for i in 1:length(mangal_food_webs)
+for i in eachindex(mangal_food_webs)
     try
         unipartite_food_web = convert(UnipartiteNetwork, mangal_food_webs[i])
         push!(food_webs, unipartite_food_web)
