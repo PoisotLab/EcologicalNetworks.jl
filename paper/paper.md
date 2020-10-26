@@ -18,9 +18,9 @@ authors:
     orcid: 0000-0002-0735-5184
     affiliation: 1
 affiliations:
- - name: Department of biology, Université de Montréal, Canada
+ - name: Department of Biology, Université de Montréal, Canada
    index: 1
- - name: Department of biology, Université de Sherbrooke, Canada
+ - name: Department of Biology, Université de Sherbrooke, Canada
    index: 2
 date: 14 September 2020
 bibliography: paper.bib
