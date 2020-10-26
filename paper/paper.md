@@ -61,7 +61,7 @@ Table: Description of all custom types in `Mangal.jl`. Related custom types are 
 
 Understanding how the number of interactions scales with the number of species is fundamental in ecology. This relationship has recently been revisited using all food webs archived on `mangal.io` [@MacDBanv20a], making it, to the best of our knowledge, the most extensive study of such relationship so far. The block of code below read relevant metadata from `mangal.io` to conduct this analysis on all types of ecological networks.
 
-We first retrieved all networks archived on the database, which returned objects of type `MangalNetwork`. We then counted the number of species $S$ and the total number of interactions $L$ in each network, as well as their numbers of interactions of predation, of herbivory, of mutualism, and of parasitism. These information were stored in a data frame along with the ID numbers of the networks.
+We first retrieve all networks archived on the database, which returns objects of type `MangalNetwork`. We then count the number of species $S$ and the total number of interactions $L$ in each network, as well as their numbers of interactions of predation, of herbivory, of mutualism, and of parasitism. We store these information in a data frame along with the ID numbers of the networks.
 
 ```julia
 
@@ -101,9 +101,9 @@ global cursor = 1
 end
 ```
 
-The association between the number of species $S$ and the total number of links $L$ is plotted in \autoref{fig:LS}. We classified all networks according to their most frequent type of links, and considered interactions of predation and of herbivory as food-web interactions. Networks in the "other types" category include interactions between competitors, symbiotes, scavengers, and detritivores, among others. Very small networks (i.e. with less than 5 interactions) were discarded.  
+The association between the number of species $S$ and the total number of links $L$ is plotted in \autoref{fig:LS}. We classify all networks according to their most frequent type of links, and consider interactions of predation and of herbivory as food-web interactions. Networks in the "other types" category include interactions between competitors, symbiotes, scavengers, and detritivores, among others. Very small networks (i.e. with less than 5 interactions) are discarded.  
 
-![Association between the number of species (nodes) and the number of links (edges) in ecological networks archived on `mangal.io`. Networks with less than 5 interactions were discarded. Different types of interactions can be listed within the same network. We classified all networks according to their most frequent type of interactions. The code to reproduce the figure is included in this paper's repository.\label{fig:LS}](fig/LS.png)
+![Association between the number of species (nodes) and the number of links (edges) in ecological networks archived on `mangal.io`. Networks with less than 5 interactions are discarded. Different types of interactions can be listed within the same network. We classify all networks according to their most frequent type of interactions. The code to reproduce the figure is included in this paper's repository.\label{fig:LS}](fig/LS.png)
 
 
 # EcologicalNetworks.jl
@@ -117,7 +117,7 @@ The package [`EcologicalNetworksPlots.jl`](https://github.com/EcoJulia/Ecologica
 
 Connectance (i.e. the proportion of all possible links that are realized) is undoubtedly one of the most studied and important measure of ecological networks [@PoisGrav14]. A network's connectance is the result of many ecological processes, and predicts how a biological community functions and responds to changes [@DunnWill02c; @DunnWill02d]. Connectance is furthermore associated with other network measures, including nestedness and modularity [@DelmBess19]. A network is nested when species that interact with specialists (i.e. species with few interactions) are a subset of the species that interact with generalists (i.e. species with many interactions). On the other hand, a network is modular when species are organized in groups of highly interacting species. @FortStou10 showed how these two quantities were associated in ecological networks. Here we show how `EcologicalNetworks.jl` can be used in conjunction with `Mangal.jl` to retrieve these associations in food webs.
 
-We read networks metadata from `mangal.io` using the code in the previous section, and selected networks we classified as food webs. We then used their ID numbers to import all their data from `mangal.io`, which again returned objects of type `MangalNetwork`. Since food-web measures are typically computed on objects of type `UnipartiteNetwork`, we used `EcologicalNetworks.jl` for type conversion for networks with suitable data.
+We read networks metadata from `mangal.io` using the code in the previous section, and select networks we classified as food webs. We then use their ID numbers to import all their data from `mangal.io`, which again returns objects of type `MangalNetwork`. Since food-web measures are typically computed on objects of type `UnipartiteNetwork`, we use `EcologicalNetworks.jl` for type conversion for networks with suitable data.
 
 
 ```julia
@@ -141,7 +141,7 @@ for i in eachindex(mangal_foodwebs)
 end
 ```
 
-Next, we computed food-web richness (i.e. the number of species), connectance, nestedness, and modularity using functions from `EcologicalNetworks.jl`. Nestedness was computed using the spectral radius $\rho$ of the matrices of interactions [i.e. their largest absolute eigenvalue, @StanKopp13]. To compute network modularity, we need a starting point, an optimizer, and a measure of modularity [@Newm06; @Barb07; @Theb13]. We used 100 random species assignments in 3 to 15 groups as our starters. We used the BRIM algorithm to optimize the modularity for each of these random partitions, and computed modularity following @Newm06. The maximum value was retained for each food web. Associations between these measures are plotted in \autoref{fig:nestmod}.
+Next, we compute food-web richness (i.e. the number of species), connectance, nestedness, and modularity using functions from `EcologicalNetworks.jl`. Nestedness is computed using the spectral radius $\rho$ of the matrices of interactions [i.e. their largest absolute eigenvalue, @StanKopp13]. To compute network modularity, we need a starting point, an optimizer, and a measure of modularity [@Newm06; @Barb07; @Theb13]. We use 100 random species assignments in 3 to 15 groups as our starters. We use the BRIM algorithm to optimize the modularity for each of these random partitions, and compute modularity following @Newm06. The maximum value is retained for each food web. Associations between these measures are plotted in \autoref{fig:nestmod}.
 
 
 ```julia
@@ -175,7 +175,7 @@ end
 ```
 
 
-![Association between (1) connectance and nestedness, (2) connectance and modularity, and (3) modularity and nestedness in food webs archived on `mangal.io`. We computed nestedness as the spectral radius of a network (i.e. the largest absolute eigenvalue of its matrix of interactions). We optimized network modularity using the BRIM algorithm (best partition out of 100 random runs for 3 to 15 modules). The marker size is proportional to the number of species in a network, which varied between 5 and 714 species. All measures were computed using `EcologicalNetworks.jl`. The code to reproduce the figure is included in this paper's repository.\label{fig:nestmod}](fig/nestmod.png)
+![Association between (1) connectance and nestedness, (2) connectance and modularity, and (3) modularity and nestedness in food webs archived on `mangal.io`. We compute nestedness as the spectral radius of a network (i.e. the largest absolute eigenvalue of its matrix of interactions). We optimize network modularity using the BRIM algorithm (best partition out of 100 random runs for 3 to 15 modules). The marker size is proportional to the number of species in a network, which varies between 5 and 714 species. All measures are computed using `EcologicalNetworks.jl`. The code to reproduce the figure is included in this paper's repository.\label{fig:nestmod}](fig/nestmod.png)
 
 # Acknowledgements
 
