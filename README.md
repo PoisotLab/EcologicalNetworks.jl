@@ -10,7 +10,7 @@ networks. The current version is compatible with `julia` version 1.0 and 0.7.
 
 ## Getting started
 
-Install (from the package mode):
+Enter package mode by pressing `]` from the Julia REPL. Then install
 
 ~~~
 add EcologicalNetworks
