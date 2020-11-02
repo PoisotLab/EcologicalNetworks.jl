@@ -113,7 +113,7 @@ end
 
 The association between the number of species $S$ and the total number of links $L$ is plotted in \autoref{fig:LS}. We classify all networks according to their most frequent type of links, and consider interactions of predation and of herbivory as food-web interactions. Networks in the "other types" category include interactions between competitors, symbiotes, scavengers, and detritivores, among others. Very small networks (i.e. with less than 5 interactions) are discarded.  
 
-![Association between the number of species (nodes) and the number of links (edges) in ecological networks archived on `mangal.io`. Networks with less than 5 interactions are discarded. Different types of interactions can be listed within the same network. We classify all networks according to their most frequent type of interactions. The code to reproduce the figure is included in this paper's repository.\label{fig:LS}](fig/LS.png)
+![Association between the number of species (nodes) and the number of links (edges) in ecological networks archived on `mangal.io`. Networks with less than 5 interactions are discarded. Different types of interactions can be listed within the same network. We classify all networks according to their most frequent type of interactions. The code to reproduce the figure is included in this paper's repository.\label{fig:LS}](fig/workflow.png)
 
 
 # EcologicalNetworks.jl
