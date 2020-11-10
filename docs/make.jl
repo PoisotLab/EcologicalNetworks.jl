@@ -30,7 +30,7 @@ makedocs(
                                         "Null models" => "random/null.md",
                                         "Structural models" => "random/structure.md"
                                        ],
-                  "Running examples" => [
+                  "Use cases" => [
                                         "Integration with Mangal" => "examples/integration_mangal.md"
                                         ]
                  ]
