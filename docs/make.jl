@@ -31,8 +31,8 @@ makedocs(
                                         "Structural models" => "random/structure.md"
                                        ],
                   "Use cases" => [
-                                        "Integration with Mangal" => "examples/integration_mangal.md"
-                                        ]
+                                 "Integration with Mangal" => "examples/integration_mangal.md"
+                                 ]
                  ]
         )
 
