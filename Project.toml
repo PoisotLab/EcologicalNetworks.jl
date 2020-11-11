@@ -17,7 +17,7 @@ StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 
 [compat]
 Combinatorics = "1.0"
-DataStructures = "0.17"
+DataStructures = "0.17, 0.18"
 Distributions = "0.23, 0.24"
 Requires = "1.0"
 StatsBase = "0.33"
