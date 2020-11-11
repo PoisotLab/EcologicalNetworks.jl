@@ -154,7 +154,7 @@ an uniform distribution. The parameter `dims` indicates which marginals are used
 with both if no value is provided. Output in bits.
 """
 function diff_entropy_uniform(N::NT, dims=nothing) where {NT <: AbstractEcologicalNetwork}
-    if dims == nothing
+    if isnothing(dims)
         P = make_joint_distribution(N)
         return diff_entropy_uniform(P)
     else  # compute marginals
@@ -183,7 +183,7 @@ Result is returned in a Dict. Outputs in bits.
 function information_decomposition(N::NT; norm::Bool=false, dims::I=nothing) where {NT <: AbstractEcologicalNetwork, I <: Union{Int, Nothing}}
     decomposition = Dict{Symbol, Float64}()
     P = make_joint_distribution(N)
-    if dims == nothing
+    if isnothing(dims)
         # difference marginal entropy
         decomposition[:D] = diff_entropy_uniform(P)
         # mutual information

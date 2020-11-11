@@ -13,9 +13,8 @@ using EcologicalNetworks
         false false false false false false
         ]
     U = UnipartiteNetwork(A)
-    L = [1,1,1,2,2,2]
-    P = Partition(U, L)
-    n = networkroles(P)
+    _, L = brim(lp(U)...)
+    n = functional_cartography(N, L)
 
     # Values of z
     @test n[1,1] ≈ -0.57 atol = 0.02

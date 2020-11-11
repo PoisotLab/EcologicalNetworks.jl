@@ -10,7 +10,7 @@ recommended way to sample a unipartite network.
 """
 function sample(N::T, n::Int64) where {T<:AbstractUnipartiteNetwork}
     @assert n <= richness(N)
-    ns = sample(species(N), n, replace=false)
+    ns = StatsBase.sample(species(N), n, replace=false)
     return N[ns]
 end
 
@@ -75,7 +75,7 @@ This is the recommended way to sample a bipartite network.
 function sample(N::T, n::Tuple{Int64,Int64}) where {T<:AbstractBipartiteNetwork}
     @assert n[1] <= richness(N; dims=1)
     @assert n[2] <= richness(N; dims=2)
-    ns1 = sample(species(N; dims=1), n[1], replace=false)
-    ns2 = sample(species(N; dims=2), n[2], replace=false)
+    ns1 = StatsBase.sample(species(N; dims=1), n[1], replace=false)
+    ns2 = StatsBase.sample(species(N; dims=2), n[2], replace=false)
     return N[ns1,ns2]
 end
