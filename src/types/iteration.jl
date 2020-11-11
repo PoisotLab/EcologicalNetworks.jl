@@ -64,7 +64,7 @@ function iterate(N::T, state::Int64) where {T <: AbstractEcologicalNetwork}
             end
         end
     end
-    next === nothing ? (return (this_state, nothing)) : (return (this_state, next))
+    isnothing(next) ? (return (this_state, nothing)) : (return (this_state, next))
 end
 
 function iterate(N::T, state::Nothing) where {T <: AbstractEcologicalNetwork}
