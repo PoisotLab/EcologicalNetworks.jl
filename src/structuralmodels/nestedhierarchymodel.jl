@@ -157,7 +157,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
         not_predated = setdiff(species_pool, predated)
 
         # Shuffle the current set
-        not_predated = StasBase.sample(collect(not_predated), length(not_predated), replace = false)
+        not_predated = StatsBase.sample(collect(not_predated), length(not_predated), replace = false)
 
         # Assign links
         for resource in not_predated
