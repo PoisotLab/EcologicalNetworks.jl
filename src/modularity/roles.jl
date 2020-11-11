@@ -61,7 +61,7 @@ function functional_cartography(N::T, L::Dict{E,Int64}) where {T<:BinaryNetwork,
             end
         end
         # If the standard deviation is NaN, we return 0 for the z-score
-        zsc = isnan(S[L[s]][2]) ? (κ[s] - S[L[s]][1])/S[L[s]][2] : 0.0
+        zsc = isnan(S[L[s]][2]) ? 0.0 : (κ[s] - S[L[s]][1])/S[L[s]][2]
         carto[s] = (zsc, 1-sum((ks./deg_N[s]).^2))
     end
 
