@@ -92,7 +92,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
         # STAGE 1: Assign species with smaller niche value
 
         # Assign species randomly unless one has other predators
-        eligible = sample(1:(consumer-1), (consumer-1), replace = false)
+        eligible = StatsBase.sample(1:(consumer-1), (consumer-1), replace = false)
 
         linkstoassign = observedlinks[consumer]
 
@@ -134,7 +134,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
         resource_union = setdiff(resource_union, A[species_pool[consumer], :])
 
         # Shuffle the resource_union
-        resource_union = sample(collect(resource_union), length(resource_union), replace = false)
+        resource_union = StatsBase.sample(collect(resource_union), length(resource_union), replace = false)
 
         for resource in resource_union
 
@@ -157,7 +157,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
         not_predated = setdiff(species_pool, predated)
 
         # Shuffle the current set
-        not_predated = sample(collect(not_predated), length(not_predated), replace = false)
+        not_predated = StasBase.sample(collect(not_predated), length(not_predated), replace = false)
 
         # Assign links
         for resource in not_predated
@@ -181,7 +181,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
         not_consumed = setdiff(species_pool, diet)
 
         # Shuffle the set
-        not_consumed = sample(collect(not_consumed), length(not_consumed), replace = false)
+        not_consumed = StatsBase.sample(collect(not_consumed), length(not_consumed), replace = false)
 
         # Assign links
         for resource in not_consumed

@@ -35,7 +35,7 @@ function iterate(N::T) where {T <: AbstractEcologicalNetwork}
     global state = nothing
     global next = nothing
     for i in 1:length(CIdx)
-        if network_state(N, CIdx[i]) != nothing
+        if !isnothing(network_state(N, CIdx[i]))
             state = i
             break
         end
@@ -43,7 +43,7 @@ function iterate(N::T) where {T <: AbstractEcologicalNetwork}
     this_state = network_state(N, CartesianIndices(N.A)[state])
     if state < length(CIdx)
         for i in (state+1):length(CIdx)
-            if network_state(N, CIdx[i]) != nothing
+            if !isnothing(network_state(N, CIdx[i]))
                 next = i
                 break
             end
@@ -58,7 +58,7 @@ function iterate(N::T, state::Int64) where {T <: AbstractEcologicalNetwork}
     global next = nothing
     if state < length(CIdx)
         for i in (state+1):length(CIdx)
-            if network_state(N, CIdx[i]) != nothing
+            if !isnothing(network_state(N, CIdx[i]))
                 next = i
                 break
             end
