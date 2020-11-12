@@ -3,11 +3,11 @@ import Random.shuffle!
 
 function swap_degree!(Y::BinaryNetwork)
    iy = interactions(Y)
-   i1, i2 = sample(iy, 2, replace=false)
+   i1, i2 = StatsBase.sample(iy, 2, replace=false)
    n1, n2 = (from=i1.from, to=i2.to), (from=i2.from, to=i1.to)
 
    while (n2 ∈ iy)|(n1 ∈ iy)
-      i1, i2 = sample(iy, 2, replace=false)
+      i1, i2 = StatsBase.sample(iy, 2, replace=false)
       n1, n2 = (from=i1.from, to=i2.to), (from=i2.from, to=i1.to)
    end
 
@@ -20,11 +20,11 @@ end
 
 function swap_fill!(Y::BinaryNetwork)
    iy = interactions(Y)
-   i1 = sample(iy)
-   n1 = (from=sample(species(Y; dims=1)), to=sample(species(Y; dims=2)))
+   i1 = StatsBase.sample(iy)
+   n1 = (from=StatsBase.sample(species(Y; dims=1)), to=StatsBase.sample(species(Y; dims=2)))
 
    while (n1 ∈ iy)
-      n1 = (from=sample(species(Y; dims=1)), to=sample(species(Y; dims=2)))
+      n1 = (from=StatsBase.sample(species(Y; dims=1)), to=StatsBase.sample(species(Y; dims=2)))
    end
 
    for old_i in [i1, n1]
@@ -36,11 +36,11 @@ end
 
 function swap_vulnerability!(Y::BinaryNetwork)
    iy = interactions(Y)
-   i1 = sample(iy)
-   n1 = (from=sample(species(Y; dims=1)), to=i1.to)
+   i1 = StatsBase.sample(iy)
+   n1 = (from=StatsBase.sample(species(Y; dims=1)), to=i1.to)
 
    while (n1 ∈ iy)
-      n1 = (from=sample(species(Y; dims=1)), to=i1.to)
+      n1 = (from=StatsBase.sample(species(Y; dims=1)), to=i1.to)
    end
 
    for old_i in [i1, n1]
@@ -52,11 +52,11 @@ end
 
 function swap_generality!(Y::BinaryNetwork)
    iy = interactions(Y)
-   i1 = sample(iy)
-   n1 = (from=i1.from, to=sample(species(Y; dims=2)))
+   i1 = StatsBase.sample(iy)
+   n1 = (from=i1.from, to=StatsBase.sample(species(Y; dims=2)))
 
    while (n1 ∈ iy)
-      n1 = (from=i1.from, to=sample(species(Y; dims=2)))
+      n1 = (from=i1.from, to=StatsBase.sample(species(Y; dims=2)))
    end
 
    for old_i in [i1, n1]

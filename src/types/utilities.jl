@@ -37,7 +37,7 @@ corresponds to the order of rows (top level) and columns (bottom level) of the
 adjacency matrix, in this order.
 """
 function species(N::AbstractBipartiteNetwork; dims::Union{Nothing,Integer}=nothing)
-  dims === nothing && return vcat(N.T, N.B)
+  isnothing(dims) && return vcat(N.T, N.B)
   dims == 1 && return N.T
   dims == 2 && return N.B
   throw(ArgumentError("dims can only be 1 (top species) or 2 (bottom species), or `nothing` (all species), you used $(dims)"))

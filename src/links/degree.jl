@@ -39,7 +39,7 @@ https://doi.org/10.1371/journal.pone.0017645
 function degree(N::AbstractEcologicalNetwork; dims::Union{Nothing,Integer}=nothing)
   dims == 1 && return degree_out(N)
   dims == 2 && return degree_in(N)
-  if dims === nothing
+  if isnothing(dims)
     if typeof(N) <: AbstractBipartiteNetwork
       return merge(degree_out(N), degree_in(N))
     else
@@ -86,7 +86,7 @@ Variance in the degree of species in a probabilistic network.
 function degree_var(N::ProbabilisticNetwork; dims::Union{Nothing,Integer}=nothing)
   dims == 1 && return degree_out_var(N)
   dims == 2 && return degree_in_var(N)
-  if dims === nothing
+  if isnothing(dims)
     if typeof(N) <: AbstractBipartiteNetwork
       return merge(degree_out_var(N), degree_in_var(N))
     else

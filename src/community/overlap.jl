@@ -33,14 +33,14 @@ function overlap(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipart
         s1 = species(N; dims=dims)[i]
         s1suc = N[s1,:]
         s1pre = N[:,s1]
-        dims === nothing && (s1set = union(s1suc, s1pre))
+        isnothing(dims) && (s1set = union(s1suc, s1pre))
         dims == 1 && (s1set = s1suc)
         dims == 2 && (s1set = s1pre)
         for j in (i+1):(richness(N; dims=dims))
             s2 = species(N; dims=dims)[j]
             s2suc = N[s2,:]
             s2pre = N[:,s2]
-            dims === nothing && (s2set = union(s2suc, s2pre))
+            isnothing(dims) && (s2set = union(s2suc, s2pre))
             dims == 1 && (s2set = s2suc)
             dims == 2 && (s2set = s2pre)
             this_overlap = length(intersect(s1set, s2set))
@@ -87,14 +87,14 @@ function AJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteN
         s1 = species(N; dims=dims)[i]
         s1suc = N[s1,:]
         s1pre = N[:,s1]
-        dims === nothing && (s1set = union(s1suc, s1pre))
+        isnothing(dims) && (s1set = union(s1suc, s1pre))
         dims == 1 && (s1set = s1suc)
         dims == 2 && (s1set = s1pre)
         for j in (i+1):(richness(N; dims=dims))
             s2 = species(N; dims=dims)[j]
             s2suc = N[s2,:]
             s2pre = N[:,s2]
-            dims === nothing && (s2set = union(s2suc, s2pre))
+            isnothing(dims) && (s2set = union(s2suc, s2pre))
             dims == 1 && (s2set = s2suc)
             dims == 2 && (s2set = s2pre)
             a = length(intersect(s1set, s2set))
@@ -149,14 +149,14 @@ function EAJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipartite
         s1 = species(Y; dims=dims)[i]
         s1suc = Y[s1,:]
         s1pre = Y[:,s1]
-        dims === nothing && (s1set = union(s1suc, s1pre))
+        isnothing(dims) && (s1set = union(s1suc, s1pre))
         dims == 1 && (s1set = s1suc)
         dims == 2 && (s1set = s1pre)
         for j in (i+1):(richness(Y; dims=dims))
             s2 = species(Y; dims=dims)[j]
             s2suc = Y[s2,:]
             s2pre = Y[:,s2]
-            dims === nothing && (s2set = union(s2suc, s2pre))
+            isnothing(dims) && (s2set = union(s2suc, s2pre))
             dims == 1 && (s2set = s2suc)
             dims == 2 && (s2set = s2pre)
             a = length(intersect(s1set, s2set))

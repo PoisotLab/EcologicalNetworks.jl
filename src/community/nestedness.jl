@@ -37,7 +37,7 @@ Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
 function η(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{BipartiteNetwork, BipartiteProbabilisticNetwork}}
   dims == 1 && return η_axis(N)
   dims == 2 && return η_axis(permutedims(N))
-  if dims === nothing
+  if isnothing(dims)
     return (η(N; dims=1) + η(N; dims=2))/2.0
   end
   throw(ArgumentError("dims can only be 1 (nestedness of rows) or 2 (nestedness of columns), you used $(dims)"))
@@ -137,7 +137,7 @@ function nodf(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{Bipa
     correction = (richness(N; dims=2) * (richness(N; dims=2) - 1))
     return (val+val)/correction
   end
-  if dims === nothing
+  if isnothing(dims)
     return (nodf(N; dims=1)+nodf(N; dims=2))/2.0
   end
   throw(ArgumentError("dims can only be 1 (nestedness of rows) or 2 (nestedness of columns), you used $(dims)"))

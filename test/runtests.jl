@@ -34,6 +34,7 @@ my_tests = [
    "modularity/starters.jl",
    "modularity/labelpropagation.jl",
    "modularity/brim.jl",
+   "modularity/roles.jl",
    "information/entropy.jl"
 ]
 # "mangal.jl",
