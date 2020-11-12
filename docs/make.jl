@@ -29,7 +29,10 @@ makedocs(
                   "Random networks" => [
                                         "Null models" => "random/null.md",
                                         "Structural models" => "random/structure.md"
-                                       ]
+                                       ],
+                  "Examples" => [
+                                 "Integration with Mangal" => "examples/integration_mangal.md"
+                                 ]
                  ]
         )
 
