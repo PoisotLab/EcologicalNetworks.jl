@@ -28,8 +28,8 @@ Martinez, N.D., 1992. Constant Connectance in Community Food Webs. The American
 Naturalist 139, 1208–1218.
 """
 function sum(N::AbstractEcologicalNetwork; dims::Union{Nothing,Int}=nothing)
-    @assert dims == nothing || dims == 1 || dims == 2
-   (dims == nothing && return sum(N.A)) || return sum(N.A, dims=dims)
+    @assert isnothing(dims) || dims == 1 || dims == 2
+   (isnothing(dims) && return sum(N.A)) || return sum(N.A, dims=dims)
 
 end
 
