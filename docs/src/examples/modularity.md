@@ -18,6 +18,11 @@ combinations. The output we are interested in is the number of modules, and the
 overall modularity.
 
 ```@example modularity
+all_hp_data = filter(x -> occursin("Hadfield", x.Reference), web_of_life());
+ids = getfield.(all_hp_data, :ID);
+networks = convert.(BinaryNetwork, web_of_life.(ids));
+N = networks[1]
+
 n = repeat(3:12, outer=20)
 m = Array{Dict}(undef, length(n))
 

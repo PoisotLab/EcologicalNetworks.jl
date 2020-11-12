@@ -19,6 +19,9 @@ are implemented for the `BinaryNetwork` type. As such, generating the "metaweb"
 is:
 
 ```@example betadiv
+all_hp_data = filter(x -> occursin("Hadfield", x.Reference), web_of_life());
+ids = getfield.(all_hp_data, :ID);
+networks = convert.(BinaryNetwork, web_of_life.(ids));
 metaweb = reduce(union, networks)
 ```
 
