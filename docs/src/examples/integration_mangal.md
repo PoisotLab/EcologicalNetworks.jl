@@ -1,6 +1,6 @@
 # Integration with Mangal.jl
 
-In this example, we will show how `EcologicalNetworks.jl` can be integrated with [`Mangal.jl`](https://github.com/EcoJulia/Mangal.jl) to analyse many ecological networks. Specifically, we will show how to analyse the association between meaningful network properties (i.e. species richness, connectance, nestedness, and modularity) using all food webs archived on the [`mangal.io`](https://mangal.io/#/) online database.
+In this example, we will show how `EcologicalNetworks.jl` can be integrated with [`Mangal.jl`](https://github.com/EcoJulia/Mangal.jl) to analyse many ecological networks. Specifically, we will show how to analyse the association between meaningful network properties (i.e. connectance, nestedness, and modularity) using all food webs archived on the [`mangal.io`](https://mangal.io/#/) online database.
 
 To conduct this analysis, we need to upload the following packages:
 
@@ -65,15 +65,12 @@ end
 unipartite_foodwebs[1:5]
 ```
 
-We can then compute any measure supported by `EcologicalNetworks.jl` for UnipartiteNetworks. In this example, we compute species richness, connectance, nestedness, and modularity. To compute network modularity, we use 100 random species assignments in 3 to 15 groups as our starters, the BRIM algorithm to optimize the modularity for each of these random partitions, and retain the maximum value for each food web. Readers are invited to take a look at the [documentation](https://ecojulia.github.io/EcologicalNetworks.jl/dev/properties/modularity/) for further details on how to compute modularity.
+We can then compute any measure supported by `EcologicalNetworks.jl` for UnipartiteNetworks. In this example, we compute connectance, nestedness, and modularity. To compute network modularity, we use 100 random species assignments in 3 to 15 groups as our starters, the BRIM algorithm to optimize the modularity for each of these random partitions, and retain the maximum value for each food web. Readers are invited to take a look at the [documentation](https://ecojulia.github.io/EcologicalNetworks.jl/dev/properties/modularity/) for further details on how to compute modularity.
 
 ```@example mangal
-foodweb_measures = DataFrame(fill(Float64, 4),
-                 [:rich, :connect, :nested, :modul],
+foodweb_measures = DataFrame(fill(Float64, 3),
+                 [:connect, :nested, :modul],
                  length(unipartite_foodwebs))
-
-# species richness
-foodweb_measures.rich = richness.(unipartite_foodwebs)
 
 # connectance
 foodweb_measures.connect = connectance.(unipartite_foodwebs)
@@ -97,36 +94,30 @@ end
 first(foodweb_measures, 5)
 ```
 
-The association between these food-web measures can then be plotted. In each subplot, marker size is proportional to species richness. We find that modularity is negatively associated with connectance and nestedness, whereas nestesdness and connectance are positively associated.
+The association between these food-web measures can then be plotted. We find that modularity is negatively associated with connectance and nestedness, whereas nestesdness and connectance are positively associated.
 
 ```@example mangal
-# color palette
 pal=RGB(204/255,121/255,167/255)
 
-plotA = scatter(foodweb_measures.connect, foodweb_measures.nested,
-    markersize=foodweb_measures.rich ./ 30,
+scatter(foodweb_measures.connect, foodweb_measures.nested,
     alpha=0.6, color=pal,
-    lab="",
-    dpi=1000, framestyle=:box)
+    lab="", framestyle=:box)
 xaxis!("Connectance")
 yaxis!((0.4,0.9), "Nestedness")
+```
 
-plotB = scatter(foodweb_measures.connect, foodweb_measures.modul,
-    markersize=foodweb_measures.rich ./ 30,
+```@example mangal
+scatter(foodweb_measures.connect, foodweb_measures.modul,
     alpha=0.6, color=pal,
-    lab="",
-    dpi=1000, framestyle=:box)
+    lab="",framestyle=:box)
 xaxis!("Connectance")
 yaxis!("Modularity")
+```
 
-plotC = scatter(foodweb_measures.modul, foodweb_measures.nested,
-    markersize=foodweb_measures.rich ./ 30,
+```@example mangal
+scatter(foodweb_measures.modul, foodweb_measures.nested,
     alpha=0.6, color=pal,
-    lab="",
-    dpi=1000, framestyle=:box)
+    lab="", framestyle=:box)
 xaxis!("Modularity")
 yaxis!((0.4,0.9), "Nestedness")
-
-plot(plotA, plotB, plotC, layout=(1,3),
-    title=["($i)" for j in 1:1, i in 1:3], titleloc=:right, titlefont = font(12), margin=5Plots.mm)
 ```
