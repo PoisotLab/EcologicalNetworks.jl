@@ -101,23 +101,23 @@ pal=RGB(204/255,121/255,167/255)
 
 scatter(foodweb_measures.connect, foodweb_measures.nested,
     alpha=0.6, color=pal,
-    lab="", framestyle=:box)
-xaxis!("Connectance")
-yaxis!((0.4,0.9), "Nestedness")
+    lab="", framestyle=:box,
+    xlabel="Connectance",
+    ylabel="Nestedness")
 ```
 
 ```@example mangal
 scatter(foodweb_measures.connect, foodweb_measures.modul,
     alpha=0.6, color=pal,
-    lab="",framestyle=:box)
-xaxis!("Connectance")
-yaxis!("Modularity")
+    lab="",framestyle=:box,
+    xlabel="Connectance",
+    ylabel="Modularity")
 ```
 
 ```@example mangal
 scatter(foodweb_measures.modul, foodweb_measures.nested,
     alpha=0.6, color=pal,
-    lab="", framestyle=:box)
-xaxis!("Modularity")
-yaxis!((0.4,0.9), "Nestedness")
+    lab="", framestyle=:box,
+    xlabel="Modularity",
+    ylabel="Nestedness")
 ```
