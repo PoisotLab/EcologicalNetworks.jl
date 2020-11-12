@@ -72,6 +72,10 @@ export isdegenerate, simplify, simplify!
    #, species_has_no_successors, species_has_no_predecessors,
    #species_is_free, free_species
 
+# SVD
+include(joinpath(".", "svd", "svd.jl"))
+export svd_truncated
+
 # Random networks and permutations
 include(joinpath(".", "rand/draws.jl"))
 include(joinpath(".", "rand/sample.jl"))
@@ -82,8 +86,7 @@ include(joinpath(".", "rand/linfilter.jl"))
 export linearfilter, linearfilterzoo
 export null1, null2, null3, null4
 include(joinpath(".", "rand/RDPG.jl"))
-include(joinpath(".", "rand/svd_truncated.jl"))
-export svd_truncated, RDPG
+export RDPG
 
 # Random networks from structural models
 include(joinpath(".", "structuralmodels/cascademodel.jl"))
