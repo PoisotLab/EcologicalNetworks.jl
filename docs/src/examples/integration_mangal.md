@@ -128,6 +128,5 @@ xaxis!("Modularity")
 yaxis!((0.4,0.9), "Nestedness")
 
 plot(plotA, plotB, plotC, layout=(1,3),
-    title=["($i)" for j in 1:1, i in 1:3], titleloc=:right, titlefont = font(12),
-    size=(700,350), margin=5Plots.mm)
+    title=["($i)" for j in 1:1, i in 1:3], titleloc=:right, titlefont = font(12), margin=5Plots.mm)
 ```
