@@ -31,7 +31,8 @@ makedocs(
                                         "Structural models" => "random/structure.md"
                                        ],
                   "Examples" => [
-                                 "Integration with Mangal" => "examples/integration_mangal.md"
+                                "Integration with Mangal" => "examples/integration_mangal.md",
+                                "Network beta-diversity" => "examples/beta-diversity.md"
                                  ]
                  ]
         )
