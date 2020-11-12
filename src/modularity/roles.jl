@@ -20,7 +20,7 @@ pollination networks. Proceedings of the National Academy of Sciences 104,
 19891–19896. https://doi.org/10.1073/pnas.0706375104
 """
 function functional_cartography(N::T, L::Dict{E,Int64}) where {T<:BinaryNetwork, E}
-    κ = Dict{last(eltype(N)), Int64}()
+    κ = Dict{last(eltype(N)), Integer}()
     S = Dict{Int64,Tuple{Float64, Float64}}()
     carto = Dict{last(eltype(N)),Tuple{Float64, Float64}}()
 
@@ -47,6 +47,7 @@ function functional_cartography(N::T, L::Dict{E,Int64}) where {T<:BinaryNetwork,
     end
 
     # Participation coefficient
+    deg_N = degree(N)
     for s in species(N)
         ks = zeros(Int64, length(unique(values(L))))
         if s ∈ species(N; dims=2)
@@ -59,7 +60,9 @@ function functional_cartography(N::T, L::Dict{E,Int64}) where {T<:BinaryNetwork,
                 ks[L[s2]] += 1
             end
         end
-        carto[s] = ((κ[s] - S[L[s]][1])/S[L[s]][2], 1-sum((ks./degree(N)[s]).^2))
+        # If the standard deviation is NaN, we return 0 for the z-score
+        zsc = isnan(S[L[s]][2]) ? 0.0 : (κ[s] - S[L[s]][1])/S[L[s]][2]
+        carto[s] = (zsc, 1-sum((ks./deg_N[s]).^2))
     end
 
     return carto

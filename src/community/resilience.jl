@@ -16,7 +16,7 @@ If dims is provided, the incoming (`dims=1`) or outgoing (`dims=2`) is computed.
 function s(N::AbstractUnipartiteNetwork; dims::Union{Nothing,Integer}=nothing)
     dims == 1 && return sum(N.A, dims=2)
     dims == 2 && return sum(N.A, dims=1)'
-    if dims == nothing
+    if isnothing(dims)
         return sum(N.A) / size(N)[1]
     end
 end
