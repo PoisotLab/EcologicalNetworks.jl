@@ -99,11 +99,11 @@ function salp(N::T; θ::Float64=0.002, steps::Int64=10_000, λ::Float64=0.999, p
   for step in 1:steps
     temperature = θ*λ^(step-1)
     update_side = rand() < 0.5 ? 1 : 2
-    updated_species = sample(species(Y; dims=update_side))
+    updated_species = rand(species(Y; dims=update_side))
     original_module = m[updated_species]
     neighbors = update_side == 1 ? N[updated_species,:] : N[:,updated_species]
     modules = [get(m, n, 0) for n in collect(neighbors)]
-    m[updated_species] = sample(modules)
+    m[updated_species] = rand(modules)
     QR = Q(Y, m)
     Δ = Q0 - QR
     if rand() ≤ exp(-Δ/temperature)
