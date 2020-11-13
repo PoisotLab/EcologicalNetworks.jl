@@ -6,7 +6,7 @@ process, as it relies on heuristic which are not guaranteed to converge to the
 global maximum. There is no elegant alternative to trying multiple approaches,
 repeating the process multiple times, and having some luck.
 
-```@example betadiv
+```@example modularity
 using EcologicalNetworks
 using Plots
 using EcologicalNetworksPlots
