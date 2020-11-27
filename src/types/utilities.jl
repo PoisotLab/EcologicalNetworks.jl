@@ -423,14 +423,15 @@ function interactions(N::AbstractEcologicalNetwork)
     push!(fields, :strength)
     push!(types,first(eltype(N)))
   end
-  edges_accumulator = Vector{NamedTuple{tuple(fields...),Tuple{tuple(types...)}}}(undef, links(N))
+  non_zero = sum(.!iszero.(N.A)) # Number of non-zero entries in the matrix
+  edges_accumulator = Vector{NamedTuple{tuple(fields...),Tuple{types...}}}(undef, non_zero)
   sp1 = species(N; dims=1)
   sp2 = species(N; dims=2)
   cursor = 1
   for (i, s1) in enumerate(sp1)
     for (j, s2) in enumerate(sp2)
       if has_interaction(N, i, j)
-        values = Any[s1, sp2]
+        values = Any[s1, s2]
         if typeof(N) <: ProbabilisticNetwork
           push!(values, N[i,j])
         end
