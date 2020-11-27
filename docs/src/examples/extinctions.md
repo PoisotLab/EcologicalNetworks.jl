@@ -1,15 +1,17 @@
+In this illustration, we will simulate extinctions of hosts, to show how the
+package can be extended by using the core functions described in the "Interface"
+section. Simply put, the goal of this example is to write a function to randomly
+remove one host species, remove all parasite species that end up not connected
+to a host, and measuring the effect of these extinctions on the remaining
+network. Rather than measuring the network structure in the function, we will
+return an array of networks to be manipulated later:
 
-## Extinctions
+```@example ext
+using EcologicalNetworks
+using Plots
+```
 
-In this illustration, we will simulate extinctions of hosts, to show how
-the package can be extended by using the core functions described in the
-"Interface" section. Simply put, the goal of this example is to write a
-function to randomly remove one host species, remove all parasite species that
-end up not connected to a host, and measuring the effect of these extinctions
-on the remaining network. Rather than measuring the network structure in
-the function, we will return an array of networks to be manipulated later:
-
-```julia
+```@example ext
 function extinctions(N::T) where {T <: AbstractBipartiteNetwork}
 
   # We start by making a copy of the network to extinguish
@@ -32,12 +34,12 @@ end
 ```
 
 One classical analysis is to remove host species, and count the richness of
-parasite species, to measure their robustness to host extinctions [@MemmWase04]
--- this is usually done with multiple scenarios for order of extinction, but we
-will focus on the random order here. Even though `EcologicalNetworks` has a
-built-in function for richness, we can write a small wrapper around it:
+parasite species, to measure their robustness to host extinctions -- this is
+usually done with multiple scenarios for order of extinction, but we will focus
+on the random order here. Even though `EcologicalNetworks` has a built-in
+function for richness, we can write a small wrapper around it:
 
-```julia
+```@example ext
 function parasite_richness(N::T) where {T<:BinaryNetwork}
   return richness(N; dims=1)
 end
@@ -50,8 +52,8 @@ simulation is `N |> extinctions .|> parasite_richness`, or alternatively,
 output of this analysis on 100 simulations (average and standard deviation) for
 one of the networks.
 
-```julia; echo=false
-N = networks[50]
+```@example ext
+N = web_of_life("A_HP_050")
 
 X = Float64[]
 Y = Float64[]
@@ -72,8 +74,4 @@ end
 
 pl = plot(x, y, ribbon=sy, c=:black, fill=(:lightgrey), lw=2, ls=:dash, leg=false, grid=false, frame=:origin, xlim=(0,1), ylim=(0,1))
 xaxis!(pl, "Proportion of hosts removed")
-yaxis!(pl, "Proportion of remaining parasites")
-savefig("figures/extinctions.pdf")
 ```
-
-![Output of 100 random extinction simulations, where the change in parasite richness was measured every timestep. This example shows how the basic functions of the package can be leveraged to build custom analyses rapidly.](figures/extinctions.pdf){#fig:extinctions}
