@@ -18,7 +18,8 @@ makedocs(
         "Examples" => [
             "Modularity" => "examples/modularity.md",
             "Integration with Mangal" => "examples/integration_mangal.md",
-            "Network beta-diversity" => "examples/beta-diversity.md"
+            "Network beta-diversity" => "examples/beta-diversity.md",
+            "Extinctions" => "examples/extinctions.md"
         ],
         "Basic measures" => [
             "Links" => "properties/links.md",
