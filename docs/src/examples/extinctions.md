@@ -9,6 +9,7 @@ return an array of networks to be manipulated later:
 ```@example ext
 using EcologicalNetworks
 using Plots
+using Plots.PlotMeasures
 ```
 
 ```@example ext

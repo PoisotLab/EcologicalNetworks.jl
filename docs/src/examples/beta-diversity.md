@@ -7,6 +7,7 @@ host-parasite networks.
 ```@example betadiv
 using EcologicalNetworks
 using Plots
+using Plots.PlotMeasures
 ```
 
 We use networks that span the entirety of Eurasia. Because these networks are
@@ -57,11 +58,11 @@ end
 We can now visualize these data:
 
 ```@example betadiv
-p1 = histogram(βosprime, frame=:origin, bins=20, c=:white, leg=false, grid=false)
+p1 = histogram(βosprime, frame=:origin, bins=20, c=:white, leg=false, grid=false, margin=10mm)
 xaxis!(p1, "Difference to metaweb", (0,1))
 yaxis!(p1, (0,10))
 
-p2 = plot([0,1],[0,1], c=:grey, ls=:dash, frame=:origin, grid=false, lab="", legend=:bottomleft)
+p2 = plot([0,1],[0,1], c=:grey, ls=:dash, frame=:origin, grid=false, lab="", legend=:bottomleft, margin=10mm)
 scatter!(p2, S, OS, mc=:black, lab="shared sp.", msw=0.0)
 scatter!(p2, S, WN, mc=:lightgrey, lab="all sp.", msw=0.0, m=:diamond)
 xaxis!(p2, "Species dissimilarity", (0,1))

@@ -8,6 +8,7 @@ repeating the process multiple times, and having some luck.
 using EcologicalNetworks
 using EcologicalNetworksPlots
 using Plots
+using Plots.PlotMeasures
 ```
 
 ## Generating modular partitions
