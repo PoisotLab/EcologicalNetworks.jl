@@ -4,8 +4,9 @@ function check_species_validity(::Type{T}) where {T <: Any}
   throw(ArgumentError("The type $(T) is not an allowed species type"))
 end
 
-function check_species_validity(::Type{T}) where {T <: Union{Symbol,String}}
-end
+check_species_validity(::Type{T}) where {T <: Symbol} = nothing
+check_species_validity(::Type{T}) where {T <: AbstractString} = nothing
+check_species_validity(::Type{T}) where {T <: String} = nothing
 
 """
     show(io::IO, N::AbstractEcologicalNetwork)
