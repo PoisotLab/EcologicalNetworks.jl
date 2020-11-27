@@ -36,8 +36,6 @@ function convert(::Type{UnipartiteQuantitativeNetwork}, N::T) where {T <: Bipart
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
     B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.edges
-    @info sparse(B)
-    @info S
     return UnipartiteQuantitativeNetwork(sparse(B), S)
 end
 
@@ -59,11 +57,11 @@ end
 Convert a bipartite quantitative network to a bipartite binary network. This
 amounts to *removing* the quantitative information.
 """
-function convert(::Type{BipartiteNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
-    R = copy(species(N; dims=1))
+function convert(::Type{BipartiteNetwork}, N::NT) where {NT <: BipartiteQuantitativeNetwork}
+    T = copy(species(N; dims=1))
     B = copy(species(N; dims=2))
-    B = dropzeros(N.edges)
-    return BipartiteNetwork(B .!= zero(eltype(B)), R, B)
+    M = dropzeros(N.edges)
+    return BipartiteNetwork(M .!= zero(eltype(M)), T, B)
 end
 
 """
