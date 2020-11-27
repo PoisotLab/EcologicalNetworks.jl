@@ -14,9 +14,9 @@ check_species_validity(::Type{T}) where {T <: String} = nothing
 function show(io::IO, N::AbstractEcologicalNetwork)
   p = typeof(N) <: AbstractBipartiteNetwork ? "bipartite" : "unipartite"
   t = ""
-  t = typeof(N) <: ProbabilisticNetwork ? "probabilistic" : t
-  t = typeof(N) <: QuantitativeNetwork ? "quantitative" : t
-  print(io, "$(richness(N; dims=1))×$(richness(N; dims=2)) $(p) $(t) ecological network $(eltype(N)) (L: $(links(N)))")
+  t = typeof(N) <: ProbabilisticNetwork ? " probabilistic" : t
+  t = typeof(N) <: QuantitativeNetwork ? " quantitative" : t
+  print(io, "$(richness(N; dims=1))×$(richness(N; dims=2)) $(p)$(t) ecological network $(eltype(N)) (L: $(links(N)))")
 end
 
 """
@@ -93,8 +93,8 @@ but is exported because it may be of general use.
 """
 function has_interaction(N::AbstractEcologicalNetwork, i::Int64, j::Int64)
   # We need to make sure that the interaction is somewhere within the network
-  @assert i <= size(N.A, 1)
-  @assert j <= size(N.A, 2)
+  @assert i <= size(N.edges, 1)
+  @assert j <= size(N.edges, 2)
   # This should be reasonably general...
   return !iszero(N[i,j])
 end
@@ -105,7 +105,7 @@ end
 Modifies the network so that its diagonal is set to the appropriate zero.
 """
 function nodiagonal!(N::AbstractUnipartiteNetwork)
-  N.A[diagind(N.A)] .= zero(eltype(N.A))
+  N.edges[diagind(N.edges)] .= zero(eltype(N.edges))
 end
 
 """
@@ -147,7 +147,7 @@ end
 Return the size of the adjacency matrix of an `AbstractEcologicalNetwork` object.
 """
 function size(N::AbstractEcologicalNetwork)
-  size(N.A)
+  size(N.edges)
 end
 
 
@@ -156,9 +156,9 @@ Creates a copy of a network -- this returns an object with the same type, and
 the same content.
 """
 function copy(N::AbstractEcologicalNetwork)
-  a = copy(N.A)
+  edges = copy(N.edges)
   sp = copy.(species_objects(N))
-  return typeof(N)(a, sp...)
+  return typeof(N)(edges, sp...)
 end
 
 
@@ -168,7 +168,7 @@ end
 Get the value of an interaction based on the position of the species.
 """
 function getindex(N::AbstractEcologicalNetwork, i::T, j::T) where {T <: Int}
-  return N.A[i,j]
+  return N.edges[i,j]
 end
 
 """
@@ -177,7 +177,7 @@ end
 Get the value of an interaction based on the position of the species.
 """
 function getindex(N::AbstractEcologicalNetwork, i::T) where {T <: Int}
-  return N.A[i]
+  return N.edges[i]
 end
 
 
@@ -187,7 +187,7 @@ end
 Get the value of an interaction based on the position of the species.
 """
 function getindex(N::AbstractEcologicalNetwork, ::Colon, j::T) where {T <: Int}
-  return N.A[:,j]
+  return N.edges[:,j]
 end
 
 """
@@ -196,7 +196,7 @@ end
 Get the value of an interaction based on the position of the species.
 """
 function getindex(N::AbstractEcologicalNetwork, i::T, ::Colon) where {T <: Int}
-  return N.A[i,:]
+  return N.edges[i,:]
 end
 
 """
@@ -259,10 +259,9 @@ function getindex(N::AbstractUnipartiteNetwork, sp::Vector{T}) where {T}
   @assert all(map(x -> x ∈ species(N), sp))
   sp_pos = findall((in)(sp), species(N))
   n_sp = species(N)[sp_pos]
-  n_int = N.A[sp_pos, sp_pos]
+  n_int = N.edges[sp_pos, sp_pos]
   return typeof(N)(n_int, n_sp)
 end
-
 
 """
     getindex{T}(N::AbstractBipartiteNetwork, ::Colon, sp::Array{T})
@@ -275,7 +274,7 @@ function getindex(N::AbstractBipartiteNetwork, ::Colon, sp::Vector{T}) where {T}
   sp_pos = findall((in)(sp), species(N; dims=2))
   n_t = N.T
   n_b = N.B[sp_pos]
-  n_int = N.A[:, sp_pos]
+  n_int = N.edges[:, sp_pos]
   return typeof(N)(n_int, n_t, n_b)
 end
 
@@ -291,7 +290,7 @@ function getindex(N::AbstractBipartiteNetwork, sp::Vector{T}, ::Colon) where {T}
   sp_pos = findall((in)(sp), species(N; dims=1))
   n_t = N.T[sp_pos]
   n_b = N.B
-  n_int = N.A[sp_pos,:]
+  n_int = N.edges[sp_pos,:]
   return typeof(N)(n_int, n_t, n_b)
 end
 
@@ -306,7 +305,7 @@ function getindex(N::AbstractBipartiteNetwork, sp1::Vector{T}, sp2::Vector{T}) w
    @assert all(sp2 .<= richness(N; dims=2))
    n_t = N.T[sp1]
    n_b = N.B[sp2]
-   n_int = N.A[sp1,sp2]
+   n_int = N.edges[sp1,sp2]
    return typeof(N)(n_int, n_t, n_b)
 end
 
@@ -336,7 +335,7 @@ function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwo
   @assert j ∈ species(N; dims=2)
   i_pos = something(findfirst(isequal(i), species(N; dims=1)),0)
   j_pos = something(findfirst(isequal(j), species(N; dims=2)),0)
-  N.A[i_pos, j_pos] = A
+  N.edges[i_pos, j_pos] = A
 end
 
 """
@@ -348,7 +347,7 @@ Changes the value of the interaction at the specificied position, where `i` and
 function setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E <: Int}
   @assert i ≤ richness(N; dims=1)
   @assert j ≤ richness(N; dims=2)
-  N.A[i, j] = A
+  N.edges[i, j] = A
 end
 
 """
@@ -368,7 +367,7 @@ end
 Tranposes the network and returns a copy
 """
 function permutedims(N::AbstractEcologicalNetwork)
-  NA = permutedims(N.A)
+  NA = permutedims(N.edges)
   new_sp = typeof(N) <: AbstractBipartiteNetwork ? (N.B, N.T) : (N.S,)
   return typeof(N)(NA, new_sp...)
 end
@@ -399,7 +398,7 @@ modifies the network.
 function inv!(N::AbstractUnipartiteNetwork)
    for i in 1:(richness(N)-1)
       for j in (i+1):richness(N)
-         N.A[i,j] = N.A[j,i]
+         N.edges[i,j] = N.edges[j,i]
       end
    end
 end
@@ -413,39 +412,43 @@ networks that are probabilistic, there is a `probability` field. For networks
 that are quantitative, there is a `strength` field. This functions allows to
 iterate over interactions in a network in a convenient way.
 """
-function interactions(N::AbstractEcologicalNetwork)
-  fields = [:from, :to]
-  types = [last(eltype(N)),last(eltype(N))]
-  if typeof(N) <: ProbabilisticNetwork
-    push!(fields, :probability)
-    push!(types,first(eltype(N)))
-  end
-  if typeof(N) <: QuantitativeNetwork
-    push!(fields, :strength)
-    push!(types,first(eltype(N)))
-  end
-  non_zero = sum(.!iszero.(N.A)) # Number of non-zero entries in the matrix
-  edges_accumulator = Vector{NamedTuple{tuple(fields...),Tuple{types...}}}(undef, non_zero)
-  sp1 = species(N; dims=1)
-  sp2 = species(N; dims=2)
-  cursor = 1
-  for (i, s1) in enumerate(sp1)
-    for (j, s2) in enumerate(sp2)
-      if has_interaction(N, i, j)
-        values = Any[s1, s2]
-        if typeof(N) <: ProbabilisticNetwork
-          push!(values, N[i,j])
-        end
-        if typeof(N) <: QuantitativeNetwork
-          push!(values, N[i,j])
-        end
-        int_nt = NamedTuple{tuple(fields...)}(tuple(values...))
-        edges_accumulator[cursor] = int_nt
-        cursor = cursor + 1
-      end
+function interactions(N::BinaryNetwork)
+    non_zero = count(!iszero, N.edges) # Number of non-zero entries in the matrix
+    t_int, t_spe = eltype(N)
+    edges_accumulator = Vector{NamedTuple{tuple(:from, :to),Tuple{t_spe, t_spe}}}(undef, non_zero)
+    sp1 = species(N; dims=1)
+    sp2 = species(N; dims=2)
+    I, J, V = findnz(N.edges)
+    for i in eachindex(I)
+        edges_accumulator[i] = (from = sp1[I[i]], to = sp2[J[i]])
     end
-  end
-  return unique(edges_accumulator)
+    return unique(edges_accumulator)
+end
+
+function interactions(N::QuantitativeNetwork)
+    non_zero = count(!iszero, N.edges) # Number of non-zero entries in the matrix
+    t_int, t_spe = eltype(N)
+    edges_accumulator = Vector{NamedTuple{tuple(:from, :to, :strength),Tuple{t_spe, t_spe, t_int}}}(undef, non_zero)
+    sp1 = species(N; dims=1)
+    sp2 = species(N; dims=2)
+    I, J, V = findnz(N.edges)
+    for i in eachindex(I)
+        edges_accumulator[i] = (from = sp1[I[i]], to = sp2[J[i]], strength = V[i])
+    end
+    return unique(edges_accumulator)
+end
+
+function interactions(N::ProbabilisticNetwork)
+    non_zero = count(!iszero, N.edges) # Number of non-zero entries in the matrix
+    t_int, t_spe = eltype(N)
+    edges_accumulator = Vector{NamedTuple{tuple(:from, :to, :probability),Tuple{t_spe, t_spe, t_int}}}(undef, non_zero)
+    sp1 = species(N; dims=1)
+    sp2 = species(N; dims=2)
+    I, J, V = findnz(N.edges)
+    for i in eachindex(I)
+        edges_accumulator[i] = (from = sp1[I[i]], to = sp2[J[i]], probability = V[i])
+    end
+    return unique(edges_accumulator)
 end
 
 """
@@ -474,6 +477,6 @@ Returns a network with the same species, but an empty interaction matrix. This
 is useful if you want to generate a "blank slate" for some analyses.
 """
 function similar(N::T) where {T <: AbstractEcologicalNetwork}
-   Y = zeros(first(eltype(N)), size(N))
+   Y = sparse(zeros(first(eltype(N)), size(N)))
    return T(Y, species_objects(N)...)
 end

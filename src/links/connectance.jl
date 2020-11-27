@@ -14,23 +14,23 @@ computes the sum of the interactions for the lower (`dims=2`) or higher
 
 #### References
 
-Delmas, E., Besson, M., Brice, M.-H., Burkle, L.A., Dalla Riva, G.V., Fortin,
-M.-J., Gravel, D., Guimarães, P.R., Hembry, D.H., Newman, E.A., Olesen, J.M.,
-Pires, M.M., Yeakel, J.D., Poisot, T., 2018. Analysing ecological networks of
-species interactions. Biological Reviews 112540.
-https://doi.org/10.1111/brv.12433
+- Delmas, E., Besson, M., Brice, M.-H., Burkle, L.A., Dalla Riva, G.V., Fortin,
+  M.-J., Gravel, D., Guimarães, P.R., Hembry, D.H., Newman, E.A., Olesen, J.M.,
+  Pires, M.M., Yeakel, J.D., Poisot, T., 2018. Analysing ecological networks of
+  species interactions. Biological Reviews 112540.
+  https://doi.org/10.1111/brv.12433
 
-Dunne, J.A., 2006. The Network Structure of Food Webs, in: Dunne, J.A., Pascual,
-M. (Eds.), Ecological Networks: Linking Structure and Dynamics. Oxford
-University Press, pp. 27–86.
+- Dunne, J.A., 2006. The Network Structure of Food Webs, in: Dunne, J.A.,
+  Pascual, M. (Eds.), Ecological Networks: Linking Structure and Dynamics.
+  Oxford University Press, pp. 27–86.
 
-Martinez, N.D., 1992. Constant Connectance in Community Food Webs. The American
-Naturalist 139, 1208–1218.
+- Martinez, N.D., 1992. Constant Connectance in Community Food Webs. The
+  American Naturalist 139, 1208–1218.
 """
 function sum(N::AbstractEcologicalNetwork; dims::Union{Nothing,Int}=nothing)
     @assert isnothing(dims) || dims == 1 || dims == 2
-   (isnothing(dims) && return sum(N.A)) || return sum(N.A, dims=dims)
-
+    isnothing(dims) && return sum(N.edges)
+    return sum(N.edges, dims=dims)
 end
 
 """
@@ -40,21 +40,21 @@ Number of non-zero interactions in a deterministic network.
 
 #### References
 
-Delmas, E., Besson, M., Brice, M.-H., Burkle, L.A., Dalla Riva, G.V., Fortin,
-M.-J., Gravel, D., Guimarães, P.R., Hembry, D.H., Newman, E.A., Olesen, J.M.,
-Pires, M.M., Yeakel, J.D., Poisot, T., 2018. Analysing ecological networks of
-species interactions. Biological Reviews 112540.
-https://doi.org/10.1111/brv.12433
+- Delmas, E., Besson, M., Brice, M.-H., Burkle, L.A., Dalla Riva, G.V., Fortin,
+  M.-J., Gravel, D., Guimarães, P.R., Hembry, D.H., Newman, E.A., Olesen, J.M.,
+  Pires, M.M., Yeakel, J.D., Poisot, T., 2018. Analysing ecological networks of
+  species interactions. Biological Reviews 112540.
+  https://doi.org/10.1111/brv.12433
 
-Dunne, J.A., 2006. The Network Structure of Food Webs, in: Dunne, J.A., Pascual,
-M. (Eds.), Ecological Networks: Linking Structure and Dynamics. Oxford
-University Press, pp. 27–86.
+- Dunne, J.A., 2006. The Network Structure of Food Webs, in: Dunne, J.A.,
+  Pascual, M. (Eds.), Ecological Networks: Linking Structure and Dynamics.
+  Oxford University Press, pp. 27–86.
 
-Martinez, N.D., 1992. Constant Connectance in Community Food Webs. The American
-Naturalist 139, 1208–1218.
+- Martinez, N.D., 1992. Constant Connectance in Community Food Webs. The
+  American Naturalist 139, 1208–1218.
 """
 function links(N::BinaryNetwork)
-    return sum(N)
+    return count(!iszero, N.edges)
 end
 
 """
@@ -65,21 +65,21 @@ sum of interaction strengths).
 
 #### References
 
-Delmas, E., Besson, M., Brice, M.-H., Burkle, L.A., Dalla Riva, G.V., Fortin,
-M.-J., Gravel, D., Guimarães, P.R., Hembry, D.H., Newman, E.A., Olesen, J.M.,
-Pires, M.M., Yeakel, J.D., Poisot, T., 2018. Analysing ecological networks of
-species interactions. Biological Reviews 112540.
-https://doi.org/10.1111/brv.12433
+- Delmas, E., Besson, M., Brice, M.-H., Burkle, L.A., Dalla Riva, G.V., Fortin,
+  M.-J., Gravel, D., Guimarães, P.R., Hembry, D.H., Newman, E.A., Olesen, J.M.,
+  Pires, M.M., Yeakel, J.D., Poisot, T., 2018. Analysing ecological networks of
+  species interactions. Biological Reviews 112540.
+  https://doi.org/10.1111/brv.12433
 
-Dunne, J.A., 2006. The Network Structure of Food Webs, in: Dunne, J.A., Pascual,
-M. (Eds.), Ecological Networks: Linking Structure and Dynamics. Oxford
-University Press, pp. 27–86.
+- Dunne, J.A., 2006. The Network Structure of Food Webs, in: Dunne, J.A.,
+  Pascual, M. (Eds.), Ecological Networks: Linking Structure and Dynamics.
+  Oxford University Press, pp. 27–86.
 
-Martinez, N.D., 1992. Constant Connectance in Community Food Webs. The American
-Naturalist 139, 1208–1218.
+- Martinez, N.D., 1992. Constant Connectance in Community Food Webs. The
+  American Naturalist 139, 1208–1218.
 """
 function links(N::QuantitativeNetwork)
-    return sum(N.A .!= zero(eltype(N.A)))
+    return count(!iszero, N.edges)
 end
 
 """
@@ -90,9 +90,9 @@ interactions that have a non-zero probability, use *e.g.* `links(N>0.0)`.
 
 #### References
 
-Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
-D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
-Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
+- Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
+  D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
+  Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
 """
 function links(N::ProbabilisticNetwork)
     return sum(N)

@@ -77,10 +77,10 @@ An unipartite deterministic network is a matrix of boolean values.
 mutable struct UnipartiteNetwork{Bool, ST} <: AbstractUnipartiteNetwork
     edges::SparseMatrixCSC{Bool,Int64}
     S::Vector{ST}
-    function UnipartiteNetwork{Bool, NT}(edges::M, S::Vector{NT}) where {M<:SparseMatrixCSC, NT}
+    function UnipartiteNetwork{Bool, ST}(edges::M, S::Vector{ST}) where {M<:SparseMatrixCSC, ST}
         check_unipartiteness(edges, S)
         dropzeros!(edges)
-        new{Bool,NT}(edges, S)
+        new{Bool,ST}(edges, S)
     end
 end
 
