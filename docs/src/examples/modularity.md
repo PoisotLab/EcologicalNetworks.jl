@@ -34,7 +34,7 @@ end
 ```
 
 ```@example modularity
-p1 = scatter(c, q, c=:grey, msw=0.0, leg=false, frame=:origin, grid=false)
+p1 = scatter(c, q, c=:grey, msw=0.0, leg=false, frame=:origin, grid=false, margin = 10mm)
 xaxis!(p1, "Number of modules")
 yaxis!(p1, "Modularity", (0, 0.5))
 ```
@@ -87,7 +87,7 @@ than 4) regions. For the sake of completeness, we have added the 7 regions to
 the plot as well.
 
 ```@example modularity
-plot(Shape([-2, 2.5, 2.5, -2], [0, 0, 0.05, 0.05]), lab="", frame=:box, lc=:grey, opacity=0.3, c=:grey, lw=0.0, grid=false) #R1
+plot(Shape([-2, 2.5, 2.5, -2], [0, 0, 0.05, 0.05]), lab="", frame=:box, lc=:grey, opacity=0.3, c=:grey, lw=0.0, grid=false, margin = 10mm) #R1
 plot!(Shape([-2, 2.5, 2.5, -2], [0.05, 0.05, 0.62, 0.62]), lab="", c=:transparent) #R2
 plot!(Shape([-2, 2.5, 2.5, -2], [0.62, 0.62, 0.80, 0.80]), lab="", lc=:grey, opacity=0.3, c=:grey, lw=0.0) #R3
 plot!(Shape([-2, 2.5, 2.5, -2], [0.80, 0.80, 1.0, 1.0]), lab="", c=:transparent) #R4

@@ -72,6 +72,6 @@ for (i, tx) in enumerate(x)
   sy[i] = std(Y[X.==tx])
 end
 
-pl = plot(x, y, ribbon=sy, c=:black, fill=(:lightgrey), lw=2, ls=:dash, leg=false, grid=false, frame=:origin, xlim=(0,1), ylim=(0,1))
+pl = plot(x, y, ribbon=sy, c=:black, fill=(:lightgrey), lw=2, ls=:dash, leg=false, margin = 10mm, grid=false, frame=:origin, xlim=(0,1), ylim=(0,1))
 xaxis!(pl, "Proportion of hosts removed")
 ```
