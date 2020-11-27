@@ -5,7 +5,7 @@ function iterate(N::T) where {T <: AbstractEcologicalNetwork}
 end
 
 function iterate(N::T, state::Int64) where {T <: AbstractEcologicalNetwork}
-    iterate(N, state)
+    iterate(interactions(N), state)
 end
 
 function iterate(N::T, state::Nothing) where {T <: AbstractEcologicalNetwork}
