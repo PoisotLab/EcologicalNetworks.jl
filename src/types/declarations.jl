@@ -106,6 +106,7 @@ mutable struct BipartiteProbabilisticNetwork{IT <: AbstractFloat, ST} <: Abstrac
     B::Vector{ST}
     function BipartiteProbabilisticNetwork{IT, NT}(edges::SparseMatrixCSC{IT,Int64}, T::Vector{NT}, B::Vector{NT}) where {IT <: AbstractFloat, NT}
         dropzeros!(edges)
+        check_probability_values(edges)
         new{IT,NT}(edges, T, B)
     end
 end
@@ -133,14 +134,33 @@ end
 A bipartite quantitative network is matrix of numbers. It is assumed that the
 interaction strength are *positive*.
 """
-mutable struct BipartiteQuantitativeNetwork{IT<:Number, NT} <: AbstractBipartiteNetwork
-    A::Matrix{IT}
-    T::Vector{NT}
-    B::Vector{NT}
-    function BipartiteQuantitativeNetwork{IT, NT}(A::Matrix{IT}, T::Vector{NT}, B::Vector{NT}) where {IT<:Number, NT}
-        check_bipartiteness(A, T, B)
-        new{IT,NT}(A, T, B)
+mutable struct BipartiteQuantitativeNetwork{IT <: Number, ST} <: AbstractBipartiteNetwork
+    edges::SparseMatrixCSC{IT,Int64}
+    T::Vector{ST}
+    B::Vector{ST}
+    function BipartiteQuantitativeNetwork{IT, NT}(edges::SparseMatrixCSC{IT,Int64}, T::Vector{NT}, B::Vector{NT}) where {IT <: Number, NT}
+        dropzeros!(edges)
+        new{IT,NT}(edges, T, B)
     end
+end
+
+function BipartiteQuantitativeNetwork(A::Matrix{IT}, T::Union{Vector{TT},Nothing}=nothing, B::Union{Vector{TT},Nothing}=nothing) where {IT <: Number, TT}
+    if isnothing(B)
+        B = "b".*string.(1:size(A, 2))
+    else
+        check_species_validity(TT)
+    end
+    if isnothing(T)
+        T = "t".*string.(1:size(A, 1))
+    else
+        check_species_validity(TT)
+    end
+    allunique(T) || throw(ArgumentError("All top-level species must be unique"))
+    allunique(B) || throw(ArgumentError("All bottom-level species must be unique"))
+    allunique(vcat(B,T)) || throw(ArgumentError("Bipartite networks cannot share species across levels"))
+    isequal(length(T))(size(A,1)) || throw(ArgumentError("The matrix has the wrong number of top-level species"))
+    isequal(length(B))(size(A,2)) || throw(ArgumentError("The matrix has the wrong number of bottom-level species"))
+    return BipartiteQuantitativeNetwork{IT,eltype(T)}(sparse(A), T, B)
 end
 
 """
