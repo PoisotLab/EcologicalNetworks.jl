@@ -1,15 +1,3 @@
-function UnipartiteNetwork(A::M) where {M<:AbstractMatrix{Bool}}
-  check_unipartiteness(A)
-  S = "s".*string.(1:size(A,1))
-  UnipartiteNetwork(A, S)
-end
-
-function UnipartiteNetwork(A::M, S::Vector{NT}) where {M<:AbstractMatrix{Bool}, NT}
-  check_species_validity(NT)
-  check_unipartiteness(A, S)
-  UnipartiteNetwork{Bool,NT}(A, S)
-end
-
 function BipartiteProbabilisticNetwork(A::Matrix{IT}) where {IT<:AbstractFloat}
   check_bipartiteness(A)
   check_probability_values(A)

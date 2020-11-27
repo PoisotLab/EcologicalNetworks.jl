@@ -41,10 +41,10 @@ abstract type AbstractBipartiteNetwork <: AbstractEcologicalNetwork end
 """
 A bipartite deterministic network is a matrix of boolean values.
 """
-mutable struct BipartiteNetwork{Bool, T} <: AbstractBipartiteNetwork
+mutable struct BipartiteNetwork{Bool, ST} <: AbstractBipartiteNetwork
     edges::SparseMatrixCSC{Bool,Int64}
-    T::Vector{T}
-    B::Vector{T}
+    T::Vector{ST}
+    B::Vector{ST}
     function BipartiteNetwork{Bool, NT}(edges::M, T::Vector{NT}, B::Vector{NT}) where {M<:SparseMatrixCSC, NT}
         new{Bool,NT}(edges, T, B)
     end
@@ -72,14 +72,27 @@ end
 """
 An unipartite deterministic network is a matrix of boolean values.
 """
-mutable struct UnipartiteNetwork{Bool, T} <: AbstractUnipartiteNetwork
-    A::Matrix{Bool}
-    S::Vector{T}
-    function UnipartiteNetwork{Bool, NT}(A::M, S::Vector{NT}) where {M<:AbstractMatrix{Bool}, NT}
-        check_unipartiteness(A, S)
-        new{Bool,NT}(A, S)
+mutable struct UnipartiteNetwork{Bool, ST} <: AbstractUnipartiteNetwork
+    edges::SparseMatrixCSC{Bool,Int64}
+    S::Vector{ST}
+    function UnipartiteNetwork{Bool, NT}(edges::M, S::Vector{NT}) where {M<:SparseMatrixCSC, NT}
+        check_unipartiteness(edges, S)
+        new{Bool,NT}(edges, S)
     end
 end
+
+function UnipartiteNetwork(A::M, S::Union{Vector{TT},Nothing}=nothing) where {M <: AbstractMatrix{Bool}, TT}
+    if isnothing(S)
+        S = "s".*string.(1:size(A, 1))
+    else
+        check_species_validity(TT)
+    end
+    allunique(S) || throw(ArgumentError("All species must be unique"))
+    isequal(length(S))(size(A,1)) || throw(ArgumentError("The matrix has the wrong number of top-level species"))
+    isequal(length(S))(size(A,2)) || throw(ArgumentError("The matrix has the wrong number of bottom-level species"))
+    return UnipartiteNetwork{Bool,eltype(S)}(sparse(A), S)
+end
+
 
 """
 A bipartite probabilistic network is a matrix of floating point numbers, all of
