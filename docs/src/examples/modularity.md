@@ -1,5 +1,3 @@
-# Modularity
-
 In this example, we will show how the modular structure of an ecological network
 can be optimized. Finding the optimal modular structure can be a time-consuming
 process, as it relies on heuristic which are not guaranteed to converge to the
@@ -8,9 +6,11 @@ repeating the process multiple times, and having some luck.
 
 ```@example modularity
 using EcologicalNetworks
-using Plots
 using EcologicalNetworksPlots
+using Plots
 ```
+
+## Generating modular partitions
 
 For the first approach, we will generate random partitions of the species across
 3 to 12 modules, and evaluate 20 replicate attempts for each of these
@@ -39,6 +39,8 @@ xaxis!(p1, "Number of modules")
 yaxis!(p1, "Modularity", (0, 0.5))
 ```
 
+## Measuring modularity
+
 Now that we have the modular partition for every attempt, we can count the
 modules in it, and measure its modularity:
 
@@ -61,11 +63,13 @@ This can be plotted using `EcologicalNetworksPlots`:
 ```@example modularity
 I = initial(RandomInitialLayout, N)
 for step in 1:4000
-  position!(ForceDirectedLayout(2.5), I, N)
+  position!(SpringElectric(1.2; gravity=0.1), I, N)
 end
 p2 = plot(I, N, aspectratio=1)
 scatter!(p2, I, N, bipartite=true, nodefill=best_m, markercolor=:isolum)
 ```
+
+## Species functional roles
 
 We can finally look at the functional roles of the species:
 
