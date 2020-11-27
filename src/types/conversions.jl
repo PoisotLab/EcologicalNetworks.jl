@@ -9,8 +9,8 @@ function convert(::Type{UnipartiteNetwork}, N::T) where {T <: BipartiteNetwork}
     itype = first(eltype(N))
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
-    B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.A
-    return UnipartiteNetwork(B, S)
+    B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.edges
+    return UnipartiteNetwork(sparse(B), S)
 end
 
 """
@@ -22,8 +22,8 @@ function convert(::Type{UnipartiteProbabilisticNetwork}, N::T) where {T <: Bipar
     itype = eltype(N.A)
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
-    B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.A
-    return UnipartiteProbabilisticNetwork(B, S)
+    B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.edges
+    return UnipartiteProbabilisticNetwork(sparse(B), S)
 end
 
 """
@@ -35,8 +35,8 @@ function convert(::Type{UnipartiteQuantitativeNetwork}, N::T) where {T <: Bipart
     itype = eltype(N.A)
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
-    B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.A
-    return UnipartiteQuantitativeNetwork(B, S)
+    B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.edges
+    return UnipartiteQuantitativeNetwork(sparse(B), S)
 end
 
 """
@@ -47,8 +47,8 @@ amounts to *removing* the quantitative information.
 """
 function convert(::Type{UnipartiteNetwork}, N::T) where {T <: UnipartiteQuantitativeNetwork}
     S = copy(species(N))
-    B = N.A.>zero(eltype(N.A))
-    return UnipartiteNetwork(convert(Array{Bool,2}, B), S)
+    B = dropzeros(N.edges)
+    return UnipartiteNetwork(B .!= zero(eltype(B)), S)
 end
 
 """
@@ -60,8 +60,8 @@ amounts to *removing* the quantitative information.
 function convert(::Type{BipartiteNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
     R = copy(species(N; dims=1))
     B = copy(species(N; dims=2))
-    C = N.A.>zero(eltype(N.A))
-    return BipartiteNetwork(convert(Array{Bool,2}, C), R, B)
+    B = dropzeros(N.edges)
+    return BipartiteNetwork(B .!= zero(eltype(B)), R, B)
 end
 
 """
