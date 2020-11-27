@@ -104,14 +104,14 @@ mutable struct BipartiteProbabilisticNetwork{IT <: AbstractFloat, ST} <: Abstrac
     edges::SparseMatrixCSC{IT,Int64}
     T::Vector{ST}
     B::Vector{ST}
-    function BipartiteProbabilisticNetwork{IT, NT}(edges::SparseMatrixCSC{IT,Int64}, T::Vector{NT}, B::Vector{NT}) where {IT <: AbstractFloat, NT}
+    function BipartiteProbabilisticNetwork{IT,ST}(edges::SparseMatrixCSC{IT,Int64}, T::Vector{ST}, B::Vector{ST}) where {IT <: AbstractFloat, ST}
         dropzeros!(edges)
         check_probability_values(edges)
-        new{IT,NT}(edges, T, B)
+        new{IT,ST}(edges, T, B)
     end
 end
 
-function BipartiteProbabilisticNetwork(A::Matrix{IT}, T::Union{Vector{TT},Nothing}=nothing, B::Union{Vector{TT},Nothing}=nothing) where {IT <: AbstractFloat, TT}
+function BipartiteProbabilisticNetwork(A::Array{IT,2}, T::Union{Vector{TT},Nothing}=nothing, B::Union{Vector{TT},Nothing}=nothing) where {IT <: AbstractFloat, TT}
     if isnothing(B)
         B = "b".*string.(1:size(A, 2))
     else
@@ -127,7 +127,7 @@ function BipartiteProbabilisticNetwork(A::Matrix{IT}, T::Union{Vector{TT},Nothin
     allunique(vcat(B,T)) || throw(ArgumentError("Bipartite networks cannot share species across levels"))
     isequal(length(T))(size(A,1)) || throw(ArgumentError("The matrix has the wrong number of top-level species"))
     isequal(length(B))(size(A,2)) || throw(ArgumentError("The matrix has the wrong number of bottom-level species"))
-    return BipartiteProbabilisticNetwork{IT,eltype(T)}(sparse(A), T, B)
+    return BipartiteProbabilisticNetwork(sparse(A), T, B)
 end
 
 """
