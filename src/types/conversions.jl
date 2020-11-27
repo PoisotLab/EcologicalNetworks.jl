@@ -138,10 +138,10 @@ for comb in type_pairs
             for s in species(N)
                 (d1[s]*d2[s] == 0) || throw(ArgumentError("Species $s has both in and out degree"))
             end
-            top_species = collect(keys(filter(p -> p.second == zero(eltype(N.A)), d2)))
-            bot_species = collect(keys(filter(p -> p.second == zero(eltype(N.A)), d1)))
+            top_species = collect(keys(filter(p -> p.second == zero(eltype(N.edges)), d2)))
+            bot_species = collect(keys(filter(p -> p.second == zero(eltype(N.edges)), d1)))
             A = zeros(eltype(N)[1], (length(top_species), length(bot_species)))
-            B = $t1(A, top_species, bot_species)
+            B = $t1(sparse(A), top_species, bot_species)
             for s1 in species(B; dims=1), s2 in species(B; dims=2)
                 B[s1,s2] = N[s1, s2]
             end
