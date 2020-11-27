@@ -19,7 +19,7 @@ end
 Projects a probabilistic bipartite network in its unipartite representation.
 """
 function convert(::Type{UnipartiteProbabilisticNetwork}, N::T) where {T <: BipartiteProbabilisticNetwork}
-    itype = eltype(N.A)
+    itype = first(eltype(N))
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
     B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.edges
@@ -32,10 +32,12 @@ end
 Projects a quantitative bipartite network in its unipartite representation.
 """
 function convert(::Type{UnipartiteQuantitativeNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
-    itype = eltype(N.A)
+    itype = first(eltype(N))
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
     B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.edges
+    @info sparse(B)
+    @info S
     return UnipartiteQuantitativeNetwork(sparse(B), S)
 end
 
