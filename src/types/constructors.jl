@@ -10,19 +10,6 @@ function UnipartiteNetwork(A::M, S::Vector{NT}) where {M<:AbstractMatrix{Bool}, 
   UnipartiteNetwork{Bool,NT}(A, S)
 end
 
-function BipartiteNetwork(A::M) where {M<:AbstractMatrix{Bool}}
-  check_bipartiteness(A)
-  T = "t".*string.(1:size(A,1))
-  B = "b".*string.(1:size(A,2))
-  BipartiteNetwork{Bool,eltype(T)}(A, T, B)
-end
-
-function BipartiteNetwork(A::M, T::Vector{NT}, B::Vector{NT}) where {M<:AbstractMatrix{Bool}, NT}
-  check_species_validity(NT)
-  check_bipartiteness(A, T, B)
-  BipartiteNetwork{Bool,eltype(T)}(A, T, B)
-end
-
 function BipartiteProbabilisticNetwork(A::Matrix{IT}) where {IT<:AbstractFloat}
   check_bipartiteness(A)
   check_probability_values(A)

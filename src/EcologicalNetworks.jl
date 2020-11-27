@@ -9,6 +9,7 @@ using Random
 using DelimitedFiles
 using LinearAlgebra
 using DataStructures
+using SparseArrays
 
 using Requires
 

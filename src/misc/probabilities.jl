@@ -7,7 +7,8 @@ The two steps are
 2. The number should belong to [0.0,1.0]
 """
 function checkprob(p::T) where {T<:AbstractFloat}
-    @assert 0.0 <= p <= 1.0
+	(0.0 <= p <= 1.0) || throw(ArgumentError("The value p=$(p) is not a probability"))
+	return nothing
 end
 
 
