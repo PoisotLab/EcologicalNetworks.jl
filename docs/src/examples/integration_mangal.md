@@ -1,5 +1,3 @@
-# Integration with Mangal.jl
-
 In this example, we will show how `EcologicalNetworks.jl` can be integrated with [`Mangal.jl`](https://github.com/EcoJulia/Mangal.jl) to analyse many ecological networks. Specifically, we will show how to analyse the association between meaningful network properties (i.e. connectance, nestedness, and modularity) using all food webs archived on the [`mangal.io`](https://mangal.io/#/) online database.
 
 To conduct this analysis, we need to upload the following packages:
@@ -9,6 +7,7 @@ using EcologicalNetworks
 using Mangal
 using DataFrames
 using Plots
+using Plots.PlotMeasures
 ```
 
 We first retrieve relevant metadata for all 1,386 networks archived on `mangal.io` using the `Mangal.jl` package. We count the number of species $S$ and the total number of interactions $L$ in each network, as well as their number of trophic interactions (predation and herbivory). We store these information in a data frame along with the networks' ID numbers, and print the first 5 elements. Due to the high number of networks we handle, note that this step might take some time to run.
@@ -103,7 +102,8 @@ scatter(foodweb_measures.connect, foodweb_measures.nested,
     alpha=0.6, color=pal,
     lab="", framestyle=:box,
     xlabel="Connectance",
-    ylabel="Nestedness")
+    ylabel="Nestedness",
+    margin = 10mm)
 ```
 
 ```@example mangal
@@ -111,7 +111,8 @@ scatter(foodweb_measures.connect, foodweb_measures.modul,
     alpha=0.6, color=pal,
     lab="",framestyle=:box,
     xlabel="Connectance",
-    ylabel="Modularity")
+    ylabel="Modularity",
+    margin = 10mm)
 ```
 
 ```@example mangal
@@ -119,5 +120,6 @@ scatter(foodweb_measures.modul, foodweb_measures.nested,
     alpha=0.6, color=pal,
     lab="", framestyle=:box,
     xlabel="Modularity",
-    ylabel="Nestedness")
+    ylabel="Nestedness",
+    margin = 10mm)
 ```

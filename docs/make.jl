@@ -5,40 +5,45 @@ using EcologicalNetworks
 using Random
 
 makedocs(
-         sitename = "EcologicalNetworks",
-         authors = "Timothée Poisot",
-         modules = [EcologicalNetworks],
-         pages = [
-                  "Index" => "index.md",
-                  "Interface" => [
-                                  "Types" => "interface/types.md",
-                                  "Conversions" => "interface/conversions.md",
-                                  "Core functions" => "interface/highlevel.md"
-                                 ],
-                  "Network measures" => [
-                                         "Links" => "properties/links.md",
-                                         "Modularity" => "properties/modularity.md",
-                                         "Nestedness" => "properties/nestedness.md",
-                                         "Motifs" => "properties/motifs.md",
-                                         "Centrality and paths" => "properties/paths.md",
-                                         "Overlap and similarity" => "properties/overlap.md",
-                                         "Beta-diversity" => "properties/betadiversity.md",
-                                         "Resilience" => "properties/resilience.md",
-                                         "Information theory" => "properties/information.md"
-                                        ],
-                  "Random networks" => [
-                                        "Null models" => "random/null.md",
-                                        "Structural models" => "random/structure.md"
-                                       ],
-                  "Examples" => [
-                                 "Integration with Mangal" => "examples/integration_mangal.md"
-                                 ]
-                 ]
-        )
+    sitename = "EcologicalNetworks",
+    authors = "Timothée Poisot",
+    modules = [EcologicalNetworks],
+    pages = [
+        "Index" => "index.md",
+        "Interface" => [
+            "Types" => "interface/types.md",
+            "Conversions" => "interface/conversions.md",
+            "Core functions" => "interface/highlevel.md"
+        ],
+        "Examples" => [
+            "Modularity" => "examples/modularity.md",
+            "Integration with Mangal" => "examples/integration_mangal.md",
+            "Network beta-diversity" => "examples/beta-diversity.md",
+            "Extinctions" => "examples/extinctions.md"
+        ],
+        "Basic measures" => [
+            "Links" => "properties/links.md",
+            "Modularity" => "properties/modularity.md",
+            "Nestedness" => "properties/nestedness.md",
+            "Motifs" => "properties/motifs.md",
+            "Centrality and paths" => "properties/paths.md",
+            "Overlap and similarity" => "properties/overlap.md"
+        ],
+        "Advanced information" => [
+            "Beta-diversity" => "properties/betadiversity.md",
+            "Resilience" => "properties/resilience.md",
+            "Information theory" => "properties/information.md"
+        ],
+        "Generating networks" => [
+            "Null models" => "random/null.md",
+            "Structural models" => "random/structure.md"
+        ]
+    ]
+)
 
 deploydocs(
-           deps   = Deps.pip("pygments", "python-markdown-math"),
-           repo   = "github.com/EcoJulia/EcologicalNetworks.jl.git",
-           devbranch = "master",
-           push_preview = true
-          )
+deps   = Deps.pip("pygments", "python-markdown-math"),
+repo   = "github.com/EcoJulia/EcologicalNetworks.jl.git",
+devbranch = "master",
+push_preview = true
+)

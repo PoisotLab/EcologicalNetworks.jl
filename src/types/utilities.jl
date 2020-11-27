@@ -96,7 +96,7 @@ function has_interaction(N::AbstractEcologicalNetwork, i::Int64, j::Int64)
   @assert i <= size(N.A, 1)
   @assert j <= size(N.A, 2)
   # This should be reasonably general...
-  return N[i,j] != zero(typeof(N[i,j]))
+  return !iszero(N[i,j])
 end
 
 """
@@ -105,9 +105,7 @@ end
 Modifies the network so that its diagonal is set to the appropriate zero.
 """
 function nodiagonal!(N::AbstractUnipartiteNetwork)
-  for i in 1:richness(N)
-    N.A[i,i] = zero(eltype(N.A))
-  end
+  N.A[diagind(N.A)] .= zero(eltype(N.A))
 end
 
 """
@@ -416,21 +414,25 @@ that are quantitative, there is a `strength` field. This functions allows to
 iterate over interactions in a network in a convenient way.
 """
 function interactions(N::AbstractEcologicalNetwork)
-  edges_accumulator = NamedTuple[]
   fields = [:from, :to]
+  types = [last(eltype(N)),last(eltype(N))]
   if typeof(N) <: ProbabilisticNetwork
     push!(fields, :probability)
+    push!(types,first(eltype(N)))
   end
   if typeof(N) <: QuantitativeNetwork
     push!(fields, :strength)
+    push!(types,first(eltype(N)))
   end
+  non_zero = sum(.!iszero.(N.A)) # Number of non-zero entries in the matrix
+  edges_accumulator = Vector{NamedTuple{tuple(fields...),Tuple{types...}}}(undef, non_zero)
   sp1 = species(N; dims=1)
   sp2 = species(N; dims=2)
-  for i in eachindex(sp1)
-    s1 = sp1[i]
-    for j in eachindex(sp2)
+  cursor = 1
+  for (i, s1) in enumerate(sp1)
+    for (j, s2) in enumerate(sp2)
       if has_interaction(N, i, j)
-        values = Any[s1, sp2[j]]
+        values = Any[s1, s2]
         if typeof(N) <: ProbabilisticNetwork
           push!(values, N[i,j])
         end
@@ -438,7 +440,8 @@ function interactions(N::AbstractEcologicalNetwork)
           push!(values, N[i,j])
         end
         int_nt = NamedTuple{tuple(fields...)}(tuple(values...))
-        push!(edges_accumulator, int_nt)
+        edges_accumulator[cursor] = int_nt
+        cursor = cursor + 1
       end
     end
   end
