@@ -1,5 +1,3 @@
-# Integration with Mangal.jl
-
 In this example, we will show how `EcologicalNetworks.jl` can be integrated with [`Mangal.jl`](https://github.com/EcoJulia/Mangal.jl) to analyse many ecological networks. Specifically, we will show how to analyse the association between meaningful network properties (i.e. connectance, nestedness, and modularity) using all food webs archived on the [`mangal.io`](https://mangal.io/#/) online database.
 
 To conduct this analysis, we need to upload the following packages:
