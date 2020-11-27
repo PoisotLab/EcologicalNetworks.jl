@@ -1,18 +1,3 @@
-function BipartiteProbabilisticNetwork(A::Matrix{IT}) where {IT<:AbstractFloat}
-  check_bipartiteness(A)
-  check_probability_values(A)
-  T = "t".*string.(1:size(A,1))
-  B = "b".*string.(1:size(A,2))
-  BipartiteProbabilisticNetwork{IT,eltype(T)}(A, T, B)
-end
-
-function BipartiteProbabilisticNetwork(A::Matrix{IT}, T::Vector{NT}, B::Vector{NT}) where {IT<:AbstractFloat, NT}
-  check_species_validity(NT)
-  check_bipartiteness(A, T, B)
-  check_probability_values(A)
-  BipartiteProbabilisticNetwork{IT,NT}(A, T, B)
-end
-
 function BipartiteQuantitativeNetwork(A::Matrix{IT}) where {IT <: Number}
   check_bipartiteness(A)
   T = "t".*string.(1:size(A,1))

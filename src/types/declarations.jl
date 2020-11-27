@@ -46,6 +46,7 @@ mutable struct BipartiteNetwork{Bool, ST} <: AbstractBipartiteNetwork
     T::Vector{ST}
     B::Vector{ST}
     function BipartiteNetwork{Bool, NT}(edges::M, T::Vector{NT}, B::Vector{NT}) where {M<:SparseMatrixCSC, NT}
+        dropzeros!(edges)
         new{Bool,NT}(edges, T, B)
     end
 end
@@ -77,6 +78,7 @@ mutable struct UnipartiteNetwork{Bool, ST} <: AbstractUnipartiteNetwork
     S::Vector{ST}
     function UnipartiteNetwork{Bool, NT}(edges::M, S::Vector{NT}) where {M<:SparseMatrixCSC, NT}
         check_unipartiteness(edges, S)
+        dropzeros!(edges)
         new{Bool,NT}(edges, S)
     end
 end
@@ -98,15 +100,33 @@ end
 A bipartite probabilistic network is a matrix of floating point numbers, all of
 which must be between 0 and 1.
 """
-mutable struct BipartiteProbabilisticNetwork{IT<:AbstractFloat, NT} <: AbstractBipartiteNetwork
-    A::Matrix{IT}
-    T::Vector{NT}
-    B::Vector{NT}
-    function BipartiteProbabilisticNetwork{IT, NT}(A::Matrix{IT}, T::Vector{NT}, B::Vector{NT}) where {IT<:AbstractFloat, NT}
-        check_bipartiteness(A, T, B)
-        check_probability_values(A)
-        new{IT,NT}(A, T, B)
+mutable struct BipartiteProbabilisticNetwork{IT <: AbstractFloat, ST} <: AbstractBipartiteNetwork
+    edges::SparseMatrixCSC{IT,Int64}
+    T::Vector{ST}
+    B::Vector{ST}
+    function BipartiteProbabilisticNetwork{IT, NT}(edges::SparseMatrixCSC{IT,Int64}, T::Vector{NT}, B::Vector{NT}) where {IT <: AbstractFloat, NT}
+        dropzeros!(edges)
+        new{IT,NT}(edges, T, B)
     end
+end
+
+function BipartiteProbabilisticNetwork(A::Matrix{IT}, T::Union{Vector{TT},Nothing}=nothing, B::Union{Vector{TT},Nothing}=nothing) where {IT <: AbstractFloat, TT}
+    if isnothing(B)
+        B = "b".*string.(1:size(A, 2))
+    else
+        check_species_validity(TT)
+    end
+    if isnothing(T)
+        T = "t".*string.(1:size(A, 1))
+    else
+        check_species_validity(TT)
+    end
+    allunique(T) || throw(ArgumentError("All top-level species must be unique"))
+    allunique(B) || throw(ArgumentError("All bottom-level species must be unique"))
+    allunique(vcat(B,T)) || throw(ArgumentError("Bipartite networks cannot share species across levels"))
+    isequal(length(T))(size(A,1)) || throw(ArgumentError("The matrix has the wrong number of top-level species"))
+    isequal(length(B))(size(A,2)) || throw(ArgumentError("The matrix has the wrong number of bottom-level species"))
+    return BipartiteProbabilisticNetwork{IT,eltype(T)}(sparse(A), T, B)
 end
 
 """
