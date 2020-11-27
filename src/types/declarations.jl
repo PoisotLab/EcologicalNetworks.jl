@@ -47,6 +47,7 @@ mutable struct BipartiteNetwork{Bool, ST} <: AbstractBipartiteNetwork
     B::Vector{ST}
     function BipartiteNetwork{Bool, NT}(edges::M, T::Vector{NT}, B::Vector{NT}) where {M<:SparseMatrixCSC, NT}
         dropzeros!(edges)
+        check_bipartiteness(edges, T, B)
         new{Bool,NT}(edges, T, B)
     end
 end
@@ -94,7 +95,6 @@ function UnipartiteNetwork(A::M, S::Union{Vector{TT},Nothing}=nothing) where {M 
     isequal(length(S))(size(A,2)) || throw(ArgumentError("The matrix has the wrong number of bottom-level species"))
     return UnipartiteNetwork{Bool,eltype(S)}(sparse(A), S)
 end
-
 
 """
 A bipartite probabilistic network is a matrix of floating point numbers, all of
@@ -167,26 +167,53 @@ end
 A unipartite probabilistic network is a square matrix of floating point numbers,
 all of which must be between 0 and 1.
 """
-mutable struct UnipartiteProbabilisticNetwork{IT<:AbstractFloat, NT} <: AbstractUnipartiteNetwork
-    A::Matrix{IT}
-    S::Vector{NT}
-    function UnipartiteProbabilisticNetwork{IT, NT}(A::Matrix{IT}, S::Vector{NT}) where {IT<:AbstractFloat,NT}
-        check_unipartiteness(A, S)
-        check_probability_values(A)
-        new{IT,NT}(A, S)
+mutable struct UnipartiteProbabilisticNetwork{IT <: AbstractFloat, ST} <: AbstractUnipartiteNetwork
+    edges::SparseMatrixCSC{IT,Int64}
+    S::Vector{ST}
+    function UnipartiteProbabilisticNetwork{IT, NT}(edges::SparseMatrixCSC{IT,Int64}, S::Vector{NT}) where {IT <: AbstractFloat, NT}
+        dropzeros!(edges)
+        check_unipartiteness(edges, S)
+        check_probability_values(edges)
+        new{IT,NT}(edges, S)
     end
 end
+
+function UnipartiteProbabilisticNetwork(A::Matrix{IT}, S::Union{Vector{TT},Nothing}=nothing) where {IT <: AbstractFloat, TT}
+    if isnothing(S)
+        S = "s".*string.(1:size(A, 2))
+    else
+        check_species_validity(TT)
+    end
+    allunique(S) || throw(ArgumentError("All species must be unique"))
+    isequal(length(S))(size(A,1)) || throw(ArgumentError("The matrix has the wrong number of top-level species"))
+    isequal(length(S))(size(A,2)) || throw(ArgumentError("The matrix has the wrong number of bottom-level species"))
+    return UnipartiteProbabilisticNetwork{IT,eltype(S)}(sparse(A), S)
+end
+
 
 """
 A unipartite quantitative network is a square matrix of numbers.
 """
-mutable struct UnipartiteQuantitativeNetwork{IT<:Number, NT} <: AbstractUnipartiteNetwork
-    A::Matrix{IT}
-    S::Vector{NT}
-    function UnipartiteQuantitativeNetwork{IT, NT}(A::Matrix{IT}, S::Vector{NT}) where {IT<:Number,NT}
-        check_unipartiteness(A, S)
-        new{IT,NT}(A, S)
+mutable struct UnipartiteQuantitativeNetwork{IT <: Number, ST} <: AbstractUnipartiteNetwork
+    edges::SparseMatrixCSC{IT,Int64}
+    S::Vector{ST}
+    function UnipartiteQuantitativeNetwork{IT, NT}(edges::SparseMatrixCSC{IT,Int64}, S::Vector{NT}) where {IT <: Number, NT}
+        dropzeros!(edges)
+        check_unipartiteness(edges, S)
+        new{IT,NT}(edges, S)
     end
+end
+
+function UnipartiteQuantitativeNetwork(A::Matrix{IT}, S::Union{Vector{TT},Nothing}=nothing) where {IT <: Number, TT}
+    if isnothing(S)
+        S = "s".*string.(1:size(A, 2))
+    else
+        check_species_validity(TT)
+    end
+    allunique(S) || throw(ArgumentError("All species must be unique"))
+    isequal(length(S))(size(A,1)) || throw(ArgumentError("The matrix has the wrong number of top-level species"))
+    isequal(length(S))(size(A,2)) || throw(ArgumentError("The matrix has the wrong number of bottom-level species"))
+    return UnipartiteQuantitativeNetwork{IT,eltype(S)}(sparse(A), S)
 end
 
 """

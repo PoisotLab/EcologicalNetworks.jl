@@ -21,7 +21,6 @@ include(joinpath(".", "misc/init_tests.jl"))
 
 # Types
 include(joinpath(".", "types/declarations.jl"))
-include(joinpath(".", "types/constructors.jl"))
 include(joinpath(".", "types/conversions.jl"))
 export AbstractEcologicalNetwork,
    # General types for all bipartite / unipartite
