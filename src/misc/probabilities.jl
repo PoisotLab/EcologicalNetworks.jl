@@ -47,6 +47,6 @@ Variance of a series of multiplicative Bernoulli events
 """
 function _multiplicative_bernoulli_variance(p::Array{Float64})
 	v = _single_bernoulli_variance.(p)
-	e = _single_bernoulli_expectation(p)
+	e = _single_bernoulli_expectation.(p)
 	return prod(v.+e.^2.0)-prod(e.^2.0)
 end
