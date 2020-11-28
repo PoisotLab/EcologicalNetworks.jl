@@ -1,5 +1,3 @@
-import Base.sum
-
 """
     sum(N::AbstractEcologicalNetwork; dims=nothing)
 
@@ -27,7 +25,7 @@ computes the sum of the interactions for the lower (`dims=2`) or higher
 - Martinez, N.D., 1992. Constant Connectance in Community Food Webs. The
   American Naturalist 139, 1208–1218.
 """
-function sum(N::AbstractEcologicalNetwork; dims::Union{Nothing,Int}=nothing)
+function Base.sum(N::AbstractEcologicalNetwork; dims::Union{Nothing,Int}=nothing)
     @assert isnothing(dims) || dims == 1 || dims == 2
     isnothing(dims) && return sum(N.edges)
     return sum(N.edges, dims=dims)
