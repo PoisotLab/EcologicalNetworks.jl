@@ -17,9 +17,8 @@ function Base.rand(N::ProbabilisticNetwork)
     newtype = typeof(N) <: AbstractUnipartiteNetwork ? UnipartiteNetwork : BipartiteNetwork
     ed = spzeros(Bool, size(N.edges)...)
     K = newtype(ed, EcologicalNetworks.species_objects(N)...)
-    r = rand(length(N))
-    for (i,int) in enumerate(interactions(N))
-        (r[i] ≤ int.probability) && (K[int.from, int.to] = true )
+    for int in N
+        (rand() ≤ int.probability) && (K[int.from, int.to] = true)
     end
     dropzeros!(K.edges)
     return K
