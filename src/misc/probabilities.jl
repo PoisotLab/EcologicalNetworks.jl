@@ -46,6 +46,7 @@ end
 Variance of a series of multiplicative Bernoulli events
 """
 function _multiplicative_bernoulli_variance(p::Array{Float64})
-	# LOLWUT
-	return reduce(*, map((x) -> _single_bernoulli_variance(x) + _single_bernoulli_expectation(x)*_single_bernoulli_expectation(x), p)) - reduce(*, map((x) -> _single_bernoulli_expectation(x)*_single_bernoulli_expectation(x), p))
+	v = _single_bernoulli_variance.(p)
+	e = _single_bernoulli_expectation(p)
+	return prod(v.+e.^2.0)-prod(e.^2.0)
 end
