@@ -53,8 +53,12 @@ end
 # General useful manipulations
 include(joinpath(".", "types/utilities.jl"))
 include(joinpath(".", "types/comparisons.jl"))
-include(joinpath(".", "types/iteration.jl"))
 export species, interactions, has_interaction, richness, nodiagonal, nodiagonal!
+
+# Interfaces for networks
+include(joinpath(".", "interfaces/iteration.jl"))
+include(joinpath(".", "interfaces/abstractarray.jl"))
+include(joinpath(".", "interfaces/indexing.jl"))
 
 # Degree
 include(joinpath(".", "links/degree.jl"))
