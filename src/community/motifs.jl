@@ -107,7 +107,7 @@ function inner_find_motif(N::T1, m::T2) where {T1<:UnipartiteProbabilisticNetwor
             for i in eachindex(imat)
                 imat[i] = (perm[i] ? 2.0*isg[i] : 1.0)-isg[i]
             end
-            pmm, pmv = prod(imat), EcologicalNetworks.m_var(imat)
+            pmm, pmv = prod(imat), EcologicalNetworks._multiplicative_bernoulli_variance(imat)
             motif_mean += pmm
             motif_var += pmv
         end
@@ -129,7 +129,7 @@ function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteProbabilisticNetwork
             for i in eachindex(imat)
                 imat[i] = (perm[i] ? 2.0*isg[i] : 1.0)-isg[i]
             end
-            pmm, pmv = prod(imat), EcologicalNetworks.m_var(imat)
+            pmm, pmv = prod(imat), EcologicalNetworks._multiplicative_bernoulli_variance(imat)
             motif_mean += pmm
             motif_var += pmv
         end
