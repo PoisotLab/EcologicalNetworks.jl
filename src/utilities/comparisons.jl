@@ -1,42 +1,40 @@
-import Base: <, ≤
-
-function <(N::T, n::NT) where {T <: QuantitativeNetwork, NT <: Number}
+function Base.:<(N::T, n::NT) where {T <: QuantitativeNetwork, NT <: Number}
    ReturnType = T <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
    return ReturnType(N.edges .< n, species_objects(N)...)
 end
 
-function <(N::T, n::NT) where {T <: ProbabilisticNetwork, NT <: AbstractFloat}
+function Base.:<(N::T, n::NT) where {T <: ProbabilisticNetwork, NT <: AbstractFloat}
    ReturnType = T <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
    return ReturnType(N.edges .< n, species_objects(N)...)
 end
 
-function <(n::NT, N::T) where {T <: QuantitativeNetwork, NT <: Number}
+function Base.:<(n::NT, N::T) where {T <: QuantitativeNetwork, NT <: Number}
    ReturnType = T <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
    return ReturnType(n .< N.edges, species_objects(N)...)
 end
 
-function <(n::NT, N::T) where {T <: ProbabilisticNetwork, NT <: AbstractFloat}
+function Base.:<(n::NT, N::T) where {T <: ProbabilisticNetwork, NT <: AbstractFloat}
    ReturnType = T <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
    return ReturnType(n .< N.edges, species_objects(N)...)
 end
 
 
-function ≤(N::T, n::NT) where {T <: QuantitativeNetwork, NT <: Number}
+function Base.:≤(N::T, n::NT) where {T <: QuantitativeNetwork, NT <: Number}
    ReturnType = T <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
    return ReturnType(N.edges .≤ n, species_objects(N)...)
 end
 
-function ≤(N::T, n::NT) where {T <: ProbabilisticNetwork, NT <: AbstractFloat}
+function Base.:≤(N::T, n::NT) where {T <: ProbabilisticNetwork, NT <: AbstractFloat}
    ReturnType = T <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
    return ReturnType(N.edges .≤ n, species_objects(N)...)
 end
 
-function ≤(n::NT, N::T) where {T <: QuantitativeNetwork, NT <: Number}
+function Base.:≤(n::NT, N::T) where {T <: QuantitativeNetwork, NT <: Number}
    ReturnType = T <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
    return ReturnType(n .≤ N.edges, species_objects(N)...)
 end
 
-function ≤(n::NT, N::T) where {T <: ProbabilisticNetwork, NT <: AbstractFloat}
+function Base.:≤(n::NT, N::T) where {T <: ProbabilisticNetwork, NT <: AbstractFloat}
    ReturnType = T <: AbstractBipartiteNetwork ? BipartiteNetwork : UnipartiteNetwork
    return ReturnType(n .≤ N.edges, species_objects(N)...)
 end

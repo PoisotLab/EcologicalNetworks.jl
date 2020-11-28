@@ -1,5 +1,3 @@
-import Base: getindex, setindex!, permutedims, permutedims!, copy, !, show, +, inv
-
 function check_species_validity(::Type{T}) where {T <: Any}
   throw(ArgumentError("The type $(T) is not an allowed species type"))
 end
@@ -7,17 +5,6 @@ end
 check_species_validity(::Type{T}) where {T <: Symbol} = nothing
 check_species_validity(::Type{T}) where {T <: AbstractString} = nothing
 check_species_validity(::Type{T}) where {T <: String} = nothing
-
-"""
-    show(io::IO, N::AbstractEcologicalNetwork)
-"""
-function show(io::IO, N::AbstractEcologicalNetwork)
-  p = typeof(N) <: AbstractBipartiteNetwork ? "bipartite" : "unipartite"
-  t = ""
-  t = typeof(N) <: ProbabilisticNetwork ? " probabilistic" : t
-  t = typeof(N) <: QuantitativeNetwork ? " quantitative" : t
-  print(io, "$(richness(N; dims=1))×$(richness(N; dims=2)) $(p)$(t) ecological network $(eltype(N)) (L: $(links(N)))")
-end
 
 """
     richness(N::AbstractEcologicalNetwork, i::Int64)
@@ -119,7 +106,6 @@ function nodiagonal(N::AbstractUnipartiteNetwork)
   return Y
 end
 
-
 """
     nodiagonal(N::AbstractBipartiteNetwork)
 
@@ -138,69 +124,6 @@ end
 Does nothing.
 """
 function nodiagonal!(N::AbstractBipartiteNetwork)
-end
-
-"""
-Creates a copy of a network -- this returns an object with the same type, and
-the same content.
-"""
-function copy(N::AbstractEcologicalNetwork)
-  edges = copy(N.edges)
-  sp = copy.(species_objects(N))
-  return typeof(N)(edges, sp...)
-end
-
-"""
-    Base.:!{T<:DeterministicNetwork}(N::T)
-
-Returns the inverse of a binary network -- interactions that were `false` become
-`true`, and conversely.
-"""
-function Base.:!(N::T) where {T <: BinaryNetwork}
-  return typeof(N)(.!N.A, species_objects(N)...)
-end
-
-
-"""
-    permutedims(N::AbstractBipartiteNetwork)
-
-Tranposes the network and returns a copy
-"""
-function permutedims(N::AbstractEcologicalNetwork)
-  NA = permutedims(N.edges)
-  new_sp = typeof(N) <: AbstractBipartiteNetwork ? (N.B, N.T) : (N.S,)
-  return typeof(N)(NA, new_sp...)
-end
-
-"""
-    inv(N::AbstractUnipartiteNetwork)
-
-Inverses interactions in a network. Note that this is *not* the same as
-changing the side of species (`permutedims`); this function is mostly useful
-when the fluxes of biomass are represented as going from the resource to
-the consumer, which is the opposite direction of the interaction.
-"""
-function inv(N::AbstractUnipartiteNetwork)
-   Y = copy(N)
-   inv!(Y)
-   return Y
-end
-
-"""
-    inv!(N::AbstractUnipartiteNetwork)
-
-Inverses interactions in a network. Note that this is *not* the same as
-changing the side of species (`permutedims`); this function is mostly useful
-when the fluxes of biomass are represented as going from the resource to the
-consumer, which is the opposite direction of the interaction. This functions
-modifies the network.
-"""
-function inv!(N::AbstractUnipartiteNetwork)
-   for i in 1:(richness(N)-1)
-      for j in (i+1):richness(N)
-         N.edges[i,j] = N.edges[j,i]
-      end
-   end
 end
 
 """
@@ -250,23 +173,3 @@ function interactions(N::ProbabilisticNetwork)
     end
     return unique(edges_accumulator)
 end
-
-"""
-    +(n1::T, n2::T) where {T <: BipartiteQuantitativeNetwork}
-
-Adds two quantitative bipartite networks. TODO
-"""
-function +(n1::T, n2::T) where {T <: BipartiteQuantitativeNetwork}
-  st = union(species(n1; dims=1), species(n2; dims=1))
-  sb = union(species(n1; dims=2), species(n2; dims=2))
-  A = zeros(first(eltype(n1)), (length(st), length(sb)))
-  N = T(A, st, sb)
-  for i1 in n1
-    N[i1.from,i1.to] = N[i1.from,i1.to] + i1.strength
-  end
-  for i2 in n2
-    N[i2.from,i2.to] = N[i2.from,i2.to] + i2.strength
-  end
-  return N
-end
-
