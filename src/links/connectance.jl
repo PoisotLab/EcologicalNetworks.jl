@@ -105,12 +105,12 @@ Expected variance of the number of links for a probabilistic network.
 
 #### References
 
-Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
-D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
-Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
+- Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
+  D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
+  Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
 """
 function links_var(N::ProbabilisticNetwork)
-   return sum(N.A .* (1 .- N.A))
+   return sum(N.edges .* (1 .- N.edges))
 end
 
 """
@@ -131,18 +131,18 @@ the package.
 
 #### References
 
-Delmas, E., Besson, M., Brice, M.-H., Burkle, L.A., Dalla Riva, G.V., Fortin,
-M.-J., Gravel, D., Guimarães, P.R., Hembry, D.H., Newman, E.A., Olesen, J.M.,
-Pires, M.M., Yeakel, J.D., Poisot, T., 2018. Analysing ecological networks of
-species interactions. Biological Reviews 112540.
-https://doi.org/10.1111/brv.12433
+- Delmas, E., Besson, M., Brice, M.-H., Burkle, L.A., Dalla Riva, G.V., Fortin,
+  M.-J., Gravel, D., Guimarães, P.R., Hembry, D.H., Newman, E.A., Olesen, J.M.,
+  Pires, M.M., Yeakel, J.D., Poisot, T., 2018. Analysing ecological networks of
+  species interactions. Biological Reviews 112540.
+  https://doi.org/10.1111/brv.12433
 
-Dunne, J.A., 2006. The Network Structure of Food Webs, in: Dunne, J.A., Pascual,
-M. (Eds.), Ecological Networks: Linking Structure and Dynamics. Oxford
-University Press, pp. 27–86.
+- Dunne, J.A., 2006. The Network Structure of Food Webs, in: Dunne, J.A.,
+  Pascual, M. (Eds.), Ecological Networks: Linking Structure and Dynamics.
+  Oxford University Press, pp. 27–86.
 
-Martinez, N.D., 1992. Constant Connectance in Community Food Webs. The American
-Naturalist 139, 1208–1218.
+- Martinez, N.D., 1992. Constant Connectance in Community Food Webs. The
+  American Naturalist 139, 1208–1218.
 """
 function connectance(N::AbstractEcologicalNetwork)
     return links(N) / (richness(N; dims=1)*richness(N; dims=2))
@@ -155,15 +155,15 @@ Number of links divided by species richness.
 
 #### References
 
-Delmas, E., Besson, M., Brice, M.-H., Burkle, L.A., Dalla Riva, G.V., Fortin,
-M.-J., Gravel, D., Guimarães, P.R., Hembry, D.H., Newman, E.A., Olesen, J.M.,
-Pires, M.M., Yeakel, J.D., Poisot, T., 2018. Analysing ecological networks of
-species interactions. Biological Reviews 112540.
-https://doi.org/10.1111/brv.12433
+- Delmas, E., Besson, M., Brice, M.-H., Burkle, L.A., Dalla Riva, G.V., Fortin,
+  M.-J., Gravel, D., Guimarães, P.R., Hembry, D.H., Newman, E.A., Olesen, J.M.,
+  Pires, M.M., Yeakel, J.D., Poisot, T., 2018. Analysing ecological networks of
+  species interactions. Biological Reviews 112540.
+  https://doi.org/10.1111/brv.12433
 
-Dunne, J.A., 2006. The Network Structure of Food Webs, in: Dunne, J.A., Pascual,
-M. (Eds.), Ecological Networks: Linking Structure and Dynamics. Oxford
-University Press, pp. 27–86.
+- Dunne, J.A., 2006. The Network Structure of Food Webs, in: Dunne, J.A.,
+  Pascual, M. (Eds.), Ecological Networks: Linking Structure and Dynamics.
+  Oxford University Press, pp. 27–86.
 """
 function linkage_density(N::AbstractEcologicalNetwork)
     return links(N) / richness(N)
@@ -177,9 +177,9 @@ variance of the number of links divided by the squared size of the matrix.
 
 #### References
 
-Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
-D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
-Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
+- Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
+  D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
+  Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
 """
 function connectance_var(N::ProbabilisticNetwork)
    return links_var(N) / (prod(size(N))^2)

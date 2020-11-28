@@ -32,7 +32,6 @@ function _single_bernoulli_variance(p::Float64)
 	return p*(1.0-p)
 end
 
-
 """
 Variance of a series of additive Bernoulli events
 
