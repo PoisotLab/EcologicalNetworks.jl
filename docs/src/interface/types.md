@@ -1,5 +1,3 @@
-# Types of networks
-
 One feature of `EcologicalNetwork` which makes the rest of the package works is
 the type system to represent networks. This is not the most enthralling reading,
 but this pacge will walk you through the different options, and discuss how and

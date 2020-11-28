@@ -1,5 +1,3 @@
-# Core functions
-
 This page presents the core functions to manipulate networks. Whenever possible,
 the approach of `EcologicalNetworks` is to overload functions from `Base`.
 
@@ -17,13 +15,6 @@ species
 has_interaction
 interactions
 ```
-
-### Network slices
-
-```@docs
-getindex
-```
-
 ### Random network samples
 
 ```@docs
@@ -31,12 +22,6 @@ sample
 ```
 
 ## Network utilities
-
-### Network size
-
-```@docs
-size
-```
 
 ### Species richness
 
@@ -58,8 +43,3 @@ nodiagonal!
 Base.:!
 ```
 
-### Modify interactions
-
-```@docs
-setindex!
-```

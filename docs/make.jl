@@ -14,6 +14,8 @@ makedocs(
             "Types" => "interface/types.md",
             "Conversions" => "interface/conversions.md",
             "Core functions" => "interface/highlevel.md"
+            "AbstractArray" => "interface/abstractarray.md",
+            "Iterate" => "interface/iterate.md",
         ],
         "Examples" => [
             "Modularity" => "examples/modularity.md",
