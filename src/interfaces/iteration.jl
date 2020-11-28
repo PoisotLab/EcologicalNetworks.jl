@@ -33,5 +33,5 @@ end
 function Base.iterate(N::T, state::Int64) where {T <: AbstractEcologicalNetwork}
     next = state == length(N) ? nothing : state+1
     isnothing(next) && return nothing
-    return (_network_state(N, state), next)
+    return (_network_state(N, next), next)
 end
