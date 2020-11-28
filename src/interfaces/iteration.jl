@@ -6,10 +6,6 @@ function Base.IteratorEltype(::Type{T}) where {T <: AbstractEcologicalNetwork}
     return Base.EltypeUnknown()
 end
 
-function Base.length(N::T) where {T <: AbstractEcologicalNetwork}
-    return count(!iszero, N.edges)
-end
-
 function Base.isempty(N::T) where {T <: AbstractEcologicalNetwork}
     return iszero(length(N))
 end
