@@ -6,7 +6,7 @@ function Base.show(io::IO, N::AbstractEcologicalNetwork)
   t = ""
   t = typeof(N) <: ProbabilisticNetwork ? " probabilistic" : t
   t = typeof(N) <: QuantitativeNetwork ? " quantitative" : t
-  print(io, "$(richness(N; dims=1))×$(richness(N; dims=2)) $(p)$(t) ecological network $(_species_type(N)) (L: $(links(N)) - $(_interaction_type(N)))")
+  print(io, "$(richness(N; dims=1))×$(richness(N; dims=2)) ($(_species_type(N))) $(p)$(t) ecological network (L: $(links(N)) - $(_interaction_type(N)))")
 end
 
 """
