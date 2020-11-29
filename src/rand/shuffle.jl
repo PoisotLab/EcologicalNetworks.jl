@@ -24,9 +24,7 @@ function _swap_fill!(Y::BinaryNetwork)
    end
 
    Y[i1.from, i1.to] = false
-   Y[i2.from, i2.to] = false
    Y[n1.from, n1.to] = true
-   Y[n2.from, n2.to] = true
 end
 
 function _swap_vulnerability!(Y::BinaryNetwork)
@@ -39,9 +37,7 @@ function _swap_vulnerability!(Y::BinaryNetwork)
    end
 
    Y[i1.from, i1.to] = false
-   Y[i2.from, i2.to] = false
    Y[n1.from, n1.to] = true
-   Y[n2.from, n2.to] = true
 end
 
 function _swap_generality!(Y::BinaryNetwork)
@@ -54,9 +50,7 @@ function _swap_generality!(Y::BinaryNetwork)
    end
 
    Y[i1.from, i1.to] = false
-   Y[i2.from, i2.to] = false
    Y[n1.from, n1.to] = true
-   Y[n2.from, n2.to] = true
 end
 
 
