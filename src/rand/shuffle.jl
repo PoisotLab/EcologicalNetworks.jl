@@ -8,11 +8,10 @@ function _swap_degree!(Y::BinaryNetwork)
       n1, n2 = (from=i1.from, to=i2.to), (from=i2.from, to=i1.to)
    end
 
-   for old_i in [i1, i2, n1, n2]
-      i = something(findfirst(isequal(old_i.from), species(Y; dims=1)), 0)
-      j = something(findfirst(isequal(old_i.to), species(Y; dims=2)), 0)
-      Y.A[i,j] = !Y.A[i,j]
-   end
+   Y[i1.from, i1.to] = false
+   Y[i2.from, i2.to] = false
+   Y[n1.from, n1.to] = true
+   Y[n2.from, n2.to] = true
 end
 
 function _swap_fill!(Y::BinaryNetwork)
@@ -24,11 +23,10 @@ function _swap_fill!(Y::BinaryNetwork)
       n1 = (from=StatsBase.sample(species(Y; dims=1)), to=StatsBase.sample(species(Y; dims=2)))
    end
 
-   for old_i in [i1, n1]
-      i = something(findfirst(isequal(old_i.from), species(Y; dims=1)), 0)
-      j = something(findfirst(isequal(old_i.to), species(Y; dims=2)), 0)
-      Y.A[i,j] = !Y.A[i,j]
-   end
+   Y[i1.from, i1.to] = false
+   Y[i2.from, i2.to] = false
+   Y[n1.from, n1.to] = true
+   Y[n2.from, n2.to] = true
 end
 
 function _swap_vulnerability!(Y::BinaryNetwork)
@@ -40,11 +38,10 @@ function _swap_vulnerability!(Y::BinaryNetwork)
       n1 = (from=StatsBase.sample(species(Y; dims=1)), to=i1.to)
    end
 
-   for old_i in [i1, n1]
-      i = something(findfirst(isequal(old_i.from), species(Y; dims=1)), 0)
-      j = something(findfirst(isequal(old_i.to), species(Y; dims=2)), 0)
-      Y.A[i,j] = !Y.A[i,j]
-   end
+   Y[i1.from, i1.to] = false
+   Y[i2.from, i2.to] = false
+   Y[n1.from, n1.to] = true
+   Y[n2.from, n2.to] = true
 end
 
 function _swap_generality!(Y::BinaryNetwork)
@@ -56,11 +53,10 @@ function _swap_generality!(Y::BinaryNetwork)
       n1 = (from=i1.from, to=StatsBase.sample(species(Y; dims=2)))
    end
 
-   for old_i in [i1, n1]
-      i = something(findfirst(isequal(old_i.from), species(Y; dims=1)), 0)
-      j = something(findfirst(isequal(old_i.to), species(Y; dims=2)), 0)
-      Y.A[i,j] = !Y.A[i,j]
-   end
+   Y[i1.from, i1.to] = false
+   Y[i2.from, i2.to] = false
+   Y[n1.from, n1.to] = true
+   Y[n2.from, n2.to] = true
 end
 
 
