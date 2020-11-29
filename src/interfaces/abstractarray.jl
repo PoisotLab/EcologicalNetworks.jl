@@ -139,7 +139,7 @@ TODO
 """
 function Base.getindex(N::AbstractBipartiteNetwork, ::Colon, sp::Vector{T}) where {T}
   @assert T == _species_type(N)
-  sp_pos = indexin(sp, species(N; dims=2))
+  sp_pos = Int.(something(indexin(sp, species(N; dims=2))))
   n_t = N.T
   n_b = N.B[sp_pos]
   n_int = N.edges[:, sp_pos]
@@ -154,7 +154,7 @@ TODO
 """
 function Base.getindex(N::AbstractBipartiteNetwork, sp::Vector{T}, ::Colon) where {T}
   @assert T == _species_type(N)
-  sp_pos = indexin(sp, species(N; dims=1))
+  sp_pos = Int.(something(indexin(sp, species(N; dims=1))))
   n_t = N.T[sp_pos]
   n_b = N.B
   n_int = N.edges[sp_pos,:]
@@ -183,8 +183,8 @@ TODO
 """
 function Base.getindex(N::AbstractBipartiteNetwork, sp1::Vector{T}, sp2::Vector{T}) where {T}
   @assert T == _species_type(N)
-  sp1_pos = indexin(sp1, species(N; dims=1))
-  sp2_pos = indexin(sp2, species(N; dims=2))
+  sp1_pos = Int.(something(indexin(sp1, species(N; dims=1))))
+  sp2_pos = Int.(something(indexin(sp2, species(N; dims=2))))
   return N[sp1_pos, sp2_pos]
 end
 
