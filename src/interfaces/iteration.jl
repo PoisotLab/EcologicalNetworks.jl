@@ -1,9 +1,33 @@
+function Base.eltype(::BipartiteProbabilisticNetwork{IT,ST}) where {IT,ST}
+    return NamedTuple{(:from, :to, :probability),Tuple{ST,ST,IT}}
+end
+
+function Base.eltype(::BipartiteQuantitativeNetwork{IT,ST}) where {IT,ST}
+    return NamedTuple{(:from, :to, :strength),Tuple{ST,ST,IT}}
+end
+
+function Base.eltype(::BipartiteNetwork{IT,ST}) where {IT,ST}
+    return NamedTuple{(:from, :to),Tuple{ST,ST}}
+end
+
+function Base.eltype(::UnipartiteProbabilisticNetwork{IT,ST}) where {IT,ST}
+    return NamedTuple{(:from, :to, :probability),Tuple{ST,ST,IT}}
+end
+
+function Base.eltype(::UnipartiteQuantitativeNetwork{IT,ST}) where {IT,ST}
+    return NamedTuple{(:from, :to, :strength),Tuple{ST,ST,IT}}
+end
+
+function Base.eltype(::UnipartiteNetwork{IT,ST}) where {IT,ST}
+    return NamedTuple{(:from, :to),Tuple{ST,ST}}
+end
+
 function Base.IteratorSize(::Type{T}) where {T <: AbstractEcologicalNetwork}
     return Base.HasLength()
 end
 
 function Base.IteratorEltype(::Type{T}) where {T <: AbstractEcologicalNetwork}
-    return Base.EltypeUnknown()
+    return Base.HasEltype()
 end
 
 function Base.isempty(N::T) where {T <: AbstractEcologicalNetwork}

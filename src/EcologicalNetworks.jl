@@ -39,14 +39,14 @@ export web_of_life, nz_stream_foodweb, pajek
 
 function __init__()
    @require Mangal="b8b640a6-63d9-51e6-b784-5033db27bef2" begin
-      check_species_validity(::Mangal.MangalReferenceTaxon) = nothing
-      check_species_validity(::Mangal.MangalNode) = nothing
+      _check_species_validity(::Mangal.MangalReferenceTaxon) = nothing
+      _check_species_validity(::Mangal.MangalNode) = nothing
    end
    @require GBIF="ee291a33-5a6c-5552-a3c8-0f29a1181037" begin
-      check_species_validity(::GBIF.GBIFTaxon) = nothing
+      _check_species_validity(::GBIF.GBIFTaxon) = nothing
    end
    @require NCBITaxonomy="f88b31d2-eb98-4433-b52d-2dd32bc6efce" begin
-      check_species_validity(::NCBITaxonomy.NCBITaxon) = nothing
+      _check_species_validity(::NCBITaxonomy.NCBITaxon) = nothing
    end
 end
 

@@ -1,10 +1,12 @@
-function check_species_validity(::Type{T}) where {T <: Any}
+
+
+function _check_species_validity(::Type{T}) where {T <: Any}
   throw(ArgumentError("The type $(T) is not an allowed species type"))
 end
 
-check_species_validity(::Type{T}) where {T <: Symbol} = nothing
-check_species_validity(::Type{T}) where {T <: AbstractString} = nothing
-check_species_validity(::Type{T}) where {T <: String} = nothing
+_check_species_validity(::Type{T}) where {T <: Symbol} = nothing
+_check_species_validity(::Type{T}) where {T <: AbstractString} = nothing
+_check_species_validity(::Type{T}) where {T <: String} = nothing
 
 """
     richness(N::AbstractEcologicalNetwork, i::Int64)
@@ -61,7 +63,7 @@ for the presence of an interaction.
 Use `N[i,j]` if you need to get the value of the interaction.
 """
 function has_interaction(N::AbstractEcologicalNetwork, i::NT, j::NT) where {NT}
-  check_species_validity(NT)
+  _check_species_validity(NT)
   @assert i ∈ species(N; dims=1)
   @assert j ∈ species(N; dims=2)
   i_pos = something(findfirst(isequal(i), species(N; dims=1)),0)

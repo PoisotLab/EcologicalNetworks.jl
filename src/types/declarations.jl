@@ -56,12 +56,12 @@ function BipartiteNetwork(A::M, T::Union{Vector{TT},Nothing}=nothing, B::Union{V
     if isnothing(B)
         B = "b".*string.(1:size(A, 2))
     else
-        check_species_validity(TT)
+        _check_species_validity(TT)
     end
     if isnothing(T)
         T = "t".*string.(1:size(A, 1))
     else
-        check_species_validity(TT)
+        _check_species_validity(TT)
     end
     allunique(T) || throw(ArgumentError("All top-level species must be unique"))
     allunique(B) || throw(ArgumentError("All bottom-level species must be unique"))
@@ -88,7 +88,7 @@ function UnipartiteNetwork(A::M, S::Union{Vector{TT},Nothing}=nothing) where {M 
     if isnothing(S)
         S = "s".*string.(1:size(A, 1))
     else
-        check_species_validity(TT)
+        _check_species_validity(TT)
     end
     allunique(S) || throw(ArgumentError("All species must be unique"))
     isequal(length(S))(size(A,1)) || throw(ArgumentError("The matrix has the wrong number of top-level species"))
@@ -110,8 +110,8 @@ mutable struct BipartiteProbabilisticNetwork{IT <: AbstractFloat, ST} <: Abstrac
         allunique(B) || throw(ArgumentError("All bottom-level species must be unique"))
         allunique(vcat(B,T)) || throw(ArgumentError("Bipartite networks cannot share species across levels"))
         check_probability_values(edges)
-        check_species_validity(eltype(T))
-        check_species_validity(eltype(B))
+        _check_species_validity(eltype(T))
+        _check_species_validity(eltype(B))
         check_bipartiteness(edges, T, B)
         new{eltype(edges),eltype(T)}(edges, T, B)
     end
@@ -121,8 +121,8 @@ mutable struct BipartiteProbabilisticNetwork{IT <: AbstractFloat, ST} <: Abstrac
 end
 
 function BipartiteProbabilisticNetwork(A::Array{IT,2}, T::Union{Vector{TT},Nothing}=nothing, B::Union{Vector{TT},Nothing}=nothing) where {IT <: AbstractFloat, TT}
-    isnothing(B) ? (B = "b".*string.(1:size(A, 2))) : check_species_validity(TT)
-    isnothing(T) ? (T = "t".*string.(1:size(A, 1))) : check_species_validity(TT)
+    isnothing(B) ? (B = "b".*string.(1:size(A, 2))) : _check_species_validity(TT)
+    isnothing(T) ? (T = "t".*string.(1:size(A, 1))) : _check_species_validity(TT)
     isequal(length(T))(size(A,1)) || throw(ArgumentError("The matrix has the wrong number of top-level species"))
     isequal(length(B))(size(A,2)) || throw(ArgumentError("The matrix has the wrong number of bottom-level species"))
     return BipartiteProbabilisticNetwork(sparse(A), T, B)
@@ -141,8 +141,8 @@ mutable struct BipartiteQuantitativeNetwork{IT <: Number, ST} <: AbstractBiparti
         allunique(T) || throw(ArgumentError("All top-level species must be unique"))
         allunique(B) || throw(ArgumentError("All bottom-level species must be unique"))
         allunique(vcat(B,T)) || throw(ArgumentError("Bipartite networks cannot share species across levels"))
-        check_species_validity(eltype(T))
-        check_species_validity(eltype(B))
+        _check_species_validity(eltype(T))
+        _check_species_validity(eltype(B))
         check_bipartiteness(edges, T, B)
         new{eltype(edges),eltype(T)}(edges, T, B)
     end
@@ -152,8 +152,8 @@ mutable struct BipartiteQuantitativeNetwork{IT <: Number, ST} <: AbstractBiparti
 end
 
 function BipartiteQuantitativeNetwork(A::Array{IT,2}, T::Union{Vector{TT},Nothing}=nothing, B::Union{Vector{TT},Nothing}=nothing) where {IT <: Number, TT}
-    isnothing(B) ? (B = "b".*string.(1:size(A, 2))) : check_species_validity(TT)
-    isnothing(T) ? (T = "t".*string.(1:size(A, 1))) : check_species_validity(TT)
+    isnothing(B) ? (B = "b".*string.(1:size(A, 2))) : _check_species_validity(TT)
+    isnothing(T) ? (T = "t".*string.(1:size(A, 1))) : _check_species_validity(TT)
     isequal(length(T))(size(A,1)) || throw(ArgumentError("The matrix has the wrong number of top-level species"))
     isequal(length(B))(size(A,2)) || throw(ArgumentError("The matrix has the wrong number of bottom-level species"))
     return BipartiteQuantitativeNetwork(sparse(A), T, B)
@@ -170,7 +170,7 @@ mutable struct UnipartiteProbabilisticNetwork{IT <: AbstractFloat, ST} <: Abstra
         dropzeros!(edges)
         allunique(S) || throw(ArgumentError("All species must be unique"))
         check_probability_values(edges)
-        check_species_validity(eltype(S))
+        _check_species_validity(eltype(S))
         check_unipartiteness(edges, S)
         new{eltype(edges),eltype(S)}(edges, S)
     end
@@ -180,7 +180,7 @@ mutable struct UnipartiteProbabilisticNetwork{IT <: AbstractFloat, ST} <: Abstra
 end
 
 function UnipartiteProbabilisticNetwork(A::Array{IT,2}, S::Union{Vector{TT},Nothing}=nothing) where {IT <: AbstractFloat, TT}
-    isnothing(S) ? (S = "s".*string.(1:size(A, 2))) : check_species_validity(TT)
+    isnothing(S) ? (S = "s".*string.(1:size(A, 2))) : _check_species_validity(TT)
     isequal(length(S))(size(A,1)) || throw(ArgumentError("The matrix has the wrong number of top-level species"))
     isequal(length(S))(size(A,2)) || throw(ArgumentError("The matrix has the wrong number of bottom-level species"))
     return UnipartiteProbabilisticNetwork(sparse(A), S)
@@ -195,7 +195,7 @@ mutable struct UnipartiteQuantitativeNetwork{IT <: Number, ST} <: AbstractUnipar
     function UnipartiteQuantitativeNetwork(edges, S)
         dropzeros!(edges)
         allunique(S) || throw(ArgumentError("All species must be unique"))
-        check_species_validity(eltype(S))
+        _check_species_validity(eltype(S))
         check_unipartiteness(edges, S)
         new{eltype(edges),eltype(S)}(edges, S)
     end
@@ -205,7 +205,7 @@ mutable struct UnipartiteQuantitativeNetwork{IT <: Number, ST} <: AbstractUnipar
 end
 
 function UnipartiteQuantitativeNetwork(A::Array{IT,2}, S::Union{Vector{TT},Nothing}=nothing) where {IT <: Number, TT}
-    isnothing(S) ? (S = "s".*string.(1:size(A, 2))) : check_species_validity(TT)
+    isnothing(S) ? (S = "s".*string.(1:size(A, 2))) : _check_species_validity(TT)
     isequal(length(S))(size(A,1)) || throw(ArgumentError("The matrix has the wrong number of top-level species"))
     isequal(length(S))(size(A,2)) || throw(ArgumentError("The matrix has the wrong number of bottom-level species"))
     return UnipartiteQuantitativeNetwork(sparse(A), S)
@@ -236,21 +236,3 @@ QuantitativeNetwork = Union{BipartiteQuantitativeNetwork, UnipartiteQuantitative
 All non-probabilistic networks
 """
 DeterministicNetwork = Union{BinaryNetwork, QuantitativeNetwork}
-
-all_types = [
-    :BipartiteNetwork, :UnipartiteNetwork,
-    :BipartiteProbabilisticNetwork, :UnipartiteProbabilisticNetwork,
-    :BipartiteQuantitativeNetwork, :UnipartiteQuantitativeNetwork
-]
-for T in all_types
-    @eval begin
-        """
-        eltype(N::$($T){IT,ST}) where {IT,ST}
-        
-        Returns a tuple with the type of the interactions, and the type of the species.
-        """
-        function eltype(N::$T{IT,ST}) where {IT,ST}
-            return (IT,ST)
-        end
-    end
-end
