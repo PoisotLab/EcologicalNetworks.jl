@@ -7,7 +7,7 @@ This returns an array, not a network.
 """
 function number_of_paths(N::AbstractUnipartiteNetwork; n::Int64=2)
     @assert n >= 2
-    return N.A^n
+    return N.edges^n
 end
 
 function number_of_paths(N::UnipartiteQuantitativeNetwork; n::Int64=2)
@@ -27,8 +27,8 @@ which is above 10.
 """
 function shortest_path(N::UnipartiteNetwork; nmax::Int64=50)
   # We will have a matrix of the same size at the adjacency matrix
-  D = zeros(Int64, size(N))
-  D[N.A] .= 1
+  D = spzeros(Int64, size(N.edges)...)
+  D[findall(!iszero, N.edges)] .= 1
   for i in 2:nmax
     P = number_of_paths(N, n=i)
     D[(P .> 0).*(D .== 0)] .= i

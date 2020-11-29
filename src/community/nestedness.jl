@@ -49,11 +49,12 @@ WNODF of a single axis
 function nodf_axis(N::BipartiteQuantitativeNetwork)
 
   # Get the row order
-  row_order = sortperm(vec(sum(N.A; dims=2)), rev=true)
+  row_order = sortperm(vec(sum(N.edges; dims=2)), rev=true)
 
   # Extract the ordered matrix as floating point values, so that all other
   # measures will work for both the quanti and deterministic networks
-  A = map(Float64, N.A[row_order,:])
+  A = Array(N.edges)
+  A = map(Float64, A[row_order,:])
 
   # Initialize the value
   WNODFr = 0.0
