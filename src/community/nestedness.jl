@@ -3,7 +3,7 @@ Nestedness of a single axis (called internally by `η`)
 """
 function η_axis(N::AbstractBipartiteNetwork)
   S = richness(N; dims=1)
-  n = vec(sum(N.A; dims=2))
+  n = vec(sum(N.edges; dims=2))
   num = 0.0
   den = 0.0
   @simd for j in 2:S
@@ -25,14 +25,14 @@ the entire network.
 
 #### References
 
-Bastolla, U., Fortuna, M.A., Pascual-García, A., Ferrera, A., Luque, B.,
-Bascompte, J., 2009. The architecture of mutualistic networks minimizes
-competition and increases biodiversity. Nature 458, 1018–1020.
-https://doi.org/10.1038/nature07950
+- Bastolla, U., Fortuna, M.A., Pascual-García, A., Ferrera, A., Luque, B.,
+  Bascompte, J., 2009. The architecture of mutualistic networks minimizes
+  competition and increases biodiversity. Nature 458, 1018–1020.
+  https://doi.org/10.1038/nature07950
 
-Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
-D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
-Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
+- Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
+  D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
+  Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
 """
 function η(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{BipartiteNetwork, BipartiteProbabilisticNetwork}}
   dims == 1 && return η_axis(N)
