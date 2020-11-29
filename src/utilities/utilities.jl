@@ -55,11 +55,11 @@ function species(N::AbstractUnipartiteNetwork; dims::Union{Nothing,Integer}=noth
   return N.S
 end
 
-function species_objects(N::AbstractUnipartiteNetwork)
+function _species_objects(N::AbstractUnipartiteNetwork)
   return (N.S,)
 end
 
-function species_objects(N::AbstractBipartiteNetwork)
+function _species_objects(N::AbstractBipartiteNetwork)
   return (N.T, N.B)
 end
 

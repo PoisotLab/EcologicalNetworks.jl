@@ -15,7 +15,7 @@ the same content.
 """
 function Base.copy(N::AbstractEcologicalNetwork)
   edges = copy(N.edges)
-  sp = copy.(species_objects(N))
+  sp = copy.(_species_objects(N))
   return typeof(N)(edges, sp...)
 end
 
@@ -26,7 +26,7 @@ Returns the inverse of a binary network -- interactions that were `false` become
 `true`, and conversely.
 """
 function Base.:!(N::T) where {T <: BinaryNetwork}
-  return typeof(N)(dropzeros(.!N.edges), species_objects(N)...)
+  return typeof(N)(dropzeros(.!N.edges), _species_objects(N)...)
 end
 
 """

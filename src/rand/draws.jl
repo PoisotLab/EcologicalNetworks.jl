@@ -16,7 +16,7 @@ function Base.rand(N::ProbabilisticNetwork)
     # Get the correct network type
     newtype = typeof(N) <: AbstractUnipartiteNetwork ? UnipartiteNetwork : BipartiteNetwork
     ed = spzeros(Bool, size(N.edges)...)
-    K = newtype(ed, EcologicalNetworks.species_objects(N)...)
+    K = newtype(ed, EcologicalNetworks._species_objects(N)...)
     for int in N
         (rand() ≤ int.probability) && (K[int.from, int.to] = true)
     end

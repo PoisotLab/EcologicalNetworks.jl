@@ -34,7 +34,7 @@ function linearfilter(N::T; α::Vector{Float64}=fill(0.25, 4)) where {T <: Binar
   return_type = T <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
   F = return_type(
     zeros(Float64, size(N)),
-    EcologicalNetworks.species_objects(N)...
+    EcologicalNetworks._species_objects(N)...
   )
 
   # Get probabilities

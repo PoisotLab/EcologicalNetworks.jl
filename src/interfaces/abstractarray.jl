@@ -10,7 +10,7 @@ is useful if you want to generate a "blank slate" for some analyses.
 """
 function Base.similar(N::T) where {T <: AbstractEcologicalNetwork}
    Y = sparse(zeros(_interaction_type(N), size(N)))
-   return T(Y, species_objects(N)...)
+   return T(Y, _species_objects(N)...)
 end
 
 """
