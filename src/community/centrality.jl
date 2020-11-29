@@ -10,10 +10,10 @@ immediate neighbors are considered). `a` (being a weight), must be positive.
 
 """
 function centrality_katz(N::Union{UnipartiteNetwork, UnipartiteProbabilisticNetwork}; a::Float64=0.1, k::Int64=5)
-	@assert a <= 1.0
-	@assert a >= 0.0
-	@assert k >= 1
-	centr = sum(hcat(map((x) -> vec(sum((a^x).*(N.A^x); dims=1)), [1:k;])...); dims=2)
+	@assert 0.0 <= a <= 1.0
+  @assert k >= 1
+
+	centr = sum(hcat(map((x) -> vec(sum((a^x).*(N.edges^x); dims=1)), [1:k;])...); dims=2)
 	return Dict(zip(species(N), centr ./ sum(centr)))
 end
 
@@ -21,7 +21,7 @@ end
     centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
 
 The function calls `shortest_path` internally -- the `nmax` argument is the
-maximal path length that wil be tried.
+maximal path length that will be tried.
 
 > Bavelas, A., 1950. Communication Patterns in Task‐Oriented Groups. The Journal
 > of the Acoustical Society of America 22, 725–730. doi:10.1121/1.1906679
@@ -37,7 +37,6 @@ function centrality_closeness(N::UnipartiteNetwork; nmax::Int64=100)
   end
   return Dict(zip(species(N), interm))
 end
-
 
 """
     centrality_degree(N::UnipartiteNetwork)
