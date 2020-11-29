@@ -26,7 +26,7 @@ function overlap(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipart
         dims== 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
 
-    itype = Pair{Set{last(eltype(N))},Int64}
+    itype = Pair{Set{_species_type(N)},Int64}
     overlaps = Vector{itype}()
 
     for i in 1:(richness(N; dims=dims)-1)
@@ -80,7 +80,7 @@ function AJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteN
         dims == 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
 
-    itype = Pair{Set{last(eltype(N))},Float64}
+    itype = Pair{Set{_species_type(N)},Float64}
     overlaps = Vector{itype}()
 
     for i in 1:(richness(N; dims=dims)-1)
@@ -142,7 +142,7 @@ function EAJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipartite
         dims == 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
 
-    itype = Pair{Set{last(eltype(N))},Float64}
+    itype = Pair{Set{_species_type(N)},Float64}
     overlaps = Vector{itype}()
 
     for i in 1:(richness(Y; dims=dims)-1)

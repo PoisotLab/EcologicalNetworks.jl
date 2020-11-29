@@ -6,7 +6,7 @@ import Base.convert
 Projects a deterministic bipartite network in its unipartite representation.
 """
 function convert(::Type{UnipartiteNetwork}, N::T) where {T <: BipartiteNetwork}
-    itype = first(eltype(N))
+    itype = _interaction_type(N)
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
     B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.edges
@@ -19,7 +19,7 @@ end
 Projects a probabilistic bipartite network in its unipartite representation.
 """
 function convert(::Type{UnipartiteProbabilisticNetwork}, N::T) where {T <: BipartiteProbabilisticNetwork}
-    itype = first(eltype(N))
+    itype = _interaction_type(N)
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
     B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.edges
@@ -32,7 +32,7 @@ end
 Projects a quantitative bipartite network in its unipartite representation.
 """
 function convert(::Type{UnipartiteQuantitativeNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
-    itype = first(eltype(N))
+    itype = _interaction_type(N)
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
     B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.edges
@@ -140,7 +140,7 @@ for comb in type_pairs
             end
             top_species = collect(keys(filter(p -> p.second == zero(eltype(N.edges)), d2)))
             bot_species = collect(keys(filter(p -> p.second == zero(eltype(N.edges)), d1)))
-            A = zeros(eltype(N)[1], (length(top_species), length(bot_species)))
+            A = zeros(_interaction_type(N), (length(top_species), length(bot_species)))
             B = $t1(sparse(A), top_species, bot_species)
             for s1 in species(B; dims=1), s2 in species(B; dims=2)
                 B[s1,s2] = N[s1, s2]

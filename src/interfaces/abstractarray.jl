@@ -9,7 +9,7 @@ Returns a network with the same species, but an empty interaction matrix. This
 is useful if you want to generate a "blank slate" for some analyses.
 """
 function Base.similar(N::T) where {T <: AbstractEcologicalNetwork}
-   Y = sparse(zeros(first(eltype(N)), size(N)))
+   Y = sparse(zeros(_interaction_type(N), size(N)))
    return T(Y, species_objects(N)...)
 end
 
@@ -76,7 +76,7 @@ Get the value of an interaction based on the *name* of the species. This is the
 recommended way to look for things in a network.
 """
 function Base.getindex(N::AbstractEcologicalNetwork, s1::T, s2::T) where {T}
-  @assert T == last(eltype(N))
+  @assert T == _species_type(N)
   @assert s1 ∈ species(N; dims=1)
   @assert s2 ∈ species(N; dims=2)
   s1_pos = something(findfirst(isequal(s1), species(N; dims=1)), 0)
@@ -93,7 +93,7 @@ species. This returns the list of species as a `Set` object, in which ordering
 is unimportant.
 """
 function Base.getindex(N::AbstractEcologicalNetwork, ::Colon, sp::T) where {T}
-  @assert T == last(eltype(N))
+  @assert T == _species_type(N)
   @assert sp ∈ species(N; dims=2)
   return Set(filter(x -> has_interaction(N, x, sp), species(N; dims=1)))
 end
@@ -107,7 +107,7 @@ focal species. This returns the list of species as a `Set` object, in which
 ordering is unimportant.
 """
 function Base.getindex(N::AbstractEcologicalNetwork, sp::T, ::Colon) where {T}
-  @assert T == last(eltype(N))
+  @assert T == _species_type(N)
   @assert sp ∈ species(N; dims=1)
   return Set(filter(x -> has_interaction(N, sp, x), species(N; dims=2)))
 end
@@ -125,7 +125,7 @@ The network which is returned by this function may not have the species in the
 order specified by the user for performance reasons.
 """
 function Base.getindex(N::AbstractUnipartiteNetwork, sp::Vector{T}) where {T}
-  @assert T == last(eltype(N))
+  @assert T == _species_type(N)
   @assert all(map(x -> x ∈ species(N), sp))
   sp_pos = findall((in)(sp), species(N))
   n_sp = species(N)[sp_pos]
@@ -139,7 +139,7 @@ end
 TODO
 """
 function Base.getindex(N::AbstractBipartiteNetwork, ::Colon, sp::Vector{T}) where {T}
-  @assert T == last(eltype(N))
+  @assert T == _species_type(N)
   @assert all(map(x -> x ∈ species(N; dims=2), sp))
   sp_pos = findall((in)(sp), species(N; dims=2))
   n_t = N.T
@@ -155,7 +155,7 @@ end
 TODO
 """
 function Base.getindex(N::AbstractBipartiteNetwork, sp::Vector{T}, ::Colon) where {T}
-  @assert T == last(eltype(N))
+  @assert T == _species_type(N)
   @assert all(map(x -> x ∈ species(N; dims=1), sp))
   sp_pos = findall((in)(sp), species(N; dims=1))
   n_t = N.T[sp_pos]
@@ -185,7 +185,7 @@ end
 TODO
 """
 function Base.getindex(N::AbstractBipartiteNetwork, sp1::Vector{T}, sp2::Vector{T}) where {T}
-  @assert T == last(eltype(N))
+  @assert T == _species_type(N)
   @assert all(map(x -> x ∈ species(N; dims=1), sp1))
   @assert all(map(x -> x ∈ species(N; dims=2), sp2))
   sp1_pos = findall((in)(sp1), species(N; dims=1))
@@ -200,7 +200,7 @@ Changes the value of the interaction at the specificied position, where `i` and
 `j` are species *names*. Note that this operation **changes the network**.
 """
 function Base.setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcologicalNetwork, E}
-  @assert E == last(eltype(N))
+  @assert E == _species_type(N)
   @assert i ∈ species(N; dims=1)
   @assert j ∈ species(N; dims=2)
   i_pos = something(findfirst(isequal(i), species(N; dims=1)),0)
@@ -209,7 +209,7 @@ function Base.setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcological
 end
 
 """
-    setindex!(N::T, A::K, i::E, j::E) where {T <: AbstractEcologicalNetwork, K <: first(eltype(N)), E <: Int}
+    setindex!(N::T, A::K, i::E, j::E) where {T <: AbstractEcologicalNetwork, K <: _interaction_type(N), E <: Int}
 
 Changes the value of the interaction at the specificied position, where `i` and
 `j` are species *positions*. Note that this operation **changes the network**.

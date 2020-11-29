@@ -48,7 +48,7 @@ Adds two quantitative bipartite networks. TODO
 function Base.:+(n1::T, n2::T) where {T <: BipartiteQuantitativeNetwork}
   st = union(species(n1; dims=1), species(n2; dims=1))
   sb = union(species(n1; dims=2), species(n2; dims=2))
-  A = zeros(first(eltype(n1)), (length(st), length(sb)))
+  A = zeros(_interaction_type(n1), (length(st), length(sb)))
   N = T(A, st, sb)
   for i1 in n1
     N[i1.from,i1.to] = N[i1.from,i1.to] + i1.strength

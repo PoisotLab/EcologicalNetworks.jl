@@ -1,4 +1,14 @@
+function _interaction_type(N::T) where {T <: AbstractEcologicalNetwork}
+    return eltype(N.edges)
+end
 
+function _species_type(N::T) where {T <: AbstractBipartiteNetwork}
+    return eltype(N.B)
+end
+
+function _species_type(N::T) where {T <: AbstractUnipartiteNetwork}
+    return eltype(N.S)
+end
 
 function _check_species_validity(::Type{T}) where {T <: Any}
   throw(ArgumentError("The type $(T) is not an allowed species type"))
@@ -139,7 +149,7 @@ iterate over interactions in a network in a convenient way.
 """
 function interactions(N::BinaryNetwork)
     non_zero = count(!iszero, N.edges) # Number of non-zero entries in the matrix
-    t_int, t_spe = eltype(N)
+    t_int, t_spe = _interaction_type(N), _species_type(N)
     edges_accumulator = Vector{NamedTuple{tuple(:from, :to),Tuple{t_spe, t_spe}}}(undef, non_zero)
     sp1 = species(N; dims=1)
     sp2 = species(N; dims=2)
@@ -152,7 +162,7 @@ end
 
 function interactions(N::QuantitativeNetwork)
     non_zero = count(!iszero, N.edges) # Number of non-zero entries in the matrix
-    t_int, t_spe = eltype(N)
+    t_int, t_spe = _interaction_type(N), _species_type(N)
     edges_accumulator = Vector{NamedTuple{tuple(:from, :to, :strength),Tuple{t_spe, t_spe, t_int}}}(undef, non_zero)
     sp1 = species(N; dims=1)
     sp2 = species(N; dims=2)
@@ -165,7 +175,7 @@ end
 
 function interactions(N::ProbabilisticNetwork)
     non_zero = count(!iszero, N.edges) # Number of non-zero entries in the matrix
-    t_int, t_spe = eltype(N)
+    t_int, t_spe = _interaction_type(N), _species_type(N)
     edges_accumulator = Vector{NamedTuple{tuple(:from, :to, :probability),Tuple{t_spe, t_spe, t_int}}}(undef, non_zero)
     sp1 = species(N; dims=1)
     sp2 = species(N; dims=2)
