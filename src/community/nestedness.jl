@@ -87,11 +87,11 @@ NODF of a single axis
 function nodf_axis(N::BipartiteNetwork)
 
   # Get the row order
-  row_order = sortperm(vec(sum(N.A; dims=2)), rev=true)
+  row_order = sortperm(vec(sum(N.edges; dims=2)), rev=true)
 
   # Extract the ordered matrix as floating point values, so that all other
   # measures will work for both the quanti and deterministic networks
-  A = N.A[row_order,:]
+  A = Array(N.edges)
   d = float(vec(sum(A; dims=2)))
 
   # Initialize the value
@@ -130,12 +130,12 @@ function nodf(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{Bipa
   if dims == 1
     val = nodf_axis(N)
     correction = (richness(N; dims=1) * (richness(N; dims=1) - 1))
-    return (val+val)/correction
+    return 2val/correction
   end
   if dims == 2
     val = nodf_axis(permutedims(N))
     correction = (richness(N; dims=2) * (richness(N; dims=2) - 1))
-    return (val+val)/correction
+    return 2val/correction
   end
   if isnothing(dims)
     return (nodf(N; dims=1)+nodf(N; dims=2))/2.0
