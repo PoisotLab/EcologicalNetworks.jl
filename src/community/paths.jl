@@ -119,7 +119,7 @@ function get_adj_list(N::T, species::Array{K,1}) where {T <: DeterministicNetwor
 end
 
 """
-    dijstra(N::T) where {T <: DeterministicNetwork}
+    dijkstra(N::T) where {T <: DeterministicNetwork}
 
 Dijkstra algorithm to return the shortest / easiest paths between all pairs
 of species in the networks, as long as paths exists. This function will return a
