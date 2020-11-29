@@ -77,10 +77,8 @@ recommended way to look for things in a network.
 """
 function Base.getindex(N::AbstractEcologicalNetwork, s1::T, s2::T) where {T}
   @assert T == _species_type(N)
-  @assert s1 ∈ species(N; dims=1)
-  @assert s2 ∈ species(N; dims=2)
-  s1_pos = something(findfirst(isequal(s1), species(N; dims=1)), 0)
-  s2_pos = something(findfirst(isequal(s2), species(N; dims=2)), 0)
+  s1_pos = findfirst(isequal(s1), species(N; dims=1))
+  s2_pos = findfirst(isequal(s2), species(N; dims=2))
   return N[s1_pos, s2_pos]
 end
 
@@ -94,8 +92,9 @@ is unimportant.
 """
 function Base.getindex(N::AbstractEcologicalNetwork, ::Colon, sp::T) where {T}
   @assert T == _species_type(N)
-  @assert sp ∈ species(N; dims=2)
-  return Set(filter(x -> has_interaction(N, x, sp), species(N; dims=1)))
+  j = findfirst(isequal(sp), species(N; dims=2))
+  i = findall(!iszero, N[:,j])
+  return Set(species(N; dims=1)[i])
 end
 
 
@@ -108,8 +107,9 @@ ordering is unimportant.
 """
 function Base.getindex(N::AbstractEcologicalNetwork, sp::T, ::Colon) where {T}
   @assert T == _species_type(N)
-  @assert sp ∈ species(N; dims=1)
-  return Set(filter(x -> has_interaction(N, sp, x), species(N; dims=2)))
+  i = findfirst(isequal(sp), species(N; dims=1))
+  j = findall(!iszero, N[i,:])
+  return Set(species(N; dims=2)[j])
 end
 
 
@@ -126,8 +126,7 @@ order specified by the user for performance reasons.
 """
 function Base.getindex(N::AbstractUnipartiteNetwork, sp::Vector{T}) where {T}
   @assert T == _species_type(N)
-  @assert all(map(x -> x ∈ species(N), sp))
-  sp_pos = findall((in)(sp), species(N))
+  sp_pos = indexin(sp, species(N))
   n_sp = species(N)[sp_pos]
   n_int = N.edges[sp_pos, sp_pos]
   return typeof(N)(n_int, n_sp)
@@ -140,8 +139,7 @@ TODO
 """
 function Base.getindex(N::AbstractBipartiteNetwork, ::Colon, sp::Vector{T}) where {T}
   @assert T == _species_type(N)
-  @assert all(map(x -> x ∈ species(N; dims=2), sp))
-  sp_pos = findall((in)(sp), species(N; dims=2))
+  sp_pos = indexin(sp, species(N; dims=2))
   n_t = N.T
   n_b = N.B[sp_pos]
   n_int = N.edges[:, sp_pos]
@@ -156,8 +154,7 @@ TODO
 """
 function Base.getindex(N::AbstractBipartiteNetwork, sp::Vector{T}, ::Colon) where {T}
   @assert T == _species_type(N)
-  @assert all(map(x -> x ∈ species(N; dims=1), sp))
-  sp_pos = findall((in)(sp), species(N; dims=1))
+  sp_pos = indexin(sp, species(N; dims=1))
   n_t = N.T[sp_pos]
   n_b = N.B
   n_int = N.edges[sp_pos,:]
@@ -186,10 +183,8 @@ TODO
 """
 function Base.getindex(N::AbstractBipartiteNetwork, sp1::Vector{T}, sp2::Vector{T}) where {T}
   @assert T == _species_type(N)
-  @assert all(map(x -> x ∈ species(N; dims=1), sp1))
-  @assert all(map(x -> x ∈ species(N; dims=2), sp2))
-  sp1_pos = findall((in)(sp1), species(N; dims=1))
-  sp2_pos = findall((in)(sp2), species(N; dims=2))
+  sp1_pos = indexin(sp1, species(N; dims=1))
+  sp2_pos = indexin(sp2, species(N; dims=2))
   return N[sp1_pos, sp2_pos]
 end
 
