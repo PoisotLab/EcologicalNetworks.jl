@@ -1,7 +1,4 @@
-import Random.shuffle
-import Random.shuffle!
-
-function swap_degree!(Y::BinaryNetwork)
+function _swap_degree!(Y::BinaryNetwork)
    iy = interactions(Y)
    i1, i2 = StatsBase.sample(iy, 2, replace=false)
    n1, n2 = (from=i1.from, to=i2.to), (from=i2.from, to=i1.to)
@@ -18,7 +15,7 @@ function swap_degree!(Y::BinaryNetwork)
    end
 end
 
-function swap_fill!(Y::BinaryNetwork)
+function _swap_fill!(Y::BinaryNetwork)
    iy = interactions(Y)
    i1 = StatsBase.sample(iy)
    n1 = (from=StatsBase.sample(species(Y; dims=1)), to=StatsBase.sample(species(Y; dims=2)))
@@ -34,7 +31,7 @@ function swap_fill!(Y::BinaryNetwork)
    end
 end
 
-function swap_vulnerability!(Y::BinaryNetwork)
+function _swap_vulnerability!(Y::BinaryNetwork)
    iy = interactions(Y)
    i1 = StatsBase.sample(iy)
    n1 = (from=StatsBase.sample(species(Y; dims=1)), to=i1.to)
@@ -50,7 +47,7 @@ function swap_vulnerability!(Y::BinaryNetwork)
    end
 end
 
-function swap_generality!(Y::BinaryNetwork)
+function _swap_generality!(Y::BinaryNetwork)
    iy = interactions(Y)
    i1 = StatsBase.sample(iy)
    n1 = (from=i1.from, to=StatsBase.sample(species(Y; dims=2)))
@@ -75,12 +72,12 @@ See `shuffle!` for a documentation of the keyword arguments.
 
 #### References
 
-Fortuna, M.A., Stouffer, D.B., Olesen, J.M., Jordano, P., Mouillot, D., Krasnov,
-B.R., Poulin, R., Bascompte, J., 2010. Nestedness versus modularity in
-ecological networks: two sides of the same coin? Journal of Animal Ecology 78,
-811–817. https://doi.org/10.1111/j.1365-2656.2010.01688.x
+- Fortuna, M.A., Stouffer, D.B., Olesen, J.M., Jordano, P., Mouillot, D.,
+  Krasnov, B.R., Poulin, R., Bascompte, J., 2010. Nestedness versus modularity
+  in ecological networks: two sides of the same coin? Journal of Animal Ecology
+  78, 811–817. https://doi.org/10.1111/j.1365-2656.2010.01688.x
 """
-function shuffle(N::BinaryNetwork; constraint::Symbol=:degree)
+function Random.shuffle(N::BinaryNetwork; constraint::Symbol=:degree)
    Y = copy(N)
    shuffle!(Y; constraint=constraint)
    return Y
@@ -111,18 +108,18 @@ If the keyword arguments are invalid, the function will throw an
 
 #### References
 
-Fortuna, M.A., Stouffer, D.B., Olesen, J.M., Jordano, P., Mouillot, D., Krasnov,
-B.R., Poulin, R., Bascompte, J., 2010. Nestedness versus modularity in
-ecological networks: two sides of the same coin? Journal of Animal Ecology 78,
-811–817. https://doi.org/10.1111/j.1365-2656.2010.01688.x
+- Fortuna, M.A., Stouffer, D.B., Olesen, J.M., Jordano, P., Mouillot, D.,
+  Krasnov, B.R., Poulin, R., Bascompte, J., 2010. Nestedness versus modularity
+  in ecological networks: two sides of the same coin? Journal of Animal Ecology
+  78, 811–817. https://doi.org/10.1111/j.1365-2656.2010.01688.x
 """
-function shuffle!(N::BinaryNetwork; constraint::Symbol=:degree)
+function Random.shuffle!(N::BinaryNetwork; constraint::Symbol=:degree)
    constraint ∈ [:degree, :generality, :vulnerability, :fill] || throw(ArgumentError("The constraint argument you specificied ($(constraint)) is invalid -- see ?shuffle! for a list."))
 
-   f = EcologicalNetworks.swap_degree!
-   constraint == :generality && (f = EcologicalNetworks.swap_generality!)
-   constraint == :vulnerability && (f = EcologicalNetworks.swap_vulnerability!)
-   constraint == :fill && (f = EcologicalNetworks.swap_fill!)
+   f = EcologicalNetworks._swap_degree!
+   constraint == :generality && (f = EcologicalNetworks._swap_generality!)
+   constraint == :vulnerability && (f = EcologicalNetworks._swap_vulnerability!)
+   constraint == :fill && (f = EcologicalNetworks._swap_fill!)
 
    f(N)
 end
