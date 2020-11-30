@@ -38,7 +38,11 @@ network.
 """
 function Base.rand(N::ProbabilisticNetwork, n::T) where {T<:Integer}
     @assert n > 0
-    return map(x -> rand(N), 1:n)
+    R = Vector{AbstractEcologicalNetwork}(undef, n)
+    for i in 1:n
+        R[i] = rand(N)
+    end
+    return R
 end
 
 """
