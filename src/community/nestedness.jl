@@ -6,13 +6,14 @@ function η_axis(N::AbstractBipartiteNetwork)
   n = vec(sum(N.edges; dims=2))
   num = 0.0
   den = 0.0
-  @simd for j in 2:S
-    @simd for i in 1:(j-1)
-      @inbounds num += sum(N[i,:].*N[j,:])
-      @inbounds den += min(n[i], n[j])
+  for j in 2:S
+    Nj = N[j,:]
+    for i in 1:(j-1)
+      num += sum(N[i,:].*Nj)
+      den += min(n[i], n[j])
     end
   end
-  return sum(num ./ den)
+  return num / den
 end
 
 """
