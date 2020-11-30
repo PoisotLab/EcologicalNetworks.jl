@@ -25,8 +25,8 @@ function Base.rand(N::ProbabilisticNetwork)
         V[i] = rand() <= idata.probability
     end
     edges = sparse(I, J, V, richness(N; dims=1), richness(N; dims=2))
+    dropzeros!(edges)
     K = newtype(edges, EcologicalNetworks._species_objects(N)...)
-    dropzeros!(K.edges)
     return K
 end
 
@@ -44,7 +44,8 @@ network.
 """
 function Base.rand(N::ProbabilisticNetwork, n::T) where {T<:Integer}
     @assert n > 0
-    R = Vector{AbstractEcologicalNetwork}(undef, n)
+    newtype = typeof(N) <: AbstractUnipartiteNetwork ? UnipartiteNetwork : BipartiteNetwork
+    R = Vector{newtype}(undef, n)
     for i in 1:n
         R[i] = rand(N)
     end
