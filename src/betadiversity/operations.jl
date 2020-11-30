@@ -29,6 +29,7 @@ common.
 function Base.intersect(X::T, Y::T) where {T<:BipartiteNetwork}
     new_t = intersect(species(X; dims=1), species(Y; dims=1))
     new_b = intersect(species(X; dims=2), species(Y; dims=2))
+    int = interactions(X) ∩ interactions(Y)
     I = zeros(Int64, length(int))
     J = zeros(Int64, length(int))
     for i in eachindex(int)
