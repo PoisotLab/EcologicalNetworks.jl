@@ -15,11 +15,17 @@ interactions.
 function Base.rand(N::ProbabilisticNetwork)
     # Get the correct network type
     newtype = typeof(N) <: AbstractUnipartiteNetwork ? UnipartiteNetwork : BipartiteNetwork
-    ed = spzeros(Bool, size(N.edges)...)
-    K = newtype(ed, EcologicalNetworks._species_objects(N)...)
-    for int in N
-        (rand() ≤ int.probability) && (K[int.from, int.to] = true)
+    int = interactions(N)
+    I = zeros(Int64, length(int))
+    J = zeros(Int64, length(int))
+    V = zeros(Bool, length(int))
+    for (i,idata) in enumerate(int)
+        I[i] = findfirst(isequal(idata.from), species(N; dims=1))
+        J[i] = findfirst(isequal(idata.to), species(N; dims=2))
+        V[i] = rand() <= idata.probability
     end
+    edges = sparse(I, J, V, richness(N; dims=1), richness(N; dims=2))
+    K = newtype(edges, EcologicalNetworks._species_objects(N)...)
     dropzeros!(K.edges)
     return K
 end
