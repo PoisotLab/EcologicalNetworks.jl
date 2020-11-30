@@ -3,7 +3,7 @@
 
 Converts a probabilistic network into a deterministic one by performing random
 draws. All interactions are treated as independent Bernoulli events. Note that
-this network is *not* check for degeneracy, *i.e.* species can end up with no
+this network is *not* checked for degeneracy, *i.e.* species can end up with no
 interactions.
 
 #### References
