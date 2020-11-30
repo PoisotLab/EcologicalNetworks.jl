@@ -52,25 +52,27 @@ Internal function
 Returns all permutations of the adjacency matrix of a motif.
 """
 function _permute_motif(m::T) where {T<:BipartiteNetwork}
-    perm = Array{Bool,2}[]
-    for ts in permutations(1:richness(m; dims=1)), bs in permutations(1:richness(m; dims=2))
-        push!(perm, m.A[ts,bs])
+    sp_permutations_T = permutations(1:richness(m; dims=1))
+    sp_permutations_B = permutations(1:richness(m; dims=2))
+    perm = fill(copy(m.edges), length(sp_permutations_T)*length(sp_permutations_B))
+    for (i, t_order) in enumerate(sp_permutations_T), (j, b_order) in enumerate(sp_permutations_B)
+        perm[(i-1)*j+j] = perm[(i-1)*j+j][t_order, b_order]
     end
     return unique(perm)
 end
 
-function inner_find_motif(N::T1, m::T2) where {T1<:UnipartiteNetwork,T2<:UnipartiteNetwork}
+function _inner_find_motif(N::T1, m::T2) where {T1<:UnipartiteNetwork,T2<:UnipartiteNetwork}
     motif_permutations = _permute_motif(m)
     matching_species = []
     for species_combination in combinations(species(N), richness(m))
-        if N[species_combination].A ∈ motif_permutations
+        if N.edges[species_combination] ∈ motif_permutations
             push!(matching_species, (species_combination,))
         end
     end
     return matching_species
 end
 
-function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteNetwork,T2<:BipartiteNetwork}
+function _inner_find_motif(N::T1, m::T2) where {T1<:BipartiteNetwork,T2<:BipartiteNetwork}
     motif_permutations = _permute_motif(m)
     matching_species = []
     top_combinations = combinations(species(N; dims=1), richness(m; dims=1))
@@ -89,7 +91,7 @@ function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteNetwork,T2<:Bipartit
             for i in 1:length(bottom_species)
                 bot_sp_pos[i] = p2[bottom_species[i]]
             end
-            if N.A[top_sp_pos, bot_sp_pos] ∈ motif_permutations
+            if N.edges[top_sp_pos, bot_sp_pos] ∈ motif_permutations
                 push!(matching_species, (top_species, bottom_species))
             end
         end
@@ -97,14 +99,14 @@ function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteNetwork,T2<:Bipartit
     return matching_species
 end
 
-function inner_find_motif(N::T1, m::T2) where {T1<:UnipartiteProbabilisticNetwork, T2<:UnipartiteNetwork}
+function _inner_find_motif(N::T1, m::T2) where {T1<:UnipartiteProbabilisticNetwork, T2<:UnipartiteNetwork}
     motif_permutations = _permute_motif(m)
     all_combinations = []
     for species_combination in combinations(species(N), richness(m))
         isg = N[species_combination]
         motif_mean, motif_var = 0.0, 0.0
         for perm in motif_permutations
-            imat = zeros(eltype(N.A), size(m))
+            imat = zeros(eltype(N.edges), size(m))
             for i in eachindex(imat)
                 imat[i] = (perm[i] ? 2.0*isg[i] : 1.0)-isg[i]
             end
@@ -117,7 +119,7 @@ function inner_find_motif(N::T1, m::T2) where {T1<:UnipartiteProbabilisticNetwor
     return all_combinations
 end
 
-function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteProbabilisticNetwork, T2<:BipartiteNetwork}
+function _inner_find_motif(N::T1, m::T2) where {T1<:BipartiteProbabilisticNetwork, T2<:BipartiteNetwork}
     motif_permutations = _permute_motif(m)
     all_combinations = []
     top_combinations = combinations(species(N; dims=1), richness(m; dims=1))
@@ -126,7 +128,7 @@ function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteProbabilisticNetwork
         isg = N[top_species, bottom_species]
         motif_mean, motif_var = 0.0, 0.0
         for perm in motif_permutations
-            imat = zeros(eltype(N.A), size(m))
+            imat = zeros(eltype(N.edges), size(m))
             for i in eachindex(imat)
                 imat[i] = (perm[i] ? 2.0*isg[i] : 1.0)-isg[i]
             end
@@ -150,13 +152,13 @@ the variance.
 
 #### References
 
-Milo, R., Shen-Orr, S., Itzkovitz, S., Kashtan, N., Chklovskii, D., Alon, U.,
-2002. Network motifs: simple building blocks of complex networks. Science 298,
-824–7. https://doi.org/10.1126/science.298.5594.824
+- Milo, R., Shen-Orr, S., Itzkovitz, S., Kashtan, N., Chklovskii, D., Alon, U.,
+  2002. Network motifs: simple building blocks of complex networks. Science 298,
+  824–7. https://doi.org/10.1126/science.298.5594.824
 
-Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
-D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
-Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
+- Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
+  D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
+  Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
 """
 function find_motif(N::T1, m::T2) where {T1<:AbstractEcologicalNetwork, T2<:BinaryNetwork}
     M = copy(N)
@@ -166,7 +168,7 @@ function find_motif(N::T1, m::T2) where {T1<:AbstractEcologicalNetwork, T2<:Bina
     if typeof(M) <: QuantitativeNetwork
         M = convert(BinaryNetwork, M)
     end
-    return inner_find_motif(M, m)
+    return _inner_find_motif(M, m)
 end
 
 """
@@ -177,9 +179,9 @@ on a probabilistic network.
 
 #### References
 
-Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
-D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
-Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
+- Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
+  D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
+  Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
 """
 function expected_motif_count(s)
     m = [x[2][1] for x in s]
