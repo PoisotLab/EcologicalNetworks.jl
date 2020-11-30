@@ -11,21 +11,9 @@ in either networks are also present in the final network.
 function union(X::T, Y::T) where {T<:BipartiteNetwork}
     new_t = union(species(X; dims=1), species(Y; dims=1))
     new_b = union(species(X; dims=2), species(Y; dims=2))
-    new_a = zeros(eltype(X.A), (length(new_t), length(new_b)))
-    for ti in eachindex(new_t), bi in eachindex(new_b)
-        st, sb = new_t[ti], new_b[bi]
-        in_x, in_y = false, false
-        if st ∈ species(X; dims=1)
-            if sb ∈ species(X; dims=2)
-                in_x = has_interaction(X, st, sb)
-            end
-        end
-        if st ∈ species(Y; dims=1)
-            if sb ∈ species(Y; dims=2)
-                in_y = has_interaction(Y, st, sb)
-            end
-        end
-        new_a[ti,bi] = (in_x | in_y)
+    new_a = spzeros(_interaction_type(X), length(new_t), length(new_b))
+    for common in union(interactions(X), interactions(Y))
+        new_a[common.from,common.to] = true
     end
     return BipartiteNetwork(new_a, new_t, new_b)
 end
@@ -41,13 +29,9 @@ common.
 function intersect(X::T, Y::T) where {T<:BipartiteNetwork}
     new_t = intersect(species(X; dims=1), species(Y; dims=1))
     new_b = intersect(species(X; dims=2), species(Y; dims=2))
-    new_a = zeros(eltype(X.A), (length(new_t), length(new_b)))
-    for ti in eachindex(new_t), bi in eachindex(new_b)
-        st, sb = new_t[ti], new_b[bi]
-        in_x, in_y = false, false
-        in_x = has_interaction(X, st, sb)
-        in_y = has_interaction(Y, st, sb)
-        new_a[ti,bi] = (in_x & in_y)
+    new_a = spzeros(_interaction_type(X), length(new_t), length(new_b))
+    for common in intersect(interactions(X), interactions(Y))
+        new_a[common.from,common.to] = true
     end
     return BipartiteNetwork(new_a, new_t, new_b)
 end
