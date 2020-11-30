@@ -5,9 +5,9 @@ when to use them.
 
 ## Network representation
 
-All networks types have a field `A` to store the adjacency matrix, and fields
-`S`, or `T` and `B`, for species in unipartite and bipartite networks
-respectively. `A` is always a two-dimensional array (see below for more
+All networks types have a field `edges` to store the *sparse* adjacency matrix,
+and fields `S`, or `T` and `B`, for species in unipartite and bipartite networks
+respectively. `edges` is always a two-dimensional array (see below for more
 information), where interactions go *from the rows*, *to the columns*. Network
 types are **mutable**. Operations that will modify the network end with a `!`,
 as is the julian convention.
@@ -22,9 +22,10 @@ network slicing operations (see later sections) will let you access subset of
 the network / individual interactions / set of neighbours.
 
 Network types are iterable: this is equivalent to calling the `interactions`
-function on a network. On small networks, `interactions` is faster. On large
-networks, it can be less true, and using the iteration approach can save some
-time. The iteration protocol is the same as for all other Julia collections:
+function on a network. On small networks, `interactions` is faster (but
+allocates the whole memory at once). On large networks, it can be less true, and
+using the iteration approach can save some time. The iteration protocol is the
+same as for all other Julia collections:
 
 ~~~
 for (int_number, interaction) in N
@@ -38,18 +39,19 @@ and `from` (always), and can have additional fields `probability` and
 
 ### Partiteness
 
-In unipartite networks, the adjancency matrix `A` is square, and has as many
+In unipartite networks, the adjacency matrix `edges` is square, and has as many
 rows/columns as there are elements in `S`. This is always checked and enforced
 upon construction of the object, so you *cannot* have a mismatch.
 
-In bipartite networks, the matrix `A` is not necessarily square, and has
+In bipartite networks, the matrix `edges` is not necessarily square, and has
 dimensions equal to the lengths of `T` (rows) and `B` (columns). This too is
 checked upon construction.
 
 All elements in `S` *must* be unique (no duplicate node names). In addition, all
 names in the union of `T` and `B` must be unique too (so that when a bipartite
 network is cast to a unipartite one, the constraint on unique names in `S` is
-respected).
+respected). These constraints are enforced when constructing the object, and
+will return explicit error messages if not met.
 
 ### Type of information
 

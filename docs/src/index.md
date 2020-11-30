@@ -78,9 +78,9 @@ you want to take the square root of a quantitative network, you can overload the
 import Base: √
 
 function √(N::T) where {T <: QuantitativeNetwork}
-   @assert all(N.A .> zero(eltype(N.A)))
+   @assert all(N.edges .> zero(eltype(N.edges)))
    # Take the square root of the interaction strength
-   sqrt_matrix = sqrt.(N.A)
+   sqrt_matrix = sqrt.(N.edges)
    # Return a new network with the correct types
    return T(sqrt_matrix, EcologicalNetworks._species_objects(N)...)
 end

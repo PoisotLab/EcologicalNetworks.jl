@@ -1,3 +1,8 @@
+"""
+    Base.length(N::T) where {T <: AbstractEcologicalNetwork}
+
+The length of a network is the number of non-zero elements in it.
+"""
 function Base.length(N::T) where {T <: AbstractEcologicalNetwork}
     return count(!iszero, N.edges)
 end

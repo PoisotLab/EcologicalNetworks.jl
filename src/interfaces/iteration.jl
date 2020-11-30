@@ -49,11 +49,23 @@ function _network_state(N::T, i::Int64) where {T <: ProbabilisticNetwork}
     return (from=species(N;dims=1)[f],to=species(N;dims=2)[t],probability=N[f,t])
 end
 
+"""
+    Base.iterate(N::T) where {T <: AbstractEcologicalNetwork}
+
+Returns the interactions in a network (this uses less memory than `interactions`
+but is a bit slower).
+"""
 function Base.iterate(N::T) where {T <: AbstractEcologicalNetwork}
     isempty(N) && return nothing
     return (_network_state(N, 1), 1)
 end
 
+"""
+    Base.iterate(N::T) where {T <: AbstractEcologicalNetwork}
+
+Returns the interactions in a network (this uses less memory than `interactions`
+but is a bit slower).
+"""
 function Base.iterate(N::T, state::Int64) where {T <: AbstractEcologicalNetwork}
     next = state == length(N) ? nothing : state+1
     isnothing(next) && return nothing
