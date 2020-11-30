@@ -6,6 +6,7 @@ using Combinatorics
 using Distributions
 
 using Random
+using Statistics
 using DelimitedFiles
 using LinearAlgebra
 using DataStructures
