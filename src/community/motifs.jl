@@ -37,10 +37,11 @@ Internal function
 
 Returns all permutations of the adjacency matrix of a motif.
 """
-function permute_motif(m::T) where {T<:UnipartiteNetwork}
-    perm = Array{Bool,2}[]
-    for s in permutations(1:richness(m))
-        push!(perm, m.A[s,s])
+function _permute_motif(m::T) where {T<:UnipartiteNetwork}
+    sp_permutations = permutations(1:richness(m))
+    perm = fill(copy(m.edges), length(sp_permutations))
+    for (i, sp_order) in enumerate(sp_permutations)
+        perm[i] = perm[i][sp_order, sp_order]
     end
     return unique(perm)
 end
@@ -50,7 +51,7 @@ Internal function
 
 Returns all permutations of the adjacency matrix of a motif.
 """
-function permute_motif(m::T) where {T<:BipartiteNetwork}
+function _permute_motif(m::T) where {T<:BipartiteNetwork}
     perm = Array{Bool,2}[]
     for ts in permutations(1:richness(m; dims=1)), bs in permutations(1:richness(m; dims=2))
         push!(perm, m.A[ts,bs])
@@ -59,7 +60,7 @@ function permute_motif(m::T) where {T<:BipartiteNetwork}
 end
 
 function inner_find_motif(N::T1, m::T2) where {T1<:UnipartiteNetwork,T2<:UnipartiteNetwork}
-    motif_permutations = permute_motif(m)
+    motif_permutations = _permute_motif(m)
     matching_species = []
     for species_combination in combinations(species(N), richness(m))
         if N[species_combination].A ∈ motif_permutations
@@ -70,7 +71,7 @@ function inner_find_motif(N::T1, m::T2) where {T1<:UnipartiteNetwork,T2<:Unipart
 end
 
 function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteNetwork,T2<:BipartiteNetwork}
-    motif_permutations = permute_motif(m)
+    motif_permutations = _permute_motif(m)
     matching_species = []
     top_combinations = combinations(species(N; dims=1), richness(m; dims=1))
     bottom_combinations = combinations(species(N; dims=2), richness(m; dims=2))
@@ -97,7 +98,7 @@ function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteNetwork,T2<:Bipartit
 end
 
 function inner_find_motif(N::T1, m::T2) where {T1<:UnipartiteProbabilisticNetwork, T2<:UnipartiteNetwork}
-    motif_permutations = permute_motif(m)
+    motif_permutations = _permute_motif(m)
     all_combinations = []
     for species_combination in combinations(species(N), richness(m))
         isg = N[species_combination]
@@ -117,7 +118,7 @@ function inner_find_motif(N::T1, m::T2) where {T1<:UnipartiteProbabilisticNetwor
 end
 
 function inner_find_motif(N::T1, m::T2) where {T1<:BipartiteProbabilisticNetwork, T2<:BipartiteNetwork}
-    motif_permutations = permute_motif(m)
+    motif_permutations = _permute_motif(m)
     all_combinations = []
     top_combinations = combinations(species(N; dims=1), richness(m; dims=1))
     bottom_combinations = combinations(species(N; dims=2), richness(m; dims=2))
