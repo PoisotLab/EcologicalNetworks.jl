@@ -8,7 +8,13 @@ function Base.union(X::T, Y::T) where {T<:BipartiteNetwork}
     new_t = union(species(X; dims=1), species(Y; dims=1))
     new_b = union(species(X; dims=2), species(Y; dims=2))
     int = interactions(X) ∪ interactions(Y)
-    new_a = sparse([i.from for i in int], [i.to for i in int], true, length(new_t), length(new_b))
+    I = zeros(Int64, length(int))
+    J = zeros(Int64, length(int))
+    for i in eachindex(int)
+        I[i] = findfirst(isequal(int[i].from), new_t)
+        J[i] = findfirst(isequal(int[i].to), new_b)
+    end
+    new_a = sparse(I, J, true, length(new_t), length(new_b))
     return BipartiteNetwork(new_a, new_t, new_b)
 end
 
@@ -23,8 +29,13 @@ common.
 function Base.intersect(X::T, Y::T) where {T<:BipartiteNetwork}
     new_t = intersect(species(X; dims=1), species(Y; dims=1))
     new_b = intersect(species(X; dims=2), species(Y; dims=2))
-    int = interactions(X) ∩ interactions(Y)
-    new_a = sparse([i.from for i in int], [i.to for i in int], true, length(new_t), length(new_b))
+    I = zeros(Int64, length(int))
+    J = zeros(Int64, length(int))
+    for i in eachindex(int)
+        I[i] = findfirst(isequal(int[i].from), new_t)
+        J[i] = findfirst(isequal(int[i].to), new_b)
+    end
+    new_a = sparse(I, J, true, length(new_t), length(new_b))
     return BipartiteNetwork(new_a, new_t, new_b)
 end
 
@@ -37,7 +48,13 @@ in either networks are also present in the final network.
 function Base.union(X::T, Y::T) where {T<:UnipartiteNetwork}
     new_s = union(species(X), species(Y))
     int = interactions(X) ∪ interactions(Y)
-    new_a = sparse([i.from for i in int], [i.to for i in int], true, length(new_s), length(new_s))
+    I = zeros(Int64, length(int))
+    J = zeros(Int64, length(int))
+    for i in eachindex(int)
+        I[i] = findfirst(isequal(int[i].from), new_s)
+        J[i] = findfirst(isequal(int[i].to), new_s)
+    end
+    new_a = sparse(I, J, true, length(new_s), length(new_s))
     return UnipartiteNetwork(new_a, new_s)
 end
 
@@ -52,7 +69,13 @@ common.
 function Base.intersect(X::T, Y::T) where {T<:UnipartiteNetwork}
     new_s = intersect(species(X), species(Y))
     int = interactions(X) ∩ interactions(Y)
-    new_a = sparse([i.from for i in int], [i.to for i in int], true, length(new_s), length(new_s))
+    I = zeros(Int64, length(int))
+    J = zeros(Int64, length(int))
+    for i in eachindex(int)
+        I[i] = findfirst(isequal(int[i].from), new_s)
+        J[i] = findfirst(isequal(int[i].to), new_s)
+    end
+    new_a = sparse(I, J, true, length(new_s), length(new_s))
     return UnipartiteNetwork(new_a, new_s)
 end
 
