@@ -64,8 +64,8 @@ end
 function _inner_find_motif(N::T1, m::T2) where {T1<:UnipartiteNetwork,T2<:UnipartiteNetwork}
     motif_permutations = _permute_motif(m)
     matching_species = []
-    for species_combination in combinations(species(N), richness(m))
-        if N.edges[species_combination] ∈ motif_permutations
+    for species_combination in combinations(1:richness(N), richness(m))
+        if N.edges[species_combination,species_combination] ∈ motif_permutations
             push!(matching_species, (species_combination,))
         end
     end
