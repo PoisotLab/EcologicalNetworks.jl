@@ -13,11 +13,14 @@ makedocs(
         "Interface" => [
             "Types" => "interface/types.md",
             "Conversions" => "interface/conversions.md",
-            "Core functions" => "interface/highlevel.md"
+            "Core functions" => "interface/highlevel.md",
+            "AbstractArray" => "interface/abstractarray.md",
+            "Iterate" => "interface/iterate.md"
         ],
         "Examples" => [
             "Modularity" => "examples/modularity.md",
-            "Integration with Mangal" => "examples/integration_mangal.md",
+            "Centrality" => "examples/centrality.md",
+            "Integration with Mangal" => "examples/mangal.md",
             "Network beta-diversity" => "examples/beta-diversity.md",
             "Extinctions" => "examples/extinctions.md"
         ],

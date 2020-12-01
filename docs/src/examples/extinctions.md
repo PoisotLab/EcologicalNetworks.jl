@@ -54,7 +54,7 @@ output of this analysis on 100 simulations (average and standard deviation) for
 one of the networks.
 
 ```@example ext
-N = web_of_life("A_HP_050")
+N = convert(BinaryNetwork, web_of_life("A_HP_050"))
 
 X = Float64[]
 Y = Float64[]

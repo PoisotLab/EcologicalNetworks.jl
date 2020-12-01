@@ -3,16 +3,17 @@ Nestedness of a single axis (called internally by `η`)
 """
 function η_axis(N::AbstractBipartiteNetwork)
   S = richness(N; dims=1)
-  n = vec(sum(N.A; dims=2))
+  n = vec(sum(N.edges; dims=2))
   num = 0.0
   den = 0.0
-  @simd for j in 2:S
-    @simd for i in 1:(j-1)
-      @inbounds num += sum(N[i,:].*N[j,:])
-      @inbounds den += min(n[i], n[j])
+  for j in 2:S
+    Nj = N[j,:]
+    for i in 1:(j-1)
+      num += sum(N[i,:].*Nj)
+      den += min(n[i], n[j])
     end
   end
-  return sum(num ./ den)
+  return num / den
 end
 
 """
@@ -25,14 +26,14 @@ the entire network.
 
 #### References
 
-Bastolla, U., Fortuna, M.A., Pascual-García, A., Ferrera, A., Luque, B.,
-Bascompte, J., 2009. The architecture of mutualistic networks minimizes
-competition and increases biodiversity. Nature 458, 1018–1020.
-https://doi.org/10.1038/nature07950
+- Bastolla, U., Fortuna, M.A., Pascual-García, A., Ferrera, A., Luque, B.,
+  Bascompte, J., 2009. The architecture of mutualistic networks minimizes
+  competition and increases biodiversity. Nature 458, 1018–1020.
+  https://doi.org/10.1038/nature07950
 
-Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
-D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
-Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
+- Poisot, T., Cirtwill, A.R., Cazelles, K., Gravel, D., Fortin, M.-J., Stouffer,
+  D.B., 2016. The structure of probabilistic networks. Methods in Ecology and
+  Evolution 7, 303–312. https://doi.org/10.1111/2041-210X.12468
 """
 function η(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{BipartiteNetwork, BipartiteProbabilisticNetwork}}
   dims == 1 && return η_axis(N)
@@ -49,11 +50,12 @@ WNODF of a single axis
 function nodf_axis(N::BipartiteQuantitativeNetwork)
 
   # Get the row order
-  row_order = sortperm(vec(sum(N.A; dims=2)), rev=true)
+  row_order = sortperm(vec(sum(N.edges; dims=2)), rev=true)
 
   # Extract the ordered matrix as floating point values, so that all other
   # measures will work for both the quanti and deterministic networks
-  A = map(Float64, N.A[row_order,:])
+  A = Array(N.edges)
+  A = map(Float64, A[row_order,:])
 
   # Initialize the value
   WNODFr = 0.0
@@ -87,11 +89,11 @@ NODF of a single axis
 function nodf_axis(N::BipartiteNetwork)
 
   # Get the row order
-  row_order = sortperm(vec(sum(N.A; dims=2)), rev=true)
+  row_order = sortperm(vec(sum(N.edges; dims=2)), rev=true)
 
   # Extract the ordered matrix as floating point values, so that all other
   # measures will work for both the quanti and deterministic networks
-  A = N.A[row_order,:]
+  A = Array(N.edges)
   d = float(vec(sum(A; dims=2)))
 
   # Initialize the value
@@ -130,12 +132,12 @@ function nodf(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Union{Bipa
   if dims == 1
     val = nodf_axis(N)
     correction = (richness(N; dims=1) * (richness(N; dims=1) - 1))
-    return (val+val)/correction
+    return 2val/correction
   end
   if dims == 2
     val = nodf_axis(permutedims(N))
     correction = (richness(N; dims=2) * (richness(N; dims=2) - 1))
-    return (val+val)/correction
+    return 2val/correction
   end
   if isnothing(dims)
     return (nodf(N; dims=1)+nodf(N; dims=2))/2.0
