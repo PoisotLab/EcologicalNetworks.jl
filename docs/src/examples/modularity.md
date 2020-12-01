@@ -19,7 +19,7 @@ combinations. The output we are interested in is the number of modules, and the
 overall modularity.
 
 ```@example modularity
-N = convert(BiparriteMetwork, web_of_life("M_PA_003"))
+N = convert(BipartiteNetwork, web_of_life("M_PA_003"))
 
 n = repeat(3:12, outer=20)
 m = Array{Dict}(undef, length(n))

@@ -111,7 +111,8 @@ export number_of_paths, shortest_path, bellman_ford, dijkstra
 
 # Centrality
 include(joinpath(".", "community/centrality.jl"))
-export centrality_katz, centrality_closeness, centrality_degree
+export centrality_katz, centrality_degree, centrality_eigenvector
+export centrality_closeness, centrality_harmonic
 
 # Motifs
 include(joinpath(".", "community/motifs.jl"))

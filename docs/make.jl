@@ -19,7 +19,8 @@ makedocs(
         ],
         "Examples" => [
             "Modularity" => "examples/modularity.md",
-            "Integration with Mangal" => "examples/integration_mangal.md",
+            "Centrality" => "examples/centrality.md",
+            "Integration with Mangal" => "examples/mangal.md",
             "Network beta-diversity" => "examples/beta-diversity.md",
             "Extinctions" => "examples/extinctions.md"
         ],

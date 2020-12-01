@@ -42,4 +42,3 @@ nodiagonal!
 ```@docs
 Base.:!
 ```
-

@@ -15,4 +15,5 @@ dijkstra
 centrality_degree
 centrality_closeness
 centrality_katz
+centrality_harmonic
 ```
