@@ -29,5 +29,33 @@ We can now show the different values of centrality on this plot:
 
 ```@example centr
 plot(I, N)
-scatter!(I, N, nodefill=centrality_degree(N), c=:YlGnBu, aspectratio=1, cbar=true)
+scatter!(I, N, nodefill=centrality_degree(N), c=:YlGnBu, aspectratio=1
+```
+
+## Katz centrality
+
+```@example centr
+plot(I, N)
+scatter!(I, N, nodefill=centrality_katz(N), c=:YlGnBu, aspectratio=1)
+```
+
+## Closeness centrality
+
+```@example centr
+plot(I, N)
+scatter!(I, N, nodefill=centrality_closeness(N), c=:YlGnBu, aspectratio=1)
+```
+
+## Harmonic centrality
+
+```@example centr
+plot(I, N)
+scatter!(I, N, nodefill=centrality_harmonic(N), c=:YlGnBu, aspectratio=1)
+```
+
+## Eigenvector centrality
+
+```@example centr
+plot(I, N)
+scatter!(I, N, nodefill=centrality_eigenvector(N), c=:YlGnBu, aspectratio=1)
 ```
