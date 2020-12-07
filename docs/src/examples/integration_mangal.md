@@ -46,20 +46,12 @@ foodwebs = mangal_networks[mangal_networks[!, :pred] .+ mangal_networks[!, :herb
 first(foodwebs, 5)
 ```
 
-To analyse their properties, we first need to read all of these food webs using the `Mangal.jl` package, and then convert them to UnipartiteNetworks, when possible, using the `EcologicalNetworks.jl` package. We end up with 241 unipartite food webs.
+To analyse their properties, we first need to read all of these food webs using the `Mangal.jl` package, and then convert them to UnipartiteNetworks using the `EcologicalNetworks.jl` package. 
 
 ```@example mangal
 mangal_foodwebs = network.(foodwebs.id)
 
-unipartite_foodwebs = []
-
-for i in eachindex(mangal_foodwebs)
-    try
-        unipartite_foodweb = convert(UnipartiteNetwork, mangal_foodwebs[i])
-        push!(unipartite_foodwebs, unipartite_foodweb)
-    catch
-    end
-end
+unipartite_foodwebs = convert.(UnipartiteNetwork, mangal_foodwebs)
 
 unipartite_foodwebs[1:5]
 ```
