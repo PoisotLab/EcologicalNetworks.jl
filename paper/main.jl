@@ -61,10 +61,10 @@ mangal_networks2 = mangal_networks[mangal_networks.L .> 4, :]
 # classify network according to their most frequent type of interactions
 number_interactions_max_type = maximum.(eachrow(mangal_networks2[:,[:mutu, :para,:foodweb,:other]]))
 
-foodwebs = mangal_networks2[mangal_networks2[:foodweb] .== number_interactions_max_type ,:]
-parasitism_webs = mangal_networks2[mangal_networks2[:para] .== number_interactions_max_type ,:]
-mutualism_webs = mangal_networks2[mangal_networks2[:mutu] .== number_interactions_max_type ,:]
-other_webs = mangal_networks2[mangal_networks2[:other] .== number_interactions_max_type ,:]
+foodwebs = mangal_networks2[mangal_networks2[!, :foodweb] .== number_interactions_max_type ,:]
+parasitism_webs = mangal_networks2[mangal_networks2[!, :para] .== number_interactions_max_type ,:]
+mutualism_webs = mangal_networks2[mangal_networks2[!, :mutu] .== number_interactions_max_type ,:]
+other_webs = mangal_networks2[mangal_networks2[!, :other] .== number_interactions_max_type ,:]
 
 
 
@@ -74,16 +74,7 @@ other_webs = mangal_networks2[mangal_networks2[:other] .== number_interactions_m
 mangal_foodwebs = network.(foodwebs.id)
 
 # convert MangalNetworks to UnipartiteNetworks when possible
-unipartite_foodwebs=[]
-
-for i in eachindex(mangal_foodwebs)
-    try
-        unipartite_foodweb = convert(UnipartiteNetwork, mangal_foodwebs[i])
-        push!(unipartite_foodwebs, unipartite_foodweb)
-    catch
-        println("Cannot convert mangal food web $(i) to a unipartite network")
-    end
-end
+unipartite_foodwebs = convert.(UnipartiteNetwork, mangal_foodwebs)
 
 
 
