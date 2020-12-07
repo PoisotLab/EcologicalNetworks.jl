@@ -127,7 +127,7 @@ The package [`EcologicalNetworksPlots.jl`](https://github.com/EcoJulia/Ecologica
 
 Connectance (i.e. the proportion of all possible links that are realized) is undoubtedly one of the most studied and important measure of ecological networks [@PoisGrav14]. A network's connectance is the result of many ecological processes, and predicts how a biological community functions and responds to changes [@DunnWill02c; @DunnWill02d]. Connectance is furthermore associated with other network measures, including nestedness and modularity [@DelmBess19]. A network is nested when species that interact with specialists (i.e. species with few interactions) are a subset of the species that interact with generalists (i.e. species with many interactions). On the other hand, a network is modular when species are organized in groups of highly interacting species. @FortStou10 showed how these two quantities were associated in ecological networks. Here we show how `EcologicalNetworks.jl` can be used in conjunction with `Mangal.jl` to retrieve these associations in food webs.
 
-We read networks metadata from `mangal.io` using the code in the previous section, and select networks we classified as food webs. We then use their ID numbers to import all their data from `mangal.io`, which again returns objects of type `MangalNetwork`. Since food-web measures are typically computed on objects of type `UnipartiteNetwork`, we use `EcologicalNetworks.jl` for type conversion for networks with suitable data.
+We read networks metadata from `mangal.io` using the code in the previous section, and select networks we classified as food webs. We then use their ID numbers to import all their data from `mangal.io`, which again returns objects of type `MangalNetwork`. However, food-web measures are computed on objects of type `UnipartiteNetwork`. We thus need to use `EcologicalNetworks.jl` for type conversion.
 
 
 ```julia
@@ -137,18 +137,9 @@ mangal_foodwebs = network.(foodwebs.id)
           # the data frame "foodwebs" is a subset of
           # mangal_networks for networks classified as food webs
 
-unipartite_foodwebs = []
+unipartite_foodwebs = convert.(UnipartiteNetwork,
+                               mangal_foodwebs)
 
-for i in eachindex(mangal_foodwebs)
-    try
-        unipartite_foodweb = convert(UnipartiteNetwork,
-                                     mangal_foodwebs[i])
-        push!(unipartite_foodwebs, unipartite_foodweb)
-    catch
-        println("Cannot convert mangal food web $(i)
-                to a unipartite network")
-    end
-end
 ```
 
 Next, we compute food-web richness (i.e. the number of species), connectance, nestedness, and modularity using functions from `EcologicalNetworks.jl`. Nestedness is computed using the spectral radius $\rho$ of the matrices of interactions [i.e. their largest absolute eigenvalue, @StanKopp13]. To compute network modularity, we need a starting point, an optimizer, and a measure of modularity [@Newm06; @Barb07; @Theb13]. We use 100 random species assignments in 3 to 15 groups as our starters. We use the BRIM algorithm to optimize the modularity for each of these random partitions, and compute modularity following @Newm06. The maximum value is retained for each food web. Associations between these measures are plotted in \autoref{fig:nestmod}.
