@@ -32,6 +32,11 @@ end
 ```
 
 ```@example modularity
+q = map(x -> Q(N,x), m);
+c = (m .|> values |> collect) .|> unique .|> length;
+```
+
+```@example modularity
 p1 = scatter(c, q, c=:grey, msw=0.0, leg=false, frame=:origin, grid=false, margin = 10mm)
 xaxis!(p1, "Number of modules")
 yaxis!(p1, "Modularity", (0, 0.5))
@@ -40,16 +45,10 @@ yaxis!(p1, "Modularity", (0, 0.5))
 ## Measuring modularity
 
 Now that we have the modular partition for every attempt, we can count the
-modules in it, and measure its modularity:
-
-```@example modularity
-q = map(x -> Q(N,x), m);
-c = (m .|> values |> collect) .|> unique .|> length;
-```
-
-Out of all attempts, we want to get the most modular one, *i.e.* the one with
-highest modularity. In some simple problems, there may be several partitions
-with the highest value, so we can either take the first, or one at random:
+modules in it, and measure its modularity. Out of all attempts, we want to get
+the most modular one, *i.e.* the one with highest modularity. In some simple
+problems, there may be several partitions with the highest value, so we can
+either take the first, or one at random:
 
 ```@example modularity
 optimal = rand(findall(q.== maximum(q)));

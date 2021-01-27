@@ -21,7 +21,7 @@ function leadingeigenvector(N::T) where {T <: AbstractUnipartiteNetwork}
     todo = unique(L)
 
     while length(todo) > 0
-        this = findall(L .== last(this))
+        this = findall(L .== last(todo))
 
         B = _B_matrix(K.edges[this, this])
         if all(isnan.(B))
