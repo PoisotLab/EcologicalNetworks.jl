@@ -30,6 +30,7 @@ lp
 ```@docs
 brim
 salp
+leadingeigenvector
 ```
 
 ## Functional roles
