@@ -31,7 +31,7 @@ function leadingeigenvector(N::T) where {T <: AbstractUnipartiteNetwork}
             next = maximum(L)+1
             push!(todo, next)
             for (i,f) in enumerate(F.vectors[:,1])
-                (f < 0) && (m[this[i]] = next)    
+                (f < 0) && (L[this[i]] = next)    
             end
         end
     end
