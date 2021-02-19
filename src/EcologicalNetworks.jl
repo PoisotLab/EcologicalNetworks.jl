@@ -79,7 +79,7 @@ export isdegenerate, simplify, simplify!
 
 # SVD
 include(joinpath(".", "svd", "svd.jl"))
-export svd_truncated
+export rdpg
 
 # Random networks and permutations
 include(joinpath(".", "rand/draws.jl"))

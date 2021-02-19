@@ -5,12 +5,10 @@ import LinearAlgebra: svd, mul!, diagm
 
 SVD of a network (i.e. SVD of the adjacency matrix)
 """
-function LinearAlgebra.svd(N::T) where {T <: AbstractEcologicalNetwork}
-  return svd(N.A)
-end
+LinearAlgebra.svd(N::T) where {T <: AbstractEcologicalNetwork} = svd(adjacency(N))
 
 """
-    svd_truncated(N::BinaryNetwork; rank::Integer=3)
+    svd_truncated(N::BinaryNetwork, rnk::Integer=3)
 
 Given a binary network `N` which adjacency matrix `A` is of dimension `n × m`,
 `svd_truncated(A)` returns two matrices, `Left` and `Right`, with dimensions
@@ -35,13 +33,13 @@ of food webs' backbones using functional traits. Oikos, 125(4), pp.446-456.
 https://doi.org/10.1111/oik.02305
 
 """
-function svd_truncated(N::T; rank::Integer=3) where {T<:BinaryNetwork}
-  U, singular_values, V = svd(N)
-  left_space = similar(U)
-  right_space = similar(V')
-  mul!(left_space, U, diagm(sqrt.(singular_values)))
-  mul!(right_space, diagm(sqrt.(singular_values)), V')
-  left_space = left_space[:,1:rank]
-  right_space = right_space[1:rank,:]
-  return left_space, right_space
+function rdpg(N::T, rnk::Integer=3) where {T<:BinaryNetwork}
+    U, singular_values, V = svd(N)
+    left_space = similar(U)
+    right_space = similar(V')
+    mul!(left_space, U, diagm(sqrt.(singular_values)))
+    mul!(right_space, diagm(sqrt.(singular_values)), V')
+    left_space = left_space[:,1:rnk]
+    right_space = right_space[1:rnk,:]
+    return left_space, right_space
 end
