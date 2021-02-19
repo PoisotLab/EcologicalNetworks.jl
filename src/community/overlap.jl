@@ -26,7 +26,7 @@ function overlap(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipart
         dims== 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
 
-    itype = Pair{Set{last(eltype(N))},Int64}
+    itype = Pair{Set{_species_type(N)},Int64}
     overlaps = Vector{itype}()
 
     for i in 1:(richness(N; dims=dims)-1)
@@ -80,7 +80,7 @@ function AJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteN
         dims == 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
 
-    itype = Pair{Set{last(eltype(N))},Float64}
+    itype = Pair{Set{_species_type(N)},Float64}
     overlaps = Vector{itype}()
 
     for i in 1:(richness(N; dims=dims)-1)
@@ -136,13 +136,13 @@ https://doi.org/10.1016/j.ecoinf.2015.09.013
 function EAJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteNetwork}
 
     sp = shortest_path(N)
-    Y = UnipartiteNetwork(sp.>0, species_objects(N)...)
+    Y = UnipartiteNetwork(sp.>0, _species_objects(N)...)
 
     if dims !== nothing
         dims == 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
 
-    itype = Pair{Set{last(eltype(N))},Float64}
+    itype = Pair{Set{_species_type(N)},Float64}
     overlaps = Vector{itype}()
 
     for i in 1:(richness(Y; dims=dims)-1)

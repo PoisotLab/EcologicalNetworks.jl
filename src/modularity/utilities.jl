@@ -20,11 +20,11 @@ networks and their unipartite projection.
 
 #### References
 
-Barber, M.J., 2007. Modularity and community detection in bipartite networks.
-Phys. Rev. E 76, 066102. https://doi.org/10.1103/PhysRevE.76.066102
+- Barber, M.J., 2007. Modularity and community detection in bipartite networks.
+  Phys. Rev. E 76, 066102. https://doi.org/10.1103/PhysRevE.76.066102
 
-Newman, M.E., 2006. Modularity and community structure in networks. Proceedings
-of the national academy of sciences 103, 8577–8582.
+- Newman, M.E., 2006. Modularity and community structure in networks.
+  Proceedings of the national academy of sciences 103, 8577–8582.
 """
 function Q(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E}
     for s in species(N)
@@ -44,7 +44,7 @@ function Q(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E}
     Pij = kikj ./ m
 
     # Difference
-    diff = N.A .- Pij
+    diff = N.edges .- Pij
 
     # Diff × delta
     dd = diff .* δ(N,L)
@@ -62,14 +62,14 @@ random expectation).
 
 #### References
 
-Poisot, T., 2013. An a posteriori measure of network modularity. F1000Research
-2. https://doi.org/10.12688/f1000research.2-130.v3
+- Poisot, T., 2013. An a posteriori measure of network modularity. F1000Research
+  2. https://doi.org/10.12688/f1000research.2-130.v3
 """
 function Qr(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E}
     for s in species(N)
         @assert haskey(L, s)
     end
-    W = sum(N.A .* δ(N, L))
+    W = sum(N.edges .* δ(N, L))
     B = links(N)
     return 2.0 * (W/B) - 1.0
 end

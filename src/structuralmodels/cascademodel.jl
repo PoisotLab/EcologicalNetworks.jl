@@ -24,7 +24,7 @@ function cascademodel(S::Int64, Co::Float64)
     A = UnipartiteNetwork(zeros(Bool, (S, S)))
 
     # For each species randomly asscribe rank e
-    e = Random.sort(rand(S), rev=false)
+    e = Random.sort(rand(S); rev=false)
 
     # Probability for linking two species
     p = 2*Co*S/(S - 1)
