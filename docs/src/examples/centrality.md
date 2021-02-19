@@ -29,7 +29,7 @@ We can now show the different values of centrality on this plot:
 
 ```@example centr
 plot(I, N)
-scatter!(I, N, nodefill=centrality_degree(N), c=:YlGnBu, aspectratio=1
+scatter!(I, N, nodefill=centrality_degree(N), c=:YlGnBu, aspectratio=1)
 ```
 
 ## Katz centrality

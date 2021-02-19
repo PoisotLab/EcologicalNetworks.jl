@@ -1,13 +1,13 @@
 """
-    mirror(N::T) where {T <: UnipartiteNetwork}
+    mirror(N::T) where {T <: AbstractUnipartiteNetwork}
 
 Returns a mirrored version of the adjacency matrix, required for spectral
 radius.
 """
-function mirror(N::T) where {T <: UnipartiteNetwork}
+function mirror(N::T) where {T <: AbstractUnipartiteNetwork}
     M = copy(N)
     for i in N
-        M[i.to, i.from] = true
+        M[i.to, i.from] = M[i.from, i.to]
     end
     return M
 end
