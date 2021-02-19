@@ -143,9 +143,6 @@ export n_random_modules, each_species_its_module
 include(joinpath(".", "modularity/brim.jl"))
 export brim
 
-include(joinpath(".", "modularity/leadingeigenvector.jl"))
-export leadingeigenvector
-
 include(joinpath(".", "modularity/roles.jl"))
 export functional_cartography
 
