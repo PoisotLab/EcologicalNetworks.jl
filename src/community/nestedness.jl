@@ -54,7 +54,7 @@ function nodf_axis(N::BipartiteQuantitativeNetwork)
 
   # Extract the ordered matrix as floating point values, so that all other
   # measures will work for both the quanti and deterministic networks
-  A = Array(N.edges)
+  A = adjacency(N)
   A = map(Float64, A[row_order,:])
 
   # Initialize the value
@@ -88,12 +88,11 @@ NODF of a single axis
 """
 function nodf_axis(N::BipartiteNetwork)
 
-  # Get the row order
-  row_order = sortperm(vec(sum(N.edges; dims=2)), rev=true)
-
   # Extract the ordered matrix as floating point values, so that all other
   # measures will work for both the quanti and deterministic networks
-  A = Array(N.edges)
+  A = adjacency(N)
+  row_order = sortperm(vec(sum(A; dims=2)), rev=true)
+  A = A[row_order,:]
   d = float(vec(sum(A; dims=2)))
 
   # Initialize the value
