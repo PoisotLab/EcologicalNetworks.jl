@@ -1,6 +1,3 @@
-
-# Network beta-diversity
-
 In this section, we will measure the dissimilarity between bipartite
 host-parasite networks.
 

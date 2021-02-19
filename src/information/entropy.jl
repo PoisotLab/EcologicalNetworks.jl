@@ -12,8 +12,8 @@ Returns a double stochastic matrix from the adjacency or incidence matrix.
 Raises an error if the matrix contains negative values. Output in bits.
 """
 function make_joint_distribution(N::NT) where {NT<:AbstractEcologicalNetwork}
-    !(typeof(N) <: QuantitativeNetwork) || any(N.A .≥ 0) || throw(DomainError("Information only for nonnegative interaction values"))
-    return N.A / sum(N.A)
+    !(typeof(N) <: QuantitativeNetwork) || any(N.edges .≥ 0) || throw(DomainError("Information only for nonnegative interaction values"))
+    return N.edges / sum(N.edges)
 end
 
 """
