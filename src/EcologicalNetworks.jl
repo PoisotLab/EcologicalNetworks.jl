@@ -59,7 +59,7 @@ include(joinpath(".", "interfaces/iteration.jl"))
 include(joinpath(".", "utilities/comparisons.jl"))
 include(joinpath(".", "utilities/overloads.jl"))
 include(joinpath(".", "utilities/utilities.jl"))
-export species, interactions, has_interaction, richness, nodiagonal, nodiagonal!
+export species, interactions, has_interaction, richness, nodiagonal, nodiagonal!, adjacency
 
 # Degree
 include(joinpath(".", "links/degree.jl"))

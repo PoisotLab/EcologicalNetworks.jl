@@ -27,13 +27,13 @@ function linearfilter(N::T; α::Vector{Float64}=fill(1.0, 4)) where {T <: Binary
     α = α ./ sum(α) # This ensures that α sums to 1.0
     
     # Get the new weights
-    W = α[1]A.edges .+ α[2]mean(A.edges; dims=2) .+ α[3]mean(A.edges; dims=1) .+ α[4]mean(A.edges)
+    W = α[1]N.edges .+ α[2]mean(N.edges; dims=2) .+ α[3]mean(N.edges; dims=1) .+ α[4]mean(N.edges)
     
     # Prepare a return object
     return_type = T <: AbstractBipartiteNetwork ? BipartiteProbabilisticNetwork : UnipartiteProbabilisticNetwork
     F = return_type(W, EcologicalNetworks._species_objects(N)...)
     
-    return W
+    return F
 end
 
 """
