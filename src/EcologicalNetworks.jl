@@ -4,7 +4,6 @@ module EcologicalNetworks
 using StatsBase
 using Combinatorics
 using Distributions
-
 using Random
 using Statistics
 using DelimitedFiles
