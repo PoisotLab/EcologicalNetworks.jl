@@ -185,3 +185,7 @@ function interactions(N::ProbabilisticNetwork)
     end
     return unique(edges_accumulator)
 end
+
+function adjacency(N::T) where {T <: AbstractEcologicalNetwork}
+  return Array(N.edges)
+end
