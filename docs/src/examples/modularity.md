@@ -99,19 +99,3 @@ collect(values(roles)) |> x -> scatter!(x, leg=false, c=:white)
 yaxis!("Among-module connectivity", (0,1))
 xaxis!("Within-module degree", (-2, 3))
 ```
-
-## Other measures of modularity
-
-We can also look at community structure using the leading eigenvector algorithm:
-
-```@example modularity
-U = convert(UnipartiteNetwork, N)
-_, eig_m = leadingeigenvector(U)
-```
-
-This can, again, be plotted using `EcologicalNetworksPlots`:
-
-```@example modularity
-p2 = plot(I, N, aspectratio=1)
-scatter!(p2, I, N, bipartite=true, nodefill=eig_m, markercolor=:isolum)
-```
