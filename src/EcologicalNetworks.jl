@@ -6,9 +6,11 @@ using Combinatorics
 using Distributions
 
 using Random
+using Statistics
 using DelimitedFiles
 using LinearAlgebra
 using DataStructures
+using SparseArrays
 
 using Requires
 
@@ -20,7 +22,6 @@ include(joinpath(".", "misc/init_tests.jl"))
 
 # Types
 include(joinpath(".", "types/declarations.jl"))
-include(joinpath(".", "types/constructors.jl"))
 include(joinpath(".", "types/conversions.jl"))
 export AbstractEcologicalNetwork,
    # General types for all bipartite / unipartite
@@ -39,21 +40,25 @@ export web_of_life, nz_stream_foodweb, pajek
 
 function __init__()
    @require Mangal="b8b640a6-63d9-51e6-b784-5033db27bef2" begin
-      check_species_validity(::Mangal.MangalReferenceTaxon) = nothing
-      check_species_validity(::Mangal.MangalNode) = nothing
+      _check_species_validity(::Mangal.MangalReferenceTaxon) = nothing
+      _check_species_validity(::Mangal.MangalNode) = nothing
    end
    @require GBIF="ee291a33-5a6c-5552-a3c8-0f29a1181037" begin
-      check_species_validity(::GBIF.GBIFTaxon) = nothing
+      _check_species_validity(::GBIF.GBIFTaxon) = nothing
    end
    @require NCBITaxonomy="f88b31d2-eb98-4433-b52d-2dd32bc6efce" begin
-      check_species_validity(::NCBITaxonomy.NCBITaxon) = nothing
+      _check_species_validity(::NCBITaxonomy.NCBITaxon) = nothing
    end
 end
 
+# Interfaces for networks
+include(joinpath(".", "interfaces/abstractarray.jl"))
+include(joinpath(".", "interfaces/iteration.jl"))
+
 # General useful manipulations
-include(joinpath(".", "types/utilities.jl"))
-include(joinpath(".", "types/comparisons.jl"))
-include(joinpath(".", "types/iteration.jl"))
+include(joinpath(".", "utilities/comparisons.jl"))
+include(joinpath(".", "utilities/overloads.jl"))
+include(joinpath(".", "utilities/utilities.jl"))
 export species, interactions, has_interaction, richness, nodiagonal, nodiagonal!
 
 # Degree
@@ -72,6 +77,10 @@ export isdegenerate, simplify, simplify!
    #, species_has_no_successors, species_has_no_predecessors,
    #species_is_free, free_species
 
+# SVD
+include(joinpath(".", "svd", "svd.jl"))
+export rdpg
+
 # Random networks and permutations
 include(joinpath(".", "rand/draws.jl"))
 include(joinpath(".", "rand/sample.jl"))
@@ -81,6 +90,8 @@ include(joinpath(".", "rand/null.jl"))
 include(joinpath(".", "rand/linfilter.jl"))
 export linearfilter, linearfilterzoo
 export null1, null2, null3, null4
+include(joinpath(".", "rand/RDPG.jl"))
+export RDPG
 
 # Random networks from structural models
 include(joinpath(".", "structuralmodels/cascademodel.jl"))
@@ -106,7 +117,8 @@ export number_of_paths, shortest_path, bellman_ford, dijkstra
 
 # Centrality
 include(joinpath(".", "community/centrality.jl"))
-export centrality_katz, centrality_closeness, centrality_degree
+export centrality_katz, centrality_degree, centrality_eigenvector
+export centrality_closeness, centrality_harmonic
 
 # Motifs
 include(joinpath(".", "community/motifs.jl"))

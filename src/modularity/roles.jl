@@ -20,9 +20,9 @@ pollination networks. Proceedings of the National Academy of Sciences 104,
 19891–19896. https://doi.org/10.1073/pnas.0706375104
 """
 function functional_cartography(N::T, L::Dict{E,Int64}) where {T<:BinaryNetwork, E}
-    κ = Dict{last(eltype(N)), Integer}()
+    κ = Dict{_species_type(N), Integer}()
     S = Dict{Int64,Tuple{Float64, Float64}}()
-    carto = Dict{last(eltype(N)),Tuple{Float64, Float64}}()
+    carto = Dict{_species_type(N),Tuple{Float64, Float64}}()
 
     for s in species(N)
         sp_module = L[s]

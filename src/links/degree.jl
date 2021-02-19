@@ -2,7 +2,7 @@
     degree_out(N::AbstractEcologicalNetwork)
 """
 function degree_out(N::AbstractEcologicalNetwork)
-  d_o = vec(sum(N.A, dims=2))
+  d_o = vec(sum(N.edges, dims=2))
   return Dict(zip(species(N; dims=1), d_o))
 end
 
@@ -10,7 +10,7 @@ end
     degree_in(N::AbstractEcologicalNetwork)
 """
 function degree_in(N::AbstractEcologicalNetwork)
-  d_i = vec(sum(N.A, dims=1))
+  d_i = vec(sum(N.edges, dims=1))
   return Dict(zip(species(N; dims=2), d_i))
 end
 
@@ -64,7 +64,7 @@ end
     degree_out_var(N::ProbabilisticNetwork)
 """
 function degree_out_var(N::ProbabilisticNetwork)
-  d_o_v = mapslices(a_var, N.A; dims=2)
+  d_o_v = vec(mapslices(_additive_bernoulli_variance, convert(Matrix, N.edges); dims=2))
   return Dict(zip(species(N; dims=1), d_o_v))
 end
 
@@ -74,7 +74,7 @@ end
     degree_in_var(N::ProbabilisticNetwork)
 """
 function degree_in_var(N::ProbabilisticNetwork)
-  d_i_v = mapslices(a_var, N.A; dims=1)'
+  d_i_v = vec(mapslices(_additive_bernoulli_variance, convert(Matrix, N.edges); dims=1))
   return Dict(zip(species(N; dims=2), d_i_v))
 end
 

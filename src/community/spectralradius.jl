@@ -42,25 +42,27 @@ radius.
 Options that come with `EcologicalNetworks.jl` (where L is the number of links
 and S the number of nodes) are:
 
-1. `EcologicalNetworks.ρ_phillips`: divides by the square root of (2L(S-1))/S, as in Phillips (20110)
-1. `EcologicalNetworks.ρ_ska`: divides by the square root of L, as in Staniczenko *et al.* (2013) - this is the **default**
+1. `EcologicalNetworks.ρ_phillips`: divides by the square root of (2L(S-1))/S,
+   as in Phillips (20110)
+1. `EcologicalNetworks.ρ_ska`: divides by the square root of L, as in
+   Staniczenko *et al.* (2013) - this is the **default**
 1. `EcologicalNetworks.ρ_raw`: returns the raw value
 
 #### References
 
-Phillips, J.D., 2011. The structure of ecological state transitions:
-Amplification, synchronization, and constraints in responses to environmental
-change. Ecological Complexity, 8, 336–346.
-https://doi.org/10.1016/j.ecocom.2011.07.004
+- Phillips, J.D., 2011. The structure of ecological state transitions:
+  Amplification, synchronization, and constraints in responses to environmental
+  change. Ecological Complexity, 8, 336–346.
+  https://doi.org/10.1016/j.ecocom.2011.07.004
 
-Staniczenko, P.P.A., Kopp, J.C., Allesina, S., 2013. The ghost of nestedness in
-ecological networks. Nat Commun 4, 1391. https://doi.org/10.1038/ncomms2422
+- Staniczenko, P.P.A., Kopp, J.C., Allesina, S., 2013. The ghost of nestedness
+  in ecological networks. Nat Commun 4, 1391. https://doi.org/10.1038/ncomms2422
 """
 function ρ(N::T; range=EcologicalNetworks.ρ_ska) where {T <: UnipartiteNetwork}
     links(N) == 0 && return NaN
     M = mirror(N)
-    @assert minimum(M.A) ≥ zero(eltype(M.A))
-    absolute_real_part = abs.(real.(eigvals(M.A)))
+    @assert minimum(M.edges) ≥ zero(_interaction_type(M))
+    absolute_real_part = abs.(real.(eigvals(Array(M.edges))))
     return range(M, maximum(absolute_real_part))
 end
 

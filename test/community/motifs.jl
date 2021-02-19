@@ -4,7 +4,8 @@ using Test
 using EcologicalNetworks
 using LinearAlgebra
 
-@test unipartitemotifs().S1.A == [false true false; false false true; false false false];
+@test unipartitemotifs().S1[:a, :b]
+@test !unipartitemotifs().S1[:a, :a]
 
 n = UnipartiteNetwork(zeros(Bool, (2, 2)))
 m = unipartitemotifs().S1

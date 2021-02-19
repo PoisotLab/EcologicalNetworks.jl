@@ -6,11 +6,11 @@ import Base.convert
 Projects a deterministic bipartite network in its unipartite representation.
 """
 function convert(::Type{UnipartiteNetwork}, N::T) where {T <: BipartiteNetwork}
-    itype = first(eltype(N))
+    itype = _interaction_type(N)
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
-    B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.A
-    return UnipartiteNetwork(B, S)
+    B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.edges
+    return UnipartiteNetwork(sparse(B), S)
 end
 
 """
@@ -19,11 +19,11 @@ end
 Projects a probabilistic bipartite network in its unipartite representation.
 """
 function convert(::Type{UnipartiteProbabilisticNetwork}, N::T) where {T <: BipartiteProbabilisticNetwork}
-    itype = eltype(N.A)
+    itype = _interaction_type(N)
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
-    B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.A
-    return UnipartiteProbabilisticNetwork(B, S)
+    B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.edges
+    return UnipartiteProbabilisticNetwork(sparse(B), S)
 end
 
 """
@@ -32,11 +32,11 @@ end
 Projects a quantitative bipartite network in its unipartite representation.
 """
 function convert(::Type{UnipartiteQuantitativeNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
-    itype = eltype(N.A)
+    itype = _interaction_type(N)
     S = copy(species(N))
     B = zeros(itype, (richness(N), richness(N)))
-    B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.A
-    return UnipartiteQuantitativeNetwork(B, S)
+    B[1:size(N)[1],size(N)[1]+1:richness(N)] = N.edges
+    return UnipartiteQuantitativeNetwork(sparse(B), S)
 end
 
 """
@@ -47,8 +47,8 @@ amounts to *removing* the quantitative information.
 """
 function convert(::Type{UnipartiteNetwork}, N::T) where {T <: UnipartiteQuantitativeNetwork}
     S = copy(species(N))
-    B = N.A.>zero(eltype(N.A))
-    return UnipartiteNetwork(convert(Array{Bool,2}, B), S)
+    B = dropzeros(N.edges)
+    return UnipartiteNetwork(B .!= zero(eltype(B)), S)
 end
 
 """
@@ -57,11 +57,11 @@ end
 Convert a bipartite quantitative network to a bipartite binary network. This
 amounts to *removing* the quantitative information.
 """
-function convert(::Type{BipartiteNetwork}, N::T) where {T <: BipartiteQuantitativeNetwork}
-    R = copy(species(N; dims=1))
+function convert(::Type{BipartiteNetwork}, N::NT) where {NT <: BipartiteQuantitativeNetwork}
+    T = copy(species(N; dims=1))
     B = copy(species(N; dims=2))
-    C = N.A.>zero(eltype(N.A))
-    return BipartiteNetwork(convert(Array{Bool,2}, C), R, B)
+    M = dropzeros(N.edges)
+    return BipartiteNetwork(M .!= zero(eltype(M)), T, B)
 end
 
 """
@@ -138,10 +138,10 @@ for comb in type_pairs
             for s in species(N)
                 (d1[s]*d2[s] == 0) || throw(ArgumentError("Species $s has both in and out degree"))
             end
-            top_species = collect(keys(filter(p -> p.second == zero(eltype(N.A)), d2)))
-            bot_species = collect(keys(filter(p -> p.second == zero(eltype(N.A)), d1)))
-            A = zeros(eltype(N)[1], (length(top_species), length(bot_species)))
-            B = $t1(A, top_species, bot_species)
+            top_species = collect(keys(filter(p -> p.second == zero(eltype(N.edges)), d2)))
+            bot_species = collect(keys(filter(p -> p.second == zero(eltype(N.edges)), d1)))
+            A = zeros(_interaction_type(N), (length(top_species), length(bot_species)))
+            B = $t1(sparse(A), top_species, bot_species)
             for s1 in species(B; dims=1), s2 in species(B; dims=2)
                 B[s1,s2] = N[s1, s2]
             end

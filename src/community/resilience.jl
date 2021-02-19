@@ -1,10 +1,3 @@
-#=
-Some functions from *Universal resilience patterns in complex networks*
-by Gao et al. (2016)
-=#
-
-using Statistics: mean, std
-
 """
     s(N::AbstractUnipartiteNetwork; dims::Union{Nothing,Integer}=nothing)
 
@@ -14,28 +7,12 @@ density of interactions.
 If dims is provided, the incoming (`dims=1`) or outgoing (`dims=2`) is computed.
 """
 function s(N::AbstractUnipartiteNetwork; dims::Union{Nothing,Integer}=nothing)
-    dims == 1 && return sum(N.A, dims=2)
-    dims == 2 && return sum(N.A, dims=1)'
+    dims == 1 && return vec(sum(N, dims=2))
+    dims == 2 && return vec(sum(N, dims=1))
     if isnothing(dims)
-        return sum(N.A) / size(N)[1]
+        return sum(N) / size(N)[1]
     end
 end
-#=
-"""
-    s(N::AbstractUnipartiteNetwork; dims)
-
-Computes the vector of incoming weighted degrees of an unipartite network.
-"""
-s_in(N::AbstractUnipartiteNetwork) = sum(N.A, dims=2)
-
-"""
-    s_out(N::AbstractUnipartiteNetwork)
-
-Computes the vector of outgoing weighted degrees of an unipartite network.
-"""
-s_out(N::AbstractUnipartiteNetwork) = sum(N.A, dims=1)'
-
-=#
 
 """
     σ_in(N::AbstractUnipartiteNetwork)
@@ -43,7 +20,7 @@ s_out(N::AbstractUnipartiteNetwork) = sum(N.A, dims=1)'
 Computes the standard deviation of the ingoing weighted degree of an unipartite
 network.
 """
-σ_in(N::AbstractUnipartiteNetwork) = std(s(N, dims=1), corrected=false)
+σ_in(N::AbstractUnipartiteNetwork) = Statistics.std(s(N, dims=1), corrected=false)
 
 """
     σ_out(N::AbstractUnipartiteNetwork)
@@ -51,7 +28,7 @@ network.
 Computes the standard deviation of the outgoing weighted degree of an unipartite
 network.
 """
-σ_out(N::AbstractUnipartiteNetwork) = std(s(N, dims=2), corrected=false)
+σ_out(N::AbstractUnipartiteNetwork) = Statistics.std(s(N, dims=2), corrected=false)
 
 """
     symmetry(N::AbstractUnipartiteNetwork)
@@ -68,7 +45,7 @@ to be prey would have a negative symmetry.
 > Nature 530(7590), 307-312. doi:10.1038/nature16948
 
 """
-symmetry(N::AbstractUnipartiteNetwork) = (mean(s(N, dims=1) .* s(N, dims=2)) - mean(s(N, dims=1)) * mean(s(N, dims=2))) / (σ_in(N) * σ_out(N))
+symmetry(N::AbstractUnipartiteNetwork) = (Statistics.mean(s(N, dims=1) .* s(N, dims=2)) - Statistics.mean(s(N, dims=1)) * Statistics.mean(s(N, dims=2))) / (σ_in(N) * σ_out(N))
 
 """
     heterogeneity(N::AbstractUnipartiteNetwork)
