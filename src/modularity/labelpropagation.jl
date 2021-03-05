@@ -13,8 +13,18 @@ Networks, in: 2009 IEEE/WIC/ACM International Joint Conference on Web
 Intelligence and Intelligent Agent Technology. Institute of Electrical &
 Electronics Engineers (IEEE). https://doi.org/10.1109/wi-iat.2009.15
 """
-function lp(N::T) where {T<:AbstractEcologicalNetwork}
+function lp(N::T) where {T<:AbstractBipartiteNetwork}
   L = Dict([species(N)[i]=>i for i in 1:richness(N)])
+
+  rows, cols, vals = findnz(N.edges)
+  neighbors_t = Dict([i=>[] for i in species(N, dims=1)])
+  neighbors_b = Dict([i=>[] for i in species(N, dims=2)])
+  for (i, j) in zip(rows, cols)
+    name_t = species(N, dims=1)[i]
+    name_b = species(N, dims=2)[j]
+    push!(neighbors_t[name_t], name_b)
+    push!(neighbors_b[name_b], name_t)
+  end
 
   # Initial modularity
   imod = Q(N, L)
@@ -26,7 +36,7 @@ function lp(N::T) where {T<:AbstractEcologicalNetwork}
     update_b = shuffle(species(N; dims=2))
 
     for s1 in update_t
-      linked = filter(s2 -> has_interaction(N,s1,s2), species(N; dims=2))
+      linked = neighbors_t[s1]
       labels = [L[s2] for s2 in linked]
       if length(labels) > 0
         counts = StatsBase.counts(labels)
@@ -41,7 +51,7 @@ function lp(N::T) where {T<:AbstractEcologicalNetwork}
     end
 
     for s2 in update_b
-      linked = filter(s1 -> has_interaction(N,s1,s2), species(N; dims=1))
+      linked = neighbors_b[s2]
       labels = [L[s1] for s1 in linked]
       if length(labels) > 0
         counts = StatsBase.counts(labels)
