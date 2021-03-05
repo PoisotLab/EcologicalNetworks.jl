@@ -13,7 +13,7 @@ Networks, in: 2009 IEEE/WIC/ACM International Joint Conference on Web
 Intelligence and Intelligent Agent Technology. Institute of Electrical &
 Electronics Engineers (IEEE). https://doi.org/10.1109/wi-iat.2009.15
 """
-function lp(N::T) where {T<:AbstractBipartiteNetwork}
+function lp(N::T) where {T<:AbstractEcologicalNetwork}
   L = Dict([species(N)[i]=>i for i in 1:richness(N)])
 
   rows, cols, vals = findnz(N.edges)
@@ -39,10 +39,10 @@ function lp(N::T) where {T<:AbstractBipartiteNetwork}
       linked = neighbors_t[s1]
       labels = [L[s2] for s2 in linked]
       if length(labels) > 0
-        counts = StatsBase.counts(labels)
-        cmax = maximum(counts)
-        merged = Dict(zip(labels, counts))
-        ok_keys = keys(Dict(collect(filter(k -> k.second==cmax, merged))))
+        counts = Dict()
+        (i->counts[i] = get(counts, i, 0) + 1).(labels)
+        cmax = maximum(values(counts))
+        ok_keys = keys(filter(k -> k.second==cmax, counts))
         if length(ok_keys) > 0
           newlab = StatsBase.sample(collect(ok_keys))
           L[s1] = newlab
@@ -54,10 +54,10 @@ function lp(N::T) where {T<:AbstractBipartiteNetwork}
       linked = neighbors_b[s2]
       labels = [L[s1] for s1 in linked]
       if length(labels) > 0
-        counts = StatsBase.counts(labels)
-        cmax = maximum(counts)
-        merged = Dict(zip(labels, counts))
-        ok_keys = keys(Dict(collect(filter(k -> k.second==cmax, merged))))
+        counts = Dict()
+        (i->counts[i] = get(counts, i, 0) + 1).(labels)
+        cmax = maximum(values(counts))
+        ok_keys = keys(filter(k -> k.second==cmax, counts))
         if length(ok_keys) > 0
           newlab = StatsBase.sample(collect(ok_keys))
           L[s2] = newlab
