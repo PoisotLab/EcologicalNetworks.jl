@@ -2,7 +2,7 @@ using LinearAlgebra: lmul!, rmul!, Diagonal
 
 """
     optimaltransportation(M::AbstractArray;
-            a=nothing, b=nothing, λ::Number=1, ϵ=1e-10, maxiter=100)
+            [a, b, λ=1, ϵ=1e-10, maxiter=100])
 
 Performs optimal transportation on an ecological network. Here, `M` is treated
 as an utility matrix, quantifying the preference the species of the two throphic
@@ -29,7 +29,7 @@ end
 
 """
     optimaltransportation(M::AbstractBipartiteNetwork;
-            a=nothing, b=nothing, λ::Number=1, ϵ=1e-10, maxiter=100)
+            [a, b, λ=1, ϵ=1e-10, maxiter=100])
 
 Performs optimal transportation on an ecological network. Here, `M` is treated
 as an utility matrix, quantifying the preference the species of the two throphic
