@@ -172,4 +172,7 @@ export entropy, make_joint_distribution, mutual_information, conditional_entropy
    variation_information, diff_entropy_uniform, information_decomposition,
    convert2effective, potential_information
 
+include(joinpath(".", "information/otsin.jl"))
+export optimaltransportation
+
 end
