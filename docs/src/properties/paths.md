@@ -6,6 +6,7 @@
 number_of_paths
 shortest_path
 bellman_ford
+dijkstra
 ```
 
 ## Centrality measures
@@ -14,4 +15,5 @@ bellman_ford
 centrality_degree
 centrality_closeness
 centrality_katz
+centrality_harmonic
 ```

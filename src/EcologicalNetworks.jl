@@ -4,11 +4,13 @@ module EcologicalNetworks
 using StatsBase
 using Combinatorics
 using Distributions
-
 using Random
+using Statistics
 using DelimitedFiles
 using LinearAlgebra
 using DataStructures
+using SparseArrays
+using Requires
 
 # Various utilities for probabilities
 include(joinpath(".", "misc/probabilities.jl"))
@@ -18,9 +20,8 @@ include(joinpath(".", "misc/init_tests.jl"))
 
 # Types
 include(joinpath(".", "types/declarations.jl"))
-include(joinpath(".", "types/constructors.jl"))
 include(joinpath(".", "types/conversions.jl"))
-export AbstractEcologicalNetwork, AllowedSpeciesTypes,
+export AbstractEcologicalNetwork,
    # General types for all bipartite / unipartite
    AbstractBipartiteNetwork, AbstractUnipartiteNetwork,
    # Types
@@ -33,13 +34,30 @@ export AbstractEcologicalNetwork, AllowedSpeciesTypes,
 
 # Datasets
 include(joinpath(".", "misc/data.jl"))
-export web_of_life, nz_stream_foodweb
+export web_of_life, nz_stream_foodweb, pajek
+
+function __init__()
+   @require Mangal="b8b640a6-63d9-51e6-b784-5033db27bef2" begin
+      _check_species_validity(::Mangal.MangalReferenceTaxon) = nothing
+      _check_species_validity(::Mangal.MangalNode) = nothing
+   end
+   @require GBIF="ee291a33-5a6c-5552-a3c8-0f29a1181037" begin
+      _check_species_validity(::GBIF.GBIFTaxon) = nothing
+   end
+   @require NCBITaxonomy="f88b31d2-eb98-4433-b52d-2dd32bc6efce" begin
+      _check_species_validity(::NCBITaxonomy.NCBITaxon) = nothing
+   end
+end
+
+# Interfaces for networks
+include(joinpath(".", "interfaces/abstractarray.jl"))
+include(joinpath(".", "interfaces/iteration.jl"))
 
 # General useful manipulations
-include(joinpath(".", "types/utilities.jl"))
-include(joinpath(".", "types/comparisons.jl"))
-include(joinpath(".", "types/iteration.jl"))
-export species, interactions, has_interaction, richness, nodiagonal, nodiagonal!
+include(joinpath(".", "utilities/comparisons.jl"))
+include(joinpath(".", "utilities/overloads.jl"))
+include(joinpath(".", "utilities/utilities.jl"))
+export species, interactions, has_interaction, richness, nodiagonal, nodiagonal!, adjacency
 
 # Degree
 include(joinpath(".", "links/degree.jl"))
@@ -57,6 +75,10 @@ export isdegenerate, simplify, simplify!
    #, species_has_no_successors, species_has_no_predecessors,
    #species_is_free, free_species
 
+# SVD
+include(joinpath(".", "svd", "svd.jl"))
+export rdpg
+
 # Random networks and permutations
 include(joinpath(".", "rand/draws.jl"))
 include(joinpath(".", "rand/sample.jl"))
@@ -65,7 +87,9 @@ include(joinpath(".", "rand/shuffle.jl"))
 include(joinpath(".", "rand/null.jl"))
 include(joinpath(".", "rand/linfilter.jl"))
 export linearfilter, linearfilterzoo
-export null1, null2, null3out, null3in
+export null1, null2, null3, null4
+include(joinpath(".", "rand/RDPG.jl"))
+export RDPG
 
 # Random networks from structural models
 include(joinpath(".", "structuralmodels/cascademodel.jl"))
@@ -81,13 +105,18 @@ export nichemodel
 include(joinpath(".", "community/nestedness.jl"))
 export η, nodf
 
+# Spectral radius
+include(joinpath(".", "community/spectralradius.jl"))
+export ρ
+
 # Paths
 include(joinpath(".", "community/paths.jl"))
 export number_of_paths, shortest_path, bellman_ford, dijkstra
 
 # Centrality
 include(joinpath(".", "community/centrality.jl"))
-export centrality_katz, centrality_closeness, centrality_degree
+export centrality_katz, centrality_degree, centrality_eigenvector
+export centrality_closeness, centrality_harmonic
 
 # Motifs
 include(joinpath(".", "community/motifs.jl"))
@@ -97,6 +126,13 @@ export find_motif, expected_motif_count, unipartitemotifs
 include(joinpath(".", "community/overlap.jl"))
 export overlap
 export AJS, EAJS
+
+# Overlap
+include(joinpath(".", "community/resilience.jl"))
+export resilience
+export symmetry, heterogeneity
+export s
+export σ_in, σ_out
 
 # Modularity
 include(joinpath(".", "modularity/utilities.jl"))
@@ -127,6 +163,9 @@ export KGL01, KGL02, KGL03, KGL04, KGL05, KGL06, KGL07, KGL08, KGL09, KGL10,
 # Food webs
 include(joinpath(".", "foodwebs/trophiclevels.jl"))
 export fractional_trophic_level, trophic_level
+
+include(joinpath(".", "foodwebs/omnivory.jl"))
+export omnivory
 
 include(joinpath(".", "information/entropy.jl"))
 export entropy, make_joint_distribution, mutual_information, conditional_entropy,

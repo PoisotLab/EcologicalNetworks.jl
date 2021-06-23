@@ -9,7 +9,7 @@ end
 function trophic_level(N::T) where {T<:UnipartiteNetwork}
   TL = fractional_trophic_level(N)
   Y = nodiagonal(N)
-  D = zeros(Float64, size(Y.A))
+  D = zeros(Float64, size(Y))
   ko = degree_out(Y)
 
   # inner loop to avoid dealing with primary producers

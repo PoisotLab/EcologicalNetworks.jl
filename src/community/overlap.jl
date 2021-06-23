@@ -26,21 +26,21 @@ function overlap(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: Unipart
         dims== 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
 
-    itype = Pair{Set{last(eltype(N))},Int64}
+    itype = Pair{Set{_species_type(N)},Int64}
     overlaps = Vector{itype}()
 
     for i in 1:(richness(N; dims=dims)-1)
         s1 = species(N; dims=dims)[i]
         s1suc = N[s1,:]
         s1pre = N[:,s1]
-        dims === nothing && (s1set = union(s1suc, s1pre))
+        isnothing(dims) && (s1set = union(s1suc, s1pre))
         dims == 1 && (s1set = s1suc)
         dims == 2 && (s1set = s1pre)
         for j in (i+1):(richness(N; dims=dims))
             s2 = species(N; dims=dims)[j]
             s2suc = N[s2,:]
             s2pre = N[:,s2]
-            dims === nothing && (s2set = union(s2suc, s2pre))
+            isnothing(dims) && (s2set = union(s2suc, s2pre))
             dims == 1 && (s2set = s2suc)
             dims == 2 && (s2set = s2pre)
             this_overlap = length(intersect(s1set, s2set))
@@ -67,6 +67,12 @@ argument.
 
 Note that this function uses all *direct* preys and predators to measure the
 similarity (and so does not go beyond the immediate neighbors).
+
+#### References
+
+Gao, P., Kupfer, J.A., 2015. Uncovering food web structure using a novel trophic
+similarity measure. Ecological Informatics 30, 110–118.
+https://doi.org/10.1016/j.ecoinf.2015.09.013
 """
 function AJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteNetwork}
 
@@ -74,21 +80,21 @@ function AJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteN
         dims == 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
 
-    itype = Pair{Set{last(eltype(N))},Float64}
+    itype = Pair{Set{_species_type(N)},Float64}
     overlaps = Vector{itype}()
 
     for i in 1:(richness(N; dims=dims)-1)
         s1 = species(N; dims=dims)[i]
         s1suc = N[s1,:]
         s1pre = N[:,s1]
-        dims === nothing && (s1set = union(s1suc, s1pre))
+        isnothing(dims) && (s1set = union(s1suc, s1pre))
         dims == 1 && (s1set = s1suc)
         dims == 2 && (s1set = s1pre)
         for j in (i+1):(richness(N; dims=dims))
             s2 = species(N; dims=dims)[j]
             s2suc = N[s2,:]
             s2pre = N[:,s2]
-            dims === nothing && (s2set = union(s2suc, s2pre))
+            isnothing(dims) && (s2set = union(s2suc, s2pre))
             dims == 1 && (s2set = s2suc)
             dims == 2 && (s2set = s2pre)
             a = length(intersect(s1set, s2set))
@@ -120,31 +126,37 @@ argument.
 Note that this function counts all interactions up to a distance of 50 to define
 the neighbourhood of a species. This should be more than sufficient for most
 ecological networks.
+
+#### References
+
+Gao, P., Kupfer, J.A., 2015. Uncovering food web structure using a novel trophic
+similarity measure. Ecological Informatics 30, 110–118.
+https://doi.org/10.1016/j.ecoinf.2015.09.013
 """
 function EAJS(N::T; dims::Union{Nothing,Integer}=nothing) where {T <: UnipartiteNetwork}
 
     sp = shortest_path(N)
-    Y = UnipartiteNetwork(sp.>0, species_objects(N)...)
+    Y = UnipartiteNetwork(sp.>0, _species_objects(N)...)
 
     if dims !== nothing
         dims == 1 || dims == 2 || throw(ArgumentError("dims can only be nothing, 1, or 2 -- you used $(dims)"))
     end
 
-    itype = Pair{Set{last(eltype(N))},Float64}
+    itype = Pair{Set{_species_type(N)},Float64}
     overlaps = Vector{itype}()
 
     for i in 1:(richness(Y; dims=dims)-1)
         s1 = species(Y; dims=dims)[i]
         s1suc = Y[s1,:]
         s1pre = Y[:,s1]
-        dims === nothing && (s1set = union(s1suc, s1pre))
+        isnothing(dims) && (s1set = union(s1suc, s1pre))
         dims == 1 && (s1set = s1suc)
         dims == 2 && (s1set = s1pre)
         for j in (i+1):(richness(Y; dims=dims))
             s2 = species(Y; dims=dims)[j]
             s2suc = Y[s2,:]
             s2pre = Y[:,s2]
-            dims === nothing && (s2set = union(s2suc, s2pre))
+            isnothing(dims) && (s2set = union(s2suc, s2pre))
             dims == 1 && (s2set = s2suc)
             dims == 2 && (s2set = s2pre)
             a = length(intersect(s1set, s2set))

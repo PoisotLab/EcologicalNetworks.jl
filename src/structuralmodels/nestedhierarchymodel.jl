@@ -1,16 +1,20 @@
 """
-
     nestedhierarchymodel(S::Int64, L::Int64)
 
 Return `UnipartiteNetwork` where resources are assigned to consumers according
 to the nested hierarchy model for `S` species and `L`.
 
-> Cattin, M.-F. et al. (2004) ‘Phylogenetic constraints and adaptation explain
-> food-web structure’, Nature, 427(6977), pp. 835–839. doi: 10.1038/nature02327.
+#### References
 
-See also: `nichemodel`, `cascademodel`, `mpnmodel`
+Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
+J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
+Nature 427, 835–839. https://doi.org/10.1038/nature02327
 """
 function nestedhierarchymodel(S::Int64, L::Int64)
+
+    # Evaluate input
+    L >= S*S && throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
+    L <= 0 && throw(ArgumentError("Number of links L must be positive"))
 
     # Initiate matrix
     A = UnipartiteNetwork(zeros(Bool, (S, S)))
@@ -23,6 +27,9 @@ function nestedhierarchymodel(S::Int64, L::Int64)
     # Beta parameter (after Allesina et al. 2008)
     # Classic niche: β = 1.0/(2.0*C)-1.0
     β = (S - 1.0)/(2.0*Co*S) - 1.0
+
+    # Evaluate input
+    β == 0 && throw(ArgumentError("β value is equal to zero! Try decreasing number of links"))
 
     # Random variable from the Beta distribution
     X = rand(Beta(1.0, β), 1)
@@ -85,7 +92,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
         # STAGE 1: Assign species with smaller niche value
 
         # Assign species randomly unless one has other predators
-        eligible = sample(1:(consumer-1), (consumer-1), replace = false)
+        eligible = StatsBase.sample(1:(consumer-1), (consumer-1), replace = false)
 
         linkstoassign = observedlinks[consumer]
 
@@ -127,7 +134,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
         resource_union = setdiff(resource_union, A[species_pool[consumer], :])
 
         # Shuffle the resource_union
-        resource_union = sample(collect(resource_union), length(resource_union), replace = false)
+        resource_union = StatsBase.sample(collect(resource_union), length(resource_union), replace = false)
 
         for resource in resource_union
 
@@ -150,7 +157,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
         not_predated = setdiff(species_pool, predated)
 
         # Shuffle the current set
-        not_predated = sample(collect(not_predated), length(not_predated), replace = false)
+        not_predated = StatsBase.sample(collect(not_predated), length(not_predated), replace = false)
 
         # Assign links
         for resource in not_predated
@@ -174,7 +181,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
         not_consumed = setdiff(species_pool, diet)
 
         # Shuffle the set
-        not_consumed = sample(collect(not_consumed), length(not_consumed), replace = false)
+        not_consumed = StatsBase.sample(collect(not_consumed), length(not_consumed), replace = false)
 
         # Assign links
         for resource in not_consumed
@@ -193,12 +200,15 @@ function nestedhierarchymodel(S::Int64, L::Int64)
 end
 
 """
-
     nestedhierarchymodel(S::Int64, Co::Float64)
 
 Connectance can be provided instead of number of links.
 
-See also: `nichemodel`, `cascademodel`, `mpnmodel`
+#### References
+
+Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
+J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
+Nature 427, 835–839. https://doi.org/10.1038/nature02327
 """
 function nestedhierarchymodel(S::Int64, Co::Float64)
 
@@ -210,10 +220,15 @@ function nestedhierarchymodel(S::Int64, Co::Float64)
 end
 
 """
-
     nestedhierarchymodel(N::T) {T <: UnipartiteNetwork}
 
 Applied to empirical `UnipartiteNetwork` return its randomized version.
+
+#### References
+
+Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
+J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
+Nature 427, 835–839. https://doi.org/10.1038/nature02327
 """
 function nestedhierarchymodel(N::T) where {T <: UnipartiteNetwork}
 
@@ -222,11 +237,16 @@ function nestedhierarchymodel(N::T) where {T <: UnipartiteNetwork}
 end
 
 """
-
     nestedhierarchymodel(parameters::Tuple)
 
 Parameters tuple can also be provided in the form (Species::Int64, Co::Float64)
 or (Species::Int64, Int::Int64).
+
+#### References
+
+Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
+J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
+Nature 427, 835–839. https://doi.org/10.1038/nature02327
 """
 function nestedhierarchymodel(parameters::Tuple)
 

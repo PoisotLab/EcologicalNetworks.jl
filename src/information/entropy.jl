@@ -12,12 +12,12 @@ Returns a double stochastic matrix from the adjacency or incidence matrix.
 Raises an error if the matrix contains negative values. Output in bits.
 """
 function make_joint_distribution(N::NT) where {NT<:AbstractEcologicalNetwork}
-    !(typeof(N) <: QuantitativeNetwork) || any(N.A .≥ 0) || throw(DomainError("Information only for nonnegative interaction values"))
-    return N.A / sum(N.A)
+    !(typeof(N) <: QuantitativeNetwork) || any(N.edges .≥ 0) || throw(DomainError("Information only for nonnegative interaction values"))
+    return N.edges / sum(N.edges)
 end
 
 """
-   entropy(P::AbstractArray)
+    entropy(P::AbstractArray)
 
 Computes the joint entropy of a double stochastic matrix. Does not perform any
 checks whether the matrix is normalized. Output in bits.
@@ -27,7 +27,7 @@ function entropy(P::AbstractArray)
 end
 
 """
-   entropy(P::AbstractArray, dims::I)
+    entropy(P::AbstractArray, dims::I)
 
 Computes the marginal entropy of a double stochastic matrix. `dims` indicates
 whether to compute the entropy for the rows (`dims`=1) or columns (`dims`=2).
@@ -38,7 +38,7 @@ function entropy(P::AbstractArray, dims::I) where I <: Int
 end
 
 """
-   entropy(N::AbstractEcologicalNetwork)
+    entropy(N::AbstractEcologicalNetwork)
 
 Computes the joint entropy of an ecological network. Output in bits.
 """
@@ -48,7 +48,7 @@ function entropy(N::NT) where {NT<:AbstractEcologicalNetwork}
 end
 
 """
-   entropy(N::AbstractEcologicalNetwork, dims::I)
+    entropy(N::AbstractEcologicalNetwork, dims::I)
 
 Computes the marginal entropy of an ecological network. `dims` indicates
 whether to compute the entropy for the rows (`dims`=1) or columns (`dims`=2).
@@ -60,7 +60,7 @@ function entropy(N::NT, dims::I) where {NT<:AbstractEcologicalNetwork, I <: Int}
 end
 
 """
-   conditional_entropy(P::AbstractArray, given::I)
+    conditional_entropy(P::AbstractArray, given::I)
 
 Computes the conditional entropy of double stochastic matrix. If `given = 1`,
 it is the entropy of the columns, and visa versa when `given = 2`. Output in bits.
@@ -71,7 +71,7 @@ function conditional_entropy(P::AbstractArray, given::I) where I <: Int
 end
 
 """
-   conditional_entropy(N::AbstractEcologicalNetwork, given::I)
+    conditional_entropy(N::AbstractEcologicalNetwork, given::I)
 
 Computes the conditional entropy of an ecological network. If `given = 1`,
 it is the entropy of the columns, and visa versa when `given = 2`.
@@ -92,7 +92,7 @@ function mutual_information(P::AbstractArray)
 end
 
 """
-    mutual_information(P::AbstractArray)
+    mutual_information(N::NT) where {NT<:AbstractEcologicalNetwork}
 
 Computes the mutual information of an ecological network. Output in bits.
 """
@@ -154,7 +154,7 @@ an uniform distribution. The parameter `dims` indicates which marginals are used
 with both if no value is provided. Output in bits.
 """
 function diff_entropy_uniform(N::NT, dims=nothing) where {NT <: AbstractEcologicalNetwork}
-    if dims == nothing
+    if isnothing(dims)
         P = make_joint_distribution(N)
         return diff_entropy_uniform(P)
     else  # compute marginals
@@ -183,7 +183,7 @@ Result is returned in a Dict. Outputs in bits.
 function information_decomposition(N::NT; norm::Bool=false, dims::I=nothing) where {NT <: AbstractEcologicalNetwork, I <: Union{Int, Nothing}}
     decomposition = Dict{Symbol, Float64}()
     P = make_joint_distribution(N)
-    if dims == nothing
+    if isnothing(dims)
         # difference marginal entropy
         decomposition[:D] = diff_entropy_uniform(P)
         # mutual information

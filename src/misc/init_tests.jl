@@ -23,7 +23,7 @@ function check_unipartiteness(A, S)
 end
 
 function check_name_vector(N)
-  length(N) == length(unique(N)) || throw(ArgumentError("The names of species must be unique"))
+  allunique(N) || throw(ArgumentError("The names of species must be unique"))
 end
 
 function check_probability_values(A)

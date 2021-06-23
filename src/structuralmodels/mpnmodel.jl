@@ -1,17 +1,17 @@
 """
 
-    mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
+    mpnmodel(S::Int64, Co::Float64, forbidden::Float64)
 
 Return `UnipartiteNetwork` with links assigned according to minimum
-potential niche model for given number of `Species`, connectivity `Co` and
+potential niche model for given number of `S`, connectivity `Co` and
 probability of `forbidden` link occurence.
 
-> Allesina, S., Alonso, D. and Pascual, M. (2008) ‘A General Model for Food Web
-> Structure’, Science, 320(5876), pp. 658–661. doi: 10.1126/science.1156269.
+#### References
 
-See also: `nichemodel`, `cascademodel`, `nestedhierarchymodel`
+Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
+Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
-function mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
+function mpnmodel(S::Int64, Co::Float64, forbidden::Float64)
 
     Co >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
 
@@ -19,19 +19,19 @@ function mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
     β = 1.0/(2.0*Co)-1.0
 
     # Pre-allocate the network
-    A = UnipartiteNetwork(zeros(Bool, (Species, Species)))
+    A = UnipartiteNetwork(zeros(Bool, (S, S)))
 
     # Generate body size
-    n = sort(rand(Uniform(0.0, 1.0), Species))
+    n = sort(rand(Uniform(0.0, 1.0), S))
 
     # Pre-allocate centroids
-    c = zeros(Float64, Species)
+    c = zeros(Float64, S)
 
     # Generate random ranges
-    r = n .* rand(Beta(1.0, β), Species)
+    r = n .* rand(Beta(1.0, β), S)
 
     # Generate random centroids
-    for s in 1:Species
+    for s in 1:S
         c[s] = rand(Uniform(r[s]/2, n[s]))
     end
 
@@ -46,7 +46,7 @@ function mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
     # ranges = Dict{Int64, Tuple}()
     # -------------------------------------------------------------------------
 
-    for consumer in 1:Species
+    for consumer in 1:S
 
         # For testing
         # ---------------------------------------------------------------------
@@ -57,7 +57,7 @@ function mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
         # length(diet) != 0 && (ranges[consumer] = (diet[1], diet[end]))
         # ---------------------------------------------------------------------
 
-        for resource in 2:(Species-1)
+        for resource in 2:(S-1)
 
             lower = (n[resource] > (c[consumer] - r[consumer]))
             lowerminus = (n[resource-1] > (c[consumer] - r[consumer]))
@@ -70,7 +70,7 @@ function mpnmodel(Species::Int64, Co::Float64, forbidden::Float64)
 
                 # Take care of first and last resource if they belong to the range
                 ((resource-1 == 1) & lowerminus) && (A[consumer, resource-1] = true)
-                ((resource+1 == Species) & upperplus) && (A[consumer, resource+1] = true)
+                ((resource+1 == S) & upperplus) && (A[consumer, resource+1] = true)
 
                 # Edges of range
                 lowerminus || (A[consumer, resource] = true)
@@ -92,6 +92,11 @@ end
     mpnmodel(N::T) where {T<: UnipartiteNetwork}
 
 Applied to `UnipartiteNetwork` return its randomized version.
+
+#### References
+
+Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
+Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
 function mpnmodel(N::T) where {T<: UnipartiteNetwork}
 
@@ -112,9 +117,32 @@ end
 
     mpnmodel(parameters::Tuple)
 
-Parameters tuple can also be provided in the form (Species::Int64, Co::Float64,
+Parameters tuple can also be provided in the form (S::Int64, Co::Float64,
 forbidden::Float64).
+
+#### References
+
+Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
+Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
 function mpnmodel(parameters::Tuple)
     return mpnmodel(parameters[1], parameters[2],parameters[3])
+end
+
+"""
+
+    mpnmodel(mpnmodel(S::Int64, L::Int64, forbidden::Float64))
+
+Average number of links can be specified instead of connectance.
+
+#### References
+
+Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
+Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
+"""
+function mpnmodel(S::Int64, L::Int64, forbidden::Float64)
+
+    Co = (L/(S*S))
+    return mpnmodel(S, Co, forbidden)
+
 end

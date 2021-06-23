@@ -1,11 +1,23 @@
 """
-    brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}
+    brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E}
 
 Uses BRIM to optimize the modularity of an ecological network. The `L` argument
 is a dictionary mapping every species in the network to its module. This
 function returns a tuple of the network and its module assignment.
+
+#### References
+
+- Barber, M.J., 2007. Modularity and community detection in bipartite networks.
+  Phys. Rev. E 76, 066102. https://doi.org/10.1103/PhysRevE.76.066102
+
+- Newman, M.E., 2006. Modularity and community structure in networks.
+  Proceedings of the national academy of sciences 103, 8577–8582.
+
+- Thébault, E., 2013. Identifying compartments in presence–absence matrices and
+  bipartite networks: insights into modularity measures. Journal of Biogeography
+  40, 759–768. https://doi.org/10.1111/jbi.12015
 """
-function brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E<:AllowedSpeciesTypes}
+function brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E}
   for s in species(N)
     @assert haskey(L, s)
   end
@@ -32,7 +44,7 @@ function brim(N::NT, L::Dict{E,Int64}) where {NT<:AbstractEcologicalNetwork,E<:A
   s_d_in = [d_in[s] for s in species(N; dims=2)]
   s_d_out = [d_out[s] for s in species(N; dims=1)]
   P = kron(s_d_out, s_d_in')./m
-  B = N.A .- P
+  B = N.edges .- P
 
   while old_Q < new_Q
 
