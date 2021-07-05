@@ -33,23 +33,25 @@ function Q(N::T, L::Dict{E,Int64}) where {T<:AbstractEcologicalNetwork,E}
 
     # Degrees
     dkin, dkout = degree_in(N), degree_out(N)
-    kin = map(x -> dkin[x], species(N; dims=2))
-    kout = map(x -> dkout[x], species(N; dims=1))
+    names1 = species(N; dims=2)
+    names2 = species(N; dims=1)
+    kin = map(x -> dkin[x], names1)
+    kout = map(x -> dkout[x], names2)
 
     # Value of m -- sum of weights, total number of int, ...
     m = links(N)
+    modularity = 0.0
+    for i in 1:length(kin)
+      for j in 1:length(kout)
+        name1 = names1[i]
+        name2 = names2[j]
+        if L[name1] != L[name2] continue end
+        modularity += (N.edges[j, i]) - (kout[j] * kin[i] / m)
+      end
+    end
+    modularity /= m
 
-    # Null model
-    kikj = (kout .* kin')
-    Pij = kikj ./ m
-
-    # Difference
-    diff = N.edges .- Pij
-
-    # Diff × delta
-    dd = diff .* δ(N,L)
-
-    return sum(dd)/m
+    return modularity
 end
 
 """
