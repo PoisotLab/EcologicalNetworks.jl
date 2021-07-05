@@ -23,7 +23,7 @@ https://doi.org/10.1002/ece3.7254
 """
 function optimaltransportation(M::AbstractArray;
         a=nothing, b=nothing, λ::Number=1, ϵ=1e-10, maxiter=100)
-    Q = ot(M, a, b; λ, ϵ, maxiter)
+    Q = ot(M, a, b; λ=λ, ϵ=ϵ, maxiter=maxiter)
     return Q
 end
 
@@ -48,7 +48,7 @@ https://doi.org/10.1002/ece3.7254
 """
 function optimaltransportation(M::AbstractBipartiteNetwork;
     a=nothing, b=nothing, λ::Number=1, ϵ=1e-10, maxiter=100)
-    Q = ot(M.edges, a, b; λ, ϵ, maxiter)
+    Q = ot(M.edges, a, b; λ=λ, ϵ=ϵ, maxiter=maxiter)
     return BipartiteQuantitativeNetwork(Q, species(M, dims=1), species(M, dims=2))
 end
 

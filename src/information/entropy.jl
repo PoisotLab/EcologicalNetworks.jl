@@ -145,7 +145,7 @@ with both if no value is provided. Output in bits.
 """
 function diff_entropy_uniform(N::NT; dims::Union{Integer,Nothing}=nothing) where {NT <: AbstractEcologicalNetwork}
     P = make_joint_distribution(N)
-    return diff_entropy_uniform(P; dims)
+    return diff_entropy_uniform(P; dims=dims)
 end
 
 """
@@ -178,7 +178,7 @@ function information_decomposition(N::NT; norm::Bool=false, dims::Union{Integer,
         # variance of information
         decomposition[:V] = variation_information(P)
     else
-        decomposition[:D] = diff_entropy_uniform(P; dims)
+        decomposition[:D] = diff_entropy_uniform(P; dims=dims)
         decomposition[:I] = mutual_information(P)
         decomposition[:V] = conditional_entropy(P, (dims % 2) + 1)
     end
