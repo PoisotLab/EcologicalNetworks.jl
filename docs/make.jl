@@ -39,7 +39,8 @@ makedocs(
         ],
         "Generating networks" => [
             "Null models" => "random/null.md",
-            "Structural models" => "random/structure.md"
+            "Structural models" => "random/structure.md",
+            "Optimal transportation" => "random/otsin.md"
         ]
     ]
 )

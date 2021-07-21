@@ -1,3 +1,4 @@
+using Base: Integer
 
 # safe log(x) function, log 0 = 0
 safelog(x) = x > zero(x) ? log2(x) : zero(x)
@@ -8,7 +9,7 @@ safediv(x, y) = y == zero(y) ? zero(y) : x / y
 """
     make_joint_distribution(N::NT) where {NT<:AbstractEcologicalNetwork}
 
-Returns a double stochastic matrix from the adjacency or incidence matrix.
+Returns a probability matrix computed from the adjacency or incidence matrix.
 Raises an error if the matrix contains negative values. Output in bits.
 """
 function make_joint_distribution(N::NT) where {NT<:AbstractEcologicalNetwork}
@@ -17,30 +18,24 @@ function make_joint_distribution(N::NT) where {NT<:AbstractEcologicalNetwork}
 end
 
 """
-    entropy(P::AbstractArray)
+    entropy(P::AbstractArray; [dims])
 
-Computes the joint entropy of a double stochastic matrix. Does not perform any
+Computes the joint entropy of a probability matrix. Does not perform any
 checks whether the matrix is normalized. Output in bits.
-"""
-function entropy(P::AbstractArray)
-    return - sum(P .* safelog.(P))
-end
 
+If the `dims` keyword argument is provided, the marginal entropy of the matrix
+is computed. `dims` indicates whether to compute the entropy for the rows 
+(`dims=1`) or columns (`dims=2`).
 """
-    entropy(P::AbstractArray, dims::I)
-
-Computes the marginal entropy of a double stochastic matrix. `dims` indicates
-whether to compute the entropy for the rows (`dims`=1) or columns (`dims`=2).
-Does not perform any checks whether the matrix is normalized. Output in bits.
-"""
-function entropy(P::AbstractArray, dims::I) where I <: Int
+function entropy(P::AbstractArray; dims::Union{Integer,Nothing}=nothing)
+    isnothing(dims) && return - sum(P .* safelog.(P))
     return entropy(sum(P', dims=dims))
 end
 
 """
     entropy(N::AbstractEcologicalNetwork)
 
-Computes the joint entropy of an ecological network. Output in bits.
+
 """
 function entropy(N::NT) where {NT<:AbstractEcologicalNetwork}
     P = make_joint_distribution(N)
@@ -48,33 +43,36 @@ function entropy(N::NT) where {NT<:AbstractEcologicalNetwork}
 end
 
 """
-    entropy(N::AbstractEcologicalNetwork, dims::I)
+    entropy(N::AbstractEcologicalNetwork; [dims])
 
-Computes the marginal entropy of an ecological network. `dims` indicates
-whether to compute the entropy for the rows (`dims`=1) or columns (`dims`=2).
+Computes the joint entropy of an ecological network. If `dims` is specified,
+The marginal entropy of the ecological network is computed. `dims` indicates
+whether to compute the entropy for the rows (`dims=1`) or columns (`dims=2`).
 Output in bits.
 """
-function entropy(N::NT, dims::I) where {NT<:AbstractEcologicalNetwork, I <: Int}
+function entropy(N::NT; dims::Union{Integer,Nothing}=nothing) where {NT<:AbstractEcologicalNetwork}
     P = make_joint_distribution(N)
-    return entropy(P, dims)
+    return entropy(P; dims)
 end
 
 """
     conditional_entropy(P::AbstractArray, given::I)
 
-Computes the conditional entropy of double stochastic matrix. If `given = 1`,
-it is the entropy of the columns, and visa versa when `given = 2`. Output in bits.
+Computes the conditional entropy of probability matrix. If `given = 1`,
+it is the entropy of the columns, and vise versa when `given = 2`. Output in bits.
+
+Does not check whether `P` is a valid probability matrix.
 """
-function conditional_entropy(P::AbstractArray, given::I) where I <: Int
+function conditional_entropy(P::AbstractArray, given::Integer)
     dims = (given % 2) + 1
-    return - sum(P .* safelog.(safediv.(P, sum(P, dims=dims))))
+    return - sum(P .* safelog.(safediv.(P, sum(P; dims=dims))))
 end
 
 """
     conditional_entropy(N::AbstractEcologicalNetwork, given::I)
 
 Computes the conditional entropy of an ecological network. If `given = 1`,
-it is the entropy of the columns, and visa versa when `given = 2`.
+it is the entropy of the columns, and vise versa when `given = 2`.
 """
 function conditional_entropy(N::NT, given::I) where {NT<:AbstractEcologicalNetwork, I <: Int}
     P = make_joint_distribution(N)
@@ -84,10 +82,10 @@ end
 """
     mutual_information(P::AbstractArray)
 
-Computes the mutual information of a double stochastic matrix. Output in bits.
+Computes the mutual information of a probability matrix. Output in bits.
 """
 function mutual_information(P::AbstractArray)
-    I = entropy(P, 1) - conditional_entropy(P, 2)
+    I = entropy(P, dims=1) - conditional_entropy(P, 2)
     return max(I, zero(I))  # might give small negative value
 end
 
@@ -123,26 +121,18 @@ function variation_information(N::NT) where {NT <: AbstractEcologicalNetwork}
 end
 
 """
-    diff_entropy_uniform(P::AbstractArray)
+    diff_entropy_uniform(P::AbstractArray; [dims])
 
 Computes the difference in entropy of the marginals compared to the entropy of
 an uniform distribution. The parameter `dims` indicates which marginals are used,
 with both if no value is provided. Output in bits.
 """
-function diff_entropy_uniform(P::AbstractArray)
-    D = log2(length(P)) - entropy(P, 1) - entropy(P, 2)
-    return max(zero(D), D)
-end
-
-"""
-    diff_entropy_uniform(P::AbstractArray, dims::I)
-
-Computes the difference in entropy of the marginals compared to the entropy of
-an uniform distribution. The parameter `dims` indicates which marginals are used,
-with both if no value is provided. Output in bits.
-"""
-function diff_entropy_uniform(P::AbstractArray, dims::I) where {I <: Int}
-    D = log2(size(P, dims)) - entropy(P, dims)
+function diff_entropy_uniform(P::AbstractArray; dims::Union{Integer,Nothing}=nothing)
+    if isnothing(dims)
+        D = log2(length(P)) - entropy(P, dims=1) - entropy(P, dims=2)
+    else
+        D = log2(size(P, dims)) - entropy(P; dims)
+    end
     return max(zero(D), D)
 end
 
@@ -153,19 +143,13 @@ Computes the difference in entropy of the marginals compared to the entropy of
 an uniform distribution. The parameter `dims` indicates which marginals are used,
 with both if no value is provided. Output in bits.
 """
-function diff_entropy_uniform(N::NT, dims=nothing) where {NT <: AbstractEcologicalNetwork}
-    if isnothing(dims)
-        P = make_joint_distribution(N)
-        return diff_entropy_uniform(P)
-    else  # compute marginals
-        typeof(dims) <: Int || throw(ArgumentError("dims should be an integer (1 or 2)"))
-        P = make_joint_distribution(N)
-        return diff_entropy_uniform(P, dims)
-    end
+function diff_entropy_uniform(N::NT; dims::Union{Integer,Nothing}=nothing) where {NT <: AbstractEcologicalNetwork}
+    P = make_joint_distribution(N)
+    return diff_entropy_uniform(P; dims=dims)
 end
 
 """
-    information_decomposition(N::AbstractEcologicalNetwork; norm::Bool=false, dims::I=nothing)
+    information_decomposition(N::AbstractEcologicalNetwork; norm::Bool=false, dims=nothing)
 
 Performs an information theory decomposition of a given ecological network, i.e.
 the information content in the normalized adjacency matrix is split in:
@@ -179,8 +163,11 @@ One can optinally give the dimision, indicating whether to compute the indices
 for the rows (`dims=1`), columns (`dims=2`) or the whole matrix (default).
 
 Result is returned in a Dict. Outputs in bits.
+
+Stock, M.; Hoebeke, L.; De Baets, B. « Disentangling the Information in Species Interaction Networks ».
+Entropy 2021, 23, 703. https://doi.org/10.3390/e23060703
 """
-function information_decomposition(N::NT; norm::Bool=false, dims::I=nothing) where {NT <: AbstractEcologicalNetwork, I <: Union{Int, Nothing}}
+function information_decomposition(N::NT; norm::Bool=false, dims::Union{Integer,Nothing}=nothing) where {NT <: AbstractEcologicalNetwork}
     decomposition = Dict{Symbol, Float64}()
     P = make_joint_distribution(N)
     if isnothing(dims)
@@ -191,7 +178,7 @@ function information_decomposition(N::NT; norm::Bool=false, dims::I=nothing) whe
         # variance of information
         decomposition[:V] = variation_information(P)
     else
-        decomposition[:D] = diff_entropy_uniform(P, dims)
+        decomposition[:D] = diff_entropy_uniform(P; dims=dims)
         decomposition[:I] = mutual_information(P)
         decomposition[:V] = conditional_entropy(P, (dims % 2) + 1)
     end
@@ -208,31 +195,22 @@ end
     convert2effective(indice::Real)
 
 Convert an information theory indices in an effective number (i.e. number of
-corresponding interactions).
+corresponding interactions). Assumes an input in bits (i.e. log with base 2 is used).
 """
 function convert2effective(indice::R) where R <: Real
     return 2.0^indice
 end
 
 """
-    potential_information(N::NT)
+    potential_information(N::NT; [dims])
 
 Computes the maximal potential information in a network, corresponding to
 every species interacting with every other species. Compute result for the
 marginals using the optional parameter `dims`. Output in bits.
 """
-function potential_information(N::NT) where NT <: AbstractEcologicalNetwork
-    m, n = size(N)
-    return log2(m) + log2(n)
-end
-
-"""
-    potential_information(N::NT, dims::I)
-
-Computes the maximal potential information in a network, corresponding to
-every species interacting with every other species. Compute result for the
-marginals using the optional parameter `dims`. Output in bits.
-"""
-function potential_information(N::NT, dims::I) where {NT <: AbstractEcologicalNetwork, I <: Int}
-    return log2(size(N)[dims])
+function potential_information(N::NT; dims::Union{Integer,Nothing}=nothing) where {NT <: AbstractEcologicalNetwork}
+    n, m = size(N)
+    isnothing(dims) && return log2(n) + log2(m)
+    dims == 1 && return log2(n) 
+    dims == 2 && return log2(m)
 end
