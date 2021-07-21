@@ -6,6 +6,3 @@ EcologicalNetworksPlots = "9f7a259d-73a7-556d-a7a2-3eb122d3865b"
 Mangal = "b8b640a6-63d9-51e6-b784-5033db27bef2"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
-
-[compat]
-Documenter = "0.27"
