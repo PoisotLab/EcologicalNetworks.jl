@@ -18,7 +18,10 @@ jobs:
           version: '1.5'
       - name: Install dependencies
         run: julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'
+        env: 
+          GKSwstype: nul
       - name: Build and deploy
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }} # For authentication with GitHub Actions token
+          GKSwstype: nul
         run: julia --project=docs/ docs/make.jl
