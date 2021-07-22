@@ -101,6 +101,10 @@ export nestedhierarchymodel
 include(joinpath(".", "structuralmodels/nichemodel.jl"))
 export nichemodel
 
+include(joinpath(".", "structuralmodels/bipartitemodels.jl"))
+export bipartite_erdosrenyi, bipartite_preferentialattachment, 
+   bipartite_degreedist, bipartite_blockmodel
+
 # Nestedness
 include(joinpath(".", "community/nestedness.jl"))
 export η, nodf
