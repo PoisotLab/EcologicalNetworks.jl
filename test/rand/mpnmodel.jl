@@ -2,11 +2,11 @@ module TestMPNModel
   using Test
   using EcologicalNetworks
 
-  @test typeof(mpnmodel(10, 0.3, 0.2)) <: UnipartiteNetwork
+  @test typeof(rand(MinimumPotentialNicheModel((10, 0.3, 0.2)))) <: UnipartiteNetwork
 
-  @test richness(mpnmodel(10, 0.3, 0.2)) == 10
-  @test richness(mpnmodel(10, 0.4, 0.5)) == 10
-  @test richness(mpnmodel(20, 0.35, 0.9)) == 20
+  @test richness(rand(MinimumPotentialNicheModel(10, 0.3, 0.2))) == 10
+  @test richness(rand(MinimumPotentialNicheModel(10, 0.4, 0.5))) == 10
+  @test richness(rand(MinimumPotentialNicheModel(20, 0.35, 0.9))) == 20
 
   # Need to design test, and nh model doesnt have any argument error yet.
   # @test_throws ArgumentError mnpmodel(10, 99)

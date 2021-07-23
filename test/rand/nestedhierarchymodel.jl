@@ -2,7 +2,7 @@ module TestNHModel
   using Test
   using EcologicalNetworks
 
-  @test typeof(nestedhierarchymodel(10, 20)) <: UnipartiteNetwork
+  @test typeof(rand(NestedHierarchyModel(10, 20))) <: UnipartiteNetwork
 
   #@test richness(nestedhierarchymodel(10, 20)) == 10
   #@test richness(nestedhierarchymodel(10, 49)) == 10

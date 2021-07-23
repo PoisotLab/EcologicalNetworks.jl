@@ -1,7 +1,6 @@
 module EcologicalNetworks
 
 # Dependencies
-using Base: _sizeof_uv_getaddrinfo
 using StatsBase
 using Combinatorics
 using Distributions
