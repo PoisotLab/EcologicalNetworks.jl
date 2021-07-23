@@ -1,3 +1,18 @@
+mutable struct NestedHierarchyModel{T<:Integer, FT<:AbstractFloat} <: NetworkGenerator 
+    size::Tuple{T,T}
+    connectance::FT
+end 
+NestedHierarchyModel(; size::T=30, connectance::FT=0.3) where {T <: Union{Tuple{Integer}, Integer}, FT <: AbstractFloat} = NestedHierarchyModel(size, connectance)
+NestedHierarchyModel(sz::T, X::NT) where {T <: Integer, NT<:Number} = NestedHierarchyModel((sz,sz), X)
+NestedHierarchyModel(sz::T, E::ET) where {T <: Tuple{Integer,Integer}, ET<:Integer} = NestedHierarchyModel(sz, E/(sz[1]*sz[2]))
+NestedHierarchyModel(sz::T, C::CT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat} = NestedHierarchyModel(sz, C)
+
+_generate!(gen::NestedHierarchyModel, target::T) where {T <: UnipartiteNetwork}  = cascademodel(size(gen)[1], gen.connectance)
+
+
+
+
+
 """
     nestedhierarchymodel(S::Int64, L::Int64)
 

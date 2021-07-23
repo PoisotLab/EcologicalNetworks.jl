@@ -1,3 +1,22 @@
+
+
+"""
+    MinimumPotentialNicheModel
+"""
+mutable struct MinimumPotentialNicheModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator 
+    size::Tuple{T,T}
+    connectance::FT
+    forbiddenlinkprob::FT
+end 
+MinimumPotentialNicheModel(; size::T=30, connectance::FT=0.3, forbiddenlinkprob=0.3) where {T <: Union{Tuple{Integer}, Integer}, FT <: AbstractFloat} = MinimumPotentialNicheModel(size, connectance,forbiddenlinkprob)
+MinimumPotentialNicheModel(sz::T, X::NT, Y::NT) where {T <: Integer, NT<:Number} = MinimumPotentialNicheModel((sz,sz), X,Y)
+MinimumPotentialNicheModel(sz::T, E::ET, flp::FT) where {T <: Tuple{Integer,Integer}, ET<:Integer, FT<:AbstractFloat} = MinimumPotentialNicheModel(sz, E/(sz[1]*sz[2]), flp)
+MinimumPotentialNicheModel(sz::T, C::CT, flp::FT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat, FT<:AbstractFloat} = MinimumPotentialNicheModel(sz, C, flp)
+
+
+_generate!(gen::MinimumPotentialNicheModel, target::T) where {T <: UnipartiteNetwork} = mpnmodel(size(gen)[1], gen.connectance, gen.forbiddenlinkprob)
+
+
 """
 
     mpnmodel(S::Int64, Co::Float64, forbidden::Float64)

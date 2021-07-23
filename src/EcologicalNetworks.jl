@@ -1,6 +1,7 @@
 module EcologicalNetworks
 
 # Dependencies
+using Base: _sizeof_uv_getaddrinfo
 using StatsBase
 using Combinatorics
 using Distributions
@@ -91,19 +92,29 @@ export null1, null2, null3, null4
 include(joinpath(".", "rand/RDPG.jl"))
 export RDPG
 
-# Random networks from structural models
-include(joinpath(".", "structuralmodels/cascademodel.jl"))
-export cascademodel
-include(joinpath(".", "structuralmodels/mpnmodel.jl"))
-export mpnmodel
-include(joinpath(".", "structuralmodels/nestedhierarchymodel.jl"))
-export nestedhierarchymodel
-include(joinpath(".", "structuralmodels/nichemodel.jl"))
-export nichemodel
+# Random networks from generative models
+include(joinpath(".", "generativemodels/_generators.jl"))
+export NetworkGenerator, rand, _sizeof_uv_getaddrinfo
 
-include(joinpath(".", "structuralmodels/bipartitemodels.jl"))
-export bipartite_erdosrenyi, bipartite_preferentialattachment, 
-   bipartite_degreedist, bipartite_blockmodel
+include(joinpath(".", "generativemodels/cascademodel.jl"))
+export CascadeModel
+include(joinpath(".", "generativemodels/mpnmodel.jl"))
+export MinimumPotentialNicheModel
+include(joinpath(".", "generativemodels/nestedhierarchymodel.jl"))
+export NestedHierarchyModel
+include(joinpath(".", "generativemodels/nichemodel.jl"))
+export NicheModel
+include(joinpath(".", "generativemodels/erdosrenyi.jl"))
+export ErdosRenyi
+include(joinpath(".", "generativemodels/blockmodel.jl"))
+export BlockModel
+include(joinpath(".", "generativemodels/preferentialattachment.jl"))
+export PreferentialAttachment
+include(joinpath(".", "generativemodels/degreedistribution.jl"))
+export DegreeDistributionModel
+
+
+
 
 # Nestedness
 include(joinpath(".", "community/nestedness.jl"))

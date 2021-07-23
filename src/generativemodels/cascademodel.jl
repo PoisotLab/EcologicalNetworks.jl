@@ -1,3 +1,19 @@
+
+"""
+    CascadeModel
+"""
+mutable struct CascadeModel{T<:Integer, FT<:AbstractFloat} <: NetworkGenerator 
+    size::Tuple{T,T}
+    connectance::FT
+end 
+CascadeModel(; size::T=30, connectance::FT=0.3) where {T <: Union{Tuple{Integer}, Integer}, FT <: AbstractFloat} = CascadeModel(size, connectance)
+CascadeModel(sz::T, X::NT) where {T <: Integer, NT<:Number} = CascadeModel((sz,sz), X)
+CascadeModel(sz::T, E::ET) where {T <: Tuple{Integer,Integer}, ET<:Integer} = CascadeModel(sz, E/(sz[1]*sz[2]))
+CascadeModel(sz::T, C::CT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat} = CascadeModel(sz, C)
+
+_generate!(gen::CascadeModel, target::T) where {T <: UnipartiteNetwork}  = cascademodel(size(gen)[1], gen.connectance)
+
+
 """
     cascademodel(S::Int64, Co::Float64)
 

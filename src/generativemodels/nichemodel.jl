@@ -1,3 +1,20 @@
+
+"""
+    NicheModel
+"""
+mutable struct NicheModel{T<:Integer, FT<:AbstractFloat} <: NetworkGenerator 
+    size::Tuple{T,T}
+    connectance::FT
+end 
+NicheModel(; size::T=30, connectance::FT=0.3) where {T <: Union{Tuple{Integer}, Integer}, FT <: AbstractFloat} = NicheModel(size, connectance)
+NicheModel(sz::T, X::NT) where {T <: Integer, NT<:Number} = NicheModel((sz,sz), X)
+NicheModel(sz::T, E::ET) where {T <: Tuple{Integer,Integer}, ET<:Integer} = NicheModel(sz,E/(sz[1]*sz[2]))
+NicheModel(sz::T, C::CT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat} = NicheModel(sz, C)
+
+_generate!(gen::NicheModel, target::T) where {T <: UnipartiteNetwork} = nichemodel(size(gen)[1], gen.connectance)
+
+
+
 """
     nichemodel(S::Int64, L::Int64)
 
@@ -84,7 +101,7 @@ function nichemodel(S::Int64, C::Float64)
 
     # Check for disconnected species?
 
-    return A
+    return A.edges
 
 end
 
