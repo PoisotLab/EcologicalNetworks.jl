@@ -2,7 +2,7 @@ module TestMPNModel
   using Test
   using EcologicalNetworks
 
-  @test typeof(rand(MinimumPotentialNicheModel((10, 0.3, 0.2)))) <: UnipartiteNetwork
+  @test typeof(rand(MinimumPotentialNicheModel(10, 0.3, 0.2))) <: UnipartiteNetwork
 
   @test richness(rand(MinimumPotentialNicheModel(10, 0.3, 0.2))) == 10
   @test richness(rand(MinimumPotentialNicheModel(10, 0.4, 0.5))) == 10

@@ -8,7 +8,13 @@ mutable struct NicheModel{T<:Integer, FT<:AbstractFloat} <: NetworkGenerator
 end 
 NicheModel(; size::T=30, connectance::FT=0.3) where {T <: Union{Tuple{Integer}, Integer}, FT <: AbstractFloat} = NicheModel(size, connectance)
 NicheModel(sz::T, X::NT) where {T <: Integer, NT<:Number} = NicheModel((sz,sz), X)
-NicheModel(sz::T, E::ET) where {T <: Tuple{Integer,Integer}, ET<:Integer} = NicheModel(sz,E/(sz[1]*sz[2]))
+NicheModel(sz::T, E::ET) where {T <: Tuple{Integer,Integer}, ET<:Integer} = begin
+    
+    E >= sz[1]*sz[1] && throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
+    E <= 0 && throw(ArgumentError("Number of links L must be positive"))
+
+    NicheModel(sz,E/(sz[1]*sz[2]))
+end 
 NicheModel(sz::T, C::CT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat} = NicheModel(sz, C)
 
 
@@ -105,7 +111,7 @@ function nichemodel(S::Int64, C::Float64)
 
     # Check for disconnected species?
 
-    return A.edges
+    return A
 
 end
 
