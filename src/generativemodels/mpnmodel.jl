@@ -1,36 +1,85 @@
-
-
 """
     MinimumPotentialNicheModel
-"""
-mutable struct MinimumPotentialNicheModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator 
-    size::Tuple{T,T}
-    connectance::FT
-    forbiddenlinkprob::FT
-end 
-MinimumPotentialNicheModel(; size::T=30, connectance::FT=0.3, forbiddenlinkprob=0.3) where {T <: Union{Tuple{Integer}, Integer}, FT <: AbstractFloat} = MinimumPotentialNicheModel(size, connectance,forbiddenlinkprob)
-MinimumPotentialNicheModel(sz::T, X::NT, Y::NT) where {T <: Integer, NT<:Number} = MinimumPotentialNicheModel((sz,sz), X,Y)
-MinimumPotentialNicheModel(sz::T, E::ET, flp::FT) where {T <: Tuple{Integer,Integer}, ET<:Integer, FT<:AbstractFloat} = MinimumPotentialNicheModel(sz, E/(sz[1]*sz[2]), flp)
-MinimumPotentialNicheModel(sz::T, C::CT, flp::FT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat, FT<:AbstractFloat} = MinimumPotentialNicheModel(sz, C, flp)
 
 
-_generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: UnipartiteNetwork} = mpnmodel(size(gen)[1], gen.connectance, gen.forbiddenlinkprob)
-
-
-"""
-
-    mpnmodel(S::Int64, Co::Float64, forbidden::Float64)
-
-Return `UnipartiteNetwork` with links assigned according to minimum
-potential niche model for given number of `S`, connectivity `Co` and
-probability of `forbidden` link occurence.
+    Generator a `UnipartiteNetwork` with links assigned according to minimum
+    potential niche model for given number of `S`, links `L`, and
+    probability of `forbidden` link occurence.
 
 #### References
 
 Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
 Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
-function mpnmodel(S::Int64, Co::Float64, forbidden::Float64)
+mutable struct MinimumPotentialNicheModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator 
+    size::Tuple{T,T}
+    connectance::FT
+    forbiddenlinkprob::FT
+end 
+
+
+"""
+    MinimumPotentialNicheModel
+
+    kwargs version 
+"""
+
+MinimumPotentialNicheModel(; 
+    size::T=30, 
+    connectance::FT=0.3, 
+    forbiddenlinkprob::FT=0.3) where {T <: Integer, FT <: AbstractFloat} = MinimumPotentialNicheModel((size,size), connectance,forbiddenlinkprob)
+
+
+"""
+    MinimumPotentialNicheModel
+
+
+    Return `UnipartiteNetwork` with links assigned according to minimum
+    potential niche model for given number of `S`, links `L` and
+    probability of `forbidden` link occurence.
+"""
+MinimumPotentialNicheModel(S::T, L::LT, forbidden::FT) where {T <: Integer,LT<:Integer,FT<:AbstractFloat} = MinimumPotentialNicheModel((S,S), L/(S*S), forbidden)
+
+"""
+    MinimumPotentialNicheModel
+
+    Return `UnipartiteNetwork` with links assigned according to minimum
+    potential niche model for given number of `S`, connectivity `C` and
+    probability of `forbidden` link occurence.
+"""
+MinimumPotentialNicheModel(S::T, C::FT, forbidden::FT) where {T<:Integer,FT<:AbstractFloat} = MinimumPotentialNicheModel{T,FT}((S,S), C, forbidden)
+
+"""
+    MinimumPotentialNicheModel(N::T) where {T<: UnipartiteNetwork}
+
+    from a real network. still needs to estimate forbidden link prob. there are papers to do this but not off the top of my head
+"""
+function MinimumPotentialNicheModel(N::T) where {T<: UnipartiteNetwork}
+    # TODO: Estimate proportion of forbidden links
+    forbidden = 0
+    return mpn((species(N),species(N)), connectance(N), forbidden)
+end
+
+"""
+    MinimumPotentialNicheModel(parameters::Tuple)
+
+    Parameters tuple can also be provided in the form (S::Int64, Co::Float64,
+    forbidden::Float64).
+
+"""
+function MinimumPotentialNicheModel(parameters::Tuple)
+    return MinimumPotentialNicheModel(parameters[1], parameters[2],parameters[3])
+end
+
+"""
+    _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: UnipartiteNetwork}
+
+    main dispatch for mpn generation
+"""
+function _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: UnipartiteNetwork}
+    S = size(gen)[1]
+    Co = gen.connectance    
+    forbidden = gen.forbiddenlinkprob
 
     Co >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
 
@@ -103,65 +152,5 @@ function mpnmodel(S::Int64, Co::Float64, forbidden::Float64)
     end
 
     return A
-
-end
-
-"""
-
-    mpnmodel(N::T) where {T<: UnipartiteNetwork}
-
-Applied to `UnipartiteNetwork` return its randomized version.
-
-#### References
-
-Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
-Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
-"""
-function mpnmodel(N::T) where {T<: UnipartiteNetwork}
-
-    # Estimate proportion of forbidden links
-
-    ## Find ordering
-    ## sort(N)
-
-    ## Get the value
-    forbidden = 0
-
-    # Simulate the network
-    return mpn(species(N), connectance(N), forbidden)
-
-end
-
-"""
-
-    mpnmodel(parameters::Tuple)
-
-Parameters tuple can also be provided in the form (S::Int64, Co::Float64,
-forbidden::Float64).
-
-#### References
-
-Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
-Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
-"""
-function mpnmodel(parameters::Tuple)
-    return mpnmodel(parameters[1], parameters[2],parameters[3])
-end
-
-"""
-
-    mpnmodel(mpnmodel(S::Int64, L::Int64, forbidden::Float64))
-
-Average number of links can be specified instead of connectance.
-
-#### References
-
-Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
-Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
-"""
-function mpnmodel(S::Int64, L::Int64, forbidden::Float64)
-
-    Co = (L/(S*S))
-    return mpnmodel(S, Co, forbidden)
 
 end
