@@ -4,17 +4,11 @@ Indices based on information theory, such as entropy, mutual information etc, ca
 
 One can compute individual indices or use the function `information_decomposition` which performs the entire decomposition at once. This decomposition yields for a given network the deviation of the marginal distributions of the species with the uniform distribution (quantifying the evenness), the mutual information (quantifying the specialisation) and the variance of information (quantifying the freedom and stability of the interactions). These indices satisfy the following balance equation for the top ($T$) and bottom ($B$) throphic level:
 
-$$
-\log(nm) = D(B,T) + 2 I(B;T) + V(B;T)
-$$
+$$\log(nm) = D(B,T) + 2 I(B;T) + V(B;T)$$
 
-$$
-\log(n) = D(B) + I(B;T) + H(B|T)
-$$
+$$\log(n) = D(B) + I(B;T) + H(B|T)$$
 
-$$
-\log(m) = D(T) + I(B;T) + H(T|B)
-$$
+$$\log(m) = D(T) + I(B;T) + H(T|B)$$
 
 Here, $n$ and $m$ are number of bottom and top species, respectively.
 
