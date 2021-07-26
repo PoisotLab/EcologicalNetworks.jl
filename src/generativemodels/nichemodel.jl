@@ -1,76 +1,84 @@
 
 """
-    NicheModel
+    NicheModel <: NetworkGenerator
+
+    Generator for the Niche model. 
+
+    #### Reference
+
+    Williams, R., Martinez, N., 2000. Simple rules yield complex food webs. Nature
+    404, 180–183.
 """
-mutable struct NicheModel{T<:Integer, FT<:AbstractFloat} <: NetworkGenerator 
-    size::Tuple{T,T}
-    connectance::FT
+mutable struct NicheModel{IT<:Integer, FT<:AbstractFloat} <: NetworkGenerator 
+    size::Tuple{IT,IT}
+    connectance::FT  
 end 
-NicheModel(; size::T=30, connectance::FT=0.3) where {T <: Union{Tuple{Integer}, Integer}, FT <: AbstractFloat} = NicheModel(size, connectance)
-NicheModel(sz::T, X::NT) where {T <: Integer, NT<:Number} = NicheModel((sz,sz), X)
-NicheModel(sz::T, E::ET) where {T <: Tuple{Integer,Integer}, ET<:Integer} = begin
-    
-    E >= sz[1]*sz[1] && throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
-    E <= 0 && throw(ArgumentError("Number of links L must be positive"))
 
-    NicheModel(sz,E/(sz[1]*sz[2]))
+"""
+    NicheModel(S::IT, C::FT)
+
+    Constructor for `NicheModel` where resources are assign to consumers according to
+    niche model for a network of `S` species and `L` links.
+"""
+NicheModel(S::IT, C::FT) where {IT <: Integer, FT<:AbstractFloat} = begin
+    C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
+    return NicheModel{IT,FT}((S,S),C)
 end 
-NicheModel(sz::T, C::CT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat} = NicheModel(sz, C)
-
-
-NicheModel(net::ENT) where {ENT <: UnipartiteNetwork} = NicheModel(richness(net), links(net))
-
-
-_generate!(gen::NicheModel, target::T) where {T <: UnipartiteNetwork} = nichemodel(size(gen)[1], gen.connectance)
-
 
 
 """
-    nichemodel(S::Int64, L::Int64)
+    NicheModel(; richness::T=30, connectance::FT=0.3)
 
-Return `UnipartiteNetwork` where resources are assign to consumers according to
-niche model for a network of `S` species and `L` links.
-
-#### References
-
-Williams, R., Martinez, N., 2000. Simple rules yield complex food webs. Nature
-404, 180–183.
+    Constructor for `NicheModel` using keyword arguments.
 """
-function nichemodel(S::Int64, L::Int64)
+NicheModel(; richness::T=30, connectance::FT=0.3) where {T <: Union{Tuple{Integer}, Integer}, FT <: AbstractFloat} = NicheModel(richness, connectance)
 
+"""
+    NicheModel(S::Int64, L::Int64)
+
+    Constructor for `NicheModel` where resources are assign to consumers according to
+    niche model for a network of `S` species and `L` links.
+"""
+NicheModel(S::ST, L::LT) where {ST <: Integer, LT<:Integer} = begin
     L >= S*S && throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
     L <= 0 && throw(ArgumentError("Number of links L must be positive"))
 
     C = L/(S*S)
 
-    return nichemodel(S, C)
+    return NicheModel(S,C)
+end 
 
+
+"""
+    NicheModel(net::ENT) where {ENT <: UnipartiteNetwork}
+
+    Constructor for `NicheModel` which takes an empirical `UnipartiteNetwork`
+    as input and return its a generator based on the empirical networks
+    richness and connectance.
+"""
+NicheModel(net::ENT) where {ENT <: UnipartiteNetwork} = NicheModel(richness(net), links(net))
+
+
+"""
+NicheModel(parameters::Tuple)
+
+Parameters tuple can also be provided in the form (Species::Int64, Co::Float64)
+or (Species::Int64, Int::Int64).
+
+"""
+function NicheModel(parameters::Tuple)
+    return NicheModel(parameters[1], parameters[2])
 end
 
 
 """
-    nichemodel(N::T) where {T <: UnipartiteNetwork}
+    _generate!(gen::NicheModel, target::T) where {T <: UnipartiteNetwork}
 
-Applied to empirical `UnipartiteNetwork` return its randomized version.
-
-#### References
-
-Williams, R., Martinez, N., 2000. Simple rules yield complex food webs. Nature
-404, 180–183.
+    Primary dispatch for generating niche model. Called from rand(::NicheModel)
 """
-function nichemodel(N::T) where {T <: UnipartiteNetwork}
-    return nichemodel(richness(N), connectance(N))
-end
-
-"""
-    nichemodel(S::Int64, C::Float64)
-
-#### References
-
-Williams, R., Martinez, N., 2000. Simple rules yield complex food webs. Nature
-404, 180–183.
-"""
-function nichemodel(S::Int64, C::Float64)
+function _generate!(gen::NicheModel,::Type{T}) where {T<:UnipartiteNetwork} 
+    S = size(gen)[1]
+    C = gen.connectance
 
     C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
 
@@ -115,18 +123,3 @@ function nichemodel(S::Int64, C::Float64)
 
 end
 
-"""
-
-    nichemodel(parameters::Tuple)
-
-Parameters tuple can also be provided in the form (Species::Int64, Co::Float64)
-or (Species::Int64, Int::Int64).
-
-#### References
-
-Williams, R., Martinez, N., 2000. Simple rules yield complex food webs. Nature
-404, 180–183.
-"""
-function nichemodel(parameters::Tuple)
-    return nichemodel(parameters[1], parameters[2])
-end

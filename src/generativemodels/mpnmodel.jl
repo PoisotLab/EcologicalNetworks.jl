@@ -14,7 +14,7 @@ MinimumPotentialNicheModel(sz::T, E::ET, flp::FT) where {T <: Tuple{Integer,Inte
 MinimumPotentialNicheModel(sz::T, C::CT, flp::FT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat, FT<:AbstractFloat} = MinimumPotentialNicheModel(sz, C, flp)
 
 
-_generate!(gen::MinimumPotentialNicheModel, target::T) where {T <: UnipartiteNetwork} = mpnmodel(size(gen)[1], gen.connectance, gen.forbiddenlinkprob)
+_generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: UnipartiteNetwork} = mpnmodel(size(gen)[1], gen.connectance, gen.forbiddenlinkprob)
 
 
 """

@@ -10,7 +10,7 @@ PreferentialAttachment(sz::T, X::NT) where {T <: Integer, NT<:Number} = Preferen
 PreferentialAttachment(sz::T, E::ET) where {T <: Tuple{Integer,Integer}, ET<:Integer} = PreferentialAttachment(sz, E)
 PreferentialAttachment(sz::T, C::CT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat} = PreferentialAttachment(sz, Int(floor(C*sz[1]*sz[2])))
 
-_generate!(gen::PreferentialAttachment, target::T) where {T <: BipartiteNetwork} =  bipartite_preferentialattachment(size(gen)..., gen.numedges)
+_generate!(gen::PreferentialAttachment, ::Type{T}) where {T <: BipartiteNetwork} =  bipartite_preferentialattachment(size(gen)..., gen.numedges)
 
 
 

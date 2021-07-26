@@ -15,8 +15,8 @@ ErdosRenyi(sz::T, E::ET) where {T <: Tuple{Integer,Integer}, ET<:Integer} = Erdo
 ErdosRenyi(sz::T, C::CT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat} = ErdosRenyi(sz, C)
 
 
-_generate!(gen::ErdosRenyi, target::T) where {T <: UnipartiteNetwork} = unipartite_erdosrenyi(size(gen)[1], gen.probability)
-_generate!(gen::ErdosRenyi, target::T) where {T <: BipartiteNetwork} = bipartite_erdosrenyi(size(gen)..., gen.probability)
+_generate!(gen::ErdosRenyi, ::Type{T}) where {T <: UnipartiteNetwork} = unipartite_erdosrenyi(size(gen)[1], gen.probability)
+_generate!(gen::ErdosRenyi, ::Type{T}) where {T <: BipartiteNetwork} = bipartite_erdosrenyi(size(gen)..., gen.probability)
 
 
 

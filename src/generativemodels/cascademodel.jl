@@ -14,7 +14,7 @@ CascadeModel(sz::T, C::CT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat
 CascadeModel(net::ENT) where {ENT <: UnipartiteNetwork} = CascadeModel(richness(net), links(net))
 
 
-_generate!(gen::CascadeModel, target::T) where {T <: UnipartiteNetwork}  = cascademodel(size(gen)[1], gen.connectance)
+_generate!(gen::CascadeModel, ::Type{T}) where {T <: UnipartiteNetwork}  = cascademodel(size(gen)[1], gen.connectance)
 
 
 """

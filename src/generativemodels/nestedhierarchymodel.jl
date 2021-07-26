@@ -6,11 +6,10 @@ NestedHierarchyModel(; size::T=30, connectance::FT=0.3) where {T <: Union{Tuple{
 NestedHierarchyModel(sz::T, X::NT) where {T <: Integer, NT<:Number} = NestedHierarchyModel((sz,sz), X)
 NestedHierarchyModel(sz::T, E::ET) where {T <: Tuple{Integer,Integer}, ET<:Integer} = NestedHierarchyModel(sz, E/(sz[1]*sz[2]))
 NestedHierarchyModel(sz::T, C::CT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat} = NestedHierarchyModel(sz, C)
-
 NestedHierarchyModel(net::ENT) where {ENT <: UnipartiteNetwork} = NestedHierarchyModel(richness(net), links(net))
 
 
-_generate!(gen::NestedHierarchyModel, target::T) where {T <: UnipartiteNetwork}  = cascademodel(size(gen)[1], gen.connectance)
+_generate!(gen::NestedHierarchyModel, ::Type{T}) where {T <: UnipartiteNetwork}  = cascademodel(size(gen)[1], gen.connectance)
 
 
 
