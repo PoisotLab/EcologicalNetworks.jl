@@ -18,6 +18,7 @@ my_tests = [
     "rand/cascademodel.jl",
     "rand/nestedhierarchymodel.jl",
     "rand/nichemodel.jl",
+    "rand/blockmodel.jl",
     "rand/mpnmodel.jl",
     "community/nestedness.jl",
     "community/paths.jl",
