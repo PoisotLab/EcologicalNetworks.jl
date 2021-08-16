@@ -6,31 +6,47 @@ mutable struct DegreeDistributionModel{IT<:Integer,DT<:Distribution} <: NetworkG
     dist::DT
 end
 
-# TODO assert in constructor that dist returns values on the natural numbers 
 
-"""
-    bipartite_degreedist(T,B,λ)
-
-    Generates a bipartite network with `T` and `B` nodes in each
-    partition, and draws the degree of each node in `T` from a Poisson
-    distribution with mean `λ`. As T,B -> infinity, 
-    the degree dist of T and B converge.
-"""
-function bipartite_degreedist(T::IT, B::IT, C::FT) where {IT<:Integer,FT<:AbstractFloat}
-    totaledges = C * (T * B)
-    λ = totaledges / (T + B)
-    return bipartite_degreedist(T, B; λ = λ)
+function DegreeDistributionModel(S::IT, dist::DT) where {IT<:Integer,DT<:Distribution}
+    return DegreeDistributionModel{IT,DT}((S,S), dist)
 end
 
-function bipartite_degreedist(T::IT, B::IT; λ::FT = 3) where {IT<:Integer,FT<:AbstractFloat}
+function DegreeDistributionModel(sz::Tuple{IT,IT}, dist::DT) where {IT<:Integer,DT<:Distribution}
+    return DegreeDistributionModel{IT,DT}(sz, dist)
+end
+
+
+_generate!(gen::DegreeDistributionModel, ::Type{T}) where {T<:BipartiteNetwork} =
+    _bipartite_degreedist(gen)
+
+_generate!(gen::DegreeDistributionModel, ::Type{T}) where {T<:UnipartiteNetwork} =
+    _unipartite_degreedist(gen)
+
+
+function _unipartite_degreedist(gen)
+    S = size(gen)[1]
+
+    adjacency_matrix = zeros(Bool, S,S)
+
+    for i = 1:S, j = 1:S
+        k_i = min(rand(gen.dist), S)
+        attach = sample([i for i in 1:S], k_i, replace = false)
+        adjacency_matrix[i, attach] .= 1
+    end
+    return UnipartiteNetwork(adjacency_matrix)
+end
+
+
+function _bipartite_degreedist(gen)
+    T,B = size(gen)
+
     adjacency_matrix = zeros(Bool, T, B)
 
     for t = 1:T
-        k_t = min(rand(Poisson(λ)), T)
-        attach = sample(collect(1:B), k_t, replace = false)
-        for b in attach
-            adjacency_matrix[t, b] = 1
-        end
+        k_t = min(rand(gen.dist), T)
+        attach = sample([i for i in 1:B], k_t, replace = false)
+        adjacency_matrix[t, attach] .= 1
     end
     return BipartiteNetwork(adjacency_matrix)
 end
+
