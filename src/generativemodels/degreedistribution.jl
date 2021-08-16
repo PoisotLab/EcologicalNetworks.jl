@@ -1,9 +1,12 @@
 """
     DegreeDistributionModel
 """
-mutable struct DegreeDistributionModel{FT <: AbstractFloat} <: NetworkGenerator
-    λ::FT
+mutable struct DegreeDistributionModel{IT <: Integer, DT <: Distribution} <: NetworkGenerator
+    size::Tuple{IT,IT}
+    dist::DT
 end
+
+# TODO assert in constructor that dist returns values on the natural numbers 
 
 """
     bipartite_degreedist(T,B,λ)
