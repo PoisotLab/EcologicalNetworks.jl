@@ -1,4 +1,4 @@
-# Structural network models
+# Generative network models
 
 Structure of ecological networks is non-random. Network architecture can
 have a strong effect on important ecosystem properties (Mougi and Kondoh
@@ -24,8 +24,7 @@ of Model and Empirical Food Webs’, Ecology, 86(5), pp. 1301–1311. doi:
 
 Many models with various interactions assignment algorithms have been
 proposed. `EcologicalNetworks` provides functions to generate random ecological
-networks of the `UnipartiteNetwork` type. Listed below are those most often
-used in ecological studies.
+networks using a variety of methods, listed below.
 
 ## Cascade model
 
@@ -34,7 +33,7 @@ be randomly assigned to a resource species with the trait value smaller than
 that of a consumer.
 
 ```@docs
-cascademodel
+CascadeModel
 ```
 
 ## Niche model
@@ -44,7 +43,7 @@ this model consumers can predate on resources which trait values are within
 the predators' 'niche' range.
 
 ```@docs
-nichemodel
+NicheModel
 ```
 
 ## Nested hierarchy model
@@ -55,7 +54,7 @@ to incorporate also the phylogenetic similarity in resource composition
 of predators.
 
 ```@docs
-nestedhierarchymodel
+NestedHierarchyModel
 ```
 
 ## Minimum potential niche model
@@ -63,5 +62,5 @@ nestedhierarchymodel
 This model attempts to explicitly simulate forbidden links in empirical food webs.
 
 ```@docs
-mpnmodel
+    MinimumPotentialNicheModel
 ```
