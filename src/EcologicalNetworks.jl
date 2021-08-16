@@ -107,6 +107,8 @@ include(joinpath(".", "generativemodels/erdosrenyi.jl"))
 export ErdosRenyi
 include(joinpath(".", "generativemodels/blockmodel.jl"))
 export BlockModel
+include(joinpath(".", "generativemodels/configurationmodel.jl"))
+export ConfigurationModel
 include(joinpath(".", "generativemodels/preferentialattachment.jl"))
 export PreferentialAttachment
 include(joinpath(".", "generativemodels/degreedistribution.jl"))

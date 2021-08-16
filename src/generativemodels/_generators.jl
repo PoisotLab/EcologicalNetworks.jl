@@ -1,16 +1,20 @@
 
 """
-abstract type NetworkGenerator end
+    abstract type NetworkGenerator end
 """
-abstract type NetworkGenerator end 
+abstract type NetworkGenerator end
 Base.size(gen::NetworkGenerator) = gen.size
 
 """
     Base.rand(gen::NetworkGenerator) 
 """
-function Base.rand(gen::NetworkGenerator) 
-    size(gen)[1] == size(gen)[2] ? rand(gen, UnipartiteNetwork) : rand(gen, BipartiteNetwork)
+function Base.rand(gen::NetworkGenerator)
+    size(gen)[1] == size(gen)[2] ? rand(gen, UnipartiteNetwork) :
+    rand(gen, BipartiteNetwork)
 end
-function Base.rand(generator::NetworkGenerator, ::Type{T}) where {T <: AbstractEcologicalNetwork}    
-    return _generate!(generator, T) 
+function Base.rand(
+    generator::NetworkGenerator,
+    ::Type{T},
+) where {T<:AbstractEcologicalNetwork}
+    return _generate!(generator, T)
 end

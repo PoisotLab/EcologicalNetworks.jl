@@ -9,10 +9,10 @@
     Williams, R., Martinez, N., 2000. Simple rules yield complex food webs. Nature
     404, 180–183.
 """
-mutable struct NicheModel{IT<:Integer, FT<:AbstractFloat} <: NetworkGenerator 
+mutable struct NicheModel{IT<:Integer,FT<:AbstractFloat} <: NetworkGenerator
     size::Tuple{IT,IT}
-    connectance::FT  
-end 
+    connectance::FT
+end
 
 """
     NicheModel(S::IT, C::FT)
@@ -20,10 +20,10 @@ end
     Constructor for `NicheModel` where resources are assign to consumers according to
     niche model for a network of `S` species and `L` links.
 """
-NicheModel(S::IT, C::FT) where {IT <: Integer, FT<:AbstractFloat} = begin
+NicheModel(S::IT, C::FT) where {IT<:Integer,FT<:AbstractFloat} = begin
     C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
-    return NicheModel{IT,FT}((S,S),C)
-end 
+    return NicheModel{IT,FT}((S, S), C)
+end
 
 
 """
@@ -31,7 +31,11 @@ end
 
     Constructor for `NicheModel` using keyword arguments.
 """
-NicheModel(; richness::T=30, connectance::FT=0.3) where {T <: Union{Tuple{Integer}, Integer}, FT <: AbstractFloat} = NicheModel(richness, connectance)
+NicheModel(;
+    richness::T = 30,
+    connectance::FT = 0.3,
+) where {T<:Union{Tuple{Integer},Integer},FT<:AbstractFloat} =
+    NicheModel(richness, connectance)
 
 """
     NicheModel(S::Int64, L::Int64)
@@ -39,14 +43,15 @@ NicheModel(; richness::T=30, connectance::FT=0.3) where {T <: Union{Tuple{Intege
     Constructor for `NicheModel` where resources are assign to consumers according to
     niche model for a network of `S` species and `L` links.
 """
-NicheModel(S::ST, L::LT) where {ST <: Integer, LT<:Integer} = begin
-    L >= S*S && throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
+NicheModel(S::ST, L::LT) where {ST<:Integer,LT<:Integer} = begin
+    L >= S * S &&
+    throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
     L <= 0 && throw(ArgumentError("Number of links L must be positive"))
 
-    C = L/(S*S)
+    C = L / (S * S)
 
-    return NicheModel(S,C)
-end 
+    return NicheModel(S, C)
+end
 
 
 """
@@ -56,7 +61,7 @@ end
     as input and return its a generator based on the empirical networks
     richness and connectance.
 """
-NicheModel(net::ENT) where {ENT <: UnipartiteNetwork} = NicheModel(richness(net), links(net))
+NicheModel(net::ENT) where {ENT<:UnipartiteNetwork} = NicheModel(richness(net), links(net))
 
 
 """
@@ -76,14 +81,14 @@ end
 
     Primary dispatch for generating niche model. Called from rand(::NicheModel)
 """
-function _generate!(gen::NicheModel,::Type{T}) where {T<:UnipartiteNetwork} 
+function _generate!(gen::NicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
     S = size(gen)[1]
     C = gen.connectance
 
     C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
 
     # Beta distribution parameter
-    β = 1.0/(2.0*C)-1.0
+    β = 1.0 / (2.0 * C) - 1.0
 
     # Pre-allocate the network
     A = UnipartiteNetwork(zeros(Bool, (S, S)))
@@ -98,8 +103,8 @@ function _generate!(gen::NicheModel,::Type{T}) where {T<:UnipartiteNetwork}
     r = n .* rand(Beta(1.0, β), S)
 
     # Generate random centroids
-    for s in 1:S
-        c[s] = rand(Uniform(r[s]/2, n[s]))
+    for s = 1:S
+        c[s] = rand(Uniform(r[s] / 2, n[s]))
     end
 
     # The smallest species has a body size and range of 0
@@ -107,10 +112,10 @@ function _generate!(gen::NicheModel,::Type{T}) where {T<:UnipartiteNetwork}
         r[small_species_index] = 0.0
     end
 
-    for consumer in 1:S
-        for resource in 1:S
-            if n[resource] < c[consumer] + (r[consumer]/2)
-                if n[resource] > c[consumer] - (r[consumer]/2)
+    for consumer = 1:S
+        for resource = 1:S
+            if n[resource] < c[consumer] + (r[consumer] / 2)
+                if n[resource] > c[consumer] - (r[consumer] / 2)
                     A[consumer, resource] = true
                 end
             end
@@ -122,4 +127,3 @@ function _generate!(gen::NicheModel,::Type{T}) where {T<:UnipartiteNetwork}
     return A
 
 end
-

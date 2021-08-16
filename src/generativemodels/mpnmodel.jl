@@ -11,11 +11,11 @@
 Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
 Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
-mutable struct MinimumPotentialNicheModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator 
+mutable struct MinimumPotentialNicheModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
     size::Tuple{T,T}
     connectance::FT
     forbiddenlinkprob::FT
-end 
+end
 
 
 """
@@ -24,10 +24,12 @@ end
     kwargs version 
 """
 
-MinimumPotentialNicheModel(; 
-    size::T=30, 
-    connectance::FT=0.3, 
-    forbiddenlinkprob::FT=0.3) where {T <: Integer, FT <: AbstractFloat} = MinimumPotentialNicheModel((size,size), connectance,forbiddenlinkprob)
+MinimumPotentialNicheModel(;
+    size::T = 30,
+    connectance::FT = 0.3,
+    forbiddenlinkprob::FT = 0.3,
+) where {T<:Integer,FT<:AbstractFloat} =
+    MinimumPotentialNicheModel((size, size), connectance, forbiddenlinkprob)
 
 
 """
@@ -38,7 +40,12 @@ MinimumPotentialNicheModel(;
     potential niche model for given number of `S`, links `L` and
     probability of `forbidden` link occurence.
 """
-MinimumPotentialNicheModel(S::T, L::LT, forbidden::FT) where {T <: Integer,LT<:Integer,FT<:AbstractFloat} = MinimumPotentialNicheModel((S,S), L/(S*S), forbidden)
+MinimumPotentialNicheModel(
+    S::T,
+    L::LT,
+    forbidden::FT,
+) where {T<:Integer,LT<:Integer,FT<:AbstractFloat} =
+    MinimumPotentialNicheModel((S, S), L / (S * S), forbidden)
 
 """
     MinimumPotentialNicheModel
@@ -47,17 +54,22 @@ MinimumPotentialNicheModel(S::T, L::LT, forbidden::FT) where {T <: Integer,LT<:I
     potential niche model for given number of `S`, connectivity `C` and
     probability of `forbidden` link occurence.
 """
-MinimumPotentialNicheModel(S::T, C::FT, forbidden::FT) where {T<:Integer,FT<:AbstractFloat} = MinimumPotentialNicheModel{T,FT}((S,S), C, forbidden)
+MinimumPotentialNicheModel(
+    S::T,
+    C::FT,
+    forbidden::FT,
+) where {T<:Integer,FT<:AbstractFloat} =
+    MinimumPotentialNicheModel{T,FT}((S, S), C, forbidden)
 
 """
     MinimumPotentialNicheModel(N::T) where {T<: UnipartiteNetwork}
 
     from a real network. still needs to estimate forbidden link prob. there are papers to do this but not off the top of my head
 """
-function MinimumPotentialNicheModel(N::T) where {T<: UnipartiteNetwork}
+function MinimumPotentialNicheModel(N::T) where {T<:UnipartiteNetwork}
     # TODO: Estimate proportion of forbidden links
     forbidden = 0
-    return mpn((species(N),species(N)), connectance(N), forbidden)
+    return mpn((species(N), species(N)), connectance(N), forbidden)
 end
 
 """
@@ -68,7 +80,7 @@ end
 
 """
 function MinimumPotentialNicheModel(parameters::Tuple)
-    return MinimumPotentialNicheModel(parameters[1], parameters[2],parameters[3])
+    return MinimumPotentialNicheModel(parameters[1], parameters[2], parameters[3])
 end
 
 """
@@ -76,15 +88,15 @@ end
 
     main dispatch for mpn generation
 """
-function _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: UnipartiteNetwork}
+function _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
     S = size(gen)[1]
-    Co = gen.connectance    
+    Co = gen.connectance
     forbidden = gen.forbiddenlinkprob
 
     Co >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
 
     # Beta distribution parameter
-    β = 1.0/(2.0*Co)-1.0
+    β = 1.0 / (2.0 * Co) - 1.0
 
     # Pre-allocate the network
     A = UnipartiteNetwork(zeros(Bool, (S, S)))
@@ -99,8 +111,8 @@ function _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: Unip
     r = n .* rand(Beta(1.0, β), S)
 
     # Generate random centroids
-    for s in 1:S
-        c[s] = rand(Uniform(r[s]/2, n[s]))
+    for s = 1:S
+        c[s] = rand(Uniform(r[s] / 2, n[s]))
     end
 
     # The smallest species has a body size and range of 0
@@ -114,7 +126,7 @@ function _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: Unip
     # ranges = Dict{Int64, Tuple}()
     # -------------------------------------------------------------------------
 
-    for consumer in 1:S
+    for consumer = 1:S
 
         # For testing
         # ---------------------------------------------------------------------
@@ -125,7 +137,7 @@ function _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: Unip
         # length(diet) != 0 && (ranges[consumer] = (diet[1], diet[end]))
         # ---------------------------------------------------------------------
 
-        for resource in 2:(S-1)
+        for resource = 2:(S-1)
 
             lower = (n[resource] > (c[consumer] - r[consumer]))
             lowerminus = (n[resource-1] > (c[consumer] - r[consumer]))
@@ -137,8 +149,8 @@ function _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: Unip
                 (rand() < (1 - forbidden)) && (A[consumer, resource] = true)
 
                 # Take care of first and last resource if they belong to the range
-                ((resource-1 == 1) & lowerminus) && (A[consumer, resource-1] = true)
-                ((resource+1 == S) & upperplus) && (A[consumer, resource+1] = true)
+                ((resource - 1 == 1) & lowerminus) && (A[consumer, resource-1] = true)
+                ((resource + 1 == S) & upperplus) && (A[consumer, resource+1] = true)
 
                 # Edges of range
                 lowerminus || (A[consumer, resource] = true)

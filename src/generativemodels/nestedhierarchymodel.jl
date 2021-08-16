@@ -1,15 +1,24 @@
-mutable struct NestedHierarchyModel{T<:Integer, FT<:AbstractFloat} <: NetworkGenerator 
+mutable struct NestedHierarchyModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
     size::Tuple{T,T}
     connectance::FT
-end 
-NestedHierarchyModel(; size::T=30, connectance::FT=0.3) where {T <: Union{Tuple{Integer}, Integer}, FT <: AbstractFloat} = NestedHierarchyModel(size, connectance)
-NestedHierarchyModel(sz::T, X::NT) where {T <: Integer, NT<:Number} = NestedHierarchyModel((sz,sz), X)
-NestedHierarchyModel(sz::T, E::ET) where {T <: Tuple{Integer,Integer}, ET<:Integer} = NestedHierarchyModel(sz, E/(sz[1]*sz[2]))
-NestedHierarchyModel(sz::T, C::CT) where {T <: Tuple{Integer,Integer}, CT<:AbstractFloat} = NestedHierarchyModel(sz, C)
-NestedHierarchyModel(net::ENT) where {ENT <: UnipartiteNetwork} = NestedHierarchyModel(richness(net), links(net))
+end
+NestedHierarchyModel(;
+    size::T = 30,
+    connectance::FT = 0.3,
+) where {T<:Union{Tuple{Integer},Integer},FT<:AbstractFloat} =
+    NestedHierarchyModel(size, connectance)
+NestedHierarchyModel(sz::T, X::NT) where {T<:Integer,NT<:Number} =
+    NestedHierarchyModel((sz, sz), X)
+NestedHierarchyModel(sz::T, E::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
+    NestedHierarchyModel(sz, E / (sz[1] * sz[2]))
+NestedHierarchyModel(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
+    NestedHierarchyModel(sz, C)
+NestedHierarchyModel(net::ENT) where {ENT<:UnipartiteNetwork} =
+    NestedHierarchyModel(richness(net), links(net))
 
 
-_generate!(gen::NestedHierarchyModel, ::Type{T}) where {T <: UnipartiteNetwork}  = cascademodel(size(gen)[1], gen.connectance)
+_generate!(gen::NestedHierarchyModel, ::Type{T}) where {T<:UnipartiteNetwork} =
+    cascademodel(size(gen)[1], gen.connectance)
 
 
 
@@ -30,23 +39,25 @@ Nature 427, 835–839. https://doi.org/10.1038/nature02327
 function nestedhierarchymodel(S::Int64, L::Int64)
 
     # Evaluate input
-    L >= S*S && throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
+    L >= S * S &&
+        throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
     L <= 0 && throw(ArgumentError("Number of links L must be positive"))
 
     # Initiate matrix
     A = UnipartiteNetwork(zeros(Bool, (S, S)))
 
-    Co = (L/(S*S))
+    Co = (L / (S * S))
 
     # Assign values to all species and sort in an ascending order
     e = sort(rand(S))
 
     # Beta parameter (after Allesina et al. 2008)
     # Classic niche: β = 1.0/(2.0*C)-1.0
-    β = (S - 1.0)/(2.0*Co*S) - 1.0
+    β = (S - 1.0) / (2.0 * Co * S) - 1.0
 
     # Evaluate input
-    β == 0 && throw(ArgumentError("β value is equal to zero! Try decreasing number of links"))
+    β == 0 &&
+        throw(ArgumentError("β value is equal to zero! Try decreasing number of links"))
 
     # Random variable from the Beta distribution
     X = rand(Beta(1.0, β), 1)
@@ -64,11 +75,11 @@ function nestedhierarchymodel(S::Int64, L::Int64)
     # println("Nested hierarchy model with ", totallinks, " links to assign")
 
     # Links which may happen to exceed S are set to S-1
-    for link in 1:S
+    for link = 1:S
 
         if observedlinks[link] >= S
 
-            observedlinks[link] = S-1
+            observedlinks[link] = S - 1
 
         end
 
@@ -83,7 +94,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
     # Create dictionaries with all the species indices and names
 
     # Strings into indices
-    sp_pos = Dict{String, Int64}()
+    sp_pos = Dict{String,Int64}()
 
     for (n, f) in enumerate(species_pool)
 
@@ -92,7 +103,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
     end
 
     # Indices into strings
-    sp_str = Dict{Int64, String}()
+    sp_str = Dict{Int64,String}()
 
     for (n, f) in enumerate(species_pool)
 
@@ -104,12 +115,12 @@ function nestedhierarchymodel(S::Int64, L::Int64)
     predated = []
 
     # Assign links to all consumers except for the first one (basal)
-    for consumer in 2:S
+    for consumer = 2:S
 
         # STAGE 1: Assign species with smaller niche value
 
         # Assign species randomly unless one has other predators
-        eligible = StatsBase.sample(1:(consumer-1), (consumer-1), replace = false)
+        eligible = StatsBase.sample(1:(consumer-1), (consumer - 1), replace = false)
 
         linkstoassign = observedlinks[consumer]
 
@@ -133,7 +144,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
             push!(predated, sp_str[resource])
 
             # If there are other predators break this
-            (sum(A[:,resource]) > 1) && break
+            (sum(A[:, resource]) > 1) && break
 
         end
 
@@ -151,7 +162,11 @@ function nestedhierarchymodel(S::Int64, L::Int64)
         resource_union = setdiff(resource_union, A[species_pool[consumer], :])
 
         # Shuffle the resource_union
-        resource_union = StatsBase.sample(collect(resource_union), length(resource_union), replace = false)
+        resource_union = StatsBase.sample(
+            collect(resource_union),
+            length(resource_union),
+            replace = false,
+        )
 
         for resource in resource_union
 
@@ -174,7 +189,8 @@ function nestedhierarchymodel(S::Int64, L::Int64)
         not_predated = setdiff(species_pool, predated)
 
         # Shuffle the current set
-        not_predated = StatsBase.sample(collect(not_predated), length(not_predated), replace = false)
+        not_predated =
+            StatsBase.sample(collect(not_predated), length(not_predated), replace = false)
 
         # Assign links
         for resource in not_predated
@@ -198,7 +214,8 @@ function nestedhierarchymodel(S::Int64, L::Int64)
         not_consumed = setdiff(species_pool, diet)
 
         # Shuffle the set
-        not_consumed = StatsBase.sample(collect(not_consumed), length(not_consumed), replace = false)
+        not_consumed =
+            StatsBase.sample(collect(not_consumed), length(not_consumed), replace = false)
 
         # Assign links
         for resource in not_consumed
@@ -212,7 +229,7 @@ function nestedhierarchymodel(S::Int64, L::Int64)
 
     end
 
-    return(A)
+    return (A)
 
 end
 
@@ -230,7 +247,7 @@ Nature 427, 835–839. https://doi.org/10.1038/nature02327
 function nestedhierarchymodel(S::Int64, Co::Float64)
 
     # Calculate number of links L from connectednes
-    L = round(Int, (Co*(S*S)))
+    L = round(Int, (Co * (S * S)))
 
     return nestedhierarchymodel(S, L)
 
@@ -247,7 +264,7 @@ Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
 J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
 Nature 427, 835–839. https://doi.org/10.1038/nature02327
 """
-function nestedhierarchymodel(N::T) where {T <: UnipartiteNetwork}
+function nestedhierarchymodel(N::T) where {T<:UnipartiteNetwork}
 
     return nestedhierarchymodel(richness(N), connectance(N))
 
