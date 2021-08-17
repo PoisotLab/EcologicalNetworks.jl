@@ -1,43 +1,80 @@
-mutable struct NestedHierarchyModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
-    size::Tuple{T,T}
-    connectance::FT
+
+"""
+    NestedHierarchyModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
+
+    `NetworkGenerator` for the nested-hierarchy model
+
+
+    #### References
+
+    Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
+    J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
+    Nature 427, 835–839. https://doi.org/10.1038/nature02327
+"""
+mutable struct NestedHierarchyModel{IT<:Integer} <: NetworkGenerator
+    size::Tuple{IT,IT}
+    links::IT
 end
-NestedHierarchyModel(;
-    size::T = 30,
-    connectance::FT = 0.3,
-) where {T<:Union{Tuple{Integer},Integer},FT<:AbstractFloat} =
-    NestedHierarchyModel(size, connectance)
-NestedHierarchyModel(sz::T, X::NT) where {T<:Integer,NT<:Number} =
-    NestedHierarchyModel((sz, sz), X)
-NestedHierarchyModel(sz::T, E::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
-    NestedHierarchyModel(sz, E / (sz[1] * sz[2]))
+
+"""
+    _generate!(gen::NestedHierarchyModel, ::Type{T}) where {T<:UnipartiteNetwork}
+
+    Primary dispatch for generating networks from the `NestedHierarchyModel`.
+"""
+function _generate!(gen::NestedHierarchyModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    S, L = gen.size[1], gen.links
+
+    S <= 0 && throw(ArgumentError("Number of species must be positive"))
+    L <= 0 && throw(ArgumentError("Number of links must be positive"))
+
+    return _nestedhierarchymodel(gen)
+end
+
+
+"""
+    NestedHierarchyModel(S::T, X::NT) where {T<:Integer,NT<:Number}
+
+    Constructor for `NestedHierarchyModel` for a unipartite network where the size 
+    was passed as in integer `S`.
+"""
+NestedHierarchyModel(S::T, X::NT) where {T<:Integer,NT<:Number} =
+    NestedHierarchyModel((S,S), X)
+
+"""
+    NestedHierarchyModel(sz::T, L::ET) where {T<:Tuple{Integer,Integer},ET<:Integer}
+
+    Constructor for `NestedHierarchyModel` for a size tuple `sz` and integer number of links `L`.
+"""
+NestedHierarchyModel(sz::T, L::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
+    NestedHierarchyModel{ET}(sz, L)
+
+"""
+    NestedHierarchyModel(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat}
+
+    Constructor for `NestedHierarchyModel` for a size tuple `sz` and a float connectance `C`.
+"""
 NestedHierarchyModel(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
-    NestedHierarchyModel(sz, C)
+    NestedHierarchyModel(sz, C * sz[1] * sz[2])
+
+"""
+    NestedHierarchyModel(net::ENT) where {ENT<:UnipartiteNetwork} 
+
+    Constructor for `NestedHierarchyModel` creates a generated based on the same richness 
+    and links as an existing network `net`
+"""
 NestedHierarchyModel(net::ENT) where {ENT<:UnipartiteNetwork} =
     NestedHierarchyModel(richness(net), links(net))
 
 
-_generate!(gen::NestedHierarchyModel, ::Type{T}) where {T<:UnipartiteNetwork} =
-    cascademodel(size(gen)[1], gen.connectance)
-
-
-
-
 
 """
-    nestedhierarchymodel(S::Int64, L::Int64)
+    _nestedhierarchymodel(S::Int64, L::Int64)
 
-Return `UnipartiteNetwork` where resources are assigned to consumers according
-to the nested hierarchy model for `S` species and `L`.
-
-#### References
-
-Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
-J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
-Nature 427, 835–839. https://doi.org/10.1038/nature02327
+    Implementation of generating networks for `NestedHierarchyModel`
 """
-function nestedhierarchymodel(S::Int64, L::Int64)
+function _nestedhierarchymodel(gen)
 
+    S, L = gen.size[1], gen.links
     # Evaluate input
     L >= S * S &&
         throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
@@ -230,60 +267,5 @@ function nestedhierarchymodel(S::Int64, L::Int64)
     end
 
     return (A)
-
-end
-
-"""
-    nestedhierarchymodel(S::Int64, Co::Float64)
-
-Connectance can be provided instead of number of links.
-
-#### References
-
-Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
-J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
-Nature 427, 835–839. https://doi.org/10.1038/nature02327
-"""
-function nestedhierarchymodel(S::Int64, Co::Float64)
-
-    # Calculate number of links L from connectednes
-    L = round(Int, (Co * (S * S)))
-
-    return nestedhierarchymodel(S, L)
-
-end
-
-"""
-    nestedhierarchymodel(N::T) {T <: UnipartiteNetwork}
-
-Applied to empirical `UnipartiteNetwork` return its randomized version.
-
-#### References
-
-Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
-J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
-Nature 427, 835–839. https://doi.org/10.1038/nature02327
-"""
-function nestedhierarchymodel(N::T) where {T<:UnipartiteNetwork}
-
-    return nestedhierarchymodel(richness(N), connectance(N))
-
-end
-
-"""
-    nestedhierarchymodel(parameters::Tuple)
-
-Parameters tuple can also be provided in the form (Species::Int64, Co::Float64)
-or (Species::Int64, Int::Int64).
-
-#### References
-
-Cattin, M.-F., Bersier, L.-F., Banašek-Richter, C., Baltensperger, R., Gabriel,
-J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
-Nature 427, 835–839. https://doi.org/10.1038/nature02327
-"""
-function nestedhierarchymodel(parameters::Tuple)
-
-    return nestedhierarchymodel(parameters[1], parameters[2])
 
 end

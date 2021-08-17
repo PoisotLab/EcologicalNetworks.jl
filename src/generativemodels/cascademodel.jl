@@ -1,47 +1,30 @@
 
 """
-    CascadeModel
+    CascadeModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
+
+    Network generator which creates `UnipartiteNetwork`s randomly assembled according to
+    the cascade model for a given nuber of `S` and connectivity `C`.
+    
+    #### References
+
+    Cohen, J.E., Newman, C.M., 1985. A stochastic theory of community food webs I.
+    Models and aggregated data. Proceedings of the Royal Society of London.
+    B. Biological Sciences 224, 421–448. https://doi.org/10.1098/rspb.1985.0042
 """
 mutable struct CascadeModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
     size::Tuple{T,T}
     connectance::FT
 end
-CascadeModel(;
-    size::T = 30,
-    connectance::FT = 0.3,
-) where {T<:Union{Tuple{Integer},Integer},FT<:AbstractFloat} =
-    CascadeModel(size, connectance)
-CascadeModel(sz::T, X::NT) where {T<:Integer,NT<:Number} = CascadeModel((sz, sz), X)
-CascadeModel(sz::T, E::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
-    CascadeModel(sz, E / (sz[1] * sz[2]))
-CascadeModel(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
-    CascadeModel(sz, C)
-
-CascadeModel(net::ENT) where {ENT<:UnipartiteNetwork} =
-    CascadeModel(richness(net), links(net))
-
-
-_generate!(gen::CascadeModel, ::Type{T}) where {T<:UnipartiteNetwork} =
-    cascademodel(size(gen)[1], gen.connectance)
-
 
 """
-    cascademodel(S::Int64, Co::Float64)
+    _generate!(gen::CascadeModel, ::Type{T}) where {T<:UnipartiteNetwork}
 
-Return matrix of the type `UnipartiteNetwork` randomly assembled according to
-the cascade model for a given nuber of `S` and connectivity `Co`.
-
-See also: `nichemodel`, `mpnmodel`, `nestedhierarchymodel`
-
-#### References
-
-Cohen, J.E., Newman, C.M., 1985. A stochastic theory of community food webs I.
-Models and aggregated data. Proceedings of the Royal Society of London. Series
-B. Biological Sciences 224, 421–448. https://doi.org/10.1098/rspb.1985.0042
+    Primary dispatch for generation. Checks arguments and calls the internal
+    function `_casecademodel` to generate the network.
 """
-function cascademodel(S::Int64, Co::Float64)
+function _generate!(gen::CascadeModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    S, Co = gen.size[1], gen.connectance
 
-    # Evaluate input
     maxconnectance = ((S^2 - S) / 2) / (S * S)
     Co >= maxconnectance && throw(
         ArgumentError(
@@ -51,6 +34,54 @@ function cascademodel(S::Int64, Co::Float64)
     Co <= 0 && throw(ArgumentError("Connectance C must be positive"))
     S <= 0 && throw(ArgumentError("Number of species L must be positive"))
 
+    return _cascademodel(gen)
+end
+
+
+"""
+    CascadeModel(sz::T, X::NT) where {T<:Integer,NT<:Number}
+
+    CascadeModel constructor for a Unipartite Network where the size `S` is an integer
+    and the second argument is either connectance or number of links, which is handled
+    on the next call.
+"""
+CascadeModel(S::T, X::NT) where {T<:Integer,NT<:Number} = CascadeModel((S, S), X)
+
+"""
+    CascadeModel(sz::T, X::NT) where {T<:Tuple{Integer,Integer},ET<:Integer} 
+
+    CascadeModel constructor for a tuple of sizes `sz` and a number of links `L`.
+"""
+CascadeModel(sz::T, L::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
+    CascadeModel(sz, L / (sz[1] * sz[2]))
+
+"""
+    CascadeModel(sz::T, X::NT) where {T<:Tuple{Integer,Integer},ET<:Integer} 
+
+    CascadeModel constructor for a tuple of sizes `sz` and connectance `C`.
+"""
+CascadeModel(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
+    CascadeModel(sz, C)
+
+
+"""
+    CascadeModel(net::ENT) where {ENT<:UnipartiteNetwork}
+
+    CascadeModel constructor which copies the size/connectance of an
+    existing network `net`.
+"""
+CascadeModel(net::ENT) where {ENT<:UnipartiteNetwork} =
+    CascadeModel(richness(net), links(net))
+
+
+"""
+    _cascademodel(gen)
+
+    Implmentation of generating networks for the `CascadeModel`
+"""
+function _cascademodel(gen)
+
+    S, Co = gen.size[1], gen.connectance
     # Initiate matrix
     A = UnipartiteNetwork(zeros(Bool, (S, S)))
 
@@ -61,7 +92,6 @@ function cascademodel(S::Int64, Co::Float64)
     p = 2 * Co * S / (S - 1)
 
     for consumer = 1:S
-
         # Rank for a consumer
         rank = e[consumer]
 
@@ -79,62 +109,7 @@ function cascademodel(S::Int64, Co::Float64)
 
             # Random number for a potential resource
             rand() < p && (A[consumer, resource] = true)
-
         end
-
     end
-
     return A
-
-end
-
-"""
-    cascademodel(N::T) where {T <: UnipartiteNetwork}
-
-Applied to a `UnipartiteNetwork` return its randomized version.
-
-#### References
-
-Cohen, J.E., Newman, C.M., 1985. A stochastic theory of community food webs I.
-Models and aggregated data. Proceedings of the Royal Society of London. Series
-B. Biological Sciences 224, 421–448. https://doi.org/10.1098/rspb.1985.0042
-"""
-function cascademodel(N::T) where {T<:UnipartiteNetwork}
-
-    return cascademodel(richness(N), connectance(N))
-
-end
-
-"""
-    cascademodel(S::Int64, L::Int64)
-
-Number of links can be specified instead of connectance.
-
-#### References
-
-Cohen, J.E., Newman, C.M., 1985. A stochastic theory of community food webs I.
-Models and aggregated data. Proceedings of the Royal Society of London. Series
-B. Biological Sciences 224, 421–448. https://doi.org/10.1098/rspb.1985.0042
-"""
-function cascademodel(S::Int64, L::Int64)
-    Co = (L / (S * S))
-    return cascademodel(S, Co)
-
-end
-
-"""
-
-    cascademodel(parameters::Tuple)
-
-Parameters tuple can also be provided in the form (S::Int64, Co::Float64)
-or (S::Int64, L::Int64).
-
-#### References
-
-Cohen, J.E., Newman, C.M., 1985. A stochastic theory of community food webs I.
-Models and aggregated data. Proceedings of the Royal Society of London. Series
-B. Biological Sciences 224, 421–448. https://doi.org/10.1098/rspb.1985.0042
-"""
-function cascademodel(parameters::Tuple)
-    return cascademodel(parameters[1], parameters[2])
 end

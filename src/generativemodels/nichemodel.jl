@@ -1,8 +1,8 @@
 
 """
-    NicheModel <: NetworkGenerator
+    NicheModel{IT<:Integer,FT<:AbstractFloat} <: NetworkGenerator
 
-    Generator for the Niche model. 
+    `NetworkGenerator` for the niche model. 
 
     #### Reference
 
@@ -13,6 +13,22 @@ mutable struct NicheModel{IT<:Integer,FT<:AbstractFloat} <: NetworkGenerator
     size::Tuple{IT,IT}
     connectance::FT
 end
+
+
+"""
+    _generate!(gen::NicheModel, target::T) where {T <: UnipartiteNetwork}
+
+    Primary dispatch for generating niche model. Called from rand(::NicheModel)
+"""
+function _generate!(gen::NicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    S = size(gen)[1]
+    C = gen.connectance
+
+    C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
+
+    return _nichemodel(gen)
+end 
+
 
 """
     NicheModel(S::IT, C::FT)
@@ -63,29 +79,14 @@ end
 """
 NicheModel(net::ENT) where {ENT<:UnipartiteNetwork} = NicheModel(richness(net), links(net))
 
-
 """
-NicheModel(parameters::Tuple)
+    _nichemodel(gen)
 
-Parameters tuple can also be provided in the form (Species::Int64, Co::Float64)
-or (Species::Int64, Int::Int64).
-
+    Implementation of generation of the niche model. 
 """
-function NicheModel(parameters::Tuple)
-    return NicheModel(parameters[1], parameters[2])
-end
-
-
-"""
-    _generate!(gen::NicheModel, target::T) where {T <: UnipartiteNetwork}
-
-    Primary dispatch for generating niche model. Called from rand(::NicheModel)
-"""
-function _generate!(gen::NicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
+function _nichemodel(gen)
     S = size(gen)[1]
     C = gen.connectance
-
-    C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
 
     # Beta distribution parameter
     β = 1.0 / (2.0 * C) - 1.0

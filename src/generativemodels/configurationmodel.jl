@@ -8,12 +8,14 @@ mutable struct ConfigurationModel{IT<:Integer} <: NetworkGenerator
     degreesequence::Tuple{Vector{IT},Vector{IT}}
 end
 
-ConfigurationModel(S::IT, degreesequence::Vector{IT}) where {IT <: Integer} =
-    ConfigurationModel((S,S), (degreesequence,degreesequence))
+ConfigurationModel(S::IT, degreesequence::Vector{IT}) where {IT<:Integer} =
+    ConfigurationModel((S, S), (degreesequence, degreesequence))
 
 
-ConfigurationModel(szs::Tuple{IT,IT}, degreesequences::Tuple{Vector{IT},Vector{IT}}) where {IT <: Integer} =
-    ConfigurationModel{IT}(szs, degreesequences)
+ConfigurationModel(
+    szs::Tuple{IT,IT},
+    degreesequences::Tuple{Vector{IT},Vector{IT}},
+) where {IT<:Integer} = ConfigurationModel{IT}(szs, degreesequences)
 
 
 _generate!(gen::ConfigurationModel, ::Type{T}) where {T<:UnipartiteNetwork} =
@@ -54,4 +56,3 @@ function _bipartite_configuration(gen)
     end
     return BipartiteNetwork(adjmat)
 end
-

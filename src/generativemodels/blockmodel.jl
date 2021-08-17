@@ -60,13 +60,13 @@ end
 
 _isunipartitegenerator(gen) =
     size(gen.nodelabels[1]) == size(gen.nodelabels[2]) &&
-        length(unique(gen.nodelabels[1])) == length(unique(gen.nodelabels[2]))
+    length(unique(gen.nodelabels[1])) == length(unique(gen.nodelabels[2]))
 
 
 
 _isbipartitegenerator(gen) =
     size(gen.blocks)[1] == length(unique(gen.nodelabels[1])) &&
-        size(gen.blocks)[2] == length(unique(gen.nodelabels[2]))
+    size(gen.blocks)[2] == length(unique(gen.nodelabels[2]))
 
 
 

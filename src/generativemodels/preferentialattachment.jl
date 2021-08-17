@@ -1,23 +1,14 @@
 """
-    PreferentialAttachment
+    PreferentialAttachment{T<:Integer} <: NetworkGenerator
+
+
+
 """
 mutable struct PreferentialAttachment{T<:Integer} <: NetworkGenerator
     size::Tuple{T,T}
     numedges::Integer
 end
 
-PreferentialAttachment(;
-    size::T = 30,
-    connectance::FT = 0.3,
-) where {T<:Union{Tuple{Integer},Integer},FT<:AbstractFloat} =
-    PreferentialAttachment(size, connectance)
-
-PreferentialAttachment(sz::T, X::NT) where {T<:Integer,NT<:Number} =
-    PreferentialAttachment((sz, sz), X)
-PreferentialAttachment(sz::T, E::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
-    PreferentialAttachment(sz, E)
-PreferentialAttachment(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
-    PreferentialAttachment(sz, Int(floor(C * sz[1] * sz[2])))
 
 _generate!(gen::PreferentialAttachment, ::Type{T}) where {T<:BipartiteNetwork} =
     bipartite_preferentialattachment(size(gen)..., gen.numedges)
@@ -26,11 +17,18 @@ _generate!(gen::PreferentialAttachment, ::Type{T}) where {T<:UnipartiteNetwork} 
 
 
 
+PreferentialAttachment(sz::T, X::NT) where {T<:Integer,NT<:Number} =
+    PreferentialAttachment((sz, sz), X)
+PreferentialAttachment(sz::T, E::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
+    PreferentialAttachment(sz, E)
+PreferentialAttachment(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
+    PreferentialAttachment(sz, Int(floor(C * sz[1] * sz[2])))
+
+
 """
     unipartite_preferentialattachment(S, L::IT; m::IT) where {IT <: Integer}
 
-    Barabasi et al 
-
+    Barabasi et al.
 
 """
 function unipartite_preferentialattachment(S, L::IT) where {IT<:Integer}
@@ -39,8 +37,8 @@ function unipartite_preferentialattachment(S, L::IT) where {IT<:Integer}
     edgesperround = Int32(floor(L / S))
 
 
-    adjmat[1,1] = 1
-    for s in 1:S
+    adjmat[1, 1] = 1
+    for s = 1:S
         degs = [sum(adjmat[:, i]) for i = 1:S]
         degdist = degs ./ sum(degs)
         for e = 1:edgesperround
