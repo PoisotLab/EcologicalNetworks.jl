@@ -1,28 +1,64 @@
 """
-    ConfigurationModel
+    ConfigurationModel{IT<:Integer} <: NetworkGenerator
 
-    cite here
+    A `NetworkGenerator` for the configuration model. 
+
+    The configuration model takes a fixed degree sequence `degreesequence`,
+    which is the number of links `degreesequence[i]` for each node i.
+    
+    For unipartite networks, these edges are then distribution uniformly
+    across other nodes, and for bipartite networks, they are drawn according
+    to the degree sequence of the bottom node set.
 """
 mutable struct ConfigurationModel{IT<:Integer} <: NetworkGenerator
     size::Tuple{IT,IT}
     degreesequence::Tuple{Vector{IT},Vector{IT}}
 end
 
+"""
+    _generate!(gen::ConfigurationModel, ::Type{T}) where {T<:UnipartiteNetwork} 
+
+    Primary dispatch for generating a unipartite network using the `ConfigurationModel`.
+
+"""
+_generate!(gen::ConfigurationModel, ::Type{T}) where {T<:UnipartiteNetwork} =
+    _unipartite_configuration(gen)
+
+"""
+    _generate!(gen::ConfigurationModel, ::Type{T}) where {T<:BipartiteNetwork} 
+
+    Primary dispatch for generating a bipartite network using the `ConfigurationModel`.
+
+"""
+_generate!(gen::ConfigurationModel, ::Type{T}) where {T<:BipartiteNetwork} =
+    _bipartite_configuration(gen)
+
+"""
+    ConfigurationModel(S::IT, degreesequence::Vector{IT}) where {IT<:Integer} 
+
+    Constructor for the `ConfigurationModel` for a `UnipartiteNetwork` with 
+    `S` species and a degree list `degreesequence`
+"""
 ConfigurationModel(S::IT, degreesequence::Vector{IT}) where {IT<:Integer} =
     ConfigurationModel((S, S), (degreesequence, degreesequence))
 
+"""
+    ConfigurationModel(S::IT, degreesequence::Vector{IT}) where {IT<:Integer} 
 
+    Constructor for the `ConfigurationModel` for a `BipartiteNetwork` with 
+    T,B = `szs` species in the top and bottom sets, and a tuple of 
+    degree lists `degreesequence` for each set.
+"""
 ConfigurationModel(
     szs::Tuple{IT,IT},
     degreesequences::Tuple{Vector{IT},Vector{IT}},
 ) where {IT<:Integer} = ConfigurationModel{IT}(szs, degreesequences)
 
-
-_generate!(gen::ConfigurationModel, ::Type{T}) where {T<:UnipartiteNetwork} =
+"""
     _unipartite_configuration(gen)
-_generate!(gen::ConfigurationModel, ::Type{T}) where {T<:BipartiteNetwork} =
-    _bipartite_configuration(gen)
 
+    Implemnts the unipartite configuration model for a generator `gen::ConfigurationModel`
+"""
 function _unipartite_configuration(gen)
     S = gen.size[1]
 
@@ -40,6 +76,12 @@ function _unipartite_configuration(gen)
     return UnipartiteNetwork(adjmat)
 end
 
+
+"""
+    _bipartite_configuration(gen)
+
+    Implemnts the bipartite configuration model for a generator `gen::ConfigurationModel`
+"""
 function _bipartite_configuration(gen)
     T, B = size(gen)
     adjmat = zeros(Bool, T, B)
