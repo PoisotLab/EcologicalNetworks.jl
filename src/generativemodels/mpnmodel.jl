@@ -11,10 +11,20 @@
     Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
     Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
-mutable struct MinimumPotentialNicheModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
+mutable struct MinimumPotentialNicheModel{T<:Integer,FT<:AbstractFloat,NT<:Number} <: NetworkGenerator
     size::Tuple{T,T}
     connectance::FT
-    forbiddenlinkprob::FT
+    forbiddenlinkprob::NT
+    MinimumPotentialNicheModel(
+        sz::ST,
+        C::CT,
+        forbidden::RT,
+    ) where {ST<:Tuple{Integer,Integer},CT<:AbstractFloat, RT<:Number} = begin
+        C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
+        C <= 0 && throw(ArgumentError("The connectance must be above than 0"))
+
+        return new{typeof(sz[1]),CT,RT}(sz, C, forbidden)
+    end
 end
 
 
@@ -29,23 +39,26 @@ end
 MinimumPotentialNicheModel(
     S::T,
     L::LT,
-    forbidden::FT,
-) where {T<:Integer,LT<:Integer,FT<:AbstractFloat} =
+    forbidden::NT,
+) where {T<:Integer,LT<:Integer,NT<:Number} =
     MinimumPotentialNicheModel((S, S), L / (S * S), forbidden)
 
 """
     MinimumPotentialNicheModel
 
+
     Constructor for `MinimumPotentialNicheModel` generator
-    for given number of species `S`, connectivity `C` and
+    for unipartite networks with `S` species, `L` links and
     probability of `forbidden` link occurence.
 """
 MinimumPotentialNicheModel(
     S::T,
     C::FT,
-    forbidden::FT,
-) where {T<:Integer,FT<:AbstractFloat} =
-    MinimumPotentialNicheModel{T,FT}((S, S), C, forbidden)
+    forbidden::NT,
+) where {T<:Integer,FT<:AbstractFloat,NT<:Number} = begin
+    MinimumPotentialNicheModel((S, S), C, forbidden)
+end 
+
 
 """
     MinimumPotentialNicheModel(N::T) where {T<: UnipartiteNetwork}
@@ -58,7 +71,7 @@ MinimumPotentialNicheModel(
 function MinimumPotentialNicheModel(N::T) where {T<:UnipartiteNetwork}
     # TODO: Estimate proportion of forbidden links
     forbidden = 0
-    return mpn((species(N), species(N)), connectance(N), forbidden)
+    return MinimumPotentialNicheModel((richness(N), richness(N)), connectance(N), forbidden)
 end
 
 """

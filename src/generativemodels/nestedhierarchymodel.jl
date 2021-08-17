@@ -14,6 +14,18 @@
 mutable struct NestedHierarchyModel{IT<:Integer} <: NetworkGenerator
     size::Tuple{IT,IT}
     links::IT
+    NestedHierarchyModel(sz::T, L::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} = begin 
+        S = sz[1]
+            
+        L >= S * S &&
+            throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
+        L >= 0.4*S*S &&
+            throw(ArgumentError("Connectance C cannot be above 0.4 for this model."))
+    
+        L <= 0 && throw(ArgumentError("Number of links L must be positive"))
+        
+        return new{ET}(sz, L)
+    end
 end
 
 """
@@ -45,8 +57,6 @@ NestedHierarchyModel(S::T, X::NT) where {T<:Integer,NT<:Number} =
 
     Constructor for `NestedHierarchyModel` for a size tuple `sz` and integer number of links `L`.
 """
-NestedHierarchyModel(sz::T, L::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
-    NestedHierarchyModel{ET}(sz, L)
 
 """
     NestedHierarchyModel(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat}
@@ -54,7 +64,7 @@ NestedHierarchyModel(sz::T, L::ET) where {T<:Tuple{Integer,Integer},ET<:Integer}
     Constructor for `NestedHierarchyModel` for a size tuple `sz` and a float connectance `C`.
 """
 NestedHierarchyModel(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
-    NestedHierarchyModel(sz, C * sz[1] * sz[2])
+    NestedHierarchyModel(sz, Int32(C * sz[1] * sz[2]))
 
 """
     NestedHierarchyModel(net::ENT) where {ENT<:UnipartiteNetwork} 
@@ -75,10 +85,6 @@ NestedHierarchyModel(net::ENT) where {ENT<:UnipartiteNetwork} =
 function _nestedhierarchymodel(gen)
 
     S, L = gen.size[1], gen.links
-    # Evaluate input
-    L >= S * S &&
-        throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
-    L <= 0 && throw(ArgumentError("Number of links L must be positive"))
 
     # Initiate matrix
     A = UnipartiteNetwork(zeros(Bool, (S, S)))
@@ -93,7 +99,7 @@ function _nestedhierarchymodel(gen)
     β = (S - 1.0) / (2.0 * Co * S) - 1.0
 
     # Evaluate input
-    β == 0 &&
+    β <= 0 &&
         throw(ArgumentError("β value is equal to zero! Try decreasing number of links"))
 
     # Random variable from the Beta distribution
