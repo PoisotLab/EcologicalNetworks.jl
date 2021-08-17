@@ -2,7 +2,7 @@
 """
     BlockModel
 
-    
+            
 
 """
 mutable struct BlockModel{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:AbstractFloat} <:
@@ -18,6 +18,7 @@ _generate!(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork} =
     _unipartite_blockmodel(gen)
 _generate!(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork} =
     _bipartite_blockmodel(gen)
+
 
 
 # unipartite constructor from block matrix

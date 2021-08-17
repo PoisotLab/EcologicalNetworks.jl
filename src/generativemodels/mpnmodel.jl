@@ -6,10 +6,10 @@
     potential niche model for given number of `S`, links `L`, and
     probability of `forbidden` link occurence.
 
-#### References
+    #### References
 
-Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
-Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
+    Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
+    Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
 mutable struct MinimumPotentialNicheModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
     size::Tuple{T,T}
@@ -21,23 +21,9 @@ end
 """
     MinimumPotentialNicheModel
 
-    kwargs version 
-"""
 
-MinimumPotentialNicheModel(;
-    size::T = 30,
-    connectance::FT = 0.3,
-    forbiddenlinkprob::FT = 0.3,
-) where {T<:Integer,FT<:AbstractFloat} =
-    MinimumPotentialNicheModel((size, size), connectance, forbiddenlinkprob)
-
-
-"""
-    MinimumPotentialNicheModel
-
-
-    Return `UnipartiteNetwork` with links assigned according to minimum
-    potential niche model for given number of `S`, links `L` and
+    Constructor for `MinimumPotentialNicheModel` generator
+    for given number of `S`, links `L` and
     probability of `forbidden` link occurence.
 """
 MinimumPotentialNicheModel(
@@ -50,8 +36,8 @@ MinimumPotentialNicheModel(
 """
     MinimumPotentialNicheModel
 
-    Return `UnipartiteNetwork` with links assigned according to minimum
-    potential niche model for given number of `S`, connectivity `C` and
+    Constructor for `MinimumPotentialNicheModel` generator
+    for given number of species `S`, connectivity `C` and
     probability of `forbidden` link occurence.
 """
 MinimumPotentialNicheModel(
@@ -64,23 +50,15 @@ MinimumPotentialNicheModel(
 """
     MinimumPotentialNicheModel(N::T) where {T<: UnipartiteNetwork}
 
-    from a real network. still needs to estimate forbidden link prob. there are papers to do this but not off the top of my head
+    Constructor for `MinimumPotentialNicheModel` generator
+    from a real network. 
+    
+    still needs to estimate forbidden link prob. there are papers to do this but not off the top of my head
 """
 function MinimumPotentialNicheModel(N::T) where {T<:UnipartiteNetwork}
     # TODO: Estimate proportion of forbidden links
     forbidden = 0
     return mpn((species(N), species(N)), connectance(N), forbidden)
-end
-
-"""
-    MinimumPotentialNicheModel(parameters::Tuple)
-
-    Parameters tuple can also be provided in the form (S::Int64, Co::Float64,
-    forbidden::Float64).
-
-"""
-function MinimumPotentialNicheModel(parameters::Tuple)
-    return MinimumPotentialNicheModel(parameters[1], parameters[2], parameters[3])
 end
 
 """

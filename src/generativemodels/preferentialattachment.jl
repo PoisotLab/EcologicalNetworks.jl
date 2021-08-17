@@ -1,6 +1,19 @@
 """
     PreferentialAttachment{T<:Integer} <: NetworkGenerator
 
+    Generator for the preferential attachment model, which 
+    generates (https://en.wikipedia.org/wiki/Preferential_attachment)
+    scale-free networks (meaning the degree distribution is, at least asymptotically, a power-law)
+
+    #### Citations
+
+    Price, D. J. de S. (1976). 
+    "A general theory of bibliometric and other cumulative advantage processes"
+    10.1002/asi.4630270505.
+
+    Latent space generative model for bipartite networks
+    Filho and O'Neale 2019
+    https://arxiv.org/abs/1910.12488
 
 
 """
@@ -9,18 +22,50 @@ mutable struct PreferentialAttachment{T<:Integer} <: NetworkGenerator
     numedges::Integer
 end
 
+"""
+    _generate!(gen::PreferentialAttachment, ::Type{T}) where {T<:BipartiteNetwork}
 
+    Dispatch for generating bipartite networks  with the `PreferentialAttachment`
+    model.
+"""
 _generate!(gen::PreferentialAttachment, ::Type{T}) where {T<:BipartiteNetwork} =
     bipartite_preferentialattachment(size(gen)..., gen.numedges)
+
+"""
+    _generate!(gen::PreferentialAttachment, ::Type{T}) where {T<:UnipartiteNetwork}
+
+    Dispatch for generating unipartite networks  with the `PreferentialAttachment`
+    model.
+"""
 _generate!(gen::PreferentialAttachment, ::Type{T}) where {T<:UnipartiteNetwork} =
     unipartite_preferentialattachment(size(gen)[1], gen.numedges)
 
 
+"""
+    PreferentialAttachment(S::T, X::NT) where {T<:Integer,NT<:Number}
 
-PreferentialAttachment(sz::T, X::NT) where {T<:Integer,NT<:Number} =
-    PreferentialAttachment((sz, sz), X)
-PreferentialAttachment(sz::T, E::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
-    PreferentialAttachment(sz, E)
+    Constructor for `PreferentialAttachment` for a unipartite
+    network with `S` species and another value to be passed 
+    on to the next funcion, `X`.
+"""
+PreferentialAttachment(S::T, X::NT) where {T<:Integer,NT<:Number} =
+    PreferentialAttachment((S, S), X)
+
+"""
+    PreferentialAttachment(sz::T, E::ET) where {T<:Tuple{Integer,Integer},ET<:Integer}
+
+    Constructor for `PreferentialAttachment` for a network
+    with size `sz` and `L` links. 
+"""
+PreferentialAttachment(sz::T, L::LT) where {T<:Tuple{Integer,Integer},LT<:Integer} =
+    PreferentialAttachment(sz, L)
+
+"""
+    PreferentialAttachment(sz::T, E::ET) where {T<:Tuple{Integer,Integer},ET<:Integer}
+
+    Constructor for `PreferentialAttachment` for a network
+    with size `sz` and connectance `C`. 
+"""
 PreferentialAttachment(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
     PreferentialAttachment(sz, Int(floor(C * sz[1] * sz[2])))
 
@@ -28,7 +73,13 @@ PreferentialAttachment(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:Abstra
 """
     unipartite_preferentialattachment(S, L::IT; m::IT) where {IT <: Integer}
 
-    Barabasi et al.
+    Implementation of generation of unipartite networks using the preferential
+    attachment model.     
+    
+    ## Citations
+    Price, D. J. de S. (1976). 
+    "A general theory of bibliometric and other cumulative advantage processes"
+    10.1002/asi.4630270505.
 
 """
 function unipartite_preferentialattachment(S, L::IT) where {IT<:Integer}
@@ -54,13 +105,17 @@ end
 """
     bipartite_preferentialattachment(T, B, E::Int; m::Int)
 
-    Filho and O'Neale 2019, based on the unipartite preferential attachment
-    model from Barabasi 
     
     T -> num in set of nodes top set
     B -> number of nodes in bottom set
     E -> number of edges 
     m -> number of edges to add at each iteraction
+
+    ## Citation
+    Latent space generative model for bipartite networks
+    Filho and O'Neale 2019
+    https://arxiv.org/abs/1910.12488
+
 """
 function bipartite_preferentialattachment(T::IT, B::IT, E::IT) where {IT<:Integer}
     adjacency_matrix = zeros(Bool, T, B)
