@@ -64,3 +64,31 @@ This model attempts to explicitly simulate forbidden links in empirical food web
 ```@docs
     MinimumPotentialNicheModel
 ```
+
+
+
+## Preferential Attachment model
+
+```@docs
+    PreferentialAttachmentModel
+```
+
+## Erdos-Renyi model
+
+```@docs
+    ErdosRenyi
+```
+
+
+## Configuration model
+
+```@docs
+    ConfigurationModel
+```
+
+
+## Degree-distribution model
+
+```@docs
+    DegreeDistributionModel
+```
