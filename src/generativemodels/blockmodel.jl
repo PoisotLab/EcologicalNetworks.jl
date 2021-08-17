@@ -1,9 +1,21 @@
 
 """
-    BlockModel
+    BlockModel{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:AbstractFloat} <: NetworkGenerator
 
-            
+    A `NetworkGenerator` for stochastic block models.
 
+    https://en.wikipedia.org/wiki/Stochastic_block_model
+
+    Takes a set group labels for each node (`nodelabels`) where the probability 
+    of a link between node `i` (in group `G_i`) and node `j` (in group `G_j`)
+    is given by a matrix `blocks`, where the `blocks[x,y]` is the probability of
+    edges between group `x` and group `y`.
+
+    ## Citation
+
+    Stochastic blockmodels and community structure in networks
+    Karrer & Newman, 2011
+    DOI: 10.1103/PhysRevE.83.016107
 """
 mutable struct BlockModel{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:AbstractFloat} <:
                NetworkGenerator
@@ -14,14 +26,29 @@ mutable struct BlockModel{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:Abstract
     blocks::Matrix{FT}
 end
 
+"""
+    _generate!(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    
+    Primary dispatch for generating unipartite networks using `BlockModel`. 
+"""
 _generate!(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork} =
     _unipartite_blockmodel(gen)
+
+
+"""
+_generate!(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork}
+
+Primary dispatch for generating bipartite networks using `BlockModel`. 
+"""
 _generate!(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork} =
     _bipartite_blockmodel(gen)
 
 
+"""
+    BlockModel(labels::Vector{T}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat}
 
-# unipartite constructor from block matrix
+    Constructor for unipartite `BlockModel` for a set of `labels` and a matrix of block probabilities `blocks`.
+"""
 BlockModel(labels::Vector{T}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat} =
     begin
         nlabs = length(unique(labels))
@@ -40,8 +67,11 @@ BlockModel(labels::Vector{T}, blocks::Matrix{FT}) where {T<:Integer,FT<:Abstract
         )
     end
 
-
-# biipartite constructor from a tuple of labels and a block matrix
+"""
+    BlockModel(labels::Tuple{Vector{T},Vector{T}}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat}
+    
+    Constructor for bipartite `BlockModel` from a tuple `labels` of two sets of labels and a matrix of block probabilities `blocks`.
+"""
 BlockModel(
     labels::Tuple{Vector{T},Vector{T}},
     blocks::Matrix{FT},
@@ -58,13 +88,24 @@ BlockModel(
     )
 end
 
+"""
+    _isunipartitegenerator(gen) 
 
+    Used to check if generator `gen` passed to `rand(gen, UnipartiteNetwork)` 
+    is a unipartite generator.
+"""
 _isunipartitegenerator(gen) =
     size(gen.nodelabels[1]) == size(gen.nodelabels[2]) &&
     length(unique(gen.nodelabels[1])) == length(unique(gen.nodelabels[2]))
 
 
 
+"""
+    _isbipartitegenerator(gen) 
+
+    Used to check if generator `gen` passed to `rand(gen, BipartiteNetwork)` 
+    is a bipartite generator.
+"""
 _isbipartitegenerator(gen) =
     size(gen.blocks)[1] == length(unique(gen.nodelabels[1])) &&
     size(gen.blocks)[2] == length(unique(gen.nodelabels[2]))
@@ -72,7 +113,9 @@ _isbipartitegenerator(gen) =
 
 
 """
-    _unipartite_blockmodel(M)
+    _unipartite_blockmodel(gen)
+
+    Implmentation of generating networks from the `BlockModel` for unipartite networks.
 """
 function _unipartite_blockmodel(gen)
     _isunipartitegenerator(gen) || return @error "not a valid unipartite generator"
@@ -96,13 +139,11 @@ end
 
 
 """
-    _bipartite_blockmodel(M)
+    _bipartite_blockmodel(gen)
 
-    Generates a bipartite network from a matrix `M` which gives the 
-    probability M_ij that an edge exists between node `i` and `j`, where
-    `i` and `j` are in different partitions.  
+    Implmentation of generating networks from the `BlockModel` for bipartite networks.
 """
-function _bipartite_blockmodel(gen) where {FT<:AbstractFloat}
+function _bipartite_blockmodel(gen)
 
     _isbipartitegenerator(gen) || return @error "not a valid bipartite generator"
 

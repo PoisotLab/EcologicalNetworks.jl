@@ -1,50 +1,98 @@
 """
-    ErdosRenyi
+    ErdosRenyi{T<:Integer,PT<:AbstractFloat} <: NetworkGenerator
+
+    A `NetworkGenerator` which generates both bipartite or unipartite
+    networks where every possible edge exists with a fixed `probability`.
+    
+    ```
+        rand(ErdosRenyi(50, 0.3))
+        > 50x50 unipartite network
+
+        rand(ErdosRenyi(50, 0.3), UnipartiteNetwork)
+        > 50x50 unipartite network
+
+        rand(ErdosRenyi((50,30), 0.3))
+        > 50x30 bipartite network
+
+        rand(ErdosRenyi((50,30), 0.3), BipartiteNetwork)
+        > 50x30 bipartite network
+    ```
 """
 mutable struct ErdosRenyi{T<:Integer,PT<:AbstractFloat} <: NetworkGenerator
     size::Tuple{T,T}
     probability::PT
 end
-ErdosRenyi(;
-    size::T = 30,
-    connectance::FT = 0.3,
-) where {T<:Union{Tuple{Integer},Integer},FT<:AbstractFloat} = ErdosRenyi(size, connectance)
-ErdosRenyi(sz::T, X::NT) where {T<:Integer,NT<:Number} = ErdosRenyi((sz, sz), X)
+
+"""
+    _generate!(gen::ErdosRenyi, ::Type{T}) where {T<:UnipartiteNetwork} 
+
+    Primary dispatch for generating networks using `ErdosRenyi` for `UnipartiteNetwork`
+"""
+function _generate!(gen::ErdosRenyi, ::Type{T}) where {T<:UnipartiteNetwork} 
+    return _unipartite_erdosrenyi(gen)
+end 
+
+"""
+    _generate!(gen::ErdosRenyi, ::Type{T}) where {T<:BipartiteNetwork} 
+
+    Primary dispatch for generating networks using `ErdosRenyi` for `BipartiteNetwork`s
+"""
+function _generate!(gen::ErdosRenyi, ::Type{T}) where {T<:BipartiteNetwork} 
+    return _bipartite_erdosrenyi(gen)
+end
+
+"""
+    ErdosRenyi(S::T, X::NT) where {T<:Integer,NT<:Number} 
+
+    Constructor for `ErdosRenyi` generators for a UnipartiteNetwork with
+    `S` species and either a connectance (as float) or number of links (as int).
+"""
+ErdosRenyi(S::T, X::NT) where {T<:Integer,NT<:Number} = ErdosRenyi((S,S), X)
+
+"""
+    ErdosRenyi(sz::T, E::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} 
+
+    Constructor for `ErdosRenyi` generators for a UnipartiteNetwork with
+    `S` species and either a connectance (as float) or number of links (as int).
+"""
 ErdosRenyi(sz::T, E::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
     ErdosRenyi(sz, E / (sz[1] * sz[2]))
+
+"""
+    ErdosRenyi(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat}
+
+    Constructor for `ErdosRenyi` generators for a UnipartiteNetwork with
+    `S` species and either a connectance `C`.
+"""
 ErdosRenyi(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
     ErdosRenyi(sz, C)
 
 
-_generate!(gen::ErdosRenyi, ::Type{T}) where {T<:UnipartiteNetwork} =
-    unipartite_erdosrenyi(size(gen)[1], gen.probability)
-_generate!(gen::ErdosRenyi, ::Type{T}) where {T<:BipartiteNetwork} =
-    bipartite_erdosrenyi(size(gen)..., gen.probability)
-
 
 
 """
-    unipartite_erdosrenyi(S, p; iterations = 10000)
+    _unipartite_erdosrenyi(gen)
 
-    S -> number of nodes 
-    p -> probability of any edge occuring
+    Implementation of generating `ErdosRenyi` unpartite networks
 """
+function _unipartite_erdosrenyi(gen)
+    S = size(gen)[1]
+    p = gen.probability
 
-function unipartite_erdosrenyi(S, p)
     adjacency_matrix = zeros(Bool, S, S)
     return UnipartiteNetwork(map(x -> rand() < p, adjacency_matrix))
 end
 
 
 """
-    bipartite_erdosrenyi(U, V, p; iterations = 10000)
-    
-    U -> number of nodes in bottom set
-    V -> number of nodes in top set
-    p -> probability of any edge occuring
-"""
+    _bipartite_erdosrenyi(gen)
 
-function bipartite_erdosrenyi(U, V, p)
+    Implementation of generating `ErdosRenyi` bipartite networks
+"""
+function _bipartite_erdosrenyi(gen)
+    U,V = size(gen)
+    p = gen.probability
+
     adjacency_matrix = zeros(Bool, U, V)
 
     for u = 1:U, v = 1:V
