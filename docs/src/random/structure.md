@@ -65,8 +65,6 @@ This model attempts to explicitly simulate forbidden links in empirical food web
     MinimumPotentialNicheModel
 ```
 
-
-
 ## Preferential Attachment model
 
 ```@docs
