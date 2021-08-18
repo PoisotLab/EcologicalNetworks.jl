@@ -11,19 +11,19 @@ end
 
 
 """
-    _generate!(gen::DegreeDistributionModel, ::Type{T}) where {T<:BipartiteNetwork} 
+    _generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:BipartiteNetwork} 
 
     Primary dispatch for generating bipartite networks using `DegreeDistributionModel`
 """
-_generate!(gen::DegreeDistributionModel, ::Type{T}) where {T<:BipartiteNetwork} =
+_generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:BipartiteNetwork} =
     _bipartite_degreedist(gen)
 
 """
-    _generate!(gen::DegreeDistributionModel, ::Type{T}) where {T<:UnipartiteNetwork} 
+    _generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:UnipartiteNetwork} 
 
     Primary dispatch for generating unipartite networks using `DegreeDistributionModel`
 """
-_generate!(gen::DegreeDistributionModel, ::Type{T}) where {T<:UnipartiteNetwork} =
+_generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:UnipartiteNetwork} =
     _unipartite_degreedist(gen)
 
 """

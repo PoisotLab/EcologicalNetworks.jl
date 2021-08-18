@@ -23,21 +23,21 @@ mutable struct PreferentialAttachment{T<:Integer} <: NetworkGenerator
 end
 
 """
-    _generate!(gen::PreferentialAttachment, ::Type{T}) where {T<:BipartiteNetwork}
+    _generate(gen::PreferentialAttachment, ::Type{T}) where {T<:BipartiteNetwork}
 
     Dispatch for generating bipartite networks  with the `PreferentialAttachment`
     model.
 """
-_generate!(gen::PreferentialAttachment, ::Type{T}) where {T<:BipartiteNetwork} =
+_generate(gen::PreferentialAttachment, ::Type{T}) where {T<:BipartiteNetwork} =
     bipartite_preferentialattachment(size(gen)..., gen.numedges)
 
 """
-    _generate!(gen::PreferentialAttachment, ::Type{T}) where {T<:UnipartiteNetwork}
+    _generate(gen::PreferentialAttachment, ::Type{T}) where {T<:UnipartiteNetwork}
 
     Dispatch for generating unipartite networks  with the `PreferentialAttachment`
     model.
 """
-_generate!(gen::PreferentialAttachment, ::Type{T}) where {T<:UnipartiteNetwork} =
+_generate(gen::PreferentialAttachment, ::Type{T}) where {T<:UnipartiteNetwork} =
     unipartite_preferentialattachment(size(gen)[1], gen.numedges)
 
 

@@ -16,11 +16,11 @@ end
 
 
 """
-    _generate!(gen::NicheModel, target::T) where {T <: UnipartiteNetwork}
+    _generate(gen::NicheModel, target::T) where {T <: UnipartiteNetwork}
 
     Primary dispatch for generating niche model. Called from rand(::NicheModel)
 """
-function _generate!(gen::NicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
+function _generate(gen::NicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
     S = size(gen)[1]
     C = gen.connectance
 

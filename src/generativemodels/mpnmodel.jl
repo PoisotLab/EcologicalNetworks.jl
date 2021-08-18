@@ -18,13 +18,12 @@ mutable struct MinimumPotentialNicheModel{T<:Integer,FT<:AbstractFloat} <: Netwo
 end
 
 """
-    _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: UnipartiteNetwork}
+    _generate(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: UnipartiteNetwork}
 
     Primary dispatch for mpn generation
 """
-function _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
-    
-
+function _generate(gen::MinimumPotentialNicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    C = gen.connectance
     C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
     C <= 0 && throw(ArgumentError("The connectance must be above than 0"))
 

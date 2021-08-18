@@ -24,20 +24,20 @@ mutable struct ErdosRenyi{T<:Integer,PT<:AbstractFloat} <: NetworkGenerator
 end
 
 """
-    _generate!(gen::ErdosRenyi, ::Type{T}) where {T<:UnipartiteNetwork} 
+    _generate(gen::ErdosRenyi, ::Type{T}) where {T<:UnipartiteNetwork} 
 
     Primary dispatch for generating networks using `ErdosRenyi` for `UnipartiteNetwork`
 """
-function _generate!(gen::ErdosRenyi, ::Type{T}) where {T<:UnipartiteNetwork} 
+function _generate(gen::ErdosRenyi, ::Type{T}) where {T<:UnipartiteNetwork} 
     return _unipartite_erdosrenyi(gen)
 end 
 
 """
-    _generate!(gen::ErdosRenyi, ::Type{T}) where {T<:BipartiteNetwork} 
+    _generate(gen::ErdosRenyi, ::Type{T}) where {T<:BipartiteNetwork} 
 
     Primary dispatch for generating networks using `ErdosRenyi` for `BipartiteNetwork`s
 """
-function _generate!(gen::ErdosRenyi, ::Type{T}) where {T<:BipartiteNetwork} 
+function _generate(gen::ErdosRenyi, ::Type{T}) where {T<:BipartiteNetwork} 
     return _bipartite_erdosrenyi(gen)
 end
 

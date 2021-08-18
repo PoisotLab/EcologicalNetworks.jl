@@ -19,11 +19,11 @@ end
 
 
 """
-    _generate!(gen::NestedHierarchyModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    _generate(gen::NestedHierarchyModel, ::Type{T}) where {T<:UnipartiteNetwork}
 
     Primary dispatch for generating networks from the `NestedHierarchyModel`.
 """
-function _generate!(gen::NestedHierarchyModel, ::Type{T}) where {T<:UnipartiteNetwork}
+function _generate(gen::NestedHierarchyModel, ::Type{T}) where {T<:UnipartiteNetwork}
     S, L = gen.size[1], gen.links
 
     S <= 0 && throw(ArgumentError("Number of species must be positive"))

@@ -16,21 +16,21 @@ mutable struct ConfigurationModel{IT<:Integer} <: NetworkGenerator
 end
 
 """
-    _generate!(gen::ConfigurationModel, ::Type{T}) where {T<:UnipartiteNetwork} 
+    _generate(gen::ConfigurationModel, ::Type{T}) where {T<:UnipartiteNetwork} 
 
     Primary dispatch for generating a unipartite network using the `ConfigurationModel`.
 
 """
-_generate!(gen::ConfigurationModel, ::Type{T}) where {T<:UnipartiteNetwork} =
+_generate(gen::ConfigurationModel, ::Type{T}) where {T<:UnipartiteNetwork} =
     _unipartite_configuration(gen)
 
 """
-    _generate!(gen::ConfigurationModel, ::Type{T}) where {T<:BipartiteNetwork} 
+    _generate(gen::ConfigurationModel, ::Type{T}) where {T<:BipartiteNetwork} 
 
     Primary dispatch for generating a bipartite network using the `ConfigurationModel`.
 
 """
-_generate!(gen::ConfigurationModel, ::Type{T}) where {T<:BipartiteNetwork} =
+_generate(gen::ConfigurationModel, ::Type{T}) where {T<:BipartiteNetwork} =
     _bipartite_configuration(gen)
 
 """

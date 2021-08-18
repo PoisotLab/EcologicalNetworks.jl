@@ -25,5 +25,5 @@ function Base.rand(
     generator::NetworkGenerator,
     ::Type{T},
 ) where {T<:AbstractEcologicalNetwork}
-    return _generate!(generator, T)
+    return _generate(generator, T)
 end

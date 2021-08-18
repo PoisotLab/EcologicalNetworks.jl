@@ -27,20 +27,20 @@ mutable struct BlockModel{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:Abstract
 end
 
 """
-    _generate!(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    _generate(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork}
     
     Primary dispatch for generating unipartite networks using `BlockModel`. 
 """
-_generate!(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork} =
+_generate(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork} =
     _unipartite_blockmodel(gen)
 
 
 """
-_generate!(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork}
+_generate(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork}
 
 Primary dispatch for generating bipartite networks using `BlockModel`. 
 """
-_generate!(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork} =
+_generate(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork} =
     _bipartite_blockmodel(gen)
 
 

@@ -17,12 +17,12 @@ mutable struct CascadeModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
 end
 
 """
-    _generate!(gen::CascadeModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    _generate(gen::CascadeModel, ::Type{T}) where {T<:UnipartiteNetwork}
 
     Primary dispatch for generation. Checks arguments and calls the internal
     function `_casecademodel` to generate the network.
 """
-function _generate!(gen::CascadeModel, ::Type{T}) where {T<:UnipartiteNetwork}
+function _generate(gen::CascadeModel, ::Type{T}) where {T<:UnipartiteNetwork}
     S, Co = gen.size[1], gen.connectance
 
     maxconnectance = ((S^2 - S) / 2) / (S * S)
