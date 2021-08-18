@@ -15,17 +15,27 @@ end
 
     Primary dispatch for generating bipartite networks using `DegreeDistributionModel`
 """
-_generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:BipartiteNetwork} =
+function _generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:BipartiteNetwork}
+    size(gen)[1] > 0 && size(gen)[2] > 0 ||
+        throw(ArgumentError("Need both size to have greater than 0 size"))
+    eltype(gen.dist) <: Integer ||
+        throw(ArgumentError("Distribution must be defined over integers"))
+
     _bipartite_degreedist(gen)
+end
 
 """
     _generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:UnipartiteNetwork} 
 
     Primary dispatch for generating unipartite networks using `DegreeDistributionModel`
 """
-_generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:UnipartiteNetwork} =
-    _unipartite_degreedist(gen)
+function _generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    size(gen)[1] > 0 || throw(ArgumentError("Size is not above 0"))
+    eltype(gen.dist) <: Integer ||
+        throw(ArgumentError("Distribution must be defined over integers"))
 
+    _unipartite_degreedist(gen)
+end
 """
     DegreeDistributionModel(S::IT, dist::DT) where {IT<:Integer,DT<:Distribution}    
    
@@ -36,19 +46,6 @@ function DegreeDistributionModel(S::IT, dist::DT) where {IT<:Integer,DT<:Distrib
     return DegreeDistributionModel{IT,DT}((S, S), dist)
 end
 
-
-"""
-    DegreeDistributionModel(S::IT, dist::DT) where {IT<:Integer,DT<:Distribution}    
-   
-    Constructor for the `DegreeDistributionModel` for a bipartite network with `T,U=sz`
-    species and distribution `dist`.
-"""
-function DegreeDistributionModel(
-    sz::Tuple{IT,IT},
-    dist::DT,
-) where {IT<:Integer,DT<:Distribution}
-    return DegreeDistributionModel{IT,DT}(sz, dist)
-end
 
 
 """
@@ -61,9 +58,9 @@ function _unipartite_degreedist(gen)
 
     adjacency_matrix = zeros(Bool, S, S)
 
-    for i = 1:S, j = 1:S
+    for i = 1:S
         k_i = min(rand(gen.dist), S)
-        attach = sample([i for i = 1:S], k_i, replace = false)
+        attach = sample(1:S, k_i, replace = false)
         adjacency_matrix[i, attach] .= 1
     end
     return UnipartiteNetwork(adjacency_matrix)
@@ -81,7 +78,7 @@ function _bipartite_degreedist(gen)
 
     for t = 1:T
         k_t = min(rand(gen.dist), T)
-        attach = sample([i for i = 1:B], k_t, replace = false)
+        attach = sample(1:B, k_t, replace = false)
         adjacency_matrix[t, attach] .= 1
     end
     return BipartiteNetwork(adjacency_matrix)

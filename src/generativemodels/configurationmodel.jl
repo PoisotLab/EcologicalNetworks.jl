@@ -43,18 +43,6 @@ ConfigurationModel(S::IT, degreesequence::Vector{IT}) where {IT<:Integer} =
     ConfigurationModel((S, S), (degreesequence, degreesequence))
 
 """
-    ConfigurationModel(S::IT, degreesequence::Vector{IT}) where {IT<:Integer} 
-
-    Constructor for the `ConfigurationModel` for a `BipartiteNetwork` with 
-    T,B = `szs` species in the top and bottom sets, and a tuple of 
-    degree lists `degreesequence` for each set.
-"""
-ConfigurationModel(
-    szs::Tuple{IT,IT},
-    degreesequences::Tuple{Vector{IT},Vector{IT}},
-) where {IT<:Integer} = ConfigurationModel{IT}(szs, degreesequences)
-
-"""
     _unipartite_configuration(gen)
 
     Implemnts the unipartite configuration model for a generator `gen::ConfigurationModel`
@@ -63,7 +51,11 @@ function _unipartite_configuration(gen)
     S = gen.size[1]
 
     degsequence = gen.degreesequence[1]
-    @assert max(degsequence...) < (S - 1) && S == length(degsequence)
+    max(degsequence...) < (S - 1) && S == length(degsequence) || throw(
+        ArgumentError(
+            "the length of the degree sequence is not the same as number of species ",
+        ),
+    )
 
     adjmat = zeros(Bool, S, S)
 

@@ -27,7 +27,7 @@ function _generate(gen::NicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
     C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
 
     return _nichemodel(gen)
-end 
+end
 
 
 """

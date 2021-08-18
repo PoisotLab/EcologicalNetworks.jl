@@ -1,22 +1,22 @@
 module TestSample
-  using Test
-  using EcologicalNetworks
+using Test
+using EcologicalNetworks
 
-  # Generate some data
+# Generate some data
 
-  A = [true true false; true true true; false true false]
-  N = UnipartiteNetwork(A)
+A = [true true false; true true true; false true false]
+N = UnipartiteNetwork(A)
 
-  @test size(sample(N, 2)) == (2,2)
-  @test size(sample(N, (2,2))) == (2,2)
-  @test size(sample(N, (2,))) == (2,2)
+@test size(sample(N, 2)) == (2, 2)
+@test size(sample(N, (2, 2))) == (2, 2)
+@test size(sample(N, (2,))) == (2, 2)
 
-  A = [true true false; true true true; false true false]
-  N = BipartiteNetwork(A)
+A = [true true false; true true true; false true false]
+N = BipartiteNetwork(A)
 
-  @test size(sample(N, 2)) == (2,2)
-  @test size(sample(N, (2,))) == (2,2)
-  @test size(sample(N, (2,1))) == (2,1)
+@test size(sample(N, 2)) == (2, 2)
+@test size(sample(N, (2,))) == (2, 2)
+@test size(sample(N, (2, 1))) == (2, 1)
 
 
 end

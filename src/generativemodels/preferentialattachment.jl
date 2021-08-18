@@ -28,8 +28,12 @@ end
     Dispatch for generating bipartite networks  with the `PreferentialAttachment`
     model.
 """
-_generate(gen::PreferentialAttachment, ::Type{T}) where {T<:BipartiteNetwork} =
-    bipartite_preferentialattachment(size(gen)..., gen.numedges)
+function _generate(gen::PreferentialAttachment, ::Type{T}) where {T<:BipartiteNetwork}
+    gen.numedges >= 0 || throw(ArgumentError("Need more than 0 edges"))
+    size(gen)[1] > 0 && size(gen)[2] > 0 || throw(ArgumentError("Not a valid size"))
+
+    return bipartite_preferentialattachment(size(gen)..., gen.numedges)
+end
 
 """
     _generate(gen::PreferentialAttachment, ::Type{T}) where {T<:UnipartiteNetwork}
@@ -37,9 +41,11 @@ _generate(gen::PreferentialAttachment, ::Type{T}) where {T<:BipartiteNetwork} =
     Dispatch for generating unipartite networks  with the `PreferentialAttachment`
     model.
 """
-_generate(gen::PreferentialAttachment, ::Type{T}) where {T<:UnipartiteNetwork} =
-    unipartite_preferentialattachment(size(gen)[1], gen.numedges)
-
+function _generate(gen::PreferentialAttachment, ::Type{T}) where {T<:UnipartiteNetwork}
+    gen.numedges >= 0 || throw(ArgumentError("Need more than 0 edges"))
+    size(gen)[1] > 0 && size(gen)[2] > 0 || throw(ArgumentError("Not a valid size"))
+    return unipartite_preferentialattachment(size(gen)[1], gen.numedges)
+end
 
 """
     PreferentialAttachment(S::T, X::NT) where {T<:Integer,NT<:Number}

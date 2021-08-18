@@ -42,7 +42,7 @@ MinimumPotentialNicheModel(
     sz::ST,
     C::CT,
     forbidden::RT,
-) where {ST<:Tuple{Integer,Integer},CT<:Number, RT<:Number} = begin
+) where {ST<:Tuple{Integer,Integer},CT<:Number,RT<:Number} = begin
 
     return MinimumPotentialNicheModel{typeof(sz[1]),CT}(sz, C, CT(forbidden))
 end
@@ -76,7 +76,7 @@ MinimumPotentialNicheModel(
     forbidden::NT,
 ) where {T<:Integer,FT<:AbstractFloat,NT<:Number} = begin
     MinimumPotentialNicheModel((S, S), C, forbidden)
-end 
+end
 
 
 """

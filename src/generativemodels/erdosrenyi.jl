@@ -28,16 +28,24 @@ end
 
     Primary dispatch for generating networks using `ErdosRenyi` for `UnipartiteNetwork`
 """
-function _generate(gen::ErdosRenyi, ::Type{T}) where {T<:UnipartiteNetwork} 
+function _generate(gen::ErdosRenyi, ::Type{T}) where {T<:UnipartiteNetwork}
+    gen.probability >= 0 && gen.probability <= 1 ||
+        throw(ArgumentError("Not a valid probability"))
+    size(gen)[1] > 0 || throw(ArgumentError("Not a valid size"))
+
     return _unipartite_erdosrenyi(gen)
-end 
+end
 
 """
     _generate(gen::ErdosRenyi, ::Type{T}) where {T<:BipartiteNetwork} 
 
     Primary dispatch for generating networks using `ErdosRenyi` for `BipartiteNetwork`s
 """
-function _generate(gen::ErdosRenyi, ::Type{T}) where {T<:BipartiteNetwork} 
+function _generate(gen::ErdosRenyi, ::Type{T}) where {T<:BipartiteNetwork}
+    gen.probability >= 0 && gen.probability <= 1 ||
+        throw(ArgumentError("Not a valid probability"))
+    size(gen)[1] > 0 && size(gen)[2] > 0 || throw(ArgumentError("Not a valid size"))
+
     return _bipartite_erdosrenyi(gen)
 end
 
@@ -47,7 +55,7 @@ end
     Constructor for `ErdosRenyi` generators for a UnipartiteNetwork with
     `S` species and either a connectance (as float) or number of links (as int).
 """
-ErdosRenyi(S::T, X::NT) where {T<:Integer,NT<:Number} = ErdosRenyi((S,S), X)
+ErdosRenyi(S::T, X::NT) where {T<:Integer,NT<:Number} = ErdosRenyi((S, S), X)
 
 """
     ErdosRenyi(sz::T, E::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} 
@@ -67,7 +75,14 @@ ErdosRenyi(sz::T, E::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
 ErdosRenyi(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
     ErdosRenyi(sz, C)
 
+"""
+    ErdosRenyi(net::T) where {T<:AbstractEcologicalNetwork} =
 
+    Constructor for `ErdosRenyi` generators for an UnipartiteNetwork.
+    Copies connectance of `net`
+"""
+ErdosRenyi(net::T) where {T<:AbstractEcologicalNetwork} =
+    ErdosRenyi(size(net), connectance(net))
 
 
 """
@@ -90,7 +105,7 @@ end
     Implementation of generating `ErdosRenyi` bipartite networks
 """
 function _bipartite_erdosrenyi(gen)
-    U,V = size(gen)
+    U, V = size(gen)
     p = gen.probability
 
     adjacency_matrix = zeros(Bool, U, V)

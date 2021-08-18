@@ -30,9 +30,9 @@ function _generate(gen::NestedHierarchyModel, ::Type{T}) where {T<:UnipartiteNet
     L <= 0 && throw(ArgumentError("Number of links must be positive"))
     L >= S * S &&
         throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
-    L >= 0.4*S*S &&
+    L >= 0.4 * S * S &&
         throw(ArgumentError("Connectance C cannot be above 0.4 for this model."))
-    
+
     return _nestedhierarchymodel(gen)
 end
 
@@ -44,7 +44,7 @@ end
     was passed as in integer `S`.
 """
 NestedHierarchyModel(S::T, X::NT) where {T<:Integer,NT<:Number} =
-    NestedHierarchyModel((S,S), X)
+    NestedHierarchyModel((S, S), X)
 
 
 """
@@ -52,8 +52,8 @@ NestedHierarchyModel(S::T, X::NT) where {T<:Integer,NT<:Number} =
 
     Constructor for `NestedHierarchyModel` for a size tuple `sz` and a integer number of links `L`.
 """
-NestedHierarchyModel(sz::ST, L::LT) where {ST<:Tuple{Integer,Integer},LT<:Integer} = 
-    NestedHierarchyModel{LT}(sz,L)
+NestedHierarchyModel(sz::ST, L::LT) where {ST<:Tuple{Integer,Integer},LT<:Integer} =
+    NestedHierarchyModel{LT}(sz, L)
 
 
 """
@@ -61,7 +61,7 @@ NestedHierarchyModel(sz::ST, L::LT) where {ST<:Tuple{Integer,Integer},LT<:Intege
 
     Constructor for `NestedHierarchyModel` for a size tuple `sz` and a float connectance `C`.
 """
-NestedHierarchyModel(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} = 
+NestedHierarchyModel(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
     NestedHierarchyModel(sz, Int32(C * sz[1] * sz[2]))
 
 

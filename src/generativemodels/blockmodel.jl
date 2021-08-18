@@ -22,17 +22,24 @@ mutable struct BlockModel{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:Abstract
     networktype::Type{NT}
     size::Tuple{IT,IT}
     nodelabels::Tuple{Vector{IT},Vector{IT}}   # a vector of length 1 for unipartite, vec of length 2 for bipartite
-    numblocks::Tuple{IT,IT}    # same if unipartite, diff if not 
     blocks::Matrix{FT}
 end
+
+_toplabels(gen) = gen.nodelabels[1]
+_bottomlabels(gen) = gen.nodelabels[2]
+_numtopblocks(gen) = size(gen.blocks)[1]
+_numbottomblocks(gen) = size(gen.blocks)[2]
+
 
 """
     _generate(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork}
     
     Primary dispatch for generating unipartite networks using `BlockModel`. 
 """
-_generate(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork} =
-    _unipartite_blockmodel(gen)
+function _generate(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    _isunipartitegenerator(gen) || throw(ArgumentError("Not a valid unipartite generator"))
+    return _unipartite_blockmodel(gen)
+end
 
 
 """
@@ -40,9 +47,11 @@ _generate(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork}
 
 Primary dispatch for generating bipartite networks using `BlockModel`. 
 """
-_generate(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork} =
-    _bipartite_blockmodel(gen)
-
+function _generate(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork}
+    _isbipartitegenerator(gen) ||
+        throw(ArgumentError("Block matrix is not the same size as labels"))
+    return _bipartite_blockmodel(gen)
+end
 
 """
     BlockModel(labels::Vector{T}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat}
@@ -51,20 +60,8 @@ _generate(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork} =
 """
 BlockModel(labels::Vector{T}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat} =
     begin
-        nlabs = length(unique(labels))
-
-        # check params
-        if size(labels[1]) != size(labels[2]) ||
-           length(unique(labels[1])) != length(unique(labels[2]))
-            @error "not a unipartite set of labels"
-        end
-        BlockModel(
-            UnipartiteNetwork,
-            (nlabs, nlabs),
-            (labels, labels),
-            (nlabs, nlabs),
-            blocks,
-        )
+        nlabs = length(labels)
+        BlockModel(UnipartiteNetwork, (nlabs, nlabs), (labels, labels), blocks)
     end
 
 """
@@ -76,14 +73,10 @@ BlockModel(
     labels::Tuple{Vector{T},Vector{T}},
     blocks::Matrix{FT},
 ) where {T<:Integer,FT<:AbstractFloat} = begin
-    tlabs = length(unique(labels[1]))
-    blabs = length(unique(labels[2]))
-
     BlockModel(
         BipartiteNetwork,
-        (length(tlabs), length(blabs)),
+        (length(labels[1]), length(labels[2])),
         (labels[1], labels[2]),
-        (tlabs, blabs),
         blocks,
     )
 end
@@ -95,8 +88,10 @@ end
     is a unipartite generator.
 """
 _isunipartitegenerator(gen) =
-    size(gen.nodelabels[1]) == size(gen.nodelabels[2]) &&
-    length(unique(gen.nodelabels[1])) == length(unique(gen.nodelabels[2]))
+    size(gen)[1] == size(gen)[2] &&
+    length(_toplabels(gen)) == size(gen)[1] &&
+    length(_bottomlabels(gen)) == size(gen)[2] &&
+    length(unique(_toplabels(gen))) == size(gen.blocks)[1]
 
 
 
@@ -107,8 +102,13 @@ _isunipartitegenerator(gen) =
     is a bipartite generator.
 """
 _isbipartitegenerator(gen) =
-    size(gen.blocks)[1] == length(unique(gen.nodelabels[1])) &&
-    size(gen.blocks)[2] == length(unique(gen.nodelabels[2]))
+    length(_toplabels(gen)) == size(gen)[1] &&
+    length(_bottomlabels(gen)) == size(gen)[2] &&
+    length(unique(_toplabels(gen))) == size(gen.blocks)[1] &&
+    length(unique(_bottomlabels(gen))) == size(gen.blocks)[2]
+
+
+
 
 
 
@@ -118,10 +118,8 @@ _isbipartitegenerator(gen) =
     Implmentation of generating networks from the `BlockModel` for unipartite networks.
 """
 function _unipartite_blockmodel(gen)
-    _isunipartitegenerator(gen) || return @error "not a valid unipartite generator"
 
     nodelabels = gen.nodelabels[1]
-    numblocks = gen.numblocks[1]
     blockmatrix = gen.blocks
 
     S = length(nodelabels)
@@ -145,12 +143,8 @@ end
 """
 function _bipartite_blockmodel(gen)
 
-    _isbipartitegenerator(gen) || return @error "not a valid bipartite generator"
-
     toplabels = gen.nodelabels[1]
     bottomlabels = gen.nodelabels[2]
-    topblocks = gen.numblocks[1]
-    bottomblocks = gen.numblocks[2]
     blockmatrix = gen.blocks   # a topblocks x bottomblocks matrix
 
     T = length(toplabels)
