@@ -11,22 +11,42 @@
     Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
     Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
-mutable struct MinimumPotentialNicheModel{T<:Integer,FT<:AbstractFloat,NT<:Number} <: NetworkGenerator
+mutable struct MinimumPotentialNicheModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
     size::Tuple{T,T}
     connectance::FT
-    forbiddenlinkprob::NT
-    MinimumPotentialNicheModel(
-        sz::ST,
-        C::CT,
-        forbidden::RT,
-    ) where {ST<:Tuple{Integer,Integer},CT<:AbstractFloat, RT<:Number} = begin
-        C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
-        C <= 0 && throw(ArgumentError("The connectance must be above than 0"))
-
-        return new{typeof(sz[1]),CT,RT}(sz, C, forbidden)
-    end
+    forbiddenlinkprob::FT
 end
 
+"""
+    _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: UnipartiteNetwork}
+
+    Primary dispatch for mpn generation
+"""
+function _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    
+
+    C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
+    C <= 0 && throw(ArgumentError("The connectance must be above than 0"))
+
+    return _mpnmodel(gen)
+end
+
+"""
+    MinimumPotentialNicheModel
+
+
+    Constructor for `MinimumPotentialNicheModel` generator
+    for given number tuple of sizes `sz`, connectance `C` and
+    probability of `forbidden` link occurence.
+"""
+MinimumPotentialNicheModel(
+    sz::ST,
+    C::CT,
+    forbidden::RT,
+) where {ST<:Tuple{Integer,Integer},CT<:Number, RT<:Number} = begin
+
+    return MinimumPotentialNicheModel{typeof(sz[1]),CT}(sz, C, CT(forbidden))
+end
 
 """
     MinimumPotentialNicheModel
@@ -74,17 +94,17 @@ function MinimumPotentialNicheModel(N::T) where {T<:UnipartiteNetwork}
     return MinimumPotentialNicheModel((richness(N), richness(N)), connectance(N), forbidden)
 end
 
-"""
-    _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: UnipartiteNetwork}
 
-    main dispatch for mpn generation
 """
-function _generate!(gen::MinimumPotentialNicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    _mpnmodel(gen)
+
+    Implements generation of the `MinimumPotentialNicheModel`.
+"""
+function _mpnmodel(gen)
     S = size(gen)[1]
     Co = gen.connectance
     forbidden = gen.forbiddenlinkprob
 
-    Co >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
 
     # Beta distribution parameter
     β = 1.0 / (2.0 * Co) - 1.0
