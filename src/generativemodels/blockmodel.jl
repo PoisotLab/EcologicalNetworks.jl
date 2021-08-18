@@ -33,7 +33,7 @@ _numbottomblocks(gen) = size(gen.blocks)[2]
 
 """
     _generate(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork}
-    
+
     Primary dispatch for generating unipartite networks using `BlockModel`. 
 """
 function _generate(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork}
