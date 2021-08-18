@@ -32,15 +32,6 @@ function entropy(P::AbstractArray; dims::Union{Integer,Nothing}=nothing)
     return entropy(sum(P', dims=dims))
 end
 
-"""
-    entropy(N::AbstractEcologicalNetwork)
-
-
-"""
-function entropy(N::NT) where {NT<:AbstractEcologicalNetwork}
-    P = make_joint_distribution(N)
-    return entropy(P)
-end
 
 """
     entropy(N::AbstractEcologicalNetwork; [dims])
