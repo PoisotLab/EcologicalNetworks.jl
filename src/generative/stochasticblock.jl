@@ -1,6 +1,6 @@
 
 """
-    BlockModel{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:AbstractFloat} <: NetworkGenerator
+    StochasticBlock{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:AbstractFloat} <: NetworkGenerator
 
 A `NetworkGenerator` for stochastic block models.
 
@@ -17,7 +17,7 @@ Stochastic blockmodels and community structure in networks
 Karrer & Newman, 2011
 DOI: 10.1103/PhysRevE.83.016107
 """
-mutable struct BlockModel{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:AbstractFloat} <:
+mutable struct StochasticBlock{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:AbstractFloat} <:
                NetworkGenerator
     networktype::Type{NT}
     size::Tuple{IT,IT}
@@ -32,48 +32,48 @@ _numbottomblocks(gen) = size(gen.blocks)[2]
 
 
 """
-    _generate(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    _generate(gen::StochasticBlock, ::Type{T}) where {T<:UnipartiteNetwork}
 
-    Primary dispatch for generating unipartite networks using `BlockModel`. 
+    Primary dispatch for generating unipartite networks using `StochasticBlock`. 
 """
-function _generate(gen::BlockModel, ::Type{T}) where {T<:UnipartiteNetwork}
+function _generate(gen::StochasticBlock, ::Type{T}) where {T<:UnipartiteNetwork}
     _isunipartitegenerator(gen) || throw(ArgumentError("Not a valid unipartite generator"))
     return _unipartite_blockmodel(gen)
 end
 
 
 """
-    _generate(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork}
+    _generate(gen::StochasticBlock, ::Type{T}) where {T<:BipartiteNetwork}
 
-    Primary dispatch for generating bipartite networks using `BlockModel`. 
+    Primary dispatch for generating bipartite networks using `StochasticBlock`. 
 """
-function _generate(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork}
+function _generate(gen::StochasticBlock, ::Type{T}) where {T<:BipartiteNetwork}
     _isbipartitegenerator(gen) ||
         throw(ArgumentError("Block matrix is not the same size as labels"))
     return _bipartite_blockmodel(gen)
 end
 
 """
-    BlockModel(labels::Vector{T}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat}
+    StochasticBlock(labels::Vector{T}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat}
 
-    Constructor for unipartite `BlockModel` for a set of `labels` and a matrix of block probabilities `blocks`.
+    Constructor for unipartite `StochasticBlock` for a set of `labels` and a matrix of block probabilities `blocks`.
 """
-BlockModel(labels::Vector{T}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat} =
+StochasticBlock(labels::Vector{T}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat} =
     begin
         nlabs = length(labels)
-        BlockModel(UnipartiteNetwork, (nlabs, nlabs), (labels, labels), blocks)
+        StochasticBlock(UnipartiteNetwork, (nlabs, nlabs), (labels, labels), blocks)
     end
 
 """
-    BlockModel(labels::Tuple{Vector{T},Vector{T}}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat}
+    StochasticBlock(labels::Tuple{Vector{T},Vector{T}}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat}
     
-    Constructor for bipartite `BlockModel` from a tuple `labels` of two sets of labels and a matrix of block probabilities `blocks`.
+    Constructor for bipartite `StochasticBlock` from a tuple `labels` of two sets of labels and a matrix of block probabilities `blocks`.
 """
-BlockModel(
+StochasticBlock(
     labels::Tuple{Vector{T},Vector{T}},
     blocks::Matrix{FT},
 ) where {T<:Integer,FT<:AbstractFloat} = begin
-    BlockModel(
+    StochasticBlock(
         BipartiteNetwork,
         (length(labels[1]), length(labels[2])),
         (labels[1], labels[2]),
@@ -115,7 +115,7 @@ _isbipartitegenerator(gen) =
 """
     _unipartite_blockmodel(gen)
 
-    Implmentation of generating networks from the `BlockModel` for unipartite networks.
+    Implmentation of generating networks from the `StochasticBlock` for unipartite networks.
 """
 function _unipartite_blockmodel(gen)
 
@@ -139,7 +139,7 @@ end
 """
     _bipartite_blockmodel(gen)
 
-    Implmentation of generating networks from the `BlockModel` for bipartite networks.
+    Implmentation of generating networks from the `StochasticBlock` for bipartite networks.
 """
 function _bipartite_blockmodel(gen)
 

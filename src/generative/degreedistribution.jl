@@ -1,21 +1,21 @@
 """
-    DegreeDistributionModel{IT<:Integer,DT<:Distribution} <: NetworkGenerator
+    DegreeDistribution{IT<:Integer,DT<:Distribution} <: NetworkGenerator
     
     A `NetworkGenerator` for the degree-distribution model, where the distribution
     of the number of links for node is given by `dist`.
 """
-mutable struct DegreeDistributionModel{IT<:Integer,DT<:Distribution} <: NetworkGenerator
+mutable struct DegreeDistribution{IT<:Integer,DT<:Distribution} <: NetworkGenerator
     size::Tuple{IT,IT}
     dist::DT
 end
 
 
 """
-    _generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:BipartiteNetwork} 
+    _generate(gen::DegreeDistribution, ::Type{T}) where {T<:BipartiteNetwork} 
 
-    Primary dispatch for generating bipartite networks using `DegreeDistributionModel`
+    Primary dispatch for generating bipartite networks using `DegreeDistribution`
 """
-function _generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:BipartiteNetwork}
+function _generate(gen::DegreeDistribution, ::Type{T}) where {T<:BipartiteNetwork}
     size(gen)[1] > 0 && size(gen)[2] > 0 ||
         throw(ArgumentError("Need both size to have greater than 0 size"))
     eltype(gen.dist) <: Integer ||
@@ -25,11 +25,11 @@ function _generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:BipartiteN
 end
 
 """
-    _generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:UnipartiteNetwork} 
+    _generate(gen::DegreeDistribution, ::Type{T}) where {T<:UnipartiteNetwork} 
 
-    Primary dispatch for generating unipartite networks using `DegreeDistributionModel`
+    Primary dispatch for generating unipartite networks using `DegreeDistribution`
 """
-function _generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:UnipartiteNetwork}
+function _generate(gen::DegreeDistribution, ::Type{T}) where {T<:UnipartiteNetwork}
     size(gen)[1] > 0 || throw(ArgumentError("Size is not above 0"))
     eltype(gen.dist) <: Integer ||
         throw(ArgumentError("Distribution must be defined over integers"))
@@ -37,13 +37,13 @@ function _generate(gen::DegreeDistributionModel, ::Type{T}) where {T<:Unipartite
     _unipartite_degreedist(gen)
 end
 """
-    DegreeDistributionModel(S::IT, dist::DT) where {IT<:Integer,DT<:Distribution}    
+    DegreeDistribution(S::IT, dist::DT) where {IT<:Integer,DT<:Distribution}    
    
-    Constructor for the `DegreeDistributionModel` for a unipartite network with `S`
+    Constructor for the `DegreeDistribution` for a unipartite network with `S`
     species and distribution `dist`.
 """
-function DegreeDistributionModel(S::IT, dist::DT) where {IT<:Integer,DT<:Distribution}
-    return DegreeDistributionModel{IT,DT}((S, S), dist)
+function DegreeDistribution(S::IT, dist::DT) where {IT<:Integer,DT<:Distribution}
+    return DegreeDistribution{IT,DT}((S, S), dist)
 end
 
 
@@ -51,7 +51,7 @@ end
 """
     _unipartite_degreedist(gen)
 
-    Implments generation of unipartite networks using `DegreeDistributionModel`.
+    Implments generation of unipartite networks using `DegreeDistribution`.
 """
 function _unipartite_degreedist(gen)
     S = size(gen)[1]
@@ -69,7 +69,7 @@ end
 """
     _bipartite_degreedist(gen)
 
-    Implments generation of bipartite networks using `DegreeDistributionModel`.
+    Implments generation of bipartite networks using `DegreeDistribution`.
 """
 function _bipartite_degreedist(gen)
     T, B = size(gen)

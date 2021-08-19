@@ -1,6 +1,6 @@
 
 """
-    NicheModel{IT<:Integer,FT<:AbstractFloat} <: NetworkGenerator
+    Niche{IT<:Integer,FT<:AbstractFloat} <: NetworkGenerator
 
     `NetworkGenerator` for the niche model. 
 
@@ -9,18 +9,18 @@
     Williams, R., Martinez, N., 2000. Simple rules yield complex food webs. Nature
     404, 180–183.
 """
-mutable struct NicheModel{IT<:Integer,FT<:AbstractFloat} <: NetworkGenerator
+mutable struct Niche{IT<:Integer,FT<:AbstractFloat} <: NetworkGenerator
     size::Tuple{IT,IT}
     connectance::FT
 end
 
 
 """
-    _generate(gen::NicheModel, target::T) where {T <: UnipartiteNetwork}
+    _generate(gen::Niche, target::T) where {T <: UnipartiteNetwork}
 
-    Primary dispatch for generating niche model. Called from rand(::NicheModel)
+    Primary dispatch for generating niche model. Called from rand(::Niche)
 """
-function _generate(gen::NicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
+function _generate(gen::Niche, ::Type{T}) where {T<:UnipartiteNetwork}
     S = size(gen)[1]
     C = gen.connectance
 
@@ -31,53 +31,53 @@ end
 
 
 """
-    NicheModel(S::IT, C::FT)
+    Niche(S::IT, C::FT)
 
-    Constructor for `NicheModel` where resources are assign to consumers according to
+    Constructor for `Niche` where resources are assign to consumers according to
     niche model for a network of `S` species and `L` links.
 """
-NicheModel(S::IT, C::FT) where {IT<:Integer,FT<:AbstractFloat} = begin
+Niche(S::IT, C::FT) where {IT<:Integer,FT<:AbstractFloat} = begin
     C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
-    return NicheModel{IT,FT}((S, S), C)
+    return Niche{IT,FT}((S, S), C)
 end
 
 
 """
-    NicheModel(; richness::T=30, connectance::FT=0.3)
+    Niche(; richness::T=30, connectance::FT=0.3)
 
-    Constructor for `NicheModel` using keyword arguments.
+    Constructor for `Niche` using keyword arguments.
 """
-NicheModel(;
+Niche(;
     richness::T = 30,
     connectance::FT = 0.3,
 ) where {T<:Union{Tuple{Integer},Integer},FT<:AbstractFloat} =
-    NicheModel(richness, connectance)
+    Niche(richness, connectance)
 
 """
-    NicheModel(S::Int64, L::Int64)
+    Niche(S::Int64, L::Int64)
 
-    Constructor for `NicheModel` where resources are assign to consumers according to
+    Constructor for `Niche` where resources are assign to consumers according to
     niche model for a network of `S` species and `L` links.
 """
-NicheModel(S::ST, L::LT) where {ST<:Integer,LT<:Integer} = begin
+Niche(S::ST, L::LT) where {ST<:Integer,LT<:Integer} = begin
     L >= S * S &&
     throw(ArgumentError("Number of links L cannot be larger than the richness squared"))
     L <= 0 && throw(ArgumentError("Number of links L must be positive"))
 
     C = L / (S * S)
 
-    return NicheModel(S, C)
+    return Niche(S, C)
 end
 
 
 """
-    NicheModel(net::ENT) where {ENT <: UnipartiteNetwork}
+    Niche(net::ENT) where {ENT <: UnipartiteNetwork}
 
-    Constructor for `NicheModel` which takes an empirical `UnipartiteNetwork`
+    Constructor for `Niche` which takes an empirical `UnipartiteNetwork`
     as input and return its a generator based on the empirical networks
     richness and connectance.
 """
-NicheModel(net::ENT) where {ENT<:UnipartiteNetwork} = NicheModel(richness(net), links(net))
+Niche(net::ENT) where {ENT<:UnipartiteNetwork} = Niche(richness(net), links(net))
 
 """
     _nichemodel(gen)

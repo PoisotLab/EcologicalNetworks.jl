@@ -1,5 +1,5 @@
 """
-    MinimumPotentialNicheModel
+    MinimumPotentialNiche
 
 
     Generator a `UnipartiteNetwork` with links assigned according to minimum
@@ -11,18 +11,18 @@
     Allesina, S., Alonso, D., Pascual, M., 2008. A General Model for Food Web
     Structure. Science 320, 658–661. https://doi.org/10.1126/science.1156269
 """
-mutable struct MinimumPotentialNicheModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
+mutable struct MinimumPotentialNiche{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
     size::Tuple{T,T}
     connectance::FT
     forbiddenlinkprob::FT
 end
 
 """
-    _generate(gen::MinimumPotentialNicheModel, ::Type{T}) where {T <: UnipartiteNetwork}
+    _generate(gen::MinimumPotentialNiche, ::Type{T}) where {T <: UnipartiteNetwork}
 
     Primary dispatch for mpn generation
 """
-function _generate(gen::MinimumPotentialNicheModel, ::Type{T}) where {T<:UnipartiteNetwork}
+function _generate(gen::MinimumPotentialNiche, ::Type{T}) where {T<:UnipartiteNetwork}
     C = gen.connectance
     C >= 0.5 && throw(ArgumentError("The connectance cannot be larger than 0.5"))
     C <= 0 && throw(ArgumentError("The connectance must be above than 0"))
@@ -31,73 +31,73 @@ function _generate(gen::MinimumPotentialNicheModel, ::Type{T}) where {T<:Unipart
 end
 
 """
-    MinimumPotentialNicheModel
+    MinimumPotentialNiche
 
 
-    Constructor for `MinimumPotentialNicheModel` generator
+    Constructor for `MinimumPotentialNiche` generator
     for given number tuple of sizes `sz`, connectance `C` and
     probability of `forbidden` link occurence.
 """
-MinimumPotentialNicheModel(
+MinimumPotentialNiche(
     sz::ST,
     C::CT,
     forbidden::RT,
 ) where {ST<:Tuple{Integer,Integer},CT<:Number,RT<:Number} = begin
 
-    return MinimumPotentialNicheModel{typeof(sz[1]),CT}(sz, C, CT(forbidden))
+    return MinimumPotentialNiche{typeof(sz[1]),CT}(sz, C, CT(forbidden))
 end
 
 """
-    MinimumPotentialNicheModel
+    MinimumPotentialNiche
 
 
-    Constructor for `MinimumPotentialNicheModel` generator
+    Constructor for `MinimumPotentialNiche` generator
     for given number of `S`, links `L` and
     probability of `forbidden` link occurence.
 """
-MinimumPotentialNicheModel(
+MinimumPotentialNiche(
     S::T,
     L::LT,
     forbidden::NT,
 ) where {T<:Integer,LT<:Integer,NT<:Number} =
-    MinimumPotentialNicheModel((S, S), L / (S * S), forbidden)
+    MinimumPotentialNiche((S, S), L / (S * S), forbidden)
 
 """
-    MinimumPotentialNicheModel
+    MinimumPotentialNiche
 
 
-    Constructor for `MinimumPotentialNicheModel` generator
+    Constructor for `MinimumPotentialNiche` generator
     for unipartite networks with `S` species, `L` links and
     probability of `forbidden` link occurence.
 """
-MinimumPotentialNicheModel(
+MinimumPotentialNiche(
     S::T,
     C::FT,
     forbidden::NT,
 ) where {T<:Integer,FT<:AbstractFloat,NT<:Number} = begin
-    MinimumPotentialNicheModel((S, S), C, forbidden)
+    MinimumPotentialNiche((S, S), C, forbidden)
 end
 
 
 """
-    MinimumPotentialNicheModel(N::T) where {T<: UnipartiteNetwork}
+    MinimumPotentialNiche(N::T) where {T<: UnipartiteNetwork}
 
-    Constructor for `MinimumPotentialNicheModel` generator
+    Constructor for `MinimumPotentialNiche` generator
     from a real network. 
     
     still needs to estimate forbidden link prob. there are papers to do this but not off the top of my head
 """
-function MinimumPotentialNicheModel(N::T) where {T<:UnipartiteNetwork}
+function MinimumPotentialNiche(N::T) where {T<:UnipartiteNetwork}
     # TODO: Estimate proportion of forbidden links
     forbidden = 0
-    return MinimumPotentialNicheModel((richness(N), richness(N)), connectance(N), forbidden)
+    return MinimumPotentialNiche((richness(N), richness(N)), connectance(N), forbidden)
 end
 
 
 """
     _mpnmodel(gen)
 
-    Implements generation of the `MinimumPotentialNicheModel`.
+    Implements generation of the `MinimumPotentialNiche`.
 """
 function _mpnmodel(gen)
     S = size(gen)[1]

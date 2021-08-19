@@ -1,6 +1,6 @@
 
 """
-    CascadeModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
+    Cascade{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
 
     Network generator which creates `UnipartiteNetwork`s randomly assembled according to
     the cascade model for a given nuber of `S` and connectivity `C`.
@@ -11,18 +11,18 @@
     Models and aggregated data. Proceedings of the Royal Society of London.
     B. Biological Sciences 224, 421–448. https://doi.org/10.1098/rspb.1985.0042
 """
-mutable struct CascadeModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
+mutable struct Cascade{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
     size::Tuple{T,T}
     connectance::FT
 end
 
 """
-    _generate(gen::CascadeModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    _generate(gen::Cascade, ::Type{T}) where {T<:UnipartiteNetwork}
 
     Primary dispatch for generation. Checks arguments and calls the internal
     function `_casecademodel` to generate the network.
 """
-function _generate(gen::CascadeModel, ::Type{T}) where {T<:UnipartiteNetwork}
+function _generate(gen::Cascade, ::Type{T}) where {T<:UnipartiteNetwork}
     S, Co = gen.size[1], gen.connectance
 
     maxconnectance = ((S^2 - S) / 2) / (S * S)
@@ -39,45 +39,45 @@ end
 
 
 """
-    CascadeModel(sz::T, X::NT) where {T<:Integer,NT<:Number}
+    Cascade(sz::T, X::NT) where {T<:Integer,NT<:Number}
 
-    CascadeModel constructor for a Unipartite Network where the size `S` is an integer
+    Cascade constructor for a Unipartite Network where the size `S` is an integer
     and the second argument is either connectance or number of links, which is handled
     on the next call.
 """
-CascadeModel(S::T, X::NT) where {T<:Integer,NT<:Number} = CascadeModel((S, S), X)
+Cascade(S::T, X::NT) where {T<:Integer,NT<:Number} = Cascade((S, S), X)
 
 """
-    CascadeModel(sz::T, X::NT) where {T<:Tuple{Integer,Integer},ET<:Integer} 
+    Cascade(sz::T, X::NT) where {T<:Tuple{Integer,Integer},ET<:Integer} 
 
-    CascadeModel constructor for a tuple of sizes `sz` and a number of links `L`.
+    Cascade constructor for a tuple of sizes `sz` and a number of links `L`.
 """
-CascadeModel(sz::T, L::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
-    CascadeModel(sz, L / (sz[1] * sz[2]))
-
-"""
-    CascadeModel(sz::T, X::NT) where {T<:Tuple{Integer,Integer},ET<:Integer} 
-
-    CascadeModel constructor for a tuple of sizes `sz` and connectance `C`.
-"""
-CascadeModel(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
-    CascadeModel(sz, C)
-
+Cascade(sz::T, L::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
+    Cascade(sz, L / (sz[1] * sz[2]))
 
 """
-    CascadeModel(net::ENT) where {ENT<:UnipartiteNetwork}
+    Cascade(sz::T, X::NT) where {T<:Tuple{Integer,Integer},ET<:Integer} 
 
-    CascadeModel constructor which copies the size/connectance of an
+    Cascade constructor for a tuple of sizes `sz` and connectance `C`.
+"""
+Cascade(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
+    Cascade(sz, C)
+
+
+"""
+    Cascade(net::ENT) where {ENT<:UnipartiteNetwork}
+
+    Cascade constructor which copies the size/connectance of an
     existing network `net`.
 """
-CascadeModel(net::ENT) where {ENT<:UnipartiteNetwork} =
-    CascadeModel(richness(net), links(net))
+Cascade(net::ENT) where {ENT<:UnipartiteNetwork} =
+    Cascade(richness(net), links(net))
 
 
 """
     _cascademodel(gen)
 
-    Implmentation of generating networks for the `CascadeModel`
+    Implmentation of generating networks for the `Cascade`
 """
 function _cascademodel(gen)
 

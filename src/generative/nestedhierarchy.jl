@@ -1,6 +1,6 @@
 
 """
-    NestedHierarchyModel{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
+    NestedHierarchy{T<:Integer,FT<:AbstractFloat} <: NetworkGenerator
 
     `NetworkGenerator` for the nested-hierarchy model
 
@@ -11,7 +11,7 @@
     J.-P., 2004. Phylogenetic constraints and adaptation explain food-web structure.
     Nature 427, 835–839. https://doi.org/10.1038/nature02327
 """
-mutable struct NestedHierarchyModel{IT<:Integer} <: NetworkGenerator
+mutable struct NestedHierarchy{IT<:Integer} <: NetworkGenerator
     size::Tuple{IT,IT}
     links::IT
 end
@@ -19,11 +19,11 @@ end
 
 
 """
-    _generate(gen::NestedHierarchyModel, ::Type{T}) where {T<:UnipartiteNetwork}
+    _generate(gen::NestedHierarchy, ::Type{T}) where {T<:UnipartiteNetwork}
 
-    Primary dispatch for generating networks from the `NestedHierarchyModel`.
+    Primary dispatch for generating networks from the `NestedHierarchy`.
 """
-function _generate(gen::NestedHierarchyModel, ::Type{T}) where {T<:UnipartiteNetwork}
+function _generate(gen::NestedHierarchy, ::Type{T}) where {T<:UnipartiteNetwork}
     S, L = gen.size[1], gen.links
 
     S <= 0 && throw(ArgumentError("Number of species must be positive"))
@@ -38,48 +38,48 @@ end
 
 
 """
-    NestedHierarchyModel(S::T, X::NT) where {T<:Integer,NT<:Number}
+    NestedHierarchy(S::T, X::NT) where {T<:Integer,NT<:Number}
 
-    Constructor for `NestedHierarchyModel` for a unipartite network where the size 
+    Constructor for `NestedHierarchy` for a unipartite network where the size 
     was passed as in integer `S`.
 """
-NestedHierarchyModel(S::T, X::NT) where {T<:Integer,NT<:Number} =
-    NestedHierarchyModel((S, S), X)
+NestedHierarchy(S::T, X::NT) where {T<:Integer,NT<:Number} =
+    NestedHierarchy((S, S), X)
 
 
 """
-    NestedHierarchyModel(sz::T, L::LT) where {T<:Tuple{Integer,Integer},LT<:Integer}
+    NestedHierarchy(sz::T, L::LT) where {T<:Tuple{Integer,Integer},LT<:Integer}
 
-    Constructor for `NestedHierarchyModel` for a size tuple `sz` and a integer number of links `L`.
+    Constructor for `NestedHierarchy` for a size tuple `sz` and a integer number of links `L`.
 """
-NestedHierarchyModel(sz::ST, L::LT) where {ST<:Tuple{Integer,Integer},LT<:Integer} =
-    NestedHierarchyModel{LT}(sz, L)
-
-
-"""
-    NestedHierarchyModel(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat}
-
-    Constructor for `NestedHierarchyModel` for a size tuple `sz` and a float connectance `C`.
-"""
-NestedHierarchyModel(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
-    NestedHierarchyModel(sz, Int32(C * sz[1] * sz[2]))
+NestedHierarchy(sz::ST, L::LT) where {ST<:Tuple{Integer,Integer},LT<:Integer} =
+    NestedHierarchy{LT}(sz, L)
 
 
 """
-    NestedHierarchyModel(net::ENT) where {ENT<:UnipartiteNetwork} 
+    NestedHierarchy(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat}
 
-    Constructor for `NestedHierarchyModel` creates a generated based on the same richness 
+    Constructor for `NestedHierarchy` for a size tuple `sz` and a float connectance `C`.
+"""
+NestedHierarchy(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
+    NestedHierarchy(sz, Int32(C * sz[1] * sz[2]))
+
+
+"""
+    NestedHierarchy(net::ENT) where {ENT<:UnipartiteNetwork} 
+
+    Constructor for `NestedHierarchy` creates a generated based on the same richness 
     and links as an existing network `net`
 """
-NestedHierarchyModel(net::ENT) where {ENT<:UnipartiteNetwork} =
-    NestedHierarchyModel(richness(net), links(net))
+NestedHierarchy(net::ENT) where {ENT<:UnipartiteNetwork} =
+    NestedHierarchy(richness(net), links(net))
 
 
 
 """
     _nestedhierarchymodel(S::Int64, L::Int64)
 
-    Implementation of generating networks for `NestedHierarchyModel`
+    Implementation of generating networks for `NestedHierarchy`
 """
 function _nestedhierarchymodel(gen)
 

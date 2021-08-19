@@ -1,6 +1,8 @@
 module TestPreferentialAttachmentModel
 using Test
 using EcologicalNetworks
+using EcologicalNetworks: PreferentialAttachment
+
 using Distributions: Categorical
 
 @test typeof(rand(PreferentialAttachment(50, 0.3))) <: UnipartiteNetwork

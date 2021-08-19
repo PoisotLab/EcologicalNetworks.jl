@@ -92,27 +92,18 @@ include(joinpath(".", "rand/RDPG.jl"))
 export RDPG
 
 # Random networks from generative models
-include(joinpath(".", "generativemodels/_generators.jl"))
+include(joinpath(".", "generative/_generators.jl"))
 export NetworkGenerator, rand, _sizeof_uv_getaddrinfo
 
-include(joinpath(".", "generativemodels/cascademodel.jl"))
-export CascadeModel
-include(joinpath(".", "generativemodels/mpnmodel.jl"))
-export MinimumPotentialNicheModel
-include(joinpath(".", "generativemodels/nestedhierarchymodel.jl"))
-export NestedHierarchyModel
-include(joinpath(".", "generativemodels/nichemodel.jl"))
-export NicheModel
-include(joinpath(".", "generativemodels/erdosrenyi.jl"))
-export ErdosRenyi
-include(joinpath(".", "generativemodels/blockmodel.jl"))
-export BlockModel
-include(joinpath(".", "generativemodels/configurationmodel.jl"))
-export ConfigurationModel
-include(joinpath(".", "generativemodels/preferentialattachment.jl"))
-export PreferentialAttachment
-include(joinpath(".", "generativemodels/degreedistribution.jl"))
-export DegreeDistributionModel
+include(joinpath(".", "generative/cascade.jl"))
+include(joinpath(".", "generative/minpotentialniche.jl"))
+include(joinpath(".", "generative/nestedhierarchy.jl"))
+include(joinpath(".", "generative/niche.jl"))
+include(joinpath(".", "generative/erdosrenyi.jl"))
+include(joinpath(".", "generative/stochasticblock.jl"))
+include(joinpath(".", "generative/configuration.jl"))
+include(joinpath(".", "generative/preferentialattachment.jl"))
+include(joinpath(".", "generative/degreedistribution.jl"))
 
 
 
