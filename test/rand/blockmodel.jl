@@ -15,7 +15,7 @@ labels = rand(Categorical([0.1 for i = 1:10]), 50)
 )
 
 # bipartite block model
-tspecies, bspecies = 50, 30
+tspecies, bspecies = 5000, 3000
 tlabels, blabels = 10, 5
 tdist = rand(Categorical([1 / tlabels for i = 1:tlabels]), tspecies)
 bdist = rand(Categorical([1 / blabels for i = 1:blabels]), bspecies)
@@ -23,7 +23,7 @@ blocks = rand(tlabels, blabels)
 @test typeof(rand(BlockModel((tdist, bdist), blocks))) <: BipartiteNetwork
 
 # wrong size block matrix 
-tspecies, bspecies = 50, 30
+tspecies, bspecies = 5000, 3000
 tlabels, blabels = 10, 5
 tdist = rand(Categorical([1 / tlabels for i = 1:tlabels]), tspecies)
 bdist = rand(Categorical([1 / blabels for i = 1:blabels]), bspecies)
@@ -31,7 +31,7 @@ blocks = rand(tlabels + 1, blabels)
 @test_throws ArgumentError rand(BlockModel((tdist, bdist), blocks))
 
 # wrong size labels matrix 
-tspecies, bspecies = 50, 30
+tspecies, bspecies = 5000, 3000
 tlabels, blabels = 10, 5
 tdist = rand(Categorical([1 / 5 for i = 1:5]), tspecies)
 bdist = rand(Categorical([1 / 10 for i = 1:10]), bspecies)
