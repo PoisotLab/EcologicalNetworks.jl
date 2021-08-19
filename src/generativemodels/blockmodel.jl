@@ -2,20 +2,20 @@
 """
     BlockModel{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:AbstractFloat} <: NetworkGenerator
 
-    A `NetworkGenerator` for stochastic block models.
+A `NetworkGenerator` for stochastic block models.
 
-    https://en.wikipedia.org/wiki/Stochastic_block_model
+https://en.wikipedia.org/wiki/Stochastic_block_model
 
-    Takes a set group labels for each node (`nodelabels`) where the probability 
-    of a link between node `i` (in group `G_i`) and node `j` (in group `G_j`)
-    is given by a matrix `blocks`, where the `blocks[x,y]` is the probability of
-    edges between group `x` and group `y`.
+Takes a set group labels for each node (`nodelabels`) where the probability 
+of a link between node `i` (in group `G_i`) and node `j` (in group `G_j`)
+is given by a matrix `blocks`, where the `blocks[x,y]` is the probability of
+edges between group `x` and group `y`.
 
-    ## Citation
+## Citation
 
-    Stochastic blockmodels and community structure in networks
-    Karrer & Newman, 2011
-    DOI: 10.1103/PhysRevE.83.016107
+Stochastic blockmodels and community structure in networks
+Karrer & Newman, 2011
+DOI: 10.1103/PhysRevE.83.016107
 """
 mutable struct BlockModel{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:AbstractFloat} <:
                NetworkGenerator
@@ -43,9 +43,9 @@ end
 
 
 """
-_generate(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork}
+    _generate(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork}
 
-Primary dispatch for generating bipartite networks using `BlockModel`. 
+    Primary dispatch for generating bipartite networks using `BlockModel`. 
 """
 function _generate(gen::BlockModel, ::Type{T}) where {T<:BipartiteNetwork}
     _isbipartitegenerator(gen) ||

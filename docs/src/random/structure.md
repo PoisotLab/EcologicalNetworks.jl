@@ -62,31 +62,31 @@ NestedHierarchyModel
 This model attempts to explicitly simulate forbidden links in empirical food webs.
 
 ```@docs
-    MinimumPotentialNicheModel
+MinimumPotentialNicheModel
 ```
 
 ## Preferential Attachment model
 
 ```@docs
-    PreferentialAttachmentModel
+PreferentialAttachmentModel
 ```
 
 ## Erdos-Renyi model
 
 ```@docs
-    ErdosRenyi
+ErdosRenyi
 ```
 
 
 ## Configuration model
 
 ```@docs
-    ConfigurationModel
+ConfigurationModel
 ```
 
 
 ## Degree-distribution model
 
 ```@docs
-    DegreeDistributionModel
+DegreeDistributionModel
 ```
