@@ -3,9 +3,9 @@ using Test
 using EcologicalNetworks
 using Distributions: Categorical
 
-labels = rand(Categorical([0.1 for i = 1:10]), 50)
+labels = rand(Categorical([0.1 for i = 1:10]), 5000)
 @test typeof(rand(BlockModel(labels, rand(10, 10)))) <: UnipartiteNetwork
-@test richness(rand(BlockModel(labels, rand(10, 10)))) == 50
+@test richness(rand(BlockModel(labels, rand(10, 10)))) == 5000
 
 @test_throws ArgumentError rand(BlockModel(labels, rand(50, 50)))
 
