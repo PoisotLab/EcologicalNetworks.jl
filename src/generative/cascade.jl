@@ -60,8 +60,7 @@ Cascade(sz::T, L::ET) where {T<:Tuple{Integer,Integer},ET<:Integer} =
 
     Cascade constructor for a tuple of sizes `sz` and connectance `C`.
 """
-Cascade(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
-    Cascade(sz, C)
+Cascade(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} = Cascade(sz, C)
 
 
 """
@@ -70,8 +69,7 @@ Cascade(sz::T, C::CT) where {T<:Tuple{Integer,Integer},CT<:AbstractFloat} =
     Cascade constructor which copies the size/connectance of an
     existing network `net`.
 """
-Cascade(net::ENT) where {ENT<:UnipartiteNetwork} =
-    Cascade(richness(net), links(net))
+Cascade(net::ENT) where {ENT<:UnipartiteNetwork} = Cascade(richness(net), links(net))
 
 
 """

@@ -43,8 +43,7 @@ end
     Constructor for `NestedHierarchy` for a unipartite network where the size 
     was passed as in integer `S`.
 """
-NestedHierarchy(S::T, X::NT) where {T<:Integer,NT<:Number} =
-    NestedHierarchy((S, S), X)
+NestedHierarchy(S::T, X::NT) where {T<:Integer,NT<:Number} = NestedHierarchy((S, S), X)
 
 
 """

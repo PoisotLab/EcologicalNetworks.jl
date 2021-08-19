@@ -17,8 +17,11 @@ Stochastic blockmodels and community structure in networks
 Karrer & Newman, 2011
 DOI: 10.1103/PhysRevE.83.016107
 """
-mutable struct StochasticBlock{NT<:AbstractEcologicalNetwork,IT<:Integer,FT<:AbstractFloat} <:
-               NetworkGenerator
+mutable struct StochasticBlock{
+    NT<:AbstractEcologicalNetwork,
+    IT<:Integer,
+    FT<:AbstractFloat,
+} <: NetworkGenerator
     networktype::Type{NT}
     size::Tuple{IT,IT}
     nodelabels::Tuple{Vector{IT},Vector{IT}}   # a vector of length 1 for unipartite, vec of length 2 for bipartite
@@ -58,11 +61,13 @@ end
 
     Constructor for unipartite `StochasticBlock` for a set of `labels` and a matrix of block probabilities `blocks`.
 """
-StochasticBlock(labels::Vector{T}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat} =
-    begin
-        nlabs = length(labels)
-        StochasticBlock(UnipartiteNetwork, (nlabs, nlabs), (labels, labels), blocks)
-    end
+StochasticBlock(
+    labels::Vector{T},
+    blocks::Matrix{FT},
+) where {T<:Integer,FT<:AbstractFloat} = begin
+    nlabs = length(labels)
+    StochasticBlock(UnipartiteNetwork, (nlabs, nlabs), (labels, labels), blocks)
+end
 
 """
     StochasticBlock(labels::Tuple{Vector{T},Vector{T}}, blocks::Matrix{FT}) where {T<:Integer,FT<:AbstractFloat}

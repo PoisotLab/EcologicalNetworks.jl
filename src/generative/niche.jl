@@ -50,8 +50,7 @@ end
 Niche(;
     richness::T = 30,
     connectance::FT = 0.3,
-) where {T<:Union{Tuple{Integer},Integer},FT<:AbstractFloat} =
-    Niche(richness, connectance)
+) where {T<:Union{Tuple{Integer},Integer},FT<:AbstractFloat} = Niche(richness, connectance)
 
 """
     Niche(S::Int64, L::Int64)
