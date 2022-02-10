@@ -14,7 +14,7 @@ end
 
 
 ρ_phillips(N::T, v::Float64) where {T <: UnipartiteNetwork}  = v/((links(N)*(richness(N)-1))/richness(N))^0.5
-ρ_ska(N::T, v::Float64) where {T <: UnipartiteNetwork} = v/sqrt(links(N))
+ρ_ska(N::T, v::Float64) where {T <: UnipartiteNetwork} = v/sqrt((links(N)-sum(diag(adjacency(N))))/2.0)
 ρ_raw(N::T, v::Float64) where {T <: UnipartiteNetwork} = v
 
 """
@@ -45,7 +45,7 @@ and S the number of nodes) are:
 1. `EcologicalNetworks.ρ_phillips`: divides by the square root of (2L(S-1))/S,
    as in Phillips (20110)
 1. `EcologicalNetworks.ρ_ska`: divides by the square root of L, as in
-   Staniczenko *et al.* (2013) - this is the **default**
+   Staniczenko *et al.* (2013) - this is the **default**, and has an upper bound of the square root of the number of links
 1. `EcologicalNetworks.ρ_raw`: returns the raw value
 
 #### References
