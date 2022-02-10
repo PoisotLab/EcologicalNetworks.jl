@@ -20,4 +20,9 @@ A = [1 0 1 1; 1 1 0 1; 1 1 1 0; 1 1 1 0; 1 1 1 0; 0 1 0 1]
 N = BipartiteNetwork(A.>0)
 @test ρ(N; range=EcologicalNetworks.ρ_raw) ≈ 3.595 atol = 0.01
 
+A = [1 1 1 1; 1 1 1 0; 1 1 1 0; 1 1 1 0; 1 1 1 0; 1 0 0 0]
+N = BipartiteNetwork(A)
+@test ρ(N, range=ρ_raw) ≈ 3.943904 atol = 0.01
+@test ρ(N, range=ρ_ska) ≈ 0.956537 atol = 0.01
+
 end
