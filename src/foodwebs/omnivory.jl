@@ -1,3 +1,16 @@
+"""
+    omnivory(N::T) where {T <: UnipartiteNetwork}
+
+Returns a vector of length |species(N)| with an index of consumption across
+trophic levels. Note we explicitly assume that diet contribution is spread
+evenly across prey species.
+
+#### References
+- Christensen, Villy, and Daniel Pauly. "ECOPATH II—a software for balancing
+  steady-state ecosystem models and calculating network characteristics."
+  Ecological modelling 61, no. 3-4 (1992): 169-185.
+
+"""
 function omnivory(N::T) where {T <: UnipartiteNetwork}
     OI = Dict([s => 0.0 for s in species(N)])
 
