@@ -2,7 +2,7 @@ name = "EcologicalNetworks"
 uuid = "f03a62fe-f8ab-5b77-a061-bb599b765229"
 authors = ["Timothée Poisot <timothee.poisot@umontreal.ca>"]
 repo = "https://github.com/EcoJulia/EcologicalNetworks.jl"
-version = "0.5.1"
+version = "0.5.2"
 
 [deps]
 Combinatorics = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
