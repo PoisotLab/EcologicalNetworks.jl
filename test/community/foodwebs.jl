@@ -6,14 +6,14 @@ module TestFoodWebs
   s1 = unipartitemotifs()[:S1]
   s1_ftl = fractional_trophic_level(s1)
   s1_tl = trophic_level(s1)
-  @test maximum(values(s1_ftl)) == 3
-  @test maximum(values(s1_tl)) == 3.0
-  @test s1_ftl[:a] == 3
-  @test s1_ftl[:b] == 2
-  @test s1_ftl[:c] == 1
+  @test maximum(values(s1_ftl)) ≈ 3
+  @test maximum(values(s1_tl)) ≈ 3.0
+  @test s1_ftl[:a] ≈ 3
+  @test s1_ftl[:b] ≈ 2
+  @test s1_ftl[:c] ≈ 1
 
   s2 = unipartitemotifs()[:S2]
-  @test minimum(values(fractional_trophic_level(s1))) == 1.0
+  @test minimum(values(fractional_trophic_level(s1))) ≈ 1.0
   @test minimum(values(trophic_level(s1))) == 1.0
 
   # test on a quantitative bipartite network
