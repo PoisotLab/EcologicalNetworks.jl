@@ -37,7 +37,7 @@ function trophic_level(N::T; f=maximum) where {T<:UnipartiteNetwork}
     for sp in species(Y)
         sp_paths = filter(int -> isequal(sp)(int.from), paths)
         chain_lengths = [int.weight for int in sp_paths]
-        tl[sp] = isempty(chain_lengths) ? 1.0 : f(chain_lengths)+1.0
+        tl[sp] = isempty(chain_lengths) ? 1.0 : f(chain_lengths) + 1.0
     end
     return tl
 end
@@ -53,21 +53,20 @@ of species i, and DCᵢⱼ is the proportion of species j in the diet of
 species i. Note that this function is calculated on a network where the
 diagonal (i.e. self loops) are removed.
 
-The keywords arguments are passed to `trophic_level`.
+This function uses a *pseudo*-inverse to solve the linear system described
+above.
 """
-function fractional_trophic_level(N::T; kwargs...) where {T<:UnipartiteNetwork}
-    TL = trophic_level(N; kwargs...)
-    Y = nodiagonal(N)
-    D = zeros(Float64, size(Y))
-    ko = degree_out(Y)
-
-    # inner loop to avoid dealing with primary producers
-    for i in 1:richness(Y)
-        if ko[species(Y)[i]] > 0.0
-            D[i, :] = Y[i, :] ./ ko[species(Y)[i]]
-        end
-    end
-
-    # return
-    return Dict(zip(species(N), 1 .+ D * [TL[s] for s in species(Y)]))
+function fractional_trophic_level(N::UnipartiteNetwork)
+    # Get the degree as a vector, ordered the same way as species
+    kout = EcologicalNetworks.degree_out(N)
+    𝐤 = [kout[s] for s in species(N)]
+    # Adjacency matrix to solve the TL
+    𝐀 = adjacency(N)
+    # Diet matrix
+    𝐃 = .-(𝐀 ./ 𝐤)
+    replace!(𝐃, NaN => -0.0)
+    𝐃[diagind(𝐃)] .= 1.0 .- 𝐃[diagind(𝐃)]
+    # Solve with the inverse matrix
+    𝐛 = ones(eltype(𝐃), richness(N))
+    return Dict(zip(species(N), pinv(𝐃) * 𝐛))
 end
