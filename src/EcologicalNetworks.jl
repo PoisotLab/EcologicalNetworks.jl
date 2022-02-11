@@ -162,10 +162,7 @@ export KGL01, KGL02, KGL03, KGL04, KGL05, KGL06, KGL07, KGL08, KGL09, KGL10,
 
 # Food webs
 include(joinpath(".", "foodwebs/trophiclevels.jl"))
-export fractional_trophic_level, trophic_level
-
-include(joinpath(".", "foodwebs/omnivory.jl"))
-export omnivory
+export distance_to_producer, trophic_level, omnivory
 
 include(joinpath(".", "information/entropy.jl"))
 export entropy, make_joint_distribution, mutual_information, conditional_entropy,
