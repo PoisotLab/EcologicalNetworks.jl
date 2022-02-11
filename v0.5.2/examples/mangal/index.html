@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Integration with Mangal · EcologicalNetworks</title><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.039/juliamono-regular.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.13.11/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><script src="../../../copy.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img src="../../assets/logo.png" alt="EcologicalNetworks logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../../">EcologicalNetworks</a></span></div><form class="docs-search" action="../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../">Index</a></li><li><span class="tocitem">Interface</span><ul><li><a class="tocitem" href="../../interface/types/">Types</a></li><li><a class="tocitem" href="../../interface/conversions/">Conversions</a></li><li><a class="tocitem" href="../../interface/highlevel/">Core functions</a></li><li><a class="tocitem" href="../../interface/abstractarray/">AbstractArray</a></li><li><a class="tocitem" href="../../interface/iterate/">Iterate</a></li></ul></li><li><span class="tocitem">Examples</span><ul><li><a class="tocitem" href="../modularity/">Modularity</a></li><li><a class="tocitem" href="../centrality/">Centrality</a></li><li class="is-active"><a class="tocitem" href>Integration with Mangal</a></li><li><a class="tocitem" href="../beta-diversity/">Network beta-diversity</a></li><li><a class="tocitem" href="../extinctions/">Extinctions</a></li></ul></li><li><span class="tocitem">Basic measures</span><ul><li><a class="tocitem" href="../../properties/links/">Links</a></li><li><a class="tocitem" href="../../properties/modularity/">Modularity</a></li><li><a class="tocitem" href="../../properties/nestedness/">Nestedness</a></li><li><a class="tocitem" href="../../properties/motifs/">Motifs</a></li><li><a class="tocitem" href="../../properties/paths/">Centrality and paths</a></li><li><a class="tocitem" href="../../properties/overlap/">Overlap and similarity</a></li><li><a class="tocitem" href="../../properties/foodwebs/">Food web measures</a></li></ul></li><li><span class="tocitem">Advanced information</span><ul><li><a class="tocitem" href="../../properties/betadiversity/">Beta-diversity</a></li><li><a class="tocitem" href="../../properties/resilience/">Resilience</a></li><li><a class="tocitem" href="../../properties/information/">Information theory</a></li></ul></li><li><span class="tocitem">Generating networks</span><ul><li><a class="tocitem" href="../../random/null/">Null models</a></li><li><a class="tocitem" href="../../random/structure/">Structural models</a></li><li><a class="tocitem" href="../../random/otsin/">Optimal transportation</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples</a></li><li class="is-active"><a href>Integration with Mangal</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Integration with Mangal</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/EcoJulia/EcologicalNetworks.jl/blob/master/docs/src/examples/mangal.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><p>In this example, we will show how <code>EcologicalNetworks.jl</code> can be integrated with <a href="https://github.com/EcoJulia/Mangal.jl"><code>Mangal.jl</code></a> to analyse many ecological networks. Specifically, we will show how to analyse the association between meaningful network properties (i.e. connectance, nestedness, and modularity) using all food webs archived on the <a href="https://mangal.io/#/"><code>mangal.io</code></a> online database.</p><p>To conduct this analysis, we need to upload the following packages:</p><pre><code class="language-julia hljs">using EcologicalNetworks
+using Mangal
+using DataFrames
+using Plots
+using Plots.PlotMeasures</code></pre><p>We first retrieve relevant metadata for all 1,386 networks archived on <code>mangal.io</code> using the <code>Mangal.jl</code> package. We count the number of species <span>$S$</span> and the total number of interactions <span>$L$</span> in each network, as well as their number of trophic interactions (predation and herbivory). We store these information in a data frame along with the networks&#39; ID numbers, and print the first 5 elements. Due to the high number of networks we handle, note that this step might take some time to run.</p><pre><code class="language- hljs">number_of_networks = count(MangalNetwork)
+count_per_page = 100
+number_of_pages = convert(Int, ceil(number_of_networks/count_per_page))
+
+mangal_networks = DataFrame(fill(Int64, 5),
+                 [:id, :S, :L, :pred, :herb],
+                 number_of_networks)
+
+global cursor = 1
+for page in 1:number_of_pages
+    global cursor
+    networks_in_page = Mangal.networks(&quot;count&quot; =&gt; count_per_page, &quot;page&quot; =&gt; page-1)
+    for current_network in networks_in_page
+        S = count(MangalNode, current_network)
+        L = count(MangalInteraction, current_network)
+        pred = count(MangalInteraction, current_network, &quot;type&quot; =&gt; &quot;predation&quot;)
+        herb = count(MangalInteraction, current_network, &quot;type&quot; =&gt; &quot;herbivory&quot;)
+        mangal_networks[cursor,:] .= (current_network.id, S, L, pred, herb)
+        cursor = cursor + 1
+    end
+end
+
+first(mangal_networks, 5)</code></pre><p>We now have all the information we need to identify all food webs archived on <code>mangal.io</code>. Here we consider as food webs any ecological networks mainly composed of trophic interactions. We find that 259 networks meet this condition.  </p><pre><code class="language- hljs">foodwebs = mangal_networks[mangal_networks[!, :pred] .+ mangal_networks[!, :herb] ./ mangal_networks[!, :L] .&gt; 0.5, :]
+
+first(foodwebs, 5)</code></pre><p>To analyse their properties, we first need to read all of these food webs using the <code>Mangal.jl</code> package, and then convert them to UnipartiteNetworks using the <code>EcologicalNetworks.jl</code> package. </p><pre><code class="language- hljs">mangal_foodwebs = network.(foodwebs.id)
+
+unipartite_foodwebs = convert.(UnipartiteNetwork, mangal_foodwebs)
+
+unipartite_foodwebs[1:5]</code></pre><p>We can then compute any measure supported by <code>EcologicalNetworks.jl</code> for UnipartiteNetworks. In this example, we compute connectance, nestedness, and modularity. To compute network modularity, we use 100 random species assignments in 3 to 15 groups as our starters, the BRIM algorithm to optimize the modularity for each of these random partitions, and retain the maximum value for each food web. Readers are invited to take a look at the <a href="https://ecojulia.github.io/EcologicalNetworks.jl/dev/properties/modularity/">documentation</a> for further details on how to compute modularity.</p><pre><code class="language- hljs">foodweb_measures = DataFrame(fill(Float64, 3),
+                 [:connect, :nested, :modul],
+                 length(unipartite_foodwebs))
+
+# connectance
+foodweb_measures.connect = connectance.(unipartite_foodwebs)
+
+# nestedness
+foodweb_measures.nested = ρ.(unipartite_foodwebs)
+
+# modularity (BRIM algorithm)
+number_of_modules = repeat(3:15, outer=100)
+modules = Array{Dict}(undef, length(number_of_modules))
+
+for i in eachindex(unipartite_foodwebs)
+    current_network = unipartite_foodwebs[i]
+    for j in eachindex(number_of_modules)
+        _, modules[j] = n_random_modules(number_of_modules[j])(current_network) |&gt; x -&gt; brim(x...)
+    end
+    partition_modularity = map(x -&gt; Q(current_network,x), modules);
+    foodweb_measures.modul[i] = maximum(partition_modularity)
+end
+
+first(foodweb_measures, 5)</code></pre><p>The association between these food-web measures can then be plotted. We find that modularity is negatively associated with connectance and nestedness, whereas nestesdness and connectance are positively associated.</p><pre><code class="language- hljs">pal=RGB(204/255,121/255,167/255)
+
+scatter(foodweb_measures.connect, foodweb_measures.nested,
+    alpha=0.6, color=pal,
+    lab=&quot;&quot;, framestyle=:box,
+    xlabel=&quot;Connectance&quot;,
+    ylabel=&quot;Nestedness&quot;,
+    margin = 10mm)</code></pre><pre><code class="language- hljs">scatter(foodweb_measures.connect, foodweb_measures.modul,
+    alpha=0.6, color=pal,
+    lab=&quot;&quot;,framestyle=:box,
+    xlabel=&quot;Connectance&quot;,
+    ylabel=&quot;Modularity&quot;,
+    margin = 10mm)</code></pre><pre><code class="language- hljs">scatter(foodweb_measures.modul, foodweb_measures.nested,
+    alpha=0.6, color=pal,
+    lab=&quot;&quot;, framestyle=:box,
+    xlabel=&quot;Modularity&quot;,
+    ylabel=&quot;Nestedness&quot;,
+    margin = 10mm)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../centrality/">« Centrality</a><a class="docs-footer-nextpage" href="../beta-diversity/">Network beta-diversity »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.12 on <span class="colophon-date" title="Friday 11 February 2022 20:14">Friday 11 February 2022</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
