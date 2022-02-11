@@ -30,7 +30,7 @@ makedocs(
             "Nestedness" => "properties/nestedness.md",
             "Motifs" => "properties/motifs.md",
             "Centrality and paths" => "properties/paths.md",
-            "Overlap and similarity" => "properties/overlap.md"
+            "Overlap and similarity" => "properties/overlap.md",
             "Food web measures" => "properties/foodwebs.md"
         ],
         "Advanced information" => [
