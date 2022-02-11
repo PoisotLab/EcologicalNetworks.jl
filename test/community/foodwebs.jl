@@ -16,12 +16,4 @@ module TestFoodWebs
   @test minimum(values(trophic_level(s1))) ≈ 1.0
   @test minimum(values(distance_to_producer(s1))) == 1.0
 
-  # test on a quantitative bipartite network
-  @test web_of_life("A_HP_002") |>
-    x -> convert(BinaryNetwork, x) |> x -> convert(UnipartiteNetwork, x) |>
-    trophic_level |> values |> minimum |> x -> x == 1.0
-  @test web_of_life("A_HP_002") |>
-    x -> convert(BinaryNetwork, x) |> x -> convert(UnipartiteNetwork, x) |>
-    trophic_level |> values |> maximum |> x -> x == 2.0
-
 end
