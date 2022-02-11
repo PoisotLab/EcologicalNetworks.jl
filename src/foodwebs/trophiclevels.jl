@@ -23,17 +23,27 @@ In this package, the keyword `f` defaults to `maximum`. Using any other
 function, as long as it accepts an array (of chain distances) and return a
 scalar, will work; `minimum` and `Statistics.mean` are natural alternatives,
 as is `StatsBase.mode` or `Statistics.median`.
+
+The chain length from any species to any producer is taken as the shortest
+possible path between these two species, as identified by the Dijkstra
+algorithm.
 """
-function trophic_level(N::T) where {T<:UnipartiteNetwork}
+function trophic_level(N::T; f=maximum) where {T<:UnipartiteNetwork}
     Y = nodiagonal(N)
-    producers = keys(filter(spedeg -> spedeg.second == 0, degree(Y; dims=1)))
-    sp = shortest_path(Y)
-    prod_id = findall(isequal(0), vec(sum(sp; dims=2)))
-    return Dict(zip(species(Y; dims=1), maximum(sp[:, prod_id]; dims=2) .+ 1))
+    paths = dijkstra(Y)
+    consumers = collect(keys(filter(p -> iszero(p.second), degree(Y; dims=1))))
+    filter!(int -> int.to ∈ consumers, paths)
+    tl = Dict{eltype(species(Y)),Float64}()
+    for sp in species(Y)
+        sp_paths = filter(int -> isequal(sp)(int.from), paths)
+        chain_lengths = [int.weight for int in sp_paths]
+        tl[sp] = isempty(chain_lengths) ? 1.0 : f(chain_lengths)+1.0
+    end
+    return tl
 end
 
 """
-    fractional_trophic_level(N::UnipartiteNetwork)
+    fractional_trophic_level(N::UnipartiteNetwork; kwargs...)
 
 Returns the *fractional* trophic level (after Odum & Heald 1975)
 of species in a binary unipartite network. The trophic level is
@@ -42,9 +52,11 @@ calculated after Pauly & Christensen (1995), specifically as TLᵢ = 1 +
 of species i, and DCᵢⱼ is the proportion of species j in the diet of
 species i. Note that this function is calculated on a network where the
 diagonal (i.e. self loops) are removed.
+
+The keywords arguments are passed to `trophic_level`.
 """
-function fractional_trophic_level(N::T) where {T<:UnipartiteNetwork}
-    TL = trophic_level(N)
+function fractional_trophic_level(N::T; kwargs...) where {T<:UnipartiteNetwork}
+    TL = trophic_level(N; kwargs...)
     Y = nodiagonal(N)
     D = zeros(Float64, size(Y))
     ko = degree_out(Y)
