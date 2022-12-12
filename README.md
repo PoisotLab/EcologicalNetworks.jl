@@ -36,22 +36,22 @@ That's it. Now head over to the
 ### Released version
 
 [![DOI](https://zenodo.org/badge/25148478.svg)](https://zenodo.org/badge/latestdoi/25148478)
-[![license](https://img.shields.io/badge/license-MIT%20%22Expat%22-yellowgreen.svg)](https://github.com/EcoJulia/EcologicalNetworks.jl/blob/master/LICENSE.md)
+[![license](https://img.shields.io/badge/license-MIT%20%22Expat%22-yellowgreen.svg)](https://github.com/PoisotLab/EcologicalNetworks.jl/blob/master/LICENSE.md)
 
-[![GitHub tag](https://img.shields.io/github/tag/EcoJulia/EcologicalNetworks.jl.svg)]()
-[![GitHub issues](https://img.shields.io/github/issues/EcoJulia/EcologicalNetworks.jl.svg)]()
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/EcoJulia/EcologicalNetworks.jl.svg)]()
+[![GitHub tag](https://img.shields.io/github/tag/PoisotLab/EcologicalNetworks.jl.svg)]()
+[![GitHub issues](https://img.shields.io/github/issues/PoisotLab/EcologicalNetworks.jl.svg)]()
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/PoisotLab/EcologicalNetworks.jl.svg)]()
 
 ### On `master`
 
-![CI](https://github.com/EcoJulia/EcologicalNetworks.jl/workflows/CI/badge.svg?branch=master)
-![CI](https://github.com/EcoJulia/EcologicalNetworks.jl/workflows/TagBot/badge.svg?branch=master)
-![CI](https://github.com/EcoJulia/EcologicalNetworks.jl/workflows/CompatHelper/badge.svg?branch=master)
-[![codecov.io](http://codecov.io/github/EcoJulia/EcologicalNetworks.jl/coverage.svg?branch=master)](http://codecov.io/github/EcoJulia/EcologicalNetworks.jl?branch=master)
+![CI](https://github.com/PoisotLab/EcologicalNetworks.jl/workflows/CI/badge.svg?branch=master)
+![CI](https://github.com/PoisotLab/EcologicalNetworks.jl/workflows/TagBot/badge.svg?branch=master)
+![CI](https://github.com/PoisotLab/EcologicalNetworks.jl/workflows/CompatHelper/badge.svg?branch=master)
+[![codecov.io](http://codecov.io/github/PoisotLab/EcologicalNetworks.jl/coverage.svg?branch=master)](http://codecov.io/github/PoisotLab/EcologicalNetworks.jl?branch=master)
 
 ### On `develop`
 
-![CI](https://github.com/EcoJulia/EcologicalNetworks.jl/workflows/CI/badge.svg?branch=develop)
-![CI](https://github.com/EcoJulia/EcologicalNetworks.jl/workflows/TagBot/badge.svg?branch=develop)
-![CI](https://github.com/EcoJulia/EcologicalNetworks.jl/workflows/CompatHelper/badge.svg?branch=develop)
-[![codecov.io](http://codecov.io/github/EcoJulia/EcologicalNetworks.jl/coverage.svg?branch=develop)](http://codecov.io/github/EcoJulia/EcologicalNetworks.jl?branch=develop)
+![CI](https://github.com/PoisotLab/EcologicalNetworks.jl/workflows/CI/badge.svg?branch=develop)
+![CI](https://github.com/PoisotLab/EcologicalNetworks.jl/workflows/TagBot/badge.svg?branch=develop)
+![CI](https://github.com/PoisotLab/EcologicalNetworks.jl/workflows/CompatHelper/badge.svg?branch=develop)
+[![codecov.io](http://codecov.io/github/PoisotLab/EcologicalNetworks.jl/coverage.svg?branch=develop)](http://codecov.io/github/PoisotLab/EcologicalNetworks.jl?branch=develop)
