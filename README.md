@@ -5,8 +5,8 @@ on ecological networks. It is designed to be general, easy to expand, and work
 on bipartite/unipartite as well as deterministic/quantitative/probabilistic
 networks. The current version is compatible with `julia` version 1.5 and up.
 
-[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://ecojulia.github.io/EcologicalNetworks.jl/stable)
-[![](https://img.shields.io/badge/docs-dev-orange.svg)](https://ecojulia.github.io/EcologicalNetworks.jl/dev)
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://poisotlab.github.io/EcologicalNetworks.jl/stable)
+[![](https://img.shields.io/badge/docs-dev-orange.svg)](https://poisotlab.github.io/EcologicalNetworks.jl/dev)
 
 ## Getting started
 
@@ -29,7 +29,7 @@ add Mangal
 ```
 
 That's it. Now head over to the
-[documentation](http://EcoJulia.github.io/EcologicalNetworks.jl/stable/).
+[documentation](http://poisotlab.github.io/EcologicalNetworks.jl/stable/).
 
 ## How's the code doing?
 
