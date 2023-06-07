@@ -34,6 +34,8 @@ end
     nodes = Unipartite([:a, :b, :c])
     edges = Binary(sparse(rand(Bool, (3,3))))
     N = SpeciesInteractionNetwork(nodes, edges)
+    @test richnes(N) == 3
+    @test species(N) == [:a, :b, :c]
 end
 
 species(N::SpeciesInteractionNetwork{P,E}) where {P<:Bipartite, E<:Interactions} = vcat(N.nodes.top, N.nodes.bottom)
