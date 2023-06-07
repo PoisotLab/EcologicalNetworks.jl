@@ -1,6 +1,11 @@
 abstract type Partiteness end
 abstract type Interactions end
 
+struct SpeciesInteractionNetwork{P<:Partiteness, E<:Interactions}
+    nodes::P
+    edges::E
+end
+
 using SparseArrays
 using TestItems
 
@@ -35,10 +40,6 @@ struct Binary{Bool} <: Interactions
     edges::SparseMatrixCSC{Bool}
 end
 
-struct SpeciesInteractionNetwork{P<:Partiteness, E<:Interactions}
-    nodes::P
-    edges::E
-end
 
 @testitem "We can declare a unipartite probabilistic network" begin
     nodes = Unipartite([:a, :b, :c])
