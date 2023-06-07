@@ -1,16 +1,17 @@
 module EcologicalNetworks
 
 # Dependencies
-using StatsBase
 using Combinatorics
-using Distributions
-using Random
-using Statistics
-using DelimitedFiles
-using LinearAlgebra
 using DataStructures
-using SparseArrays
+using DelimitedFiles
+using Distributions
+using LinearAlgebra
+using Random
 using Requires
+using SparseArrays
+using Statistics
+using StatsBase
+using TestItems
 
 # Various utilities for probabilities
 include(joinpath(".", "misc", "probabilities.jl"))
