@@ -9,7 +9,7 @@ struct Bipartite{T <: Any} <: Partiteness
 end
 
 struct Unipartite{T <: Any} <: Partiteness
-    species::Vector{T}
+    margin::Vector{T}
 end
 
 struct Probabilistic{T <: AbstractFloat} <: Interactions
@@ -24,12 +24,16 @@ struct Binary{Bool} <: Interactions
     edges::SparseMatrixCSC{Bool}
 end
 
-struct EcologicalNetwork{P<:Partiteness, E<:Interactions}
-    species::P
+struct SpeciesInteractionNetwork{P<:Partiteness, E<:Interactions}
+    nodes::P
     edges::E
 end
 
 nodes = Unipartite([:a, :b, :c])
 edges = Binary(sparse(rand(Bool, (3,3))))
+N = SpeciesInteractionNetwork(nodes, edges)
 
-EcologicalNetwork(nodes, edges)
+species(N::SpeciesInteractionNetwork{P,E}) where {P<:Bipartite, E<:Interactions} = vcat(N.nodes.top, N.nodes.bottom)
+species(N::SpeciesInteractionNetwork{P,E}) where {P<:Unipartite, E<:Interactions} = N.nodes.margin
+
+richness(N::SpeciesInteractionNetwork) = length(species(N))
