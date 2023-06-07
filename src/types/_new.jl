@@ -2,6 +2,7 @@ abstract type Partiteness end
 abstract type Interactions end
 
 using SparseArrays
+using TestItems
 
 struct Bipartite{T <: Any} <: Partiteness
     top::Vector{T}
@@ -29,9 +30,11 @@ struct SpeciesInteractionNetwork{P<:Partiteness, E<:Interactions}
     edges::E
 end
 
-nodes = Unipartite([:a, :b, :c])
-edges = Binary(sparse(rand(Bool, (3,3))))
-N = SpeciesInteractionNetwork(nodes, edges)
+@testitem "We can declare a unipartite probabilistic network" begin
+    nodes = Unipartite([:a, :b, :c])
+    edges = Binary(sparse(rand(Bool, (3,3))))
+    N = SpeciesInteractionNetwork(nodes, edges)
+end
 
 species(N::SpeciesInteractionNetwork{P,E}) where {P<:Bipartite, E<:Interactions} = vcat(N.nodes.top, N.nodes.bottom)
 species(N::SpeciesInteractionNetwork{P,E}) where {P<:Unipartite, E<:Interactions} = N.nodes.margin
