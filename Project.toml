@@ -1,7 +1,7 @@
-name = "EcologicalNetworks"
+name = "SpeciesInteractionNetworks"
 uuid = "f03a62fe-f8ab-5b77-a061-bb599b765229"
 authors = ["Timothée Poisot <timothee.poisot@umontreal.ca>"]
-repo = "https://github.com/EcoJulia/EcologicalNetworks.jl"
+repo = "https://github.com/PoisotLab/SpeciesInteractionNetworks.jl"
 version = "0.6.0"
 
 [deps]
