@@ -76,6 +76,22 @@ function Base.getindex(N::SpeciesInteractionNetwork{Bipartite{T}, <:Interactions
     return N[i,j]
 end
 
+function Base.getindex(N::SpeciesInteractionNetwork{Bipartite{T}, <:Interactions}, s1::T, ::Colon) where {T}
+    i = findfirst(isequal(s1), N.nodes.top)
+    if isnothing(i)
+        throw(ArgumentError("The species $(s1) is not part of the network"))
+    end
+    return N[i,:]
+end
+
+function Base.getindex(N::SpeciesInteractionNetwork{Bipartite{T}, <:Interactions}, ::Colon, s2::T) where {T}
+    j = findfirst(isequal(s2), N.nodes.bottom)
+    if isnothing(j)
+        throw(ArgumentError("The species $(s2) is not part of the network"))
+    end
+    return N[:,j]
+end
+
 function Base.getindex(N::SpeciesInteractionNetwork{Unipartite{T}, <:Interactions}, s1::T, s2::T) where {T}
     i = findfirst(isequal(s1), N.nodes.margin)
     j = findfirst(isequal(s2), N.nodes.margin)
@@ -86,6 +102,22 @@ function Base.getindex(N::SpeciesInteractionNetwork{Unipartite{T}, <:Interaction
         throw(ArgumentError("The species $(s2) is not part of the network"))
     end
     return N[i,j]
+end
+
+function Base.getindex(N::SpeciesInteractionNetwork{Unipartite{T}, <:Interactions}, s1::T, ::Colon) where {T}
+    i = findfirst(isequal(s1), N.nodes.margin)
+    if isnothing(i)
+        throw(ArgumentError("The species $(s1) is not part of the network"))
+    end
+    return N[i,:]
+end
+
+function Base.getindex(N::SpeciesInteractionNetwork{Unipartite{T}, <:Interactions}, ::Colon, s2::T) where {T}
+    j = findfirst(isequal(s2), N.nodes.margin)
+    if isnothing(j)
+        throw(ArgumentError("The species $(s2) is not part of the network"))
+    end
+    return N[:,j]
 end
 
 @testitem "We can index a bipartite network using the species names" begin
@@ -104,10 +136,20 @@ end
     edges = Binary([false true; true false])
     nodes = Unipartite([:A, :B])
     U = SpeciesInteractionNetwork(nodes, edges)
-    @test U[:A, :A] == false
-    @test U[:A, :B] == true
-    @test U[:B, :A] == true
-    @test U[:B, :B] == false
+    @test U[:A, :] == U[1,:]
+    @test U[:, :B] == U[:,2]
+end
+
+@testitem "We can slice a network using species names" begin
+    edges = Quantitative([1 2 3; 4 5 6])
+    nodes = Bipartite([:A, :B], [:a, :b, :c])
+    B = SpeciesInteractionNetwork(nodes, edges)
+    @test B[:A, :a] == 1
+    @test B[:A, :b] == 2
+    @test B[:A, :c] == 3
+    @test B[:B, :a] == 4
+    @test B[:B, :b] == 5
+    @test B[:B, :c] == 6
 end
 
 @testitem "We cannot index using a species that is not in the network" begin
@@ -153,48 +195,6 @@ end
 end
 
 #=
-"""
-    getindex(N::AbstractEcologicalNetwork, i::T)
-
-Get the value of an interaction based on the position of the species.
-"""
-function Base.getindex(N::AbstractEcologicalNetwork, i::T) where {T <: Int}
-  return N.edges[i]
-end
-
-
-"""
-    getindex(N::AbstractEcologicalNetwork, ::Colon, j::T)
-
-Get the value of an interaction based on the position of the species.
-"""
-function Base.getindex(N::AbstractEcologicalNetwork, ::Colon, j::T) where {T <: Int}
-  return N.edges[:,j]
-end
-
-"""
-    getindex(N::AbstractEcologicalNetwork, i::T, ::Colon)
-
-Get the value of an interaction based on the position of the species.
-"""
-function Base.getindex(N::AbstractEcologicalNetwork, i::T, ::Colon) where {T <: Int}
-  return N.edges[i,:]
-end
-
-"""
-    getindex{T}(N::AbstractEcologicalNetwork, s1::T, s2::T)
-
-Get the value of an interaction based on the *name* of the species. This is the
-recommended way to look for things in a network.
-"""
-function Base.getindex(N::AbstractEcologicalNetwork, s1::T, s2::T) where {T}
-  @assert T == _species_type(N)
-  s1_pos = findfirst(isequal(s1), species(N; dims=1))
-  s2_pos = findfirst(isequal(s2), species(N; dims=2))
-  return N[s1_pos, s2_pos]
-end
-
-
 """
     getindex{T}(N::AbstractBipartiteNetwork, ::Colon, sp::T)
 
