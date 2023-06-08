@@ -6,10 +6,10 @@ function SpeciesInteractionNetwork{Bipartite, Probabilistic}(
     bottom = Symbol.("bottom_" .* string.(1:ric[2]))
     edges = Probabilistic(sparse(M))
     nodes = Bipartite(top, bottom)
-    return SpeciesInteractionNetwork(nodes, edges)
+    return SpeciesInteractionNetwork{Bipartite, Probabilistic}(nodes, edges)
 end
 
-@testitem "We can define a bipartite probabilistic network from a matrix" begin
+@testitem "We can construct a bipartite probabilistic network from a matrix" begin
     M = rand(Float64, (12, 10))
     N = SpeciesInteractionNetwork{Bipartite, Probabilistic}(M)
     @test richness(N) == sum(size(M))
@@ -23,10 +23,10 @@ function SpeciesInteractionNetwork{Unipartite, Probabilistic}(
     ric = size(M)
     nodes = Unipartite(Symbol.("node_" .* string.(1:ric[1])))
     edges = Probabilistic(sparse(M))
-    return SpeciesInteractionNetwork(nodes, edges)
+    return SpeciesInteractionNetwork{Unipartite, Probabilistic}(nodes, edges)
 end
 
-@testitem "We can define a unipartite probabilistic network from a matrix" begin
+@testitem "We can construct a unipartite probabilistic network from a matrix" begin
     M = rand(Float64, (12, 12))
     N = SpeciesInteractionNetwork{Unipartite, Probabilistic}(M)
     @test richness(N) == size(M, 1)
@@ -40,10 +40,10 @@ function SpeciesInteractionNetwork{Unipartite, Binary}(
     ric = size(M)
     nodes = Unipartite(Symbol.("node_" .* string.(1:ric[1])))
     edges = Binary(sparse(M))
-    return SpeciesInteractionNetwork(nodes, edges)
+    return SpeciesInteractionNetwork{Unipartite, Binary}(nodes, edges)
 end
 
-@testitem "We can define a unipartite binary network from a matrix" begin
+@testitem "We can construct a unipartite binary network from a matrix" begin
     M = rand(Bool, (12, 12))
     N = SpeciesInteractionNetwork{Unipartite, Binary}(M)
     @test richness(N) == size(M, 1)
