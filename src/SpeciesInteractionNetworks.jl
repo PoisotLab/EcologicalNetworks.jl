@@ -30,6 +30,8 @@ include(joinpath("types/constructors.jl"))
 include(joinpath("types/interface.jl"))
 export species, richness
 
+include(joinpath("interfaces/abstractarray.jl"))
+
 # include(joinpath(".", "types", "conversions.jl"))
 
 # Datasets

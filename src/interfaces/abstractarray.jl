@@ -3,10 +3,43 @@
 
 The length of a network is the number of non-zero elements in it.
 """
-function Base.length(N::T) where {T <: AbstractEcologicalNetwork}
-    return count(!iszero, N.edges)
+Base.length(N::SpeciesInteractionNetwork) = count(!iszero, N.edges.edges)
+
+@testitem "The length of a network is the number of interactions" begin
+    M = rand(Bool, (10, 10))
+    N = SpeciesInteractionNetwork{Unipartite,Binary}(M)
+    @test length(N) == sum(M)
 end
 
+Base.size(N::SpeciesInteractionNetwork) = size(N.edges.edges)
+Base.size(N::SpeciesInteractionNetwork, i::Integer) = size(N.edges.edges, i)
+
+@testitem "The size of a network is the size of its edges matrix" begin
+    M = rand(Bool, (12, 14))
+    N = SpeciesInteractionNetwork{Bipartite, Binary}(M)
+    @test size(M) == size(N.edges.edges)
+    @test size(M,1) == size(N.edges.edges,1)
+    @test size(M,2) == size(N.edges.edges,2)
+end
+
+Base.getindex(E::Interactions, i::Integer, j::Integer) = E.edges[i,j]
+Base.getindex(N::SpeciesInteractionNetwork, i::Integer, j::Integer) = N.edges[i,j]
+
+@testitem "We can get an interaction in the edges of a network by position" begin
+    M = rand(Bool, (12, 14))
+    E = Binary(M)
+    S = Bipartite(E)
+    N = SpeciesInteractionNetwork(S,E)
+    for i in axes(M,1)
+        for j in axes(M,2)
+            @test E[i,j] == M[i,j]
+            @test N[i,j] == M[i,j]
+            @test N[i,j] == E[i,j]
+        end
+    end
+end
+
+#=
 """
     similar(N::T) where {T <: AbstractEcologicalNetwork}
 
@@ -16,34 +49,6 @@ is useful if you want to generate a "blank slate" for some analyses.
 function Base.similar(N::T) where {T <: AbstractEcologicalNetwork}
    Y = sparse(zeros(_interaction_type(N), size(N)))
    return T(Y, _species_objects(N)...)
-end
-
-"""
-    size(N::AbstractEcologicalNetwork)
-
-Return the size of the adjacency matrix of an `AbstractEcologicalNetwork` object.
-"""
-function Base.size(N::AbstractEcologicalNetwork)
-  size(N.edges)
-end
-
-"""
-    size(N::AbstractEcologicalNetwork, i::Int64)
-
-Return the size of the adjacency matrix of an `AbstractEcologicalNetwork` object.
-"""
-function Base.size(N::AbstractEcologicalNetwork, i::Int64)
-  size(N.edges, i)
-end
-
-
-"""
-    getindex(N::AbstractEcologicalNetwork, i::T, j::T)
-
-Get the value of an interaction based on the position of the species.
-"""
-function Base.getindex(N::AbstractEcologicalNetwork, i::T, j::T) where {T <: Int}
-  return N.edges[i,j]
 end
 
 """
@@ -219,3 +224,4 @@ function Base.setindex!(N::T, A::Any, i::E, j::E) where {T <: AbstractEcological
   @assert j ≤ richness(N; dims=2)
   N.edges[i, j] = A
 end
+=#
