@@ -24,6 +24,14 @@ end
     @test richness(set) == 7
 end
 
+@testitem "We cannot declare a bipartite set with species on both sides" begin
+    @test_throws ArgumentError Bipartite([:a, :b, :c], [:A, :a])
+end
+
+@testitem "We cannot declare a bipartite set with non-unique species" begin
+    @test_throws ArgumentError Bipartite([:a, :b, :b], [:A, :B])
+end
+
 struct Unipartite{T <: Any} <: Partiteness
     margin::Vector{T}
 end
@@ -36,6 +44,10 @@ end
 @testitem "We can declare a unipartite species set with strings" begin
     set = Unipartite(["a", "b", "c"])
     @test richness(set) == 3
+end
+
+@testitem "We cannot declare a unipartite set with non-unique species" begin
+    @test_throws ArgumentError Unipartite([:a, :b, :b])
 end
 
 struct Probabilistic{T <: AbstractFloat} <: Interactions
