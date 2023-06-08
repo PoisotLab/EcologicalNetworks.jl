@@ -11,8 +11,17 @@ Base.length(N::SpeciesInteractionNetwork) = count(!iszero, N.edges.edges)
     @test length(N) == sum(M)
 end
 
-Base.size(N::SpeciesInteractionNetwork) = size(N.edges.edges)
-Base.size(N::SpeciesInteractionNetwork, i::Integer) = size(N.edges.edges, i)
+Base.axes(E::Interactions) = axes(E.edges)
+Base.axes(E::Interactions, i::Integer) = axes(E.edges, i)
+
+Base.axes(N::SpeciesInteractionNetwork) = axes(N.edges)
+Base.axes(N::SpeciesInteractionNetwork, i::Integer) = axes(N.edges, i)
+
+Base.size(E::Interactions) = size(E.edges)
+Base.size(E::Interactions, i::Integer) = size(E.edges, i)
+
+Base.size(N::SpeciesInteractionNetwork) = size(N.edges)
+Base.size(N::SpeciesInteractionNetwork, i::Integer) = size(N.edges, i)
 
 @testitem "The size of a network is the size of its edges matrix" begin
     M = rand(Bool, (12, 14))
@@ -30,8 +39,8 @@ Base.getindex(N::SpeciesInteractionNetwork, i::Integer, j::Integer) = N.edges[i,
     E = Binary(M)
     S = Bipartite(E)
     N = SpeciesInteractionNetwork(S,E)
-    for i in axes(M,1)
-        for j in axes(M,2)
+    for i in axes(N,1)
+        for j in axes(E,2)
             @test E[i,j] == M[i,j]
             @test N[i,j] == M[i,j]
             @test N[i,j] == E[i,j]
@@ -39,18 +48,22 @@ Base.getindex(N::SpeciesInteractionNetwork, i::Integer, j::Integer) = N.edges[i,
     end
 end
 
-#=
-"""
-    similar(N::T) where {T <: AbstractEcologicalNetwork}
-
-Returns a network with the same species, but an empty interaction matrix. This
-is useful if you want to generate a "blank slate" for some analyses.
-"""
-function Base.similar(N::T) where {T <: AbstractEcologicalNetwork}
-   Y = sparse(zeros(_interaction_type(N), size(N)))
-   return T(Y, _species_objects(N)...)
+function Base.similar(N::SpeciesInteractionNetwork{P,E}) where {P <: Partiteness, E <: Interactions}
+    new_edges = E(sparse(zeros(eltype(N.edges), size(N))))
+    return SpeciesInteractionNetwork(N.nodes, new_edges)
 end
 
+@testitem "We can construct a similar network from a network" begin
+    N = SpeciesInteractionNetwork{Bipartite, Binary}(rand(Bool, (3, 4)))
+    S = similar(N)
+    for i in axes(N,1)
+        for j in axes(N,2)
+            @test iszero(S[i,j])
+        end
+    end
+end
+
+#=
 """
     getindex(N::AbstractEcologicalNetwork, i::T)
 
