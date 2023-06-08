@@ -53,8 +53,28 @@ function Base.similar(N::SpeciesInteractionNetwork{P,E}) where {P <: Partiteness
     return SpeciesInteractionNetwork(N.nodes, new_edges)
 end
 
-@testitem "We can construct a similar network from a network" begin
+@testitem "We can construct a similar network from a binary network" begin
     N = SpeciesInteractionNetwork{Bipartite, Binary}(rand(Bool, (3, 4)))
+    S = similar(N)
+    for i in axes(N,1)
+        for j in axes(N,2)
+            @test iszero(S[i,j])
+        end
+    end
+end
+
+@testitem "We can construct a similar network from a quantitative network" begin
+    N = SpeciesInteractionNetwork{Unipartite, Quantitative}(rand(Float64, (5, 5)))
+    S = similar(N)
+    for i in axes(N,1)
+        for j in axes(N,2)
+            @test iszero(S[i,j])
+        end
+    end
+end
+
+@testitem "We can construct a similar network from a probabilistic network" begin
+    N = SpeciesInteractionNetwork{Unipartite, Probabilistic}(rand(Float64, (5, 5)))
     S = similar(N)
     for i in axes(N,1)
         for j in axes(N,2)
