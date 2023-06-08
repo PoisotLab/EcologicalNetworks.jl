@@ -21,7 +21,7 @@ end
 Quantitative(M::Matrix{T}) where {T <: Number} = Quantitative(dropzeros(sparse(M)))
 
 @testitem "We can construct quantitative edges from a matrix of numbers" begin
-    M = floor.(Int64, rand(Float64, (10, 10)).*10.0)
+    M = floor.(Int64, rand(Float64, (10, 10)) .* 10.0)
     @test eltype(Quantitative(M)) == eltype(M)
 end
 
@@ -52,10 +52,12 @@ end
     @test_throws DimensionMismatch Unipartite(E)
 end
 
-function SpeciesInteractionNetwork{P, E}(M::Matrix{T}) where {T, P <: Partiteness, E <: Interactions}
+function SpeciesInteractionNetwork{P, E}(
+    M::Matrix{T},
+) where {T, P <: Partiteness, E <: Interactions}
     edges = E(M)
     nodes = P(edges)
-    return SpeciesInteractionNetwork{P,E}(nodes, edges)
+    return SpeciesInteractionNetwork{P, E}(nodes, edges)
 end
 
 @testitem "We can construct a bipartite probabilistic network from a matrix" begin
@@ -67,16 +69,40 @@ end
 end
 
 @testitem "We can construct a unipartite probabilistic network from a matrix" begin
-    M = rand(Float64, (12, 12))
+    M = rand(Float64, (10, 10))
     N = SpeciesInteractionNetwork{Unipartite, Probabilistic}(M)
     @test richness(N) == size(M, 1)
     @test eltype(N.edges) == eltype(M)
     @test eltype(N.nodes) == Symbol
 end
 
+@testitem "We can construct a bipartite binary network from a matrix" begin
+    M = rand(Bool, (12, 10))
+    N = SpeciesInteractionNetwork{Bipartite, Binary}(M)
+    @test richness(N) == sum(size(M))
+    @test eltype(N.edges) == eltype(M)
+    @test eltype(N.nodes) == Symbol
+end
+
 @testitem "We can construct a unipartite binary network from a matrix" begin
-    M = rand(Bool, (12, 12))
+    M = rand(Bool, (10, 10))
     N = SpeciesInteractionNetwork{Unipartite, Binary}(M)
+    @test richness(N) == size(M, 1)
+    @test eltype(N.edges) == eltype(M)
+    @test eltype(N.nodes) == Symbol
+end
+
+@testitem "We can construct a bipartite quantitative network from a matrix" begin
+    M = rand(Float64, (12, 10)) .* 5.0
+    N = SpeciesInteractionNetwork{Bipartite, Quantitative}(M)
+    @test richness(N) == sum(size(M))
+    @test eltype(N.edges) == eltype(M)
+    @test eltype(N.nodes) == Symbol
+end
+
+@testitem "We can construct a unipartite quantitative network from a matrix" begin
+    M = rand(Float64, (10, 10)) .* 5.0
+    N = SpeciesInteractionNetwork{Unipartite, Quantitative}(M)
     @test richness(N) == size(M, 1)
     @test eltype(N.edges) == eltype(M)
     @test eltype(N.nodes) == Symbol
