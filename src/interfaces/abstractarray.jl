@@ -32,7 +32,12 @@ Base.size(N::SpeciesInteractionNetwork, i::Integer) = size(N.edges, i)
 end
 
 Base.getindex(E::Interactions, i::Integer, j::Integer) = E.edges[i,j]
+Base.getindex(E::Interactions, i::Integer, ::Colon) = E.edges[i,:]
+Base.getindex(E::Interactions, ::Colon, j::Integer) = E.edges[:,j]
+
 Base.getindex(N::SpeciesInteractionNetwork, i::Integer, j::Integer) = N.edges[i,j]
+Base.getindex(N::SpeciesInteractionNetwork, i::Integer, ::Colon) = N.edges[i,:]
+Base.getindex(N::SpeciesInteractionNetwork, ::Colon, j::Integer) = N.edges[:,j]
 
 @testitem "We can get an interaction in the edges of a network by position" begin
     M = rand(Bool, (12, 14))
@@ -46,6 +51,70 @@ Base.getindex(N::SpeciesInteractionNetwork, i::Integer, j::Integer) = N.edges[i,
             @test N[i,j] == E[i,j]
         end
     end
+end
+
+@testitem "We can get a slice of the network by position" begin
+    M = [1 2 3; 4 5 6]
+    N = SpeciesInteractionNetwork{Bipartite, Quantitative}(M)
+    for i in axes(N, 1)
+        @test N[i,:] == M[i,:]
+    end
+    for j in axes(N, 2)
+        @test N[:,j] == M[:,j]
+    end
+end
+
+function Base.getindex(N::SpeciesInteractionNetwork{Bipartite{T}, <:Interactions}, s1::T, s2::T) where {T}
+    i = findfirst(isequal(s1), N.nodes.top)
+    j = findfirst(isequal(s2), N.nodes.bottom)
+    if isnothing(i)
+        throw(ArgumentError("The species $(s1) is not part of the network"))
+    end
+    if isnothing(j)
+        throw(ArgumentError("The species $(s2) is not part of the network"))
+    end
+    return N[i,j]
+end
+
+function Base.getindex(N::SpeciesInteractionNetwork{Unipartite{T}, <:Interactions}, s1::T, s2::T) where {T}
+    i = findfirst(isequal(s1), N.nodes.margin)
+    j = findfirst(isequal(s2), N.nodes.margin)
+    if isnothing(i)
+        throw(ArgumentError("The species $(s1) is not part of the network"))
+    end
+    if isnothing(j)
+        throw(ArgumentError("The species $(s2) is not part of the network"))
+    end
+    return N[i,j]
+end
+
+@testitem "We can index a bipartite network using the species names" begin
+    edges = Quantitative([1 2 3; 4 5 6])
+    nodes = Bipartite([:A, :B], [:a, :b, :c])
+    B = SpeciesInteractionNetwork(nodes, edges)
+    @test B[:A, :a] == 1
+    @test B[:A, :b] == 2
+    @test B[:A, :c] == 3
+    @test B[:B, :a] == 4
+    @test B[:B, :b] == 5
+    @test B[:B, :c] == 6
+end
+
+@testitem "We can index a unipartite network using the species names" begin
+    edges = Binary([false true; true false])
+    nodes = Unipartite([:A, :B])
+    U = SpeciesInteractionNetwork(nodes, edges)
+    @test U[:A, :A] == false
+    @test U[:A, :B] == true
+    @test U[:B, :A] == true
+    @test U[:B, :B] == false
+end
+
+@testitem "We cannot index using a species that is not in the network" begin
+    edges = Binary([false true; true false])
+    nodes = Unipartite([:A, :B])
+    U = SpeciesInteractionNetwork(nodes, edges)
+    @test_throws ArgumentError U[:C, :D]
 end
 
 function Base.similar(N::SpeciesInteractionNetwork{P,E}) where {P <: Partiteness, E <: Interactions}
