@@ -25,6 +25,8 @@ export Bipartite, Unipartite
 export Binary, Quantitative, Probabilistic
 export SpeciesInteractionNetwork
 
+include(joinpath("types/constructors.jl"))
+
 include(joinpath("types/interface.jl"))
 export species, richness
 
