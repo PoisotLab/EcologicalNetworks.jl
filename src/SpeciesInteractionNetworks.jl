@@ -33,7 +33,7 @@ export species, richness
 include(joinpath("interfaces/abstractarray.jl"))
 
 include(joinpath("basics/neighbors.jl"))
-export successors
+export successors, predecessors
 
 # include(joinpath(".", "types", "conversions.jl"))
 
