@@ -31,6 +31,7 @@ include(joinpath("types/interface.jl"))
 export species, richness
 
 include(joinpath("interfaces/abstractarray.jl"))
+include(joinpath("interfaces/iteration.jl"))
 
 include(joinpath("basics/neighbors.jl"))
 export successors, predecessors
