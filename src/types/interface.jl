@@ -26,10 +26,12 @@ species(N::SpeciesInteractionNetwork, dims::Integer) = species(N.nodes, dims)
 @testitem "We can access the species on all sides of the network" begin
     t = [:A, :B, :C]
     b = [:a, :b]
+
     B = Bipartite(t, b)
     @test species(B, 1) == t
     @test species(B, 2) == b
     @test species(B) == vcat(t,b)
+    
     U = Unipartite(t)
     @test species(U, 1) == species(U, 2)
     @test species(U) == species(U, 1)

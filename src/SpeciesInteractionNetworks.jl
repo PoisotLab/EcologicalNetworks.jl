@@ -32,6 +32,9 @@ export species, richness
 
 include(joinpath("interfaces/abstractarray.jl"))
 
+include(joinpath("basics/neighbors.jl"))
+export successors
+
 # include(joinpath(".", "types", "conversions.jl"))
 
 # Datasets
@@ -54,7 +57,6 @@ end
 =#
 
 # Interfaces for networks
-# include(joinpath(".", "interfaces", "abstractarray.jl"))
 # include(joinpath(".", "interfaces", "iteration.jl"))
 
 # General useful manipulations

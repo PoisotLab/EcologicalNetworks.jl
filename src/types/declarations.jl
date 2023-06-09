@@ -6,13 +6,13 @@ struct SpeciesInteractionNetwork{P<:Partiteness, E<:Interactions}
     edges::E
 end
 
-using SparseArrays
-using TestItems
-
 struct Bipartite{T <: Any} <: Partiteness
     top::Vector{T}
     bottom::Vector{T}
     function Bipartite(top::Vector{T}, bottom::Vector{T}) where {T <: Any}
+        if T <: Number
+            throw(ArgumentError("The nodes IDs in a Bipartite set cannot be numbers"))
+        end
         if ~allunique(top)
             throw(ArgumentError("The species in the top level of a bipartite network must be unique"))
         end
@@ -44,9 +44,16 @@ end
     @test_throws ArgumentError Bipartite([:a, :b, :b], [:A, :B])
 end
 
+@testitem "We cannot construct a bipartite set with integer-valued species" begin
+    @test_throws ArgumentError Bipartite([1, 2, 3, 4], [5, 6, 7, 8])
+end
+
 struct Unipartite{T <: Any} <: Partiteness
     margin::Vector{T}
     function Unipartite(margin::Vector{T}) where {T <: Any}
+        if T <: Number
+            throw(ArgumentError("The nodes IDs in a Unipartite set cannot be numbers"))
+        end
         if ~allunique(margin)
             throw(ArgumentError("The species in a unipartite network must be unique"))
         end
@@ -66,6 +73,10 @@ end
 
 @testitem "We cannot construct a unipartite set with non-unique species" begin
     @test_throws ArgumentError Unipartite([:a, :b, :b])
+end
+
+@testitem "We cannot construct a unipartite set with integer-valued species" begin
+    @test_throws ArgumentError Unipartite([1, 2, 3, 4])
 end
 
 struct Probabilistic{T <: AbstractFloat} <: Interactions
