@@ -19,28 +19,30 @@ using TestItems
 # Tests to define what can be used in base types
 # include(joinpath(".", "misc", "init_tests.jl"))
 
-# Types
-include(joinpath("types/declarations.jl"))
+include("types/declarations.jl")
 export Bipartite, Unipartite
 export Binary, Quantitative, Probabilistic
 export SpeciesInteractionNetwork
 
-include(joinpath("types/constructors.jl"))
+include("types/constructors.jl")
 
-include(joinpath("types/interface.jl"))
+include("types/interface.jl")
 export species, richness
 
-include(joinpath("interfaces/abstractarray.jl"))
-include(joinpath("interfaces/iteration.jl"))
+include("interfaces/abstractarray.jl")
+include("interfaces/iteration.jl")
 
-include(joinpath("basics/interactions.jl"))
+include("basics/interactions.jl")
 export interactions
 
-include(joinpath("basics/neighbors.jl"))
+include("basics/neighbors.jl")
 export successors, predecessors
 
-include(joinpath("basics/subgraphs.jl"))
+include("basics/subgraphs.jl")
 export subgraph
+
+include("random/permutations.jl")
+export swap!
 
 # include(joinpath(".", "types", "conversions.jl"))
 
