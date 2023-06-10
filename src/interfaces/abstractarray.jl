@@ -285,7 +285,7 @@ function Base.getindex(N::SpeciesInteractionNetwork{<:Partiteness{T1}, <:Interac
     return N[int[1], int[2]]
 end
 
-@testitem "We can access an interaction by giving the interaction tuple" begin
+@testitem "We can access an interaction by giving an interaction tuple" begin
     edges = Probabilistic([0.1 0.9; 0.2 0.8])
     nodes = Unipartite([:A, :B])
     B = SpeciesInteractionNetwork(nodes, edges)
@@ -293,4 +293,17 @@ end
         @test B[i] == B[i[1], i[2]]
         @test B[i] == i[3]
     end
+end
+
+function Base.setindex!(N::SpeciesInteractionNetwork{<:Partiteness{T1}, <:Interactions{T2}}, val::T2, int::Tuple{T1,T1,T2}) where {T1, T2}
+    N[int[1], int[2]] = val
+    return N
+end
+
+@testitem "We can set an interaction by giving an interaction tuple" begin
+    edges = Probabilistic([0.1 0.9; 0.2 0.8])
+    nodes = Unipartite([:A, :B])
+    B = SpeciesInteractionNetwork(nodes, edges)
+    B[(:A, :A, 0.1)] = 1.0
+    @test B[:A, :A] == 1.0
 end
