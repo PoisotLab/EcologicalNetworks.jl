@@ -1,5 +1,3 @@
-import Base: eltype
-
 Base.eltype(::Bipartite{T}) where {T} = T
 Base.eltype(::Unipartite{T}) where {T} = T
 Base.eltype(::Binary) = Bool

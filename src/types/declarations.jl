@@ -1,12 +1,12 @@
-abstract type Partiteness end
-abstract type Interactions end
+abstract type Partiteness{T} end
+abstract type Interactions{T} end
 
 struct SpeciesInteractionNetwork{P<:Partiteness, E<:Interactions}
     nodes::P
     edges::E
 end
 
-struct Bipartite{T <: Any} <: Partiteness
+struct Bipartite{T <: Any} <: Partiteness{T}
     top::Vector{T}
     bottom::Vector{T}
     function Bipartite(top::Vector{T}, bottom::Vector{T}) where {T <: Any}
@@ -48,7 +48,7 @@ end
     @test_throws ArgumentError Bipartite([1, 2, 3, 4], [5, 6, 7, 8])
 end
 
-struct Unipartite{T <: Any} <: Partiteness
+struct Unipartite{T <: Any} <: Partiteness{T}
     margin::Vector{T}
     function Unipartite(margin::Vector{T}) where {T <: Any}
         if T <: Number
@@ -79,15 +79,15 @@ end
     @test_throws ArgumentError Unipartite([1, 2, 3, 4])
 end
 
-struct Probabilistic{T <: AbstractFloat} <: Interactions
+struct Probabilistic{T <: AbstractFloat} <: Interactions{T}
     edges::SparseMatrixCSC{T}
 end
 
-struct Quantitative{T <: Number} <: Interactions
+struct Quantitative{T <: Number} <: Interactions{T}
     edges::SparseMatrixCSC{T}
 end
 
-struct Binary{Bool} <: Interactions
+struct Binary{Bool} <: Interactions{Bool}
     edges::SparseMatrixCSC{Bool}
 end
 

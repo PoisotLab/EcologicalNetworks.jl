@@ -1,8 +1,3 @@
-"""
-    Base.length(N::T) where {T <: AbstractEcologicalNetwork}
-
-The length of a network is the number of non-zero elements in it.
-"""
 Base.length(N::SpeciesInteractionNetwork) = count(!iszero, N.edges.edges)
 
 @testitem "The length of a network is the number of interactions" begin
@@ -284,4 +279,18 @@ end
     B[:A, :A] = 0.0
     @test iszero(B[:A, :A])
     @test B[:A, :B] == 0.9
+end
+
+function Base.getindex(N::SpeciesInteractionNetwork{<:Partiteness{T1}, <:Interactions{T2}}, int::Tuple{T1,T1,T2}) where {T1, T2}
+    return N[int[1], int[2]]
+end
+
+@testitem "We can access an interaction by giving the interaction tuple" begin
+    edges = Probabilistic([0.1 0.9; 0.2 0.8])
+    nodes = Unipartite([:A, :B])
+    B = SpeciesInteractionNetwork(nodes, edges)
+    for i in interactions(B)
+        @test B[i] == B[i[1], i[2]]
+        @test B[i] == i[3]
+    end
 end
