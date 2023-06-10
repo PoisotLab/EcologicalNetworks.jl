@@ -39,6 +39,9 @@ export interactions
 include(joinpath("basics/neighbors.jl"))
 export successors, predecessors
 
+include(joinpath("basics/subgraphs.jl"))
+export subgraph
+
 # include(joinpath(".", "types", "conversions.jl"))
 
 # Datasets
