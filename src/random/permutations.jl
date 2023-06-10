@@ -18,18 +18,20 @@ end
 function swap_degree!(N::SpeciesInteractionNetwork{<:Partiteness, <:Binary})
     intpool = interactions(N)
     intpair = StatsBase.sample(intpool, 2, replace=false)
+    swappair = [(intpair[1][1],intpair[2][2],true), (intpair[2][1],intpair[1][2],true)]
+    valid = all(iszero.(N, swappair))
     iters = 0
-    valid = iszero(N[intpair[1][1], intpair[2][2]]) & iszero(N[intpair[2][1], intpair[1][2]])
     while (!valid)||(iter < SWAP_MAXITER)
         intpair = StatsBase.sample(intpool, 2, replace=false)
-        valid = iszero(N[intpair[1][1], intpair[2][2]]) & iszero(N[intpair[2][1], intpair[1][2]])
+        swappair = [(intpair[1][1],intpair[2][2],true), (intpair[2][1],intpair[1][2],true)]
+        valid = all(iszero.(N, swappair))
         iters += 1
     end
     if iter < SWAP_MAXITER
-        N[intpair[1][1], intpair[1][2]] = false
-        N[intpair[2][1], intpair[2][2]] = false
-        N[intpair[1][1], intpair[2][2]] = true
-        N[intpair[2][1], intpair[1][2]] = true
+        N[intpair[1]] = false
+        N[intpair[2]] = false
+        N[swappair[1]] = true
+        N[swappair[2]] = true
     end
     return N
 end
