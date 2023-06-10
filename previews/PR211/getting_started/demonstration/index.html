@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Timothée Poisot">
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Building a network - SpeciesInteractionNetworks.jl</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link href="../../assets/Documenter.css" rel="stylesheet">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">SpeciesInteractionNetworks.jl</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Getting started <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Building a network</a>
+</li>
+                                    
+<li>
+    <a href="../types/" class="dropdown-item">Type system</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../.." class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../types/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/PoisotLab/SpeciesInteractionNetworks.jl/edit/master/docs/getting_started/demonstration.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#building-a-network" class="nav-link">Building a network</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#list-of-species" class="nav-link">List of species</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#list-of-interactions" class="nav-link">List of interactions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#assembling-the-network" class="nav-link">Assembling the network</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#basics-of-network-exploration" class="nav-link">Basics of network exploration</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<p><a id='Building-a-network'></a></p>
+<p><a id='Building-a-network-1'></a></p>
+<h1 id="building-a-network">Building a network</h1>
+<p>Before getting started with the package itself, we will see how we can build a network, access its content, and iterate over the interactions. This page is intended to give you some intuitions about how the type system works, before reading more of the manual.</p>
+<pre><code class="language-julia">using SpeciesInteractionNetworks
+</code></pre>
+<p><a id='List-of-species'></a></p>
+<p><a id='List-of-species-1'></a></p>
+<h2 id="list-of-species">List of species</h2>
+<p>We will create a very small network, made of four species and their interactions. The first step is to define a list of species:</p>
+<pre><code class="language-julia">species = [:fox, :vole, :hawk, :turnip]
+</code></pre>
+<pre><code>4-element Array{Symbol,1}:
+ :fox
+ :vole
+ :hawk
+ :turnip
+</code></pre>
+<p>In order to make sure that we are explicit about the type of network we are working with, we will create a representation of this list of species that is unipartite:</p>
+<pre><code class="language-julia">nodes = Unipartite(species)
+</code></pre>
+<pre><code>Unipartite{Symbol}([:fox, :vole, :hawk, :turnip])
+</code></pre>
+<p><a id='List-of-interactions'></a></p>
+<p><a id='List-of-interactions-1'></a></p>
+<h2 id="list-of-interactions">List of interactions</h2>
+<p>As with species, we want to represent interactions in a way that captures ecological information. In this case, we will use binary interactions (true/0), and work from a matrix, where the rows are the source of the interaction, and the column is its destination. It means that interactions go <em>from</em> predator <em>to</em> preys.</p>
+<pre><code class="language-julia">int_matrix = Bool[
+    0 1 0 0;
+    0 0 0 1;
+    0 1 0 0;
+    0 0 0 0
+]
+</code></pre>
+<pre><code>4×4 Array{Bool,2}:
+ 0  1  0  0
+ 0  0  0  1
+ 0  1  0  0
+ 0  0  0  0
+</code></pre>
+<p>As this network is binary, we will wrap this matrix into a <code>Binary</code> collection of interactions:</p>
+<pre><code class="language-julia">edges = Binary(int_matrix)
+</code></pre>
+<pre><code>Binary{Bool}(
+  [1, 2]  =  true
+  [3, 2]  =  true
+  [2, 4]  =  true)
+</code></pre>
+<p><a id='Assembling-the-network'></a></p>
+<p><a id='Assembling-the-network-1'></a></p>
+<h2 id="assembling-the-network">Assembling the network</h2>
+<p>The network itself is a collection of nodes and edges. There are a number of specific checks performed when creating the network, to ensure that we cannot create an object that makes no sense.</p>
+<pre><code class="language-julia">network = SpeciesInteractionNetwork(nodes, edges)
+</code></pre>
+<pre><code>SpeciesInteractionNetwork{Unipartite{Symbol},Binary{Bool}}(Unipartite{Symbol}([:fox, :vole, :hawk, :turnip]), Binary{Bool}(
+  [1, 2]  =  true
+  [3, 2]  =  true
+  [2, 4]  =  true))
+</code></pre>
+<p>The networks are iterable, <em>i.e.</em> we can walk through them, specifically one interaction at a time:</p>
+<pre><code class="language-julia">for interaction in network
+    println(interaction)
+end
+</code></pre>
+<pre><code>(:fox, :vole, true)
+(:hawk, :vole, true)
+(:vole, :turnip, true)
+</code></pre>
+<p>Internally, this is done by only returning the pairs of species that do not have a value of zero.</p>
+<p><a id='Basics-of-network-exploration'></a></p>
+<p><a id='Basics-of-network-exploration-1'></a></p>
+<h2 id="basics-of-network-exploration">Basics of network exploration</h2>
+<p>We can also get a list of the species that establish an interaction with a given species (in this case, predators):</p>
+<pre><code class="language-julia">predecessors(network, :vole)
+</code></pre>
+<pre><code>Set{Symbol} with 2 elements:
+  :fox
+  :hawk
+</code></pre>
+<p>Or the species witch which a given species establishes interactions (in this case, preys):</p>
+<pre><code class="language-julia">successors(network, :fox)
+</code></pre>
+<pre><code>Set{Symbol} with 1 element:
+  :vole
+</code></pre>
+<p>Further</p>
+<pre><code class="language-julia">subgraph(network, [:fox, :vole, :turnip]) |&gt; interactions
+</code></pre>
+<pre><code>2-element Array{Tuple{Symbol,Symbol,Bool},1}:
+ (:fox, :vole, 1)
+ (:vole, :turnip, 1)
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML" defer></script>
+        <script src="../../assets/mathjaxhelper.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

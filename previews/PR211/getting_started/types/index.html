@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Timothée Poisot">
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Type system - SpeciesInteractionNetworks.jl</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+        <link href="../../assets/Documenter.css" rel="stylesheet">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">SpeciesInteractionNetworks.jl</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Getting started <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../demonstration/" class="dropdown-item">Building a network</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">Type system</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../demonstration/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/PoisotLab/SpeciesInteractionNetworks.jl/edit/master/docs/getting_started/types.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#the-type-system" class="nav-link">The type system</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#representing-species" class="nav-link">Representing species</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#representing-interactions" class="nav-link">Representing interactions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<p><a id='The-type-system'></a></p>
+<p><a id='The-type-system-1'></a></p>
+<h1 id="the-type-system">The type system</h1>
+<p>The package relies on a compreensive system of types to represent networks. The purpose of the type system is to ensure that data are represented without ambiguities, but also to specialize the algorithm applied to each type of network.</p>
+<p>The networks are represented as <em>sparse</em> matrices, for performance reasons. In practice, networks are standard Julia arrays, in that they can be accessed by position, sliced, have a <code>size</code> and <code>axes</code>, <em>etc.</em>.</p>
+<p><a id='SpeciesInteractionNetworks.SpeciesInteractionNetwork' href='#SpeciesInteractionNetworks.SpeciesInteractionNetwork'>#</a>
+<strong><code>SpeciesInteractionNetworks.SpeciesInteractionNetwork</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code class="language-julia">SpeciesInteractionNetwork{P&lt;:Partiteness, E&lt;:Interactions}
+</code></pre>
+<p>A <code>SpeciesInteractionNetwork</code> type represents a species interaction network.</p>
+<p>This type has two fields: <code>nodes</code> (a <code>Partiteness</code>), and <code>edges</code> (an <code>Interactions</code>). Because these two types are parametric, we can learn everything there is to know about the data structure in a network by looking at the type alone.</p>
+<p>For example, a bipartite quantitative network where species are symbols and interactions are 32-bits floating point numbers will have the type</p>
+<pre><code>SpeciesInteractionNetwork{Bipartite{Symbol}, Interactions{Float32}}
+</code></pre>
+<p>This enables very specialized dispatch and indexing thoughout the package.</p>
+<p><a target='_blank' href='https://github.com/PoisotLab/EcologicalNetworks.jl/blob/16d8dac48ad50b355bd2e863cb335813d969bf92/src/types/declarations.jl#L22-L40' class='documenter-source'>source</a><br></p>
+<p><a id='Representing-species'></a></p>
+<p><a id='Representing-species-1'></a></p>
+<h2 id="representing-species">Representing species</h2>
+<p><a id='SpeciesInteractionNetworks.Partiteness' href='#SpeciesInteractionNetworks.Partiteness'>#</a>
+<strong><code>SpeciesInteractionNetworks.Partiteness</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code class="language-julia">Partiteness{T}
+</code></pre>
+<p>The species in a network are stored in a parametric sub-type of <code>Partiteness</code>. By default, this can be <code>Unipartite</code> or <code>Bipartite</code>. The inner type <code>T</code> indicates what types can be used to represent species. Note that species <em>cannot</em> be represented as integers, and will instead have a name. We recommend using strings or symbols.</p>
+<p><a target='_blank' href='https://github.com/PoisotLab/EcologicalNetworks.jl/blob/16d8dac48ad50b355bd2e863cb335813d969bf92/src/types/declarations.jl#L1-L9' class='documenter-source'>source</a><br></p>
+<p><a id='SpeciesInteractionNetworks.Bipartite' href='#SpeciesInteractionNetworks.Bipartite'>#</a>
+<strong><code>SpeciesInteractionNetworks.Bipartite</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code class="language-julia">Bipartite{T &lt;: Any} &lt;: Partiteness{T}
+</code></pre>
+<p>A bipartite set of species is represented by two sets of species, called <code>top</code> and <code>bottom</code>. Both set of species are represented as <code>Vector{T}</code>, with a few specific constraints:</p>
+<ol>
+<li><code>T</code> cannot be a <code>Number</code> (<em>i.e.</em> nodes must have names, or be other objects)</li>
+<li>All species in <code>top</code> must be unique</li>
+<li>All species in <code>bottom</code> must be unique</li>
+<li>No species can be found in both <code>bottom</code> and <code>top</code></li>
+</ol>
+<p><a target='_blank' href='https://github.com/PoisotLab/EcologicalNetworks.jl/blob/16d8dac48ad50b355bd2e863cb335813d969bf92/src/types/declarations.jl#L46-L57' class='documenter-source'>source</a><br></p>
+<p><a id='SpeciesInteractionNetworks.Unipartite' href='#SpeciesInteractionNetworks.Unipartite'>#</a>
+<strong><code>SpeciesInteractionNetworks.Unipartite</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code class="language-julia">Unipartite{T &lt;: Any} &lt;: Partiteness{T}
+</code></pre>
+<p>A unipartite set of species is represented by a single set of species, called <code>margin</code> internally. Both set of species are represented as <code>Vector{T}</code>, with a few specific constraints:</p>
+<ol>
+<li><code>T</code> cannot be a <code>Number</code> (<em>i.e.</em> nodes must have names, or be other objects)</li>
+<li>All species in <code>margin</code> must be unique</li>
+</ol>
+<p><a target='_blank' href='https://github.com/PoisotLab/EcologicalNetworks.jl/blob/16d8dac48ad50b355bd2e863cb335813d969bf92/src/types/declarations.jl#L100-L109' class='documenter-source'>source</a><br></p>
+<p><a id='Representing-interactions'></a></p>
+<p><a id='Representing-interactions-1'></a></p>
+<h2 id="representing-interactions">Representing interactions</h2>
+<p><a id='SpeciesInteractionNetworks.Interactions' href='#SpeciesInteractionNetworks.Interactions'>#</a>
+<strong><code>SpeciesInteractionNetworks.Interactions</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code class="language-julia">Interactions{T}
+</code></pre>
+<p>The interactions in a network are stored in a parametric sub-type of <code>Interactions</code>. By default, this can be <code>Binary</code>, <code>Quantitative</code>, and <code>Probabilistic</code>. The inner type <code>T</code> indicates what types are used to represent interactions.</p>
+<p><a target='_blank' href='https://github.com/PoisotLab/EcologicalNetworks.jl/blob/16d8dac48ad50b355bd2e863cb335813d969bf92/src/types/declarations.jl#L12-L19' class='documenter-source'>source</a><br></p>
+<p><a id='SpeciesInteractionNetworks.Binary' href='#SpeciesInteractionNetworks.Binary'>#</a>
+<strong><code>SpeciesInteractionNetworks.Binary</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code class="language-julia">Binary{Bool} &lt;: Interactions{Bool}
+</code></pre>
+<p>Binary interactions are represented (internally) as a sparse matrix of Boolean values.</p>
+<p><a target='_blank' href='https://github.com/PoisotLab/EcologicalNetworks.jl/blob/16d8dac48ad50b355bd2e863cb335813d969bf92/src/types/declarations.jl#L171-L176' class='documenter-source'>source</a><br></p>
+<p><a id='SpeciesInteractionNetworks.Quantitative' href='#SpeciesInteractionNetworks.Quantitative'>#</a>
+<strong><code>SpeciesInteractionNetworks.Quantitative</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code class="language-julia">Quantitative{T &lt;: Number} &lt;: Interactions{T}
+</code></pre>
+<p>Quantitative interactions are represented (internally) as a sparse matrix of numbers.</p>
+<p><a target='_blank' href='https://github.com/PoisotLab/EcologicalNetworks.jl/blob/16d8dac48ad50b355bd2e863cb335813d969bf92/src/types/declarations.jl#L162-L166' class='documenter-source'>source</a><br></p>
+<p><a id='SpeciesInteractionNetworks.Probabilistic' href='#SpeciesInteractionNetworks.Probabilistic'>#</a>
+<strong><code>SpeciesInteractionNetworks.Probabilistic</code></strong> &mdash; <em>Type</em>.</p>
+<pre><code class="language-julia">Probabilistic{T &lt;: AbstractFloat} &lt;: Interactions{T}
+</code></pre>
+<p>Probabilistic interactions are represented (internally) as a sparse matrix of floating point values. The values <em>must</em> be in the unit interval for the type to be valid.</p>
+<p><a target='_blank' href='https://github.com/PoisotLab/EcologicalNetworks.jl/blob/16d8dac48ad50b355bd2e863cb335813d969bf92/src/types/declarations.jl#L141-L147' class='documenter-source'>source</a><br></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML" defer></script>
+        <script src="../../assets/mathjaxhelper.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
