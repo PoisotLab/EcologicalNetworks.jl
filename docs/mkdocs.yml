@@ -1,0 +1,27 @@
+site_name: SpeciesInteractionNetworks.jl
+repo_url: https://github.com/PoisotLab/SpeciesInteractionNetworks.jl
+site_description: Analysis of Species Interaction Networks using Julia
+site_author: Timothée Poisot
+
+theme:
+  name: mkdocs
+
+extra_css:
+  - assets/Documenter.css
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML
+  - assets/mathjaxhelper.js
+
+markdown_extensions:
+  - extra
+  - tables
+  - fenced_code
+
+docs_dir: 'build'
+
+nav:
+  - Home: index.md
+  - Getting started:
+    - Building a network: getting_started/demonstration.md
+    - Type system: getting_started/types.md
