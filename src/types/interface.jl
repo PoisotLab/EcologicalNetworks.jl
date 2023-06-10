@@ -35,4 +35,6 @@ species(N::SpeciesInteractionNetwork, dims::Integer) = species(N.nodes, dims)
 end
 
 richness(N::Partiteness) = length(species(N))
+richness(N::Partiteness, dims::Integer) = length(species(N, dims))
 richness(N::SpeciesInteractionNetwork) = length(species(N.nodes))
+richness(N::SpeciesInteractionNetwork, dims::Integer) = length(species(N.nodes, dims))

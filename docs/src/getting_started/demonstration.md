@@ -1,9 +1,8 @@
 # Building a network
 
-Before getting started with the package itself, we will see how we can build a
-network, access its content, and iterate over the interactions. This page is
-intended to give you some intuitions about how the type system works, before
-reading more of the manual.
+!!! abstract
+
+    Before getting started with the package itself, we will see how we can build a network, access its content, and iterate over the interactions. This page is intended to give you some intuitions about how the type system works, before reading more of the manual.
 
 ```@example 1
 using SpeciesInteractionNetworks
@@ -36,6 +35,10 @@ int_matrix = Bool[
     0 0 0 0
 ]
 ```
+
+!!! info "About interaction as matrices"
+    
+    By specifying interactions as a matrix, it is fundamental that columns and orders are in the correct order. There are alternative ways to specify networks that do not rely on matrices (using tuples or pairs), but because most species interaction network data are represented as matrices, this is supported by the package.
 
 As this network is binary, we will wrap this matrix into a `Binary` collection of interactions:
 
@@ -84,5 +87,28 @@ successors(network, :fox)
 Further
 
 ```@example 1
-subgraph(network, [:fox, :vole, :turnip]) |> interactions
+interactions(subgraph(network, [:fox, :vole, :turnip]))
 ```
+
+## Networks are editable
+
+The content of networks can be modified. For example, to circumvent the issue of
+needing to write the interaction matrix in the correct order, we can start with
+an empty network:
+
+```@example 1
+netsize = (richness(nodes,1), richness(nodes, 2))
+edges2 = Binary(zeros(Bool, netsize))
+network2 = SpeciesInteractionNetwork(nodes, edges2)
+interactions(network2)
+```
+
+We can then add the interactions one by one:
+
+```@example 1
+for interaction in [(:fox, :vole), (:hawk, :vole), (:vole, :turnip)]
+    network2[interaction...] = true
+end
+interactions(network2)
+```
+

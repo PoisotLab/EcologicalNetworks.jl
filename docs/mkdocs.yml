@@ -4,7 +4,11 @@ site_description: Analysis of Species Interaction Networks using Julia
 site_author: Timothée Poisot
 
 theme:
-  name: mkdocs
+  name: material
+  palette:
+    scheme: default
+    primary: indigo
+    accent: blue
 
 extra_css:
   - assets/Documenter.css
@@ -17,6 +21,9 @@ markdown_extensions:
   - extra
   - tables
   - fenced_code
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
 
 docs_dir: 'build'
 
