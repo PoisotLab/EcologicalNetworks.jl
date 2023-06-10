@@ -4,5 +4,5 @@ interactions(N::SpeciesInteractionNetwork) = [int for int in N]
     nodes = Bipartite([:A, :B], [:c, :d])
     edges = Binary([true true; false true])
     N = SpeciesInteractionNetwork(nodes, edges)
-    @test interactions(N) == [(:A,:c,true),(:A, :d,true),(:B,:d,true)]
+    @test interactions(N) == [(:A, :c, true), (:A, :d, true), (:B, :d, true)]
 end
